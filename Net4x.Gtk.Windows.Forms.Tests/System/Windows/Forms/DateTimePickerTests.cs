@@ -121,7 +121,7 @@ public class DateTimePickerTests
             Assert.NotNull(method);
 
             // call the method (sender can be null)
-            method!.Invoke(dtp, new object[] { null, EventArgs.Empty });
+            method!.Invoke(dtp, new object?[] { null, EventArgs.Empty });
             valueAfter = dtp.Value;
 
             // Verify popver was hidden: access private field 'popver' and its Visible property

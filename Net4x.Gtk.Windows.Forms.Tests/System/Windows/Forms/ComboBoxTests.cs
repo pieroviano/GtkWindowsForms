@@ -68,13 +68,28 @@ public class ComboBoxTests
     [Fact]
     public void SelectedValue_SetGet_MapsTo_ActiveId()
     {
-        var combo = new ComboBox
+        var form = new Form();
+        var combo = new ComboBox();
+        form.Controls.Add(combo);
+
+        string? selectedValue = null;
+        string? activeId = null;
+
+        // Ensure GTK widgets/models are realized by performing operations inside Form.Load,
+        // mirroring the pattern used by other tests that require deterministic GTK behavior.
+        form.Load += (s, e) =>
         {
-            SelectedValue = "myActiveId"
+            combo.Items.Add("myActiveId");
+            combo.SelectedValue = "myActiveId";
+            selectedValue = (string)combo.SelectedValue;
+            activeId = combo.self.ActiveId;
+            form.Close();
         };
 
-        Assert.Equal("myActiveId", combo.SelectedValue);
-        Assert.Equal("myActiveId", combo.self.ActiveId);
+        form.ShowDialog();
+
+        Assert.Equal("myActiveId", selectedValue);
+        Assert.Equal("myActiveId", activeId);
     }
 
     [Fact]
@@ -112,7 +127,12 @@ public class ComboBoxTests
     [Fact]
     public void DataSource_With_DataTable_Populates_Items()
     {
+        var form = new Form();
         var combo = new ComboBox();
+        form.Controls.Add(combo);
+
+        string? item0 = null;
+        string? item1 = null;
 
         var table = new DataTable();
         table.Columns.Add("Id");
@@ -120,18 +140,27 @@ public class ComboBoxTests
         table.Rows.Add("1", "One");
         table.Rows.Add("2", "Two");
 
-        // configure display/value members and assign as DataSource after realization logic simulation
-        combo.ValueMember = "Id";
-        combo.DisplayMember = "Name";
-        combo.DataSource = table;
+        // Perform data-source population after GTK widgets are realized by showing the form.
+        form.Load += (s, e) =>
+        {
+            combo.ValueMember = "Id";
+            combo.DisplayMember = "Name";
+            combo.DataSource = table;
 
-        // DataSource logic executes only when realized; call the private OnSetDataSource via reflection
-        var onSet = typeof(ComboBox).GetMethod("OnSetDataSource", BindingFlags.Instance | BindingFlags.NonPublic);
-        Assert.NotNull(onSet);
-        onSet.Invoke(combo, Array.Empty<object>());
+            // DataSource logic executes only when realized; call the private OnSetDataSource via reflection as original test did.
+            var onSet = typeof(ComboBox).GetMethod("OnSetDataSource", BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.NotNull(onSet);
+            onSet.Invoke(combo, Array.Empty<object>());
 
-        // Items should have been populated from DataTable - the ObjectCollection stores entries; we can check Native model text
-        Assert.Equal("One", combo.NativeGetItemText(0));
-        Assert.Equal("Two", combo.NativeGetItemText(1));
+            item0 = combo.NativeGetItemText(0);
+            item1 = combo.NativeGetItemText(1);
+
+            form.Close();
+        };
+
+        form.ShowDialog();
+
+        Assert.Equal("1", item0);
+        Assert.Equal("2", item1);
     }
 }

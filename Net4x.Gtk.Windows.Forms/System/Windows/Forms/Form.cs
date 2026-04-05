@@ -34,7 +34,7 @@ public partial class Form : ContainerControl, IWin32Window
     /// </summary>
     public FormBase self = new();
 
-    private ObjectCollection? _ObjectCollection;
+    private ObjectCollection _ObjectCollection = null!;
 
     private FormWindowState _WindowState = FormWindowState.Normal;
 
@@ -142,7 +142,7 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Gets the collection of controls contained within the form.
     /// </summary>
-    public new ObjectCollection? Controls { get { return _ObjectCollection; } }
+    public new ObjectCollection Controls { get { return _ObjectCollection; } }
 
     /// <summary>
     /// Gets or sets the dialog result produced by the form.

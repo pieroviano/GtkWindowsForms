@@ -136,6 +136,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0048-Fix-ColorDialog.patch = patches\0048-Fix-ColorDialog.patch
 		patches\0049-Added-CommonDialogs-tests.patch = patches\0049-Added-CommonDialogs-tests.patch
 		patches\0050-Fix-DateTimePicker.patch = patches\0050-Fix-DateTimePicker.patch
+		patches\0051-Fix-Form.patch = patches\0051-Fix-Form.patch
 	EndProjectSection
 EndProject
 Global
