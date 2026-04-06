@@ -107,7 +107,7 @@ public class HScrollBarTests
         var form = new Form();
         var scrollBar = new HScrollBar();
 
-        bool contains = false;
+        var contains = false;
         Control? parent = null;
 
         form.Load += (s, e) =>

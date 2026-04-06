@@ -100,7 +100,7 @@ public class GroupBoxTests
         var groupBox = new GroupBox();
         form.Controls.Add(groupBox);
 
-        bool created = false;
+        var created = false;
 
         form.Load += (s, e) =>
         {
@@ -122,7 +122,7 @@ public class GroupBoxTests
         var groupBox = new GroupBox();
         form.Controls.Add(groupBox);
 
-        bool created = true;
+        var created = true;
 
         form.Load += (s, e) =>
         {
@@ -146,7 +146,7 @@ public class GroupBoxTests
         var groupBox = new GroupBox();
         form.Controls.Add(groupBox);
 
-        bool created = false;
+        var created = false;
 
         form.Load += (s, e) =>
         {
@@ -169,7 +169,7 @@ public class GroupBoxTests
         var child = new Label();
         form.Controls.Add(groupBox);
 
-        bool contains = false;
+        var contains = false;
         Control? parent = null;
 
         form.Load += (s, e) =>

@@ -15,9 +15,9 @@ public class FlowLayoutPanelTests
         // Run GTK-dependent inspections inside a Form.Load / ShowDialog to ensure widgets/models are realized.
         form.Controls.Add(panel);
 
-        Gtk.Orientation actualOrientation = Gtk.Orientation.Horizontal;
-        Align actualHalign = Align.Start;
-        Align actualValign = Align.Start;
+        var actualOrientation = Gtk.Orientation.Horizontal;
+        var actualHalign = Align.Start;
+        var actualValign = Align.Start;
         uint actualMinChildren = 0;
         uint actualMaxChildren = 0;
         uint actualColumnSpacing = 0;
@@ -61,7 +61,7 @@ public class FlowLayoutPanelTests
         var panel = new FlowLayoutPanel();
         form.Controls.Add(panel);
 
-        Gtk.Orientation observed = Gtk.Orientation.Horizontal;
+        var observed = Gtk.Orientation.Horizontal;
 
         form.Load += (s, e) =>
         {
@@ -82,8 +82,8 @@ public class FlowLayoutPanelTests
         var panel = new FlowLayoutPanel();
         form.Controls.Add(panel);
 
-        bool panelWrapContents=false;
-        bool wrapContents = true;
+        var panelWrapContents=false;
+        var wrapContents = true;
         form.Load += (s, e) =>
         {
             panel.WrapContents = true;
@@ -105,7 +105,7 @@ public class FlowLayoutPanelTests
         var form = new Form();
         var panel = new FlowLayoutPanel();
         form.Controls.Add(panel);
-        bool result=false;
+        var result=false;
         form.Load += (s, e) =>
         {
             result = panel.CanExtend(new object());
@@ -125,7 +125,7 @@ public class FlowLayoutPanelTests
         var panel = new FlowLayoutPanel();
         var control = new Label();
         form.Controls.Add(panel);
-        bool result = true;
+        var result = true;
         form.Load += (s, e) =>
         {
             result = panel.GetFlowBreak(control);
@@ -156,7 +156,7 @@ public class FlowLayoutPanelTests
         var panel = new FlowLayoutPanel();
         var control = new Label();
         form.Controls.Add(panel);
-        bool contains = false;
+        var contains = false;
         Control? parentAfter = null;
 
         form.Load += (s, e) =>
@@ -181,8 +181,8 @@ public class FlowLayoutPanelTests
         var control = new Label();
         form.Controls.Add(panel);
 
-        bool lockLocation = false;
-        System.Drawing.Point location = new System.Drawing.Point(-1, -1);
+        var lockLocation = false;
+        var location = new System.Drawing.Point(-1, -1);
 
         form.Load += (s, e) =>
         {

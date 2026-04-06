@@ -12,9 +12,9 @@ public class ListViewTests
         var lv = new ListView();
         form.Controls.Add(lv);
 
-        bool multiSelect = false;
-        bool gridLines = false;
-        bool showGroups = false;
+        var multiSelect = false;
+        var gridLines = false;
+        var showGroups = false;
         object? gtkControl = null;
 
         form.Load += (s, e) =>
@@ -42,8 +42,8 @@ public class ListViewTests
         var lv = new ListView();
         form.Controls.Add(lv);
 
-        int countAfterAdd = 0;
-        int countAfterClear = 0;
+        var countAfterAdd = 0;
+        var countAfterClear = 0;
 
         form.Load += (s, e) =>
         {
@@ -71,7 +71,7 @@ public class ListViewTests
         var lv = new ListView();
         form.Controls.Add(lv);
 
-        int checkedCount = 0;
+        var checkedCount = 0;
 
         form.Load += (s, e) =>
         {
@@ -97,7 +97,7 @@ public class ListViewTests
         var lv = new ListView();
         form.Controls.Add(lv);
 
-        int selectedCount = 0;
+        var selectedCount = 0;
 
         form.Load += (s, e) =>
         {
@@ -174,7 +174,7 @@ public class ListViewTests
         var lv = new ListView();
         form.Controls.Add(lv);
 
-        int count = 0;
+        var count = 0;
 
         form.Load += (s, e) =>
         {
@@ -198,7 +198,7 @@ public class ListViewTests
         var lv = new ListView();
         form.Controls.Add(lv);
 
-        int count = 0;
+        var count = 0;
 
         form.Load += (s, e) =>
         {
@@ -222,7 +222,7 @@ public class ListViewTests
         var lv = new ListView();
         form.Controls.Add(lv);
 
-        bool success = false;
+        var success = false;
 
         form.Load += (s, e) =>
         {
@@ -247,8 +247,8 @@ public class ListViewTests
         var lv = new ListView();
         form.Controls.Add(lv);
 
-        int items = -1;
-        int groups = -1;
+        var items = -1;
+        var groups = -1;
 
         form.Load += (s, e) =>
         {

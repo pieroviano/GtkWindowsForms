@@ -174,7 +174,7 @@ public class MaskedTextBox : TextBox
                 {
                     if (IsNumberText(correctText.Substring(position - 1, 1)) && IsNumberText(new_text))
                     {
-                        //正常
+                        // normal
                         self.DeleteText(position, position + 1);
                     }
                     else

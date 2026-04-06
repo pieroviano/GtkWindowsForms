@@ -60,8 +60,8 @@ public class LabelTests
         var label = new Label();
         form.Controls.Add(label);
 
-        Gtk.TextDirection direction = Gtk.TextDirection.None;
-        RightToLeft result = RightToLeft.No;
+        var direction = Gtk.TextDirection.None;
+        var result = RightToLeft.No;
 
         form.Load += (s, e) =>
         {
@@ -84,7 +84,7 @@ public class LabelTests
         var label = new Label();
         form.Controls.Add(label);
 
-        bool focusResult = false;
+        var focusResult = false;
 
         form.Load += (s, e) =>
         {
@@ -117,7 +117,7 @@ public class LabelTests
 
         float actualX = -1;
         float actualY = -1;
-        gtk::System.Drawing.ContentAlignment resultAlign = gtk::System.Drawing.ContentAlignment.TopLeft;
+        var resultAlign = gtk::System.Drawing.ContentAlignment.TopLeft;
 
         form.Load += (s, e) =>
         {

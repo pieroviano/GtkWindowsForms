@@ -58,9 +58,9 @@ public class LinkLabelTests
         var linkLabel = new LinkLabel();
         form.Controls.Add(linkLabel);
 
-        Color active = Color.Red;
-        Color disabled = Color.Gray;
-        Color visited = Color.Blue;
+        var active = Color.Red;
+        var disabled = Color.Gray;
+        var visited = Color.Blue;
 
         form.Load += (s, e) =>
         {
@@ -84,8 +84,8 @@ public class LinkLabelTests
         var linkLabel = new LinkLabel();
         form.Controls.Add(linkLabel);
 
-        bool visitedBefore = false;
-        bool visitedAfter = false;
+        var visitedBefore = false;
+        var visitedAfter = false;
 
         form.Load += (s, e) =>
         {
@@ -108,7 +108,7 @@ public class LinkLabelTests
         var linkLabel = new LinkLabel();
         form.Controls.Add(linkLabel);
 
-        bool clicked = false;
+        var clicked = false;
 
         form.Load += (s, e) =>
         {
@@ -129,7 +129,7 @@ public class LinkLabelTests
         var linkLabel = new LinkLabel();
         form.Controls.Add(linkLabel);
 
-        bool linkClicked = false;
+        var linkClicked = false;
         LinkLabel.Link? linkArg = null;
 
         form.Load += (s, e) =>
@@ -159,8 +159,8 @@ public class LinkLabelTests
         form.Controls.Add(linkLabel);
 
         var collection = new LinkLabel.LinkCollection(linkLabel);
-        string textBefore = "";
-        string textAfter = "";
+        var textBefore = "";
+        var textAfter = "";
 
         form.Load += (s, e) =>
         {
@@ -205,8 +205,8 @@ public class LinkLabelTests
         form.Controls.Add(linkLabel);
 
         var collection = new LinkLabel.LinkCollection(linkLabel);
-        bool containsBefore = false;
-        bool containsAfter = false;
+        var containsBefore = false;
+        var containsAfter = false;
 
         form.Load += (s, e) =>
         {

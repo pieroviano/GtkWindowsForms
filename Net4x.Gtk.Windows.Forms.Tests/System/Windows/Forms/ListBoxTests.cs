@@ -11,16 +11,16 @@ public class ListBoxTests
         var listBox = new ListBox();
         form.Controls.Add(listBox);
 
-        bool multiColumn = true;
-        bool sorted = true;
-        SelectionMode selectionMode = SelectionMode.MultiSimple;
-        bool integralHeight = false;
-        bool useTabStops = true;
-        bool scrollAlwaysVisible = true;
+        var multiColumn = true;
+        var sorted = true;
+        var selectionMode = SelectionMode.MultiSimple;
+        var integralHeight = false;
+        var useTabStops = true;
+        var scrollAlwaysVisible = true;
         object? items = null;
-        int selectedIndex = 0;
-        object? selectedItem = new object();
-        object? selectedValue = new object();
+        var selectedIndex = 0;
+        var selectedItem = new object();
+        var selectedValue = new object();
 
         form.Load += (s, e) =>
         {
@@ -61,7 +61,7 @@ public class ListBoxTests
 
         string? first = null;
         string? second = null;
-        int countAfterClear = -1;
+        var countAfterClear = -1;
 
         form.Load += (s, e) =>
         {
@@ -92,7 +92,7 @@ public class ListBoxTests
         form.Controls.Add(listBox);
 
         object? selectedItem = null;
-        int selectedIndex = -1;
+        var selectedIndex = -1;
 
         form.Load += (s, e) =>
         {
@@ -120,7 +120,7 @@ public class ListBoxTests
         var listBox = new ListBox();
         form.Controls.Add(listBox);
 
-        int selectedIndex = -1;
+        var selectedIndex = -1;
         object? selectedItem = null;
 
         form.Load += (s, e) =>
@@ -150,7 +150,7 @@ public class ListBoxTests
         form.Controls.Add(listBox);
 
         object? selectedItem = null;
-        int selectedIndex = -1;
+        var selectedIndex = -1;
 
         form.Load += (s, e) =>
         {
@@ -178,7 +178,7 @@ public class ListBoxTests
         var listBox = new ListBox();
         form.Controls.Add(listBox);
 
-        int count = 0;
+        var count = 0;
         string? first = null;
         string? second = null;
         string? third = null;
@@ -241,8 +241,8 @@ public class ListBoxTests
         var listBox = new ListBox();
         form.Controls.Add(listBox);
 
-        int selectedIndex = 0;
-        object? selectedItem = new object();
+        var selectedIndex = 0;
+        var selectedItem = new object();
 
         form.Load += (s, e) =>
         {
@@ -271,7 +271,7 @@ public class ListBoxTests
         form.Controls.Add(listBox);
 
         object? selectedAfterSelect = null;
-        int indexAfterDeselect = 0;
+        var indexAfterDeselect = 0;
 
         form.Load += (s, e) =>
         {

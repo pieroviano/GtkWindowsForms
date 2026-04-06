@@ -106,7 +106,7 @@ public class DateTimePickerTests
         form.Controls.Add(dtp);
 
         DateTime? valueAfter = null;
-        bool popVisible = true;
+        var popVisible = true;
 
         // Run the GTK-dependent interaction inside Form.Load and ShowDialog to ensure widgets are realized,
         // mirroring the pattern used by other tests that require deterministic GTK behavior.
