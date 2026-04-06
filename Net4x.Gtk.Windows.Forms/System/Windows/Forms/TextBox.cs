@@ -194,7 +194,7 @@ public partial class TextBox : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string? Text
+    public override string Text
     {
         get { return self.Text; }
         set { self.Text = value; }

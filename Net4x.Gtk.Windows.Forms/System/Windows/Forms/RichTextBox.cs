@@ -130,7 +130,7 @@ public partial class RichTextBox : ScrollableControl
     /// <value>
     /// The text.
     /// </value>
-    public override string? Text
+    public override string Text
     {
         get => self.TextView.Buffer.Text;
         set => self.TextView.Buffer.Text = value;

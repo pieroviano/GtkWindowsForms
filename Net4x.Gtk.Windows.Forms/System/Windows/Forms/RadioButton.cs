@@ -69,7 +69,7 @@ public partial class RadioButton : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string? Text
+    public override string Text
     {
         get { return self.Label; }
         set { self.Label = value; }

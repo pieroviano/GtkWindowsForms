@@ -184,7 +184,7 @@ public partial class ComboBox : ListControl
     /// <summary>
     /// Gets or sets the text associated with the combo box's editable portion.
     /// </summary>
-    public override string? Text
+    public override string Text
     {
         get => self.Entry.Text;
         set { self.Entry.Text = value; }

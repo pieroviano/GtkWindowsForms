@@ -1263,11 +1263,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets the text associated with the control.
     /// </summary>
-    public virtual string? Text
+    public virtual string Text
     {
         get;
         set;
-    }
+    } = null!;
 
     /// <summary>
     /// Gets or sets the top position of the control relative to its container.
@@ -2653,7 +2653,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    protected virtual void OnClick(EventArgs e)
+    protected internal virtual void OnClick(EventArgs e)
     {
         Click?.Invoke(this, e);
     }

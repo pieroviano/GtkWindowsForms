@@ -286,7 +286,7 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Gets or sets the text associated with the form (displayed in the title bar).
     /// </summary>
-    public override string? Text
+    public override string Text
     {
         get { return self.Title; }
         set { self.Title = value; }

@@ -131,7 +131,7 @@ public partial class LinkLabel : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string? Text
+    public override string Text
     {
         get { return string.IsNullOrEmpty(self.Label) ? self.Uri : self.Label; }
         set { self.Label = value; self.Uri = value; }
@@ -169,7 +169,7 @@ public partial class LinkLabel : Control
     /// <summary>
     /// Raises the Click event.
     /// </summary>
-    protected override void OnClick(System.EventArgs e)
+    protected internal override void OnClick(System.EventArgs e)
     {
         Click?.Invoke(this, e);
     }
@@ -177,7 +177,7 @@ public partial class LinkLabel : Control
     /// <summary>
     /// Raises the LinkClicked event.
     /// </summary>
-    protected virtual void OnLinkClicked(System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+    protected internal virtual void OnLinkClicked(System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
     {
         LinkClicked?.Invoke(this, e);
     }

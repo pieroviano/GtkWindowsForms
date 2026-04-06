@@ -179,7 +179,7 @@ public class TabPage : ContainerControl
     /// <value>
     /// The text.
     /// </value>
-    public override string? Text
+    public override string Text
     {
         get { return _tabLabel.Text; }
         set { _tabLabel.Text = value; }

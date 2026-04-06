@@ -1107,7 +1107,7 @@ public interface IControl
     /// <value>
     /// The text.
     /// </value>
-    string? Text
+    string Text
     {
         get;
         set;

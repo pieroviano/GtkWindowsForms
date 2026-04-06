@@ -66,9 +66,9 @@ public partial class Button : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string? Text
+    public override string Text
     {
-        get => ((Gtk.Label)self.Child).Text;
+        get => ((Gtk.Label)self.Child).Text ?? string.Empty;
         set => ((Gtk.Label)self.Child).Text = value;
     }
 
@@ -135,7 +135,7 @@ public partial class Button : Control
     /// <summary>
     /// Raises the Click event.
     /// </summary>
-    protected override void OnClick(System.EventArgs e)
+    protected internal override void OnClick(System.EventArgs e)
     {
         Click?.Invoke(this, e);
     }

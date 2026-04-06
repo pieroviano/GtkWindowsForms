@@ -73,7 +73,7 @@ public partial class SwitchBox : Control
     /// <value>
     /// The text.
     /// </value>
-    public override string? Text
+    public override string Text
     {
         get { return self.TooltipText; }
         set { self.TooltipText = value; }

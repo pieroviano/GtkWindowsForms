@@ -149,7 +149,7 @@ public class ToolStrip : Control
     /// <summary>
     /// Raises the Click event.
     /// </summary>
-    protected override void OnClick(System.EventArgs e)
+    protected internal override void OnClick(System.EventArgs e)
     {
         Click?.Invoke(this, e);
     }
