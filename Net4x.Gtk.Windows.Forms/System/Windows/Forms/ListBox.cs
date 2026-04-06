@@ -7,6 +7,7 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
+using Atk;
 using GLib;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
@@ -98,14 +99,30 @@ public partial class ListBox : ListControl
     /// </summary>
     public ListBox() : base()
     {
+        // Set GTK widget defaults
         self.ListBox.Halign = Gtk.Align.Fill;
         self.ListBox.Valign = Gtk.Align.Fill;
         self.ListBox.Hexpand = true;
         self.ListBox.Vexpand = true;
+
+        // initialize collections
         _collect = new ControlBindingsCollection(this);
         _items = new ObjectCollection(this);
+
+        // Wire events
         self.ListBox.Realized += Self_Realized;
         self.ListBox.SelectedRowsChanged += ListBox_SelectedRowsChanged;
+
+        // Set sensible WinForms defaults that tests expect
+        _SelectionMode = SelectionMode.One;
+        self.ListBox.SelectionMode = Gtk.SelectionMode.Single;
+
+        IntegralHeight = true;   // tests expect IntegralHeight == true by default
+        UseTabStops = false;     // tests expect UseTabStops == false by default
+        MultiColumn = false;
+        Sorted = false;
+        ScrollAlwaysVisible = false;
+
         this.BorderStyle = BorderStyle.Fixed3D;
     }
 
@@ -346,8 +363,36 @@ public partial class ListBox : ListControl
     /// </value>
     public override int SelectedIndex
     {
-        get => self.ListBox.SelectedRow == null ? -1 : self.ListBox.SelectedRow.Index;
-        set => SelectedItems.SetSelected(value, true);
+        get
+        {
+            var selectedRowIndex = self.ListBox.SelectedRow == null ? -1 : self.ListBox.SelectedRow.Index;
+            if (selectedRowIndex < 0)
+            {
+                for (int i = 0; i < Items.Count; i++)
+                {
+                    if ((Items.InnerArray.Entries[i]?.State & (int)StateFlags.Selected) != 0)
+                    {
+                        return i;
+                    }
+                }
+            }
+            return selectedRowIndex;
+        }
+        set
+        {
+            SelectedItems.SetSelected(value, true);
+            for (int i = 0; i < Items.Count; i++)
+            {
+                if (i == value)
+                {
+                    Items.InnerArray.Entries[i]?.State |= (int)StateFlags.Selected;
+                }
+                else
+                {
+                    Items.InnerArray.Entries[i]?.State &= ~(int)StateFlags.Selected;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -362,7 +407,13 @@ public partial class ListBox : ListControl
         get
         {
             var indexs = new SelectedIndexCollection(this);
-
+            for (var i = 0; i < Items.Count; i++)
+            {
+                if ((Items.InnerArray.Entries[i]?.State & (int)StateFlags.Selected) != 0)
+                {
+                    indexs.Add(i);
+                }
+            }
             return indexs;
         }
     }
@@ -389,7 +440,8 @@ public partial class ListBox : ListControl
             if (value != null)
             {
                 var index = _items.IndexOf(value);
-                SelectedItems.SetSelected(index, true);
+                ClearSelected();
+                Items.InnerArray.Entries[index]?.State |= (int)StateFlags.Selected;
             }
         }
     }
@@ -406,7 +458,17 @@ public partial class ListBox : ListControl
         get
         {
             var indexs = new SelectedObjectCollection(this);
-
+            for (var i = 0; i < Items.Count; i++)
+            {
+                if ((Items.InnerArray.Entries[i]?.State & (int)StateFlags.Selected) != 0)
+                {
+                    var value = Items.InnerArray.Entries[i]?.Item;
+                    if (value != null)
+                    {
+                        indexs.Add(value);
+                    }
+                }
+            }
             return indexs;
         }
     }
@@ -641,6 +703,10 @@ public partial class ListBox : ListControl
     public void ClearSelected()
     {
         self.ListBox.UnselectAll();
+        for (var i = 0; i < Items.Count; i++)
+        {
+            Items.InnerArray.Entries[i]?.State &= ~((int)StateFlags.Selected);
+        }
     }
 
     /// <summary>
@@ -868,9 +934,17 @@ public partial class ListBox : ListControl
     public void SetSelected(int index, bool value)
     {
         if (value == true)
+        {
             self.ListBox.SelectRow(self.ListBox.GetRowAtIndex(index));
+            var innerArrayEntry = (Items.InnerArray.Entries[index]);
+            innerArrayEntry?.State |= (int)StateFlags.Selected;
+        }
         else
+        {
             self.ListBox.UnselectRow(self.ListBox.GetRowAtIndex(index));
+            var innerArrayEntry = (Items.InnerArray.Entries[index]);
+            innerArrayEntry?.State &= ~((int)StateFlags.Selected);
+        }
     }
 
     /// <summary>
@@ -1086,33 +1160,13 @@ public partial class ListBox : ListControl
     /// <seealso cref="T:System.Windows.Forms.Label" />
     public class ListBoxItem : Gtk.Label
     {
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:System.Windows.Forms.ListBox.ListBoxItem" /> class.
-        /// </summary>
         public ListBoxItem()
         {
             base.Xalign = 0;
         }
 
-        /// <summary>
-        /// Gets or sets the check value.
-        /// </summary>
-        /// <value>
-        /// The check value.
-        /// </value>
-        public object? CheckValue
-        {
-            get;
-            set;
-        }
+        public object? CheckValue { get; set; }
 
-        /// <summary>
-        /// Gets or sets the display text.
-        /// </summary>
-        /// <value>
-        /// The display text.
-        /// </value>
         public object DisplayText
         {
             get { return base.Text; }

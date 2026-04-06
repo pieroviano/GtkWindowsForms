@@ -72,7 +72,7 @@ public class MaskedTextBox : TextBox
     /// <value>
     /// The text.
     /// </value>
-    public override string? Text
+    public override string Text
     {
         get { return self.Text; }
         set { IsMasking = false; self.Text = value ?? ""; IsMasking = true; }

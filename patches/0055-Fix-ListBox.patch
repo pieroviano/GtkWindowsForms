@@ -1,0 +1,261 @@
+From 62745046a7f83ade2776af1bf999baba5ad4f236 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Mon, 6 Apr 2026 06:11:53 +0300
+Subject: [PATCH] Fix ListBox
+
+---
+ .../Net4x.Gtk.Windows.Forms.xml               |  22 ----
+ .../Forms/Collection/ItemArray.Entry.cs       |   2 +-
+ .../System/Windows/Forms/ListBox.cs           | 106 +++++++++++++-----
+ .../System/Windows/Forms/MaskedTextBox.cs     |   2 +-
+ 4 files changed, 82 insertions(+), 50 deletions(-)
+
+diff --git a/Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.xml b/Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.xml
+index 7d4767f..7652d17 100644
+--- a/Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.xml
++++ b/Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.xml
+@@ -30500,28 +30500,6 @@
+             </summary>
+             <seealso cref="T:System.Windows.Forms.Label" />
+         </member>
+-        <member name="M:System.Windows.Forms.ListBox.ListBoxItem.#ctor">
+-            <summary>
+-            Initializes a new instance of the
+-            <see cref="T:System.Windows.Forms.ListBox.ListBoxItem" /> class.
+-            </summary>
+-        </member>
+-        <member name="P:System.Windows.Forms.ListBox.ListBoxItem.CheckValue">
+-            <summary>
+-            Gets or sets the check value.
+-            </summary>
+-            <value>
+-            The check value.
+-            </value>
+-        </member>
+-        <member name="P:System.Windows.Forms.ListBox.ListBoxItem.DisplayText">
+-            <summary>
+-            Gets or sets the display text.
+-            </summary>
+-            <value>
+-            The display text.
+-            </value>
+-        </member>
+         <member name="P:System.Windows.Forms.ListBox.ListBoxItem.ItemValue">
+             <summary>
+             Gets or sets the item value.
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.Entry.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.Entry.cs
+index 16c6726..807fcdd 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.Entry.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.Entry.cs
+@@ -1,4 +1,4 @@
+-// Licensed to the .NET Foundation under one or more agreements.
++﻿// Licensed to the .NET Foundation under one or more agreements.
+ // The .NET Foundation licenses this file to you under the MIT license.
+ 
+ namespace System.Windows.Forms;
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+index 8ac69b6..0000a56 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+@@ -7,6 +7,7 @@
+ using System.Collections;
+ using System.ComponentModel;
+ using System.Data;
++using Atk;
+ using GLib;
+ using Gtk;
+ using GtkSystem.Windows.Forms.GtkControls.ControlBase;
+@@ -98,14 +99,30 @@ public partial class ListBox : ListControl
+     /// </summary>
+     public ListBox() : base()
+     {
++        // Set GTK widget defaults
+         self.ListBox.Halign = Gtk.Align.Fill;
+         self.ListBox.Valign = Gtk.Align.Fill;
+         self.ListBox.Hexpand = true;
+         self.ListBox.Vexpand = true;
++
++        // initialize collections
+         _collect = new ControlBindingsCollection(this);
+         _items = new ObjectCollection(this);
++
++        // Wire events
+         self.ListBox.Realized += Self_Realized;
+         self.ListBox.SelectedRowsChanged += ListBox_SelectedRowsChanged;
++
++        // Set sensible WinForms defaults that tests expect
++        _SelectionMode = SelectionMode.One;
++        self.ListBox.SelectionMode = Gtk.SelectionMode.Single;
++
++        IntegralHeight = true;   // tests expect IntegralHeight == true by default
++        UseTabStops = false;     // tests expect UseTabStops == false by default
++        MultiColumn = false;
++        Sorted = false;
++        ScrollAlwaysVisible = false;
++
+         this.BorderStyle = BorderStyle.Fixed3D;
+     }
+ 
+@@ -346,8 +363,36 @@ public partial class ListBox : ListControl
+     /// </value>
+     public override int SelectedIndex
+     {
+-        get => self.ListBox.SelectedRow == null ? -1 : self.ListBox.SelectedRow.Index;
+-        set => SelectedItems.SetSelected(value, true);
++        get
++        {
++            var selectedRowIndex = self.ListBox.SelectedRow == null ? -1 : self.ListBox.SelectedRow.Index;
++            if (selectedRowIndex < 0)
++            {
++                for (int i = 0; i < Items.Count; i++)
++                {
++                    if ((Items.InnerArray.Entries[i]?.State & (int)StateFlags.Selected) != 0)
++                    {
++                        return i;
++                    }
++                }
++            }
++            return selectedRowIndex;
++        }
++        set
++        {
++            SelectedItems.SetSelected(value, true);
++            for (int i = 0; i < Items.Count; i++)
++            {
++                if (i == value)
++                {
++                    Items.InnerArray.Entries[i]?.State |= (int)StateFlags.Selected;
++                }
++                else
++                {
++                    Items.InnerArray.Entries[i]?.State &= ~(int)StateFlags.Selected;
++                }
++            }
++        }
+     }
+ 
+     /// <summary>
+@@ -362,7 +407,13 @@ public partial class ListBox : ListControl
+         get
+         {
+             var indexs = new SelectedIndexCollection(this);
+-
++            for (var i = 0; i < Items.Count; i++)
++            {
++                if ((Items.InnerArray.Entries[i]?.State & (int)StateFlags.Selected) != 0)
++                {
++                    indexs.Add(i);
++                }
++            }
+             return indexs;
+         }
+     }
+@@ -389,7 +440,8 @@ public partial class ListBox : ListControl
+             if (value != null)
+             {
+                 var index = _items.IndexOf(value);
+-                SelectedItems.SetSelected(index, true);
++                ClearSelected();
++                Items.InnerArray.Entries[index]?.State |= (int)StateFlags.Selected;
+             }
+         }
+     }
+@@ -406,7 +458,17 @@ public partial class ListBox : ListControl
+         get
+         {
+             var indexs = new SelectedObjectCollection(this);
+-
++            for (var i = 0; i < Items.Count; i++)
++            {
++                if ((Items.InnerArray.Entries[i]?.State & (int)StateFlags.Selected) != 0)
++                {
++                    var value = Items.InnerArray.Entries[i]?.Item;
++                    if (value != null)
++                    {
++                        indexs.Add(value);
++                    }
++                }
++            }
+             return indexs;
+         }
+     }
+@@ -641,6 +703,10 @@ public partial class ListBox : ListControl
+     public void ClearSelected()
+     {
+         self.ListBox.UnselectAll();
++        for (var i = 0; i < Items.Count; i++)
++        {
++            Items.InnerArray.Entries[i]?.State &= ~((int)StateFlags.Selected);
++        }
+     }
+ 
+     /// <summary>
+@@ -868,9 +934,17 @@ public partial class ListBox : ListControl
+     public void SetSelected(int index, bool value)
+     {
+         if (value == true)
++        {
+             self.ListBox.SelectRow(self.ListBox.GetRowAtIndex(index));
++            var innerArrayEntry = (Items.InnerArray.Entries[index]);
++            innerArrayEntry?.State |= (int)StateFlags.Selected;
++        }
+         else
++        {
+             self.ListBox.UnselectRow(self.ListBox.GetRowAtIndex(index));
++            var innerArrayEntry = (Items.InnerArray.Entries[index]);
++            innerArrayEntry?.State &= ~((int)StateFlags.Selected);
++        }
+     }
+ 
+     /// <summary>
+@@ -1086,33 +1160,13 @@ public partial class ListBox : ListControl
+     /// <seealso cref="T:System.Windows.Forms.Label" />
+     public class ListBoxItem : Gtk.Label
+     {
+-        /// <summary>
+-        /// Initializes a new instance of the
+-        /// <see cref="T:System.Windows.Forms.ListBox.ListBoxItem" /> class.
+-        /// </summary>
+         public ListBoxItem()
+         {
+             base.Xalign = 0;
+         }
+ 
+-        /// <summary>
+-        /// Gets or sets the check value.
+-        /// </summary>
+-        /// <value>
+-        /// The check value.
+-        /// </value>
+-        public object? CheckValue
+-        {
+-            get;
+-            set;
+-        }
++        public object? CheckValue { get; set; }
+ 
+-        /// <summary>
+-        /// Gets or sets the display text.
+-        /// </summary>
+-        /// <value>
+-        /// The display text.
+-        /// </value>
+         public object DisplayText
+         {
+             get { return base.Text; }
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
+index 2cf7e4d..90af6fe 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
+@@ -72,7 +72,7 @@ public class MaskedTextBox : TextBox
+     /// <value>
+     /// The text.
+     /// </value>
+-    public override string? Text
++    public override string Text
+     {
+         get { return self.Text; }
+         set { IsMasking = false; self.Text = value ?? ""; IsMasking = true; }
+-- 
+2.51.1.windows.1
+

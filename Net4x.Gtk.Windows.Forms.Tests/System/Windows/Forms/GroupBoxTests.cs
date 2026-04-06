@@ -3,6 +3,7 @@ using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms;
 
+[Collection("NonParallelCollection")]
 public class GroupBoxTests
 {
     [Fact]

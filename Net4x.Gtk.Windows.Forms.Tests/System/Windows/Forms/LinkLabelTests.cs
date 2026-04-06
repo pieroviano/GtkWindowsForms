@@ -2,6 +2,7 @@
 
 namespace System.Windows.Forms;
 
+[Collection("NonParallelCollection")]
 public class LinkLabelTests
 {
     [Fact]
@@ -139,7 +140,7 @@ public class LinkLabelTests
                 linkArg = args.Link;
             };
 
-            linkLabel.OnLinkClicked(new LinkLabelLinkClickedEventArgs(new LinkLabel.Link{Description = linkLabel.Text}));
+            linkLabel.OnLinkClicked(new LinkLabelLinkClickedEventArgs(new LinkLabel.Link { Description = linkLabel.Text }));
             form.Close();
         };
 

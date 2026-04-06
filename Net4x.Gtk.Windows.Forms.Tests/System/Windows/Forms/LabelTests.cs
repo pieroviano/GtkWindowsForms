@@ -2,6 +2,7 @@
 
 extern alias gtk;
 
+[Collection("NonParallelCollection")]
 public class LabelTests
 {
     [Fact]

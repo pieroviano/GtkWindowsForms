@@ -140,6 +140,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0052-Fix-ControlCollection.patch = patches\0052-Fix-ControlCollection.patch
 		patches\0053-Fix-GroupBox.patch = patches\0053-Fix-GroupBox.patch
 		patches\0054-Fix-Control-Text-Nullability.patch = patches\0054-Fix-Control-Text-Nullability.patch
+		patches\0055-Fix-ListBox.patch = patches\0055-Fix-ListBox.patch
 	EndProjectSection
 EndProject
 Global

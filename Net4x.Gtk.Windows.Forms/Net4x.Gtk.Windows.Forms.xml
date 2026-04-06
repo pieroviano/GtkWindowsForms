@@ -30500,28 +30500,6 @@
             </summary>
             <seealso cref="T:System.Windows.Forms.Label" />
         </member>
-        <member name="M:System.Windows.Forms.ListBox.ListBoxItem.#ctor">
-            <summary>
-            Initializes a new instance of the
-            <see cref="T:System.Windows.Forms.ListBox.ListBoxItem" /> class.
-            </summary>
-        </member>
-        <member name="P:System.Windows.Forms.ListBox.ListBoxItem.CheckValue">
-            <summary>
-            Gets or sets the check value.
-            </summary>
-            <value>
-            The check value.
-            </value>
-        </member>
-        <member name="P:System.Windows.Forms.ListBox.ListBoxItem.DisplayText">
-            <summary>
-            Gets or sets the display text.
-            </summary>
-            <value>
-            The display text.
-            </value>
-        </member>
         <member name="P:System.Windows.Forms.ListBox.ListBoxItem.ItemValue">
             <summary>
             Gets or sets the item value.

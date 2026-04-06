@@ -4,6 +4,7 @@ using Application = System.Windows.Forms.Application;
 
 namespace System.Windows.Forms;
 
+[Collection("NonParallelCollection")]
 public class FormTests
 {
     public FormTests()

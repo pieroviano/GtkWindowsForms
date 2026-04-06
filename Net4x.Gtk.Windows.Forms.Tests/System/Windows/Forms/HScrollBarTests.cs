@@ -2,6 +2,7 @@
 
 namespace System.Windows.Forms;
 
+[Collection("NonParallelCollection")]
 public class HScrollBarTests
 {
     [Fact]
