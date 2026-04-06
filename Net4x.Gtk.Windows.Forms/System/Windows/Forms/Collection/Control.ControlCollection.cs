@@ -239,7 +239,17 @@ public partial class Control
         /// <returns>
         /// True if found; otherwise false.
         /// </returns>
-        public bool Contains(Control? control) => ((IList)InnerList).Contains(control);
+        public bool Contains(Control? control)
+        {
+            var innerList = ((IList)InnerList);
+            if(innerList.Cast<object>().Any(o =>
+            {
+                var arrangedElementWidget = (o as System.Windows.Forms.Control.ArrangedElementWidget);
+                var flowBoxChild = (arrangedElementWidget?.GetWidget as FlowBoxChild);
+                return arrangedElementWidget != null && flowBoxChild != null && flowBoxChild.Child == control?.Widget;
+            })) return true;
+            return innerList.Contains(control);
+        }
 
         /// <summary>
         /// Determines whether a control with the given key (name) exists in the collection.

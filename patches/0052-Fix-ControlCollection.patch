@@ -1,0 +1,35 @@
+From 8b1e8cc1db6ec01be5629e30a99c2cfe67be2faa Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Mon, 6 Apr 2026 03:17:59 +0300
+Subject: [PATCH] Fix ControlCollection
+
+---
+ .../Forms/Collection/Control.ControlCollection.cs    | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
+index fea1fb8..f6afee8 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
+@@ -239,7 +239,17 @@ public partial class Control
+         /// <returns>
+         /// True if found; otherwise false.
+         /// </returns>
+-        public bool Contains(Control? control) => ((IList)InnerList).Contains(control);
++        public bool Contains(Control? control)
++        {
++            var innerList = ((IList)InnerList);
++            if(innerList.Cast<object>().Any(o =>
++            {
++                var arrangedElementWidget = (o as System.Windows.Forms.Control.ArrangedElementWidget);
++                var flowBoxChild = (arrangedElementWidget?.GetWidget as FlowBoxChild);
++                return arrangedElementWidget != null && flowBoxChild != null && flowBoxChild.Child == control?.Widget;
++            })) return true;
++            return innerList.Contains(control);
++        }
+ 
+         /// <summary>
+         /// Determines whether a control with the given key (name) exists in the collection.
+-- 
+2.51.1.windows.1
+
