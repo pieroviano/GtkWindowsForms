@@ -713,7 +713,7 @@ public class ListView : ContainerControl
     public void EndUpdate()
     {
         IsCacheUpdate = false;
-        self.Window.ProcessUpdates(true);
+        self.Window?.ProcessUpdates(true);
         self.ShowAll();
     }
 
