@@ -21,7 +21,7 @@ public partial class GroupBox : ContainerControl
     /// </summary>
     public readonly GroupBoxBase self = new();
 
-    private readonly ControlCollection? _controls = null;
+    private readonly ControlCollection _controls = null!;
 
     private readonly Gtk.Overlay contaner = new();
 
@@ -47,7 +47,7 @@ public partial class GroupBox : ContainerControl
     /// <value>
     /// The controls.
     /// </value>
-    public override ControlCollection? Controls => _controls;
+    public override ControlCollection Controls => _controls;
 
     /// <summary>
     /// Gets the GTK control.

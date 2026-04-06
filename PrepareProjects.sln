@@ -138,6 +138,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0050-Fix-DateTimePicker.patch = patches\0050-Fix-DateTimePicker.patch
 		patches\0051-Fix-Form.patch = patches\0051-Fix-Form.patch
 		patches\0052-Fix-ControlCollection.patch = patches\0052-Fix-ControlCollection.patch
+		patches\0053-Fix-GroupBox.patch = patches\0053-Fix-GroupBox.patch
 	EndProjectSection
 EndProject
 Global
