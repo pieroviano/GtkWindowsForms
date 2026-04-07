@@ -157,6 +157,14 @@ public partial class PictureBox : Control
         }
         else
         {
+            if (!(url ?? string.Empty).Contains("://"))
+            {
+                url = Path.GetFullPath(url ?? string.Empty);
+                if (!File.Exists(url))
+                {
+                    return;
+                }
+            }
             var pixbuf = new Gdk.Pixbuf(url?.Replace("\\\\", "/").Replace("\\", "/"));
             _image = new Bitmap(0, 0)
             {
