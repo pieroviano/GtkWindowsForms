@@ -632,7 +632,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     public object SelectedObject
     {
         get => _selectedObjects is null || _selectedObjects.Length == 0 ? null : _selectedObjects[0];
-        set => SelectedObjects = value is null ? Array.Empty<object>() : (new object[] { value });
+        set
+        {
+            var selectedObjects = value is null ? Array.Empty<object>() : (new object[] { value });
+            _selectedObjects = selectedObjects;
+        }
     }
 
     /// <summary>
