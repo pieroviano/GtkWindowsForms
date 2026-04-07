@@ -61,8 +61,8 @@ public class RadioButtonTests
         form.Controls.Add(radio);
         form.Controls.Add(otherRadio);
 
-        bool isChecked = false;
-        bool gtkActive = false;
+        var isChecked = false;
+        var gtkActive = false;
 
         form.Load += (s, e) =>
         {
@@ -89,7 +89,7 @@ public class RadioButtonTests
         form.Controls.Add(radio);
         form.Controls.Add(otherRadio);
 
-        bool result = true;
+        var result = true;
 
         form.Load += (s, e) =>
         {
@@ -110,7 +110,7 @@ public class RadioButtonTests
         var radio = new RadioButton();
         form.Controls.Add(radio);
 
-        int callCount = 0;
+        var callCount = 0;
 
         form.Load += (s, e) =>
         {
@@ -161,7 +161,7 @@ public class RadioButtonTests
         form.Controls.Add(radio1);
         form.Controls.Add(radio2);
 
-        bool sameGroup = false;
+        var sameGroup = false;
 
         form.Load += (s, e) =>
         {
@@ -189,8 +189,8 @@ public class RadioButtonTests
         form.Controls.Add(radio1);
         form.Controls.Add(radio2);
 
-        bool r1 = false;
-        bool r2 = false;
+        var r1 = false;
+        var r2 = false;
 
         form.Load += (s, e) =>
         {

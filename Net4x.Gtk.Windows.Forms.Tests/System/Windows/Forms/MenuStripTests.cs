@@ -34,7 +34,7 @@ public class MenuStripTests
         var menu = new MenuStrip();
         form.Controls.Add(menu);
 
-        DockStyle dock = DockStyle.None;
+        var dock = DockStyle.None;
 
         form.Load += (s, e) =>
         {
@@ -54,7 +54,7 @@ public class MenuStripTests
         var menu = new MenuStrip();
         form.Controls.Add(menu);
 
-        bool hasClass = false;
+        var hasClass = false;
 
         form.Load += (s, e) =>
         {
@@ -99,7 +99,7 @@ public class MenuStripTests
         var menu = new MenuStrip();
         form.Controls.Add(menu);
 
-        bool isToolStrip = false;
+        var isToolStrip = false;
 
         form.Load += (s, e) =>
         {

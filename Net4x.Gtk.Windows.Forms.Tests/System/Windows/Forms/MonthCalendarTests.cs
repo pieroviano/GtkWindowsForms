@@ -57,7 +57,7 @@ public class MonthCalendarTests
         var calendar = new MonthCalendar();
         form.Controls.Add(calendar);
 
-        DateTime setDate = new DateTime(2024, 5, 10);
+        var setDate = new DateTime(2024, 5, 10);
         DateTime result = default;
 
         form.Load += (s, e) =>
@@ -79,12 +79,12 @@ public class MonthCalendarTests
         var calendar = new MonthCalendar();
         form.Controls.Add(calendar);
 
-        Day firstDay = Day.Monday;
-        DateTime min = new DateTime(2020, 1, 1);
-        DateTime max = new DateTime(2030, 1, 1);
-        bool showToday = true;
-        bool showCircle = true;
-        bool showWeek = true;
+        var firstDay = Day.Monday;
+        var min = new DateTime(2020, 1, 1);
+        var max = new DateTime(2030, 1, 1);
+        var showToday = true;
+        var showCircle = true;
+        var showWeek = true;
 
         form.Load += (s, e) =>
         {
@@ -142,7 +142,7 @@ public class MonthCalendarTests
         var calendar = new MonthCalendar();
         form.Controls.Add(calendar);
 
-        bool eventFired = false;
+        var eventFired = false;
 
         form.Load += (s, e) =>
         {
@@ -173,7 +173,7 @@ public class MonthCalendarTests
         var calendar = new MonthCalendar();
         form.Controls.Add(calendar);
 
-        bool eventFired = false;
+        var eventFired = false;
 
         form.Load += (s, e) =>
         {
@@ -203,8 +203,8 @@ public class MonthCalendarTests
         var calendar = new MonthCalendar();
         form.Controls.Add(calendar);
 
-        bool changedFired = false;
-        bool selectedFired = false;
+        var changedFired = false;
+        var selectedFired = false;
 
         form.Load += (s, e) =>
         {

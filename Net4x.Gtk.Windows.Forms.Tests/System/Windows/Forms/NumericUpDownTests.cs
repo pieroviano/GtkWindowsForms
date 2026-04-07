@@ -34,7 +34,7 @@ public class NumericUpDownTests
         var control = new NumericUpDown();
         form.Controls.Add(control);
 
-        int value = 0;
+        var value = 0;
 
         form.Load += (s, e) =>
         {
@@ -124,7 +124,7 @@ public class NumericUpDownTests
         var control = new NumericUpDown();
         form.Controls.Add(control);
 
-        bool raised = false;
+        var raised = false;
 
         form.Load += (s, e) =>
         {
@@ -148,7 +148,7 @@ public class NumericUpDownTests
         var control = new NumericUpDown();
         form.Controls.Add(control);
 
-        bool raised = false;
+        var raised = false;
 
         form.Load += (s, e) =>
         {

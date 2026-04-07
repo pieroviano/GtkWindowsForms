@@ -59,7 +59,7 @@ public class PanelTests
 
         form.Controls.Add(panel);
 
-        int count = 0;
+        var count = 0;
 
         form.Load += (s, e) =>
         {
@@ -82,7 +82,7 @@ public class PanelTests
 
         form.Controls.Add(panel);
 
-        int count = 0;
+        var count = 0;
 
         form.Load += (s, e) =>
         {
@@ -104,7 +104,7 @@ public class PanelTests
         var panel = new Panel();
         form.Controls.Add(panel);
 
-        Padding padding = new Padding(10, 20, 30, 40);
+        var padding = new Padding(10, 20, 30, 40);
 
         int left = 0, top = 0, right = 0, bottom = 0;
 
@@ -135,7 +135,7 @@ public class PanelTests
         var panel = new Panel();
         form.Controls.Add(panel);
 
-        Padding padding = new Padding(5, 6, 7, 8);
+        var padding = new Padding(5, 6, 7, 8);
         Padding result = default;
 
         form.Load += (s, e) =>

@@ -80,7 +80,7 @@ public class PictureBoxTests
         var pictureBox = new PictureBox();
         form.Controls.Add(pictureBox);
 
-        BorderStyle style = BorderStyle.None;
+        var style = BorderStyle.None;
 
         form.Load += (s, e) =>
         {
@@ -124,7 +124,7 @@ public class PictureBoxTests
 
         var initialImage = System.Properties.Resources.timg;
 
-        bool executed = false;
+        var executed = false;
 
         form.Load += (s, e) =>
         {
@@ -155,7 +155,7 @@ public class PictureBoxTests
         var pictureBox = new PictureBox();
         form.Controls.Add(pictureBox);
 
-        bool executed = false;
+        var executed = false;
 
         form.Load += (s, e) =>
         {
@@ -197,7 +197,7 @@ public class PictureBoxTests
         var pictureBox = new PictureBox();
         form.Controls.Add(pictureBox);
 
-        bool executed = false;
+        var executed = false;
 
         form.Load += (s, e) =>
         {

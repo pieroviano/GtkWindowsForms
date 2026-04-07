@@ -38,7 +38,7 @@ public class PropertyGridTests
         var grid = new PropertyGrid();
         form.Controls.Add(grid);
 
-        object input = new object();
+        var input = new object();
         object? result = null;
 
         form.Load += (s, e) =>
@@ -60,7 +60,7 @@ public class PropertyGridTests
         var grid = new PropertyGrid();
         form.Controls.Add(grid);
 
-        object? result = new object();
+        var result = new object();
 
         form.Load += (s, e) =>
         {
@@ -81,7 +81,7 @@ public class PropertyGridTests
         var grid = new PropertyGrid();
         form.Controls.Add(grid);
 
-        object[] input = new object[] { new object() };
+        var input = new object[] { new object() };
         object[]? result = null;
 
         form.Load += (s, e) =>
@@ -170,9 +170,9 @@ public class PropertyGridTests
         var grid = new PropertyGrid();
         form.Controls.Add(grid);
 
-        bool glyphs = false;
-        bool helpVisible = false;
-        bool toolbarVisible = false;
+        var glyphs = false;
+        var helpVisible = false;
+        var toolbarVisible = false;
 
         form.Load += (s, e) =>
         {

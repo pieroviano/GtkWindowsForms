@@ -55,7 +55,7 @@ public class RichTextBoxTests
         var rtb = new RichTextBox();
         form.Controls.Add(rtb);
 
-        string[] input = new[] { "line1", "line2" };
+        var input = new[] { "line1", "line2" };
         string[]? result = null;
 
         form.Load += (s, e) =>
@@ -80,7 +80,7 @@ public class RichTextBoxTests
         var rtb = new RichTextBox();
         form.Controls.Add(rtb);
 
-        string? result = "not empty";
+        var result = "not empty";
 
         form.Load += (s, e) =>
         {
@@ -168,8 +168,8 @@ public class RichTextBoxTests
         var rtb = new RichTextBox();
         form.Controls.Add(rtb);
 
-        int start = -1;
-        int length = -1;
+        var start = -1;
+        var length = -1;
 
         form.Load += (s, e) =>
         {
@@ -195,8 +195,8 @@ public class RichTextBoxTests
         var rtb = new RichTextBox();
         form.Controls.Add(rtb);
 
-        int start = -1;
-        int length = -1;
+        var start = -1;
+        var length = -1;
 
         form.Load += (s, e) =>
         {
@@ -223,8 +223,8 @@ public class RichTextBoxTests
         var rtb = new RichTextBox();
         form.Controls.Add(rtb);
 
-        bool readOnly = false;
-        bool gtkValue = false;
+        var readOnly = false;
+        var gtkValue = false;
 
         form.Load += (s, e) =>
         {
@@ -249,7 +249,7 @@ public class RichTextBoxTests
         var rtb = new RichTextBox();
         form.Controls.Add(rtb);
 
-        int callCount = 0;
+        var callCount = 0;
 
         form.Load += (s, e) =>
         {

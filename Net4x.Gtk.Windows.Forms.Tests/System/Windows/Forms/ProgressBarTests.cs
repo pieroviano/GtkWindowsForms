@@ -83,7 +83,7 @@ public class ProgressBarTests
         var progressBar = new ProgressBar();
         form.Controls.Add(progressBar);
 
-        int value = 0;
+        var value = 0;
 
         form.Load += (s, e) =>
         {
@@ -104,7 +104,7 @@ public class ProgressBarTests
         var progressBar = new ProgressBar();
         form.Controls.Add(progressBar);
 
-        int step = 0;
+        var step = 0;
 
         form.Load += (s, e) =>
         {
@@ -146,7 +146,7 @@ public class ProgressBarTests
         var progressBar = new ProgressBar();
         form.Controls.Add(progressBar);
 
-        Padding padding = new Padding(1, 2, 3, 4);
+        var padding = new Padding(1, 2, 3, 4);
         Padding result = default;
 
         form.Load += (s, e) =>

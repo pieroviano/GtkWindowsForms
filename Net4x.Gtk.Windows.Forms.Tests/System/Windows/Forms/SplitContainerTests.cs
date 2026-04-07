@@ -42,8 +42,8 @@ public class SplitContainerTests
         var split = new SplitContainer();
         form.Controls.Add(split);
 
-        Orientation result1 = Orientation.Horizontal;
-        Orientation result2 = Orientation.Horizontal;
+        var result1 = Orientation.Horizontal;
+        var result2 = Orientation.Horizontal;
 
         form.Load += (s, e) =>
         {
@@ -69,7 +69,7 @@ public class SplitContainerTests
         var split = new SplitContainer();
         form.Controls.Add(split);
 
-        int result = 0;
+        var result = 0;
 
         form.Load += (s, e) =>
         {
@@ -91,7 +91,7 @@ public class SplitContainerTests
         var split = new SplitContainer();
         form.Controls.Add(split);
 
-        int result = 0;
+        var result = 0;
 
         form.Load += (s, e) =>
         {
@@ -112,8 +112,8 @@ public class SplitContainerTests
         var split = new SplitContainer();
         form.Controls.Add(split);
 
-        bool wide1 = false;
-        bool wide2 = false;
+        var wide1 = false;
+        var wide2 = false;
 
         form.Load += (s, e) =>
         {
@@ -139,8 +139,8 @@ public class SplitContainerTests
         var split = new SplitContainer();
         form.Controls.Add(split);
 
-        bool panel1Resize = false;
-        bool panel2Resize = false;
+        var panel1Resize = false;
+        var panel2Resize = false;
 
         form.Load += (s, e) =>
         {
@@ -221,7 +221,7 @@ public class SplitContainerTests
         var split = new SplitContainer();
         form.Controls.Add(split);
 
-        int result = 0;
+        var result = 0;
 
         form.Load += (s, e) =>
         {
