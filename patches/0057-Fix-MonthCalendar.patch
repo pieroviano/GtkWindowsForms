@@ -1,0 +1,72 @@
+From 2baa6a91be903eae5b16515a8d228d46382209b1 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Tue, 7 Apr 2026 03:38:23 +0300
+Subject: [PATCH] Fix MonthCalendar
+
+---
+ .../ControlBase/MonthCalendarBase.cs          | 38 +++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+
+diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/MonthCalendarBase.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/MonthCalendarBase.cs
+index 8b57859..2a6506e 100644
+--- a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/MonthCalendarBase.cs
++++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/MonthCalendarBase.cs
+@@ -1,3 +1,5 @@
++﻿using System.Windows.Forms;
++
+ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
+ 
+ /// <summary>
+@@ -17,6 +19,12 @@ public sealed class MonthCalendarBase : Gtk.Calendar, IControlGtk
+         this.Override.AddClass("MonthCalendar");
+         base.Valign = Gtk.Align.Start;
+         base.Halign = Gtk.Align.Start;
++        base.DaySelected += MonthCalendarBase_DaySelected;
++    }
++
++    private void MonthCalendarBase_DaySelected(object sender, EventArgs e)
++    {
++        OnDaySelected(e);
+     }
+ 
+     /// <summary>
+@@ -35,6 +43,36 @@ public sealed class MonthCalendarBase : Gtk.Calendar, IControlGtk
+         set;
+     }
+ 
++    /// <summary>
++    /// Gets or sets a value indicating whether this <see cref="MonthCalendarBase"/> is visibility.
++    /// </summary>
++    /// <value>
++    ///   <c>true</c> if visibility; otherwise, <c>false</c>.
++    /// </value>
++    public bool Visibility
++    {
++        get => field;
++        set
++        {
++            field = value;
++            if (value)
++            {
++                Show();
++            }
++            else
++            {
++                Hide();
++            }
++        }
++    }
++
++    public new event EventHandler DaySelected;
++
++    internal void OnDaySelected(EventArgs e)
++    {
++        DaySelected?.Invoke(this, e);
++    }
++
+     /// <summary>
+     /// Adds the class.
+     /// </summary>
+-- 
+2.51.1.windows.1
+

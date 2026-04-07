@@ -1713,6 +1713,14 @@
             <see cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride" /> used by the control.
             </value>
         </member>
+        <member name="P:GtkSystem.Windows.Forms.GtkControls.ControlBase.MonthCalendarBase.Visibility">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:GtkSystem.Windows.Forms.GtkControls.ControlBase.MonthCalendarBase"/> is visibility.
+            </summary>
+            <value>
+              <c>true</c> if visibility; otherwise, <c>false</c>.
+            </value>
+        </member>
         <member name="M:GtkSystem.Windows.Forms.GtkControls.ControlBase.MonthCalendarBase.AddClass(System.String)">
             <summary>
             Adds the class.

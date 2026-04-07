@@ -1,3 +1,5 @@
+﻿using System.Windows.Forms;
+
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 /// <summary>
@@ -17,6 +19,12 @@ public sealed class MonthCalendarBase : Gtk.Calendar, IControlGtk
         this.Override.AddClass("MonthCalendar");
         base.Valign = Gtk.Align.Start;
         base.Halign = Gtk.Align.Start;
+        base.DaySelected += MonthCalendarBase_DaySelected;
+    }
+
+    private void MonthCalendarBase_DaySelected(object sender, EventArgs e)
+    {
+        OnDaySelected(e);
     }
 
     /// <summary>
@@ -33,6 +41,36 @@ public sealed class MonthCalendarBase : Gtk.Calendar, IControlGtk
     {
         get;
         set;
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether this <see cref="MonthCalendarBase"/> is visibility.
+    /// </summary>
+    /// <value>
+    ///   <c>true</c> if visibility; otherwise, <c>false</c>.
+    /// </value>
+    public bool Visibility
+    {
+        get => field;
+        set
+        {
+            field = value;
+            if (value)
+            {
+                Show();
+            }
+            else
+            {
+                Hide();
+            }
+        }
+    }
+
+    public new event EventHandler DaySelected;
+
+    internal void OnDaySelected(EventArgs e)
+    {
+        DaySelected?.Invoke(this, e);
     }
 
     /// <summary>
