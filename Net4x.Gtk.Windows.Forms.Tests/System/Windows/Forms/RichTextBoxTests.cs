@@ -85,7 +85,9 @@ public class RichTextBoxTests
         form.Load += (s, e) =>
         {
             rtb.Text = "something";
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             rtb.Lines = null;
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
             result = rtb.Text;
             form.Close();
         };
@@ -151,7 +153,9 @@ public class RichTextBoxTests
         form.Load += (s, e) =>
         {
             rtb.Text = "Hello";
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             rtb.InsertTextAtCursor(null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
             result = rtb.Text;
             form.Close();
         };

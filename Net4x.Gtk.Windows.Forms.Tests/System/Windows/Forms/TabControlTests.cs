@@ -254,7 +254,7 @@ public class TabControlTests
             var method = typeof(TabControl)
                 .GetMethod("OnSelectedIndexChanged", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 
-            method.Invoke(tab, new object[] { EventArgs.Empty });
+            method?.Invoke(tab, new object[] { EventArgs.Empty });
 
             form.Close();
         };

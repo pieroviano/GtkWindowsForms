@@ -235,7 +235,7 @@ public class TextBoxTests
             var method = typeof(TextBox)
                 .GetMethod("OnTextChanged", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 
-            method.Invoke(textBox, new object[] { EventArgs.Empty });
+            method?.Invoke(textBox, new object[] { EventArgs.Empty });
 
             form.Close();
         };
@@ -261,7 +261,7 @@ public class TextBoxTests
             var method = typeof(TextBox)
                 .GetMethod("OnKeyDown", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 
-            method.Invoke(textBox, new object[] { new KeyEventArgs(Keys.A) });
+            method?.Invoke(textBox, new object[] { new KeyEventArgs(Keys.A) });
 
             form.Close();
         };
