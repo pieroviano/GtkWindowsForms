@@ -1,3 +1,6 @@
+﻿using System.Windows.Forms;
+using Gtk;
+
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 /// <summary>
@@ -20,7 +23,16 @@ public sealed class ToolStripBase : Gtk.MenuBar, IControlGtk
         this.Valign = Gtk.Align.Start;
         this.Halign = Gtk.Align.Fill;
         this.HeightRequest = 20;
+        base.ActivateCurrent += (s, e) =>
+        {
+            ActivateCurrent?.Invoke(this, e);
+        };
     }
+
+    public new event ActivateCurrentHandler ActivateCurrent;
+
+    internal void RaiseActivateCurrent(ToolStrip toolStrip) =>
+        ActivateCurrent(toolStrip, new ActivateCurrentArgs());
 
     /// <summary>
     /// Gets or sets the
