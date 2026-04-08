@@ -138,6 +138,12 @@ public sealed class GtkControlOverride : IControlOverride
         set;
     }
 
+    internal void RaisePaint(UserControl control) =>
+        Paint?.Invoke(
+            control,
+            new PaintEventArgs(null!, new System.Drawing.Rectangle())
+        );
+
     /// <summary>
     /// Adds the class.
     /// </summary>

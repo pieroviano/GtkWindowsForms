@@ -162,7 +162,7 @@ public partial class UserControl : ContainerControl
     /// <summary>
     /// Raises the Load event.
     /// </summary>
-    protected override void OnLoad(System.EventArgs e)
+    protected internal new virtual void OnLoad(System.EventArgs e)
     {
         Load?.Invoke(this, e);
     }

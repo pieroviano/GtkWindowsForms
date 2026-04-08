@@ -1,0 +1,43 @@
+From ab829740040bc38a2dbfc605dac58a9c60435cb1 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Wed, 8 Apr 2026 05:37:07 +0300
+Subject: [PATCH] Fix UserControl
+
+---
+ .../Forms/GtkControls/ControlBase/GtkControlOverride.cs     | 6 ++++++
+ Net4x.Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs | 2 +-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
+index 8b17172..d4475c9 100644
+--- a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
++++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
+@@ -138,6 +138,12 @@ public sealed class GtkControlOverride : IControlOverride
+         set;
+     }
+ 
++    internal void RaisePaint(UserControl control) =>
++        Paint?.Invoke(
++            control,
++            new PaintEventArgs(null!, new System.Drawing.Rectangle())
++        );
++
+     /// <summary>
+     /// Adds the class.
+     /// </summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs
+index ba32ae6..96a9a23 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs
+@@ -162,7 +162,7 @@ public partial class UserControl : ContainerControl
+     /// <summary>
+     /// Raises the Load event.
+     /// </summary>
+-    protected override void OnLoad(System.EventArgs e)
++    protected internal new virtual void OnLoad(System.EventArgs e)
+     {
+         Load?.Invoke(this, e);
+     }
+-- 
+2.51.1.windows.1
+
