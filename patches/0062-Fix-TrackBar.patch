@@ -1,0 +1,58 @@
+From 10f0d9c8d7d2193b1d8b3e1190431f76c0b08eeb Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Wed, 8 Apr 2026 05:14:41 +0300
+Subject: [PATCH] Fix TrackBar
+
+---
+ .../Forms/GtkControls/ControlBase/ToolStripBase.cs       | 4 ++--
+ Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs | 9 ++++++++-
+ 2 files changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ToolStripBase.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ToolStripBase.cs
+index a49fe6e..964c2b7 100644
+--- a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ToolStripBase.cs
++++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ToolStripBase.cs
+@@ -29,10 +29,10 @@ public sealed class ToolStripBase : Gtk.MenuBar, IControlGtk
+         };
+     }
+ 
+-    public new event ActivateCurrentHandler ActivateCurrent;
++    public new event ActivateCurrentHandler? ActivateCurrent;
+ 
+     internal void RaiseActivateCurrent(ToolStrip toolStrip) =>
+-        ActivateCurrent(toolStrip, new ActivateCurrentArgs());
++        ActivateCurrent?.Invoke(toolStrip, new ActivateCurrentArgs());
+ 
+     /// <summary>
+     /// Gets or sets the
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
+index 2de19cd..a3a67d8 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
+@@ -36,7 +36,14 @@ public class TrackBar : Control
+     /// </summary>
+     public TrackBar() : base()
+     {
++        // Ensure we create the GTK Scale when the underlying GTK widget is realized.
++        // Also handle the case where the widget is already realized by calling handler immediately.
+         self.Realized += Control_Realized;
++        if (self.IsRealized)
++        {
++            // If the widget is already realized at construction time, create the scale right away.
++            Control_Realized(self, EventArgs.Empty);
++        }
+     }
+ 
+     /// <summary>
+@@ -136,7 +143,7 @@ public class TrackBar : Control
+     /// </summary>
+     protected virtual void OnScroll(System.EventArgs e)
+     {
+-        Scroll?.Invoke(this, e);              
++        Scroll?.Invoke(this, e);
+     }
+ 
+     private void Control_Realized(object sender, EventArgs e)
+-- 
+2.51.1.windows.1
+

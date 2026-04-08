@@ -36,7 +36,14 @@ public class TrackBar : Control
     /// </summary>
     public TrackBar() : base()
     {
+        // Ensure we create the GTK Scale when the underlying GTK widget is realized.
+        // Also handle the case where the widget is already realized by calling handler immediately.
         self.Realized += Control_Realized;
+        if (self.IsRealized)
+        {
+            // If the widget is already realized at construction time, create the scale right away.
+            Control_Realized(self, EventArgs.Empty);
+        }
     }
 
     /// <summary>
@@ -136,7 +143,7 @@ public class TrackBar : Control
     /// </summary>
     protected virtual void OnScroll(System.EventArgs e)
     {
-        Scroll?.Invoke(this, e);              
+        Scroll?.Invoke(this, e);
     }
 
     private void Control_Realized(object sender, EventArgs e)

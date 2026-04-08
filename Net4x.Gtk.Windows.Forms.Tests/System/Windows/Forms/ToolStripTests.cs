@@ -88,9 +88,10 @@ public class ToolStripTests
     public void LayoutStyle_ShouldSetAndGet()
     {
         Application.Init();
-        var toolStrip = new ToolStrip();
-
-        toolStrip.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
+        var toolStrip = new ToolStrip
+        {
+            LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow
+        };
 
         Assert.Equal(ToolStripLayoutStyle.HorizontalStackWithOverflow, toolStrip.LayoutStyle);
     }
@@ -98,9 +99,10 @@ public class ToolStripTests
     [Fact]
     public void Size_ShouldForceHeightTo30()
     {
-        var toolStrip = new ToolStrip();
-
-        toolStrip.Size = new Size(200, 100);
+        var toolStrip = new ToolStrip
+        {
+            Size = new Size(200, 100)
+        };
 
         Assert.Equal(200, toolStrip.Size.Width);
         Assert.Equal(30, toolStrip.Size.Height);

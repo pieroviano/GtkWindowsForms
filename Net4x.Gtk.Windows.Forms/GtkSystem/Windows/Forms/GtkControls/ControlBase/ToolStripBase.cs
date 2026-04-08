@@ -29,10 +29,10 @@ public sealed class ToolStripBase : Gtk.MenuBar, IControlGtk
         };
     }
 
-    public new event ActivateCurrentHandler ActivateCurrent;
+    public new event ActivateCurrentHandler? ActivateCurrent;
 
     internal void RaiseActivateCurrent(ToolStrip toolStrip) =>
-        ActivateCurrent(toolStrip, new ActivateCurrentArgs());
+        ActivateCurrent?.Invoke(toolStrip, new ActivateCurrentArgs());
 
     /// <summary>
     /// Gets or sets the
