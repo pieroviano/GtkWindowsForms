@@ -417,6 +417,7 @@ public partial class TreeView : ScrollableControl
     public void Clear()
     {
         Store.Clear();
+        Nodes.Clear();
     }
 
     /// <summary>
