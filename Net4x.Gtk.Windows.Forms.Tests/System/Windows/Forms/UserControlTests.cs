@@ -129,10 +129,11 @@ public class UserControlTests
     public void AutoScaleProperties_ShouldSetAndGet()
     {
         Application.Init();
-        var control = new UserControl();
-
-        control.AutoScaleDimensions = new System.Drawing.SizeF(1.5f, 2.5f);
-        control.AutoScaleMode = AutoScaleMode.Font;
+        var control = new UserControl
+        {
+            AutoScaleDimensions = new System.Drawing.SizeF(1.5f, 2.5f),
+            AutoScaleMode = AutoScaleMode.Font
+        };
 
         Assert.Equal(1.5f, control.AutoScaleDimensions.Width);
         Assert.Equal(2.5f, control.AutoScaleDimensions.Height);
