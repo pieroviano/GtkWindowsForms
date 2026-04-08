@@ -2,7 +2,7 @@
 
 #pragma warning disable CS8604 // Possible null reference argument.
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-
+using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using System;
 using System.Reflection;
 using Xunit;
@@ -15,15 +15,27 @@ public class ButtonTests
     [Fact]
     public void Button_GtkControl_And_Self_AreNotNull()
     {
+        var form = new Form();
         var button = new Button();
+        form.Controls.Add(button);
+        object? buttonGtkControl = null;
+        ButtonBase? buttonSelf = null;
+        form.Load += (s, e) =>
+        {
+            buttonGtkControl = button.GtkControl;
+            buttonSelf = button.self;
+            form.Close();
+        };
+        form.ShowDialog();
 
-        Assert.NotNull(button.GtkControl);
-        Assert.NotNull(button.self);
+        Assert.NotNull(buttonGtkControl);
+        Assert.NotNull(buttonSelf);
     }
 
     [Fact]
     public void Button_Text_SetGet_MapsToUnderlyingLabel()
     {
+        Application.Init();
         var button = new Button
         {
             Text = "hello",
@@ -38,6 +50,7 @@ public class ButtonTests
     [Fact]
     public void Button_RightToLeft_MapsTo_GtkDirection()
     {
+        Application.Init();
         var button = new Button
         {
             RightToLeft = RightToLeft.Yes
@@ -52,6 +65,7 @@ public class ButtonTests
     [Fact]
     public void Button_TextAlign_Sets_Xalign_Yalign()
     {
+        Application.Init();
         var button = new Button
         {
             TextAlign = gtk::System.Drawing.ContentAlignment.MiddleCenter
@@ -68,6 +82,7 @@ public class ButtonTests
     [Fact]
     public void OnClick_Raises_Click_Event()
     {
+        Application.Init();
         var button = new Button();
         var invoked = false;
         button.Click += (s, e) => invoked = true;

@@ -19,6 +19,7 @@ public class Timer : Component
 {
 
     readonly System.Timers.Timer TimersTimer = new();
+    private bool isDisposed;
 
     /// <summary>
     /// Occurs when tick.
@@ -129,6 +130,12 @@ public class Timer : Component
     /// </param>
     protected override void Dispose(bool disposing)
     {
+        if (isDisposed)
+        {
+            return;
+        }
+
+        isDisposed = true;
         TimersTimer.Dispose();
         base.Dispose();
     }

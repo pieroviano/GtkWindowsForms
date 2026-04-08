@@ -144,12 +144,22 @@ public class ControlTests
     [Fact]
     public void Padding_SetGet_Works()
     {
+        var form = new Form();
         var label = new Label();
+        form.Controls.Add(label);
 
-        var padding = new Padding(1, 2, 3, 4);
-        label.Padding = padding;
+        Padding padding = default;
+        Padding labelPadding = default;
+        form.Load += (sender, e) =>
+        {
+            padding = new Padding(1, 2, 3, 4);
+            label.Padding = padding;
+            labelPadding = label.Padding;
+            form.Close();
+        };
+        form.ShowDialog();
 
-        Assert.Equal(padding, label.Padding);
+        Assert.Equal(padding, labelPadding);
     }
 
     [Fact]

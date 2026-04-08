@@ -1,3 +1,5 @@
+﻿using Gdk;
+
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 /// <summary>
@@ -17,6 +19,11 @@ public sealed class SwitchBoxBase : Gtk.Switch, IControlGtk
         this.Override.AddClass("SwitchBox");
         base.Valign = Gtk.Align.Start;
         base.Halign = Gtk.Align.Start;
+    }
+
+    internal new bool OnButtonReleaseEvent(EventButton evnt)
+    {
+        return base.OnButtonReleaseEvent(evnt);
     }
 
     /// <summary>
