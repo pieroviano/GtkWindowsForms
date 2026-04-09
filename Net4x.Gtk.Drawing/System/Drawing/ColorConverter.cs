@@ -250,37 +250,37 @@ public class ColorConverter : TypeConverter
             }
             if (destinationType == typeof(InstanceDescriptor))
             {
-                MemberInfo? field = null;
+                MemberInfo? method = null;
                 object[]? a = null;
                 var color = colorValue.Value;
                 if (color.IsEmpty)
                 {
-                    field = typeof(Color).GetField("Empty");
+                    method = typeof(Color).GetField("Empty");
                 }
                 else if (!string.IsNullOrEmpty(color.Name))
                 {
-                    field = typeof(Color).GetProperty(color.Name);
+                    method = typeof(Color).GetProperty(color.Name);
                 }
                 else if (color.A != 255)
                 {
-                    field = typeof(Color).GetMethod("FromArgb", new Type[] { typeof(int), typeof(int), typeof(int), typeof(int) });
+                    method = typeof(Color).GetMethod("FromArgb", new Type[] { typeof(int), typeof(int), typeof(int), typeof(int) });
                     a = new object[] { color.A, color.R, color.G, color.B };
                 }
                 else if (!color.IsNamedColor)
                 {
-                    field = typeof(Color).GetMethod("FromArgb", new Type[] { typeof(int), typeof(int), typeof(int) });
+                    method = typeof(Color).GetMethod("FromArgb", new Type[] { typeof(int), typeof(int), typeof(int) });
                     a = new object[] { color.R, color.G, color.B };
                 }
                 else
                 {
-                    field = typeof(Color).GetMethod("FromName", new Type[] { typeof(string) });
+                    method = typeof(Color).GetMethod("FromName", new Type[] { typeof(string) });
                     a = new object[] { color.Name };
                 }
-                if (field == null)
+                if (method == null)
                 {
                     return null;
                 }
-                return new InstanceDescriptor(field, a);
+                return new InstanceDescriptor(method, a);
             }
         }
 

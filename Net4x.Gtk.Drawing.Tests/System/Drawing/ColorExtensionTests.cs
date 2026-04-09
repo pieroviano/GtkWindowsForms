@@ -1,7 +1,8 @@
-﻿#pragma warning disable xUnit2002
+﻿extern alias gtk;
+
+#pragma warning disable xUnit2002
 namespace System.Drawing;
 
-extern alias gtk;
 
 public class ColorExtensionTests
 {

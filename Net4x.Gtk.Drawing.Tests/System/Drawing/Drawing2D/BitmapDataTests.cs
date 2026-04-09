@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
+﻿extern alias gtk;
+using System.ComponentModel;
 
 namespace System.Drawing.Drawing2D;
 
-extern alias gtk;
 using BitmapData = gtk::System.Drawing.Imaging.BitmapData;
 using PixelFormat = gtk::System.Drawing.Imaging.PixelFormat;
 
