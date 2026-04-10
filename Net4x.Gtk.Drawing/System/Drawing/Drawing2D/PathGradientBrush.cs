@@ -1,5 +1,4 @@
-﻿
-namespace System.Drawing.Drawing2D;
+﻿namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Encapsulates a
@@ -10,6 +9,10 @@ namespace System.Drawing.Drawing2D;
 /// </summary>
 public sealed class PathGradientBrush : Brush
 {
+    private Matrix _transform = new Matrix();
+
+    private float _focus;
+    private float _scale = 1f;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -22,11 +25,16 @@ public sealed class PathGradientBrush : Brush
     /// </param>
     public PathGradientBrush(GraphicsPath path)
     {
-        var left = path.SizePoints.Select(o => o.X).Min();
-        var top = path.SizePoints.Select(o => o.Y).Min();
-        var right = path.SizePoints.Select(o => o.X).Max();
-        var bottom = path.SizePoints.Select(o => o.Y).Max();
-        this.Rectangle = new RectangleF(left, top, right - left, bottom - top);
+        var pts = path.SizePoints;
+
+        var left = pts.Min(p => p.X);
+        var top = pts.Min(p => p.Y);
+        var right = pts.Max(p => p.X);
+        var bottom = pts.Max(p => p.Y);
+
+        Rectangle = new RectangleF(left, top, right - left, bottom - top);
+        CenterPoint = new PointF((left + right) / 2f, (top + bottom) / 2f);
+        WrapMode = WrapMode.Clamp;
     }
 
     /// <summary>
@@ -39,7 +47,6 @@ public sealed class PathGradientBrush : Brush
     /// </param>
     public PathGradientBrush(PointF[] points) : this(points, WrapMode.Clamp)
     {
-
     }
 
     /// <summary>
@@ -57,11 +64,8 @@ public sealed class PathGradientBrush : Brush
     /// </param>
     public PathGradientBrush(PointF[] points, WrapMode wrapMode)
     {
-        var left = points.Select(o => o.X).Min();
-        var top = points.Select(o => o.Y).Min();
-        var right = points.Select(o => o.X).Max();
-        var bottom = points.Select(o => o.Y).Max();
-        this.Rectangle = new RectangleF(left, top, right - left, bottom - top);
+        InitFromPoints(points);
+        WrapMode = wrapMode;
     }
 
     /// <summary>
@@ -91,11 +95,20 @@ public sealed class PathGradientBrush : Brush
     /// </param>
     public PathGradientBrush(Point[] points, WrapMode wrapMode)
     {
-        float left = points.Select(o => o.X).Min();
-        float top = points.Select(o => o.Y).Min();
-        float right = points.Select(o => o.X).Max();
-        float bottom = points.Select(o => o.Y).Max();
-        this.Rectangle = new RectangleF(left, top, right - left, bottom - top);
+        var pts = Array.ConvertAll(points, p => new PointF(p.X, p.Y));
+        InitFromPoints(pts);
+        WrapMode = wrapMode;
+    }
+
+    private void InitFromPoints(PointF[] points)
+    {
+        var left = points.Min(p => p.X);
+        var top = points.Min(p => p.Y);
+        var right = points.Max(p => p.X);
+        var bottom = points.Max(p => p.Y);
+
+        Rectangle = new RectangleF(left, top, right - left, bottom - top);
+        CenterPoint = new PointF((left + right) / 2f, (top + bottom) / 2f);
     }
 
     /// <summary>
@@ -106,11 +119,7 @@ public sealed class PathGradientBrush : Brush
     /// A
     /// <see cref="T:System.Drawing.Drawing2D.Blend" /> that represents a custom falloff for the gradient.
     /// </returns>
-    public Blend? Blend
-    {
-        get;
-        set;
-    }
+    public Blend? Blend { get; set; }
 
     /// <summary>
     /// Gets or sets the color at the center of the path gradient.
@@ -119,11 +128,7 @@ public sealed class PathGradientBrush : Brush
     /// A
     /// <see cref="T:System.Drawing.Color" /> that represents the color at the center of the path gradient.
     /// </returns>
-    public Color CenterColor
-    {
-        get;
-        set;
-    } = Color.Black;
+    public Color CenterColor { get; set; } = Color.Black;
 
     /// <summary>
     /// Gets or sets the center point of the path gradient.
@@ -132,11 +137,7 @@ public sealed class PathGradientBrush : Brush
     /// A
     /// <see cref="T:System.Drawing.PointF" /> that represents the center point of the path gradient.
     /// </returns>
-    public PointF CenterPoint
-    {
-        get;
-        set;
-    }
+    public PointF CenterPoint { get; set; }
 
     /// <summary>
     /// Gets or sets the focus point for the gradient falloff.
@@ -145,11 +146,7 @@ public sealed class PathGradientBrush : Brush
     /// A
     /// <see cref="T:System.Drawing.PointF" /> that represents the focus point for the gradient falloff.
     /// </returns>
-    public PointF FocusScales
-    {
-        get;
-        set;
-    }
+    public PointF FocusScales { get; set; }
 
     /// <summary>
     /// Gets or sets a
@@ -159,11 +156,7 @@ public sealed class PathGradientBrush : Brush
     /// A
     /// <see cref="T:System.Drawing.Drawing2D.ColorBlend" /> that defines a multicolor linear gradient.
     /// </returns>
-    public ColorBlend? InterpolationColors
-    {
-        get;
-        set;
-    }
+    public ColorBlend? InterpolationColors { get; set; }
 
     /// <summary>
     /// Gets a bounding rectangle for this
@@ -174,12 +167,7 @@ public sealed class PathGradientBrush : Brush
     /// <see cref="T:System.Drawing.RectangleF" /> that represents a rectangular region that bounds the path this
     /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> fills.
     /// </returns>
-    public RectangleF Rectangle
-    {
-        get;
-
-        private set;
-    }
+    public RectangleF Rectangle { get; private set; }
 
     /// <summary>
     /// Gets or sets an array of colors that correspond to the points in the path this
@@ -190,11 +178,7 @@ public sealed class PathGradientBrush : Brush
     /// <see cref="T:System.Drawing.Color" /> structures that represents the colors associated with each point in the path this
     /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> fills.
     /// </returns>
-    public Color[]? SurroundColors
-    {
-        get;
-        set;
-    }
+    public Color[]? SurroundColors { get; set; }
 
     /// <summary>
     /// Gets or sets a copy of the
@@ -208,8 +192,8 @@ public sealed class PathGradientBrush : Brush
     /// </returns>
     public Matrix? Transform
     {
-        get;
-        set;
+        get => _transform;
+        set => _transform = value ?? new Matrix();
     }
 
     /// <summary>
@@ -222,11 +206,7 @@ public sealed class PathGradientBrush : Brush
     /// <see cref="T:System.Drawing.Drawing2D.WrapMode" /> that specifies how fills drawn with this
     /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> are tiled.
     /// </returns>
-    public WrapMode WrapMode
-    {
-        get;
-        set;
-    }
+    public WrapMode WrapMode { get; set; } = WrapMode.Clamp;
 
     /// <summary>
     /// Creates an exact copy of this
@@ -236,11 +216,30 @@ public sealed class PathGradientBrush : Brush
     /// The
     /// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> this method creates, cast as an object.
     /// </returns>
-    public override object? Clone()
+    public override object Clone()
     {
-        return null;
-
+        return new PathGradientBrush(new[]
+        {
+            new PointF(Rectangle.Left, Rectangle.Top),
+            new PointF(Rectangle.Right, Rectangle.Top),
+            new PointF(Rectangle.Right, Rectangle.Bottom),
+            new PointF(Rectangle.Left, Rectangle.Bottom)
+        })
+        {
+            Blend = Blend,
+            CenterColor = CenterColor,
+            CenterPoint = CenterPoint,
+            FocusScales = FocusScales,
+            InterpolationColors = InterpolationColors,
+            SurroundColors = (Color[]?)SurroundColors?.Clone(),
+            Transform = Transform,
+            WrapMode = WrapMode
+        };
     }
+
+    // ----------------------------
+    // Transform operations
+    // ----------------------------
 
     /// <summary>
     /// Updates the brush's transformation matrix with the product of brush's transformation matrix multiplied by another matrix.
@@ -251,6 +250,8 @@ public sealed class PathGradientBrush : Brush
     /// </param>
     public void MultiplyTransform(Matrix matrix)
     {
+        _transform ??= new Matrix();
+        _transform.Multiply(matrix);
     }
 
     /// <summary>
@@ -266,6 +267,8 @@ public sealed class PathGradientBrush : Brush
     /// </param>
     public void MultiplyTransform(Matrix matrix, MatrixOrder order)
     {
+        _transform ??= new Matrix();
+        _transform.Multiply(matrix, order);
     }
 
     /// <summary>
@@ -274,6 +277,7 @@ public sealed class PathGradientBrush : Brush
     /// </summary>
     public void ResetTransform()
     {
+        _transform = new Matrix();
     }
 
     /// <summary>
@@ -284,6 +288,7 @@ public sealed class PathGradientBrush : Brush
     /// </param>
     public void RotateTransform(float angle)
     {
+        _transform.Rotate(angle);
     }
 
     /// <summary>
@@ -298,6 +303,7 @@ public sealed class PathGradientBrush : Brush
     /// </param>
     public void RotateTransform(float angle, MatrixOrder order)
     {
+        _transform.Rotate(angle, order);
     }
 
     /// <summary>
@@ -311,6 +317,7 @@ public sealed class PathGradientBrush : Brush
     /// </param>
     public void ScaleTransform(float sx, float sy)
     {
+        _transform.Scale(sx, sy);
     }
 
     /// <summary>
@@ -328,7 +335,33 @@ public sealed class PathGradientBrush : Brush
     /// </param>
     public void ScaleTransform(float sx, float sy, MatrixOrder order)
     {
+        _transform.Scale(sx, sy, order);
     }
+
+    /// <summary>
+    /// Translates the transform.
+    /// </summary>
+    /// <param name="dx">The dx.</param>
+    /// <param name="dy">The dy.</param>
+    public void TranslateTransform(float dx, float dy)
+    {
+        _transform.Translate(dx, dy);
+    }
+
+    /// <summary>
+    /// Translates the transform.
+    /// </summary>
+    /// <param name="dx">The dx.</param>
+    /// <param name="dy">The dy.</param>
+    /// <param name="order">The order.</param>
+    public void TranslateTransform(float dx, float dy, MatrixOrder order)
+    {
+        _transform.Translate(dx, dy, order);
+    }
+
+    // ----------------------------
+    // Blend shaping
+    // ----------------------------
 
     /// <summary>
     /// Creates a gradient with a center color and a linear falloff to one surrounding color.
@@ -338,6 +371,14 @@ public sealed class PathGradientBrush : Brush
     /// </param>
     public void SetBlendTriangularShape(float focus)
     {
+        _focus = focus;
+        _scale = 1f;
+
+        Blend = new Blend
+        {
+            Factors = new[] { 0f, 1f, 0f },
+            Positions = new[] { 0f, focus, 1f }
+        };
     }
 
     /// <summary>
@@ -351,6 +392,14 @@ public sealed class PathGradientBrush : Brush
     /// </param>
     public void SetBlendTriangularShape(float focus, float scale)
     {
+        _focus = focus;
+        _scale = scale;
+
+        Blend = new Blend
+        {
+            Factors = new[] { 0f, scale, 0f },
+            Positions = new[] { 0f, focus, 1f }
+        };
     }
 
     /// <summary>
@@ -361,6 +410,7 @@ public sealed class PathGradientBrush : Brush
     /// </param>
     public void SetSigmaBellShape(float focus)
     {
+        SetSigmaBellShape(focus, 1f);
     }
 
     /// <summary>
@@ -374,34 +424,14 @@ public sealed class PathGradientBrush : Brush
     /// </param>
     public void SetSigmaBellShape(float focus, float scale)
     {
-    }
+        _focus = focus;
+        _scale = scale;
 
-    /// <summary>
-    /// Applies the specified translation to the local geometric transform. This method prepends the translation to the transform.
-    /// </summary>
-    /// <param name="dx">
-    /// The value of the translation in x.
-    /// </param>
-    /// <param name="dy">
-    /// The value of the translation in y.
-    /// </param>
-    public void TranslateTransform(float dx, float dy)
-    {
-    }
-
-    /// <summary>
-    /// Applies the specified translation to the local geometric transform in the specified order.
-    /// </summary>
-    /// <param name="dx">
-    /// The value of the translation in x.
-    /// </param>
-    /// <param name="dy">
-    /// The value of the translation in y.
-    /// </param>
-    /// <param name="order">
-    /// The order (prepend or append) in which to apply the translation.
-    /// </param>
-    public void TranslateTransform(float dx, float dy, MatrixOrder order)
-    {
+        // Approximation of bell curve
+        Blend = new Blend
+        {
+            Factors = new[] { 0f, scale, scale, 0f },
+            Positions = new[] { 0f, focus * 0.5f, focus, 1f }
+        };
     }
 }

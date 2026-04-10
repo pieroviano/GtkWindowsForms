@@ -7,6 +7,7 @@
 ## Code Style
 - Use specific formatting rules
 - Follow naming conventions
+- Prefer implementations that mimic System.Drawing semantics for gradient brushes (PathGradientBrush) — use Matrix operations and clone semantics similar to System.Drawing.
 
 ## Documentation
 - Ensure that XML comments are added for all fields, including the 'self' field.
