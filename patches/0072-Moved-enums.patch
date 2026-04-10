@@ -1,0 +1,85 @@
+From 309b5dcf7daa3c275e01cae68c1a06c7cdbac7fe Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 10 Apr 2026 05:28:31 +0300
+Subject: [PATCH] Moved enums
+
+---
+ Net4x.Gtk.Drawing/System/Drawing/Brush.cs                       | 2 +-
+ .../System/Drawing/Drawing2D/{ => Enum}/PenAlignment.cs         | 0
+ .../System/Drawing/Drawing2D/{ => Enum}/PenType.cs              | 0
+ .../System/Drawing/Drawing2D/{ => Enum}/PixelOffsetMode.cs      | 0
+ .../System/Drawing/Drawing2D/{ => Enum}/QualityMode.cs          | 0
+ .../System/Drawing/Drawing2D/{ => Enum}/RotateFlipType.cs       | 0
+ .../System/Drawing/Drawing2D/{ => Enum}/SmoothingMode.cs        | 0
+ .../System/Drawing/{ => Enum}/CopyPixelOperation.cs             | 0
+ Net4x.Gtk.Drawing/System/Drawing/{ => Enum}/FontStyle.cs        | 0
+ .../System/Drawing/{ => Enum}/GenericFontFamilies.cs            | 0
+ Net4x.Gtk.Drawing/System/Drawing/{ => Enum}/GraphicsUnit.cs     | 0
+ 11 files changed, 1 insertion(+), 1 deletion(-)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/PenAlignment.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/PenType.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/PixelOffsetMode.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/QualityMode.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/RotateFlipType.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/SmoothingMode.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/{ => Enum}/CopyPixelOperation.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/{ => Enum}/FontStyle.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/{ => Enum}/GenericFontFamilies.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/{ => Enum}/GraphicsUnit.cs (100%)
+
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Brush.cs b/Net4x.Gtk.Drawing/System/Drawing/Brush.cs
+index 0a91204..1a3c5be 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Brush.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Brush.cs
+@@ -25,7 +25,7 @@ public abstract class Brush : MarshalByRefObject, ICloneable, IDisposable
+     /// The new
+     /// <see cref="T:System.Drawing.Brush" /> that this method creates.
+     /// </returns>
+-    public abstract object? Clone();
++    public abstract object Clone();
+ 
+     /// <summary>
+     /// Releases all resources used by this
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/PenAlignment.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/PenAlignment.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/PenAlignment.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/PenAlignment.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/PenType.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/PenType.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/PenType.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/PenType.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/PixelOffsetMode.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/PixelOffsetMode.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/PixelOffsetMode.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/PixelOffsetMode.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/QualityMode.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/QualityMode.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/QualityMode.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/QualityMode.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/RotateFlipType.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/RotateFlipType.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/RotateFlipType.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/RotateFlipType.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/SmoothingMode.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/SmoothingMode.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/SmoothingMode.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/SmoothingMode.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/CopyPixelOperation.cs b/Net4x.Gtk.Drawing/System/Drawing/Enum/CopyPixelOperation.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/CopyPixelOperation.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Enum/CopyPixelOperation.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/FontStyle.cs b/Net4x.Gtk.Drawing/System/Drawing/Enum/FontStyle.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/FontStyle.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Enum/FontStyle.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/GenericFontFamilies.cs b/Net4x.Gtk.Drawing/System/Drawing/Enum/GenericFontFamilies.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/GenericFontFamilies.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Enum/GenericFontFamilies.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/GraphicsUnit.cs b/Net4x.Gtk.Drawing/System/Drawing/Enum/GraphicsUnit.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/GraphicsUnit.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Enum/GraphicsUnit.cs
+-- 
+2.51.1.windows.1
+
