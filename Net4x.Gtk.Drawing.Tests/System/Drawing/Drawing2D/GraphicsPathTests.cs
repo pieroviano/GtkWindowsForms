@@ -2,6 +2,8 @@
 using FillMode = gtk::System.Drawing.Drawing2D.FillMode;
 using GraphicsPath = gtk::System.Drawing.Drawing2D.GraphicsPath;
 using Matrix = gtk::System.Drawing.Drawing2D.Matrix;
+#pragma warning disable xUnit2013
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
 namespace System.Drawing.Drawing2D;
 
@@ -102,11 +104,11 @@ public class GraphicsPathTests
         var gp = new GraphicsPath();
         gp.AddLine(0, 0, 5, 5);
 
-        var clone = (GraphicsPath)gp.Clone();
+        var clone = (GraphicsPath?)gp.Clone();
 
         Assert.NotSame(gp, clone);
-        Assert.Equal(gp.FillMode, clone.FillMode);
-        Assert.Equal(gp.SizePoints.Count, clone.SizePoints.Count);
+        Assert.Equal(gp.FillMode, clone?.FillMode);
+        Assert.Equal(gp.SizePoints.Count, clone?.SizePoints.Count);
     }
 
     [Fact]

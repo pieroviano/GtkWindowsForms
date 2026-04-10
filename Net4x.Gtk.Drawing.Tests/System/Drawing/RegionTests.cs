@@ -91,7 +91,6 @@ public class RegionTests
     {
         var region = new Region();
         var form = new Form();
-        RectangleF bounds=default;
         bool result=false;
         form.Load += (s, e) =>
         {

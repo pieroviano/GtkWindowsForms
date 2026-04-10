@@ -155,6 +155,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0067-Fix-Blend.patch = patches\0067-Fix-Blend.patch
 		patches\0068-Fix-HatchBrush.patch = patches\0068-Fix-HatchBrush.patch
 		patches\0068-Move-enum-files.patch = patches\0068-Move-enum-files.patch
+		patches\0069-Moved-files-to-align-to-namespace.patch = patches\0069-Moved-files-to-align-to-namespace.patch
 	EndProjectSection
 EndProject
 Global
