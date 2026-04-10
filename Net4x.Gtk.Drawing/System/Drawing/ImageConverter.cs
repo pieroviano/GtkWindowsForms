@@ -217,7 +217,7 @@ public class ImageConverter : TypeConverter
         var array = imageEncoders;
         foreach (var imageCodecInfo in array)
         {
-            if (imageCodecInfo.FormatID.Equals(imageformat.Guid))
+            if (imageCodecInfo?.FormatID.Equals(imageformat.Guid) ?? false)
             {
                 return imageCodecInfo;
             }
