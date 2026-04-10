@@ -1,4 +1,4 @@
-namespace System.Drawing.Drawing2D;
+﻿namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Defines arrays of colors and positions used for interpolating color blending in a multicolor gradient. This class cannot be inherited.
@@ -35,13 +35,8 @@ public sealed class ColorBlend
     /// </returns>
     public Color[] Colors
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-        set
-        {
-        }
+        get;
+        set;
     }
 
     /// <summary>
@@ -52,12 +47,7 @@ public sealed class ColorBlend
     /// </returns>
     public float[] Positions
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-        set
-        {
-        }
+        get;
+        set;
     }
 }
