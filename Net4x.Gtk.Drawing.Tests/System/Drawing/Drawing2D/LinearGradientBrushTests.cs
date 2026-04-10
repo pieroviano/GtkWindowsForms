@@ -110,13 +110,13 @@ public class LinearGradientBrushTests
     }
 
     [Fact]
-    public void Clone_ReturnsNull()
+    public void Clone_ReturnsNotNull()
     {
         var brush = new LinearGradientBrush(new Point(0,0), new Point(1,1), Color.Black, Color.White);
 
         var clone = brush.Clone();
 
-        Assert.Null(clone);
+        Assert.NotNull(clone);
     }
 
     // --- No-op method tests (ensure no exceptions) ---
