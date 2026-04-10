@@ -1,5 +1,4 @@
-﻿
-namespace System.Drawing.Drawing2D;
+﻿namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Encapsulates a

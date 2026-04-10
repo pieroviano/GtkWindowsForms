@@ -33,7 +33,7 @@ public sealed class ColorBlend
     /// An array of
     /// <see cref="T:System.Drawing.Color" /> structures that represents the colors to use at corresponding positions along a gradient.
     /// </returns>
-    public Color[] Colors
+    public Color[]? Colors
     {
         get;
         set;
@@ -45,7 +45,7 @@ public sealed class ColorBlend
     /// <returns>
     /// An array of values that specify percentages of distance along the gradient line.
     /// </returns>
-    public float[] Positions
+    public float[]? Positions
     {
         get;
         set;

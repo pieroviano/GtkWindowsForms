@@ -34,7 +34,7 @@ public sealed class Blend
     /// <returns>
     /// An array of blend factors that specify the percentages of the starting color and the ending color to be used at the corresponding position.
     /// </returns>
-    public float[] Factors
+    public float[]? Factors
     {
         get;
         set;
@@ -46,7 +46,7 @@ public sealed class Blend
     /// <returns>
     /// An array of blend positions that specify the percentages of distance along the gradient line.
     /// </returns>
-    public float[] Positions
+    public float[]? Positions
     {
         get;
         set;
