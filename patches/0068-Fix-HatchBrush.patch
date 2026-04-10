@@ -1,0 +1,34 @@
+From e45e16aa3dae8465aeb263d1917062c1e4f8a247 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 10 Apr 2026 04:20:18 +0300
+Subject: [PATCH] Fix HatchBrush
+
+---
+ Net4x.Gtk.Drawing/System/Drawing/Drawing2D/HatchBrush.cs | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/HatchBrush.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/HatchBrush.cs
+index f6fa39b..107027e 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/HatchBrush.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/HatchBrush.cs
+@@ -1,5 +1,4 @@
+-﻿
+-namespace System.Drawing.Drawing2D;
++﻿namespace System.Drawing.Drawing2D;
+ 
+ /// <summary>
+ /// Defines a rectangular brush with a hatch style, a foreground color, and a background color. This class cannot be inherited.
+@@ -111,6 +110,8 @@ public sealed class HatchBrush : Brush
+     /// </returns>
+     public override object? Clone()
+     {
+-        return null;
++        // HatchBrush is immutable-like (stores simple properties),
++        // so cloning simply creates a new instance with the same values.
++        return new HatchBrush(this.HatchStyle, this.ForegroundColor, this.BackgroundColor);
+     }
+ }
+\ No newline at end of file
+-- 
+2.51.1.windows.1
+
