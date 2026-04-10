@@ -1,5 +1,4 @@
-﻿
-namespace System.Drawing.Drawing2D;
+﻿namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Defines a rectangular brush with a hatch style, a foreground color, and a background color. This class cannot be inherited.
@@ -111,6 +110,8 @@ public sealed class HatchBrush : Brush
     /// </returns>
     public override object? Clone()
     {
-        return null;
+        // HatchBrush is immutable-like (stores simple properties),
+        // so cloning simply creates a new instance with the same values.
+        return new HatchBrush(this.HatchStyle, this.ForegroundColor, this.BackgroundColor);
     }
 }
