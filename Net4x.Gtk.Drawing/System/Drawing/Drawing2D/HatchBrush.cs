@@ -108,7 +108,7 @@ public sealed class HatchBrush : Brush
     /// The
     /// <see cref="T:System.Drawing.Drawing2D.HatchBrush" /> this method creates, cast as an object.
     /// </returns>
-    public override object? Clone()
+    public override object Clone()
     {
         // HatchBrush is immutable-like (stores simple properties),
         // so cloning simply creates a new instance with the same values.

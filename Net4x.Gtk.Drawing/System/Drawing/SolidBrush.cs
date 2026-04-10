@@ -50,9 +50,9 @@ public sealed class SolidBrush : Brush
     /// The
     /// <see cref="T:System.Drawing.SolidBrush" /> object that this method creates.
     /// </returns>
-    public override object? Clone()
+    public override object Clone()
     {
-        return null;
+        return new SolidBrush(Color);
     }
 
     /// <summary>
