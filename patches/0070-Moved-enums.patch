@@ -1,0 +1,29 @@
+From c45ecf59763384907af8b100a953be9a111060ed Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 10 Apr 2026 04:38:46 +0300
+Subject: [PATCH] Moved enums
+
+---
+ Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/LineCap.cs  | 0
+ Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/LineJoin.cs | 0
+ .../System/Drawing/Drawing2D/{ => Enum}/LinearGradientMode.cs     | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/LineCap.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/LineJoin.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/LinearGradientMode.cs (100%)
+
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/LineCap.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/LineCap.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/LineCap.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/LineCap.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/LineJoin.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/LineJoin.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/LineJoin.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/LineJoin.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientMode.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/LinearGradientMode.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientMode.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/LinearGradientMode.cs
+-- 
+2.51.1.windows.1
+
