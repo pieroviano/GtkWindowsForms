@@ -151,6 +151,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0063-Fix-TreeView.patch = patches\0063-Fix-TreeView.patch
 		patches\0064-Fix-UserControl.patch = patches\0064-Fix-UserControl.patch
 		patches\0065-Moved-InternalsVisibleTo-in-csproj-files.patch = patches\0065-Moved-InternalsVisibleTo-in-csproj-files.patch
+		patches\0066-Fix-Net4x.Gtk.Drawing.patch = patches\0066-Fix-Net4x.Gtk.Drawing.patch
 	EndProjectSection
 EndProject
 Global

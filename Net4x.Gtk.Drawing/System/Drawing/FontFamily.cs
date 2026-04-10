@@ -172,7 +172,7 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
     /// <returns>
     /// The hash code for this System.Drawing.FontFamily.
     /// </returns>
-    public override int GetHashCode() { return (Name??string.Empty).GetHashCode(); }
+    public override int GetHashCode() { return (Name ?? string.Empty).GetHashCode(); }
 
     /// <summary>
     /// Returns the line spacing, in design units, of the System.Drawing.FontFamily of

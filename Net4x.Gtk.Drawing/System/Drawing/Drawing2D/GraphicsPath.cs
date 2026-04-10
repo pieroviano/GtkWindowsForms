@@ -1150,6 +1150,8 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// </summary>
     public void ClearMarkers()
     {
+        // Markers are not tracked in this lightweight implementation.
+        // Provide a no-op to match System.Drawing.GraphicsPath behavior.
     }
 
     /// <summary>
@@ -1161,7 +1163,73 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public object? Clone()
     {
-        return null;
+        // Deep-ish clone: copy primitive data and clone nested GraphicsPath entries.
+        var gp = new GraphicsPath
+        {
+            FillMode = this.FillMode,
+            PathPoints = this.PathPoints != null ? (PointF[])this.PathPoints.Clone() : null,
+            PathTypes = this.PathTypes != null ? (byte[])this.PathTypes.Clone() : null,
+            PointCount = this.PointCount,
+            PathData = this.PathData,
+            SizePoints = new List<PointF>(this.SizePoints) // PathData is used as informational here
+        };
+
+        // clone list contents conservatively
+        foreach (var o in this.list)
+        {
+            if (o == null) { gp.list.Add(null); continue; }
+            switch (o)
+            {
+                case ArcMode am:
+                    gp.list.Add(new ArcMode() { rect = am.rect, startAngle = am.startAngle, sweepAngle = am.sweepAngle });
+                    break;
+                case EllipseMode em:
+                    gp.list.Add(new EllipseMode() { rect = em.rect });
+                    break;
+                case PieMode pm:
+                    gp.list.Add(new PieMode() { rect = pm.rect, startAngle = pm.startAngle, sweepAngle = pm.sweepAngle });
+                    break;
+                case RectangleMode rm:
+                    gp.list.Add(new RectangleMode() { rect = rm.rect });
+                    break;
+                case RectanglesMode rsm:
+                    gp.list.Add(new RectanglesMode() { rects = rsm.rects != null ? (RectangleF[])rsm.rects.Clone() : null });
+                    break;
+                case PolygonMode pol:
+                    gp.list.Add(new PolygonMode() { points = pol.points != null ? (PointF[])pol.points.Clone() : null });
+                    break;
+                case LinesMode lsm:
+                    gp.list.Add(new LinesMode() { points = lsm.points != null ? (PointF[])lsm.points.Clone() : null });
+                    break;
+                case LineMode lm:
+                    gp.list.Add(new LineMode() { pt1 = lm.pt1, pt2 = lm.pt2 });
+                    break;
+                case BezierMode bz:
+                    gp.list.Add(new BezierMode() { pt1 = bz.pt1, pt2 = bz.pt2, pt3 = bz.pt3, pt4 = bz.pt4 });
+                    break;
+                case BeziersMode bzs:
+                    gp.list.Add(new BeziersMode() { points = bzs.points != null ? (PointF[])bzs.points.Clone() : null });
+                    break;
+                case ClosedCurveMode ccm:
+                    gp.list.Add(new ClosedCurveMode() { points = ccm.points != null ? (PointF[])ccm.points.Clone() : null, tension = ccm.tension, fillmode = ccm.fillmode });
+                    break;
+                case CurveMode crm:
+                    gp.list.Add(new CurveMode() { points = crm.points != null ? (PointF[])crm.points.Clone() : null, offset = crm.offset, numberOfSegments = crm.numberOfSegments, tension = crm.tension });
+                    break;
+                case PathMode pmode:
+                    gp.list.Add(new PathMode() { connect = pmode.connect, path = pmode.path != null ? pmode.path.Clone() as GraphicsPath : null });
+                    break;
+                case StringMode sm:
+                    gp.list.Add(new StringMode() { text = sm.text, family = sm.family, style = sm.style, emSize = sm.emSize, layoutRect = sm.layoutRect, format = sm.format });
+                    break;
+                default:
+                    // unknown types: attempt shallow copy
+                    gp.list.Add(o);
+                    break;
+            }
+        }
+
+        return gp;
     }
 
     /// <summary>
@@ -1186,6 +1254,16 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// </summary>
     public void Dispose()
     {
+        // release managed resources
+        PathPoints = null;
+        PathTypes = null;
+        PathData = null;
+        SizePoints?.Clear();
+        list?.Clear();
+        Context = null;
+        destPoints = null;
+        matrix = null;
+        pen = null;
     }
 
     /// <summary>
@@ -1193,6 +1271,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// </summary>
     public void Flatten()
     {
+        // No-op in this lightweight implementation. Full flattening requires curve tessellation.
     }
 
     /// <summary>
@@ -1206,6 +1285,18 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// </param>
     public void Flatten(Matrix matrix)
     {
+        if (matrix == null) throw new ArgumentNullException(nameof(matrix));
+        // Apply transform and leave curve data intact; real flatten would approximate curves.
+        if (PathPoints != null && PathPoints.Length > 0)
+            matrix.TransformPoints(PathPoints);
+        for (int i = 0; i < SizePoints.Count; i++)
+        {
+            var p = SizePoints[i];
+            var arr = new[] { p };
+            matrix.TransformPoints(arr);
+            SizePoints[i] = arr[0];
+        }
+        // Note: list entries containing nested GraphicsPath are not transformed here.
     }
 
     /// <summary>
@@ -1222,6 +1313,8 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// </param>
     public void Flatten(Matrix matrix, float flatness)
     {
+        // Defer to Flatten(matrix) for this lightweight implementation.
+        Flatten(matrix);
     }
 
     /// <summary>
@@ -1235,7 +1328,174 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public RectangleF GetBounds()
     {
-        throw new System.NotImplementedException();
+        // compute bounds by iterating stored primitives and points
+        RectangleF bounds = RectangleF.Empty;
+
+        void Union(RectangleF r)
+        {
+            if (r.IsEmpty) return;
+            if (bounds.IsEmpty)
+                bounds = r;
+            else
+            {
+                float left = Math.Min(bounds.Left, r.Left);
+                float top = Math.Min(bounds.Top, r.Top);
+                float right = Math.Max(bounds.Right, r.Right);
+                float bottom = Math.Max(bounds.Bottom, r.Bottom);
+                bounds = new RectangleF(left, top, right - left, bottom - top);
+            }
+        }
+
+        // include explicit PathPoints if present
+        if (this.PathPoints != null && this.PathPoints.Length > 0)
+        {
+            float l = this.PathPoints[0].X, r = this.PathPoints[0].X, t = this.PathPoints[0].Y, b = this.PathPoints[0].Y;
+            foreach (var p in this.PathPoints)
+            {
+                if (p.X < l) l = p.X;
+                if (p.X > r) r = p.X;
+                if (p.Y < t) t = p.Y;
+                if (p.Y > b) b = p.Y;
+            }
+            Union(new RectangleF(l, t, r - l, b - t));
+        }
+
+        // include SizePoints (internal point list)
+        if (SizePoints != null && SizePoints.Count > 0)
+        {
+            float l = SizePoints[0].X, r = SizePoints[0].X, t = SizePoints[0].Y, b = SizePoints[0].Y;
+            foreach (var p in SizePoints)
+            {
+                if (p.X < l) l = p.X;
+                if (p.X > r) r = p.X;
+                if (p.Y < t) t = p.Y;
+                if (p.Y > b) b = p.Y;
+            }
+            Union(new RectangleF(l, t, r - l, b - t));
+        }
+
+        // iterate stored list of mode objects and union their bounds
+        foreach (var o in list)
+        {
+            if (o == null) continue;
+            switch (o)
+            {
+                case ArcMode am:
+                    Union(am.rect);
+                    break;
+                case EllipseMode em:
+                    Union(em.rect);
+                    break;
+                case PieMode pm:
+                    Union(pm.rect);
+                    break;
+                case RectangleMode rm:
+                    Union(rm.rect);
+                    break;
+                case RectanglesMode rsm:
+                    if (rsm.rects != null)
+                    {
+                        foreach (var rr in rsm.rects)
+                            Union(rr);
+                    }
+                    break;
+                case PolygonMode pol:
+                    if (pol.points != null && pol.points.Length > 0)
+                    {
+                        float l = pol.points[0].X, r = pol.points[0].X, t = pol.points[0].Y, b = pol.points[0].Y;
+                        foreach (var p in pol.points)
+                        {
+                            if (p.X < l) l = p.X;
+                            if (p.X > r) r = p.X;
+                            if (p.Y < t) t = p.Y;
+                            if (p.Y > b) b = p.Y;
+                        }
+                        Union(new RectangleF(l, t, r - l, b - t));
+                    }
+                    break;
+                case LinesMode lsm:
+                    if (lsm.points != null && lsm.points.Length > 0)
+                    {
+                        float l = lsm.points[0].X, r = lsm.points[0].X, t = lsm.points[0].Y, b = lsm.points[0].Y;
+                        foreach (var p in lsm.points)
+                        {
+                            if (p.X < l) l = p.X;
+                            if (p.X > r) r = p.X;
+                            if (p.Y < t) t = p.Y;
+                            if (p.Y > b) b = p.Y;
+                        }
+                        Union(new RectangleF(l, t, r - l, b - t));
+                    }
+                    break;
+                case LineMode lm:
+                    Union(new RectangleF(Math.Min(lm.pt1.X, lm.pt2.X), Math.Min(lm.pt1.Y, lm.pt2.Y),
+                                         Math.Abs(lm.pt2.X - lm.pt1.X), Math.Abs(lm.pt2.Y - lm.pt1.Y)));
+                    break;
+                case BezierMode bz:
+                    {
+                        float l = Math.Min(Math.Min(bz.pt1.X, bz.pt2.X), Math.Min(bz.pt3.X, bz.pt4.X));
+                        float r = Math.Max(Math.Max(bz.pt1.X, bz.pt2.X), Math.Max(bz.pt3.X, bz.pt4.X));
+                        float t = Math.Min(Math.Min(bz.pt1.Y, bz.pt2.Y), Math.Min(bz.pt3.Y, bz.pt4.Y));
+                        float b = Math.Max(Math.Max(bz.pt1.Y, bz.pt2.Y), Math.Max(bz.pt3.Y, bz.pt4.Y));
+                        Union(new RectangleF(l, t, r - l, b - t));
+                    }
+                    break;
+                case BeziersMode bzs:
+                    if (bzs.points != null && bzs.points.Length > 0)
+                    {
+                        float l = bzs.points[0].X, r = bzs.points[0].X, t = bzs.points[0].Y, b = bzs.points[0].Y;
+                        foreach (var p in bzs.points)
+                        {
+                            if (p.X < l) l = p.X;
+                            if (p.X > r) r = p.X;
+                            if (p.Y < t) t = p.Y;
+                            if (p.Y > b) b = p.Y;
+                        }
+                        Union(new RectangleF(l, t, r - l, b - t));
+                    }
+                    break;
+                case ClosedCurveMode ccm:
+                    if (ccm.points != null && ccm.points.Length > 0)
+                    {
+                        float l = ccm.points[0].X, r = ccm.points[0].X, t = ccm.points[0].Y, b = ccm.points[0].Y;
+                        foreach (var p in ccm.points)
+                        {
+                            if (p.X < l) l = p.X;
+                            if (p.X > r) r = p.X;
+                            if (p.Y < t) t = p.Y;
+                            if (p.Y > b) b = p.Y;
+                        }
+                        Union(new RectangleF(l, t, r - l, b - t));
+                    }
+                    break;
+                case CurveMode crm:
+                    if (crm.points != null && crm.points.Length > 0)
+                    {
+                        float l = crm.points[0].X, r = crm.points[0].X, t = crm.points[0].Y, b = crm.points[0].Y;
+                        foreach (var p in crm.points)
+                        {
+                            if (p.X < l) l = p.X;
+                            if (p.X > r) r = p.X;
+                            if (p.Y < t) t = p.Y;
+                            if (p.Y > b) b = p.Y;
+                        }
+                        Union(new RectangleF(l, t, r - l, b - t));
+                    }
+                    break;
+                case PathMode pmode:
+                    if (pmode.path != null)
+                        Union(pmode.path.GetBounds());
+                    break;
+                case StringMode sm:
+                    Union(sm.layoutRect);
+                    break;
+                default:
+                    // unknown item - ignore
+                    break;
+            }
+        }
+
+        return bounds;
     }
 
     /// <summary>
@@ -1254,7 +1514,21 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public RectangleF GetBounds(Matrix matrix)
     {
-        throw new System.NotImplementedException();
+        if (matrix == null) throw new ArgumentNullException(nameof(matrix));
+        var b = GetBounds();
+        if (b.IsEmpty) return RectangleF.Empty;
+
+        var pts = new[] { new PointF(b.Left, b.Top), new PointF(b.Right, b.Top), new PointF(b.Right, b.Bottom), new PointF(b.Left, b.Bottom) };
+        matrix.TransformPoints(pts);
+        float left = pts[0].X, right = pts[0].X, top = pts[0].Y, bottom = pts[0].Y;
+        foreach (var p in pts)
+        {
+            if (p.X < left) left = p.X;
+            if (p.X > right) right = p.X;
+            if (p.Y < top) top = p.Y;
+            if (p.Y > bottom) bottom = p.Y;
+        }
+        return new RectangleF(left, top, right - left, bottom - top);
     }
 
     /// <summary>
@@ -1279,7 +1553,12 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public RectangleF GetBounds(Matrix matrix, Pen pen)
     {
-        throw new System.NotImplementedException();
+        var b = GetBounds(matrix);
+        if (b.IsEmpty) return b;
+        if (pen == null) return b;
+        // Inflate by pen width/2 as conservative approximation
+        float inflate = pen.Width / 2f;
+        return RectangleF.Inflate(b, inflate, inflate);
     }
 
     /// <summary>
@@ -1294,7 +1573,11 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public PointF GetLastPoint()
     {
-        throw new System.NotImplementedException();
+        if (PathPoints != null && PathPoints.Length > 0)
+            return PathPoints[PathPoints.Length - 1];
+        if (SizePoints != null && SizePoints.Count > 0)
+            return SizePoints[SizePoints.Count - 1];
+        return new PointF(0, 0);
     }
 
     /// <summary>
@@ -1319,7 +1602,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public bool IsOutlineVisible(Point point, Pen pen)
     {
-        throw new System.NotImplementedException();
+        return IsOutlineVisible(new PointF(point.X, point.Y), pen);
     }
 
     /// <summary>
@@ -1328,53 +1611,24 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// <see cref="T:System.Drawing.Pen" /> and using the specified
     /// <see cref="T:System.Drawing.Graphics" />.
     /// </summary>
-    /// <param name="pt">
-    /// A
-    /// <see cref="T:System.Drawing.Point" /> that specifies the location to test.
-    /// </param>
-    /// <param name="pen">
-    /// The
-    /// <see cref="T:System.Drawing.Pen" /> to test.
-    /// </param>
-    /// <param name="graphics">
-    /// The
-    /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
-    /// </param>
-    /// <returns>
-    /// This method returns
-    /// <see langword="true" /> if the specified point is contained within the outline of this
-    /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> as drawn with the specified
-    /// <see cref="T:System.Drawing.Pen" />; otherwise,
-    /// <see langword="false" />.
-    /// </returns>
     public bool IsOutlineVisible(Point pt, Pen pen, Graphics graphics)
     {
-        throw new System.NotImplementedException();
+        return IsOutlineVisible(new PointF(pt.X, pt.Y), pen, graphics);
     }
 
     /// <summary>
     /// Indicates whether the specified point is contained within (under) the outline of this
     /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
     /// <see cref="T:System.Drawing.Pen" />.
-    /// </summary>
-    /// <param name="point">
-    /// A
-    /// <see cref="T:System.Drawing.PointF" /> that specifies the location to test.
-    /// </param>
-    /// <param name="pen">
-    /// The
-    /// <see cref="T:System.Drawing.Pen" /> to test.
-    /// </param>
-    /// <returns>
-    /// This method returns
-    /// <see langword="true" /> if the specified point is contained within the outline of this
-    /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
-    /// <see cref="T:System.Drawing.Pen" />; otherwise,
-    /// <see langword="false" />.
-    /// </returns>
+    /// /// </summary>
     public bool IsOutlineVisible(PointF point, Pen pen)
     {
-        throw new System.NotImplementedException();
+        // conservative: check whether point falls inside bounds inflated by pen width
+        if (pen == null) throw new ArgumentNullException(nameof(pen));
+        var b = GetBounds();
+        if (b.IsEmpty) return false;
+        var inflated = RectangleF.Inflate(b, pen.Width / 2f, pen.Width / 2f);
+        return inflated.Contains(point);
     }
 
     /// <summary>
@@ -1383,28 +1637,10 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// <see cref="T:System.Drawing.Pen" /> and using the specified
     /// <see cref="T:System.Drawing.Graphics" />.
     /// </summary>
-    /// <param name="pt">
-    /// A
-    /// <see cref="T:System.Drawing.PointF" /> that specifies the location to test.
-    /// </param>
-    /// <param name="pen">
-    /// The
-    /// <see cref="T:System.Drawing.Pen" /> to test.
-    /// </param>
-    /// <param name="graphics">
-    /// The
-    /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
-    /// </param>
-    /// <returns>
-    /// This method returns
-    /// <see langword="true" /> if the specified point is contained within (under) the outline of this
-    /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> as drawn with the specified
-    /// <see cref="T:System.Drawing.Pen" />; otherwise,
-    /// <see langword="false" />.
-    /// </returns>
     public bool IsOutlineVisible(PointF pt, Pen pen, Graphics graphics)
     {
-        throw new System.NotImplementedException();
+        if (graphics == null) throw new ArgumentNullException(nameof(graphics));
+        return IsOutlineVisible(pt, pen);
     }
 
     /// <summary>
@@ -1412,26 +1648,9 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
     /// <see cref="T:System.Drawing.Pen" />.
     /// </summary>
-    /// <param name="x">
-    /// The x-coordinate of the point to test.
-    /// </param>
-    /// <param name="y">
-    /// The y-coordinate of the point to test.
-    /// </param>
-    /// <param name="pen">
-    /// The
-    /// <see cref="T:System.Drawing.Pen" /> to test.
-    /// </param>
-    /// <returns>
-    /// This method returns
-    /// <see langword="true" /> if the specified point is contained within the outline of this
-    /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
-    /// <see cref="T:System.Drawing.Pen" />; otherwise,
-    /// <see langword="false" />.
-    /// </returns>
     public bool IsOutlineVisible(int x, int y, Pen pen)
     {
-        throw new System.NotImplementedException();
+        return IsOutlineVisible(new PointF(x, y), pen);
     }
 
     /// <summary>
@@ -1440,30 +1659,9 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// <see cref="T:System.Drawing.Pen" /> and using the specified
     /// <see cref="T:System.Drawing.Graphics" />.
     /// </summary>
-    /// <param name="x">
-    /// The x-coordinate of the point to test.
-    /// </param>
-    /// <param name="y">
-    /// The y-coordinate of the point to test.
-    /// </param>
-    /// <param name="pen">
-    /// The
-    /// <see cref="T:System.Drawing.Pen" /> to test.
-    /// </param>
-    /// <param name="graphics">
-    /// The
-    /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
-    /// </param>
-    /// <returns>
-    /// This method returns
-    /// <see langword="true" /> if the specified point is contained within the outline of this
-    /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> as drawn with the specified
-    /// <see cref="T:System.Drawing.Pen" />; otherwise,
-    /// <see langword="false" />.
-    /// </returns>
     public bool IsOutlineVisible(int x, int y, Pen pen, Graphics graphics)
     {
-        throw new System.NotImplementedException();
+        return IsOutlineVisible(new PointF(x, y), pen, graphics);
     }
 
     /// <summary>
@@ -1471,26 +1669,9 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
     /// <see cref="T:System.Drawing.Pen" />.
     /// </summary>
-    /// <param name="x">
-    /// The x-coordinate of the point to test.
-    /// </param>
-    /// <param name="y">
-    /// The y-coordinate of the point to test.
-    /// </param>
-    /// <param name="pen">
-    /// The
-    /// <see cref="T:System.Drawing.Pen" /> to test.
-    /// </param>
-    /// <returns>
-    /// This method returns
-    /// <see langword="true" /> if the specified point is contained within the outline of this
-    /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> when drawn with the specified
-    /// <see cref="T:System.Drawing.Pen" />; otherwise,
-    /// <see langword="false" />.
-    /// </returns>
     public bool IsOutlineVisible(float x, float y, Pen pen)
     {
-        throw new System.NotImplementedException();
+        return IsOutlineVisible(new PointF(x, y), pen);
     }
 
     /// <summary>
@@ -1499,134 +1680,85 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// <see cref="T:System.Drawing.Pen" /> and using the specified
     /// <see cref="T:System.Drawing.Graphics" />.
     /// </summary>
-    /// <param name="x">
-    /// The x-coordinate of the point to test.
-    /// </param>
-    /// <param name="y">
-    /// The y-coordinate of the point to test.
-    /// </param>
-    /// <param name="pen">
-    /// The
-    /// <see cref="T:System.Drawing.Pen" /> to test.
-    /// </param>
-    /// <param name="graphics">
-    /// The
-    /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
-    /// </param>
-    /// <returns>
-    /// This method returns
-    /// <see langword="true" /> if the specified point is contained within (under) the outline of this
-    /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> as drawn with the specified
-    /// <see cref="T:System.Drawing.Pen" />; otherwise,
-    /// <see langword="false" />.
-    /// </returns>
     public bool IsOutlineVisible(float x, float y, Pen pen, Graphics graphics)
     {
-        throw new System.NotImplementedException();
+        return IsOutlineVisible(new PointF(x, y), pen, graphics);
     }
 
     /// <summary>
     /// Indicates whether the specified point is contained within this
     /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
     /// </summary>
-    /// <param name="point">
-    /// A
-    /// <see cref="T:System.Drawing.Point" /> that represents the point to test.
-    /// </param>
-    /// <returns>
-    /// This method returns
-    /// <see langword="true" /> if the specified point is contained within this
-    /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise,
-    /// <see langword="false" />.
-    /// </returns>
     public bool IsVisible(Point point)
     {
-        throw new System.NotImplementedException();
+        return IsVisible(new PointF(point.X, point.Y));
     }
 
     /// <summary>
     /// Indicates whether the specified point is contained within this
     /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
     /// </summary>
-    /// <param name="pt">
-    /// A
-    /// <see cref="T:System.Drawing.Point" /> that represents the point to test.
-    /// </param>
-    /// <param name="graphics">
-    /// The
-    /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
-    /// </param>
-    /// <returns>
-    /// This method returns
-    /// <see langword="true" /> if the specified point is contained within this
-    /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise,
-    /// <see langword="false" />.
-    /// </returns>
     public bool IsVisible(Point pt, Graphics graphics)
     {
-        throw new System.NotImplementedException();
+        if (graphics == null) throw new ArgumentNullException(nameof(graphics));
+        return IsVisible(new PointF(pt.X, pt.Y), graphics);
     }
 
     /// <summary>
     /// Indicates whether the specified point is contained within this
     /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
     /// </summary>
-    /// <param name="point">
-    /// A
-    /// <see cref="T:System.Drawing.PointF" /> that represents the point to test.
-    /// </param>
-    /// <returns>
-    /// This method returns
-    /// <see langword="true" /> if the specified point is contained within this
-    /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise,
-    /// <see langword="false" />.
-    /// </returns>
     public bool IsVisible(PointF point)
     {
-        throw new System.NotImplementedException();
+        // uses a temporary Graphics to evaluate visibility similarly to other overloads
+        using (var bmp = new Bitmap(1, 1))
+        using (var g = Graphics.FromImage(bmp))
+        {
+            return IsVisible(point, g);
+        }
     }
 
     /// <summary>
     /// Indicates whether the specified point is contained within this
     /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
     /// </summary>
-    /// <param name="pt">
-    /// A
-    /// <see cref="T:System.Drawing.PointF" /> that represents the point to test.
-    /// </param>
-    /// <param name="graphics">
-    /// The
-    /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
-    /// </param>
-    /// <returns>
-    /// This method returns
-    /// <see langword="true" /> if the specified point is contained within this; otherwise,
-    /// <see langword="false" />.
-    /// </returns>
     public bool IsVisible(PointF pt, Graphics graphics)
     {
-        throw new System.NotImplementedException();
+        if (graphics == null) throw new ArgumentNullException(nameof(graphics));
+        // conservative approximation: if point is inside the computed bounds, consider it visible.
+        var b = GetBounds();
+        if (b.IsEmpty) return false;
+        if (b.Contains(pt)) return true;
+
+        // fallback: check explicit PathPoints / SizePoints
+        if (this.PathPoints != null)
+        {
+            foreach (var p in this.PathPoints)
+            {
+                if (Math.Abs(p.X - pt.X) < 1e-6f && Math.Abs(p.Y - pt.Y) < 1e-6f)
+                    return true;
+            }
+        }
+
+        if (this.SizePoints != null)
+        {
+            foreach (var p in this.SizePoints)
+            {
+                if (Math.Abs(p.X - pt.X) < 1e-6f && Math.Abs(p.Y - pt.Y) < 1e-6f)
+                    return true;
+            }
+        }
+
+        return false;
     }
 
     /// <summary>
     /// Indicates whether the specified point is contained within this
     /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
     /// </summary>
-    /// <param name="x">
-    /// The x-coordinate of the point to test.
-    /// </param>
-    /// <param name="y">
-    /// The y-coordinate of the point to test.
-    /// </param>
-    /// <returns>
-    /// This method returns
-    /// <see langword="true" /> if the specified point is contained within this
-    /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise,
-    /// <see langword="false" />.
-    /// </returns>
     public bool IsVisible(int x, int y)
     {
-        throw new System.NotImplementedException();
+        return IsVisible(new PointF(x, y));
     }
 
     /// <summary>
@@ -1634,46 +1766,18 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />, using the specified
     /// <see cref="T:System.Drawing.Graphics" />.
     /// </summary>
-    /// <param name="x">
-    /// The x-coordinate of the point to test.
-    /// </param>
-    /// <param name="y">
-    /// The y-coordinate of the point to test.
-    /// </param>
-    /// <param name="graphics">
-    /// The
-    /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
-    /// </param>
-    /// <returns>
-    /// This method returns
-    /// <see langword="true" /> if the specified point is contained within this
-    /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise,
-    /// <see langword="false" />.
-    /// </returns>
     public bool IsVisible(int x, int y, Graphics graphics)
     {
-        throw new System.NotImplementedException();
+        return IsVisible(new PointF(x, y), graphics);
     }
 
     /// <summary>
     /// Indicates whether the specified point is contained within this
     /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />.
     /// </summary>
-    /// <param name="x">
-    /// The x-coordinate of the point to test.
-    /// </param>
-    /// <param name="y">
-    /// The y-coordinate of the point to test.
-    /// </param>
-    /// <returns>
-    /// This method returns
-    /// <see langword="true" /> if the specified point is contained within this
-    /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise,
-    /// <see langword="false" />.
-    /// </returns>
     public bool IsVisible(float x, float y)
     {
-        throw new System.NotImplementedException();
+        return IsVisible(new PointF(x, y));
     }
 
     /// <summary>
@@ -1681,25 +1785,9 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> in the visible clip region of the specified
     /// <see cref="T:System.Drawing.Graphics" />.
     /// </summary>
-    /// <param name="x">
-    /// The x-coordinate of the point to test.
-    /// </param>
-    /// <param name="y">
-    /// The y-coordinate of the point to test.
-    /// </param>
-    /// <param name="graphics">
-    /// The
-    /// <see cref="T:System.Drawing.Graphics" /> for which to test visibility.
-    /// </param>
-    /// <returns>
-    /// This method returns
-    /// <see langword="true" /> if the specified point is contained within this
-    /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" />; otherwise,
-    /// <see langword="false" />.
-    /// </returns>
     public bool IsVisible(float x, float y, Graphics graphics)
     {
-        throw new System.NotImplementedException();
+        return IsVisible(new PointF(x, y), graphics);
     }
 
     /// <summary>
@@ -1723,6 +1811,9 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// </summary>
     public void Reverse()
     {
+        if (PathPoints != null)
+            Array.Reverse(PathPoints);
+        SizePoints.Reverse();
     }
 
     /// <summary>
@@ -1731,6 +1822,7 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// </summary>
     public void SetMarkers()
     {
+        // markers not tracked in this implementation; no-op
     }
 
     /// <summary>
@@ -1751,7 +1843,16 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// </param>
     public void Transform(Matrix matrix)
     {
-        this.matrix = matrix;
+        this.matrix = matrix ?? throw new ArgumentNullException(nameof(matrix));
+        if (PathPoints != null)
+            matrix.TransformPoints(PathPoints);
+        for (int i = 0; i < SizePoints.Count; i++)
+        {
+            var p = SizePoints[i];
+            var arr = new[] { p };
+            matrix.TransformPoints(arr);
+            SizePoints[i] = arr[0];
+        }
     }
 
     /// <summary>
@@ -2334,5 +2435,46 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
             get;
             set;
         }
+    }
+
+    /// <summary>
+    /// Determines whether the specified rect is visible.
+    /// </summary>
+    /// <param name="rect">The rect.</param>
+    /// <param name="graphics">The graphics.</param>
+    /// <returns>
+    ///   <c>true</c> if the specified rect is visible; otherwise, <c>false</c>.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">graphics</exception>
+    public bool IsVisible(RectangleF rect, Graphics graphics)
+    {
+        if (graphics == null) throw new ArgumentNullException(nameof(graphics));
+
+        // Conservative, fast check: if path bounding box intersects query rect -> visible
+        var b = GetBounds();
+        if (b.IsEmpty) return false;
+        if (b.IntersectsWith(rect)) return true;
+
+        // Fallback: check any explicit points stored in the path
+        if (PathPoints != null)
+        {
+            foreach (var p in PathPoints)
+            {
+                if (rect.Contains(p))
+                    return true;
+            }
+        }
+
+        if (SizePoints != null)
+        {
+            foreach (var p in SizePoints)
+            {
+                if (rect.Contains(p))
+                    return true;
+            }
+        }
+
+        // No intersection detected by conservative checks
+        return false;
     }
 }

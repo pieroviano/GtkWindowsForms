@@ -1,5 +1,6 @@
 ﻿extern alias gtk;
-
+using System.Net.Mime;
+using System.Windows.Forms;
 using Cairo;
 using Graphics = gtk::System.Drawing.Graphics;
 using Bitmap = gtk::System.Drawing.Bitmap;
@@ -11,6 +12,11 @@ namespace System.Drawing;
 [Collection("NonParallelCollection")]
 public class GraphicsTests
 {
+    public GraphicsTests()
+    {
+        Application.Init();
+    }
+
     [Fact]
     public void Clear_Should_Not_Throw()
     {

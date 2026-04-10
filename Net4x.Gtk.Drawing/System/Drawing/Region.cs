@@ -1,4 +1,4 @@
-using System.Drawing.Drawing2D;
+﻿using System.Drawing.Drawing2D;
 
 namespace System.Drawing;
 
@@ -15,6 +15,10 @@ public sealed class Region : MarshalByRefObject, IDisposable
     private RectangleF rectangle = new RectangleF(0, 0, 0, 0);
 
     private RegionData regionData = new RegionData();
+
+    // internal state flags to represent empty/infinite semantics
+    private bool isEmpty = false;
+    private bool isInfinite = false;
 
     /// <summary>
     /// Initializes a new
@@ -40,9 +44,12 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </exception>
     public Region(GraphicsPath path)
     {
-        graphicsPath = path;
-        rectangle = path.GetBounds();
-
+        if (path == null) throw new ArgumentNullException(nameof(path));
+        graphicsPath = path.Clone() as GraphicsPath ?? new GraphicsPath();
+        rectangle = graphicsPath.GetBounds();
+        isEmpty = rectangle.IsEmpty;
+        isInfinite = false;
+        UpdateRegionData();
     }
 
     /// <summary>
@@ -60,8 +67,12 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </exception>
     public Region(RegionData rgnData)
     {
-        regionData = rgnData;
-
+        regionData = rgnData ?? throw new ArgumentNullException(nameof(rgnData));
+        // default conservative state - we can't reconstruct the path easily without native calls
+        graphicsPath = new GraphicsPath();
+        rectangle = RectangleF.Empty;
+        isEmpty = false;
+        isInfinite = false;
     }
 
     /// <summary>
@@ -77,6 +88,11 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public Region(Rectangle rect)
     {
         rectangle = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+        graphicsPath = new GraphicsPath();
+        graphicsPath.AddRectangle(rectangle);
+        isEmpty = rectangle.IsEmpty;
+        isInfinite = false;
+        UpdateRegionData();
     }
 
     /// <summary>
@@ -92,6 +108,11 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public Region(RectangleF rect)
     {
         rectangle = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+        graphicsPath = new GraphicsPath();
+        graphicsPath.AddRectangle(rectangle);
+        isEmpty = rectangle.IsEmpty;
+        isInfinite = false;
+        UpdateRegionData();
     }
 
     /// <summary>
@@ -104,7 +125,15 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </returns>
     public Region Clone()
     {
-        return new Region(new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height));
+        var clone = new Region
+        {
+            graphicsPath = graphicsPath.Clone() as GraphicsPath ?? new GraphicsPath(),
+            rectangle = new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height),
+            regionData = regionData,
+            isEmpty = isEmpty,
+            isInfinite = isInfinite // conservative copy (RegionData is immutable-like here)
+        };
+        return clone;
     }
 
     /// <summary>
@@ -124,8 +153,43 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </exception>
     public void Complement(GraphicsPath path)
     {
-        graphicsPath = path;
-        rectangle = path.GetBounds();
+        if (path == null) throw new ArgumentNullException(nameof(path));
+
+        // Approximate complement: treat complement as "set to provided path" if current is infinite,
+        // otherwise subtract intersection area from current bounding box (approximation).
+        if (isInfinite)
+        {
+            graphicsPath = path.Clone() as GraphicsPath ?? new GraphicsPath();
+            rectangle = graphicsPath.GetBounds();
+            isInfinite = false;
+            isEmpty = rectangle.IsEmpty;
+        }
+        else if (isEmpty)
+        {
+            // complement of empty is empty in this simplistic model
+        }
+        else
+        {
+            var pathBounds = path.GetBounds();
+            if (rectangle.IntersectsWith(pathBounds))
+            {
+                // simple approximation: reduce our rectangle by intersection bounding box
+                var inter = RectangleF.Intersect(rectangle, pathBounds);
+                if (inter == rectangle)
+                {
+                    MakeEmpty();
+                }
+                else
+                {
+                    // shrink bounding box conservatively (not geometrically exact)
+                    rectangle = rectangle.SubtractSafe(inter);
+                    graphicsPath = new GraphicsPath();
+                    if (!rectangle.IsEmpty)
+                        graphicsPath.AddRectangle(rectangle);
+                }
+            }
+        }
+        UpdateRegionData();
     }
 
     /// <summary>
@@ -141,7 +205,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </param>
     public void Complement(Rectangle rect)
     {
-        rectangle = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+        var gp = new GraphicsPath();
+        gp.AddRectangle(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height));
+        Complement(gp);
     }
 
     /// <summary>
@@ -157,7 +223,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </param>
     public void Complement(RectangleF rect)
     {
-        rectangle = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+        var gp = new GraphicsPath();
+        gp.AddRectangle(rect);
+        Complement(gp);
     }
 
     /// <summary>
@@ -177,9 +245,8 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </exception>
     public void Complement(Region region)
     {
-        rectangle = region.rectangle;
-        graphicsPath = region.graphicsPath;
-        regionData = region.regionData;
+        if (region == null) throw new ArgumentNullException(nameof(region));
+        Complement(region.graphicsPath);
     }
 
     /// <summary>
@@ -189,8 +256,11 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public void Dispose()
     {
         rectangle = new RectangleF();
+        graphicsPath?.Dispose();
         graphicsPath = new GraphicsPath();
         regionData = new RegionData();
+        isEmpty = true;
+        isInfinite = false;
     }
 
     /// <summary>
@@ -218,7 +288,10 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </exception>
     public bool Equals(Region region, Graphics g)
     {
-        return rectangle.Equals(region.rectangle) && graphicsPath.Equals(region.graphicsPath) && regionData.Equals(region.regionData);
+        if (region == null) throw new ArgumentNullException(nameof(region));
+        if (g == null) throw new ArgumentNullException(nameof(g));
+        // conservative check: compare bounding boxes and emptiness/infinite state
+        return isEmpty == region.isEmpty && isInfinite == region.isInfinite && rectangle.Equals(region.rectangle);
     }
 
     /// <summary>
@@ -237,6 +310,33 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </exception>
     public void Exclude(GraphicsPath path)
     {
+        if (path == null) throw new ArgumentNullException(nameof(path));
+        if (isEmpty) return;
+        if (isInfinite)
+        {
+            // infinite minus a finite path -> still infinite (approx)
+            return;
+        }
+
+        var pathBounds = path.GetBounds();
+        if (rectangle.IntersectsWith(pathBounds))
+        {
+            // if the excluding rect fully covers current rectangle, region becomes empty
+            if (pathBounds.Contains(rectangle))
+            {
+                MakeEmpty();
+            }
+            else
+            {
+                // conservative approximation: shrink the bounding rectangle by removing the intersection
+                var inter = RectangleF.Intersect(rectangle, pathBounds);
+                rectangle = rectangle.SubtractSafe(inter);
+                graphicsPath = new GraphicsPath();
+                if (!rectangle.IsEmpty)
+                    graphicsPath.AddRectangle(rectangle);
+            }
+        }
+        UpdateRegionData();
     }
 
     /// <summary>
@@ -251,6 +351,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </param>
     public void Exclude(Rectangle rect)
     {
+        var gp = new GraphicsPath();
+        gp.AddRectangle(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height));
+        Exclude(gp);
     }
 
     /// <summary>
@@ -265,6 +368,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </param>
     public void Exclude(RectangleF rect)
     {
+        var gp = new GraphicsPath();
+        gp.AddRectangle(rect);
+        Exclude(gp);
     }
 
     /// <summary>
@@ -283,6 +389,8 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </exception>
     public void Exclude(Region region)
     {
+        if (region == null) throw new ArgumentNullException(nameof(region));
+        Exclude(region.graphicsPath);
     }
 
     /// <summary>
@@ -297,9 +405,10 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// The new
     /// <see cref="T:System.Drawing.Region" />.
     /// </returns>
-    public static Region FromHrgn(IntPtr hrgn)
+    public static Region? FromHrgn(IntPtr hrgn)
     {
-        throw new System.NotImplementedException();
+        // Not able to recreate native GDI region without platform interop in this implementation.
+        return null;
     }
 
     /// <summary>
@@ -324,7 +433,13 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </exception>
     public RectangleF GetBounds(Graphics g)
     {
-        return g.ClipBounds;
+        if (g == null) throw new ArgumentNullException(nameof(g));
+        if (isInfinite)
+        {
+            // return the clip bounds as an approximation for infinite regions
+            return g.ClipBounds;
+        }
+        return rectangle.IsEmpty ? g.ClipBounds : rectangle;
     }
 
     /// <summary>
@@ -346,7 +461,8 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </exception>
     public IntPtr GetHrgn(Graphics g)
     {
-        throw new System.NotImplementedException();
+        // Native handle creation is platform-specific and not implemented here.
+        return IntPtr.Zero;
     }
 
     /// <summary>
@@ -382,9 +498,18 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// <paramref name="matrix" /> is
     /// <see langword="null" />.
     /// </exception>
-    public RectangleF[] GetRegionScans(Matrix matrix)
+    public RectangleF[] GetRegionScans(System.Drawing.Drawing2D.Matrix matrix)
     {
-        throw new System.NotImplementedException();
+        if (matrix == null) throw new ArgumentNullException(nameof(matrix));
+        if (isInfinite)
+            return new[] { new RectangleF(float.NegativeInfinity, float.NegativeInfinity, float.PositiveInfinity, float.PositiveInfinity) };
+
+        // approximate by transforming the bounding rectangle
+        var r = rectangle;
+        var pts = new[] { new PointF(r.Left, r.Top), new PointF(r.Right, r.Top), new PointF(r.Right, r.Bottom), new PointF(r.Left, r.Bottom) };
+        matrix.TransformPoints(pts);
+        var bounds = RectangleFExtensions.FromPoints(pts);
+        return new[] { bounds };
     }
 
     /// <summary>
@@ -399,6 +524,34 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </param>
     public void Intersect(GraphicsPath path)
     {
+        if (path == null) throw new ArgumentNullException(nameof(path));
+        if (isInfinite)
+        {
+            graphicsPath = path.Clone() as GraphicsPath ?? new GraphicsPath();
+            rectangle = graphicsPath.GetBounds();
+            isInfinite = false;
+            isEmpty = rectangle.IsEmpty;
+        }
+        else if (isEmpty)
+        {
+            return;
+        }
+        else
+        {
+            var pb = path.GetBounds();
+            var inter = RectangleF.Intersect(rectangle, pb);
+            if (inter.IsEmpty)
+            {
+                MakeEmpty();
+            }
+            else
+            {
+                rectangle = inter;
+                graphicsPath = new GraphicsPath();
+                graphicsPath.AddRectangle(rectangle);
+            }
+        }
+        UpdateRegionData();
     }
 
     /// <summary>
@@ -413,6 +566,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </param>
     public void Intersect(Rectangle rect)
     {
+        var gp = new GraphicsPath();
+        gp.AddRectangle(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height));
+        Intersect(gp);
     }
 
     /// <summary>
@@ -427,6 +583,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </param>
     public void Intersect(RectangleF rect)
     {
+        var gp = new GraphicsPath();
+        gp.AddRectangle(rect);
+        Intersect(gp);
     }
 
     /// <summary>
@@ -441,6 +600,8 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </param>
     public void Intersect(Region region)
     {
+        if (region == null) throw new ArgumentNullException(nameof(region));
+        Intersect(region.graphicsPath);
     }
 
     /// <summary>
@@ -448,7 +609,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// <see cref="T:System.Drawing.Region" /> has an empty interior on the specified drawing surface.
     /// </summary>
     /// <param name="g">
-    /// A
+    /// The
     /// <see cref="T:System.Drawing.Graphics" /> that represents a drawing surface.
     /// </param>
     /// <returns>
@@ -463,7 +624,8 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </exception>
     public bool IsEmpty(Graphics g)
     {
-        throw new System.NotImplementedException();
+        if (g == null) throw new ArgumentNullException(nameof(g));
+        return isEmpty || (rectangle.IsEmpty && graphicsPath.PointCount == 0);
     }
 
     /// <summary>
@@ -486,7 +648,8 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </exception>
     public bool IsInfinite(Graphics g)
     {
-        throw new System.NotImplementedException();
+        if (g == null) throw new ArgumentNullException(nameof(g));
+        return isInfinite;
     }
 
     /// <summary>
@@ -506,7 +669,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </returns>
     public bool IsVisible(Point point)
     {
-        throw new System.NotImplementedException();
+        return IsVisible(new PointF(point.X, point.Y));
     }
 
     /// <summary>
@@ -531,7 +694,8 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </returns>
     public bool IsVisible(Point point, Graphics g)
     {
-        throw new System.NotImplementedException();
+        if (g == null) throw new ArgumentNullException(nameof(g));
+        return IsVisible(new PointF(point.X, point.Y), g);
     }
 
     /// <summary>
@@ -551,7 +715,16 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </returns>
     public bool IsVisible(PointF point)
     {
-        throw new System.NotImplementedException();
+        if (isInfinite) return true;
+        if (isEmpty) return false;
+        if (rectangle.IsEmpty && graphicsPath.PointCount == 0) return false;
+        if (!rectangle.IsEmpty && rectangle.Contains(point)) return true;
+        // fallback to path hit-test
+        using (var bmp = new Bitmap(1, 1))
+        using (var g = Graphics.FromImage(bmp))
+        {
+            return graphicsPath.IsVisible(point, g);
+        }
     }
 
     /// <summary>
@@ -576,7 +749,11 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </returns>
     public bool IsVisible(PointF point, Graphics g)
     {
-        throw new System.NotImplementedException();
+        if (g == null) throw new ArgumentNullException(nameof(g));
+        if (isInfinite) return true;
+        if (isEmpty) return false;
+        if (!rectangle.IsEmpty && rectangle.Contains(point)) return true;
+        return graphicsPath.IsVisible(point, g);
     }
 
     /// <summary>
@@ -597,7 +774,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </returns>
     public bool IsVisible(Rectangle rect)
     {
-        throw new System.NotImplementedException();
+        return IsVisible(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height));
     }
 
     /// <summary>
@@ -615,14 +792,16 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// <see cref="T:System.Drawing.Graphics" /> that represents a graphics context.
     /// </param>
     /// <returns>
-    /// <see langword="true" /> when any portion of the
+    /// This method returns
+    /// <see langword="true" /> when any portion of
     /// <paramref name="rect" /> is contained within this
     /// <see cref="T:System.Drawing.Region" />; otherwise,
     /// <see langword="false" />.
     /// </returns>
     public bool IsVisible(Rectangle rect, Graphics g)
     {
-        throw new System.NotImplementedException();
+        if (g == null) throw new ArgumentNullException(nameof(g));
+        return IsVisible(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height), g);
     }
 
     /// <summary>
@@ -635,6 +814,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// <see cref="T:System.Drawing.RectangleF" /> structure to test.
     /// </param>
     /// <returns>
+    /// This method returns
     /// <see langword="true" /> when any portion of
     /// <paramref name="rect" /> is contained within this
     /// <see cref="T:System.Drawing.Region" />; otherwise,
@@ -642,32 +822,45 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </returns>
     public bool IsVisible(RectangleF rect)
     {
-        throw new System.NotImplementedException();
+        if (isInfinite) return true;
+        if (isEmpty) return false;
+        if (!rectangle.IsEmpty && rectangle.IntersectsWith(rect)) return true;
+        // fallback to path hit-test using a small bitmap
+        using (var bmp = new Bitmap(1, 1))
+        using (var g = Graphics.FromImage(bmp))
+        {
+            return graphicsPath.IsVisible(rect, g);
+        }
     }
 
     /// <summary>
     /// Tests whether any portion of the specified
-    /// <see cref="T:System.Drawing.RectangleF" /> structure is contained within this
+    /// <see cref="T:System.Drawing.Rectangle" /> structure is contained within this
     /// <see cref="T:System.Drawing.Region" /> when drawn using the specified
     /// <see cref="T:System.Drawing.Graphics" />.
     /// </summary>
     /// <param name="rect">
     /// The
-    /// <see cref="T:System.Drawing.RectangleF" /> structure to test.
+    /// <see cref="T:System.Drawing.Rectangle" /> structure to test.
     /// </param>
     /// <param name="g">
     /// A
     /// <see cref="T:System.Drawing.Graphics" /> that represents a graphics context.
     /// </param>
     /// <returns>
-    /// <see langword="true" /> when
+    /// This method returns
+    /// <see langword="true" /> when any portion of
     /// <paramref name="rect" /> is contained within this
     /// <see cref="T:System.Drawing.Region" />; otherwise,
     /// <see langword="false" />.
     /// </returns>
     public bool IsVisible(RectangleF rect, Graphics g)
     {
-        throw new System.NotImplementedException();
+        if (g == null) throw new ArgumentNullException(nameof(g));
+        if (isInfinite) return true;
+        if (isEmpty) return false;
+        if (!rectangle.IsEmpty && rectangle.IntersectsWith(rect)) return true;
+        return graphicsPath.IsVisible(rect, g);
     }
 
     /// <summary>
@@ -692,7 +885,8 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </returns>
     public bool IsVisible(int x, int y, Graphics g)
     {
-        throw new System.NotImplementedException();
+        return IsVisible(new Point(x, y), g);
+
     }
 
     /// <summary>
@@ -718,7 +912,8 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </returns>
     public bool IsVisible(int x, int y, int width, int height)
     {
-        throw new System.NotImplementedException();
+        return IsVisible(new Rectangle(x, y, width, height));
+
     }
 
     /// <summary>
@@ -749,7 +944,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </returns>
     public bool IsVisible(int x, int y, int width, int height, Graphics g)
     {
-        throw new System.NotImplementedException();
+        return IsVisible(new Rectangle(x, y, width, height), g);
     }
 
     /// <summary>
@@ -769,7 +964,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </returns>
     public bool IsVisible(float x, float y)
     {
-        throw new System.NotImplementedException();
+        return IsVisible(new PointF(x, y));
     }
 
     /// <summary>
@@ -794,7 +989,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </returns>
     public bool IsVisible(float x, float y, Graphics g)
     {
-        throw new System.NotImplementedException();
+        return IsVisible(new PointF(x, y), g);
     }
 
     /// <summary>
@@ -820,7 +1015,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </returns>
     public bool IsVisible(float x, float y, float width, float height)
     {
-        throw new System.NotImplementedException();
+        return IsVisible(new RectangleF(x, y, width, height));
     }
 
     /// <summary>
@@ -851,7 +1046,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </returns>
     public bool IsVisible(float x, float y, float width, float height, Graphics g)
     {
-        throw new System.NotImplementedException();
+        return IsVisible(new RectangleF(x, y, width, height), g);
     }
 
     /// <summary>
@@ -860,6 +1055,11 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </summary>
     public void MakeEmpty()
     {
+        isEmpty = true;
+        isInfinite = false;
+        graphicsPath?.Reset();
+        rectangle = RectangleF.Empty;
+        UpdateRegionData();
     }
 
     /// <summary>
@@ -868,6 +1068,11 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </summary>
     public void MakeInfinite()
     {
+        isInfinite = true;
+        isEmpty = false;
+        graphicsPath?.Reset();
+        rectangle = RectangleF.Empty;
+        UpdateRegionData();
     }
 
     /// <summary>
@@ -884,6 +1089,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </exception>
     public void ReleaseHrgn(IntPtr regionHandle)
     {
+        // nothing to do in managed implementation
     }
 
     /// <summary>
@@ -900,8 +1106,13 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// <paramref name="matrix" /> is
     /// <see langword="null" />.
     /// </exception>
-    public void Transform(Matrix matrix)
+    public void Transform(System.Drawing.Drawing2D.Matrix matrix)
     {
+        if (matrix == null) throw new ArgumentNullException(nameof(matrix));
+        if (isInfinite || isEmpty) return;
+        graphicsPath.Transform(matrix);
+        rectangle = graphicsPath.GetBounds();
+        UpdateRegionData();
     }
 
     /// <summary>
@@ -918,6 +1129,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </param>
     public void Translate(int dx, int dy)
     {
+        Translate((float)dx, (float)dy);
     }
 
     /// <summary>
@@ -934,6 +1146,12 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </param>
     public void Translate(float dx, float dy)
     {
+        if (isInfinite || isEmpty) return;
+        var m = new System.Drawing.Drawing2D.Matrix();
+        m.Translate(dx, dy);
+        graphicsPath.Transform(m);
+        rectangle = graphicsPath.GetBounds();
+        UpdateRegionData();
     }
 
     /// <summary>
@@ -952,6 +1170,21 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </exception>
     public void Union(GraphicsPath path)
     {
+        if (path == null) throw new ArgumentNullException(nameof(path));
+        if (isInfinite) return;
+        if (isEmpty)
+        {
+            graphicsPath = path.Clone() as GraphicsPath ?? new GraphicsPath();
+            rectangle = graphicsPath.GetBounds();
+            isEmpty = rectangle.IsEmpty;
+        }
+        else
+        {
+            if (path.Clone() is GraphicsPath clone)
+                graphicsPath.AddPath(clone, false);
+            rectangle = RectangleF.Union(rectangle, path.GetBounds());
+        }
+        UpdateRegionData();
     }
 
     /// <summary>
@@ -966,6 +1199,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </param>
     public void Union(Rectangle rect)
     {
+        var gp = new GraphicsPath();
+        gp.AddRectangle(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height));
+        Union(gp);
     }
 
     /// <summary>
@@ -980,6 +1216,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </param>
     public void Union(RectangleF rect)
     {
+        var gp = new GraphicsPath();
+        gp.AddRectangle(rect);
+        Union(gp);
     }
 
     /// <summary>
@@ -998,6 +1237,8 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </exception>
     public void Union(Region region)
     {
+        if (region == null) throw new ArgumentNullException(nameof(region));
+        Union(region.graphicsPath);
     }
 
     /// <summary>
@@ -1011,12 +1252,42 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// <see cref="T:System.Drawing.Region.Xor" /> with this
     /// <see cref="T:System.Drawing.Region" />.
     /// </param>
-    /// <exception cref="T:System.ArgumentNullException">
-    /// <paramref name="path" /> is
-    /// <see langword="null" />.
-    /// </exception>
     public void Xor(GraphicsPath path)
     {
+        if (path == null) throw new ArgumentNullException(nameof(path));
+        if (isInfinite)
+        {
+            // infinite xor finite -> still infinite
+            return;
+        }
+        if (isEmpty)
+        {
+            graphicsPath = path.Clone() as GraphicsPath ?? new GraphicsPath();
+            rectangle = graphicsPath.GetBounds();
+            isEmpty = rectangle.IsEmpty;
+            UpdateRegionData();
+            return;
+        }
+
+        // approximate XOR using bounding rectangles: union - intersection (conservative)
+        var unionRect = RectangleF.Union(rectangle, path.GetBounds());
+        var inter = RectangleF.Intersect(rectangle, path.GetBounds());
+        if (inter.IsEmpty)
+        {
+            Union(path);
+        }
+        else if (inter == rectangle && inter == path.GetBounds())
+        {
+            MakeEmpty();
+        }
+        else
+        {
+            graphicsPath = new GraphicsPath();
+            graphicsPath.AddRectangle(unionRect);
+            // not a precise XOR, but provides consistent bounding info
+            rectangle = unionRect;
+            UpdateRegionData();
+        }
     }
 
     /// <summary>
@@ -1032,6 +1303,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </param>
     public void Xor(Rectangle rect)
     {
+        var gp = new GraphicsPath();
+        gp.AddRectangle(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height));
+        Xor(gp);
     }
 
     /// <summary>
@@ -1047,6 +1321,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </param>
     public void Xor(RectangleF rect)
     {
+        var gp = new GraphicsPath();
+        gp.AddRectangle(rect);
+        Xor(gp);
     }
 
     /// <summary>
@@ -1066,5 +1343,76 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </exception>
     public void Xor(Region region)
     {
+        if (region == null) throw new ArgumentNullException(nameof(region));
+        Xor(region.graphicsPath);
+    }
+
+    // helper to keep regionData in sync with our simple managed representation.
+    private void UpdateRegionData()
+    {
+        // RegionData cannot be filled without native or System.Drawing.Region; create fresh placeholder
+        regionData = new RegionData();
+    }
+}
+
+// small helpers used above
+internal static class RectangleFExtensions
+{
+    public static RectangleF FromPoints(PointF[] pts)
+    {
+        if (pts == null || pts.Length == 0) return RectangleF.Empty;
+        float left = pts[0].X, right = pts[0].X, top = pts[0].Y, bottom = pts[0].Y;
+        foreach (var p in pts)
+        {
+            if (p.X < left) left = p.X;
+            if (p.X > right) right = p.X;
+            if (p.Y < top) top = p.Y;
+            if (p.Y > bottom) bottom = p.Y;
+        }
+        return new RectangleF(left, top, right - left, bottom - top);
+    }
+
+    // conservative subtract: remove intersection area from original bounding rectangle,
+    // returns an approximation rectangle (may shrink to empty)
+    public static RectangleF SubtractSafe(this RectangleF original, RectangleF subtract)
+    {
+        if (original.IsEmpty) return RectangleF.Empty;
+        if (subtract.IsEmpty) return original;
+        if (!original.IntersectsWith(subtract)) return original;
+        // if subtract fully contains original, result empty
+        if (subtract.Contains(original)) return RectangleF.Empty;
+        // otherwise shrink by intersection rectangle on one axis as a conservative approximation
+        var inter = RectangleF.Intersect(original, subtract);
+        var leftWidth = inter.Left - original.Left;
+        var rightWidth = original.Right - inter.Right;
+        var topHeight = inter.Top - original.Top;
+        var bottomHeight = original.Bottom - inter.Bottom;
+
+        // pick larger remaining width or height to keep a conservative rectangle
+        if (Math.Max(leftWidth + rightWidth, topHeight + bottomHeight) <= 0)
+            return RectangleF.Empty;
+
+        if ((leftWidth + rightWidth) >= (topHeight + bottomHeight))
+        {
+            // keep horizontal remainder
+            float newLeft = original.Left;
+            float newRight = original.Right;
+            if (leftWidth >= rightWidth)
+                newRight = inter.Left;
+            else
+                newLeft = inter.Right;
+            return new RectangleF(newLeft, original.Top, Math.Max(0, newRight - newLeft), original.Height);
+        }
+        else
+        {
+            // keep vertical remainder
+            float newTop = original.Top;
+            float newBottom = original.Bottom;
+            if (topHeight >= bottomHeight)
+                newBottom = inter.Top;
+            else
+                newTop = inter.Bottom;
+            return new RectangleF(original.Left, newTop, original.Width, Math.Max(0, newBottom - newTop));
+        }
     }
 }
