@@ -1,0 +1,108 @@
+From 8125ef21f194f8d858a3bd4bc5fb2f6037c3e4b2 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 10 Apr 2026 04:11:10 +0300
+Subject: [PATCH] Move enum files
+
+---
+ .../System/Drawing/Drawing2D/ColorBlend.cs    | 20 +++++--------------
+ .../Drawing2D/{ => Enum}/CombineMode.cs       |  0
+ .../Drawing2D/{ => Enum}/CompositingMode.cs   |  0
+ .../{ => Enum}/CompositingQuality.cs          |  0
+ .../Drawing2D/{ => Enum}/CoordinateSpace.cs   |  0
+ .../Drawing2D/{ => Enum}/CustomLineCap.cs     |  0
+ .../Drawing/Drawing2D/{ => Enum}/DashCap.cs   |  0
+ .../Drawing/Drawing2D/{ => Enum}/DashStyle.cs |  0
+ .../Drawing/Drawing2D/{ => Enum}/FillMode.cs  |  0
+ .../Drawing2D/{ => Enum}/FlushIntention.cs    |  0
+ 10 files changed, 5 insertions(+), 15 deletions(-)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/CombineMode.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/CompositingMode.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/CompositingQuality.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/CoordinateSpace.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/CustomLineCap.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/DashCap.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/DashStyle.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/FillMode.cs (100%)
+ rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/FlushIntention.cs (100%)
+
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs
+index ada0914..bedf7dd 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs
+@@ -1,4 +1,4 @@
+-namespace System.Drawing.Drawing2D;
++﻿namespace System.Drawing.Drawing2D;
+ 
+ /// <summary>
+ /// Defines arrays of colors and positions used for interpolating color blending in a multicolor gradient. This class cannot be inherited.
+@@ -35,13 +35,8 @@ public sealed class ColorBlend
+     /// </returns>
+     public Color[] Colors
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
+-        set
+-        {
+-        }
++        get;
++        set;
+     }
+ 
+     /// <summary>
+@@ -52,12 +47,7 @@ public sealed class ColorBlend
+     /// </returns>
+     public float[] Positions
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
+-        set
+-        {
+-        }
++        get;
++        set;
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CombineMode.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CombineMode.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CombineMode.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CombineMode.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CompositingMode.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CompositingMode.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CompositingMode.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CompositingMode.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CompositingQuality.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CompositingQuality.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CompositingQuality.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CompositingQuality.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CoordinateSpace.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CoordinateSpace.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CoordinateSpace.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CoordinateSpace.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CustomLineCap.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CustomLineCap.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/DashCap.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/DashCap.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/DashCap.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/DashCap.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/DashStyle.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/DashStyle.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/DashStyle.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/DashStyle.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/FillMode.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/FillMode.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/FillMode.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/FillMode.cs
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/FlushIntention.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/FlushIntention.cs
+similarity index 100%
+rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/FlushIntention.cs
+rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/FlushIntention.cs
+-- 
+2.51.1.windows.1
+
