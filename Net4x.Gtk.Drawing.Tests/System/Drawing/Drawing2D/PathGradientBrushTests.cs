@@ -64,9 +64,10 @@ public class PathGradientBrushTests
         var brush = new PathGradientBrush(new[]
         {
             new PointF(0,0), new PointF(1,1)
-        });
-
-        brush.Transform = null;
+        })
+        {
+            Transform = null
+        };
 
         Assert.NotNull(brush.Transform);
     }

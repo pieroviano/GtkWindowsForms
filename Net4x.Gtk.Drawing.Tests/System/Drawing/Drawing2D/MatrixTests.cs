@@ -39,15 +39,16 @@ public class MatrixTests
     [Fact]
     public void Properties_CanBeSet_AndRetrieved()
     {
-        var m = new Matrix();
-
-        m.angle = 45;
-        m.scaleX = 2;
-        m.scaleY = 3;
-        m.shearX = 1;
-        m.shearY = 2;
-        m.dx = 10;
-        m.dy = 20;
+        var m = new Matrix
+        {
+            angle = 45,
+            scaleX = 2,
+            scaleY = 3,
+            shearX = 1,
+            shearY = 2,
+            dx = 10,
+            dy = 20
+        };
 
         Assert.Equal(45, m.angle);
         Assert.Equal(2, m.scaleX);

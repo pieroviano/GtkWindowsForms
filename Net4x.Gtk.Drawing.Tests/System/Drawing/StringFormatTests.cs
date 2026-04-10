@@ -83,9 +83,10 @@ public class StringFormatTests
     [Fact]
     public void Alignment_SetGet_Works()
     {
-        var format = new StringFormat();
-
-        format.Alignment = StringAlignment.Center;
+        var format = new StringFormat
+        {
+            Alignment = StringAlignment.Center
+        };
 
         Assert.Equal(StringAlignment.Center, format.Alignment);
     }
@@ -93,9 +94,10 @@ public class StringFormatTests
     [Fact]
     public void LineAlignment_SetGet_Works()
     {
-        var format = new StringFormat();
-
-        format.LineAlignment = StringAlignment.Far;
+        var format = new StringFormat
+        {
+            LineAlignment = StringAlignment.Far
+        };
 
         Assert.Equal(StringAlignment.Far, format.LineAlignment);
     }
@@ -103,9 +105,10 @@ public class StringFormatTests
     [Fact]
     public void FormatFlags_SetGet_Works()
     {
-        var format = new StringFormat();
-
-        format.FormatFlags = StringFormatFlags.NoWrap;
+        var format = new StringFormat
+        {
+            FormatFlags = StringFormatFlags.NoWrap
+        };
 
         Assert.Equal(StringFormatFlags.NoWrap, format.FormatFlags);
     }
@@ -113,9 +116,10 @@ public class StringFormatTests
     [Fact]
     public void HotkeyPrefix_SetGet_Works()
     {
-        var format = new StringFormat();
-
-        format.HotkeyPrefix = HotkeyPrefix.Hide;
+        var format = new StringFormat
+        {
+            HotkeyPrefix = HotkeyPrefix.Hide
+        };
 
         Assert.Equal(HotkeyPrefix.Hide, format.HotkeyPrefix);
     }
@@ -123,9 +127,10 @@ public class StringFormatTests
     [Fact]
     public void Trimming_SetGet_Works()
     {
-        var format = new StringFormat();
-
-        format.Trimming = StringTrimming.Word;
+        var format = new StringFormat
+        {
+            Trimming = StringTrimming.Word
+        };
 
         Assert.Equal(StringTrimming.Word, format.Trimming);
     }
@@ -223,8 +228,10 @@ public class StringFormatTests
     [Fact]
     public void Clone_ReturnsDeepCopy()
     {
-        var format = new StringFormat();
-        format.Alignment = StringAlignment.Center;
+        var format = new StringFormat
+        {
+            Alignment = StringAlignment.Center
+        };
         format.SetTabStops(5, new float[] { 10 });
 
         var clone = (StringFormat)format.Clone();

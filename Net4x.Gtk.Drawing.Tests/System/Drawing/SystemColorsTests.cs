@@ -2,6 +2,7 @@
 
 using System.Reflection;
 using Graphics = gtk::System.Drawing.Graphics;
+#pragma warning disable CS8605 // Unboxing a possibly null value.
 
 namespace System.Drawing;
 
