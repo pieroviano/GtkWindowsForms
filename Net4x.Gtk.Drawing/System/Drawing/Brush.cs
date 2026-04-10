@@ -25,7 +25,7 @@ public abstract class Brush : MarshalByRefObject, ICloneable, IDisposable
     /// The new
     /// <see cref="T:System.Drawing.Brush" /> that this method creates.
     /// </returns>
-    public abstract object? Clone();
+    public abstract object Clone();
 
     /// <summary>
     /// Releases all resources used by this
