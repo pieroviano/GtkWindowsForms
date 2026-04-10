@@ -8,6 +8,7 @@ using System.Globalization;
 
 namespace System.Drawing;
 
+[Collection("NonParallelCollection")]
 public class ColorConverterTests
 {
     private readonly ColorConverter _sut = new();

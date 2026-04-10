@@ -3,6 +3,7 @@ using ColorTable = gtk::System.Drawing.ColorTable;
 
 namespace System.Drawing;
 
+[Collection("NonParallelCollection")]
 public class ColorTableTests
 {
     [Fact]

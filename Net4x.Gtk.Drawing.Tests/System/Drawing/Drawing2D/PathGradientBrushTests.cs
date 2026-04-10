@@ -8,6 +8,7 @@ using WrapMode = gtk::System.Drawing.Drawing2D.WrapMode;
 
 namespace System.Drawing.Drawing2D;
 
+[Collection("NonParallelCollection")]
 public class PathGradientBrushTests
 {
     [Fact]

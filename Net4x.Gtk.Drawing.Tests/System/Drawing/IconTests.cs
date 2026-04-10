@@ -4,6 +4,7 @@ using Icon = gtk::System.Drawing.Icon;
 
 namespace System.Drawing;
 
+[Collection("NonParallelCollection")]
 public class IconTests
 {
     [Fact]

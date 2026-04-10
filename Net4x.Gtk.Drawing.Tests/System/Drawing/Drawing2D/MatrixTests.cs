@@ -6,6 +6,7 @@ using MatrixOrder = gtk::System.Drawing.Drawing2D.MatrixOrder;
 
 namespace System.Drawing.Drawing2D;
 
+[Collection("NonParallelCollection")]
 public class MatrixTests
 {
     [Fact]

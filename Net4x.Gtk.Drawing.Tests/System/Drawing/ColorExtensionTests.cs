@@ -3,7 +3,7 @@
 #pragma warning disable xUnit2002
 namespace System.Drawing;
 
-
+[Collection("NonParallelCollection")]
 public class ColorExtensionTests
 {
     // ----------------------------

@@ -7,6 +7,7 @@ using Matrix = gtk::System.Drawing.Drawing2D.Matrix;
 
 namespace System.Drawing.Drawing2D;
 
+[Collection("NonParallelCollection")]
 public class GraphicsPathTests
 {
     [Fact]
