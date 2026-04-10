@@ -1,4 +1,4 @@
-namespace System.Drawing;
+﻿namespace System.Drawing;
 
 /// <summary>
 /// Specifies the display and layout information for text strings.
@@ -9,6 +9,10 @@ namespace System.Drawing;
 [Flags]
 public enum StringFormatFlags
 {
+    /// <summary>
+    /// The none
+    /// </summary>
+    None=0,
     /// <summary>
     /// Text is displayed from right to left.
     /// </summary>
