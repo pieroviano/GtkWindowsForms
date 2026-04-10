@@ -5,6 +5,7 @@ using CharacterRange = gtk::System.Drawing.CharacterRange;
 
 namespace System.Drawing;
 
+[Collection("NonParallelCollection")]
 public class CharacterRangeTests
 {
     // ----------------------------

@@ -9,6 +9,7 @@ using ImageAnimator = gtk::System.Drawing.ImageAnimator;
 
 namespace System.Drawing;
 
+[Collection("NonParallelCollection")]
 public class ImageAnimatorTests
 {
     private gtk::System.Drawing.Image CreateAnimatedGif()

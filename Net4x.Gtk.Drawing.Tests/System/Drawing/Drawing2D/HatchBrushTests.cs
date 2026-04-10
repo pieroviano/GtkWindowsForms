@@ -3,6 +3,7 @@ using gtk::System.Drawing.Drawing2D;
 
 namespace System.Drawing.Drawing2D;
 
+[Collection("NonParallelCollection")]
 public class HatchBrushTests
 {
     [Fact]

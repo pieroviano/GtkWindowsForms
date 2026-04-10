@@ -8,6 +8,7 @@ using FontStyle = gtk::System.Drawing.FontStyle;
 
 namespace System.Drawing;
 
+[Collection("NonParallelCollection")]
 public class FontFamilyTests
 {
     [Fact]

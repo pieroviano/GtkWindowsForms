@@ -162,6 +162,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0072-Moved-enums.patch = patches\0072-Moved-enums.patch
 		patches\0073-Fixed-SolidBrush.patch = patches\0073-Fixed-SolidBrush.patch
 		patches\0074-Moved-enum.patch = patches\0074-Moved-enum.patch
+		patches\0075-Added-StringFormat-implementation.patch = patches\0075-Added-StringFormat-implementation.patch
 	EndProjectSection
 EndProject
 Global

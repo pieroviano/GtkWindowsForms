@@ -6,6 +6,7 @@ namespace System.Drawing.Drawing2D;
 using BitmapData = gtk::System.Drawing.Imaging.BitmapData;
 using PixelFormat = gtk::System.Drawing.Imaging.PixelFormat;
 
+[Collection("NonParallelCollection")]
 public class BitmapDataTests
 {
     [Fact]

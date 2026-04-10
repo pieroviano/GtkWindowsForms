@@ -5,6 +5,7 @@ using FontFamily = gtk::System.Drawing.FontFamily;
 
 namespace System.Drawing.Text;
 
+[Collection("NonParallelCollection")]
 public class FontCollectionTests
 {
     [Fact]

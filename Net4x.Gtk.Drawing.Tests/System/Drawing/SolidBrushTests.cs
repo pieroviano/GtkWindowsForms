@@ -3,6 +3,7 @@ using SolidBrush = gtk::System.Drawing.SolidBrush;
 
 namespace System.Drawing;
 
+[Collection("NonParallelCollection")]
 public class SolidBrushTests
 {
     #region Constructor / Property
@@ -28,9 +29,10 @@ public class SolidBrushTests
     [Fact]
     public void Color_Set_ChangesValue()
     {
-        var brush = new SolidBrush(Color.Red);
-
-        brush.Color = Color.Green;
+        var brush = new SolidBrush(Color.Red)
+        {
+            Color = Color.Green
+        };
 
         Assert.Equal(Color.Green, brush.Color);
     }

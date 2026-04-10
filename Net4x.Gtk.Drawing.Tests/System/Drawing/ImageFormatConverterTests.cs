@@ -3,9 +3,14 @@ using System.ComponentModel.Design.Serialization;
 using System.Globalization;
 using ImageFormat = gtk::System.Drawing.Imaging.ImageFormat;
 using ImageFormatConverter = gtk::System.Drawing.ImageFormatConverter;
+#pragma warning disable CS8604 // Possible null reference argument.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
 namespace System.Drawing;
 
+[Collection("NonParallelCollection")]
 public class ImageFormatConverterTests
 {
     private readonly ImageFormatConverter _converter = new ImageFormatConverter();
