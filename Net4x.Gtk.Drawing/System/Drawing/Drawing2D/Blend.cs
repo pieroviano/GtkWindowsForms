@@ -1,4 +1,4 @@
-namespace System.Drawing.Drawing2D;
+﻿namespace System.Drawing.Drawing2D;
 
 /// <summary>
 /// Defines a blend pattern for a
@@ -36,13 +36,8 @@ public sealed class Blend
     /// </returns>
     public float[] Factors
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-        set
-        {
-        }
+        get;
+        set;
     }
 
     /// <summary>
@@ -53,12 +48,7 @@ public sealed class Blend
     /// </returns>
     public float[] Positions
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-        set
-        {
-        }
+        get;
+        set;
     }
 }
