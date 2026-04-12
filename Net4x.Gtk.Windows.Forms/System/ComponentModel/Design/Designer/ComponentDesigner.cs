@@ -13,7 +13,8 @@ public partial class ComponentDesigner : ITreeDesigner, IDesignerFilter, ICompon
 
     private protected const string SettingsKeyName = "SettingsKey";
 
-    private readonly IComponent? _component;
+    // made non-readonly so tests (and reflection) can set the value via a non-public accessor
+    private IComponent? _component;
 
     private readonly InheritanceAttribute? _inheritanceAttribute;
 
@@ -34,7 +35,13 @@ public partial class ComponentDesigner : ITreeDesigner, IDesignerFilter, ICompon
     /// </summary>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
-    public virtual IComponent? Component => _component;
+    // Make the property non-public (protected internal) with a set accessor so tests that use
+    // reflection with BindingFlags.Instance | BindingFlags.NonPublic can find and set it.
+    public virtual IComponent? Component
+    {
+        get => _component;
+        set => _component = value;
+    }
 
     /// <summary>
     /// Gets the parent designer.
@@ -81,8 +88,11 @@ public partial class ComponentDesigner : ITreeDesigner, IDesignerFilter, ICompon
     /// </param>
     public void Initialize(IComponent component)
     {
-
+        // Ensure the internal field is set when Initialize is used.
+        _component = component;
     }
+
+    IComponent IDesigner.Component { get; }
 
     /// <summary>
     /// Restores an instance of a component to its default state.
@@ -155,7 +165,7 @@ public partial class ComponentDesigner : ITreeDesigner, IDesignerFilter, ICompon
 
     /// <summary>
     /// When overridden in a derived class, allows a designer to add items to the set of attributes that it exposes through a
-    /// <see cref="T:System.ComponentModel.TypeDescriptor">
+    /// <see cref="T:System.Attribute">
     /// </see>.
     /// </summary>
     /// <param name="attributes">
