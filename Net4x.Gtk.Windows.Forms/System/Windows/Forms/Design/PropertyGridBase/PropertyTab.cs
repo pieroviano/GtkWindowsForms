@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 
 namespace System.Windows.Forms.Design;
@@ -93,7 +93,31 @@ public abstract class PropertyTab : IExtenderProvider
     /// System.Nullable{PropertyDescriptor}.
     /// </returns>
     public virtual PropertyDescriptor? GetDefaultProperty(object component)
-                => TypeDescriptor.GetDefaultProperty(component);
+    {
+        // First try the standard TypeDescriptor lookup.
+        var prop = TypeDescriptor.GetDefaultProperty(component);
+        if (prop is not null)
+        {
+            return prop;
+        }
+
+        // Fallback behaviour:
+        // - If no DefaultPropertyAttribute is defined, prefer a property named "Name"
+        //   (common convention for components), otherwise return the first property.
+        var props = TypeDescriptor.GetProperties(component);
+        if (props is null || props.Count == 0)
+        {
+            return null;
+        }
+
+        var nameProp = props["Name"];
+        if (nameProp is not null)
+        {
+            return nameProp;
+        }
+
+        return props[0];
+    }
 
     /// <summary>
     /// Gets the properties.

@@ -14,7 +14,7 @@ namespace System.Drawing;
 /// 1
 /// </filterpriority>
 [Serializable]
-public sealed class Bitmap : Image
+public class Bitmap : Image
 {
     private static readonly Color s_defaultTransparentColor = Color.LightGray;
 
