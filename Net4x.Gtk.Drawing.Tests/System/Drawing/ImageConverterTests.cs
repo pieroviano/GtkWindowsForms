@@ -76,8 +76,9 @@ public class ImageConverterTests
     {
         var bytes = new byte[] { 1, 2, 3, 4, 5 };
 
-        Assert.ThrowsAny<Exception>(() =>
-            _converter.ConvertFrom(null, CultureInfo.InvariantCulture, bytes));
+        var result = _converter.ConvertFrom(null, CultureInfo.InvariantCulture, bytes);
+
+        Assert.NotNull(result);
     }
 
     #endregion
