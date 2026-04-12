@@ -168,6 +168,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0078-Modified-projects-to-support-testing.patch = patches\0078-Modified-projects-to-support-testing.patch
 		patches\0079-Fixed-Image.patch = patches\0079-Fixed-Image.patch
 		patches\0080-Fix-DocumentDesigner.patch = patches\0080-Fix-DocumentDesigner.patch
+		patches\0081-Added-ParentControlDesigner-implementation.patch = patches\0081-Added-ParentControlDesigner-implementation.patch
 	EndProjectSection
 EndProject
 Global

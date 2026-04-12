@@ -92,7 +92,7 @@ public partial class ComponentDesigner : ITreeDesigner, IDesignerFilter, ICompon
         _component = component;
     }
 
-    IComponent IDesigner.Component { get; }
+    IComponent? IDesigner.Component { get; }
 
     /// <summary>
     /// Restores an instance of a component to its default state.

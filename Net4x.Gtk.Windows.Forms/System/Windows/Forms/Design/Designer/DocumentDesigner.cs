@@ -145,13 +145,12 @@ public partial class DocumentDesigner : ScrollableControlDesigner, IRootDesigner
         }
 
         // Try to obtain a designer host from the root component's site as a fallback
-        var host = (this.Component as IComponent)?.Site?.GetService(typeof(IDesignerHost)) as IDesignerHost;
-        if (host is null)
+        if ((this.Component as IComponent)?.Site?.GetService(typeof(IDesignerHost)) is not IDesignerHost host)
         {
             return;
         }
 
-        using DesignerTransaction transaction = host.CreateTransaction("ToolPicked");
+        using var transaction = host.CreateTransaction("ToolPicked");
 
         try
         {
@@ -166,7 +165,7 @@ public partial class DocumentDesigner : ScrollableControlDesigner, IRootDesigner
                 try
                 {
                     var parameters = createMethod.GetParameters();
-                    object? invokeResult = createMethod.Invoke(tool, parameters.Length == 1 ? new object?[] { host } : null);
+                    var invokeResult = createMethod.Invoke(tool, parameters.Length == 1 ? new object?[] { host } : null);
                     components = invokeResult as object[];
                 }
                 catch (TargetInvocationException)
@@ -211,7 +210,7 @@ public partial class DocumentDesigner : ScrollableControlDesigner, IRootDesigner
 
             if (components is { Length: > 0 } &&
                 components[0] is Control control &&
-                host.RootComponent is Control parent)
+                host?.RootComponent is Control parent)
             {
                 if (parent is Form form)
                 {

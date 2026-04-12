@@ -10,7 +10,7 @@ namespace System.Windows.Forms.Design;
 /// to manipulate child components, and provides a selection UI handler for all
 /// components it contains.
 /// </summary>
-public partial class ParentControlDesigner : ControlDesigner, IOleDragClient
+public class ParentControlDesigner : ControlDesigner, IOleDragClient
 {
     /// <summary>
     /// Checks if the client is read only.  That is, if components can
@@ -24,11 +24,16 @@ public partial class ParentControlDesigner : ControlDesigner, IOleDragClient
     /// false
     /// </c>.
     /// </value>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
-    public bool CanModifyComponents => throw new NotImplementedException();
+    public bool CanModifyComponents
+    {
+        get
+        {
+            // Basic implementation: allow modification if we have a Control as root
+            return Component is Control;
+        }
+    }
 
-    public IComponent? Component { get; set; }
+    public override IComponent? Component { get; set; }
 
     /// <summary>
     /// Retrieves the control view instance for the designer that is hosting the drag.
@@ -53,11 +58,38 @@ public partial class ParentControlDesigner : ControlDesigner, IOleDragClient
     /// false
     /// </c> otherwise.
     /// </returns>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     public bool AddComponent(IComponent component, string name, bool firstAdd)
     {
-        throw new NotImplementedException();
+        if (!CanModifyComponents || component is null)
+        {
+            return false;
+        }
+
+        if (Component is not Control parent)
+        {
+            return false;
+        }
+
+        if (component is Control control)
+        {
+            // Assign name if possible
+            if (!string.IsNullOrEmpty(name))
+            {
+                control.Name = name;
+            }
+
+            parent.Controls?.Add(control);
+
+            // Basic positioning for first add
+            if (firstAdd)
+            {
+                control.Location = new System.Drawing.Point(10, 10);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -70,11 +102,14 @@ public partial class ParentControlDesigner : ControlDesigner, IOleDragClient
     /// <returns>
     /// Control.
     /// </returns>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     public Control GetControlForComponent(object component)
     {
-        throw new NotImplementedException();
+        if (component is Control control)
+        {
+            return control;
+        }
+
+        throw new ArgumentException(@"Component is not a Control.", nameof(component));
     }
 
     /// <summary>
@@ -83,11 +118,14 @@ public partial class ParentControlDesigner : ControlDesigner, IOleDragClient
     /// <returns>
     /// Control.
     /// </returns>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     public Control GetDesignerControl()
     {
-        throw new NotImplementedException();
+        if (Component is Control control)
+        {
+            return control;
+        }
+
+        throw new InvalidOperationException("Designer is not associated with a Control.");
     }
 
     /// <summary>
@@ -104,10 +142,14 @@ public partial class ParentControlDesigner : ControlDesigner, IOleDragClient
     /// false
     /// </c>.
     /// </returns>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     public bool IsDropOk(IComponent component)
     {
-        throw new NotImplementedException();
+        if (!CanModifyComponents || component is null)
+        {
+            return false;
+        }
+
+        // Only allow dropping controls onto controls
+        return component is Control;
     }
 }
