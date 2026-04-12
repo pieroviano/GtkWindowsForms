@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
@@ -15,8 +14,6 @@ namespace System.Drawing.Imaging;
 [TypeForwardedFrom("System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
 public sealed class Metafile : Image
 {
-    private const int MaxPath = 260;
-
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Drawing.Imaging.Metafile" /> class from the specified handle and a
@@ -1160,7 +1157,6 @@ public sealed class Metafile : Image
     /// </returns>
     public static MetafileHeader GetMetafileHeader(string fileName)
     {
-        System.IO.Path.GetFullPath(fileName);
         var metafileHeader = new MetafileHeader();
         var intPtr = Marshal.AllocHGlobal(Marshal.SizeOf<MetafileHeaderEmf>());
         try
@@ -1206,27 +1202,19 @@ public sealed class Metafile : Image
         try
         {
 
-            try
+            var array = new int[1];
+            Marshal.Copy(intPtr, array, 0, 1);
+            var metafileType = (MetafileType)array[0];
+            var metafileHeader = new MetafileHeader();
+            if (metafileType == MetafileType.Wmf || metafileType == MetafileType.WmfPlaceable)
             {
-
-                var array = new int[1];
-                Marshal.Copy(intPtr, array, 0, 1);
-                var metafileType = (MetafileType)array[0];
-                var metafileHeader = new MetafileHeader();
-                if (metafileType == MetafileType.Wmf || metafileType == MetafileType.WmfPlaceable)
-                {
-                    metafileHeader.wmf = Marshal.PtrToStructure<MetafileHeaderWmf>(intPtr);
-                    metafileHeader.emf = null;
-                    return metafileHeader;
-                }
-                metafileHeader.wmf = null;
-                metafileHeader.emf = Marshal.PtrToStructure<MetafileHeaderEmf>(intPtr);
+                metafileHeader.wmf = Marshal.PtrToStructure<MetafileHeaderWmf>(intPtr);
+                metafileHeader.emf = null;
                 return metafileHeader;
             }
-            finally
-            {
-
-            }
+            metafileHeader.wmf = null;
+            metafileHeader.emf = Marshal.PtrToStructure<MetafileHeaderEmf>(intPtr);
+            return metafileHeader;
         }
         finally
         {
