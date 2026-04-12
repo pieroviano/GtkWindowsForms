@@ -30,10 +30,11 @@ public class AsyncResultTests
     public void CompletedSynchronously_ShouldBeSettable()
     {
         // Arrange
-        var asyncResult = new AsyncResult();
-
-        // Act
-        asyncResult.CompletedSynchronously = true;
+        var asyncResult = new AsyncResult
+        {
+            // Act
+            CompletedSynchronously = true
+        };
 
         // Assert
         Assert.True(asyncResult.CompletedSynchronously);
@@ -53,10 +54,11 @@ public class AsyncResultTests
     public void IsCompleted_ShouldBeSettable()
     {
         // Arrange
-        var asyncResult = new AsyncResult();
-
-        // Act
-        asyncResult.IsCompleted = true;
+        var asyncResult = new AsyncResult
+        {
+            // Act
+            IsCompleted = true
+        };
 
         // Assert
         Assert.True(asyncResult.IsCompleted);

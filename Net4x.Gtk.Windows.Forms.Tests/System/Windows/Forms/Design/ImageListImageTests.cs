@@ -46,9 +46,10 @@ public class ImageListImageTests
     [Fact]
     public void Name_Setter_Works()
     {
-        var wrapper = new ImageListImage(null);
-
-        wrapper.Name = "hello";
+        var wrapper = new ImageListImage(null)
+        {
+            Name = "hello"
+        };
 
         Assert.Equal("hello", wrapper.Name);
     }
