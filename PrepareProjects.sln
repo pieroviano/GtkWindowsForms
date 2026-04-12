@@ -165,6 +165,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0075-Added-StringFormat-implementation.patch = patches\0075-Added-StringFormat-implementation.patch
 		patches\0076-Moved-files.patch = patches\0076-Moved-files.patch
 		patches\0077-Clean-Metafile.patch = patches\0077-Clean-Metafile.patch
+		patches\0078-Modified-projects-to-support-testing.patch = patches\0078-Modified-projects-to-support-testing.patch
 	EndProjectSection
 EndProject
 Global

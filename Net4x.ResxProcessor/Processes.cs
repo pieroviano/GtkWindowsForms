@@ -30,17 +30,22 @@ public class Processes
         while (process != null)
         {
             hasWaited = true;
-            try
-            {
-                process.WaitForExit();
-            }
-            catch (Exception e)
-            {
-                System.Console.WriteLine(e);
-            }
+            WaitProcessExit(process);
             process = IsProcessRunning(processName);
         }
         return hasWaited;
+    }
+
+    protected virtual void WaitProcessExit(Process process)
+    {
+        try
+        {
+            process.WaitForExit();
+        }
+        catch (Exception e)
+        {
+            System.Console.WriteLine(e);
+        }
     }
 
     /// <summary>
@@ -54,7 +59,7 @@ public class Processes
     /// Cannot be null or empty.</param>
     /// <returns>A <see cref="T:System.Diagnostics.Process"/> object representing a running process with the specified name, or
     /// <see langword="null"/> if no such process is found.</returns>
-    public System.Diagnostics.Process? IsProcessRunning(string processName)
+    public virtual System.Diagnostics.Process? IsProcessRunning(string processName)
     {
         // Get all processes with the specified process name
         var processes = System.Diagnostics.Process.GetProcessesByName(processName);

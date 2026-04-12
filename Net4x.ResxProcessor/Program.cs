@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Diagnostics;
-using System.Resources;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
 namespace Net4x.ResxProcessor;
 
@@ -28,6 +25,11 @@ public class Program
     /// exist.</returns>
     public static int Main(string[] args)
     {
+        return DoWork(args, new Processes());
+    }
+
+    internal static int DoWork(string[] args, Processes processes)
+    {
         string rootFolder;
 
         if (args.Length > 0)
@@ -47,7 +49,7 @@ public class Program
             return 1;
         }
 
-        new Processes().WaitSameProcessesStartedEarlier();
+        processes.WaitSameProcessesStartedEarlier();
 
         var resxFiles = Directory.GetFiles(
             rootFolder,
@@ -62,7 +64,7 @@ public class Program
         return 0;
     }
 
-    private static void ProcessResx(string rootFolder, string resxPath)
+    internal static void ProcessResx(string rootFolder, string resxPath)
     {
         var fileName = "this_FileName";
         var relativePath = Path.GetRelativePath(rootFolder, resxPath);

@@ -50,6 +50,8 @@
         </AssemblyAttribute>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="..\Net4x.Gtk.Windows.Forms\System\Diagnostics\CodeAnalysis\DynamicallyAccessedMembersAttribute.cs" Link="System\Diagnostics\CodeAnalysis\DynamicallyAccessedMembersAttribute.cs" />
+        <Compile Include="..\Net4x.Gtk.Windows.Forms\System\Diagnostics\CodeAnalysis\DynamicallyAccessedMemberTypes.cs" Link="System\Diagnostics\CodeAnalysis\DynamicallyAccessedMemberTypes.cs" />
         <Compile Include="..\Net4x.Gtk.Windows.Forms\System\Diagnostics\CodeAnalysis\NotNullWhenAttribute.cs" Link="System\Diagnostics\CodeAnalysis\NotNullWhenAttribute.cs" />
     </ItemGroup>
     <ItemGroup>
