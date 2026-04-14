@@ -7,6 +7,7 @@ using PixelFormat = gtk::System.Drawing.Imaging.PixelFormat;
 
 namespace System.Windows.Forms.Design;
 
+[Collection("NonParallelCollection")]
 public class ImageListImageTests
 {
     public ImageListImageTests()

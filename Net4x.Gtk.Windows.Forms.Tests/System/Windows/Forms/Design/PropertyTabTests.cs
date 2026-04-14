@@ -6,6 +6,7 @@ using Bitmap = gtk::System.Drawing.Bitmap;
 
 namespace System.Windows.Forms.Design;
 
+[Collection("NonParallelCollection")]
 public class PropertyTabTests
 {
     [Fact]

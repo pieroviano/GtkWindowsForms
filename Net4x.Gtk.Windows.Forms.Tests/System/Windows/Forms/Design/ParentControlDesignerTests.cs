@@ -3,6 +3,7 @@
 
 namespace System.Windows.Forms.Design;
 
+[Collection("NonParallelCollection")]
 public class ParentControlDesignerTests
 {
     public ParentControlDesignerTests()

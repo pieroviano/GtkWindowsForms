@@ -12,6 +12,7 @@ using gtk::System.Drawing.Design;
 
 namespace System.Windows.Forms.Design;
 
+[Collection("NonParallelCollection")]
 public class DocumentDesignerTests
 {
     [Fact]
