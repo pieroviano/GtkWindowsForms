@@ -78,15 +78,17 @@ public class RemoveUnusedUsingsRewriter : CSharpSyntaxRewriter
         // 1. static usings
         // 2. alias usings
         // 3. usings explicitly preserved in JSON
+#pragma warning disable RS1034
         if (usingDirective.StaticKeyword.Kind() != Microsoft.CodeAnalysis.CSharp.SyntaxKind.None)
+#pragma warning restore RS1034
             return true;
 
         if (usingDirective.Alias != null)
             return true;
 
-        var namespaceName = usingDirective.Name.ToString();
+        var namespaceName = usingDirective.Name?.ToString();
 
-        if (_preservedUsings.Contains(namespaceName))
+        if (namespaceName != null && _preservedUsings.Contains(namespaceName))
             return true;
 
         // If there are any preprocessor directives in the file, preserve the using
@@ -213,17 +215,14 @@ public class RemoveUnusedUsingsRewriter : CSharpSyntaxRewriter
                     break;
             }
 
-            if (symbol != null)
-            {
-                var containingNamespace = symbol.ContainingNamespace?.ToDisplayString();
+            var containingNamespace = symbol?.ContainingNamespace?.ToDisplayString();
 
-                // Check if symbol is from this namespace or a child namespace
-                if (containingNamespace != null &&
-                    (containingNamespace == namespaceName ||
-                     containingNamespace.StartsWith(namespaceName + ".")))
-                {
-                    return true;
-                }
+            // Check if symbol is from this namespace or a child namespace
+            if (containingNamespace != null &&
+                (containingNamespace == namespaceName ||
+                 containingNamespace.StartsWith(namespaceName + ".")))
+            {
+                return true;
             }
         }
 
@@ -280,7 +279,7 @@ public class RemoveUnusedUsingsRewriter : CSharpSyntaxRewriter
     /// Fallback heuristic when semantic model can't resolve symbols due to missing references.
     /// Checks if a type name is likely from a specific namespace based on common patterns.
     /// </summary>
-    private bool IsLikelyFromNamespace(string typeName, string namespaceName)
+    private bool IsLikelyFromNamespace(string typeName, string? namespaceName)
     {
         // Common types in System.Collections.Generic
         if (namespaceName == "System.Collections.Generic")
@@ -363,7 +362,7 @@ public class RemoveUnusedUsingsRewriter : CSharpSyntaxRewriter
     /// <summary>
     /// Checks if an attribute name suggests it's from a specific namespace.
     /// </summary>
-    private bool IsLikelyAttributeFromNamespace(string attributeName, string namespaceName)
+    private bool IsLikelyAttributeFromNamespace(string attributeName, string? namespaceName)
     {
         // Remove "Attribute" suffix if present
         var name = attributeName.EndsWith("Attribute") 
@@ -401,11 +400,11 @@ public class RemoveUnusedUsingsRewriter : CSharpSyntaxRewriter
     /// Checks if a namespace is a well-known .NET Framework/Core namespace.
     /// These can be safely removed if unused, as opposed to external library namespaces.
     /// </summary>
-    private bool IsWellKnownDotNetNamespace(string namespaceName)
+    private bool IsWellKnownDotNetNamespace(string? namespaceName)
     {
         // Check if it starts with "System" or "Microsoft"
-        return namespaceName.StartsWith("System.") || 
-               namespaceName.StartsWith("System") ||
-               namespaceName.StartsWith("Microsoft.");
+        return namespaceName != null && (namespaceName.StartsWith("System.") || 
+                                         namespaceName.StartsWith("System") ||
+                                         namespaceName.StartsWith("Microsoft."));
     }
 }

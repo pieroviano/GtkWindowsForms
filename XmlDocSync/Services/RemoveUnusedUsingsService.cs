@@ -131,7 +131,7 @@ public static class RemoveUnusedUsingsService
 
         var rewriter = new RemoveUnusedUsingsRewriter(semanticModel, addedUsings, root);
 
-        var newRoot = (CompilationUnitSyntax)rewriter.Visit(root)!;
+        var newRoot = (CompilationUnitSyntax)rewriter.Visit(root);
 
         newRoot = EnsureAddedUsingsPresent(newRoot, addedUsings);
 
@@ -156,7 +156,7 @@ public static class RemoveUnusedUsingsService
             .ToList();
 
         var existingNamespaces = normalExistingUsings
-            .Select(u => u.Name.ToString())
+            .Select(u => u.Name?.ToString())
             .ToHashSet();
 
         var missingUsings = addedUsings
@@ -179,7 +179,7 @@ public static class RemoveUnusedUsingsService
 
         var combined = existingUsingNodes
             .Concat(newUsingNodes)
-            .OrderBy(u => u.Name.ToString(), StringComparer.OrdinalIgnoreCase)
+            .OrderBy(u => u.Name?.ToString(), StringComparer.OrdinalIgnoreCase)
             .ToList();
 
         return root.WithUsings(SyntaxFactory.List(combined));
@@ -206,8 +206,8 @@ public static class RemoveUnusedUsingsService
 
     private static HashSet<string> GetAddedUsingsForFile(string filePath)
     {
-        var match = _usingDifferences!
-            .FirstOrDefault(x => filePath.EndsWith(x.FileName, StringComparison.OrdinalIgnoreCase));
+        var match = _usingDifferences?
+            .FirstOrDefault(x => x.FileName != null && filePath.EndsWith(x.FileName, StringComparison.OrdinalIgnoreCase));
 
         return match == null
             ? new HashSet<string>()

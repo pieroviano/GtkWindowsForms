@@ -6,7 +6,7 @@ namespace XmlDocSync.Roslyn;
 
 public class EventRewriter : CSharpSyntaxRewriter
 {
-    public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
+    public override SyntaxNode? VisitClassDeclaration(ClassDeclarationSyntax node)
     {
         // Skip sealed classes
         if (node.Modifiers.Any(SyntaxKind.SealedKeyword))

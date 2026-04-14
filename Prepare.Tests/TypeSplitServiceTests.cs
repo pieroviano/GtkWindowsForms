@@ -36,7 +36,9 @@ public class TypeSplitServiceTests
             // Act: call ProcessFilesInDirectory with a custom processFiles action that records processed files
             TypeSplitService.ProcessFilesInDirectory(filesByDir, filesToProcess =>
             {
-                processedFiles.AddRange(filesToProcess.Select(Path.GetFileName));
+#pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
+                processedFiles.AddRange(filesToProcess.Select(Path.GetFileName).Where(i => i != null));
+#pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
             });
 
             // Assert: only "Other.cs" should be processed

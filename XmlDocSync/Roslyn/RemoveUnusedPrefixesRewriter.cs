@@ -7,22 +7,20 @@ namespace XmlDocSync.Roslyn;
 public class RemoveUnusedPrefixesRewriter : CSharpSyntaxRewriter
 {
     private readonly SemanticModel _semanticModel;
-    private readonly string[] _usings;
+    private readonly string?[] _usings;
 
     public RemoveUnusedPrefixesRewriter(SemanticModel semanticModel, CompilationUnitSyntax root)
     {
         _semanticModel = semanticModel;
 
         _usings = root.Usings
-            .Select(u => u.Name.ToString())
+            .Select(u => u.Name?.ToString())
             .ToArray();
     }
 
-    public override SyntaxNode VisitQualifiedName(QualifiedNameSyntax node)
+    public override SyntaxNode? VisitQualifiedName(QualifiedNameSyntax node)
     {
-        var symbol = _semanticModel.GetSymbolInfo(node).Symbol as INamedTypeSymbol;
-
-        if (symbol == null)
+        if (_semanticModel.GetSymbolInfo(node).Symbol is not INamedTypeSymbol symbol)
             return base.VisitQualifiedName(node);
 
         var namespaceName = symbol.ContainingNamespace?.ToDisplayString();
