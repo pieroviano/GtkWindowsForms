@@ -8,7 +8,7 @@
   <Item>
     <FileName>..\*.csproj</FileName>
     <SourceString>&lt;PackageReference Include="GtkSharp" Version="$RegEx$([a-zA-Z0-9\-.]+)" /&gt;</SourceString>
-    <TargetString>&lt;PackageReference Include="GtkSharp" Version="$(GtkSharpLatestVersion)" /&gt;</TargetString>
+    <TargetString>&lt;PackageReference Include="GtkSharp" Version="$(GtkSharpLatestVersion).*" /&gt;</TargetString>
   </Item>
   <Item>
     <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
