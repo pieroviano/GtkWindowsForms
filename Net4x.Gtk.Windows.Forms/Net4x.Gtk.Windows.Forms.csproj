@@ -158,7 +158,7 @@ Based on GTKSystem.Windows.Forms:
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="System.Memory" Version="4.6.0" />
-        <PackageReference Include="GtkSharp" Version="$(GtkSharpLatestVersion)" />
+        <PackageReference Include="GtkSharp" Version="$(GtkSharpLatestVersion).*" />
         <PackageReference Include="System.Resources.Extensions" Version="$(Net4xGtkWindowsFormsVersion).$(VersionBuildSuffix)" />
         <PackageReference Include="Net4x.NuGetUtility" Version="$(NuGetUtilityVersion)" PrivateAssets="All" />
         <PackageReference Include="xunit.extensibility.core" Version="2.9.3" />

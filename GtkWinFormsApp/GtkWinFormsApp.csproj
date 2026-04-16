@@ -26,7 +26,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="GtkSharp" Version="$(GtkSharpLatestVersion)" />
+    <PackageReference Include="GtkSharp" Version="$(GtkSharpLatestVersion).*" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Form2.cs" />
