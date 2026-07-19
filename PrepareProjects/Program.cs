@@ -20,6 +20,10 @@ public class Program
 {
     public static async Task Main()
     {
+        // Pin the source fork to the fixed generation base (detached) so every run transforms
+        // the same source and the patch series applies. Returns the branch to advance on exit.
+        var sourceTrackingBranch = SourceRepositorySync.CheckoutGenerationBase();
+
         PrepareWorker.RenameDirectoriesInSourceRepository();
 
 #if REFRESH_XML_COMMENT_FILES
@@ -216,6 +220,11 @@ public class Program
             var process = Process.Start(exe);
             await process.WaitForExitAsync();
         }
+
+        // Advance the source fork to the latest gitee upstream so it stays aligned for next time.
+        ConsoleColor.Green.Write(@"Advancing gtksystem-windows-forms to latest gitee", true);
+        SourceRepositorySync.AdvanceToLatestGitee(sourceTrackingBranch);
+
         ConsoleColor.Green.Write("Preparation complete", true);
     }
 }
