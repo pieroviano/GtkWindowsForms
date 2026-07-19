@@ -32,6 +32,7 @@
     <CefSharpLibraryVersion>2.4.3</CefSharpLibraryVersion>
     <CertificateLibraryVersion>1.0.0</CertificateLibraryVersion>
     <ChromeLibraryVersion>1.0.0</ChromeLibraryVersion>
+    <ChromiumEmbeddedFrameworkRuntimeVersion>135.0.17</ChromiumEmbeddedFrameworkRuntimeVersion>
     <CodeDomExtVersion>2.2.0</CodeDomExtVersion>
     <CodeDomModifierVersion>1.0.0</CodeDomModifierVersion>
     <CodiceFiscaleVersion>1.1.0</CodiceFiscaleVersion>
@@ -86,6 +87,7 @@
     <HostAppInPanelVersion>1.2.0</HostAppInPanelVersion>
     <HostProcessLibrary>1.0.0</HostProcessLibrary>
     <HostProcessLibraryVersion>1.0.0</HostProcessLibraryVersion>
+    <Html2MarkdownConverterVersion>1.0.0</Html2MarkdownConverterVersion>
     <Html2XhtmlVersion>1.2.0</Html2XhtmlVersion>
     <HtmlCleanerVersion>1.4.0</HtmlCleanerVersion>
     <IdentityApplicationVersion>2.2.0</IdentityApplicationVersion>
@@ -230,6 +232,7 @@
     <StarbNet8Version>30.0.0</StarbNet8Version>
     <StarbookAppBackEndVersion>1.0.1</StarbookAppBackEndVersion>
     <StarbookAppVersion>1.0.1</StarbookAppVersion>
+    <StarbookWebApiOnlyVersion>1.0.1</StarbookWebApiOnlyVersion>
     <starbVersion>30.0.0</starbVersion>
     <StarbVersion>30.0.0</StarbVersion>
     <SystemCodeDom5Version>5.0.0</SystemCodeDom5Version>
@@ -255,7 +258,7 @@
     <SystemSecurityPrincipalWindowsVersion>5.0.0</SystemSecurityPrincipalWindowsVersion>
     <SystemTextEncodingVersion>4.3.0</SystemTextEncodingVersion>
     <SystemTextJson10Version>10.0.3</SystemTextJson10Version>
-    <SystemTextJsonVersion>10.0.0</SystemTextJsonVersion>
+    <SystemTextJsonVersion>6.0.10</SystemTextJsonVersion>
     <TaskSchedulerLibraryVersion>1.3.0</TaskSchedulerLibraryVersion>
     <TestAppVersion>1.2.0</TestAppVersion>
     <TextControlVersion>1.2.0</TextControlVersion>

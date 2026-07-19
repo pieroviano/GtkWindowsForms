@@ -173,6 +173,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 		patches\0083-Moved-ColorDepth.cs.patch = patches\0083-Moved-ColorDepth.cs.patch
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{85E24FAE-8680-4BCF-A154-F937485FB09F}"
+	ProjectSection(SolutionItems) = preProject
+		gtksystem-windows-forms\ARCHITECTURE.md = gtksystem-windows-forms\ARCHITECTURE.md
+		PrepareProjects.md = PrepareProjects.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
