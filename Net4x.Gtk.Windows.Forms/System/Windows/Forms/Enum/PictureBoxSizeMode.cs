@@ -40,5 +40,10 @@ public enum PictureBoxSizeMode
     /// <summary>
     /// The size of the image is increased or decreased maintaining the size ratio.
     /// </summary>
-    Zoom = 4
+    Zoom = 4,
+
+    /// <summary>
+    /// The image is repeated (tiled) to fill the System.Windows.Forms.PictureBox.
+    /// </summary>
+    Tile = 5
 }

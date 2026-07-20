@@ -1,3 +1,5 @@
+using Gdk;
+
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 /// <summary>
@@ -11,12 +13,28 @@ public sealed class ButtonBase : Gtk.Button, IControlGtk
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.ButtonBase" /> class.
     /// </summary>
-    public ButtonBase() : base(new Gtk.Label() { Wrap = true, SingleLineMode = false, LineWrap = true, LineWrapMode = Pango.WrapMode.WordChar })
+    public ButtonBase() : base(new Gtk.Label() { MaxWidthChars = 0, Wrap = false, Ellipsize = Pango.EllipsizeMode.End })
     {
         this.Override = new GtkControlOverride(this);
-        this.Override.AddClass("Button");
-        base.Valign = Gtk.Align.Start;
-        base.Halign = Gtk.Align.Start;
+        this.StyleContext.AddClass("Button");
+        this.Valign = Gtk.Align.Start;
+        this.Halign = Gtk.Align.Start;
+        this.Events |= EventMask.PointerMotionMask;
+        this.Events |= EventMask.ButtonMotionMask;
+        this.ButtonReleaseEvent += ButtonBase_ButtonReleaseEvent;
+        this.Drawn += ButtonBase_Drawn;
+    }
+
+    /// <summary>
+    /// Gets or sets the dialog result that is assigned to the owning form when this button is released.
+    /// </summary>
+    /// <value>
+    /// The <see cref="!:DialogResult" /> produced by this button.
+    /// </value>
+    public System.Windows.Forms.DialogResult DialogResult
+    {
+        get;
+        set;
     }
 
     /// <summary>
@@ -36,27 +54,47 @@ public sealed class ButtonBase : Gtk.Button, IControlGtk
     }
 
     /// <summary>
-    /// Called when the control is drawn.
+    /// Gets or sets the text displayed by the button's child label.
     /// </summary>
-    /// <param name="cr">
-    /// The Cairo context.
-    /// </param>
-    /// <returns>
-    /// </returns>
-    protected override bool OnDrawn(Cairo.Context cr)
+    /// <value>
+    /// The button caption.
+    /// </value>
+    public string Text
     {
-        var rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
-        Override.OnPaint(cr, rec);
-
-        return base.OnDrawn(cr);
+        get => ((Gtk.Label)Child).Text;
+        set => ((Gtk.Label)Child).Text = value;
     }
 
     /// <summary>
-    /// Called when the control is shown.
+    /// Handles the GTK ButtonReleaseEvent and propagates
+    /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.ButtonBase.DialogResult" /> to the owning form.
     /// </summary>
-    protected override void OnShown()
+    /// <param name="o">
+    /// The source of the event.
+    /// </param>
+    /// <param name="args">
+    /// The <see cref="Gtk.ButtonReleaseEventArgs" /> instance containing the event data.
+    /// </param>
+    private void ButtonBase_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
     {
-        Override.OnAddClass();
-        base.OnShown();
+        if (this.Toplevel is FormBase form)
+        {
+            ((System.Windows.Forms.Form)form.Data["Control"]).DialogResult = DialogResult;
+        }
+    }
+
+    /// <summary>
+    /// Handles the GTK Drawn signal and lets the
+    /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride" /> paint the control.
+    /// </summary>
+    /// <param name="o">
+    /// The source of the event.
+    /// </param>
+    /// <param name="args">
+    /// The <see cref="Gtk.DrawnArgs" /> instance containing the Cairo context.
+    /// </param>
+    private void ButtonBase_Drawn(object o, Gtk.DrawnArgs args)
+    {
+        Override.OnPaint(args.Cr);
     }
 }

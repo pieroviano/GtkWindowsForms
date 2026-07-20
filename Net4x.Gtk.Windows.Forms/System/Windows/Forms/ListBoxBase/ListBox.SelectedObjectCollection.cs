@@ -55,31 +55,6 @@ public partial class ListBox
         {
             get
             {
-                if (_owner.IsHandleCreated)
-                {
-                    var current = _owner.SelectionMode;
-                    switch (current)
-                    {
-                        case SelectionMode.None:
-                            return 0;
-
-                        case SelectionMode.One:
-                            var index = _owner.SelectedIndex;
-                            if (index >= 0)
-                            {
-                                return 1;
-                            }
-
-                            return 0;
-
-                        case SelectionMode.MultiSimple:
-                        case SelectionMode.MultiExtended:
-                            return InnerArray.GetCount(SelectedObjectMask);
-                    }
-
-                    return 0;
-                }
-
                 if (_lastVersion != InnerArray.Version)
                 {
                     _lastVersion = InnerArray.Version;
@@ -369,4 +344,4 @@ public partial class ListBox
             throw new NotSupportedException("SR.ListBoxSelectedObjectCollectionIsReadOnly");
         }
     }
-}
+}

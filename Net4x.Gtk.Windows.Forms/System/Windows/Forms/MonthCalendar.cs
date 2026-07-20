@@ -36,6 +36,7 @@ public partial class MonthCalendar : Control
     /// </summary>
     public MonthCalendar() : base()
     {
+        self.Override.sender = this;
         self.DaySelected += MonthCalendar_DaySelected;
     }
 

@@ -33,7 +33,7 @@ public sealed class LinearGradientBrush : Brush
 
     /// <summary>
     /// Creates a new instance of the
-    /// <see cref="T:System.Drawing.Drawing2D.LinearGradientBrush" /> class based on a rectangle, starting and ending colors, and orientation.
+    /// <see cref="T:System.Drawing.Drawing2D.LinearGradientBrush" /> based on a rectangle, starting and ending colors, and an orientation mode.
     /// </summary>
     public LinearGradientBrush(Rectangle rect, Color color1, Color color2, LinearGradientMode linearGradientMode)
     {

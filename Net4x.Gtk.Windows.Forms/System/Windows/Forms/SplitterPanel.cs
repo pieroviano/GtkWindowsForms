@@ -17,9 +17,6 @@ namespace System.Windows.Forms;
 [DesignerCategory("Component")]
 public sealed class SplitterPanel : Panel
 {
-
-    internal SplitContainer Owner;
-
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.SplitterPanel" /> class.
@@ -29,8 +26,8 @@ public sealed class SplitterPanel : Panel
     /// </param>
     public SplitterPanel(SplitContainer owner) : base()
     {
-        self.Override.AddClass("SplitterPanel");
-        Owner = owner;
+        self.Override.sender = this;
+        self.StyleContext.AddClass("SplitterPanel");
         self.BorderWidth = 0;
         self.ShadowType = Gtk.ShadowType.None;
         self.Margin = 0;
@@ -38,6 +35,35 @@ public sealed class SplitterPanel : Panel
         self.Valign = Gtk.Align.Fill;
         self.Hexpand = false;
         self.Vexpand = false;
+    }
+
+    /// <summary>
+    /// Gets or sets the anchor.
+    /// </summary>
+    /// <value>
+    /// The anchor.
+    /// </value>
+    public override AnchorStyles Anchor
+    {
+        get;
+        set;
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether automatic size.
+    /// </summary>
+    /// <value>
+    /// <c>
+    /// true
+    /// </c> if automatic size; otherwise,
+    /// <c>
+    /// false
+    /// </c>.
+    /// </value>
+    public override bool AutoSize
+    {
+        get => base.AutoSize;
+        set { }
     }
 
     /// <summary>

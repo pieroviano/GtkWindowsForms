@@ -79,6 +79,7 @@ public class TableLayoutControlCollection : Control.ControlCollection
                     Vexpand = false, Hexpand = false, Valign = Align.Fill,
                     Halign = Align.Fill,
                     BorderWidth = 0,
+                    ShadowType = ShadowType.In,
                     Child = control.Widget
                 };
                 Container?.grid.Attach(viewport, column, row, 1, 1);
@@ -90,6 +91,35 @@ public class TableLayoutControlCollection : Control.ControlCollection
         {
             Container.SetColumn(control, column);
             Container.SetRow(control, row);
+        }
+    }
+
+    /// <summary>
+    /// Removes the specified control from the collection, unwrapping the
+    /// <see cref="T:Gtk.Viewport" /> cell that hosts it when present.
+    /// </summary>
+    /// <param name="value">
+    /// The control to remove.
+    /// </param>
+    public override void Remove(Control? value)
+    {
+        if (value is null)
+        {
+            return;
+        }
+
+        if (value.Widget?.Parent is Gtk.Viewport view)
+        {
+            if (view.Child != null)
+            {
+                view.Remove(view.Child);
+            }
+
+            InnerList.Remove(value);
+        }
+        else
+        {
+            base.Remove(value);
         }
     }
 }

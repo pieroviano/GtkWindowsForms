@@ -15,15 +15,22 @@ namespace System.Windows.Forms;
 /// <see cref="T:System.Windows.Forms.ToolStrip" />
 /// that allows the user to enter text.
 /// </summary>
-public class ToolStripTextBox : WidgetToolStrip<Gtk.MenuItem>
+public class ToolStripTextBox : ToolStripItem
 {
+
+    public StripToolItem self = new StripToolItem();
+
+    internal Gtk.Entry entry = new Gtk.Entry();
+
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripTextBox" /> class.
     /// </summary>
-    public ToolStripTextBox() : base("ToolStripTextBox", null)
+    public ToolStripTextBox() : base()
     {
-
+        entry.MaxWidthChars = 1;
+        entry.WidthChars = 0;
+        self.Add(entry);
     }
 
     /// <summary>
@@ -34,20 +41,8 @@ public class ToolStripTextBox : WidgetToolStrip<Gtk.MenuItem>
     /// </value>
     public int MaxLength
     {
-        get => this.entry.MaxLength;
-        set => this.entry.MaxLength = value;
-    }
-
-    /// <summary>
-    /// Gets or sets the size.
-    /// </summary>
-    /// <value>
-    /// The size.
-    /// </value>
-    public override Size Size
-    {
-        get => base.Size;
-        set { this.entry.WidthRequest = value.Width; this.entry.HeightRequest = value.Height; base.Size = value; }
+        get => entry.MaxLength;
+        set => entry.MaxLength = value;
     }
 
     /// <summary>
@@ -58,7 +53,9 @@ public class ToolStripTextBox : WidgetToolStrip<Gtk.MenuItem>
     /// </value>
     public override string? Text
     {
-        get => this.entry.Text;
-        set => this.entry.Text = value;
+        get => entry.Text;
+        set => entry.Text = value;
     }
+
+    public override IToolMenuItem Widget { get => self; }
 }

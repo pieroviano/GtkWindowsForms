@@ -28,6 +28,7 @@ public class MaskedTextBox : TextBox
     /// </summary>
     public MaskedTextBox() : base()
     {
+        self.Override.sender = this;
         self.AddClass("MaskedTextBox");
         self.Backspace += Control_Backspace;
         self.TextInserted += Control_TextInserted;

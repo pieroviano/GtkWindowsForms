@@ -9,7 +9,6 @@ namespace System.Drawing;
 /// <filterpriority>
 /// 1
 /// </filterpriority>
-[TypeConverter("System.Drawing.FontConverter, System.Windows.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51")]
 public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISerializable
 {
 
@@ -101,9 +100,6 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// </param>
     public Font(string familyName, float emSize, FontStyle style) : this(new FontFamily(familyName), emSize, style, GraphicsUnit.Point, 1, false)
     {
-        this.FontFamily = new FontFamily(familyName);
-        this.Size = emSize;
-        this.Style = style;
     }
 
     /// <summary>
@@ -262,7 +258,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// </exception>
     public Font(FontFamily? family, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet, bool gdiVerticalFont)
     {
-        this.Name = family?.Name;
+        this.Name = family.Name;
         this.FontFamily = family;
         this.Size = emSize;
         this.Style = style;
@@ -380,7 +376,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// true if this System.Drawing.Font has a horizontal line through it; otherwise, false.
     /// </returns>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public bool Strikeout { get; }
+    public bool Strikeout { get => Style.HasFlag(FontStyle.Strikeout); }
 
     /// <summary>
     /// Gets style information for this System.Drawing.Font.
@@ -613,5 +609,6 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// <returns>
     /// A string that represents this System.Drawing.Font.
     /// </returns>
-    public override string ToString() { return "Font"; }
+    public override string ToString() => FontFamily == null ? $"[{GetType().Name}: Empty]" : $"[{GetType().Name}: Name={FontFamily.Name}, Size={Size}, Units={Unit}, Style={Style}]";
+
 }

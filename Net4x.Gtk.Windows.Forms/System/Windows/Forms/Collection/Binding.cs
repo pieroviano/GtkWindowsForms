@@ -974,7 +974,10 @@ public class Binding
                 EventHandler eventHandler1 = Target_PropertyChanged;
                 _propInfo.AddValueChanged(_control, eventHandler1);
             }
-            _validateInfo?.AddEventHandler(_control, (CancelEventHandler)Target_Validate);
+            if (_validateInfo != null)
+            {
+                _validateInfo.AddEventHandler(_control, (CancelEventHandler)Target_Validate);
+            }
         }
     }
 

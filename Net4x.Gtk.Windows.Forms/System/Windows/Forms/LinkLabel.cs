@@ -38,6 +38,7 @@ public partial class LinkLabel : Control
     /// </summary>
     public LinkLabel() : base()
     {
+        self.Override.sender = this;
         self.Clicked += LinkLabel_Click;
         self.ActivateLink += LinkLabel_ActivateLink;
     }
@@ -121,8 +122,8 @@ public partial class LinkLabel : Control
     /// </value>
     public bool LinkVisited
     {
-        get;
-        set;
+        get => self.Visited;
+        set => self.Visited = value;
     }
 
     /// <summary>
@@ -558,4 +559,4 @@ public partial class LinkLabel : Control
             throw new NotImplementedException();
         }
     }
-}
+}

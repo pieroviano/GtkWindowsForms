@@ -1,3 +1,5 @@
+using GtkSystem.Windows.Forms.Resources;
+
 namespace System.Windows.Forms;
 
 /// <summary>
@@ -73,7 +75,7 @@ public static class Cursors
     /// <value>
     /// The application starting.
     /// </value>
-    public static Cursor AppStarting => s_appStarting ??= new Cursor(Gdk.CursorType.Circle);
+    public static Cursor AppStarting => s_appStarting ??= new Cursor(AssemblyResources.ToCursorsUri("circle.cur"), 0, 0);
 
     /// <summary>
     /// Gets the arrow.
@@ -81,7 +83,7 @@ public static class Cursors
     /// <value>
     /// The arrow.
     /// </value>
-    public static Cursor Arrow => s_arrow ??= new Cursor(Gdk.CursorType.Arrow);
+    public static Cursor Arrow => s_arrow ??= new Cursor(AssemblyResources.ToCursorsUri("arrow.cur"), 0, 0);
 
     /// <summary>
     /// Gets the cross.
@@ -89,7 +91,7 @@ public static class Cursors
     /// <value>
     /// The cross.
     /// </value>
-    public static Cursor Cross => s_cross ??= new Cursor(Gdk.CursorType.Cross);
+    public static Cursor Cross => s_cross ??= new Cursor(AssemblyResources.ToCursorsUri("cross.cur"), 10, 10);
 
     /// <summary>
     /// Gets the default.
@@ -105,7 +107,7 @@ public static class Cursors
     /// <value>
     /// The hand.
     /// </value>
-    public static Cursor Hand => s_hand ??= new Cursor(Gdk.CursorType.Hand1);
+    public static Cursor Hand => s_hand ??= new Cursor(AssemblyResources.ToCursorsUri("hand.cur"), 0, 0);
 
     /// <summary>
     /// Gets the help.
@@ -113,7 +115,7 @@ public static class Cursors
     /// <value>
     /// The help.
     /// </value>
-    public static Cursor Help => s_help ??= new Cursor(Gdk.CursorType.QuestionArrow);
+    public static Cursor Help => s_help ??= new Cursor(AssemblyResources.ToCursorsUri("help.cur"), 0, 0);
 
     /// <summary>
     /// Gets the h split.
@@ -121,7 +123,7 @@ public static class Cursors
     /// <value>
     /// The h split.
     /// </value>
-    public static Cursor HSplit => s_hSplit ??= new Cursor("Resources.Cursors.hsplit.cur", 25, 25);
+    public static Cursor HSplit => s_hSplit ??= new Cursor(AssemblyResources.ToCursorsUri("size_ver.cur"), 0, 10);
 
     /// <summary>
     /// Gets the i beam.
@@ -129,7 +131,7 @@ public static class Cursors
     /// <value>
     /// The i beam.
     /// </value>
-    public static Cursor IBeam => s_iBeam ??= new Cursor(Gdk.CursorType.Xterm);
+    public static Cursor IBeam => s_iBeam ??= new Cursor(AssemblyResources.ToCursorsUri("xterm.cur"), 0, 0);
 
     /// <summary>
     /// Gets the no.
@@ -137,7 +139,7 @@ public static class Cursors
     /// <value>
     /// The no.
     /// </value>
-    public static Cursor No => s_no ??= new Cursor("Resources.Cursors.aero_unavail.cur", 0, 0);
+    public static Cursor No => s_no ??= new Cursor(AssemblyResources.ToCursorsUri("not-allowed.cur"), 0, 0);
 
     /// <summary>
     /// Gets the no move2 d.
@@ -145,7 +147,7 @@ public static class Cursors
     /// <value>
     /// The no move2 d.
     /// </value>
-    public static Cursor NoMove2D => s_noMove2D ??= new Cursor("Resources.Cursors.nomove2d.cur", 25, 25);
+    public static Cursor NoMove2D => s_noMove2D ??= new Cursor(AssemblyResources.ToCursorsUri("move.cur"), 10, 10);
 
     /// <summary>
     /// Gets the no move horiz.
@@ -153,7 +155,7 @@ public static class Cursors
     /// <value>
     /// The no move horiz.
     /// </value>
-    public static Cursor NoMoveHoriz => s_noMoveHoriz ??= new Cursor("Resources.Cursors.nomoveh.cur", 25, 25);
+    public static Cursor NoMoveHoriz => s_noMoveHoriz ??= new Cursor(AssemblyResources.ToCursorsUri("size_ver.cur"), 0, 10);
 
     /// <summary>
     /// Gets the no move vert.
@@ -161,7 +163,7 @@ public static class Cursors
     /// <value>
     /// The no move vert.
     /// </value>
-    public static Cursor NoMoveVert => s_noMoveVert ??= new Cursor("Resources.Cursors.nomovev.cur", 25, 25);
+    public static Cursor NoMoveVert => s_noMoveVert ??= new Cursor(AssemblyResources.ToCursorsUri("size_hor.cur"), 10, 0);
 
     /// <summary>
     /// Gets the pan east.
@@ -169,7 +171,7 @@ public static class Cursors
     /// <value>
     /// The pan east.
     /// </value>
-    public static Cursor PanEast => s_panEast ??= new Cursor("Resources.Cursors.east.cur", 25, 25);
+    public static Cursor PanEast => s_panEast ??= new Cursor(AssemblyResources.ToCursorsUri("e-resize.cur"), 20, 0);
 
     /// <summary>
     /// Gets the pan ne.
@@ -177,7 +179,7 @@ public static class Cursors
     /// <value>
     /// The pan ne.
     /// </value>
-    public static Cursor PanNE => s_panNE ??= new Cursor("Resources.Cursors.ne.cur", 25, 25);
+    public static Cursor PanNE => s_panNE ??= new Cursor(AssemblyResources.ToCursorsUri("ne-resize.cur"), 20, 0);
 
     /// <summary>
     /// Gets the pan north.
@@ -185,7 +187,7 @@ public static class Cursors
     /// <value>
     /// The pan north.
     /// </value>
-    public static Cursor PanNorth => s_panNorth ??= new Cursor("Resources.Cursors.north.cur", 25, 25);
+    public static Cursor PanNorth => s_panNorth ??= new Cursor(AssemblyResources.ToCursorsUri("n-resize.cur"), 10, 0);
 
     /// <summary>
     /// Gets the pan nw.
@@ -193,7 +195,7 @@ public static class Cursors
     /// <value>
     /// The pan nw.
     /// </value>
-    public static Cursor PanNW => s_panNW ??= new Cursor("Resources.Cursors.nw.cur", 25, 25);
+    public static Cursor PanNW => s_panNW ??= new Cursor(AssemblyResources.ToCursorsUri("nw-resize.cur"), 0, 0);
 
     /// <summary>
     /// Gets the pan se.
@@ -201,7 +203,7 @@ public static class Cursors
     /// <value>
     /// The pan se.
     /// </value>
-    public static Cursor PanSE => s_panSE ??= new Cursor("Resources.Cursors.se.cur", 25, 25);
+    public static Cursor PanSE => s_panSE ??= new Cursor(AssemblyResources.ToCursorsUri("se-resize.cur"), 20, 20);
 
     /// <summary>
     /// Gets the pan south.
@@ -209,7 +211,7 @@ public static class Cursors
     /// <value>
     /// The pan south.
     /// </value>
-    public static Cursor PanSouth => s_panSouth ??= new Cursor("Resources.Cursors.south.cur", 25, 25);
+    public static Cursor PanSouth => s_panSouth ??= new Cursor(AssemblyResources.ToCursorsUri("s-resize.cur"), 0, 20);
 
     /// <summary>
     /// Gets the pan sw.
@@ -217,7 +219,7 @@ public static class Cursors
     /// <value>
     /// The pan sw.
     /// </value>
-    public static Cursor PanSW => s_panSW ??= new Cursor("Resources.Cursors.sw.cur", 25, 25);
+    public static Cursor PanSW => s_panSW ??= new Cursor(AssemblyResources.ToCursorsUri("sw-resize.cur"), 0, 20);
 
     /// <summary>
     /// Gets the pan west.
@@ -225,7 +227,7 @@ public static class Cursors
     /// <value>
     /// The pan west.
     /// </value>
-    public static Cursor PanWest => s_panWest ??= new Cursor("Resources.Cursors.west.cur", 25, 25);
+    public static Cursor PanWest => s_panWest ??= new Cursor(AssemblyResources.ToCursorsUri("w-resize.cur"), 0, 0);
 
     /// <summary>
     /// Gets the size all.
@@ -233,7 +235,7 @@ public static class Cursors
     /// <value>
     /// The size all.
     /// </value>
-    public static Cursor SizeAll => s_sizeAll ??= new Cursor(Gdk.CursorType.Fleur);
+    public static Cursor SizeAll => s_sizeAll ??= new Cursor(AssemblyResources.ToCursorsUri("size_all.cur"), 10, 10);
 
     /// <summary>
     /// Gets the size nesw.
@@ -241,7 +243,7 @@ public static class Cursors
     /// <value>
     /// The size nesw.
     /// </value>
-    public static Cursor SizeNESW => s_sizeNESW ??= new Cursor("Resources.Cursors.aero_nesw.cur", 15, 15);
+    public static Cursor SizeNESW => s_sizeNESW ??= new Cursor(AssemblyResources.ToCursorsUri("nesw-resize.cur"), 10, 10);
 
     /// <summary>
     /// Gets the size ns.
@@ -249,7 +251,7 @@ public static class Cursors
     /// <value>
     /// The size ns.
     /// </value>
-    public static Cursor SizeNS => s_sizeNS ??= new Cursor("Resources.Cursors.aero_ns.cur", 15, 15);
+    public static Cursor SizeNS => s_sizeNS ??= new Cursor(AssemblyResources.ToCursorsUri("ns-resize.cur"), 0, 10);
 
     /// <summary>
     /// Gets the size nwse.
@@ -257,7 +259,7 @@ public static class Cursors
     /// <value>
     /// The size nwse.
     /// </value>
-    public static Cursor SizeNWSE => s_sizeNWSE ??= new Cursor("Resources.Cursors.aero_nwse.cur", 15, 15);
+    public static Cursor SizeNWSE => s_sizeNWSE ??= new Cursor(AssemblyResources.ToCursorsUri("nwse-resize.cur"), 10, 10);
 
     /// <summary>
     /// Gets the size we.
@@ -265,7 +267,7 @@ public static class Cursors
     /// <value>
     /// The size we.
     /// </value>
-    public static Cursor SizeWE => s_sizeWE ??= new Cursor("Resources.Cursors.aero_ew.cur", 15, 15);
+    public static Cursor SizeWE => s_sizeWE ??= new Cursor(AssemblyResources.ToCursorsUri("ew-resize.cur"), 10, 0);
 
     /// <summary>
     /// Gets up arrow.
@@ -273,7 +275,7 @@ public static class Cursors
     /// <value>
     /// Up arrow.
     /// </value>
-    public static Cursor UpArrow => s_upArrow ??= new Cursor(Gdk.CursorType.SbUpArrow);
+    public static Cursor UpArrow => s_upArrow ??= new Cursor(AssemblyResources.ToCursorsUri("sb_up_arrow.cur"), 0, 0);
 
     /// <summary>
     /// Gets the v split.
@@ -281,7 +283,7 @@ public static class Cursors
     /// <value>
     /// The v split.
     /// </value>
-    public static Cursor VSplit => s_vSplit ??= new Cursor("Resources.Cursors.vsplit.cur", 25, 25);
+    public static Cursor VSplit => s_vSplit ??= new Cursor(AssemblyResources.ToCursorsUri("size_hor.cur"), 10, 0);
 
     /// <summary>
     /// Gets the wait cursor.

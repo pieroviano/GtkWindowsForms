@@ -25,10 +25,17 @@ public class TrackBar : Control
 
     Scale? scale;
 
+    private bool Is_Self_Realized;
+
     /// <summary>
     /// Occurs when scroll.
     /// </summary>
     public virtual event EventHandler? Scroll;
+
+    /// <summary>
+    /// Occurs when the value changed.
+    /// </summary>
+    public virtual event EventHandler? ValueChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -36,6 +43,8 @@ public class TrackBar : Control
     /// </summary>
     public TrackBar() : base()
     {
+        self.Override.sender = this;
+
         // Ensure we create the GTK Scale when the underlying GTK widget is realized.
         // Also handle the case where the widget is already realized by calling handler immediately.
         self.Realized += Control_Realized;
@@ -146,8 +155,22 @@ public class TrackBar : Control
         Scroll?.Invoke(this, e);
     }
 
+    /// <summary>
+    /// Raises the ValueChanged event.
+    /// </summary>
+    protected virtual void OnValueChanged(System.EventArgs e)
+    {
+        ValueChanged?.Invoke(this, e);
+    }
+
     private void Control_Realized(object sender, EventArgs e)
     {
+        if (Is_Self_Realized)
+        {
+            return;
+        }
+
+        Is_Self_Realized = true;
         scale = new Gtk.Scale(Orientation == Orientation.Horizontal ? Gtk.Orientation.Horizontal : Gtk.Orientation.Vertical, adjustment)
         {
             ShowFillLevel = true,
@@ -165,7 +188,7 @@ public class TrackBar : Control
 
     private void Control_ValueChanged(object sender, EventArgs e)
     {
-        Value = (int)adjustment.Value;
+        OnValueChanged(EventArgs.Empty);
         OnScroll(EventArgs.Empty);
     }
 }

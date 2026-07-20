@@ -6,7 +6,6 @@
  */
 
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using GtkControls;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
@@ -29,6 +28,8 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// The self
     /// </summary>
     public readonly TableLayoutPanelBase self = new();
+
+    private TableLayoutPanelCellBorderStyle _CellBorderStyle;
 
     private int _ColumnCount;
 
@@ -73,8 +74,15 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     [Localizable(true)]
     public TableLayoutPanelCellBorderStyle CellBorderStyle
     {
-        get;
-        set;
+        get => _CellBorderStyle;
+        set
+        {
+            _CellBorderStyle = value;
+            if (value == TableLayoutPanelCellBorderStyle.None)
+                self.StyleContext.RemoveClass("TableCellBorder");
+            else
+                self.StyleContext.AddClass("TableCellBorder");
+        }
     }
 
     /// <summary>
@@ -367,7 +375,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
         if (ColumnCount > 0)
         {
             for (var r = 0; r < RowCount; r++)
-                list.Add(grid.GetChildAt(0, r).WidthRequest);
+                list.Add(grid.GetChildAt(0, r).HeightRequest);
         }
 
         return list.ToArray();
@@ -396,6 +404,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     {
         SetColumnsStyles();
         SetRowsStyles();
+        self.QueueResize();
     }
 
     /// <summary>
@@ -523,8 +532,6 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
             {
                 if (rs.SizeType == SizeType.Absolute)
                 {
-                    GtkLogger.Info(ColumnCount.ToString());
-                    GtkLogger.Info(Convert.ToInt32(rs.Height).ToString());
                     for (var c = 0; c < ColumnCount; c++)
                         grid.GetChildAt(c, ridx).HeightRequest = Convert.ToInt32(rs.Height);
                 }

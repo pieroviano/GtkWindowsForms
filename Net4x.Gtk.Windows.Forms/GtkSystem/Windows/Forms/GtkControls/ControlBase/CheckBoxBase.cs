@@ -14,7 +14,7 @@ public sealed class CheckBoxBase : Gtk.CheckButton, IControlGtk
     public CheckBoxBase() : base()
     {
         this.Override = new GtkControlOverride(this);
-        this.Override.AddClass("CheckBox");
+        this.StyleContext.AddClass("CheckBox");
         base.Valign = Gtk.Align.Start;
         base.Halign = Gtk.Align.Start;
     }
@@ -33,14 +33,5 @@ public sealed class CheckBoxBase : Gtk.CheckButton, IControlGtk
     {
         get;
         set;
-    }
-
-    /// <summary>
-    /// Called when the control is shown.
-    /// </summary>
-    protected override void OnShown()
-    {
-        Override.OnAddClass();
-        base.OnShown();
     }
 }

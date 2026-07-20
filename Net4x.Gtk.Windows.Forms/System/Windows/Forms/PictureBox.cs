@@ -8,7 +8,6 @@
 using System.ComponentModel;
 using System.Drawing;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
-using GtkSystem.Windows.Forms.Utility;
 
 namespace System.Windows.Forms;
 
@@ -18,12 +17,18 @@ namespace System.Windows.Forms;
 [DesignerCategory("Component")]
 public partial class PictureBox : Control
 {
+    /// <summary>
+    /// The self
+    /// </summary>
+    public readonly PictureBoxBase self = new();
+
+    private Image? _backgroundImage;
 
     private Image? _image;
 
     private string? _ImageLocation;
 
-    private readonly PictureBoxBase self = new();
+    private Image? _initialImage;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -31,7 +36,31 @@ public partial class PictureBox : Control
     /// </summary>
     public PictureBox()
     {
-        self.Shown += Self_Shown;
+        self.Override.sender = this;
+    }
+
+    /// <summary>
+    /// Gets or sets the background image displayed in the control.
+    /// </summary>
+    /// <value>
+    /// The background image.
+    /// </value>
+    public override Image? BackgroundImage
+    {
+        get => _backgroundImage;
+        set { _backgroundImage = value; self.BackgroundImage = value?.Pixbuf; }
+    }
+
+    /// <summary>
+    /// Gets or sets the background image layout.
+    /// </summary>
+    /// <value>
+    /// The background image layout.
+    /// </value>
+    public override ImageLayout BackgroundImageLayout
+    {
+        get => self.BackgroundImageLayout;
+        set => self.BackgroundImageLayout = value;
     }
 
     /// <summary>
@@ -73,16 +102,13 @@ public partial class PictureBox : Control
     /// <value>
     /// The image.
     /// </value>
-    public override System.Drawing.Image? Image
+    public override Image? Image
     {
         get { return _image; }
         set
         {
             _image = value;
-            if (self.IsRealized && _image != null && _image.PixbufData != null)
-            {
-                Self_Shown(null, null);
-            }
+            self.Image = _image?.Pixbuf;
         }
     }
 
@@ -94,7 +120,7 @@ public partial class PictureBox : Control
     /// </value>
     public string? ImageLocation
     {
-        get { return _ImageLocation; }
+        get => _ImageLocation;
         set { _ImageLocation = value; Load(value); }
     }
 
@@ -106,8 +132,32 @@ public partial class PictureBox : Control
     /// </value>
     public Image? InitialImage
     {
-        get;
-        set;
+        get => _initialImage;
+        set { _initialImage = value; if (_image == null) { this.Image = value; } }
+    }
+
+    /// <summary>
+    /// Gets or sets the maximum size of the control.
+    /// </summary>
+    /// <value>
+    /// The maximum size.
+    /// </value>
+    public override Size MaximumSize
+    {
+        get => self.MaximumSize;
+        set => self.MaximumSize = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the minimum size of the control.
+    /// </summary>
+    /// <value>
+    /// The minimum size.
+    /// </value>
+    public override Size MinimumSize
+    {
+        get => self.MinimumSize;
+        set => self.MinimumSize = value;
     }
 
     /// <summary>
@@ -118,8 +168,8 @@ public partial class PictureBox : Control
     /// </value>
     public PictureBoxSizeMode SizeMode
     {
-        get;
-        set;
+        get => self.SizeMode;
+        set { self.SizeMode = value; }
     }
 
     /// <summary>
@@ -143,37 +193,35 @@ public partial class PictureBox : Control
     /// </param>
     public new void Load(string? url)
     {
+        if (self.contaner.Children.Length > 1)
+        {
+            self.contaner.Children[1].Destroy();
+        }
         if (string.IsNullOrWhiteSpace(url))
-        { return; }
-        else if ((url?.Contains("://") ?? false) && Uri.TryCreate(url, UriKind.Absolute, out var result))
+        {
+            return;
+        }
+        else if (url!.EndsWith(".gif", StringComparison.OrdinalIgnoreCase))
+        {
+            // supports animation， animated images are not scaled or positioned
+            var image = new Gtk.Image(new Gdk.PixbufAnimation(url.Replace("\\\\", "/").Replace("\\", "/")))
+            {
+                Halign = Gtk.Align.Center,
+                Valign = Gtk.Align.Center
+            };
+            self.contaner.AddOverlay(image);
+        }
+        else if (url.Contains("://") && Uri.TryCreate(url, UriKind.Absolute, out var result))
         {
             var file = GLib.FileFactory.NewForUri(result);
             var stream = file.Read(new GLib.Cancellable());
             var pixbuf = new Gdk.Pixbuf(stream, new GLib.Cancellable());
-            _image = new Bitmap(0, 0)
-            {
-                Pixbuf = pixbuf
-            };
+            this.Image = new Bitmap(pixbuf.Width, pixbuf.Height) { Pixbuf = pixbuf };
         }
         else
         {
-            if (!(url ?? string.Empty).Contains("://"))
-            {
-                url = Path.GetFullPath(url ?? string.Empty);
-                if (!File.Exists(url))
-                {
-                    return;
-                }
-            }
-            var pixbuf = new Gdk.Pixbuf(url?.Replace("\\\\", "/").Replace("\\", "/"));
-            _image = new Bitmap(0, 0)
-            {
-                Pixbuf = pixbuf
-            };
-        }
-        if (self.IsMapped && self.IsVisible)
-        {
-            Self_Shown(null, null);
+            var pixbuf = new Gdk.Pixbuf(url.Replace("\\\\", "/").Replace("\\", "/"));
+            this.Image = new Bitmap(pixbuf.Width, pixbuf.Height) { Pixbuf = pixbuf };
         }
     }
 
@@ -214,41 +262,6 @@ public partial class PictureBox : Control
     /// </param>
     public void LoadAsync(string? url)
     {
-        Threading.Tasks.Task.Run(() => Gtk.Application.Invoke(new EventHandler((o, e) =>
-        {
-            Load(url);
-        })));
-    }
-
-    private void Self_Shown(object? sender, EventArgs? e)
-    {
-        var width = Width;
-        var height = Height;
-        if (this.MaximumSize.Width > 0)
-        {
-            width = Math.Min(this.MaximumSize.Width, Width);
-        }
-        if (this.MaximumSize.Height > 0)
-        {
-            height = Math.Min(this.MaximumSize.Height, Height);
-        }
-        if (this.MinimumSize.Width > 0)
-        {
-            width = Math.Min(this.MinimumSize.Width, width);
-        }
-        if (this.MinimumSize.Height > 0)
-        {
-            height = Math.Min(this.MinimumSize.Height, height);
-        }
-        if (_image != null && _image.Pixbuf != null)
-        {
-            ImageUtility.ScaleImageByPictureBoxSizeMode(_image.Pixbuf, width, height, out var newImagePixbuf, SizeMode);
-            self.Pixbuf = newImagePixbuf;
-        }
-        else if (InitialImage != null && InitialImage.Pixbuf != null)
-        {
-            ImageUtility.ScaleImageByPictureBoxSizeMode(InitialImage.Pixbuf, width, height, out var newImagePixbuf, SizeMode);
-            self.Pixbuf = newImagePixbuf;
-        }
+        Threading.Tasks.Task.Run(() => GLib.Idle.Add(0, () => { Load(url); return false; }));
     }
 }

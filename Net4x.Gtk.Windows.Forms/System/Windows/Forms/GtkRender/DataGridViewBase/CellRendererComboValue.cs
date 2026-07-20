@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -19,9 +19,11 @@ namespace System.Windows.Forms.GtkRender;
 /// <seealso cref="T:System.Windows.Forms.GtkRender.ICellRenderer" />
 public class CellRendererComboValue : CellRendererCombo, ICellRenderer
 {
-    readonly DataGridViewColumn Column;
+    DataGridViewColumn Column;
 
-    private readonly CellReandererUtility utility;
+    int ColumnIndex;
+
+    private CellReandererUtility utility;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -33,7 +35,13 @@ public class CellRendererComboValue : CellRendererCombo, ICellRenderer
     public CellRendererComboValue(DataGridViewColumn view)
     {
         Column = view;
+        ColumnIndex = view.Index;
         utility = new CellReandererUtility();
+    }
+
+    static CellRendererComboValue()
+    {
+        typeof(CellRendererComboValue).GetMembers();
     }
 
     /// <summary>
@@ -61,17 +69,13 @@ public class CellRendererComboValue : CellRendererCombo, ICellRenderer
     /// The cell value.
     /// </value>
     [Property("cellvalue")]
-    public DataGridViewCell CellValue
+    public DataGridViewRow CellValue
     {
         set
         {
-            if (value != null)
-            {
-                var style = value.Style ?? ColumnStyle;
-                if (style == null)
-                    style = value.InheritedStyle;
-                utility.SetTextWithStyle(this, style, value.Value);
-            }
+            DataGridViewCell cell = value.Cells[Column.Index];
+            var style = utility.GetStyle(this.Column, cell);
+            utility.SetTextWithStyle(this, style, cell.Value);
         }
     }
 

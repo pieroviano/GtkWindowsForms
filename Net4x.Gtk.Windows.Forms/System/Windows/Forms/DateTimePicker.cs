@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Gtk;
+using GtkSystem.Windows.Forms.Resources;
 
 namespace System.Windows.Forms;
 
@@ -43,11 +44,12 @@ public partial class DateTimePicker : MaskedTextBox
     /// </summary>
     public DateTimePicker() : base("DateTimePicker")
     {
+        self.Override.sender = this;
         base.Mask = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask;
 
         self.SecondaryIconActivatable = true;
         self.SecondaryIconStock = "open-menu";
-        self.SecondaryIconPixbuf = new Gdk.Pixbuf(this.GetType().Assembly, "Resources.System.MonthCalendar.ico");
+        self.SecondaryIconPixbuf = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("MonthCalendar.ico"));
         self.IconRelease += DateTimePicker_IconRelease;
         self.Shown += Self_Shown;
 
@@ -55,7 +57,8 @@ public partial class DateTimePicker : MaskedTextBox
         {
             BorderWidth = 5,
             Modal = true,
-            Position = PositionType.Bottom
+            Position = PositionType.Bottom,
+            ConstrainTo = PopoverConstraint.Window
         };
 
         calendar.Halign = Gtk.Align.Fill;

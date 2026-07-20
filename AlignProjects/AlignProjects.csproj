@@ -13,9 +13,9 @@
 	     project folder so the conflict pause can print short, stable paths - but it must never be fed to
 	     the SDK's default globs, or the tool fails to compile against its own output. -->
 	<ItemGroup>
-		<Compile Remove="build\**" />
-		<None Remove="build\**" />
-		<EmbeddedResource Remove="build\**" />
+		<Compile Remove="build\**;build-selfcheck\**" />
+		<None Remove="build\**;build-selfcheck\**" />
+		<EmbeddedResource Remove="build\**;build-selfcheck\**" />
 	</ItemGroup>
 
 	<ItemGroup>

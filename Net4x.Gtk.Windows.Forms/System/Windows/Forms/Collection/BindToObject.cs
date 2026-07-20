@@ -212,8 +212,9 @@ internal class BindToObject
 
     private string GetErrorText(object? value)
     {
+        var dataErrorInfo = value as IDataErrorInfo;
         var empty = string.Empty;
-        if (value is IDataErrorInfo dataErrorInfo)
+        if (dataErrorInfo != null)
         {
             empty = _fieldInfo != null ? dataErrorInfo[_fieldInfo.Name] : dataErrorInfo.Error;
         }

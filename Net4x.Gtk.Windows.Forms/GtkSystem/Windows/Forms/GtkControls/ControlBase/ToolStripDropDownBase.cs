@@ -33,24 +33,4 @@ public sealed class ToolStripDropDownBase : Gtk.Menu, IControlGtk
         get;
         set;
     }
-
-    /// <summary>
-    /// Adds the class.
-    /// </summary>
-    /// <param name="cssClass">
-    /// The CSS class.
-    /// </param>
-    public void AddClass(string cssClass)
-    {
-        this.Override.AddClass(cssClass);
-    }
-
-    /// <summary>
-    /// Called when the control is shown.
-    /// </summary>
-    protected override void OnShown()
-    {
-        Override.OnAddClass();
-        base.OnShown();
-    }
 }

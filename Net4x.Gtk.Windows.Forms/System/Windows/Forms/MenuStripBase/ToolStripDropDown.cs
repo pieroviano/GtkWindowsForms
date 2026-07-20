@@ -18,8 +18,7 @@ public class ToolStripDropDown : ToolStripItem
     /// <summary>
     /// The self
     /// </summary>
-    //public readonly ToolStripDropDownBase self = new ToolStripDropDownBase();
-    public readonly Gtk.Menu self = new();
+    public StripDropDown self = new StripDropDown();
 
     /// <summary>
     /// Initializes a new instance of the
@@ -48,6 +47,5 @@ public class ToolStripDropDown : ToolStripItem
     /// <value>
     /// The widget.
     /// </value>
-    public override Gtk.Widget Widget => self;
-
+    public override IToolMenuItem Widget { get => self; }
 }

@@ -109,7 +109,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
         {
             var dataGridViewRow = SharedRow(index);
 
-            return dataGridViewRow;
+            return dataGridViewRow!;
         }
     }
 
@@ -121,13 +121,11 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <returns>
     /// System.Int32.
     /// </returns>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual int Add()
     {
         var row = new DataGridViewRow();
-        AddGtkStore(row);
 
-        return row.Index;
+        return Add(row);
     }
 
     /// <summary>
@@ -141,13 +139,9 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </returns>
     public virtual int Add(DataGridViewRow dataGridViewRow)
     {
-        var rowindex = items.Count;
-        if (parentRow == null)
-            AddGtkStore(dataGridViewRow);
-        else
-            AddGtkStore(parentRow.TreeIter, ref rowindex, dataGridViewRow);
+        AddRowsStore(dataGridViewRow);
 
-        return dataGridViewRow.Index;
+        return items.Add(dataGridViewRow);
     }
 
     /// <summary>
@@ -159,7 +153,6 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <returns>
     /// System.Int32.
     /// </returns>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual int Add(params object[] values)
     {
         var newRow = new DataGridViewRow();
@@ -200,15 +193,13 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <returns>
     /// System.Int32.
     /// </returns>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual int Add(int count)
     {
         var start = items.Count;
         for (var i = 0; i < count; i++)
         {
-            var row = new DataGridViewRow() { Index = start + i };
-            AddGtkStore(row);
-            items.Add(row);
+            var row = new DataGridViewRow();
+            Add(row);
         }
 
         return start + count;
@@ -255,20 +246,14 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <param name="dataGridViewRows">
     /// The data grid view rows.
     /// </param>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual void AddRange(params DataGridViewRow[] dataGridViewRows)
     {
         if (this.dataGridView?.Store.NColumns < this.dataGridView?.GridView.Columns.Length)
             this.dataGridView?.Columns.Invalidate();
-        if (parentRow == null)
-            AddGtkStore(dataGridViewRows);
-        else
+
+        foreach (var row in dataGridViewRows)
         {
-            var rowindex = items.Count;
-            foreach (var row in dataGridViewRows)
-            {
-                AddGtkStore(parentRow.TreeIter, ref rowindex, row);
-            }
+            Add(row);
         }
     }
 
@@ -279,7 +264,16 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </summary>
     public virtual void Clear()
     {
-        dataGridView?.Store.Clear();
+        if (parentRow == null)
+            dataGridView?.Store.Clear();
+        else if (dataGridView != null)
+        {
+            foreach (DataGridViewRow row in items)
+            {
+                var iter = row.TreeIter;
+                dataGridView.Store.Remove(ref iter);
+            }
+        }
         items.Clear();
     }
 
@@ -314,6 +308,18 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     public void CopyTo(DataGridViewRow[] array, int index)
     {
         items.CopyTo(array, index);
+    }
+
+    /// <summary>
+    /// Returns an enumerator that iterates through the collection.
+    /// </summary>
+    /// <returns>
+    /// An
+    /// <see cref="T:System.Collections.IEnumerator" /> for the collection.
+    /// </returns>
+    public IEnumerator GetEnumerator()
+    {
+        return items.GetEnumerator();
     }
 
     /// <summary>
@@ -615,7 +621,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
                 }
             }
 
-            InsertGtkStore(rowIndex, newRow);
+            Insert(rowIndex, newRow);
         }
     }
 
@@ -630,7 +636,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </param>
     public virtual void Insert(int rowIndex, DataGridViewRow dataGridViewRow)
     {
-        InsertGtkStore(rowIndex, dataGridViewRow);
+        InsertRowsStore(rowIndex, dataGridViewRow);
+        items.Insert(rowIndex, dataGridViewRow);
     }
 
     /// <summary>
@@ -651,8 +658,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
             if (dataGridViewColumnCollection != null)
                 foreach (var col in dataGridViewColumnCollection)
                 {
-                    var cell = col.CellTemplate;
-                    rows[r].Cells.Add(cell);
+                    var cell = col.NewCell();
+                    if (cell != null) rows[r].Cells.Add(cell);
                 }
         }
         InsertRange(rowIndex, rows);
@@ -694,7 +701,12 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </param>
     public virtual void InsertRange(int rowIndex, params DataGridViewRow[] dataGridViewRows)
     {
-        InsertGtkStore(rowIndex, dataGridViewRows);
+        var idx = rowIndex;
+        foreach (var row in dataGridViewRows)
+        {
+            Insert(idx, row);
+            idx++;
+        }
     }
 
     /// <summary>
@@ -705,7 +717,10 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </param>
     public virtual void Remove(DataGridViewRow dataGridViewRow)
     {
-        RemoveAt(dataGridViewRow.Index);
+        var iter = dataGridViewRow.TreeIter;
+        if (iter.UserData != IntPtr.Zero)
+            dataGridView?.Store.Remove(ref iter);
+        items.Remove(dataGridViewRow);
     }
 
     /// <summary>
@@ -718,15 +733,12 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </param>
     public virtual void RemoveAt(int index)
     {
-        if (dataGridView != null && dataGridView.Store.GetIter(out var iter, new TreePath(new int[] { index })))
+        if (Count > index)
         {
-            dataGridView.Store.Remove(ref iter);
-        }
-        items.RemoveAt(index);
-        //reset id
-        for (var i = 0; i < items.Count; i++)
-        {
-            ((DataGridViewRow)items[i]).Index = i;
+            var iter = ((DataGridViewRow)items[index]).TreeIter;
+            if (iter.UserData != IntPtr.Zero)
+                dataGridView?.Store.Remove(ref iter);
+            items.RemoveAt(index);
         }
     }
 
@@ -739,20 +751,34 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// <returns>
     /// DataGridViewRow.
     /// </returns>
-    public DataGridViewRow SharedRow(int rowIndex)
+    public DataGridViewRow? SharedRow(int rowIndex)
     {
-        TreeIter iter = default;
-        var hasiter = dataGridView != null && dataGridView.Store.GetIter(out iter,new TreePath(new int[] { rowIndex }));
-        if (hasiter)
-        {
-            foreach (DataGridViewRow item in items)
-            {
-                if (item.TreeIter.Equals(iter.UserData))
-                    return item;
-            }
-        }
+        if (rowIndex >= 0 && items.Count > rowIndex)
+            return (DataGridViewRow)items[rowIndex];
+        else
+            return null;
+    }
 
-        return (DataGridViewRow)SharedList[rowIndex];
+    internal void AddRowsStore(DataGridViewRow dataGridViewRow)
+    {
+        if (dataGridView == null) return;
+        dataGridViewRow.DataGridView = dataGridView;
+        dataGridViewRow.Parent = parentRow;
+        if (parentRow == null)
+            dataGridViewRow.TreeIter = dataGridView.Store.AppendValues(dataGridViewRow);
+        else
+            dataGridViewRow.TreeIter = dataGridView.Store.AppendValues(parentRow.TreeIter, dataGridViewRow);
+    }
+
+    internal void InsertRowsStore(int rowIndex, DataGridViewRow dataGridViewRow)
+    {
+        if (dataGridView == null) return;
+        dataGridViewRow.DataGridView = dataGridView;
+        dataGridViewRow.Parent = parentRow;
+        if (parentRow != null && parentRow.TreeIter.UserData != IntPtr.Zero)
+            dataGridViewRow.TreeIter = dataGridView.Store.InsertWithValues(parentRow.TreeIter, rowIndex, dataGridViewRow);
+        else
+            dataGridViewRow.TreeIter = dataGridView.Store.InsertWithValues(rowIndex, dataGridViewRow);
     }
 
     int IList.Add(object value)
@@ -773,11 +799,6 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     void ICollection.CopyTo(Array array, int index)
     {
         items.CopyTo(array, index);
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return items.GetEnumerator();
     }
 
     int IList.IndexOf(object value)
@@ -812,182 +833,5 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     protected virtual void OnCollectionChanged(CollectionChangeEventArgs e)
     {
         CollectionChanged?.Invoke(dataGridView, e);
-    }
-
-    private TreeIter AddGtkStore(DataGridViewCellCollection cells)
-    {
-        var ncolumns = dataGridView?.Store.NColumns??0;
-        var columnscount = dataGridView?.Columns?.Count ?? 0;
-        for (var i = cells.Count; i < columnscount; i++)
-            if (dataGridView != null)
-            {
-                var dataGridViewCell = dataGridView.Columns?[i].NewCell();
-                if (dataGridViewCell != null) cells.Add(dataGridViewCell);
-            }
-
-        for (var i = cells.Count; i < ncolumns; i++)
-            cells.Add(new DataGridViewTextBoxCell());
-        for (var i = 0; i < ncolumns; i++)
-            cells[i].ColumnIndex = i;
-
-        if (ncolumns == cells.Count)
-        {
-            if (dataGridView != null)
-            {
-                object[] dataGridViewCells = cells.ConvertAll(o => o).ToArray();
-                return dataGridView.Store.AppendValues(dataGridViewCells);
-            }
-        }
-        else if (dataGridView != null)
-        {
-            object[] dataGridViewCells = cells.ConvertAll(o => o).Take(ncolumns).ToArray();
-            return dataGridView.Store.AppendValues(dataGridViewCells);
-        }
-        return default;
-    }
-
-    private TreeIter AddGtkStore(TreeIter parent, DataGridViewCellCollection cells)
-    {
-        var ncolumns = dataGridView?.Store.NColumns ?? 0;
-        var columnscount = dataGridView?.Columns.Count ?? 0;
-        for (var i = cells.Count; i < columnscount; i++)
-        {
-            var dataGridViewCell = dataGridView?.Columns[i].NewCell();
-            if (dataGridViewCell != null) cells.Add(dataGridViewCell);
-        }
-
-        for (var i = cells.Count; i < ncolumns; i++)
-            cells.Add(new DataGridViewTextBoxCell());
-        for (var i = 0; i < ncolumns; i++)
-            cells[i].ColumnIndex = i;
-        if (ncolumns == cells.Count)
-        {
-            if (dataGridView != null)
-                return dataGridView.Store.AppendValues(parent, cells.ConvertAll(o => o).ToArray());
-        }
-        else if (dataGridView != null)
-            return dataGridView.Store.AppendValues(parent, cells.ConvertAll(o => o).Take(ncolumns).ToArray());
-        return default;
-    }
-
-    private void AddGtkStore(params DataGridViewRow[] dataGridViewRows)
-    {
-        var rowindex = items.Count;
-        foreach (var row in dataGridViewRows)
-        {
-            row.DataGridView = dataGridView;
-            row.Index = rowindex;
-            var _cellStyle = dataGridView?.DefaultCellStyle;
-            if (dataGridView?.RowsDefaultCellStyle != null)
-                _cellStyle = dataGridView.RowsDefaultCellStyle;
-            if (rowindex % 2 != 0 && dataGridView?.AlternatingRowsDefaultCellStyle != null)
-                _cellStyle = dataGridView.AlternatingRowsDefaultCellStyle;
-            if (row.DefaultCellStyle != null)
-                _cellStyle = row.DefaultCellStyle;
-
-            foreach (DataGridViewCell cell in row.Cells)
-            {
-                cell.RowIndex = rowindex;
-                cell.RowStyle = _cellStyle;
-            }
-            items.Add(row);
-            rowindex++;
-            if (row.TreeIter.Equals(TreeIter.Zero))
-            {
-                row.TreeIter = AddGtkStore(row.Cells);
-                foreach (DataGridViewRow child in row.Children)
-                {
-                    items.Add(child);
-                    AddGtkStore(row.TreeIter, ref rowindex, child);
-                }
-            }
-            else
-            {
-                var piter = AddGtkStore(row.TreeIter, row.Cells);
-                foreach (DataGridViewRow child in row.Children)
-                {
-                    items.Add(child);
-                    AddGtkStore(piter, ref rowindex, child);
-                }
-            }
-        }
-    }
-
-    private void AddGtkStore(TreeIter parent, ref int rowindex, DataGridViewRow row)
-    {
-        row.Index = rowindex;
-        row.DataGridView = dataGridView;
-        var _cellStyle = dataGridView?.DefaultCellStyle;
-        if (dataGridView?.RowsDefaultCellStyle != null)
-            _cellStyle = dataGridView.RowsDefaultCellStyle;
-        if (rowindex % 2 != 0 && dataGridView?.AlternatingRowsDefaultCellStyle != null)
-            _cellStyle = dataGridView.AlternatingRowsDefaultCellStyle;
-        if (row.DefaultCellStyle != null)
-            _cellStyle = row.DefaultCellStyle;
-
-        foreach (DataGridViewCell cell in row.Cells)
-            cell.RowStyle = _cellStyle;
-
-        items.Add(row);
-        row.TreeIter = AddGtkStore(parent, row.Cells);
-        rowindex++;
-        foreach (DataGridViewRow child in row.Children)
-        {
-            items.Add(child);
-            AddGtkStore(row.TreeIter, ref rowindex, child);
-        }
-    }
-
-    private TreeIter InsertGtkStore(int rowIndex, DataGridViewCellCollection cells)
-    {
-        var ncolumns = dataGridView?.Store.NColumns ?? 0;
-        var columnscount = dataGridView?.Columns.Count ?? 0;
-        for (var i = cells.Count; i < columnscount; i++)
-        {
-            var dataGridViewCell = dataGridView?.Columns[i].NewCell();
-            if (dataGridViewCell != null)
-            {
-                cells.Add(dataGridViewCell);
-            }
-        }
-
-        for (var i = cells.Count; i < ncolumns; i++)
-            cells.Add(new DataGridViewTextBoxCell());
-        for (var i = 0; i < ncolumns; i++)
-            cells[i].ColumnIndex = i;
-        if (ncolumns == cells.Count)
-            return dataGridView?.Store.InsertWithValues(rowIndex, cells.ConvertAll(o => o).ToArray()) ?? throw new InvalidOperationException();
-        else
-            return dataGridView?.Store.InsertWithValues(rowIndex, cells.ConvertAll(o => o).Take(ncolumns).ToArray()) ?? throw new InvalidOperationException();
-    }
-
-    private void InsertGtkStore(int rowIndex, params DataGridViewRow[] dataGridViewRows)
-    {
-        var idx = rowIndex;
-        foreach (var row in dataGridViewRows)
-        {
-            var _cellStyle = dataGridView?.DefaultCellStyle;
-            if (dataGridView?.RowsDefaultCellStyle != null)
-                _cellStyle = dataGridView.RowsDefaultCellStyle;
-            if (idx % 2 != 0 && dataGridView?.AlternatingRowsDefaultCellStyle != null)
-                _cellStyle = dataGridView.AlternatingRowsDefaultCellStyle;
-            if (row.DefaultCellStyle != null)
-                _cellStyle = row.DefaultCellStyle;
-
-            foreach (DataGridViewCell cell in row.Cells)
-            {
-                cell.RowIndex = idx;
-                cell.RowStyle = _cellStyle;
-            }
-
-            items.Insert(idx, row);
-            row.TreeIter = InsertGtkStore(idx, row.Cells);
-            idx++;
-        }
-        var newindex = idx;
-        for (var i = idx; i < items.Count; i++)
-        {
-            ((DataGridViewRow)items[i]).Index = idx;
-        }
     }
 }

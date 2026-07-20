@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -19,9 +19,11 @@ namespace System.Windows.Forms.GtkRender;
 /// <seealso cref="T:System.Windows.Forms.GtkRender.ICellRenderer" />
 public class CellRendererToggleValue : CellRendererToggle, ICellRenderer
 {
-    readonly DataGridViewColumn Column;
+    DataGridViewColumn Column;
 
-    private readonly CellReandererUtility utility;
+    int ColumnIndex;
+
+    private CellReandererUtility utility;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -33,7 +35,13 @@ public class CellRendererToggleValue : CellRendererToggle, ICellRenderer
     public CellRendererToggleValue(DataGridViewColumn view)
     {
         Column = view;
+        ColumnIndex = view.Index;
         utility = new CellReandererUtility();
+    }
+
+    static CellRendererToggleValue()
+    {
+        typeof(CellRendererToggleValue).GetMembers();
     }
 
     /// <summary>
@@ -43,18 +51,14 @@ public class CellRendererToggleValue : CellRendererToggle, ICellRenderer
     /// The cell value.
     /// </value>
     [Property("cellvalue")]
-    public DataGridViewCell CellValue
+    public DataGridViewRow CellValue
     {
         set
         {
-            if (value != null)
-            {
-                this.Active = (value.Value?.ToString() == "1" || value.Value?.ToString()?.ToLower() == "true");
-                var style = value.Style ?? ColumnStyle;
-                if (style == null)
-                    style = value.InheritedStyle;
-                utility.SetControlWithStyle(this, style);
-            }
+            DataGridViewCell cell = value.Cells[Column.Index];
+            this.Active = (cell.Value?.ToString() == "True" || cell.Value?.ToString() == "true" || cell.Value?.ToString() == "1");
+            var style = utility.GetStyle(this.Column, cell);
+            utility.SetControlWithStyle(this, style);
         }
     }
 

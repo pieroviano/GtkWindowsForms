@@ -283,11 +283,9 @@ internal class NonStaticMessageBox : IMessageBox
         dia.BorderWidth = 20;
         dia.Valign = Align.Fill;
         dia.Halign = Align.Fill;
-        var msgbox = new Box(Gtk.Orientation.Horizontal, 10)
-        {
-            Valign = Align.Start,
-            Halign = Align.Fill
-        };
+        var msgbox = new Box(Gtk.Orientation.Horizontal, 10);
+        msgbox.Valign = Align.Start;
+        msgbox.Halign = Align.Fill;
 
         if (icon == MessageBoxIcon.Question)
             msgbox.PackStart(Image.LoadFromResource("Resources.System.dialog-question.png"), false, false, 5);
@@ -297,11 +295,9 @@ internal class NonStaticMessageBox : IMessageBox
             msgbox.PackStart(Image.LoadFromResource("Resources.System.dialog-information.png"), false, false, 5);
         else if (icon == MessageBoxIcon.Error || icon == MessageBoxIcon.Stop || icon == MessageBoxIcon.Hand)
             msgbox.PackStart(Image.LoadFromResource("Resources.System.dialog-error.png"), false, false, 5);
-        var content = new Gtk.Label(text)
-        {
-            MarginEnd = 30, Halign = Align.Fill,
-            Valign = Align.Start
-        };
+        var content = new Gtk.Label(text) { MarginEnd = 30 };
+        content.Halign = Align.Fill;
+        content.Valign = Align.Start;
         var maxwidth = 300;
         if (Gdk.Screen.Default.Display.NMonitors > 0)
         {

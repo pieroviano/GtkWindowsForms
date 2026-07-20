@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -22,6 +22,27 @@ public class CellReandererUtility
             return string.Format(cellstyle.Format??string.Empty, text);
         else
             return text?.ToString();
+    }
+
+    internal DataGridViewCellStyle? GetStyle(DataGridViewColumn col, DataGridViewCell cell)
+    {
+        DataGridViewCellStyle? style = cell.Style;
+        if (style == null)
+            style = cell.RowStyle;
+
+        if (style == null)
+        {
+            if (cell.DataGridView?.AlternatingRowsDefaultCellStyle != null && cell.OwningRow?.Index % 2 == 1)
+                style = cell.DataGridView.AlternatingRowsDefaultCellStyle;
+            else
+                style = cell.DataGridView?.RowsDefaultCellStyle;
+        }
+        if (style == null)
+        {
+            style = col.DefaultCellStyle ?? cell.DataGridView?.DefaultCellStyle;
+        }
+
+        return style;
     }
 
     internal void SetControlWithStyle(CellRenderer cell, DataGridViewCellStyle? cellstyle)
@@ -64,8 +85,7 @@ public class CellReandererUtility
             if (cellstyle.WrapMode == DataGridViewTriState.True)
             {
                 cell.WrapMode = Pango.WrapMode.WordChar;
-                cell.WrapWidth = 0;
-                cell.WidthChars = 0;
+                cell.WrapWidth = cell.WidthChars;
             }
             if (cellstyle.ForeColor.Name != "0")
                 if (cellstyle != null)
@@ -97,9 +117,6 @@ public class CellReandererUtility
                 cell.SetAlignment(0.5f, 1f);
             else if (cellstyle != null && cellstyle.Alignment == DataGridViewContentAlignment.BottomRight)
                 cell.SetAlignment(1.0f, 1f);
-
-            if (cellstyle != null && cellstyle.WrapMode != DataGridViewTriState.NotSet)
-                cell.WrapMode = cellstyle.WrapMode == DataGridViewTriState.True ? Pango.WrapMode.WordChar : Pango.WrapMode.Word;
         }
     }
 }

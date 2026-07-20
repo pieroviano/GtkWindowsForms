@@ -1,8 +1,6 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Windows.Forms;
-using Gdk;
 using Gtk;
-using GtkSystem.Windows.Forms.Utility;
 using Image = System.Drawing.Image;
 using Rectangle = System.Drawing.Rectangle;
 
@@ -41,15 +39,14 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 public sealed class GtkControlOverride : IControlOverride
 {
 
-    private Image? _BackgroundImage;
-
-    private Pixbuf? backgroundPixbuf;
-
     private readonly Widget container;
 
     private readonly List<string> cssList = new();
 
-    private Pixbuf? imagePixbuf;
+    /// <summary>
+    /// The sender used when raising the paint events.
+    /// </summary>
+    public object sender;
 
     /// <summary>
     /// Occurs when the background is drawn.
@@ -76,6 +73,7 @@ public sealed class GtkControlOverride : IControlOverride
     public GtkControlOverride(Widget container)
     {
         this.container = container;
+        this.sender = container;
     }
 
     /// <summary>
@@ -98,8 +96,8 @@ public sealed class GtkControlOverride : IControlOverride
     /// </value>
     public Image? BackgroundImage
     {
-        get { return _BackgroundImage; }
-        set { _BackgroundImage = value; backgroundPixbuf = null; }
+        get;
+        set;
     }
 
     /// <summary>
@@ -214,13 +212,9 @@ public sealed class GtkControlOverride : IControlOverride
             cr.Paint();
             cr.Restore();
         }
-        if (BackgroundImage != null && BackgroundImage.PixbufData != null)
+        if (BackgroundImage != null && BackgroundImage.Pixbuf != null)
         {
-            if (backgroundPixbuf == null || backgroundPixbuf.Width != area.Width || backgroundPixbuf.Height != area.Height)
-            {
-                ImageUtility.ScaleImageByImageLayout(BackgroundImage.PixbufData, area.Width, area.Height, out backgroundPixbuf, BackgroundImageLayout);
-            }
-            ImageUtility.DrawImage(cr, backgroundPixbuf, area, ContentAlignment.TopLeft);
+            SetDrawnBackground(cr, BackgroundImage.Pixbuf, BackgroundImageLayout, area.Width, area.Height);
         }
 
         if (DrawnBackground != null)
@@ -241,14 +235,9 @@ public sealed class GtkControlOverride : IControlOverride
     /// </param>
     public void OnDrawnImage(Cairo.Context cr, Gdk.Rectangle area)
     {
-        if (Image != null && Image.PixbufData != null)
+        if (Image != null && Image.Pixbuf != null)
         {
-            if (imagePixbuf == null || imagePixbuf.Width != area.Width || imagePixbuf.Height != area.Height)
-            {
-                var imagepixbuf = new Gdk.Pixbuf(Image.PixbufData);
-                imagePixbuf = imagepixbuf.ScaleSimple(area.Width, area.Height, Gdk.InterpType.Nearest);
-            }
-            ImageUtility.DrawImage(cr, imagePixbuf, area, ImageAlign);
+            SetDrawImage(cr, Image.Pixbuf, area, ImageAlign);
         }
     }
 
@@ -263,8 +252,37 @@ public sealed class GtkControlOverride : IControlOverride
     /// </param>
     public void OnPaint(Cairo.Context cr, Gdk.Rectangle area)
     {
-        PaintGraphics?.Invoke(this, new PaintGraphicsEventArgs(cr, new Rectangle(area.X, area.Y, area.Width, area.Height)));
-        Paint?.Invoke(this.container, new PaintEventArgs(new Graphics(container, cr, area), new Rectangle(area.X, area.Y, area.Width, area.Height)));
+        if (PaintGraphics != null)
+        {
+            cr.Save();
+            PaintGraphics.Invoke(this, new PaintGraphicsEventArgs(cr, new Rectangle(area.X, area.Y, area.Width, area.Height)));
+            cr.Restore();
+        }
+        Paint?.Invoke(sender, new PaintEventArgs(new Graphics(container, cr, area), new Rectangle(area.X, area.Y, area.Width, area.Height)));
+    }
+
+    /// <summary>
+    /// Called when paint.
+    /// </summary>
+    /// <param name="cr">
+    /// The Cairo context.
+    /// </param>
+    public void OnPaint(Cairo.Context cr)
+    {
+        if (PaintGraphics != null)
+        {
+            if (Gdk.CairoHelper.GetClipRectangle(cr, out var clipRect))
+            {
+                cr.Save();
+                PaintGraphics.Invoke(this, new PaintGraphicsEventArgs(cr, new Rectangle(0, 0, clipRect.Width, clipRect.Height)));
+                cr.Restore();
+            }
+        }
+        if (Paint != null)
+        {
+            if (Gdk.CairoHelper.GetClipRectangle(cr, out var clipRect))
+                Paint.Invoke(sender, new PaintEventArgs(new Graphics(container, cr, clipRect), new Rectangle(0, 0, clipRect.Width, clipRect.Height)));
+        }
     }
 
     /// <summary>
@@ -276,6 +294,121 @@ public sealed class GtkControlOverride : IControlOverride
     public void RemoveClass(string cssClass)
     {
         cssList.Remove(cssClass);
+    }
+
+    /// <summary>
+    /// Draws the image at the given alignment.
+    /// </summary>
+    /// <param name="ctx">
+    /// The Cairo context.
+    /// </param>
+    /// <param name="img">
+    /// The image.
+    /// </param>
+    /// <param name="rec">
+    /// The area.
+    /// </param>
+    /// <param name="ImageAlign">
+    /// The image align.
+    /// </param>
+    public void SetDrawImage(Cairo.Context ctx, Gdk.Pixbuf img, Gdk.Rectangle rec, ContentAlignment ImageAlign)
+    {
+        ctx.Save();
+        if (ImageAlign == ContentAlignment.TopLeft)
+            Gdk.CairoHelper.SetSourcePixbuf(ctx, img, rec.X, rec.Y);
+        else if (ImageAlign == ContentAlignment.TopCenter)
+            Gdk.CairoHelper.SetSourcePixbuf(ctx, img, (img.Width - rec.Width) / 2 + rec.X, rec.Y);
+        else if (ImageAlign == ContentAlignment.TopRight)
+            Gdk.CairoHelper.SetSourcePixbuf(ctx, img, (img.Width - rec.Width) + rec.X, rec.Y);
+        else if (ImageAlign == ContentAlignment.MiddleLeft)
+            Gdk.CairoHelper.SetSourcePixbuf(ctx, img, rec.X, (img.Height - rec.Height) / 2 + rec.Y);
+        else if (ImageAlign == ContentAlignment.MiddleCenter)
+            Gdk.CairoHelper.SetSourcePixbuf(ctx, img, (img.Width - rec.Width) / 2 + rec.X, (img.Height - rec.Height) / 2 + rec.Y);
+        else if (ImageAlign == ContentAlignment.MiddleRight)
+            Gdk.CairoHelper.SetSourcePixbuf(ctx, img, (img.Width - rec.Width) + rec.X, (img.Height - rec.Height) / 2 + rec.Y);
+        else if (ImageAlign == ContentAlignment.BottomLeft)
+            Gdk.CairoHelper.SetSourcePixbuf(ctx, img, rec.X, (img.Height - rec.Height) + rec.Y);
+        else if (ImageAlign == ContentAlignment.BottomCenter)
+            Gdk.CairoHelper.SetSourcePixbuf(ctx, img, (img.Width - rec.Width) / 2 + rec.X, (img.Height - rec.Height) + rec.Y);
+        else if (ImageAlign == ContentAlignment.BottomRight)
+            Gdk.CairoHelper.SetSourcePixbuf(ctx, img, (img.Width - rec.Width) + rec.X, (img.Height - rec.Height) + rec.Y);
+        else
+            Gdk.CairoHelper.SetSourcePixbuf(ctx, img, rec.X, rec.Y);
+
+        using (var p = ctx.GetSource())
+        {
+            if (p is Cairo.SurfacePattern pattern)
+            {
+                pattern.Filter = Cairo.Filter.Fast;
+            }
+        }
+        ctx.Paint();
+        ctx.Restore();
+    }
+
+    /// <summary>
+    /// Draws the background image using the specified layout.
+    /// </summary>
+    /// <param name="cr">
+    /// The Cairo context.
+    /// </param>
+    /// <param name="image">
+    /// The image.
+    /// </param>
+    /// <param name="layoutMode">
+    /// The layout mode.
+    /// </param>
+    /// <param name="width">
+    /// The width.
+    /// </param>
+    /// <param name="height">
+    /// The height.
+    /// </param>
+    public void SetDrawnBackground(Cairo.Context cr, Gdk.Pixbuf image, ImageLayout layoutMode, int width, int height)
+    {
+        if (layoutMode == ImageLayout.None)
+        {
+            // tile the original image starting from the top-left corner
+            Gdk.CairoHelper.SetSourcePixbuf(cr, image, 0, 0);
+        }
+        else if (layoutMode == ImageLayout.Stretch)
+        { // freely scale to fill the entire image
+            Gdk.CairoHelper.SetSourcePixbuf(cr, image.ScaleSimple(width, height, Gdk.InterpType.Nearest), 0, 0);
+        }
+        else if (layoutMode == ImageLayout.Center)
+        {
+            // take the center of the original image
+            int offsetx = (width - image.Width) / 2;
+            int offsety = (height - image.Height) / 2;
+            Gdk.CairoHelper.SetSourcePixbuf(cr, image, offsetx, offsety);
+        }
+        else if (layoutMode == ImageLayout.Zoom)
+        {
+            // scale original image proportionally， display full image
+            double scaleW = width * 1f / image.Width;
+            double scaleH = height * 1f / image.Height;
+            if (scaleW > scaleH)
+                Gdk.CairoHelper.SetSourcePixbuf(cr, image.ScaleSimple((int)(image.Width * scaleH), height, Gdk.InterpType.Nearest), 0, 0);
+            else
+                Gdk.CairoHelper.SetSourcePixbuf(cr, image.ScaleSimple(width, (int)(image.Height * scaleW), Gdk.InterpType.Nearest), 0, 0);
+        }
+        else if (layoutMode == ImageLayout.Tile)
+        {
+            // tile background image， fill with original image
+            for (int y = 0; y < height; y += image.Height)
+            {
+                for (int x = 0; x < width; x += image.Width)
+                {
+                    Gdk.CairoHelper.SetSourcePixbuf(cr, image, x, y);
+                    cr.Paint();
+                }
+            }
+        }
+        else
+        {
+            Gdk.CairoHelper.SetSourcePixbuf(cr, image, 0, 0);
+        }
+        cr.Paint();
     }
 
     /// <summary>

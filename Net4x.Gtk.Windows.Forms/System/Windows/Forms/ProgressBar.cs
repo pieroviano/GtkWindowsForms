@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -25,7 +25,9 @@ public class ProgressBar : Control
     /// </summary>
     public ProgressBar() : base()
     {
-        self.Realized += Control_Realized;
+        self.Override.sender = this;
+        self.MaxValue = 100;
+        self.MinValue = 0;
     }
 
     /// <summary>
@@ -58,9 +60,9 @@ public class ProgressBar : Control
     [DefaultValue(100)]
     public int Maximum
     {
-        get;
-        set;
-    } = 100;
+        get => (int)self.MaxValue;
+        set { self.MaxValue = value; }
+    }
 
     /// <summary>
     /// Gets or sets the minimum.
@@ -71,9 +73,9 @@ public class ProgressBar : Control
     [DefaultValue(0)]
     public int Minimum
     {
-        get;
-        set;
-    } = 0;
+        get => (int)self.MinValue;
+        set { self.MinValue = value; }
+    }
 
     /// <summary>
     /// Gets or sets the padding.
@@ -133,7 +135,7 @@ public class ProgressBar : Control
     /// </param>
     public void Increment(int value)
     {
-
+        self.Value = Math.Max(Minimum, Math.Min(Maximum, self.Value + value));
     }
 
     /// <summary>
@@ -142,12 +144,5 @@ public class ProgressBar : Control
     public void PerformStep()
     {
 
-    }
-
-    private void Control_Realized(object sender, EventArgs e)
-    {
-        self.MaxValue = Maximum;
-        self.MinValue = Minimum;
-        self.Value = Value;
     }
 }

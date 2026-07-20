@@ -1,4 +1,4 @@
-﻿namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
+namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 /// <summary>
 /// LabelBase is a base class for GTK label controls, providing common functionality and properties for derived classes. It implements the IControlGtk interface, allowing it to integrate with the GTK system and provide consistent behavior across different types of label controls. The LabelBase class includes features such as text alignment, word wrapping, and custom drawing capabilities.
@@ -14,7 +14,7 @@ public sealed class LabelBase : Gtk.Label, IControlGtk
     public LabelBase() : base()
     {
         this.Override = new GtkControlOverride(this);
-        this.Override.AddClass("Label");
+        this.StyleContext.AddClass("Label");
         this.Xalign = 0.0f;
         this.Yalign = 0.0f;
         this.Valign = Gtk.Align.Start;
@@ -22,6 +22,8 @@ public sealed class LabelBase : Gtk.Label, IControlGtk
         this.Wrap = true;
         this.LineWrap = true;
         this.LineWrapMode = Pango.WrapMode.WordChar;
+        this.Selectable = true;
+        this.Drawn += LabelBase_Drawn;
     }
 
     /// <summary>
@@ -34,7 +36,7 @@ public sealed class LabelBase : Gtk.Label, IControlGtk
     public LabelBase(string? text) : base(text)
     {
         this.Override = new GtkControlOverride(this);
-        this.Override.AddClass("Label");
+        this.StyleContext.AddClass("Label");
         this.Xalign = 0.0f;
         this.Yalign = 0.0f;
         this.Valign = Gtk.Align.Start;
@@ -42,6 +44,8 @@ public sealed class LabelBase : Gtk.Label, IControlGtk
         this.Wrap = true;
         this.LineWrap = true;
         this.LineWrapMode = Pango.WrapMode.WordChar;
+        this.Selectable = true;
+        this.Drawn += LabelBase_Drawn;
     }
 
     /// <summary>
@@ -60,29 +64,8 @@ public sealed class LabelBase : Gtk.Label, IControlGtk
         set;
     }
 
-    /// <summary>
-    /// Called when the control is drawn.
-    /// </summary>
-    /// <param name="cr">
-    /// The Cairo context.
-    /// </param>
-    /// <returns>
-    /// </returns>
-    protected override bool OnDrawn(Cairo.Context cr)
+    private void LabelBase_Drawn(object o, Gtk.DrawnArgs args)
     {
-        var rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
-        Override.OnDrawnBackground(cr, rec);
-        Override.OnPaint(cr, rec);
-
-        return base.OnDrawn(cr);
-    }
-
-    /// <summary>
-    /// Called when the control is shown.
-    /// </summary>
-    protected override void OnShown()
-    {
-        Override.OnAddClass();
-        base.OnShown();
+        Override.OnPaint(args.Cr);
     }
 }

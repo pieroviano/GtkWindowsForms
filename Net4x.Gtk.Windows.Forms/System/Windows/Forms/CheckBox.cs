@@ -5,6 +5,7 @@
  * author:chenhongjin
  */
 using System.ComponentModel;
+using GLib;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms;
@@ -23,6 +24,8 @@ public partial class CheckBox : Control
     /// </summary>
     public readonly CheckBoxBase self = new();
 
+    private System.Drawing.ContentAlignment textAlign;
+
     /// <summary>
     /// Occurs when checked is changed.
     /// </summary>
@@ -39,8 +42,38 @@ public partial class CheckBox : Control
     /// </summary>
     public CheckBox()
     {
+        self.Override.sender = this;
         self.Toggled += Self_Toggled;
         self.ButtonReleaseEvent += Self_ButtonReleaseEvent;
+    }
+
+    /// <summary>
+    /// Gets or sets the value that determines the appearance of the check box.
+    /// </summary>
+    /// <value>
+    /// The appearance.
+    /// </value>
+    public System.Windows.Forms.Appearance Appearance
+    {
+        get => self.DrawIndicator ? Appearance.Normal : Appearance.Button;
+        set { self.DrawIndicator = value == Appearance.Normal; }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the ellipsis character (...) appears at the right edge of the control, denoting that the text extends beyond the specified length of the control.
+    /// </summary>
+    /// <value>
+    /// <c>
+    /// true
+    /// </c> if the text is truncated with an ellipsis; otherwise,
+    /// <c>
+    /// false
+    /// </c>.
+    /// </value>
+    public bool AutoEllipsis
+    {
+        get;
+        set;
     }
 
     /// <summary>
@@ -89,8 +122,68 @@ public partial class CheckBox : Control
     /// </value>
     public override string Text
     {
-        get { return self.Label; }
-        set { self.Label = value; }
+        get { if (self.Child is Gtk.Label label) { return label.Text; } else return self.Label; }
+        set { if (self.Child is Gtk.Label label) { label.Text = value; } else self.Label = value; }
+    }
+
+    /// <summary>
+    /// Gets or sets the text align.
+    /// </summary>
+    /// <value>
+    /// The text align.
+    /// </value>
+    public System.Drawing.ContentAlignment TextAlign
+    {
+        get { return textAlign; }
+        set
+        {
+            textAlign = value;
+            if (value == System.Drawing.ContentAlignment.TopLeft)
+            {
+                self.Xalign = 0.0f;
+                self.Yalign = 0.0f;
+            }
+            else if (value == System.Drawing.ContentAlignment.TopCenter)
+            {
+                self.Xalign = 0.5f;
+                self.Yalign = 0.0f;
+            }
+            else if (value == System.Drawing.ContentAlignment.TopRight)
+            {
+                self.Xalign = 1.0f;
+                self.Yalign = 0.0f;
+            }
+            else if (value == System.Drawing.ContentAlignment.MiddleLeft)
+            {
+                self.Xalign = 0.0f;
+                self.Yalign = 0.5f;
+            }
+            else if (value == System.Drawing.ContentAlignment.MiddleCenter)
+            {
+                self.Xalign = 0.5f;
+                self.Yalign = 0.5f;
+            }
+            else if (value == System.Drawing.ContentAlignment.MiddleRight)
+            {
+                self.Xalign = 1.0f;
+                self.Yalign = 0.5f;
+            }
+            else if (value == System.Drawing.ContentAlignment.BottomLeft)
+            {
+                self.Xalign = 0.0f;
+                self.Yalign = 1.0f;
+            }
+            else if (value == System.Drawing.ContentAlignment.BottomCenter)
+            {
+                self.Xalign = 0.5f;
+                self.Yalign = 1.0f;
+            }
+            else if (value == System.Drawing.ContentAlignment.BottomRight)
+            {
+                self.Xalign = 1.0f;
+                self.Yalign = 1.0f;
+            }
+        }
     }
 
     /// <summary>

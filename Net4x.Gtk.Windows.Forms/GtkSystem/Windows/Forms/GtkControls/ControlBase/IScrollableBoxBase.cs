@@ -85,6 +85,14 @@ public interface IScrollableBoxBase
     }
 
     /// <summary>
+    /// Gets the underlying <see cref="Gtk.ScrolledWindow" /> that provides the scrolling viewport for this control.
+    /// </summary>
+    /// <value>
+    /// The underlying <see cref="Gtk.ScrolledWindow" />.
+    /// </value>
+    Gtk.ScrolledWindow ScrolledWindow { get; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether vertical scroll.
     /// </summary>
     /// <value>
@@ -122,11 +130,22 @@ public interface IScrollableBoxBase
     void Add(Widget child);
 
     /// <summary>
-    /// Adds the class.
+    /// Scrolls the view to the specified horizontal and vertical values.
     /// </summary>
-    /// <param name="cssClass">
-    /// The CSS class.
+    /// <param name="hscrollValue">
+    /// The horizontal scroll value, or a negative value to leave it unchanged.
     /// </param>
-    void AddClass(string cssClass);
+    /// <param name="vscrollValue">
+    /// The vertical scroll value, or a negative value to leave it unchanged.
+    /// </param>
+    /// <returns>
+    /// <c>
+    /// true
+    /// </c> if the view was scrolled; otherwise,
+    /// <c>
+    /// false
+    /// </c>.
+    /// </returns>
+    bool ScrollView(double hscrollValue, double vscrollValue);
 
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
+using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms;
 
@@ -8,8 +9,17 @@ namespace System.Windows.Forms;
 /// <see cref="T:System.Windows.Forms.ToolStripItem" />
 /// that can contain text and images.
 /// </summary>
-public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
+public class ToolStripButton : ToolStripItem
 {
+    /// <summary>
+    /// The self
+    /// </summary>
+    public StripToolButton self = new StripToolButton();
+
+    private CheckState _checkState = CheckState.Unchecked;
+
+    private CheckState _prevCheckState = CheckState.Unchecked;
+
     /// <summary>
     /// Occurs when checked changed.
     /// </summary>
@@ -60,7 +70,7 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     /// <param name="image">
     /// The image.
     /// </param>
-    public ToolStripButton(string text, Image image) : this(text, image, null, "")
+    public ToolStripButton(string text, Image? image) : this(text, image, null, "")
     {
 
     }
@@ -78,7 +88,7 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     /// <param name="onClick">
     /// The on click.
     /// </param>
-    public ToolStripButton(string text, Image image, EventHandler onClick) : this(text, image, onClick, "")
+    public ToolStripButton(string text, Image? image, EventHandler? onClick) : this(text, image, onClick, "")
     {
 
     }
@@ -101,7 +111,9 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     /// </param>
     public ToolStripButton(string text, Image? image, EventHandler? onClick, string name) : base(text, image, onClick, name)
     {
-        DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
+        self.Halign = Gtk.Align.Start;
+        DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+        self.Realized += Self_Realized;
     }
 
     /// <summary>
@@ -120,6 +132,54 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
         get;
         set;
     }
+
+    /// <summary>
+    /// Gets or sets the display style.
+    /// </summary>
+    /// <value>
+    /// The display style.
+    /// </value>
+    public override ToolStripItemDisplayStyle DisplayStyle
+    {
+        get => base.DisplayStyle;
+        set
+        {
+            base.DisplayStyle = value;
+            SetIcon(value);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the name.
+    /// </summary>
+    /// <value>
+    /// The name.
+    /// </value>
+    public override string Name
+    {
+        get => self.Name;
+        set => self.Name = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the text.
+    /// </summary>
+    /// <value>
+    /// The text.
+    /// </value>
+    public override string Text
+    {
+        get => self.Text;
+        set => self.Text = value;
+    }
+
+    /// <summary>
+    /// Gets the widget.
+    /// </summary>
+    /// <value>
+    /// The widget.
+    /// </value>
+    public override IToolMenuItem Widget { get => self; }
 
     /// <summary>
     /// Gets a value indicating whether default automatic tool tip.
@@ -170,5 +230,44 @@ public class ToolStripButton : WidgetToolStrip<Gtk.MenuItem>
     protected override void OnCheckStateChanged(EventArgs e)
     {
         CheckStateChanged?.Invoke(this, e);
+    }
+
+    private void Self_Realized(object? sender, EventArgs e)
+    {
+        SetIcon(DisplayStyle);
+    }
+
+    private void SetIcon(ToolStripItemDisplayStyle displayStyle)
+    {
+        if (displayStyle == ToolStripItemDisplayStyle.Text)
+        {
+            self.IsImportant = false;
+        }
+        else if (displayStyle == ToolStripItemDisplayStyle.Image)
+        {
+            self.IsImportant = false;
+            if (this.Image?.Pixbuf != null)
+            {
+                if (self.Parent is ToolStripBase toolbar)
+                {
+                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, toolbar.ImageScalingSize.Width, toolbar.ImageScalingSize.Height);
+                }
+            }
+        }
+        else if (displayStyle == ToolStripItemDisplayStyle.ImageAndText)
+        {
+            self.IsImportant = true;
+            if (this.Image?.Pixbuf != null)
+            {
+                if (self.Parent is ToolStripBase toolbar)
+                {
+                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, toolbar.ImageScalingSize.Width, toolbar.ImageScalingSize.Height);
+                }
+            }
+        }
+        else
+        {
+            self.IsImportant = false;
+        }
     }
 }

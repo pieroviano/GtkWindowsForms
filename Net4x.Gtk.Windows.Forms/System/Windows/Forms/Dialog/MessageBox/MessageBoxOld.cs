@@ -6,6 +6,7 @@
  */
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
+using GtkSystem.Windows.Forms.Resources;
 
 namespace System.Windows.Forms;
 
@@ -241,8 +242,16 @@ public class MessageBoxOld
             if (window != null)
             {
                 ActiveWindow = window;
+                irun = ShowCore(window, Gtk.WindowPosition.CenterOnParent, text, caption, buttons, icon);
             }
-            irun = ShowCore(ActiveWindow, Gtk.WindowPosition.CenterOnParent, text, caption, buttons, icon);
+            else if (ActiveWindow != null)
+            {
+                irun = ShowCore(ActiveWindow, Gtk.WindowPosition.CenterOnParent, text, caption, buttons, icon);
+            }
+            else
+            {
+                irun = ShowCore(null, Gtk.WindowPosition.Center, text, caption, buttons, icon);
+            }
         }
 
         var resp = (Gtk.ResponseType)Enum.Parse(typeof(Gtk.ResponseType), irun.ToString());
@@ -296,22 +305,24 @@ public class MessageBoxOld
         };
 
         if (icon == MessageBoxIcon.Question)
-            msgbox.PackStart(Gtk.Image.LoadFromResource("Resources.System.dialog-question.png"), false, false, 5);
+            msgbox.PackStart(new Gtk.Image(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-question.png"))), false, false, 5);
         else if (icon == MessageBoxIcon.Warning || icon == MessageBoxIcon.Exclamation)
-            msgbox.PackStart(Gtk.Image.LoadFromResource("Resources.System.dialog-warning.png"), false, false, 5);
+            msgbox.PackStart(new Gtk.Image(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-warning.png"))), false, false, 5);
         else if (icon == MessageBoxIcon.Information || icon == MessageBoxIcon.Asterisk)
-            msgbox.PackStart(Gtk.Image.LoadFromResource("Resources.System.dialog-information.png"), false, false, 5);
+            msgbox.PackStart(new Gtk.Image(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-information.png"))), false, false, 5);
         else if (icon == MessageBoxIcon.Error || icon == MessageBoxIcon.Stop || icon == MessageBoxIcon.Hand)
-            msgbox.PackStart(Gtk.Image.LoadFromResource("Resources.System.dialog-error.png"), false, false, 5);
+            msgbox.PackStart(new Gtk.Image(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-error.png"))), false, false, 5);
         var content = new Gtk.Label(text)
         {
             MarginEnd = 30, Halign = Align.Fill,
             Valign = Align.Start
         };
         var maxwidth = 300;
-        if (Gdk.Screen.Default.Display.NMonitors > 0)
+        if (Gdk.Display.Default.NMonitors > 0)
         {
-            var rectangle = Gdk.Screen.Default.Display.GetMonitor(0).Workarea;
+            var rectangle = Gdk.Display.Default.GetMonitor(0).Workarea;
+            if (owner != null && Gdk.Display.Default.GetMonitorAtWindow(owner.Window) is Gdk.Monitor monitor)
+                rectangle = monitor.Workarea;
             maxwidth = rectangle.Width / 2;
         }
         var pag = content.CreatePangoLayout(text);
@@ -327,7 +338,7 @@ public class MessageBoxOld
         msgbox.PackStart(content, false, true, 5);
         dia.ContentArea.PackStart(msgbox, false, true, 0);
 
-        dia.Icon = new Gdk.Pixbuf(typeof(MessageBox).Assembly, "Resources.System.help-faq.png");
+        dia.Icon = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("help-faq.png"));
         if (buttons == MessageBoxButtons.OK)
         {
             dia.AddButton(System.Properties.Resources.Gtk_FileDialog_RunDialog_OK, Gtk.ResponseType.Ok);

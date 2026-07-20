@@ -17,16 +17,11 @@ namespace System.Windows.Forms;
 public partial class Panel : ScrollableControl
 {
     /// <summary>
-    /// The contaner
-    /// </summary>
-    public Gtk.Overlay contaner = new();
-
-    /// <summary>
     /// The self
     /// </summary>
     public readonly PanelBase self = new();
 
-    private readonly ControlCollection _controls;
+    private ControlCollection _controls;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -34,15 +29,23 @@ public partial class Panel : ScrollableControl
     /// </summary>
     public Panel() : base()
     {
-        _controls = new ControlCollection(this, contaner);
-        contaner.Margin = 0;
-        contaner.Halign = Align.Fill;
-        contaner.Valign = Align.Fill;
-        contaner.Hexpand = false;
-        contaner.Vexpand = false;
-        contaner.BorderWidth = 0;
-        contaner.Add(new Gtk.Fixed() { Halign = Align.Fill, Valign = Align.Fill });
-        self.Add(contaner);
+        self.Override.sender = this;
+        _controls = new ControlCollection(this, self.contaner);
+        this.AutoScroll = false;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.Panel" /> class.
+    /// </summary>
+    /// <param name="type">
+    /// The CSS style class applied to the underlying widget.
+    /// </param>
+    internal Panel(string type) : base()
+    {
+        self.Override.sender = this;
+        self.StyleContext.AddClass(type);
+        this.AutoScroll = false;
     }
 
     /// <summary>
@@ -73,10 +76,10 @@ public partial class Panel : ScrollableControl
         set
         {
             base.Padding = value;
-            contaner.MarginStart = value.Left;
-            contaner.MarginTop = value.Top;
-            contaner.MarginEnd = value.Right;
-            contaner.MarginBottom = value.Bottom;
+            self.contaner.MarginStart = value.Left;
+            self.contaner.MarginTop = value.Top;
+            self.contaner.MarginEnd = value.Right;
+            self.contaner.MarginBottom = value.Bottom;
         }
     }
 }

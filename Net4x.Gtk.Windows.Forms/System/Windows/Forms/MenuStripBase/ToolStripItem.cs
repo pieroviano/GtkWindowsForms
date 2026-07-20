@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
+using System.Text;
 using System.Windows.Forms.Layout;
 using Gtk;
-using Image = System.Drawing.Image;
-using Region = System.Drawing.Region;
 
 namespace System.Windows.Forms;
 
@@ -14,10 +13,35 @@ namespace System.Windows.Forms;
 /// </summary>
 public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArrangedElement, IComponent, IDisposable, IKeyboardToolTip
 {
+    CssProvider provider = new CssProvider();
 
-    internal Gtk.Image DefaultImage = new("image-missing", Gtk.IconSize.Menu);
+    private ToolStripItemAlignment _Alignment;
 
-    private readonly ToolStripItemCollection dropDownItems;
+    private Color _BackColor;
+
+    //  public virtual bool Focused { get { return this.IsFocus; } }
+
+    private Font _Font;
+
+    private Color _ForeColor;
+
+    //public virtual ISite Site { get; set; }
+
+    private Size _size;
+
+    private bool _widgetRealized = false;
+
+    private ToolStripItemCollection dropDownItems;
+
+    private bool isDoubleClick = false;
+
+    private TextImageRelation textImageRelation;
+
+    public virtual event EventHandler? AnchorChanged;
+
+    public virtual event EventHandler? ButtonClick;
+
+    public virtual event EventHandler? ButtonDoubleClick;
 
     /// <summary>
     /// Occurs when checked changed.
@@ -34,10 +58,72 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// </summary>
     public virtual event EventHandler? Click;
 
+    public virtual event EventHandler? ContextMenuStripChanged;
+
+    public virtual event EventHandler? DockChanged;
+
+    public virtual event EventHandler? DoubleClick;
+
+    public virtual event EventHandler? DropDownClosed;
+
     /// <summary>
     /// Occurs when drop down item clicked.
     /// </summary>
     public virtual event ToolStripItemClickedEventHandler? DropDownItemClicked;
+
+    public virtual event EventHandler? DropDownOpened;
+
+    public virtual event EventHandler? DropDownOpening;
+
+    public virtual event EventHandler? EnabledChanged;
+
+    public virtual event EventHandler? Enter;
+
+    public virtual event KeyEventHandler? KeyDown;
+
+    public virtual event KeyPressEventHandler? KeyPress;
+
+    public virtual event KeyEventHandler? KeyUp;
+
+    public virtual event LayoutEventHandler? Layout;
+
+    public virtual event EventHandler? Leave;
+
+    public virtual event EventHandler? LocationChanged;
+
+    public virtual event EventHandler? LostFocus;
+
+    public virtual event MouseEventHandler? MouseClick;
+
+    public virtual event MouseEventHandler? MouseDoubleClick;
+
+    public virtual event MouseEventHandler? MouseDown;
+
+    public virtual event EventHandler? MouseEnter;
+
+    public virtual event EventHandler? MouseHover;
+
+    public virtual event EventHandler? MouseLeave;
+
+    public virtual event MouseEventHandler? MouseMove;
+
+    public virtual event MouseEventHandler? MouseUp;
+
+    public virtual event MouseEventHandler? MouseWheel;
+
+    public virtual event EventHandler? Move;
+
+    public virtual event PaintEventHandler? Paint;
+
+    public virtual event EventHandler? RegionChanged;
+
+    public virtual event EventHandler? Resize;
+
+    public virtual event EventHandler? SizeChanged;
+
+    public virtual event EventHandler? TextChanged;
+
+    public virtual event EventHandler? VisibleChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -46,6 +132,25 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     public ToolStripItem()
     {
         dropDownItems = new ToolStripItemCollection(this);
+        this.unique_key = Guid.NewGuid().ToString().ToLower();
+        var _widget = GetWidget();
+        _widget.Realized += _widget_Realized;
+        _widget.ButtonPressEvent += _widget_ButtonPressEvent;
+        _widget.ButtonReleaseEvent += _widget_ButtonReleaseEvent;
+        if (_widget is Gtk.ToolButton widget)
+        {
+            widget.Clicked += Widget_Clicked;
+        }
+        else if (_widget is Gtk.MenuToolButton widget2)
+        {
+            widget2.Clicked += Widget_Clicked;
+        }
+        else if (_widget is Gtk.MenuItem widget3)
+        {
+            widget3.Selected += Widget3_Selected;
+            widget3.Deselected += Widget3_Deselected;
+            widget3.Activated += Widget3_Activated;
+        }
     }
 
     /// <summary>
@@ -61,7 +166,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <param name="onClick">
     /// The on click.
     /// </param>
-    protected ToolStripItem(string text, Image image, EventHandler onClick) : this(text, image, onClick, "")
+    protected ToolStripItem(string text, Drawing.Image image, EventHandler onClick) : this(text, image, onClick, "")
     {
     }
 
@@ -81,7 +186,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <param name="name">
     /// The name.
     /// </param>
-    protected ToolStripItem(string text, Image? image, EventHandler? onClick, string name) : this()
+    protected ToolStripItem(string text, Drawing.Image image, EventHandler onClick, string name) : this()
     {
         this.Name = name;
         this.Text = text;
@@ -90,6 +195,22 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
 
         if (onClick != null)
             Click += onClick;
+    }
+
+    public virtual ToolStripItemAlignment Alignment
+    {
+        get => _Alignment;
+        set
+        {
+            _Alignment = value;
+            var widget = GetWidget();
+            if (value == ToolStripItemAlignment.Right)
+            {
+                if (widget is Gtk.MenuItem item)
+                    item.RightJustified = true;
+
+            }
+        }
     }
 
     /// <summary>
@@ -120,7 +241,6 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// false
     /// </c>.
     /// </value>
-    //public virtual Size Size { get; set; }
     public virtual bool AutoToolTip
     {
         get;
@@ -135,8 +255,12 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// </value>
     public virtual Color BackColor
     {
-        get;
-        set;
+        get => _BackColor;
+        set
+        {
+            _BackColor = value;
+            UpdateStyle();
+        }
     }
 
     /// <summary>
@@ -145,7 +269,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The background image.
     /// </value>
-    public virtual Image? BackgroundImage
+    public virtual Drawing.Image BackgroundImage
     {
         get;
         set;
@@ -261,7 +385,6 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The drop down items.
     /// </value>
-    //public virtual event EventHandler Disposed;
     public virtual ToolStripItemCollection DropDownItems
     {
         get
@@ -284,8 +407,8 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// </value>
     public virtual bool Enabled
     {
-        get;
-        set;
+        get { return GetWidget().Sensitive; }
+        set { GetWidget().Sensitive = value; }
     }
 
     /// <summary>
@@ -294,11 +417,17 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The font.
     /// </value>
-    //  public virtual bool Focused { get { return this.IsFocus; } }
-    public virtual Font? Font
+    public virtual Font Font
     {
-        get;
-        set;
+        get
+        {
+            return _Font;
+        }
+        set
+        {
+            _Font = value;
+            UpdateStyle();
+        }
     }
 
     /// <summary>
@@ -309,8 +438,12 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// </value>
     public virtual Color ForeColor
     {
-        get;
-        set;
+        get { return _ForeColor; }
+        set
+        {
+            _ForeColor = value;
+            UpdateStyle();
+        }
     }
 
     /// <summary>
@@ -344,7 +477,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The image.
     /// </value>
-    public virtual Image? Image
+    public virtual System.Drawing.Image Image
     {
         get;
         set;
@@ -380,7 +513,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The image key.
     /// </value>
-    public virtual string? ImageKey
+    public virtual string ImageKey
     {
         get;
         set;
@@ -454,7 +587,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The menu item.
     /// </value>
-    public virtual MenuItem? MenuItem
+    public virtual Gtk.MenuItem MenuItem
     {
         get;
         set;
@@ -490,7 +623,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The name.
     /// </value>
-    public virtual string? Name
+    public virtual string Name
     {
         get;
         set;
@@ -514,7 +647,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The owner.
     /// </value>
-    public virtual ToolStrip? Owner
+    public virtual ToolStrip Owner
     {
         get;
         set;
@@ -526,7 +659,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The owner item.
     /// </value>
-    public virtual ToolStripItem? OwnerItem { get; }
+    public virtual ToolStripItem OwnerItem { get; }
 
     /// <summary>
     /// Gets or sets the padding.
@@ -549,7 +682,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The parent.
     /// </value>
-    public virtual ToolStripItem? Parent
+    public virtual ToolStripItem Parent
     {
         get;
         set;
@@ -599,7 +732,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The region.
     /// </value>
-    public virtual Region? Region
+    public virtual System.Drawing.Region Region
     {
         get;
         set;
@@ -649,11 +782,16 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The size.
     /// </value>
-    //public virtual ISite Site { get; set; }
     public virtual Size Size
     {
-        get;
-        set;
+        get => _size;
+        set
+        {
+            _size = value;
+            var widget = GetWidget();
+            //widget.SetSizeRequest(value.Width, value.Height);
+            widget.SetSizeRequest(value.Width, -1);
+        }
     }
 
     /// <summary>
@@ -662,7 +800,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The tag.
     /// </value>
-    public virtual object? Tag
+    public virtual object Tag
     {
         get;
         set;
@@ -674,8 +812,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The text.
     /// </value>
-    //public virtual string Text { get { return base.Label; } set { base.Label = value; } }
-    public virtual string? Text
+    public virtual string Text
     {
         get;
         set;
@@ -713,8 +850,53 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// </value>
     public virtual TextImageRelation TextImageRelation
     {
-        get;
-        set;
+        get => textImageRelation;
+        set
+        {
+            textImageRelation = value;
+            var widget = GetWidget();
+            if (widget?.Parent is Gtk.Toolbar toolbar)
+            {
+                if (value == TextImageRelation.ImageAboveText || value == TextImageRelation.TextAboveImage)
+                {
+                    toolbar.ToolbarStyle = Gtk.ToolbarStyle.Both;
+                    toolbar.IconSize = Gtk.IconSize.Dialog;
+                }
+                else if (value == TextImageRelation.ImageBeforeText || value == TextImageRelation.TextBeforeImage)
+                {
+                    toolbar.ToolbarStyle = Gtk.ToolbarStyle.BothHoriz;
+                    toolbar.IconSize = Gtk.IconSize.SmallToolbar;
+                }
+                else
+                {
+                    toolbar.ToolbarStyle = Gtk.ToolbarStyle.BothHoriz;
+                    toolbar.IconSize = Gtk.IconSize.SmallToolbar;
+                }
+            }
+            else if (widget?.Parent is Gtk.MenuBar menubar)
+            {
+                if (value == TextImageRelation.ImageAboveText)
+                {
+                    widget.Halign = Gtk.Align.Center;
+                    menubar.ChildPackDirection = Gtk.PackDirection.Ttb;
+                }
+                else if (value == TextImageRelation.TextAboveImage)
+                {
+                    widget.Halign = Gtk.Align.Center;
+                    menubar.ChildPackDirection = Gtk.PackDirection.Ttb;
+                }
+                else if (value == TextImageRelation.ImageBeforeText || value == TextImageRelation.TextBeforeImage)
+                {
+                    widget.Halign = Gtk.Align.Start;
+                    menubar.ChildPackDirection = Gtk.PackDirection.Ltr;
+                }
+                else
+                {
+                    widget.Halign = Gtk.Align.Start;
+                    menubar.ChildPackDirection = Gtk.PackDirection.Ltr;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -723,8 +905,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The tool tip text.
     /// </value>
-    //public virtual bool Enabled { get; set; }
-    public virtual string? ToolTipText
+    public virtual string ToolTipText
     {
         get;
         set;
@@ -748,7 +929,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The unique key.
     /// </value>
-    public virtual string? unique_key
+    public virtual string unique_key
     {
         get;
         protected set;
@@ -771,13 +952,28 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
         set;
     }
 
+    public virtual bool Visible
+    {
+        get { return GetWidget().Visible; }
+        set
+        {
+            var widget = GetWidget();
+            widget.NoShowAll = value == false;
+            if (value == true) { widget.ShowAll(); } else { widget.Visible = value; }
+        }
+    }
+
     /// <summary>
     /// Gets the widget.
     /// </summary>
     /// <value>
     /// The widget.
     /// </value>
-    public virtual Widget? Widget { get; }
+    public virtual IToolMenuItem Widget
+    {
+        get;
+        protected set;
+    }
 
     /// <summary>
     /// Gets or sets the width.
@@ -816,6 +1012,16 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     public Size GetPreferredSize(Size proposedSize)
     {
         throw new NotImplementedException();
+    }
+
+    public Gtk.Widget GetWidget()
+    {
+        return this.Widget.ToolItem ?? this.Widget.MenuItem;
+    }
+
+    public virtual void PerformClick()
+    {
+        OnClick(EventArgs.Empty);
     }
 
     /// <summary>
@@ -887,9 +1093,54 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
 
     }
 
-    void IArrangedElement.PerformLayout(IArrangedElement affectedElement, string? propertyName)
+    void IArrangedElement.PerformLayout(IArrangedElement affectedElement, string propertyName)
     {
         throw new NotImplementedException();
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        try
+        {
+            GetWidget()?.Dispose();
+            Image?.Dispose();
+            BackgroundImage?.Dispose();
+            GC.SuppressFinalize(this);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Dispose", ex);
+        }
+        base.Dispose(disposing);
+    }
+
+    protected virtual void InitStyle(Gtk.Widget widget)
+    {
+        SetStyle(widget);
+    }
+
+    /// <summary>
+    /// Raises the AnchorChanged event.
+    /// </summary>
+    protected virtual void OnAnchorChanged(System.EventArgs e)
+    {
+        AnchorChanged?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the ButtonClick event.
+    /// </summary>
+    protected virtual void OnButtonClick(System.EventArgs e)
+    {
+        ButtonClick?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the ButtonDoubleClick event.
+    /// </summary>
+    protected virtual void OnButtonDoubleClick(System.EventArgs e)
+    {
+        ButtonDoubleClick?.Invoke(this, e);
     }
 
     /// <summary>
@@ -908,12 +1159,42 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
         CheckStateChanged?.Invoke(this, e);
     }
 
-    /// <summary>
-    /// Raises the Click event.
-    /// </summary>
-    protected virtual void OnClick(System.EventArgs e)
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    protected virtual void OnClick(EventArgs e)
     {
         Click?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the ContextMenuStripChanged event.
+    /// </summary>
+    protected virtual void OnContextMenuStripChanged(System.EventArgs e)
+    {
+        ContextMenuStripChanged?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the DockChanged event.
+    /// </summary>
+    protected virtual void OnDockChanged(System.EventArgs e)
+    {
+        DockChanged?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the DoubleClick event.
+    /// </summary>
+    protected virtual void OnDoubleClick(System.EventArgs e)
+    {
+        DoubleClick?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the DropDownClosed event.
+    /// </summary>
+    protected virtual void OnDropDownClosed(System.EventArgs e)
+    {
+        DropDownClosed?.Invoke(this, e);
     }
 
     /// <summary>
@@ -922,5 +1203,396 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     protected virtual void OnDropDownItemClicked(System.Windows.Forms.ToolStripItemClickedEventArgs e)
     {
         DropDownItemClicked?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the DropDownOpened event.
+    /// </summary>
+    protected virtual void OnDropDownOpened(System.EventArgs e)
+    {
+        DropDownOpened?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the DropDownOpening event.
+    /// </summary>
+    protected virtual void OnDropDownOpening(System.EventArgs e)
+    {
+        DropDownOpening?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the EnabledChanged event.
+    /// </summary>
+    protected virtual void OnEnabledChanged(System.EventArgs e)
+    {
+        EnabledChanged?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the Enter event.
+    /// </summary>
+    protected virtual void OnEnter(System.EventArgs e)
+    {
+        Enter?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the KeyDown event.
+    /// </summary>
+    protected virtual void OnKeyDown(System.Windows.Forms.KeyEventArgs e)
+    {
+        KeyDown?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the KeyPress event.
+    /// </summary>
+    protected virtual void OnKeyPress(System.Windows.Forms.KeyPressEventArgs e)
+    {
+        KeyPress?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the KeyUp event.
+    /// </summary>
+    protected virtual void OnKeyUp(System.Windows.Forms.KeyEventArgs e)
+    {
+        KeyUp?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the Layout event.
+    /// </summary>
+    protected virtual void OnLayout(System.Windows.Forms.LayoutEventArgs e)
+    {
+        Layout?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the Leave event.
+    /// </summary>
+    protected virtual void OnLeave(System.EventArgs e)
+    {
+        Leave?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the LocationChanged event.
+    /// </summary>
+    protected virtual void OnLocationChanged(System.EventArgs e)
+    {
+        LocationChanged?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the LostFocus event.
+    /// </summary>
+    protected virtual void OnLostFocus(System.EventArgs e)
+    {
+        LostFocus?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the MouseClick event.
+    /// </summary>
+    protected virtual void OnMouseClick(System.Windows.Forms.MouseEventArgs e)
+    {
+        MouseClick?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the MouseDoubleClick event.
+    /// </summary>
+    protected virtual void OnMouseDoubleClick(System.Windows.Forms.MouseEventArgs e)
+    {
+        MouseDoubleClick?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the MouseDown event.
+    /// </summary>
+    protected virtual void OnMouseDown(System.Windows.Forms.MouseEventArgs e)
+    {
+        MouseDown?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the MouseEnter event.
+    /// </summary>
+    protected virtual void OnMouseEnter(System.EventArgs e)
+    {
+        MouseEnter?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the MouseHover event.
+    /// </summary>
+    protected virtual void OnMouseHover(System.EventArgs e)
+    {
+        MouseHover?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the MouseLeave event.
+    /// </summary>
+    protected virtual void OnMouseLeave(System.EventArgs e)
+    {
+        MouseLeave?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the MouseMove event.
+    /// </summary>
+    protected virtual void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
+    {
+        MouseMove?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the MouseUp event.
+    /// </summary>
+    protected virtual void OnMouseUp(System.Windows.Forms.MouseEventArgs e)
+    {
+        MouseUp?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the MouseWheel event.
+    /// </summary>
+    protected virtual void OnMouseWheel(System.Windows.Forms.MouseEventArgs e)
+    {
+        MouseWheel?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the Move event.
+    /// </summary>
+    protected virtual void OnMove(System.EventArgs e)
+    {
+        Move?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the Paint event.
+    /// </summary>
+    protected virtual void OnPaint(System.Windows.Forms.PaintEventArgs e)
+    {
+        Paint?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the RegionChanged event.
+    /// </summary>
+    protected virtual void OnRegionChanged(System.EventArgs e)
+    {
+        RegionChanged?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the Resize event.
+    /// </summary>
+    protected virtual void OnResize(System.EventArgs e)
+    {
+        Resize?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the SizeChanged event.
+    /// </summary>
+    protected virtual void OnSizeChanged(System.EventArgs e)
+    {
+        SizeChanged?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the TextChanged event.
+    /// </summary>
+    protected virtual void OnTextChanged(System.EventArgs e)
+    {
+        TextChanged?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the VisibleChanged event.
+    /// </summary>
+    protected virtual void OnVisibleChanged(System.EventArgs e)
+    {
+        VisibleChanged?.Invoke(this, e);
+    }
+
+    protected virtual void SetStyle(Gtk.Widget widget)
+    {
+        var style = new StringBuilder();
+
+        if (this._BackColor.Name != "0")
+        {
+            var backColor = this._BackColor;
+            var color = $"rgba({backColor.R},{backColor.G},{backColor.B},{backColor.A})";
+            style.AppendFormat("background-color:{0};background:{0};", color);
+        }
+
+        if (this._ForeColor.Name != "0")
+        {
+            var foreColor = this._ForeColor;
+            var color = $"rgba({foreColor.R},{foreColor.G},{foreColor.B},{foreColor.A})";
+            style.AppendFormat("color:{0};", color);
+        }
+
+        if (this._Font != null)
+        {
+            var font = this._Font;
+            if (font.Unit == GraphicsUnit.Pixel)
+                style.AppendFormat("font-size:{0}px;", font.Size);
+            else if (font.Unit == GraphicsUnit.Inch)
+                style.AppendFormat("font-size:{0}in;", font.Size);
+            else if (font.Unit == GraphicsUnit.Point)
+                style.AppendFormat("font-size:{0}pt;", font.Size);
+            else if (font.Unit == GraphicsUnit.Millimeter)
+                style.AppendFormat("font-size:{0}mm;", font.Size);
+            else if (font.Unit == GraphicsUnit.Document)
+                style.AppendFormat("font-size:{0}cm;", font.Size);
+            else if (font.Unit == GraphicsUnit.Display)
+                style.AppendFormat("font-size:{0}pc;", font.Size);
+            else
+                style.AppendFormat("font-size:{0}pt;", font.Size);
+
+            if (string.IsNullOrWhiteSpace(font.FontFamily.Name) == false)
+            {
+                style.AppendFormat("font-family:\"{0}\";", font.FontFamily.Name);
+            }
+            if (font.Bold)
+            {
+                style.Append("font-weight:bold;");
+            }
+            if (font.Italic)
+            {
+                style.Append("font-style:italic;");
+            }
+            if (font.Underline)
+            {
+                style.Append("text-decoration:underline;");
+            }
+            if (font.Strikeout)
+            {
+                style.Append("text-decoration:line-through;");
+            }
+        }
+        if (style.Length > 10)
+        {
+            var styleClassName = $"s{unique_key}";
+            var css = new StringBuilder();
+            css.AppendLine($".{styleClassName}{{{style.ToString()}}}");
+            css.AppendLine($".{styleClassName}>button{{{style.ToString()}}}");
+            css.AppendLine($".{styleClassName}>checkbutton{{{style.ToString()}}}");
+
+            if (provider.LoadFromData(css.ToString()))
+            {
+                if (widget.StyleContext.HasClass(styleClassName))
+                {
+                    widget.StyleContext.RemoveClass(styleClassName);
+                    Gtk.StyleContext.RemoveProviderForScreen(Gdk.Screen.Default, provider);
+                }
+                Gtk.StyleContext.AddProviderForScreen(Gdk.Screen.Default, provider, StyleProviderPriority.User);
+                widget.StyleContext.AddClass(styleClassName);
+            }
+        }
+    }
+
+    protected virtual void UpdateStyle()
+    {
+        var widget = GetWidget();
+        GLib.Timeout.Add(1, () =>
+        {
+            if (widget != null && widget.IsMapped)
+                SetStyle(widget);
+            return false;
+        });
+    }
+
+    private void _widget_ButtonPressEvent(object o, Gtk.ButtonPressEventArgs args)
+    {
+        var widget = (Gtk.Widget)o;
+        MouseButtons button = MouseButtons.None;
+        if (args.Event.Button == 1)
+            button = MouseButtons.Left;
+        else if (args.Event.Button == 2)
+            button = MouseButtons.Middle;
+        else if (args.Event.Button == 3)
+            button = MouseButtons.Right;
+
+        var mouseArgs = new MouseEventArgs(button, 1, (int)args.Event.X, (int)args.Event.X, 0);
+        OnMouseDown(mouseArgs);
+        isDoubleClick = false;
+        if (args.Event.Button == 1)
+        {
+            if (args.Event.Type == Gdk.EventType.TwoButtonPress || args.Event.Type == Gdk.EventType.DoubleButtonPress)
+            {
+                isDoubleClick = true;
+                OnDoubleClick(new EventArgs());
+                OnButtonDoubleClick(new EventArgs());
+            }
+        }
+    }
+
+    private void _widget_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
+    {
+        if (!isDoubleClick)
+        {
+            var widget = (Gtk.Widget)o;
+            MouseButtons button = MouseButtons.None;
+            if (args.Event.Button == 1)
+                button = MouseButtons.Left;
+            else if (args.Event.Button == 2)
+                button = MouseButtons.Middle;
+            else if (args.Event.Button == 3)
+                button = MouseButtons.Right;
+
+            var mouseArgs3 = new MouseEventArgs(button, 1, (int)args.Event.X, (int)args.Event.X, 0);
+            OnMouseClick(mouseArgs3);
+            OnClick(new EventArgs());
+            OnDropDownItemClicked(new ToolStripItemClickedEventArgs(this));
+            OnMouseUp(mouseArgs3);
+        }
+    }
+
+    private void _widget_Realized(object? sender, EventArgs e)
+    {
+        if (!_widgetRealized)
+        {
+            _widgetRealized = true;
+            InitStyle((Gtk.Widget)sender);
+        }
+    }
+
+    private void Widget_Clicked(object? sender, EventArgs e)
+    {
+        OnButtonClick(new EventArgs());
+    }
+
+    private void Widget3_Activated(object? sender, EventArgs e)
+    {
+        OnDropDownOpened(EventArgs.Empty);
+
+        if (Checked == true)
+        {
+            if (CheckState == CheckState.Checked)
+                CheckState = CheckState.Unchecked;
+            else
+                CheckState = CheckState.Checked;
+
+            OnCheckedChanged(EventArgs.Empty);
+            OnCheckStateChanged(EventArgs.Empty);
+        }
+    }
+
+    private void Widget3_Deselected(object? sender, EventArgs e)
+    {
+        OnDropDownClosed(EventArgs.Empty);
+    }
+
+    private void Widget3_Selected(object? sender, EventArgs e)
+    {
+        OnDropDownOpening(EventArgs.Empty);
     }
 }

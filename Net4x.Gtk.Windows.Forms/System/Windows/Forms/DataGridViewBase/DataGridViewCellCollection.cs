@@ -92,11 +92,65 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     {
         get
         {
-            return (DataGridViewCell)items[index];
+            if (items.Count > index && index >= 0)
+            {
+                return (DataGridViewCell)items[index];
+            }
+            else if (owner.DataGridView != null)
+            {
+                if (owner.DataGridView.Columns.Count > index && index >= 0)
+                {
+                    for (var i = items.Count; i < owner.DataGridView.Columns.Count; i++)
+                    {
+                        var cell = owner.DataGridView.Columns[i].NewCell();
+                        cell.ColumnIndex = i;
+                        cell.OwningRow = owner;
+                        items.Add(cell);
+                    }
+
+                    return (DataGridViewCell)items[index];
+                }
+                else
+                    throw new IndexOutOfRangeException();
+            }
+
+            return null!;
         }
         set
         {
-            items[index] = value ?? throw new ArgumentNullException(nameof(value));
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            if (items.Count > index && index >= 0)
+            {
+                items[index] = value;
+            }
+            else if (owner.DataGridView != null)
+            {
+                if (owner.DataGridView.Columns.Count > index && index >= 0)
+                {
+                    for (var i = items.Count; i < owner.DataGridView.Columns.Count; i++)
+                    {
+                        if (i == index)
+                        {
+                            value.ColumnIndex = i;
+                            value.OwningRow = owner;
+                            items.Add(value);
+                        }
+                        else
+                        {
+                            var cell = owner.DataGridView.Columns[i].NewCell();
+                            cell.ColumnIndex = i;
+                            cell.OwningRow = owner;
+                            items.Add(cell);
+                        }
+                    }
+                }
+                else
+                    throw new IndexOutOfRangeException();
+            }
         }
     }
 
@@ -128,7 +182,7 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
                 throw new ArgumentException("DataGridViewColumnCollection_ColumnNotFound", nameof(columnName));
             }
 
-            return (DataGridViewCell)items[dataGridViewColumn.Index];
+            return this[dataGridViewColumn.Index];
         }
         set
         {
@@ -167,16 +221,8 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     //*****************
     public virtual int Add(DataGridViewCell dataGridViewCell)
     {
-        if (owner.DataGridView != null)
-        {
-            throw new InvalidOperationException("DataGridViewCellCollection_OwningRowAlreadyBelongsToDataGridView");
-        }
-
-        if (dataGridViewCell.OwningRow != null)
-        {
-            throw new InvalidOperationException("DataGridViewCellCollection_CellAlreadyBelongsToDataGridViewRow");
-        }
-        dataGridViewCell.OwningRowInternal = owner;
+        dataGridViewCell.ColumnIndex = items.Count;
+        dataGridViewCell.OwningRow = owner;
 
         return items.Add(dataGridViewCell);
     }
@@ -197,11 +243,7 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
             throw new ArgumentNullException(nameof(dataGridViewCells));
         }
 
-        items.AddRange(dataGridViewCells);
-        foreach (var dataGridViewCell2 in dataGridViewCells)
-        {
-            dataGridViewCell2.OwningRowInternal = owner;
-        }
+        AddRangeInternal(dataGridViewCells);
     }
 
     /// <summary>
@@ -220,10 +262,18 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
             throw new ArgumentNullException(nameof(dataGridViewCells));
         }
 
-        foreach (var dataGridViewCell2 in dataGridViewCells)
+        AddRangeInternal(dataGridViewCells);
+    }
+
+    private void AddRangeInternal(IEnumerable<DataGridViewCell> dataGridViewCells)
+    {
+        var idx = items.Count;
+        foreach (var dataGridViewCell in dataGridViewCells)
         {
-            dataGridViewCell2.OwningRowInternal = owner;
-            items.Add(dataGridViewCell2);
+            dataGridViewCell.ColumnIndex = idx;
+            dataGridViewCell.OwningRow = owner;
+            items.Add(dataGridViewCell);
+            idx++;
         }
     }
 
@@ -237,14 +287,9 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// </exception>
     public virtual void Clear()
     {
-        if (owner.DataGridView != null)
-        {
-            throw new InvalidOperationException("DataGridViewCellCollection_OwningRowAlreadyBelongsToDataGridView");
-        }
-
         foreach (DataGridViewCell item in items)
         {
-            item.OwningRowInternal = null;
+            item.OwningRow = null;
         }
 
         items.Clear();
@@ -327,18 +372,16 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// </exception>
     public virtual void Insert(int index, DataGridViewCell dataGridViewCell)
     {
-        if (owner.DataGridView != null)
-        {
-            throw new InvalidOperationException("DataGridViewCellCollection_OwningRowAlreadyBelongsToDataGridView");
-        }
-
         if (dataGridViewCell.OwningRow != null)
         {
             throw new InvalidOperationException("DataGridViewCellCollection_CellAlreadyBelongsToDataGridViewRow");
         }
 
+        dataGridViewCell.ColumnIndex = index;
+        dataGridViewCell.OwningRow = owner;
         items.Insert(index, dataGridViewCell);
-        dataGridViewCell.OwningRowInternal = owner;
+        for (var i = index; i < items.Count; i++)
+            ((DataGridViewCell)items[i]).ColumnIndex = i;
     }
 
     /// <summary>
@@ -355,11 +398,6 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// </exception>
     public virtual void Remove(DataGridViewCell cell)
     {
-        if (owner.DataGridView != null)
-        {
-            throw new InvalidOperationException("DataGridViewCellCollection_OwningRowAlreadyBelongsToDataGridView");
-        }
-
         var num = -1;
         var count = items.Count;
         for (var i = 0; i < count; i++)
@@ -392,13 +430,8 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
     /// </exception>
     public virtual void RemoveAt(int index)
     {
-        if (owner.DataGridView != null)
-        {
-            throw new InvalidOperationException("DataGridViewCellCollection_OwningRowAlreadyBelongsToDataGridView");
-        }
-
         var dataGridViewCell = (DataGridViewCell)items[index];
-        dataGridViewCell.OwningRowInternal = null;
+        dataGridViewCell.OwningRow = null;
         items.RemoveAt(index);
     }
 

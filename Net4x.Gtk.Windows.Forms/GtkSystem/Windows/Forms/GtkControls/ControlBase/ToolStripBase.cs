@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 using Gtk;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
@@ -33,6 +34,18 @@ public sealed class ToolStripBase : Gtk.MenuBar, IControlGtk
 
     internal void RaiseActivateCurrent(ToolStrip toolStrip) =>
         ActivateCurrent?.Invoke(toolStrip, new ActivateCurrentArgs());
+
+    /// <summary>
+    /// Gets or sets the size used to scale the images of the contained items.
+    /// </summary>
+    /// <value>
+    /// The size of the image scaling.
+    /// </value>
+    public Size ImageScalingSize
+    {
+        get;
+        set;
+    } = new Size(20, 20);
 
     /// <summary>
     /// Gets or sets the

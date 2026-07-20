@@ -205,7 +205,12 @@ public static class PrepareWorker
 
     public static void EnsureOnEventRaisesEvent()
     {
-        var myProjectDir = "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms\\";
+        // MUST resolve through RepoPaths: a hardcoded "..\..\..\.." resolves against the process working
+        // directory, so under AlignProjects' staging roots this step silently targeted the LIVE projects
+        // (or threw) instead of the staged copy - leaving the staged tree without the file-scoped
+        // namespace conversion CsFileOrganizer performs below, which then entered the alignment delta as
+        // a phantom whole-file reformat. See AlignProjects-Plan.md §3.1 (repoRoot threading).
+        var myProjectDir = RepoPaths.At("Net4x.Gtk.Windows.Forms");
         var targets = Directory.GetFiles(myProjectDir, "*.cs", SearchOption.AllDirectories);
 
         ConsoleColor.Green.Write($"Processing files from: {Path.GetFullPath(myProjectDir)}", true);
@@ -223,7 +228,7 @@ public static class PrepareWorker
             CsFileOrganizer.ProcessFile(file);
         }
 
-        myProjectDir = "..\\..\\..\\..\\Net4x.Gtk.Drawing\\";
+        myProjectDir = RepoPaths.At(net4xGtkDrawing);
         targets = Directory.GetFiles(myProjectDir, "*.cs", SearchOption.AllDirectories);
 
         ConsoleColor.Green.Write($"Processing files from: {Path.GetFullPath(myProjectDir)}", true);

@@ -295,3 +295,6 @@ obfuscar.xml
 
 # AlignProjects transformed BASE/THEIRS trees (regenerated each run)
 /AlignProjects/build/
+
+# AlignProjects determinism self-check trees
+/AlignProjects/build-selfcheck/

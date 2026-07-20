@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Xml;
+using GtkSystem.Windows.Forms.Resources;
 
 namespace GtkSystem.Resources;
 
@@ -36,7 +37,7 @@ public class ResourceManager : System.Resources.ResourceManager
     /// <param name="usingResourceSet">
     /// The using resource set.
     /// </param>
-    public ResourceManager([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type? usingResourceSet) : this(string.Empty, Assembly.GetExecutingAssembly(), usingResourceSet)
+    public ResourceManager([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type? usingResourceSet) : this(string.Empty, Assembly.GetExecutingAssembly(), usingResourceSet)
     {
 
     }
@@ -73,7 +74,7 @@ public class ResourceManager : System.Resources.ResourceManager
     /// <see cref="T:System.Resources.ResourceSet">
     /// </see> object is used.
     /// </param>
-    public ResourceManager(string? baseName, Assembly? assembly, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] Type? usingResourceSet) : base(baseName, assembly, usingResourceSet)
+    public ResourceManager(string? baseName, Assembly? assembly, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type? usingResourceSet) : base(baseName, assembly, usingResourceSet)
     {
         this._baseName = baseName;
         this._assembly = assembly;
@@ -113,17 +114,7 @@ public class ResourceManager : System.Resources.ResourceManager
     /// </returns>
     public override object? GetObject(string name, CultureInfo culture)
     {
-        var result = GetObject(name);
-        var stack = new StackTrace(true);
-        var method = (System.Reflection.MethodInfo)stack.GetFrame(1).GetMethod();
-        if (method.ReturnType.Name == "Object" || method.ReturnType.Name.Equals(result.GetType().Name))
-        {
-            return result;
-        }
-        else
-        {
-            return null;
-        }
+        return GetObject(name);
     }
 
     /// <summary>
@@ -143,6 +134,9 @@ public class ResourceManager : System.Resources.ResourceManager
         GetResourceInfo.ResourceName = name;
         var obj = ReadResourceData(name);
         if (obj == null)
+            obj = ReadResourceFile(name);
+
+        if (obj == null)
         {
             if (name.EndsWith(".ImageStream"))
             {
@@ -150,37 +144,45 @@ public class ResourceManager : System.Resources.ResourceManager
             }
             else
             {
+                byte[]? filebytes = null;
                 var fileName = name;
-                var filebytes = ReadResourceFile(name);
-                if (filebytes == null)
+                var _formName = Path.GetExtension(this._baseName).TrimStart('.');
+                if (_formName.EndsWith("Resources"))
+                    _formName = "";
+
+                var directory = Path.Combine("Resources", _formName);
+                var files = Directory.GetFiles(directory, $"{fileName}.*", SearchOption.TopDirectoryOnly);
+                if (files != null && files.Length > 0)
                 {
-                    var _formName = Path.GetExtension(this.BaseName).TrimStart('.');
-                    var files = Directory.GetFiles($"./Resources/{_formName}", $"{fileName}.*", SearchOption.AllDirectories);
-                    if (files != null && files.Length > 0)
+                    fileName = files[0];
+                    filebytes = File.ReadAllBytes(files[0]);
+                }
+
+                if (name.EndsWith(".Icon"))
+                {
+                    if (filebytes != null)
                     {
-                        fileName = files[0];
-                        filebytes = File.ReadAllBytes(files[0]);
+                        return new System.Drawing.Icon(filebytes) { FileName = fileName };
                     }
-                }
-                if (name.EndsWith(".BackgroundImage"))
-                {
-                    return new System.Drawing.Bitmap(filebytes) { FileName = fileName };
-                }
-                else if (name.EndsWith(".Image"))
-                {
-                    return new System.Drawing.Bitmap(filebytes) { FileName = fileName };
-                }
-                else if (name.EndsWith(".Icon"))
-                {
-                    return new System.Drawing.Icon(filebytes) { FileName = fileName };
-                }
-                else if (filebytes == null)
-                {
-                    return new System.Drawing.Bitmap(0, 0);
+                    else
+                    {
+                        var stream = typeof(GtkSystem.Resources.ResourceManager).Assembly.GetManifestResourceStream(AssemblyResources.ToSystemUri("Panel.ico"));
+
+                        return new System.Drawing.Icon(stream);
+                    }
                 }
                 else
                 {
-                    return new System.Drawing.Bitmap(filebytes) { FileName = fileName };
+                    if (filebytes != null)
+                    {
+                        return new System.Drawing.Bitmap(filebytes) { FileName = fileName };
+                    }
+                    else
+                    {
+                        var stream = typeof(GtkSystem.Resources.ResourceManager).Assembly.GetManifestResourceStream(AssemblyResources.ToSystemUri("image-missing16.png"));
+
+                        return new System.Drawing.Bitmap(stream);
+                    }
                 }
             }
         }
@@ -225,6 +227,60 @@ public class ResourceManager : System.Resources.ResourceManager
     public override string? GetString(string name, CultureInfo? culture)
     {
         return ReadResourceText(name);
+    }
+
+    private string? DetectByFileHeader(Stream stream)
+    {
+        try
+        {
+            using (var reader = new BinaryReader(stream))
+            {
+                // Read the first 16 bytes
+                var header = reader.ReadBytes(16);
+                if (header.Length < 2)
+                    return " the file is too small";
+
+                // JPEG: FF D8
+                if (header[0] == 0xFF && header[1] == 0xD8)
+                    return "JPEG";
+
+                // PNG: 89 50 4E 47 0D 0A 1A 0A
+                if (header[0] == 0x89 && header[1] == 0x50 &&
+                    header[2] == 0x4E && header[3] == 0x47 &&
+                    header[4] == 0x0D && header[5] == 0x0A &&
+                    header[6] == 0x1A && header[7] == 0x0A)
+                    return "PNG";
+
+                // GIF: GIF87a or GIF89a
+                if (header[0] == 0x47 && header[1] == 0x49 &&
+                    header[2] == 0x46 && header[3] == 0x38 &&
+                    (header[4] == 0x37 || header[4] == 0x39) &&
+                    header[5] == 0x61)
+                    return "GIF";
+
+                // BMP: BM
+                if (header[0] == 0x42 && header[1] == 0x4D)
+                    return "BMP";
+
+                // TIFF: II or MM
+                if ((header[0] == 0x49 && header[1] == 0x49) ||
+                    (header[0] == 0x4D && header[1] == 0x4D))
+                    return "TIFF";
+
+                // WebP: RIFF + WEBP
+                if (header[0] == 0x52 && header[1] == 0x49 &&
+                    header[2] == 0x46 && header[3] == 0x46 &&
+                    header[8] == 0x57 && header[9] == 0x45 &&
+                    header[10] == 0x42 && header[11] == 0x50)
+                    return "WebP";
+
+                return null;
+            }
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     private object? ReadResourceData(string name)
@@ -275,6 +331,9 @@ public class ResourceManager : System.Resources.ResourceManager
         try
         {
             var filepath = $"./{ReadResourceData("this_FileName")}"; //linux the path must use/
+            if (!System.IO.File.Exists(filepath))
+                filepath = $"{Path.GetExtension(_baseName).TrimStart('.')}.resx";
+
             if (System.IO.File.Exists(filepath))
             {
                 try
@@ -315,7 +374,7 @@ public class ResourceManager : System.Resources.ResourceManager
             throw new FileNotFoundException();
         else
         {
-            var stream = _assembly.GetManifestResourceStream(_baseName + ".resources");
+            var stream = _assembly.GetManifestResourceStream(_baseName + ResFileExtension);
             var reader = new GtkSystem.Resources.Extensions.DeserializingResourceReader(stream);
             var dict = reader.GetEnumerator();
             while (dict.MoveNext())

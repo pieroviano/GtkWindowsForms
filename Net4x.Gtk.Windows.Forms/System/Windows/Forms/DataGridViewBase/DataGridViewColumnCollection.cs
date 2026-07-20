@@ -85,70 +85,7 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// </param>
     public new void Add(DataGridViewColumn column)
     {
-        column.DataGridView = _owner;
-        column.Index = Count;
-        column.DisplayIndex = column.Index;
-        column.SetGridViewDefaultStyle(_owner.DefaultCellStyle);
-
-        var _cellStyle = column.DefaultCellStyle;
-        if (_owner.ColumnHeadersDefaultCellStyle != null)
-            _cellStyle = _owner.ColumnHeadersDefaultCellStyle;
-
-        if (_cellStyle != null)
-        {
-            var header = ((Gtk.Button)column.Button);
-            var style = "";
-            if (_cellStyle.BackColor.Name != "0")
-            {
-                var backcolor = $"rgba({_cellStyle.BackColor.R},{_cellStyle.BackColor.G},{_cellStyle.BackColor.B},{_cellStyle.BackColor.A})";
-                style += $".columnheaderbackcolor{{background-color:{backcolor};}} ";
-                header.StyleContext.AddClass("columnheaderbackcolor");
-            }
-            if (_cellStyle.ForeColor.Name != "0")
-            {
-                var forecolor = $"rgba({_cellStyle.ForeColor.R},{_cellStyle.ForeColor.G},{_cellStyle.ForeColor.B},{_cellStyle.ForeColor.A})";
-                style += $".columnheaderforecolor{{color:{forecolor};}} ";
-                header.StyleContext.AddClass("columnheaderforecolor");
-            }
-            if (style.Length > 9)
-            {
-                var css = new Gtk.CssProvider();
-                css.LoadFromData(style);
-                header.StyleContext.AddProvider(css, 800);
-            }
-            switch (_cellStyle.Alignment)
-            {
-                case DataGridViewContentAlignment.TopLeft:
-                case DataGridViewContentAlignment.MiddleLeft:
-                case DataGridViewContentAlignment.BottomLeft:
-                    column.Alignment = 0f;
-                    break;
-
-                case DataGridViewContentAlignment.TopCenter:
-                case DataGridViewContentAlignment.MiddleCenter:
-                case DataGridViewContentAlignment.BottomCenter:
-                    column.Alignment = 0.5f;
-                    break;
-
-                case DataGridViewContentAlignment.TopRight:
-                case DataGridViewContentAlignment.MiddleRight:
-                case DataGridViewContentAlignment.BottomRight:
-                    column.Alignment = 1.0f;
-                    break;
-
-                default:
-                    column.Alignment = 0f;
-                    break;
-            }
-        }
-
-        base.Add(column);
-        if (_owner.self.IsRealized)
-        {
-            Invalidate();
-        }
-        GridView.AppendColumn(column);
-        OnCollectionChanged(new CollectionChangeEventArgs(CollectionChangeAction.Add, column));
+        AddInternal(column);
     }
 
     /// <summary>
@@ -162,8 +99,9 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     {
         foreach (var column in columns)
         {
-            Add(column);
+            AddInternal(column);
         }
+        _owner.Columns.Invalidate();
     }
 
     /// <summary>
@@ -171,10 +109,9 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// </summary>
     public new void Clear()
     {
-        base.Clear();
         foreach (var wik in GridView.Columns)
             GridView.RemoveColumn(wik);
-
+        base.Clear();
         OnCollectionChanged(new CollectionChangeEventArgs(CollectionChangeAction.Add, _owner));
     }
 
@@ -289,34 +226,59 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     /// </summary>
     public void Invalidate()
     {
-        if (Count > _owner.Store.NColumns)
+        if (_owner.UseModelFilter)
         {
-            var columnTypes = new object[Count];
-            _owner.Store.Clear();
-            _owner.Store = new Gtk.TreeStore(Array.ConvertAll(columnTypes, o => typeof(DataGridViewCell)));
-            _owner.GridView.Model = _owner.Store;
-        }
-        else if (_owner.GridView.Model == null)
-        {
-            _owner.GridView.Model = _owner.Store;
-        }
-        _owner.Store.DefaultSortFunc = new Gtk.TreeIterCompareFunc((Gtk.ITreeModel m, Gtk.TreeIter t1, Gtk.TreeIter t2) => { return 0; });
-        for (var i = 0; i < _owner.Store.NColumns; i++)
-        {
-            _owner.Store.SetSortFunc(i, new Gtk.TreeIterCompareFunc((Gtk.ITreeModel m, Gtk.TreeIter t1, Gtk.TreeIter t2) =>
+            if (_owner.GridView.Model == null)
             {
-                ((Gtk.TreeStore)m).GetSortColumnId(out var sortid, out var order);
-                var v1 = m.GetValue(t1, sortid) as DataGridViewCell;
-                var v2 = m.GetValue(t2, sortid) as DataGridViewCell;
-                if (v1?.Value == null || v2?.Value == null)
-                    return 0;
-                else if (int.TryParse(v1.Value.ToString(), out var rv1) && int.TryParse(v2.Value.ToString(), out var rv2))
-                    return (rv2 - rv1);
-                else if (DateTime.TryParse(v1.Value.ToString(), out var rd1) && DateTime.TryParse(v2.Value.ToString(), out var rd2))
-                    return (int)((rd2 - rd1).TotalSeconds);
-                else
-                    return v2.Value.ToString().CompareTo(v1.Value.ToString());
-            }));
+                var modelFilter = new Gtk.TreeModelFilter(_owner.Store, null)
+                {
+                    VisibleFunc = new Gtk.TreeModelFilterVisibleFunc((model, iter) =>
+                    {
+                        if (model.GetValue(iter, 1) is DataGridViewRow row)
+                            return row.Visible;
+                        else
+                            return true;
+                    })
+                };
+                _owner.GridView.Model = modelFilter;
+            }
+            foreach (var column in this)
+            {
+                column.SortColumnId = -1;
+            }
+        }
+        else
+        {
+            if (_owner.GridView.Model == null)
+            {
+                _owner.GridView.Model = _owner.Store;
+                _owner.Store.DefaultSortFunc = new Gtk.TreeIterCompareFunc((Gtk.ITreeModel m, Gtk.TreeIter t1, Gtk.TreeIter t2) => { return 0; });
+            }
+            foreach (var column in this)
+            {
+                if (column.SortMode != DataGridViewColumnSortMode.NotSortable)
+                {
+                    var colIndex = column.Index;
+                    _owner.Store.SetSortFunc(colIndex, new Gtk.TreeIterCompareFunc((Gtk.ITreeModel m, Gtk.TreeIter t1, Gtk.TreeIter t2) =>
+                    {
+                        var v1 = ((DataGridViewRow)m.GetValue(t1, 0)).Cells[colIndex] as DataGridViewCell;
+                        var v2 = ((DataGridViewRow)m.GetValue(t2, 0)).Cells[colIndex] as DataGridViewCell;
+                        if (v1?.Value == null || v2?.Value == null)
+                            return 0;
+                        else if (v1.ValueType.IsValueType && long.TryParse(v1.Value.ToString(), out var rv1) && long.TryParse(v2.Value.ToString(), out var rv2))
+                            return rv1.CompareTo(rv2);
+                        else if (v1.ValueType.Name == "DateTime")
+                            return ((DateTime)v1.Value).CompareTo((DateTime)v2.Value);
+                        else
+                            return v1.Value.ToString().CompareTo(v2.Value.ToString());
+                    }));
+                }
+            }
+        }
+
+        foreach (var col in this)
+        {
+            col.UpdateDefaultStyle();
         }
     }
 
@@ -359,5 +321,18 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
     protected virtual void OnCollectionChanged(CollectionChangeEventArgs e)
     {
         CollectionChanged?.Invoke(_owner, e);
+    }
+
+    private void AddInternal(DataGridViewColumn column)
+    {
+        column.DataGridView = _owner;
+        column.Index = Count;
+        base.Add(column);
+        GridView.AppendColumn(column);
+        if (_owner.GridView.IsRealized)
+        {
+            _owner.Columns.Invalidate();
+        }
+        OnCollectionChanged(new CollectionChangeEventArgs(CollectionChangeAction.Add, column));
     }
 }

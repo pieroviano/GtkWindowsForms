@@ -18,21 +18,33 @@ namespace System.Windows.Forms;
 public class Timer : Component
 {
 
-    readonly System.Timers.Timer TimersTimer = new();
+    private protected EventHandler? _onTimer;
+
+    private bool _enabled;
+
+    private uint _interval = 100;
+
+    private readonly object _syncObj = new();
+
+    private uint _timerId;
+
     private bool isDisposed;
 
     /// <summary>
     /// Occurs when tick.
     /// </summary>
-    public virtual event EventHandler? Tick;
+    public virtual event EventHandler? Tick
+    {
+        add => _onTimer += value;
+        remove => _onTimer -= value;
+    }
 
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Timer" /> class.
     /// </summary>
-    public Timer()
+    public Timer() : base()
     {
-        TimersTimer.Elapsed += TimersTimer_Elapsed;
     }
 
     /// <summary>
@@ -44,6 +56,7 @@ public class Timer : Component
     /// </param>
     public Timer(IContainer container) : this()
     {
+        container?.Add(this);
     }
 
     /// <summary>
@@ -61,8 +74,32 @@ public class Timer : Component
     [DefaultValue(false)]
     public virtual bool Enabled
     {
-        get => TimersTimer.Enabled;
-        set => TimersTimer.Enabled = value;
+        get => _enabled;
+        set
+        {
+            lock (_syncObj)
+            {
+                if (_enabled != value)
+                {
+                    _enabled = value;
+                    if (value)
+                    {
+                        _timerId = GLib.Timeout.Add(_interval, () =>
+                        {
+                            OnTick(EventArgs.Empty);
+
+                            return true;
+                        });
+                    }
+                    else
+                    {
+                        if (_timerId != 0)
+                            GLib.Timeout.Remove(_timerId);
+                        _timerId = 0;
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -74,8 +111,19 @@ public class Timer : Component
     [DefaultValue(100)]
     public int Interval
     {
-        get => (int)TimersTimer.Interval;
-        set => TimersTimer.Interval = value;
+        get => (int)_interval;
+        set
+        {
+            if (_interval != value)
+            {
+                _interval = (uint)value;
+                if (_enabled)
+                {
+                    Enabled = false;
+                    Enabled = true;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -99,7 +147,7 @@ public class Timer : Component
     /// </summary>
     public void Start()
     {
-        TimersTimer.Start();
+        Enabled = true;
     }
 
     /// <summary>
@@ -107,7 +155,7 @@ public class Timer : Component
     /// </summary>
     public void Stop()
     {
-        TimersTimer.Stop();
+        Enabled = false;
     }
 
     /// <summary>
@@ -118,7 +166,7 @@ public class Timer : Component
     /// A
     /// <see cref="T:System.String" /> that represents this instance.
     /// </returns>
-    public override string ToString() { return "System.Windows.Forms.Timer"; }
+    public override string ToString() => $"{base.ToString()}, Interval: {Interval}";
 
     /// <summary>
     /// Releases the unmanaged resources used by the
@@ -136,16 +184,8 @@ public class Timer : Component
         }
 
         isDisposed = true;
-        TimersTimer.Dispose();
-        base.Dispose();
-    }
-
-    /// <summary>
-    /// Disposes this instance.
-    /// </summary>
-    protected new void Dispose()
-    {
-        Dispose(true);
+        Enabled = false;
+        base.Dispose(disposing);
     }
 
     /// <summary>
@@ -153,12 +193,7 @@ public class Timer : Component
     /// </summary>
     protected virtual void OnTick(System.EventArgs e)
     {
-        Tick?.Invoke(this, e);
-    }
-
-    private void TimersTimer_Elapsed(object sender, Timers.ElapsedEventArgs e)
-    {
-        if (Tick != null)
-            Gtk.Application.Invoke(Tick);
+        if (_enabled)
+            _onTimer?.Invoke(this, EventArgs.Empty);
     }
 }

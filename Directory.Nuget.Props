@@ -80,9 +80,9 @@
     <FreeImageDotnetCoreVersion>4.5.0</FreeImageDotnetCoreVersion>
     <GtkSharpLatestVersion>3.24.24</GtkSharpLatestVersion>
     <GtkSharpVersion>3.24.24</GtkSharpVersion>
-    <GtkWindowsFormsExtensionVersion>1.4.2463</GtkWindowsFormsExtensionVersion>
-    <GtkWindowsFormsVersion>1.4.2464</GtkWindowsFormsVersion>
-    <GTKWinFormsAppVersion>1.4.2464</GTKWinFormsAppVersion>
+    <GtkWindowsFormsExtensionVersion>1.4.2489</GtkWindowsFormsExtensionVersion>
+    <GtkWindowsFormsVersion>1.4.2489</GtkWindowsFormsVersion>
+    <GTKWinFormsAppVersion>1.4.2489</GTKWinFormsAppVersion>
     <HardcodetNotifyIconWpfVersion>1.1.0</HardcodetNotifyIconWpfVersion>
     <HostAppInPanelVersion>1.2.0</HostAppInPanelVersion>
     <HostProcessLibrary>1.0.0</HostProcessLibrary>

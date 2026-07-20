@@ -25,6 +25,8 @@ public class ToolStrip : Control
     /// </summary>
     public ToolStripItemCollection toolStripItemCollection;
 
+    private Size _ImageScalingSize;
+
     /// <summary>
     /// Occurs when checked changed.
     /// </summary>
@@ -87,6 +89,46 @@ public class ToolStrip : Control
     /// The size of the image scaling.
     /// </value>
     public Size ImageScalingSize
+    {
+        get => _ImageScalingSize;
+        set
+        {
+            _ImageScalingSize = value;
+            self.ImageScalingSize = _ImageScalingSize;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the grip style.
+    /// </summary>
+    /// <value>
+    /// The grip style.
+    /// </value>
+    public ToolStripGripStyle GripStyle
+    {
+        get;
+        set;
+    }
+
+    /// <summary>
+    /// Gets or sets the render mode.
+    /// </summary>
+    /// <value>
+    /// The render mode.
+    /// </value>
+    public ToolStripRenderMode RenderMode
+    {
+        get;
+        set;
+    }
+
+    /// <summary>
+    /// Gets or sets the relative position of the image and the text.
+    /// </summary>
+    /// <value>
+    /// The text image relation.
+    /// </value>
+    public TextImageRelation TextImageRelation
     {
         get;
         set;

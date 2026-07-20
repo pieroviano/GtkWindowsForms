@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 namespace System.Windows.Forms;
 
@@ -89,7 +89,7 @@ public abstract class GridItem
     [Localizable(false)]
     [Bindable(true)]
     [DefaultValue(null)]
-    [TypeConverter(typeof(StringConverter))]
+    //[TypeConverter(typeof(StringConverter))]
     public object? Tag
     {
         get;
@@ -117,4 +117,14 @@ public abstract class GridItem
     /// </returns>
     public abstract bool Select();
 
+    /// <summary>
+    /// Sets the value of the grid item.
+    /// </summary>
+    /// <param name="val">
+    /// The value.
+    /// </param>
+    public virtual void SetValue(object val)
+    {
+
+    }
 }

@@ -57,6 +57,8 @@ public partial class ListBox : ListControl
 
     private int _topIndex;
 
+    private bool Is_Self_Realized;
+
     /// <summary>
     /// Occurs when the selected index changes. Handlers are stored in the internal
     /// <see cref="T:System.Windows.Forms.ListControl.Events" /> list.
@@ -99,6 +101,8 @@ public partial class ListBox : ListControl
     /// </summary>
     public ListBox() : base()
     {
+        self.Override.sender = this;
+
         // Set GTK widget defaults
         self.ListBox.Halign = Gtk.Align.Fill;
         self.ListBox.Valign = Gtk.Align.Fill;
@@ -124,6 +128,7 @@ public partial class ListBox : ListControl
         ScrollAlwaysVisible = false;
 
         this.BorderStyle = BorderStyle.Fixed3D;
+        self.ListBox.FocusVadjustment = self.Vadjustment;
     }
 
     /// <summary>
@@ -261,14 +266,6 @@ public partial class ListBox : ListControl
     }
 
     /// <summary>
-    /// Gets the i self.
-    /// </summary>
-    /// <value>
-    /// The i self.
-    /// </value>
-    public override IControlGtk ISelf { get => self; }
-
-    /// <summary>
     /// Gets or sets the height of the item.
     /// </summary>
     /// <value>
@@ -332,7 +329,11 @@ public partial class ListBox : ListControl
     [Browsable(false)]
     public int PreferredHeight
     {
-        get;
+        get
+        {
+            self.ListBox.GetPreferredHeight(out int mini_height, out int natural_height);
+            return mini_height;
+        }
     }
 
     /// <summary>
@@ -605,20 +606,14 @@ public partial class ListBox : ListControl
         set
         {
             _topIndex = value;
-            GLib.Timeout.Add(100, new TimeoutHandler(() =>
+            var y_offset = 0;
+            int maxi = self.ListBox.Children.Length;
+            for (int i = 0; i < _topIndex && i < maxi; i++)
             {
-                var rowheight = ItemHeight;
-                if (rowheight < 14)
-                {
-                    if (self.ListBox.Children.Length > 0)
-                        rowheight = self.ListBox.Children[0].AllocatedHeight;
-                    else
-                        rowheight = 18;
-                }
-                var adjustment = self.Vadjustment;
-                adjustment.Value = value * rowheight - Height + 5;
-                return false;
-            }));
+                self.ListBox.Children[i].GetPreferredHeight(out int mini_height, out int natural_height);
+                y_offset += natural_height;
+            }
+            self.ScrollView(-1, y_offset);
         }
     }
 
@@ -789,6 +784,23 @@ public partial class ListBox : ListControl
     }
 
     /// <summary>
+    /// Sets input focus to the underlying GTK list box.
+    /// </summary>
+    /// <returns>
+    /// <c>
+    /// true
+    /// </c> if the list box has focus; otherwise,
+    /// <c>
+    /// false
+    /// </c>.
+    /// </returns>
+    public override bool Focus()
+    {
+        self.ListBox.IsFocus = true;
+        return self.ListBox.IsFocus;
+    }
+
+    /// <summary>
     /// Gets the height of the item.
     /// </summary>
     /// <param name="index">
@@ -797,11 +809,15 @@ public partial class ListBox : ListControl
     /// <returns>
     /// System.Int32.
     /// </returns>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     public int GetItemHeight(int index)
     {
-        throw new System.NotImplementedException();
+        if (self.ListBox.Children.Length > index)
+        {
+            self.ListBox.Children[index].GetPreferredHeight(out int min_height, out int nat_height);
+            return nat_height;
+        }
+        else
+            return 0;
     }
 
     /// <summary>
@@ -813,11 +829,10 @@ public partial class ListBox : ListControl
     /// <returns>
     /// Drawing.Rectangle.
     /// </returns>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     public Drawing.Rectangle GetItemRectangle(int index)
     {
-        throw new System.NotImplementedException();
+        self.ListBox.Children[index].GetAllocatedSize(out Gdk.Rectangle allocation, out int size);
+        return new Drawing.Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height);
     }
 
     /// <summary>
@@ -888,11 +903,9 @@ public partial class ListBox : ListControl
     /// <returns>
     /// System.Int32.
     /// </returns>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     public int IndexFromPoint(int x, int y)
     {
-        throw new System.NotImplementedException();
+        return self.ListBox.GetRowAtY(y).Index;
     }
 
     /// <summary>
@@ -955,16 +968,11 @@ public partial class ListBox : ListControl
     /// </param>
     protected void NativeAdd(object item)
     {
-        var row = new Gtk.ListBoxRow
-        {
-            HeightRequest = ItemHeight > 0 ? ItemHeight : DefaultItemHeight
-        };
-        row.Add(new Gtk.Label(item.ToString()) { Valign = Align.Center, Halign = Align.Start, Expand = true });
+        var row = new Gtk.ListBoxRow();
+        row.HeightRequest = ItemHeight > 0 ? ItemHeight : DefaultItemHeight;
+        row.Visible = true;
+        row.Add(new Gtk.Label(item.ToString()) { Valign = Align.Center, Halign = Align.Start, Expand = true, Visible = !IsUpdateing });
         self.ListBox.Add(row);
-        if (self.ListBox.IsVisible && !IsUpdateing)
-        {
-            self.ListBox.ShowAll();
-        }
     }
 
     /// <summary>
@@ -1008,16 +1016,11 @@ public partial class ListBox : ListControl
     /// </param>
     protected void NativeInsert(int index, object item)
     {
-        var row = new Gtk.ListBoxRow
-        {
-            HeightRequest = ItemHeight > 0 ? ItemHeight : DefaultItemHeight
-        };
-        row.Add(new Gtk.Label(item.ToString()) { Valign = Align.Center, Halign = Align.Start, Expand = true });
+        var row = new Gtk.ListBoxRow();
+        row.HeightRequest = ItemHeight > 0 ? ItemHeight : DefaultItemHeight;
+        row.Visible = true;
+        row.Add(new Gtk.Label(item.ToString()) { Valign = Align.Center, Halign = Align.Start, Expand = true, Visible = !IsUpdateing });
         self.ListBox.Insert(row, index);
-        if (self.ListBox.IsVisible && !IsUpdateing)
-        {
-            self.ListBox.ShowAll();
-        }
     }
 
     /// <summary>
@@ -1118,9 +1121,13 @@ public partial class ListBox : ListControl
 
     private void Self_Realized(object sender, EventArgs e)
     {
-        OnSetDataSource();
-        foreach (Binding binding in DataBindings)
-            self.ListBox.AddNotification(binding.PropertyName, propertyNotity);
+        if (!Is_Self_Realized)
+        {
+            Is_Self_Realized = true;
+            OnSetDataSource();
+            foreach (Binding binding in DataBindings)
+                self.ListBox.AddNotification(binding.PropertyName, propertyNotity);
+        }
     }
 
     private void SetDataSource(IEnumerator enumerator)
@@ -1198,4 +1205,4 @@ public partial class ListBox : ListControl
             return DisplayText?.ToString();
         }
     }
-}
+}

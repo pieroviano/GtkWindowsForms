@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -21,10 +21,12 @@ namespace System.Windows.Forms.GtkRender;
 public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
 {
 #pragma warning disable IDE0040
-    readonly DataGridViewColumn Column;
+    DataGridViewColumn Column;
 #pragma warning restore IDE0040
 
-    private readonly CellReandererUtility utility;
+    int ColumnIndex;
+
+    private CellReandererUtility utility;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -36,7 +38,13 @@ public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
     public CellRendererPixbufValue(DataGridViewColumn view)
     {
         Column = view;
+        ColumnIndex = view.Index;
         utility = new CellReandererUtility();
+    }
+
+    static CellRendererPixbufValue()
+    {
+        typeof(CellRendererPixbufValue).GetMembers();
     }
 
     /// <summary>
@@ -64,32 +72,32 @@ public class CellRendererPixbufValue : CellRendererPixbuf, ICellRenderer
     /// The cell value.
     /// </value>
     [Property("cellvalue")]
-    public DataGridViewCell CellValue
+    public DataGridViewRow CellValue
     {
         set
         {
-            if (value != null)
+            DataGridViewCell cell = value.Cells[Column.Index];
+            var style = utility.GetStyle(this.Column, cell);
+            utility.SetControlWithStyle(this, style);
+            if (cell.Value == null)
+            {
+                this.IconName = "image-missing";
+            }
+            else
             {
                 try
                 {
-                    var style = value.Style ?? ColumnStyle;
-                    if (style == null)
-                        style = value.InheritedStyle;
-                    utility.SetControlWithStyle(this, style);
-                    var valueType = value.ValueType;
-                    if (valueType is not null && 
-                        (typeof(Drawing.Image).Equals(valueType) || 
-                         typeof(Drawing.Bitmap).Equals(valueType)))
+                    if (cell.Value is Drawing.Image)
                     {
-                        this.Pixbuf = ((Drawing.Image?)value.Value)?.Pixbuf;
+                        this.Pixbuf = ((Drawing.Image)cell.Value).Pixbuf;
                     }
-                    else if (valueType == typeof(byte[]))
+                    else if (cell.ValueType?.IsArray == true)
                     {
-                        this.Pixbuf = new Pixbuf((byte[]?)value.Value);
+                        this.Pixbuf = new Pixbuf((byte[])cell.Value);
                     }
                     else
                     {
-                        this.Pixbuf = new Gdk.Pixbuf(value.Value?.ToString().Replace("\\\\", "//").Replace("\\", "/"));
+                        this.Pixbuf = new Gdk.Pixbuf(cell.Value.ToString()?.Replace("\\\\", "//").Replace("\\", "/"));
                     }
                 }
                 catch

@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
 namespace System.Windows.Forms;
@@ -11,7 +10,7 @@ namespace System.Windows.Forms;
 /// Represents a node of a
 /// <see cref="T:System.Windows.Forms.TreeView" />
 /// </summary>
-public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
+public partial class TreeNode : MarshalByRefObject, ICloneable, ISerializable
 {
 
     internal Gtk.TreeIter TreeIter = Gtk.TreeIter.Zero;
@@ -27,10 +26,6 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     private bool _IsSelected;
 
     private string? _text;
-
-    // format， union of indexes at all levels：0,1,2,3....
-
-    private string index = "";
 
     private readonly TreeNodeCollection nodes;
 
@@ -191,10 +186,19 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// <value>
     /// The index.
     /// </value>
-    public string Index
+    public int Index
     {
-        get { return index; }
-        internal set { index = value ?? ""; }
+        get
+        {
+            if (parent == null)
+            {
+                return -1;
+            }
+            else
+            {
+                return parent.Nodes.IndexOf(this);
+            }
+        }
     }
 
     /// <summary>
@@ -255,12 +259,14 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     {
         get
         {
-            if (parent == null)
+            if (parent == null || parent.Name == "__root__")
+            {
                 return 0;
-            else if (TreeView != null && parent.Equals(TreeView.root))
-                return 0;
+            }
             else
+            {
                 return parent.Level + 1;
+            }
         }
     }
 
@@ -422,23 +428,6 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     }
 
     /// <summary>
-    /// Indicates whether the current object is equal to another object of the same type.
-    /// </summary>
-    /// <param name="other">
-    /// An object to compare with this object.
-    /// </param>
-    /// <returns>
-    /// true if the current object is equal to the
-    /// <paramref name="other">
-    /// other
-    /// </paramref> parameter; otherwise, false.
-    /// </returns>
-    public bool Equals([AllowNull] TreeNode other)
-    {
-        return other != null && other.Index == this.Index && other.Name == this.Name && other.Text == this.Text && other.Level == this.Level;
-    }
-
-    /// <summary>
     /// Expands this instance.
     /// </summary>
     public void Expand()
@@ -478,7 +467,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// </summary>
     public void Remove()
     {
-        TreeView?.RemoveNode(this);
+        parent?.nodes?.Remove(this);
     }
 
     /// <summary>
@@ -492,16 +481,11 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
     /// </param>
     protected void GetFullPath(TreeNode node, List<string?> paths)
     {
-        while (true)
+        if (node.Parent != null && node.Parent.Name != "__root__")
         {
-            paths.Add(node.Text);
-            if (node.Parent != null && node.Parent.index != "-1")
-            {
-                node = node.Parent;
-                continue;
-            }
-
-            break;
+            GetFullPath(node.Parent, paths);
         }
+
+        paths.Add(node.Text);
     }
 }

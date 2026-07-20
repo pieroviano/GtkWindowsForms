@@ -81,7 +81,10 @@ internal class RelatedPropertyManager : PropertyManager
             throw new ArgumentException("RelatedListManagerChild");
         }
 
-        manager?.CurrentItemChanged += ParentManager_CurrentItemChanged;
+        if (manager != null)
+        {
+            manager.CurrentItemChanged += ParentManager_CurrentItemChanged;
+        }
 
         Refresh();
     }

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Drawing;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
+using GtkSystem.Windows.Forms.Resources;
 using Icon = System.Drawing.Icon;
 
 namespace System.Windows.Forms;
@@ -24,25 +25,50 @@ InitializationEvent(nameof(Load))]
 public partial class Form : ContainerControl, IWin32Window
 {
     /// <summary>
-    /// Backing field for the
-    /// <see cref="T:System.Windows.Forms.Form.FormBorderStyle" /> applied to this form.
-    /// </summary>
-    public FormBorderStyle formBorderStyle = FormBorderStyle.Sizable;
-
-    /// <summary>
     /// Underlying GTK window wrapper used by this form.
     /// </summary>
     public FormBase self = new();
 
-    private ObjectCollection _ObjectCollection = null!;
+    /// <summary>
+    /// The GTK overlay hosting the MDI children of this form.
+    /// </summary>
+    internal Gtk.Overlay MdiContainer = null!;
+
+    /// <summary>
+    /// A hidden GTK overlay reserved for the MDI client area.
+    /// </summary>
+    internal Gtk.Overlay MdiContainer2 = null!;
+
+    /// <summary>
+    /// The scrolled window hosting the MDI container.
+    /// </summary>
+    internal Gtk.ScrolledWindow scrolledWindow = null!;
+
+    private Form? _ActiveMdiChild;
+
+    private bool _ControlBox = true;
+
+    private Point _location = new();
+
+    private Form? _MdiParent;
+
+    private ControlCollection _ObjectCollection = null!;
 
     private FormWindowState _WindowState = FormWindowState.Normal;
 
-    private readonly Gtk.Application app = Application.Init();
+    private Gtk.Application app = Application.Init();
 
-    private readonly Gtk.Overlay contanter = new();
+    private FormBorderStyle formBorderStyle = FormBorderStyle.Sizable;
 
     private bool Is_Control_Shown = false;
+
+    private double prevheight = 0;
+
+    private double prevmarginstart = 0;
+
+    private double prevmargintop = 0;
+
+    private double prevwidth = 0;
 
     /// <summary>
     /// Occurs after the form has been closed.
@@ -65,11 +91,6 @@ public partial class Form : ContainerControl, IWin32Window
     public virtual event EventHandler? Shown;
 
     /// <summary>
-    /// Occurs when the form's size changes.
-    /// </summary>
-    public override event EventHandler? SizeChanged;
-
-    /// <summary>
     /// Occurs when the form's scroll position changes.
     /// </summary>
     public override event ScrollEventHandler Scroll
@@ -89,6 +110,7 @@ public partial class Form : ContainerControl, IWin32Window
     /// </summary>
     public Form() : base()
     {
+        self.Override.sender = this;
         Init();
     }
 
@@ -102,6 +124,15 @@ public partial class Form : ContainerControl, IWin32Window
     public Form(string title) : this()
     {
         self.Title = title;
+    }
+
+    /// <summary>
+    /// Gets the currently active multiple-document interface (MDI) child window.
+    /// </summary>
+    public Form? ActiveMdiChild
+    {
+        get => _ActiveMdiChild?.self == null ? null : _ActiveMdiChild;
+        internal set => _ActiveMdiChild = value;
     }
 
     /// <summary>
@@ -129,20 +160,30 @@ public partial class Form : ContainerControl, IWin32Window
     {
         get
         {
-            return new Size(self.AllocatedWidth, self.AllocatedHeight);
+            if (self.IsRealized)
+                return new Size(self.ContentArea.AllocatedWidth, self.ContentArea.AllocatedHeight);
+            else
+                return new Size(self.DefaultWidth, self.DefaultHeight);
         }
         set
         {
-            self.WidthRequest = -1;
-            self.HeightRequest = -1;
             self.SetDefaultSize(value.Width, value.Height);
         }
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether a control box is displayed in the caption bar of the form.
+    /// </summary>
+    public bool ControlBox
+    {
+        get => _ControlBox;
+        set { _ControlBox = value; self.MinimizeBox = value; self.MaximizeBox = value; self.Deletable = value; }
+    }
+
+    /// <summary>
     /// Gets the collection of controls contained within the form.
     /// </summary>
-    public new ObjectCollection Controls { get { return _ObjectCollection; } }
+    public override ControlCollection Controls { get { return _ObjectCollection; } }
 
     /// <summary>
     /// Gets or sets the dialog result produced by the form.
@@ -162,25 +203,14 @@ public partial class Form : ContainerControl, IWin32Window
         set
         {
             formBorderStyle = value;
-            self.Resizable = value == FormBorderStyle.Sizable || value == FormBorderStyle.SizableToolWindow;
+            self.Resizable = value == FormBorderStyle.Sizable || value == FormBorderStyle.SizableToolWindow || value == FormBorderStyle.None;
             if (value == FormBorderStyle.None)
             {
-                self.Decorated = false; // remove toolbar
-            }
-            else if (value == FormBorderStyle.FixedToolWindow)
-            {
-                self.Decorated = true;
-                self.TypeHint = Gdk.WindowTypeHint.Dialog;
-            }
-            else if (value == FormBorderStyle.SizableToolWindow)
-            {
-                self.Decorated = true;
-                self.TypeHint = Gdk.WindowTypeHint.Dialog;
+                self.Decorated = false;
             }
             else
             {
                 self.Decorated = true;
-                self.TypeHint = Gdk.WindowTypeHint.Normal;
             }
         }
     }
@@ -205,6 +235,47 @@ public partial class Form : ContainerControl, IWin32Window
     }
 
     /// <summary>
+    /// Gets a value indicating whether the form is a multiple-document interface (MDI) child form.
+    /// </summary>
+    public bool IsMdiChild { get => _MdiParent != null; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the form is a container for multiple-document interface (MDI) child forms.
+    /// </summary>
+    public bool IsMdiContainer
+    {
+        get;
+        set;
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the form will receive key events before they are passed to the control that has focus.
+    /// </summary>
+    public bool KeyPreview
+    {
+        get;
+        set;
+    }
+
+    /// <summary>
+    /// Gets or sets the distance, in pixels, between the left edge of the form and the left edge of its container.
+    /// </summary>
+    public override int Left
+    {
+        get => _location.X;
+        set { _location.X = value; base.Left = value; self.Move(_location.X, _location.Y); }
+    }
+
+    /// <summary>
+    /// Gets or sets the coordinates of the upper-left corner of the form relative to its container.
+    /// </summary>
+    public override Point Location
+    {
+        get => _location;
+        set { Left = value.X; Top = value.Y; }
+    }
+
+    /// <summary>
     /// Gets or sets the primary menu strip for the form.
     /// </summary>
     public MenuStrip? MainMenuStrip
@@ -218,18 +289,114 @@ public partial class Form : ContainerControl, IWin32Window
     /// </summary>
     public bool MaximizeBox
     {
-        get;
-        set;
-    } = true;
+        get => self.MaximizeBox;
+        set => self.MaximizeBox = value && _ControlBox;
+    }
+
+    /// <summary>
+    /// Gets an array of forms that represent the multiple-document interface (MDI) child forms parented to this form.
+    /// </summary>
+    public Form[] MdiChildren
+    {
+        get
+        {
+            var forms = new List<Form>();
+            if (this.IsMdiContainer && MdiContainer != null)
+            {
+                foreach (var ofm in MdiContainer.Children)
+                {
+                    if (ofm.Data.ContainsKey("Control") && ofm.Data["Control"] is Form fm)
+                        forms.Add(fm);
+                }
+            }
+
+            return forms.ToArray();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the current multiple-document interface (MDI) parent form of this form.
+    /// </summary>
+    public Form? MdiParent
+    {
+        get => _MdiParent;
+        set
+        {
+            if (value == null)
+            {
+                if (_MdiParent != null)
+                {
+                    self.CloseWindow();
+                }
+                _MdiParent = value;
+            }
+            else
+            {
+                if (value.IsMdiContainer == false)
+                    throw new Exception("MdiParent is not MdiContainer");
+
+                _MdiParent = value;
+
+                if (_MdiParent.MdiContainer == null)
+                {
+                    _MdiParent.MdiContainer2 = new Gtk.Overlay() { NoShowAll = true, WidthRequest = 0, HeightRequest = 0 };
+                    _MdiParent.Controls.Add(_MdiParent.MdiContainer2);
+                    _MdiParent.MdiContainer = new Gtk.Overlay();
+                    _MdiParent.scrolledWindow = new Gtk.ScrolledWindow();
+                    _MdiParent.scrolledWindow.StyleContext.AddClass("MDIPanel");
+                    _MdiParent.scrolledWindow.Add(_MdiParent.MdiContainer);
+                    _MdiParent.Controls.Add(_MdiParent.scrolledWindow);
+
+                    if (_MdiParent.scrolledWindow.Parent is Gtk.Overlay olay)
+                    {
+                        var left = 0; var top = 0; var right = 0; var bottom = 0;
+                        foreach (var w in olay.Children)
+                        {
+                            if (w.Halign == Align.Fill && w.Valign == Align.Start)
+                            {
+                                top = Math.Max(top, w.HeightRequest + w.MarginTop);
+                            }
+                            else if (w.Halign == Align.Fill && w.Valign == Align.End)
+                            {
+                                bottom += w.HeightRequest;
+                            }
+
+                            if (w.Valign == Align.Fill && w.Halign == Align.Start)
+                            {
+                                left = Math.Max(left, w.WidthRequest + w.MarginStart);
+                            }
+                            else if (w.Valign == Align.Fill && w.Halign == Align.End)
+                            {
+                                right += w.WidthRequest;
+                            }
+                        }
+                        _MdiParent.scrolledWindow.MarginTop = top;
+                        _MdiParent.scrolledWindow.MarginStart = left;
+                        _MdiParent.scrolledWindow.MarginEnd = right;
+                        _MdiParent.scrolledWindow.MarginBottom = bottom;
+                    }
+                }
+                this.self.CanFocus = true;
+                this.self.BorderWidth = 2;
+                this.self.StyleContext.AddClass("MDIForm");
+                this.Size = new Size(self.DefaultWidth, self.DefaultHeight);
+                this.self.Halign = Align.Start;
+                this.self.Valign = Align.Start;
+                this.self.WidgetEventAfter += Self_WidgetEventAfter;
+                _MdiParent.MdiContainer.WidgetEventAfter += Contaner_WidgetEventAfter;
+                _MdiParent.MdiContainer.AddOverlay(self);
+            }
+        }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether the Minimize button is displayed.
     /// </summary>
     public bool MinimizeBox
     {
-        get;
-        set;
-    } = true;
+        get => self.MinimizeBox;
+        set => self.MinimizeBox = value && _ControlBox;
+    }
 
     /// <summary>
     /// Gets or sets the form's opacity (0.0 - fully transparent, 1.0 - fully opaque).
@@ -241,6 +408,26 @@ public partial class Form : ContainerControl, IWin32Window
     }
 
     /// <summary>
+    /// Gets or sets the form that owns this form.
+    /// </summary>
+    public Form? Owner
+    {
+        get => this.Parent as Form;
+        set
+        {
+            if (this.Parent != null && this.Parent is Form parent)
+                parent.self.Group.RemoveWindow(self);
+            this.Parent = value;
+            if (value != null)
+            {
+                self.TransientFor = value.self;
+                self.DestroyWithParent = true;
+                value.self.Group.AddWindow(self);
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the padding within the form. Padding is applied to the internal GTK overlay margins.
     /// </summary>
     public override Padding Padding
@@ -249,10 +436,10 @@ public partial class Form : ContainerControl, IWin32Window
         set
         {
             base.Padding = value;
-            contanter.MarginStart = value.Left;
-            contanter.MarginTop = value.Top;
-            contanter.MarginEnd = value.Right;
-            contanter.MarginBottom = value.Bottom;
+            self.contaner.MarginStart = value.Left;
+            self.contaner.MarginTop = value.Top;
+            self.contaner.MarginEnd = value.Right;
+            self.contaner.MarginBottom = value.Bottom;
         }
     }
 
@@ -293,6 +480,40 @@ public partial class Form : ContainerControl, IWin32Window
     }
 
     /// <summary>
+    /// Gets or sets the distance, in pixels, between the top edge of the form and the top edge of its container.
+    /// </summary>
+    public override int Top
+    {
+        get => _location.Y;
+        set { _location.Y = value; base.Top = value; self.Move(_location.X, _location.Y); }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the form is displayed as a top-level window.
+    /// </summary>
+    public bool TopLevel
+    {
+        get { return self.IsToplevel; }
+        set { }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the form is displayed on top of all other windows.
+    /// </summary>
+    public bool TopMost
+    {
+        get { return self.IsActive; }
+        set
+        {
+            self.KeepAbove = value;
+            if (self.Window != null)
+                if (self.IsVisible == false || self.IsActive == false || self.Window.State.HasFlag(Gdk.WindowState.Iconified))
+                    self.Present();
+            self.Activate();
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the state (normal, minimized, maximized) of the form.
     /// Setting this property will attempt to change the native window state when the window is mapped.
     /// </summary>
@@ -300,23 +521,44 @@ public partial class Form : ContainerControl, IWin32Window
     {
         get
         {
+            if (self.Window != null)
+            {
+                if (self.Window.State.HasFlag(Gdk.WindowState.Iconified))
+                    _WindowState = FormWindowState.Minimized;
+                else if (self.Window.State.HasFlag(Gdk.WindowState.Maximized) || self.Window.State.HasFlag(Gdk.WindowState.Fullscreen))
+                    _WindowState = FormWindowState.Maximized;
+                else
+                    _WindowState = FormWindowState.Normal;
+            }
+
             return _WindowState;
         }
         set
         {
             _WindowState = value;
-            if (self.IsMapped)
+            if (value == FormWindowState.Maximized)
             {
-                if (value == FormWindowState.Maximized)
-                {
-                    self.Maximize();
-                }
-                else if (value == FormWindowState.Minimized)
-                {
-                    self.Iconify();
-                }
+                self.Maximize();
+            }
+            else if (value == FormWindowState.Minimized)
+            {
+                self.Iconify();
+            }
+            else if (self.IsMapped)
+            {
+                self.Deiconify();
+                self.Present();
             }
         }
+    }
+
+    /// <summary>
+    /// Gets or sets the scrollable base used by the form.
+    /// </summary>
+    protected override IScrollableBoxBase? scrollbase
+    {
+        get => self;
+        set => base.scrollbase = value;
     }
 
     /// <summary>
@@ -359,7 +601,13 @@ public partial class Form : ContainerControl, IWin32Window
     /// </summary>
     public void CloseImmediately()
     {
-        self?.CloseWindow();
+        if (self != null)
+        {
+            if (self.CloseWindow())
+            {
+                this.Dispose(true);
+            }
+        }
     }
 
     /// <summary>
@@ -367,7 +615,104 @@ public partial class Form : ContainerControl, IWin32Window
     /// </summary>
     public override void Hide()
     {
-        self?.Hide();
+        if (self != null)
+        {
+            self.Hide();
+        }
+    }
+
+    /// <summary>
+    /// Arranges the multiple-document interface (MDI) child forms within this form.
+    /// </summary>
+    /// <param name="value">
+    /// The layout to apply to the MDI child forms.
+    /// </param>
+    public void LayoutMdi(MdiLayout value)
+    {
+        if (MdiContainer != null)
+        {
+            if (value == MdiLayout.TileVertical)
+            {
+                int x = 0, y = 0;
+                var width = scrolledWindow.Parent.AllocatedWidth - scrolledWindow.MarginStart - scrolledWindow.MarginEnd;
+                var height = scrolledWindow.Parent.AllocatedHeight - scrolledWindow.MarginTop - scrolledWindow.MarginBottom;
+                double cellsize = width * height / MdiContainer.Children.Length;
+                var cellheight = (int)(Math.Sqrt(cellsize) / width * height);
+                var cellwidth = (int)(cellsize / cellheight);
+                cellwidth = (int)(width / Math.Ceiling(width * 1f / cellwidth));
+                Gtk.Widget? last = null;
+                foreach (var fm in MdiContainer.Children)
+                {
+                    last = fm;
+                    fm.MarginStart = x;
+                    fm.MarginTop = y;
+                    fm.HeightRequest = cellheight;
+                    fm.WidthRequest = cellwidth;
+                    y += cellheight;
+                    if (y + 50 >= height)
+                    {
+                        x += cellwidth;
+                        y = 0;
+                    }
+                }
+                if (height > y && last != null)
+                    last.HeightRequest = last.HeightRequest + height - y;
+
+                MdiContainer.QueueResize();
+                MdiContainer.QueueDraw();
+            }
+            else if (value == MdiLayout.TileHorizontal)
+            {
+                int x = 0, y = 0;
+                var width = scrolledWindow.Parent.AllocatedWidth - scrolledWindow.MarginStart - scrolledWindow.MarginEnd;
+                var height = scrolledWindow.Parent.AllocatedHeight - scrolledWindow.MarginTop - scrolledWindow.MarginBottom;
+                double cellsize = width * height / MdiContainer.Children.Length;
+                var cellheight = (int)(Math.Sqrt(cellsize) / width * height);
+                var cellwidth = (int)(cellsize / cellheight);
+                cellwidth = (int)(width / Math.Ceiling(width * 1f / cellwidth));
+                Gtk.Widget? last = null;
+                foreach (var fm in MdiContainer.Children)
+                {
+                    last = fm;
+                    fm.MarginStart = x;
+                    fm.MarginTop = y;
+                    fm.HeightRequest = cellheight;
+                    fm.WidthRequest = cellwidth;
+                    x += cellwidth;
+                    if (x + 50 >= width)
+                    {
+                        x = 0;
+                        y += cellheight;
+                    }
+                }
+                if (width > x && last != null)
+                    last.WidthRequest = last.WidthRequest + width - x;
+
+                MdiContainer.QueueResize();
+                MdiContainer.QueueDraw();
+            }
+            else if (value == MdiLayout.Cascade || value == MdiLayout.ArrangeIcons)
+            {
+                if (this.IsMdiContainer && MdiContainer != null)
+                {
+                    int x = 0, y = 0;
+                    foreach (var fm in MdiContainer.Children)
+                    {
+                        fm.MarginStart = x;
+                        fm.MarginTop = y;
+                        x += 30;
+                        y += 30;
+                    }
+                    MdiContainer.QueueResize();
+                    MdiContainer.QueueDraw();
+                }
+            }
+            GLib.Timeout.Add(500, () =>
+            {
+                UpdateMDILayout(MdiContainer);
+                return false;
+            });
+        }
     }
 
     /// <summary>
@@ -375,7 +720,6 @@ public partial class Form : ContainerControl, IWin32Window
     /// </summary>
     public override void PerformLayout()
     {
-        _Created = true;
     }
 
     /// <summary>
@@ -386,7 +730,6 @@ public partial class Form : ContainerControl, IWin32Window
     /// </param>
     public override void ResumeLayout(bool resume)
     {
-        _Created = resume == false;
     }
 
     /// <summary>
@@ -407,77 +750,61 @@ public partial class Form : ContainerControl, IWin32Window
     {
         if (owner == this)
         {
-            throw new InvalidOperationException("OwnsSelfOrOwner");
+            throw new InvalidOperationException("Owns Self Or Owner");
         }
-
-        if (base.Visible)
+        if (_Created == false && self.IsRealized == false)
         {
-            throw new InvalidOperationException("ShowDialogOnVisible");
-        }
-
-        if (!base.Enabled)
-        {
-            throw new InvalidOperationException("ShowDialogOnDisabled");
-        }
-
-        if (owner != null && owner is Form parent)
-        {
-            this.Parent = parent;
-            self.SetPosition(WindowPosition.CenterOnParent);
-            self.DestroyWithParent = true;
-            self.Activate();
-        }
-
-        if (self.IsVisible == false)
-        {
-            this.FormBorderStyle = this.FormBorderStyle;
-            if (this.MaximizeBox == false && this.MinimizeBox == false)
+            _Created = true;
+            if (owner != null && owner is Form parent)
             {
-                self.TypeHint = Gdk.WindowTypeHint.Dialog;
+                Owner = parent;
+            }
+            if (StartPosition == FormStartPosition.CenterScreen)
+                self.WindowPosition = WindowPosition.Center;
+            else if (StartPosition == FormStartPosition.Manual)
+                self.WindowPosition = WindowPosition.Mouse;
+            else if (this.Parent != null && StartPosition == FormStartPosition.CenterParent)
+                self.WindowPosition = WindowPosition.CenterOnParent;
+            else
+                self.WindowPosition = WindowPosition.Center;
+
+            if (this.MaximizeBox == false)
+            {
+                self.Resizable = false;
             }
             self.Resize(self.DefaultWidth, self.DefaultHeight);
-
-            if (this.WindowState == FormWindowState.Maximized)
+            try
             {
-                self.Maximize();
-            }
-            else if (this.WindowState == FormWindowState.Minimized)
-            {
-                self.Iconify();
-            }
-            if (self.IsMapped == false)
-            {
-                try
+                if (this.ShowIcon)
                 {
-                    if (this.ShowIcon)
+                    if (this.Icon != null)
                     {
-                        if (this.Icon != null)
-                        {
-                            if (this.Icon.Pixbuf != null)
-                                self.Icon = this.Icon.Pixbuf;
-                            else if (this.Icon.PixbufData != null)
-                                self.Icon = new Gdk.Pixbuf(this.Icon.PixbufData);
-                            else if (this.Icon.FileName != null && System.IO.File.Exists(this.Icon.FileName))
-                                self.SetIconFromFile(this.Icon.FileName);
-                            else if (this.Icon.FileName != null && System.IO.File.Exists("Resources\\" + this.Icon.FileName))
-                                self.SetIconFromFile("Resources\\" + this.Icon.FileName);
-                        }
-                        var titlebar = (Gtk.HeaderBar)self.Titlebar;
-                        var flag = new Gtk.Image(self.Icon)
-                        {
-                            Visible = true
-                        };
-                        titlebar.PackStart(flag);
+                        if (this.Icon.Pixbuf != null)
+                            self.Icon = this.Icon.Pixbuf;
+                        else if (this.Icon.PixbufData != null)
+                            self.Icon = new Gdk.Pixbuf(this.Icon.PixbufData);
                     }
                     else
                     {
-                        self.Icon = new Gdk.Pixbuf(this.GetType().Assembly, "Resources.System.view-more.png");
+                        if (System.IO.File.Exists("Resources/icon.png"))
+                            self.Icon = new Gdk.Pixbuf("Resources/icon.png");
+                        else if (System.IO.File.Exists("Resources/icon.ico"))
+                            self.Icon = new Gdk.Pixbuf("Resources/icon.ico");
                     }
                 }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Show", ex);
-                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Show", ex);
+                self.Icon = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("image-missing16.png"));
+            }
+        }
+        else
+        {
+            foreach (var item in this.self.Group.ListWindows())
+            {
+                item.Deiconify();
+                item.ShowAll();
             }
         }
         self.ShowAll();
@@ -505,21 +832,8 @@ public partial class Form : ContainerControl, IWin32Window
     /// </returns>
     public DialogResult ShowDialog(IWin32Window? owner)
     {
-        if (owner == this)
-        {
-            throw new ArgumentException("OwnsSelfOrOwner", "showDialog");
-        }
-
-        if (base.Visible)
-        {
-            throw new InvalidOperationException("ShowDialogOnVisible");
-        }
-
-        if (!base.Enabled)
-        {
-            throw new InvalidOperationException("ShowDialogOnDisabled");
-        }
         Show(owner);
+        self.TypeHint = Gdk.WindowTypeHint.Dialog;
         var irun = self.Run();
 
         return this.DialogResult;
@@ -531,6 +845,33 @@ public partial class Form : ContainerControl, IWin32Window
     public override void SuspendLayout()
     {
         _Created = false;
+    }
+
+    /// <summary>
+    /// Activates the specified multiple-document interface (MDI) child form.
+    /// </summary>
+    /// <param name="form">
+    /// The MDI child form to activate.
+    /// </param>
+    protected void ActivateMdiChild(Form? form)
+    {
+        form?.Activate();
+        ActiveMdiChild = form;
+    }
+
+    /// <summary>
+    /// Releases the resources used by the form.
+    /// </summary>
+    /// <param name="disposing">
+    /// if set to
+    /// <c>
+    /// true
+    /// </c> managed resources are released.
+    /// </param>
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        self = null!;
     }
 
     /// <summary>
@@ -565,17 +906,13 @@ public partial class Form : ContainerControl, IWin32Window
         Shown?.Invoke(this, e);
     }
 
-    /// <summary>
-    /// Raises the SizeChanged event.
-    /// </summary>
-    protected override void OnSizeChanged(System.EventArgs e)
+    private void Contaner_WidgetEventAfter(object o, WidgetEventAfterArgs args)
     {
-        SizeChanged?.Invoke(this, e);
-    }
-
-    private void Close_Clicked(object sender, EventArgs e)
-    {
-        self.CloseWindow();
+        if (args.Event.Type == Gdk.EventType.ButtonRelease)
+        {
+            var lay = o as Gtk.Overlay;
+            UpdateMDILayout(lay);
+        }
     }
 
     private void Control_Shown(object sender, EventArgs e)
@@ -583,73 +920,15 @@ public partial class Form : ContainerControl, IWin32Window
         if (Is_Control_Shown == false)
         {
             Is_Control_Shown = true;
-            if (self.Titlebar is Gtk.HeaderBar titlebar)
-            {
-                titlebar.DecorationLayout = "menu:close";
-                if (formBorderStyle == FormBorderStyle.FixedToolWindow || formBorderStyle == FormBorderStyle.SizableToolWindow)
-                {
-                }
-                else
-                {
-                    if (MaximizeBox == true)
-                    {
-                        var maximize = new Gtk.Button("window-maximize-symbolic", IconSize.SmallToolbar) { Name = "maximize", Visible = true, Relief = ReliefStyle.None, Valign = Align.Center, Halign = Align.Center };
-                        maximize.StyleContext.AddClass("maximize");
-                        maximize.StyleContext.AddClass("titlebutton");
-                        maximize.Clicked += Maximize_Clicked;
-                        titlebar.PackEnd(maximize);
-                    }
-                    if (MinimizeBox == true)
-                    {
-                        var minimize = new Gtk.Button("window-minimize-symbolic", IconSize.SmallToolbar) { Name = "minimize", Visible = true, Relief = ReliefStyle.None, Valign = Align.Center, Halign = Align.Center };
-                        minimize.StyleContext.AddClass("minimize");
-                        minimize.StyleContext.AddClass("titlebutton");
-                        minimize.Clicked += Minimize_Clicked;
-                        titlebar.PackEnd(minimize);
-                    }
-                }
-            }
         }
         OnShownHandler();
     }
 
     private void Init()
     {
-        this.SetScrolledWindow(self);
-        contanter.Valign = Gtk.Align.Fill;
-        contanter.Halign = Gtk.Align.Fill;
-        contanter.Hexpand = true;
-        contanter.Vexpand = true;
-        contanter.MarginBottom = 0;
-        contanter.MarginEnd = 0;
-        contanter.Add(new Gtk.Fixed() { Halign = Align.Fill, Valign = Align.Fill });
-        self.ScrollView.Child = contanter;
-        _ObjectCollection = new ObjectCollection(this, contanter);
-        self.ResizeChecked += Self_ResizeChecked;
+        _ObjectCollection = new ControlCollection(this, self.contaner);
         self.Shown += Control_Shown;
         self.CloseWindowEvent += Self_CloseWindowEvent;
-    }
-
-    private void Maximize_Clicked(object sender, EventArgs e)
-    {
-        var maximize = (Gtk.Button)sender;
-        if (maximize.Name == "restore")
-        {
-            self.Unmaximize();
-            maximize.Image = Gtk.Image.NewFromIconName("window-maximize-symbolic", IconSize.SmallToolbar);
-            maximize.Name = "maximize";
-        }
-        else
-        {
-            self.Maximize();
-            maximize.Image = Gtk.Image.NewFromIconName("window-restore-symbolic", IconSize.SmallToolbar);
-            maximize.Name = "restore";
-        }
-    }
-
-    private void Minimize_Clicked(object sender, EventArgs e)
-    {
-        self.Iconify();
     }
 
     private void OnShownHandler()
@@ -665,43 +944,64 @@ public partial class Form : ContainerControl, IWin32Window
         if (closing.Cancel == false)
         {
             OnFormClosed(new FormClosedEventArgs(CloseReason.UserClosing));
+
+            this.Dispose();
         }
 
-        return closing.Cancel == false;
+        return closing.Cancel;
     }
 
-    private void Self_ResizeChecked(object sender, EventArgs e)
+    private void Self_WidgetEventAfter(object o, WidgetEventAfterArgs args)
     {
-        OnSizeChanged(EventArgs.Empty);
-    }
-
-    /// <summary>
-    /// Placeholder type used to represent an MDI layout. Kept for compatibility.
-    /// </summary>
-    public class MdiLayout
-    {
-    }
-
-    /// <summary>
-    /// Collection that stores controls added to the form.
-    /// </summary>
-    public class ObjectCollection : ControlCollection
-    {
-        readonly Gtk.Container __owner;
-
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:System.Windows.Forms.Form.ObjectCollection" /> class.
-        /// </summary>
-        /// <param name="control">
-        /// The parent control.
-        /// </param>
-        /// <param name="owner">
-        /// The GTK container that will host child controls.
-        /// </param>
-        public ObjectCollection(Control control, Gtk.Container owner) : base(control, owner)
+        var owidget = o as Gtk.Dialog;
+        if (owidget == null)
+            return;
+        if (args.Event is Gdk.EventMotion motion && motion.State.HasFlag(Gdk.ModifierType.Button1Mask))
         {
-            __owner = owner;
+            owidget.Window.GetOrigin(out var x, out var y);
+            if (motion.XRoot > x && motion.YRoot < y + 50)
+            {
+                owidget.MarginStart = Math.Max(0, (int)(prevmarginstart + motion.XRoot));
+                owidget.MarginTop = Math.Max(0, (int)(prevmargintop + motion.YRoot));
+            }
+            if (motion.XRoot > x + owidget.AllocatedWidth - 10 || motion.YRoot > y + owidget.AllocatedHeight - 10)
+            {
+                owidget.WidthRequest = Math.Max(0, (int)(prevwidth + motion.XRoot));
+                owidget.HeightRequest = Math.Max(0, (int)(prevheight + motion.YRoot));
+            }
+        }
+        else if (args.Event.Type == Gdk.EventType.ButtonPress && args.Event is Gdk.EventButton btn)
+        {
+            prevmarginstart = owidget.MarginStart - btn.XRoot;
+            prevmargintop = owidget.MarginTop - btn.YRoot;
+
+            prevwidth = owidget.AllocatedWidth - btn.XRoot;
+            prevheight = owidget.AllocatedHeight - btn.YRoot;
+        }
+        else if (args.Event.Type == Gdk.EventType.ButtonRelease)
+        {
+            if (owidget.Parent is Gtk.Overlay lay)
+            {
+                lay.ReorderOverlay(owidget, lay.Children.Length);
+                if (_MdiParent != null)
+                    _MdiParent.ActiveMdiChild = this;
+            }
+        }
+    }
+
+    private void UpdateMDILayout(Gtk.Overlay? lay)
+    {
+        if (lay != null)
+        {
+            lay.SetSizeRequest(-1, -1);
+            foreach (var widget in lay.Children)
+            {
+                if (widget.AllocatedWidth > 1 && widget.AllocatedWidth + widget.MarginStart > lay.WidthRequest)
+                    lay.WidthRequest = widget.AllocatedWidth + widget.MarginStart;
+
+                if (widget.AllocatedHeight > 1 && widget.AllocatedHeight + widget.MarginTop > lay.HeightRequest)
+                    lay.HeightRequest = widget.AllocatedHeight + widget.MarginTop;
+            }
         }
     }
 }

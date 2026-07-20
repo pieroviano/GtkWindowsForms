@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 /// <summary>
 /// Represents a line used to group items of a
@@ -9,52 +7,19 @@ namespace System.Windows.Forms;
 /// <see cref="T:System.Windows.Forms.ContextMenuStrip" /> or other
 /// <see cref="T:System.Windows.Forms.ToolStripDropDown" /> control.
 /// </summary>
-public class ToolStripSeparator : WidgetToolStrip<Gtk.SeparatorMenuItem>
+public class ToolStripSeparator : ToolStripItem
 {
+
+    public StripSeparator self = new StripSeparator();
+
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripSeparator" /> class.
     /// </summary>
-    public ToolStripSeparator() : base("ToolStripSeparator")
+    public ToolStripSeparator() : base()
     {
-        var menuItem = this.MenuItem;
-        if (menuItem != null)
-        {
-            menuItem.Hexpand = false;
-            menuItem.Vexpand = false;
-            menuItem.Halign = Gtk.Align.Center;
-            menuItem.Valign = Gtk.Align.Center;
-            menuItem.StyleContext.AddClass("ToolStripSeparator");
-        }
+
     }
 
-    /// <summary>
-    /// Gets or sets the size.
-    /// </summary>
-    /// <value>
-    /// The size.
-    /// </value>
-    public override Size Size
-    {
-        get => base.Size;
-        set
-        {
-            if (value.Width > value.Height)
-                base.Size = new Size(value.Width, 2);
-            else
-                base.Size = new Size(2, value.Height);
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the width.
-    /// </summary>
-    /// <value>
-    /// The width.
-    /// </value>
-    public override int Width
-    {
-        get;
-        set;
-    }
+    public override IToolMenuItem Widget { get => self; }
 }

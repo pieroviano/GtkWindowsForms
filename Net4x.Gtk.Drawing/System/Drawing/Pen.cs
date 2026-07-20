@@ -12,6 +12,8 @@ namespace System.Drawing;
 public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
 {
 
+    private readonly bool _immutable;
+
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Drawing.Pen" /> class with the specified
@@ -91,6 +93,8 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
         this.Color = color;
         this.Width = width;
     }
+
+    internal Pen(Color color, bool immutable) : this(color) => _immutable = immutable;
 
     /// <summary>
     /// Gets or sets the alignment for this

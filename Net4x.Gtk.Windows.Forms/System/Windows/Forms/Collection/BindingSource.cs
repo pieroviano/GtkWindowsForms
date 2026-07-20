@@ -1167,7 +1167,12 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             propertyDescriptor = _itemShape.Find(propertyName, true);
         }
-        var propertyDescriptor1 = propertyDescriptor ?? throw new ArgumentException(string.Format("DataSourceDataMemberPropNotFound {0}", propertyName));
+        var propertyDescriptor1 = propertyDescriptor;
+        if (propertyDescriptor1 == null)
+        {
+            throw new ArgumentException(string.Format("DataSourceDataMemberPropNotFound {0}", propertyName));
+        }
+
         return ((IBindingList)this).Find(propertyDescriptor1, key);
     }
 
@@ -1653,7 +1658,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </param>
     protected virtual void OnAddingNew(AddingNewEventArgs e)
     {
-        ((AddingNewEventHandler)Events[EventAddingNew])?.Invoke(this, e);
+        var item = (AddingNewEventHandler)Events[EventAddingNew];
+        if (item != null)
+        {
+            item(this, e);
+        }
     }
 
     /// <summary>
@@ -1666,7 +1675,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </param>
     protected virtual void OnBindingComplete(BindingCompleteEventArgs e)
     {
-        ((BindingCompleteEventHandler)Events[EventBindingComplete])?.Invoke(this, e);
+        var item = (BindingCompleteEventHandler)Events[EventBindingComplete];
+        if (item != null)
+        {
+            item(this, e);
+        }
     }
 
     /// <summary>
@@ -1681,7 +1694,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     {
         UnhookItemChangedEventsForOldCurrent();
         HookItemChangedEventsForNewCurrent();
-        ((EventHandler)Events[EventCurrentChanged])?.Invoke(this, e);
+        var item = (EventHandler)Events[EventCurrentChanged];
+        if (item != null)
+        {
+            item(this, e);
+        }
     }
 
     /// <summary>
@@ -1694,7 +1711,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </param>
     protected virtual void OnCurrentItemChanged(EventArgs e)
     {
-        ((EventHandler)Events[EventCurrentItemChanged])?.Invoke(this, e);
+        var item = (EventHandler)Events[EventCurrentItemChanged];
+        if (item != null)
+        {
+            item(this, e);
+        }
     }
 
     /// <summary>
@@ -1759,8 +1780,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
         {
             return;
         }
-
-        ((ListChangedEventHandler)Events[EventListChanged])?.Invoke(this, e);
+        var item = (ListChangedEventHandler)Events[EventListChanged];
+        if (item != null)
+        {
+            item(this, e);
+        }
     }
 
     /// <summary>
@@ -1773,7 +1797,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
     /// </param>
     protected virtual void OnPositionChanged(EventArgs e)
     {
-        ((EventHandler)Events[EventPositionChanged])?.Invoke(this, e);
+        var item = (EventHandler)Events[EventPositionChanged];
+        if (item != null)
+        {
+            item(this, e);
+        }
     }
 
     private bool AllowNewInternal(bool checkconstructor)
@@ -2042,7 +2070,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
 
     private void OnInitialized()
     {
-        ((EventHandler)Events[EventInitialized])?.Invoke(this, EventArgs.Empty);
+        var item = (EventHandler)Events[EventInitialized];
+        if (item != null)
+        {
+            item(this, EventArgs.Empty);
+        }
     }
 
     private void OnSimpleListChanged(ListChangedType listChangedType, int newIndex)
@@ -2153,7 +2185,11 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
                 }
                 str = str.Substring(1, str.Length - 2);
             }
-            var propertyDescriptor = (itemProperties?.Find(str, true)) ?? throw new ArgumentException("BindingSourceSortStringPropertyNotInIBindingList");
+            var propertyDescriptor = itemProperties?.Find(str, true);
+            if (propertyDescriptor == null)
+            {
+                throw new ArgumentException("BindingSourceSortStringPropertyNotInIBindingList");
+            }
             arrayLists.Add(new ListSortDescription(propertyDescriptor, flag ? ListSortDirection.Ascending : ListSortDirection.Descending));
         }
         var listSortDescriptionArray = new ListSortDescription[arrayLists.Count];

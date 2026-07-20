@@ -94,7 +94,7 @@ public sealed class Cursor : IDisposable, ISerializable
     {
         _freeHandle = true;
         CursorType = Gdk.CursorType.CursorIsPixmap;
-        CursorPixbuf = new Gdk.Pixbuf(stream).ScaleSimple(48, 48, Gdk.InterpType.Tiles);
+        CursorPixbuf = new Gdk.Pixbuf(stream).ScaleSimple(38, 38, Gdk.InterpType.Hyper);
     }
 
     internal Cursor(string resource, string cursorsProperty)

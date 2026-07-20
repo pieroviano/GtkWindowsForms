@@ -16,7 +16,7 @@ namespace System.Windows.Forms;
 /// </summary>
 [ToolboxItemFilter("System.Windows.Forms")]
 [DefaultProperty(nameof(Images))]
-[TypeConverter(typeof(ImageListConverter))]
+//[TypeConverter(typeof(ImageListConverter))]
 public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
 {
     private EventHandler? _changeHandler;
@@ -355,7 +355,7 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
 
     internal Image? GetOriginalImage(string name)
     {
-        var path1 = $"./Resources";
+        var path1 = "Resources";
         var value = this.ImageStream;
         if (value?.ResourceInfo != null && value.ResourceInfo.BaseName != null)
         {
@@ -529,4 +529,4 @@ public sealed partial class ImageList : Component//, IHandle<HIMAGELIST>
 
     private bool ShouldSerializeImageSize() => Images.Count == 0;
 
-}
+}

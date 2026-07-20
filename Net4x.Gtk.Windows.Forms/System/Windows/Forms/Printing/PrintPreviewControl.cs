@@ -41,6 +41,8 @@ public partial class PrintPreviewControl : Control
 
     private const double DefaultZoom = .3;
 
+    private bool Is_Self_Realized;
+
     private readonly ViewportBase paper;
 
     private const double pxscale = 0.75;
@@ -362,10 +364,14 @@ public partial class PrintPreviewControl : Control
 
     private void Self_Realized(object? sender, EventArgs e)
     {
-        if (AutoZoom == false)
+        if (!Is_Self_Realized)
         {
-            paper.WidthRequest = (int)Math.Round((_document?.PageSetup.GetPaperWidth(Unit.Points) ?? 0) * _zoom / 0.75, 0);
-            paper.HeightRequest = (int)Math.Round((_document?.PageSetup.GetPaperHeight(Unit.Points) ?? 0) * _zoom / 0.75, 0);
+            Is_Self_Realized = true;
+            if (AutoZoom == false)
+            {
+                paper.WidthRequest = (int)Math.Round((_document?.PageSetup.GetPaperWidth(Unit.Points) ?? 0) * _zoom / 0.75, 0);
+                paper.HeightRequest = (int)Math.Round((_document?.PageSetup.GetPaperHeight(Unit.Points) ?? 0) * _zoom / 0.75, 0);
+            }
         }
     }
 }

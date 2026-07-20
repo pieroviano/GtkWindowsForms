@@ -14,7 +14,7 @@ public sealed class TextBoxBase : Gtk.Entry, IControlGtk
     public TextBoxBase() : base()
     {
         this.Override = new GtkControlOverride(this);
-        this.Override.AddClass("TextBox");
+        this.StyleContext.AddClass("TextBox");
         base.Halign = Gtk.Align.Start;
         base.Valign = Gtk.Align.Start;
     }
@@ -43,31 +43,6 @@ public sealed class TextBoxBase : Gtk.Entry, IControlGtk
     /// </param>
     public void AddClass(string cssClass)
     {
-        this.Override.AddClass(cssClass);
-    }
-
-    /// <summary>
-    /// Called when the control is drawn.
-    /// </summary>
-    /// <param name="cr">
-    /// The Cairo context.
-    /// </param>
-    /// <returns>
-    /// </returns>
-    protected override bool OnDrawn(Cairo.Context cr)
-    {
-        var rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
-        Override.OnPaint(cr, rec);
-
-        return base.OnDrawn(cr);
-    }
-
-    /// <summary>
-    /// Called when the control is shown.
-    /// </summary>
-    protected override void OnShown()
-    {
-        Override.OnAddClass();
-        base.OnShown();
+        this.StyleContext.AddClass(cssClass);
     }
 }

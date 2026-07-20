@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 
@@ -26,7 +27,7 @@ internal class Formatter
         DefaultDataSourceNullValue = DBNull.Value;
     }
 
-    public static object? FormatObject(object? value, Type? targetType, TypeConverter? sourceConverter, TypeConverter? targetConverter, string formatString, IFormatProvider? formatInfo, object? formattedNullValue, object? dataSourceNullValue)
+    public static object? FormatObject(object? value, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] Type? targetType, TypeConverter? sourceConverter, TypeConverter? targetConverter, string formatString, IFormatProvider? formatInfo, object? formattedNullValue, object? dataSourceNullValue)
     {
         if (IsNullData(value, dataSourceNullValue))
         {
@@ -46,7 +47,7 @@ internal class Formatter
         return obj;
     }
 
-    public static object? GetDefaultDataSourceNullValue(Type? type)
+    public static object? GetDefaultDataSourceNullValue([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] Type? type)
     {
         if (type is { IsValueType: false })
         {
@@ -56,7 +57,7 @@ internal class Formatter
         return DefaultDataSourceNullValue;
     }
 
-    public static object? InvokeStringParseMethod(object? value, Type? targetType, IFormatProvider? formatInfo)
+    public static object? InvokeStringParseMethod(object? value, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] Type? targetType, IFormatProvider? formatInfo)
     {
         object? obj;
         try
@@ -102,7 +103,7 @@ internal class Formatter
         return Equals(value, NullData(value.GetType(), dataSourceNullValue));
     }
 
-    public static object? NullData(Type? type, object? dataSourceNullValue)
+    public static object? NullData([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] Type? type, object? dataSourceNullValue)
     {
         if (!(type?.IsGenericType ?? false) || !(type.GetGenericTypeDefinition() == typeof(Nullable<>)))
         {
@@ -116,7 +117,7 @@ internal class Formatter
         return null;
     }
 
-    public static object? ParseObject(object? value, Type? targetType, Type? sourceType, TypeConverter? targetConverter, TypeConverter? sourceConverter, IFormatProvider? formatInfo, object? formattedNullValue, object? dataSourceNullValue)
+    public static object? ParseObject(object? value, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] Type? targetType, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] Type? sourceType, TypeConverter? targetConverter, TypeConverter? sourceConverter, IFormatProvider? formatInfo, object? formattedNullValue, object? dataSourceNullValue)
     {
         var type = targetType;
         sourceType = NullableUnwrap(sourceType);
@@ -166,7 +167,7 @@ internal class Formatter
         return string.Compare(str1, str, true, GetFormatterCulture(formatInfo)) == 0;
     }
 
-    private static object? FormatObjectInternal(object? value, Type? targetType, TypeConverter? sourceConverter, TypeConverter? targetConverter, string formatString, IFormatProvider? formatInfo, object? formattedNullValue)
+    private static object? FormatObjectInternal(object? value, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type? targetType, TypeConverter? sourceConverter, TypeConverter? targetConverter, string formatString, IFormatProvider? formatInfo, object? formattedNullValue)
     {
         if (value == DBNull.Value || value == null)
         {
@@ -280,7 +281,7 @@ internal class Formatter
         return nullableConverter.UnderlyingTypeConverter;
     }
 
-    private static object? ParseObjectInternal(object? value, Type? targetType, Type? sourceType, TypeConverter? targetConverter, TypeConverter? sourceConverter, IFormatProvider? formatInfo, object? formattedNullValue)
+    private static object? ParseObjectInternal(object? value, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type? targetType, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type? sourceType, TypeConverter? targetConverter, TypeConverter? sourceConverter, IFormatProvider? formatInfo, object? formattedNullValue)
     {
         if (EqualsFormattedNullValue(value, formattedNullValue, formatInfo) || value == DBNull.Value)
         {

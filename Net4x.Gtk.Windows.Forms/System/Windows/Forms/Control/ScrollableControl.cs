@@ -39,17 +39,15 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     /// </summary>
     protected const int ScrollStateVScrollVisible = 4;
 
-    private bool _AutoScroll;
-
-    private IScrollableBoxBase? scrollbase;
+    private bool _AutoScroll = true;
 
     /// <summary>
     /// Occurs when the control or its scrollable child is scrolled.
     /// </summary>
     public virtual event ScrollEventHandler Scroll
     {
-        add { scrollbase?.Scroll += value; }
-        remove { scrollbase?.Scroll -= value; }
+        add { if (scrollbase != null) { scrollbase.Scroll += value; } }
+        remove { if (scrollbase != null) { scrollbase.Scroll -= value; } }
     }
 
     /// <summary>
@@ -70,8 +68,11 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
         set
         {
             _AutoScroll = value;
-            if (AutoSize == false)
-                scrollbase?.AutoScroll = value;
+            if (AutoSize == false && scrollbase != null)
+            {
+                scrollbase.AutoScroll = value;
+            }
+            PerformLayout(this, "AutoScroll");
         }
     }
 
@@ -114,11 +115,11 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
             base.AutoSize = value;
             if (value == true)
             {
-                scrollbase?.AutoScroll = false;
+                if (scrollbase != null) { scrollbase.AutoScroll = false; }
             }
             else
             {
-                scrollbase?.AutoScroll = _AutoScroll;
+                if (scrollbase != null) { scrollbase.AutoScroll = _AutoScroll; }
             }
         }
     }
@@ -134,7 +135,16 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     protected bool HScroll
     {
         get => scrollbase?.HScroll ?? false;
-        set => scrollbase?.HScroll = value;
+        set { if (scrollbase != null) { scrollbase.HScroll = value; } }
+    }
+
+    /// <summary>
+    /// Gets or sets the scrollable window implementation backing this control.
+    /// </summary>
+    protected virtual IScrollableBoxBase? scrollbase
+    {
+        get;
+        set;
     }
 
     /// <summary>
@@ -146,7 +156,64 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     protected bool VScroll
     {
         get => scrollbase?.VScroll ?? false;
-        set => scrollbase?.VScroll = value;
+        set { if (scrollbase != null) { scrollbase.VScroll = value; } }
+    }
+
+    /// <summary>
+    /// Forces the control to perform layout logic for a specific affected control/property.
+    /// </summary>
+    /// <param name="affectedControl">
+    /// Control affected by the layout.
+    /// </param>
+    /// <param name="affectedProperty">
+    /// Property name that changed.
+    /// </param>
+    public override void PerformLayout(Control affectedControl, string affectedProperty)
+    {
+        if (affectedProperty == "AutoScroll" && affectedControl.Widget is Gtk.ScrolledWindow sw)
+        {
+            if (sw.Child is Gtk.Viewport view)
+            {
+                if (view.Child is Gtk.Overlay lay)
+                {
+                    UpdatePerformLayout(sw, lay, _AutoScroll);
+                }
+            }
+            else if (sw.Child is Gtk.Overlay lay)
+            {
+                UpdatePerformLayout(sw, lay, _AutoScroll);
+            }
+        }
+        base.PerformLayout(affectedControl, affectedProperty);
+    }
+
+    /// <summary>
+    /// Scrolls the specified child control into view.
+    /// </summary>
+    /// <param name="activeControl">
+    /// The control to bring into view.
+    /// </param>
+    public void ScrollControlIntoView(Control activeControl)
+    {
+        if (activeControl != null && activeControl.Widget != null && scrollbase != null && AutoScroll == true)
+        {
+            if (this.Widget != null)
+            {
+                activeControl.Widget.Window.GetOrigin(out var sx, out var sy);
+                this.Widget.Window.GetOrigin(out var px, out var py);
+                var hvalue = HScroll ? sx - px : -1;
+                var vvalue = VScroll ? sy - py : -1;
+                if (this.Widget is Gtk.Window win)
+                {
+                    vvalue -= 20;
+                    if (win.Titlebar != null)
+                        vvalue -= win.Titlebar.AllocatedHeight;
+                }
+                var scrolled = scrollbase.ScrolledWindow;
+                if (scrolled != null)
+                    scrollbase.ScrollView(hvalue + scrolled.Hadjustment.Value, vvalue + scrolled.Vadjustment.Value);
+            }
+        }
     }
 
     /// <summary>
@@ -159,5 +226,42 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     public void SetScrolledWindow(IScrollableBoxBase scrolledwindow)
     {
         scrollbase = scrolledwindow;
+    }
+
+    internal void UpdatePerformLayout(Gtk.ScrolledWindow scrolled, Gtk.Overlay lay, bool autoscroll)
+    {
+        if (lay == null || lay.Child == null || scrolled == null)
+            return;
+        if (autoscroll == false)
+            lay.SetSizeRequest(-1, -1);
+        else
+        {
+            lay.SetSizeRequest(1, 1);
+            if (lay.IsRealized)
+            {
+                foreach (Gtk.Widget widget in lay.Children)
+                {
+                    if (lay.Child.Handle.Equals(widget.Handle))
+                    {
+                        lay.WidthRequest = Math.Max(lay.WidthRequest, widget.MarginStart + widget.WidthRequest + scrolled.Allocation.Left + 20);
+                        lay.HeightRequest = Math.Max(lay.HeightRequest, widget.MarginTop + widget.HeightRequest + scrolled.Allocation.Top + 20);
+                    }
+                    else
+                    {
+                        lay.WidthRequest = Math.Max(lay.WidthRequest, widget.MarginStart + widget.AllocatedWidth + scrolled.Allocation.Left + 20);
+                        lay.HeightRequest = Math.Max(lay.HeightRequest, widget.MarginTop + widget.AllocatedHeight + scrolled.Allocation.Top + 20);
+                    }
+                }
+            }
+            else
+            {
+                foreach (Gtk.Widget widget in lay.Children)
+                {
+                    lay.WidthRequest = Math.Max(lay.WidthRequest, widget.MarginStart + widget.WidthRequest + scrolled.Allocation.Left + 20);
+                    lay.HeightRequest = Math.Max(lay.HeightRequest, widget.MarginTop + widget.HeightRequest + scrolled.Allocation.Top + 20);
+                }
+            }
+            lay.QueueResize();
+        }
     }
 }

@@ -14,10 +14,11 @@ public sealed class LinkLabelBase : Gtk.LinkButton, IControlGtk
     public LinkLabelBase() : base("")
     {
         this.Override = new GtkControlOverride(this);
-        this.Override.AddClass("LinkLabel");
+        this.StyleContext.AddClass("LinkLabel");
         this.BorderWidth = 0;
-        base.Valign = Gtk.Align.Start;
-        base.Halign = Gtk.Align.Start;
+        this.Valign = Gtk.Align.Start;
+        this.Halign = Gtk.Align.Start;
+        this.Drawn += LinkLabelBase_Drawn;
     }
 
     /// <summary>
@@ -37,27 +38,17 @@ public sealed class LinkLabelBase : Gtk.LinkButton, IControlGtk
     }
 
     /// <summary>
-    /// Called when the control is drawn.
+    /// Handles the GTK Drawn signal and lets the
+    /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride" /> paint the control.
     /// </summary>
-    /// <param name="cr">
-    /// The Cairo context.
+    /// <param name="o">
+    /// The source of the event.
     /// </param>
-    /// <returns>
-    /// </returns>
-    protected override bool OnDrawn(Cairo.Context cr)
+    /// <param name="args">
+    /// The <see cref="Gtk.DrawnArgs" /> instance containing the Cairo context.
+    /// </param>
+    private void LinkLabelBase_Drawn(object o, Gtk.DrawnArgs args)
     {
-        var rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
-        Override.OnPaint(cr, rec);
-
-        return base.OnDrawn(cr);
-    }
-
-    /// <summary>
-    /// Called when the control is shown.
-    /// </summary>
-    protected override void OnShown()
-    {
-        Override.OnAddClass();
-        base.OnShown();
+        Override.OnPaint(args.Cr);
     }
 }

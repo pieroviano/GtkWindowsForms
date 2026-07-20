@@ -20,8 +20,8 @@ public class StatusStrip : ToolStrip
     /// </summary>
     public StatusStrip() : base()
     {
-        this.self.StyleContext.RemoveClass("ToolStrip");
         this.self.StyleContext.AddClass("StatusStrip");
+        this.self.Hexpand = true;
         Dock = DockStyle.Bottom;
     }
 
@@ -34,7 +34,7 @@ public class StatusStrip : ToolStrip
     public override Point Location
     {
         get => base.Location;
-        set => base.Location = new Point(value.X, value.Y - 12);
+        set => base.Location = new Point(value.X, value.Y);
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class StatusStrip : ToolStrip
     public override Size Size
     {
         get => base.Size;
-        set => base.Size = new Size(value.Width, value.Height + 12);
+        set => base.Size = new Size(value.Width, value.Height);
     }
 
     /// <summary>

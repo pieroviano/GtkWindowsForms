@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms;
+using System.Windows.Forms;
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
@@ -17,7 +17,7 @@ public sealed class MonthCalendarBase : Gtk.Calendar, IControlGtk
     public MonthCalendarBase() : base()
     {
         this.Override = new GtkControlOverride(this);
-        this.Override.AddClass("MonthCalendar");
+        this.StyleContext.AddClass("MonthCalendar");
         base.Valign = Gtk.Align.Start;
         base.Halign = Gtk.Align.Start;
         base.DaySelected += MonthCalendarBase_DaySelected;
@@ -72,41 +72,5 @@ public sealed class MonthCalendarBase : Gtk.Calendar, IControlGtk
     internal void OnDaySelected(EventArgs e)
     {
         DaySelected?.Invoke(this, e);
-    }
-
-    /// <summary>
-    /// Adds the class.
-    /// </summary>
-    /// <param name="cssClass">
-    /// The CSS class.
-    /// </param>
-    public void AddClass(string cssClass)
-    {
-        this.Override.AddClass(cssClass);
-    }
-
-    /// <summary>
-    /// Called when the control is drawn.
-    /// </summary>
-    /// <param name="cr">
-    /// The Cairo context.
-    /// </param>
-    /// <returns>
-    /// </returns>
-    protected override bool OnDrawn(Cairo.Context cr)
-    {
-        var rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
-        Override.OnPaint(cr, rec);
-
-        return base.OnDrawn(cr);
-    }
-
-    /// <summary>
-    /// Called when the control is shown.
-    /// </summary>
-    protected override void OnShown()
-    {
-        Override.OnAddClass();
-        base.OnShown();
     }
 }

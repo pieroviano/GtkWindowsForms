@@ -173,7 +173,7 @@ public class DataGridViewCellStyle : ICloneable
     /// The null value.
     /// </value>
     [DefaultValue("")]
-    [TypeConverter(typeof(StringConverter))]
+    //[TypeConverter(typeof(StringConverter))]
     public object? NullValue
     {
         get;

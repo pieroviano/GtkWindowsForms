@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms.Layout;
 using Gtk;
@@ -16,15 +16,11 @@ public partial class Control
     public partial class ControlCollection : ArrangedElementCollection, IList, ICloneable
     {
 
-        internal Drawing.Point Offset = new(0, 0);
-
         readonly Type? _itemType;
 
         readonly Control _owner;
 
         readonly Container? _ownerControl;
-
-        private bool is_ownerControl_Mapped = false;
 
         /// <summary>
         /// Initializes a new instance of the
@@ -39,11 +35,6 @@ public partial class Control
         {
             _ownerControl = owner.GtkControl as Gtk.Container;
             _owner = owner;
-            if (_ownerControl != null)
-            {
-                _ownerControl.Mapped += _ownerControl_Mapped;
-                _ownerControl.ResizeChecked += _ownerControl_ResizeChecked;
-            }
         }
 
         /// <summary>
@@ -63,8 +54,8 @@ public partial class Control
             _owner = owner;
             if (_ownerControl != null)
             {
-                _ownerControl.Mapped += _ownerControl_Mapped;
-                _ownerControl.ResizeChecked += _ownerControl_ResizeChecked;
+                _ownerControl.Mapped += OwnerContainer_Mapped;
+                _ownerControl.Removed += _ownerControl_Removed;
             }
         }
 
@@ -358,7 +349,8 @@ public partial class Control
                 return;
             }
             InnerList.Remove(value);
-            _ownerControl?.Remove(value.Widget);
+            if (_ownerControl?.Children.Any(o => o.Equals(value.Widget)) == true)
+                _ownerControl.Remove(value.Widget);
         }
 
         /// <summary>
@@ -375,7 +367,8 @@ public partial class Control
             else if (element is ArrangedElementWidget widget)
             {
                 InnerList.RemoveAt(index);
-                _ownerControl?.Remove(widget.GetWidget);
+                if (_ownerControl?.Children.Any(o => o.Equals(widget.GetWidget)) == true)
+                    _ownerControl.Remove(widget.GetWidget);
             }
         }
 
@@ -490,59 +483,17 @@ public partial class Control
             }
         }
 
-        private void _ownerControl_Mapped(object sender, EventArgs e)
+        private void _ownerControl_Removed(object o, RemovedArgs args)
         {
-            if (is_ownerControl_Mapped == false)
+            if (o is Gtk.Overlay lay && lay.HeightRequest > 0)
             {
-                is_ownerControl_Mapped = true;
-                if (sender is Gtk.Overlay lay)
+                lay.WidthRequest = 1;
+                lay.HeightRequest = 1;
+                if (_owner is ScrollableControl scrollableControl)
                 {
-                    ResizeMapped(lay);
+                    scrollableControl.PerformLayout(scrollableControl, nameof(scrollableControl.AutoScroll));
                 }
             }
-        }
-
-        //ResizeChecked resettable layout
-        private void _ownerControl_ResizeChecked(object sender, EventArgs e)
-        {
-            if (sender is Gtk.Overlay lay)
-            {
-                ResizeMapped(lay);
-            }
-        }
-
-        private void Control_AnchorChanged(object sender, EventArgs e)
-        {
-            var control = sender as Control;
-            if (control?.Widget?.Parent is Gtk.Overlay lay)
-            {
-                SetMarginEnd(lay, control);
-            }
-        }
-
-        private void Control_DockChanged(object sender, EventArgs e)
-        {
-            var control = sender as Control;
-            if (control?.Widget?.Parent is Gtk.Overlay lay)
-            {
-                SetMarginEnd(lay, control);
-            }
-        }
-
-        private Widget? GetFrame(Gtk.Widget widget)
-        {
-            var parent = widget.Parent;
-            while (parent != null)
-            {
-                if (parent is GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk)
-                {
-                    return parent;
-                }
-                else
-                    parent = parent.Parent;
-            }
-
-            return null;
         }
 
         private bool IsValidIndex(int index)
@@ -571,6 +522,8 @@ public partial class Control
                             statusbar.self.MarginTop = 0;
                             statusbar.self.MarginEnd = 0;
                             statusbar.self.MarginBottom = 0;
+                            if (lay.IsRealized)
+                                statusbar.self.ShowAll();
                             var overlay = new Gtk.Overlay
                             {
                                 HeightRequest = statusbar.Height
@@ -584,9 +537,6 @@ public partial class Control
                         lay.AddOverlay(control.Widget);
                         if (control.Widget is Gtk.Label || control.Widget is Gtk.Button || control.Widget is Gtk.Entry || control.Widget is Gtk.TextView || control.Widget is Gtk.ScrolledWindow)
                             lay.SetOverlayPassThrough(control.Widget, true);
-                        control.DockChanged += Control_DockChanged;
-                        control.AnchorChanged += Control_AnchorChanged;
-                        SetMarginEnd(lay, control);
                     }
                     else if (item is Gtk.Widget widget)
                     {
@@ -597,22 +547,22 @@ public partial class Control
                 {
                     if (item is Control con)
                     {
-                        lay2.Put(con.Widget, Offset.X, Offset.Y);
+                        lay2.Put(con.Widget, 0, 0);
                     }
                     else if (item is Gtk.Widget widget)
                     {
-                        lay2.Put(widget, Offset.X, Offset.Y);
+                        lay2.Put(widget, 0, 0);
                     }
                 }
                 else if (_ownerControl is Gtk.Layout lay3)
                 {
                     if (item is Control con)
                     {
-                        lay3.Put(con.Widget, Offset.X, Offset.Y);
+                        lay3.Put(con.Widget, 0, 0);
                     }
                     else if (item is Gtk.Widget widget)
                     {
-                        lay3.Put(widget, Offset.X, Offset.Y);
+                        lay3.Put(widget, 0, 0);
                     }
                 }
             }
@@ -647,107 +597,19 @@ public partial class Control
             }
         }
 
-        private void ResizeMapped(Gtk.Overlay lay)
+        private void OwnerContainer_Mapped(object? sender, EventArgs e)
         {
-            foreach (var item in this)
+            if (sender is Gtk.Overlay lay)
             {
-                if (item is Control control)
+                if (_owner is ScrollableControl scrollableControl)
                 {
-                    if (control.Widget != null)
-                    {
-                        control.Widget.MarginStart = Math.Max(0, control.Widget.MarginStart + Offset.X);
-                        control.Widget.MarginTop = Math.Max(0, control.Widget.MarginTop + Offset.Y);
-                    }
+                    scrollableControl.PerformLayout(scrollableControl, nameof(scrollableControl.AutoScroll));
                 }
-                else if (item is Gtk.Widget widget)
-                {
-                    widget.MarginStart = Math.Max(0, widget.MarginStart + Offset.X);
-                    widget.MarginTop = Math.Max(0, widget.MarginTop + Offset.Y);
-                }
-            }
-            foreach (var item in this)
-            {
-                if (item is Control control)
-                {
-                    SetMarginEnd(lay, control);
-                }
-            }
-        }
 
-        private void SetMarginEnd(Gtk.Overlay lay, Control control)
-        {
-            if (_owner is Form)
-            {
-                lay.WidthRequest = Math.Max(-1, Math.Max(lay.Parent.Parent.AllocatedWidth, control.Location.X + control.Width));
-                lay.HeightRequest = Math.Max(-1, Math.Max(lay.Parent.Parent.AllocatedHeight, control.Location.Y + control.Height));
-            }
-            else
-            {
-                lay.WidthRequest = Math.Max(-1, Math.Max(_owner.Width - 4, control.Location.X + control.Width));
-                lay.HeightRequest = Math.Max(-1, Math.Max(_owner.Height - 4, control.Location.Y + control.Height));
-            }
-            if (control.Dock == DockStyle.Fill)
-            {
-                control.Widget?.WidthRequest = -1;
-                control.Widget?.HeightRequest = -1;
-                lay.WidthRequest = -1;
-                lay.HeightRequest = -1;
-            }
-            else if (control.Dock == DockStyle.Left)
-            {
-                control.Widget?.HeightRequest = -1;
-                lay.HeightRequest = -1;
-            }
-            else if (control.Dock == DockStyle.Right)
-            {
-                control.Widget?.HeightRequest = -1;
-                lay.HeightRequest = -1;
-            }
-            else if (control.Dock == DockStyle.Top)
-            {
-                control.Widget?.WidthRequest = -1;
-                lay.WidthRequest = -1;
-            }
-            else if (control.Dock == DockStyle.Bottom)
-            {
-                control.Widget?.WidthRequest = -1;
-                lay.WidthRequest = -1;
-            }
-            if (lay.IsMapped == true)
-            {
-                var widget = control.Widget;
-                if (widget is { Halign: Gtk.Align.End })
-                {
-                    if (widget.WidthRequest > 0)
-                        widget.MarginEnd = Math.Max(0, lay.AllocatedWidth - widget.MarginStart - widget.WidthRequest);
-                    else
-                        widget.MarginEnd = 0;
-                }
-                else if (widget is { Halign: Gtk.Align.Fill })
-                {
-                    if (control.Dock == DockStyle.Fill)
-                        widget.MarginEnd = 0;
-                    else if (widget.WidthRequest > 0)
-                        widget.MarginEnd = Math.Max(control.Padding.Right, lay.AllocatedWidth - widget.MarginStart - widget.WidthRequest);
-                    else
-                        widget.MarginEnd = 0;
-                }
-                if (widget is { Valign: Gtk.Align.End })
-                {
-                    if (widget.HeightRequest > 0)
-                        widget.MarginBottom = Math.Max(0, lay.AllocatedHeight - widget.MarginTop - widget.HeightRequest);
-                    else
-                        widget.MarginBottom = 0;
-                }
-                else if (widget is { Valign: Gtk.Align.Fill })
-                {
-                    if (control.Dock == DockStyle.Fill)
-                        widget.MarginBottom = 0;
-                    else if (widget.HeightRequest > 0)
-                        widget.MarginBottom = Math.Max(control.Padding.Bottom, lay.AllocatedHeight - widget.MarginTop - widget.HeightRequest);
-                    else
-                        widget.MarginBottom = 0;
-                }
+                var tabs = InnerList.OfType<Control>().ToList();
+                tabs.Sort((a, b) => a.TabIndex.CompareTo(b.TabIndex));
+                lay.ChildFocus(Gtk.DirectionType.TabForward);
+                lay.FocusChain = tabs.Select(o => o.Widget).OfType<Gtk.Widget>().ToArray();
             }
         }
     }

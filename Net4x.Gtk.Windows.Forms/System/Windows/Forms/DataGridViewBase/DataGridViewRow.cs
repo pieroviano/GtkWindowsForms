@@ -14,15 +14,29 @@ public class DataGridViewRow
 
     private readonly DataGridViewCellCollection _cell;
 
-    private readonly DataGridViewRowCollection? _children;
+    private DataGridViewRowCollection? _children;
+
+    private bool _visible = true;
 
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DataGridViewRow" /> class.
     /// </summary>
-    public DataGridViewRow()
+    public DataGridViewRow() : this(null)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the
+    /// <see cref="T:System.Windows.Forms.DataGridViewRow" /> class.
+    /// </summary>
+    /// <param name="databounditem">
+    /// The data bound item.
+    /// </param>
+    public DataGridViewRow(object? databounditem)
     {
         _cell = new DataGridViewCellCollection(this);
+        DataBoundItem = databounditem;
     }
 
     /// <summary>
@@ -47,7 +61,15 @@ public class DataGridViewRow
     /// <value>
     /// The children.
     /// </value>
-    public DataGridViewRowCollection Children { get => _children ?? new DataGridViewRowCollection(DataGridView, this); }
+    public DataGridViewRowCollection Children
+    {
+        get
+        {
+            if (_children == null) { _children = new DataGridViewRowCollection(DataGridView, this); }
+
+            return _children;
+        }
+    }
 
     /// <summary>
     /// Gets or sets the context menu strip.
@@ -78,7 +100,7 @@ public class DataGridViewRow
     public DataGridView? DataGridView
     {
         get;
-        set;
+        internal set;
     }
 
     /// <summary>
@@ -171,7 +193,7 @@ public class DataGridViewRow
     {
         get;
         set;
-    } = 28;
+    } = 29;
 
     /// <summary>
     /// Gets the index.
@@ -181,8 +203,17 @@ public class DataGridViewRow
     /// </value>
     public int Index
     {
-        get;
-        internal set;
+        get
+        {
+            if (Parent == null)
+            {
+                return DataGridView?.Rows.IndexOf(this) ?? -1;
+            }
+            else
+            {
+                return Parent.Children.IndexOf(this);
+            }
+        }
     }
 
     /// <summary>
@@ -213,6 +244,21 @@ public class DataGridViewRow
     /// The minimum height.
     /// </value>
     public int MinimumHeight
+    {
+        get;
+        set;
+    }
+
+    /// <summary>
+    /// Gets or sets the parent row of this row.
+    /// </summary>
+    /// <value>
+    /// The parent row, or
+    /// <c>
+    /// null
+    /// </c> when this row is a top level row.
+    /// </value>
+    public DataGridViewRow? Parent
     {
         get;
         set;
@@ -261,8 +307,8 @@ public class DataGridViewRow
     /// </value>
     public bool Selected
     {
-        get => DataGridView?.NativeRowGetSelected(Index) ?? false;
-        set => DataGridView?.NativeRowSetSelected(Index, value);
+        get => DataGridView?.NativeRowGetSelected(TreeIter) ?? false;
+        set => DataGridView?.NativeRowSetSelected(TreeIter, value);
     }
 
     /// <summary>
@@ -271,7 +317,6 @@ public class DataGridViewRow
     /// <value>
     /// The state.
     /// </value>
-    //public bool Selected { get; set; }
     public DataGridViewElementStates State { get { return DataGridViewElementStates.None; } }
 
     /// <summary>
@@ -300,8 +345,47 @@ public class DataGridViewRow
     /// </value>
     public bool Visible
     {
-        get;
-        set;
+        get => _visible;
+        set
+        {
+            if (value != _visible && DataGridView != null)
+            {
+                if (DataGridView.UseModelFilter && DataGridView.GridView.Model is TreeModelFilter filter)
+                {
+                    // this mode column does not support sorting
+                    _visible = value;
+                    filter.Refilter();
+                }
+                else
+                {
+                    // using this mode, the column supports sorting
+                    if (value == false)
+                    {
+                        var iter = TreeIter;
+                        if (Gtk.TreeIter.Zero.Equals(TreeIter) == false && TreeIter.UserData != IntPtr.Zero)
+                            DataGridView.Store.Remove(ref iter);
+                        TreeIter = Gtk.TreeIter.Zero;
+                    }
+                    else if (Gtk.TreeIter.Zero.Equals(TreeIter))
+                    {
+                        var idx = Index + 1;
+                        var count = DataGridView.Rows.Count;
+                        for (var i = idx; i < count; i++)
+                        {
+                            var row = DataGridView.Rows[i];
+                            if (row.Visible)
+                            {
+                                var path = DataGridView.Store.GetPath(row.TreeIter);
+                                if (path != null)
+                                    DataGridView.Rows.InsertRowsStore(path.Indices.Last(), this);
+                                break;
+                            }
+                        }
+                    }
+                    _visible = value;
+                }
+            }
+        }
     }
 
     /// <summary>

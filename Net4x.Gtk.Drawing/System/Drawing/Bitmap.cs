@@ -48,6 +48,8 @@ public class Bitmap : Image
     public Bitmap(string filename, bool useIcm)
     {
         this.FileName = filename;
+        this.Pixbuf = new Gdk.Pixbuf(filename);
+        this.PixbufData = this.Pixbuf.SaveToBuffer("png");
     }
 
     /// <summary>
@@ -89,8 +91,14 @@ public class Bitmap : Image
     public Bitmap(Stream stream, bool useIcm)
     {
         stream.Position = 0;
-        var binaryReader = new BinaryReader(stream);
-        PixbufData = binaryReader.ReadBytes((int)stream.Length);
+        using (BinaryReader reader = new BinaryReader(stream))
+        {
+            var bytes = reader.ReadBytes((int)stream.Length);
+            this.PixbufData = bytes;
+            this.Pixbuf = new Gdk.Pixbuf(bytes);
+            this.Width = this.Pixbuf.Width;
+            this.Height = this.Pixbuf.Height;
+        }
     }
 
     /// <summary>
@@ -290,6 +298,12 @@ public class Bitmap : Image
     {
     }
 
+    static Bitmap()
+    {
+        typeof(Image).GetMembers();
+        typeof(Bitmap).GetMembers();
+    }
+
     /// <summary>
     /// Creates a copy of the section of this
     /// <see cref="T:System.Drawing.Bitmap" /> defined with a specified
@@ -317,8 +331,7 @@ public class Bitmap : Image
     /// </exception>
     public Bitmap Clone(RectangleF rect, PixelFormat format)
     {
-
-        return new Bitmap((int)rect.Width, (int)rect.Height, format);
+        return new Bitmap((int)rect.Width, (int)rect.Height, format) { PixbufData = (byte[])this.PixbufData.Clone() };
     }
 
     /// <summary>

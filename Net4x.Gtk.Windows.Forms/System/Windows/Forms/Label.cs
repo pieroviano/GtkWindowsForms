@@ -30,7 +30,7 @@ public partial class Label : Control
     /// </summary>
     public Label() : base()
     {
-
+        self.Override.sender = this;
     }
 
     /// <summary>
@@ -148,4 +148,4 @@ public partial class Label : Control
             }
         }
     }
-}
+}

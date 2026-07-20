@@ -31,6 +31,7 @@ public partial class NumericUpDown : Control
     /// </summary>
     public NumericUpDown() : base()
     {
+        self.Override.sender = this;
         self.ValueChanged += Self_ValueChanged;
     }
 

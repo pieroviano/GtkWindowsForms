@@ -18,8 +18,17 @@ namespace System.Windows.Forms;
 /// that is properly rendered in a
 /// <see cref="T:System.Windows.Forms.ToolStrip" />
 /// </summary>
-public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
+public class ToolStripComboBox : ToolStripItem
 {
+    /// <summary>
+    /// The self
+    /// </summary>
+    public StripToolItem self = new StripToolItem();
+
+    /// <summary>
+    /// The combo box
+    /// </summary>
+    internal Gtk.ComboBoxText comboBox = Gtk.ComboBoxText.NewWithEntry();
 
     private readonly ObjectCollection __itemsData;
 
@@ -37,8 +46,13 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripComboBox" /> class.
     /// </summary>
-    public ToolStripComboBox() : base("ToolStripComboBox", null)
+    public ToolStripComboBox() : base()
     {
+        comboBox.HasFrame = false;
+        comboBox.Entry.HasFrame = false;
+        comboBox.Entry.MaxWidthChars = 1;
+        comboBox.Entry.WidthChars = 0;
+        self.Add(comboBox);
         __itemsData = new ObjectCollection(this.comboBox);
         this.comboBox.Changed += ComboBox_Changed;
     }
@@ -74,7 +88,7 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
     /// <value>
     /// The index of the selected.
     /// </value>
-    public int SelectedIndex { get { return base.comboBox.Active; } }
+    public int SelectedIndex { get { return this.comboBox.Active; } }
 
     /// <summary>
     /// Gets the selected item.
@@ -95,6 +109,26 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
         get => base.Size;
         set { this.comboBox.WidthRequest = value.Width; this.comboBox.HeightRequest = value.Height; base.Size = value; }
     }
+
+    /// <summary>
+    /// Gets or sets the text.
+    /// </summary>
+    /// <value>
+    /// The text.
+    /// </value>
+    public override string Text
+    {
+        get => this.comboBox.Entry.Text;
+        set => this.comboBox.Entry.Text = value;
+    }
+
+    /// <summary>
+    /// Gets the widget.
+    /// </summary>
+    /// <value>
+    /// The widget.
+    /// </value>
+    public override IToolMenuItem Widget { get => self; }
 
     /// <summary>
     /// Raises the SelectedIndexChanged event.

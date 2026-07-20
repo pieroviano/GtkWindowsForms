@@ -553,4 +553,4 @@ public sealed partial class ImageList
         private bool IsValidIndex(int index) => index >= 0 && index < Count;
 
     }
-}
+}

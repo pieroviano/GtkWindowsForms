@@ -18,6 +18,10 @@ public sealed class Application
 
     private static readonly object internalSyncObject = new();
 
+    private static string? _excutablepath;
+
+    private static string? _startuppath;
+
     static Application()
     {
         Init();
@@ -47,7 +51,11 @@ public sealed class Application
     {
         get
         {
-            return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), appDataDirectory);
+            var dir = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), appDataDirectory);
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
+            return dir;
         }
     }
 
@@ -97,11 +105,28 @@ public sealed class Application
     {
         get
         {
-            var module = System.Diagnostics.Process.GetCurrentProcess().MainModule;
-            if (module.ModuleName.ToLower() == "dotnet" || module.ModuleName.ToLower() == "dotnet.exe")
-                return Assembly.GetEntryAssembly().Location;
-            else
-                return module.FileName;
+            if (_excutablepath == null)
+            {
+                var args = Environment.GetCommandLineArgs();
+                if (args.Length > 0)
+                {
+                    _excutablepath = args[0];
+                }
+                else
+                {
+#if NET6_0_OR_GREATER
+                    _excutablepath = Assembly.GetEntryAssembly()?.Location;
+                    if (string.IsNullOrWhiteSpace(_excutablepath))
+                        _excutablepath = Environment.ProcessPath;
+#else
+                    _excutablepath = Assembly.GetEntryAssembly()?.Location;
+                    if (string.IsNullOrWhiteSpace(_excutablepath))
+                        _excutablepath = Path.Combine(AppContext.BaseDirectory, Assembly.GetEntryAssembly()?.GetName().Name!, ".dll");
+#endif
+                }
+            }
+
+            return _excutablepath!;
         }
     }
 
@@ -115,7 +140,11 @@ public sealed class Application
     {
         get
         {
-            return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appDataDirectory);
+            var dir = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appDataDirectory);
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
+            return dir;
         }
     }
 
@@ -145,7 +174,23 @@ public sealed class Application
     /// <value>
     /// The startup path.
     /// </value>
-    public static string StartupPath { get { return System.IO.Directory.GetCurrentDirectory(); } }
+    public static string StartupPath
+    {
+        get
+        {
+            if (_startuppath == null)
+            {
+                var appstart = AppContext.BaseDirectory;
+                if (string.IsNullOrWhiteSpace(appstart))
+                    appstart = Directory.GetCurrentDirectory();
+                else
+                    Directory.SetCurrentDirectory(appstart);
+                _startuppath = appstart;
+            }
+
+            return _startuppath;
+        }
+    }
 
     /// <summary>
     /// Gets the user application data path.
@@ -157,7 +202,11 @@ public sealed class Application
     {
         get
         {
-            return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), appDataDirectory);
+            var dir = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), appDataDirectory);
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
+            return dir;
         }
     }
 
@@ -165,9 +214,9 @@ public sealed class Application
     {
         get
         {
-            var assemblyFullName = Assembly.GetEntryAssembly().FullName.Split(',');
+            var assembly = Assembly.GetEntryAssembly().GetName();
+            var assemblyFullName = assembly.FullName.Split(',');
             var _namespace = assemblyFullName[0];
-            var assembly = Assembly.GetExecutingAssembly().GetName();
 
             return Path.Combine(_namespace, assembly.Name, assembly.Version.ToString());
         }
@@ -178,6 +227,10 @@ public sealed class Application
     /// </summary>
     public static void DoEvents()
     {
+        var context = GLib.MainContext.Default;
+        while (context.HasPendingEvents)
+            context.RunIteration(false);
+
         while (Gtk.Application.EventsPending())
             Gtk.Application.RunIteration(false);
     }
@@ -255,17 +308,14 @@ public sealed class Application
         if (App == null)
         {
             var css_style = @"
-
-/* Define control styles*/
-
-@define-color frame_color  alpha(@theme_fg_color, 0.2);
+@define-color frame_color  alpha(@theme_fg_color, 0.3);
 @define-color frame3d_color  alpha(@theme_fg_color, 0.2);
-
+@define-color frame3d_color5  alpha(@theme_fg_color, 0.4);
 @define-color line_color #ECECEC;
 @define-color separator_color1 #C6C5C4;
 @define-color separator_color2 #D6D7D8;
 
-.DefaultThemeStyle{padding: 0px 2px; border-style:solid;min-height:6px;min-width:6px;}
+.DefaultThemeStyle{padding: 0px; border-style:solid;min-height:2px;min-width:2px;}
 .DefaultThemeStyle entry{
    padding: 4px 5px; border-width: 1px; border-style: solid; border-color:@frame_color;
    background-color: @theme_base_color; color: @theme_text_color;
@@ -275,12 +325,14 @@ public sealed class Application
    background-color: @theme_base_color; color: @theme_text_color;
 }
 .DefaultThemeStyle button{padding:4px 3px;}
+.titlebar{border-radius: 0px; border-bottom: solid 1px #cfcfcf;}
+.ButtonNone{padding:0px;margin:0px;border-radius:0px;border-style:none;box-shadow:none;}
+.ButtonNone.check,.ButtonNone check{padding-top:0px;padding-bottom:0px;;margin-top:0px;margin-bottom:0px;}
 .BorderNone{border-style:none;box-shadow:none;}
+.BorderFixedSingle{border-width:0px;border-style:none;padding:1px;box-shadow: 0px 0px 0px 1px @frame_color;}
+.BorderFixed3D{border-width:0px;border-style:none; padding:2px 1px 1px 2px;box-shadow: 0px 0px 0px 1px @frame3d_color, inset 2px 2px 0px 0px @frame3d_color5;}
 
-.BorderFixedSingle{border-width:0px;border-style:none;padding:1px;box-shadow: inset 0px 0px 0px 1px @frame_color;}
-.BorderFixed3D{border-width:0px;border-style:none; padding:2px; box-shadow: inset 1px 1px 1px 2px @frame3d_color;}
-
-.DataGridView {border-width:1px;margin:-3px;}
+.DataGridView {margin:0px;}
 .GridViewCell-Button{ color:@theme_text_color; border:solid 1px @frame_color; background-color: shade(@theme_bg_color, 0.7);}
 .GridViewCell-Button:hover{background-color: shade(@theme_bg_color, 0.8);}
 .GridViewCell-Button:selected{ color:blue}
@@ -291,17 +343,16 @@ public sealed class Application
 .ComboBox entry{border-right-width:0px;  }
 .ComboBox entry.flat{border-right-width:0px;  }
 .ComboBox entry:focus{border-right-width:0px; box-shadow: inset 0px 0px 0px 1px #62a0ea;}
-.ComboBox button{padding-top:0px;padding-bottom:0px;border-width: 1px 1px 1px 1px; border-style: solid; border-color:@frame_color;}
+.ComboBox button{padding-top:1px;padding-bottom:1px;border-width: 1px 1px 1px 1px; border-style: solid; border-color:@frame_color;}
 
-.DropDownList button{padding:0px;}
+.DropDownList button{padding:2px;}
 .SplitContainer{padding:0px;border:0px;box-shadow:none;}
-/* When scrollbars are present， width and height less than60px有 exception information output */
-.SplitterPanel{padding:0px;margin:0px;border:0px;box-shadow:none;min-width:60px;min-height:60px;}
+.SplitterPanel{padding:0px;margin:0px;border:0px;box-shadow:none;min-width:20px;min-height:20px;}
 .SplitterPanel .frame{padding:0px;margin:0px;border:0px;box-shadow:none;}
 .SplitterPanel .flat{padding:0px;margin:0px;border:0px;box-shadow:none;}
 
-.TableLayoutPanel {box-shadow: 1px 1px 1px 0px @frame_color;}
-.TableLayoutPanel viewport.frame {box-shadow: inset 1px 1px 1px 0 @frame_color;}
+.TableLayoutPanel {box-shadow: 0px 0px 0px 1px @frame_color;padding:0px;}
+.TableCellBorder grid>viewport.frame {box-shadow: 1px 1px 1px 0 @frame_color;border-width:0px;}
 .ListView{border:inset 1px @frame_color;}
 .ListView .Label{background-color:transparent;} 
 .ListView checkbutton {padding:0px;}
@@ -309,25 +360,47 @@ public sealed class Application
 .ListView flowboxchild {padding:0px;}
 .ListView flowboxchild viewport{padding:2px 0px;}
 .ListView .GridBorder viewport{box-shadow: inset -1px -1px #eeeeee;}
-.ListViewHeader {background-color:@theme_bg_color; opacity:0.88;padding:0px;min-height:6px; }
+.ListViewHeader {background-color:@theme_bg_color; padding:0px;min-height:6px; }
 .ListViewHeader button{box-shadow:inset -1px 0px @frame_color;border-width:0px; border-radius:0px; padding:0px 0px 5px 0px;min-height:20px;min-width:6px;margin:0px; }
 .ListViewHeader button.frame{border-width:0px;padding:0px 0px 0px 0px;margin:0px; }
 .ListView .GroupLine{border-top:inset 1px #6677bb;}
 .ListView .GroupTitle{padding-left:5px;padding-right:5px; color:#6677bb; }
 .ListView .GroupSubTitle{padding-left:5px;padding-right:5px; }
-.StatusStrip{padding:0px; border-width:1px 0px 0px 0px; border-top:solid 1px @frame_color;}
-.ToolStrip button{padding:0px;}
+.GroupBox>border{border: solid 1px rgba(76, 66, 66, 0.3);}
 
-.NumericUpDown{border-width:1px;padding:2px; }
-.NumericUpDown button.up{border-width:0px;padding:0px;}
-.NumericUpDown button.down{border-width:0px;padding:0px;}
-.NumericUpDown.horizontal entry{border-width:0px;padding:2px 3px; min-height:6px;min-width:6px;} 
-.NumericUpDown.vertical entry{border-width:0px;padding:2px 3px; min-height:6px;min-width:6px;} 
+.ToolStrip,.MenuStrip{padding:0px;border-radius:0px;min-height:6px;min-width:6px;}
+.ToolStrip>toolbutton,.ToolStrip>toolbutton label{padding:0px;margin:0px;}
+.MenuStrip>menuitem,.MenuStrip>menuitem label{padding:0px;margin:0px;}
+.ToolStrip button,.MenuStrip button{padding-top:0px;padding-bottom:0px; min-height:6px;min-width:6px;border-radius:0px;border-width:1px;}
+.ToolStrip combox,.MenuStrip combox{padding-top:0px;padding-bottom:0px; min-height:6px;min-width:6px;border-radius:0px;border-width:0px;}
+.ToolStrip entry,.MenuStrip entry{padding-top:0px;padding-bottom:0px; min-height:6px;min-width:6px;border-radius:0px;border-width:1px;}
+.ToolStrip levelbar,.MenuStrip levelbar{padding:0px;min-height:6px;min-width:6px;border-radius:0px;border-width:0px;}
+.StatusStrip {border-top:solid 1px @frame_color;}
+.MenuItemButton {background-color:transparent;background:none; border:none; border-radius:0px;border-width:0px; padding:0px;box-shadow:none; min-width:1px;min-height:1px;}
+.ToolStrip checkbutton,.MenuStrip checkbutton{margin-left:-20px; padding:0px; } 
+.ToolStrip menu button image,.MenuStrip menu button image{margin-left:-22px;}
+.ToolStrip menu button image+label,.MenuStrip menu button image+label{margin-left:-2px; }
+.ToolStrip>separator,.MenuStrip>separator{padding:0px;margin:2px;}
+
+.ContextMenuStrip button image{margin-left:-22px; }
+.ContextMenuStrip button image+label{margin-left:-2px; }
+.ContextMenuStrip checkbutton{margin-left:-22px;}
+.NumericUpDown{padding:1px; min-height:6px;min-width:6px; }
+.NumericUpDown button.up{padding:0px;}
+.NumericUpDown button.down{padding:0px;}
+.NumericUpDown.horizontal entry{margin:1px;border-width:0px;padding:2px 3px; min-height:6px;min-width:6px;} 
+.NumericUpDown.vertical entry{margin:1px;border-width:0px;padding:2px 3px; min-height:6px;min-width:6px;} 
 .TrackBar {border-width:0px;box-shadow:none;}
 .PrintPreviewBack{background-color:#cccccc; border-radius:0px;}
 .Paper{box-shadow: 0px 0px 3px 1px #999999;background:#ffffff; border-radius:0px;}
 .PropertyGrid {box-shadow:0px 0px 0px 1px @frame_color; background:#eeeeee;}
 .PropertyGrid button{background:#eeeeee;}
+.PictureBox {padding:0px;}
+tooltip { background-color: #ffffff; color: #555555; border: 1px solid #c9c9c9; box-shadow: 3px 3px 2px #787878;}
+tooltip window,tooltip.background {background-color: #ffffff;}
+tooltip label {padding: 0px 10px; color: #555555;}
+.MDIForm{border-style:solid;border-width:0px 2px 2px 2px;border-color:#cccccc;}
+.MDIPanel{background-color:#c0c0c0; box-shadow: inset 3px 3px 0px 0px #787878;}
 ";
 
             var appdirectory = "./";// StartupPath; // becauselinux the system commonly uses environment variable paths， will lead toDirectory/Environment the retrieved current directory is incorrect
@@ -357,6 +430,7 @@ public sealed class Application
             var settings = Gtk.Settings.Default;
             settings.SplitCursor = true;
             settings.EnableAnimations = true;
+            settings.EnableTooltips = true;
             var iconpath = Path.Combine(appdirectory, "icon.png");
             if (File.Exists(iconpath))
                 Gtk.Window.SetDefaultIconFromFile(iconpath);
@@ -405,13 +479,6 @@ public sealed class Application
                                 GtkLogger.Info(themefolder + System.Properties.Resources.Gtk_Application_Init_Directory_does_not_exist);
                             }
                         }
-                        if (nameValue.TryGetValue("ThemeCssPath", out var themecss))
-                        {
-                            if (File.Exists(themecss))
-                            {
-                                cssBuilder.AppendFormat("@import url(\"{0}\");", themecss).AppendLine();
-                            }
-                        }
                     }
                 }
                 if (nameValue.TryGetValue("UseCustomStyle", out var customstyle))
@@ -452,8 +519,6 @@ public sealed class Application
                 setupthemecontent.AppendLine("Name=mytheme");
                 setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_The_folder_where_the_theme_files_are_located);
                 setupthemecontent.AppendLine("ThemeFolder=theme");
-                setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_css_file_path);
-                setupthemecontent.AppendLine("ThemeCssPath=theme/mytheme/theme.css");
                 setupthemecontent.AppendLine().AppendLine("[custom style]");
                 setupthemecontent.AppendLine(System.Properties.Resources.Gtk_Application_Init_Freely_defined_style_files);
                 setupthemecontent.AppendLine("StylePath=style.css");
@@ -476,6 +541,18 @@ public sealed class Application
     /// </param>
     public static void Run(Form mainForm)
     {
+        if (mainForm.ShowInTaskbar == false)
+        {
+            var pw = new Gtk.Window(Gtk.WindowType.Toplevel);
+            pw.WindowPosition = Gtk.WindowPosition.Center;
+            pw.Decorated = false;
+            pw.WidthRequest = 1;
+            pw.HeightRequest = 1;
+            pw.SkipTaskbarHint = true;
+            mainForm.self.TransientFor = pw;
+            pw.Shown += Pw_Shown;
+            pw.Show();
+        }
         mainForm.self.Destroyed += Control_Destroyed;
         mainForm.Show();
         Gtk.Application.Run();
@@ -517,6 +594,12 @@ public sealed class Application
     private static void Control_Destroyed(object sender, EventArgs e)
     {
         ExitThread();
+    }
+
+    private static void Pw_Shown(object? sender, EventArgs e)
+    {
+        var pw = (Gtk.Window)sender!;
+        pw.Window.Hide();
     }
 
     private static void QuitActivated(object sender, EventArgs e)

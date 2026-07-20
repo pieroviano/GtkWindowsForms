@@ -1,6 +1,5 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Windows.Forms;
-using Gtk;
 using Image = System.Drawing.Image;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
@@ -10,11 +9,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 /// </summary>
 public interface IControlOverride
 {
-    /// <summary>
-    /// Occurs when drawn background.
-    /// </summary>
-    event DrawnHandler DrawnBackground;
-
     /// <summary>
     /// Occurs when paint.
     /// </summary>
@@ -60,19 +54,6 @@ public interface IControlOverride
         get;
         set;
     }
-
-    /// <summary>
-    /// Adds the class.
-    /// </summary>
-    /// <param name="cssClass">
-    /// The CSS class.
-    /// </param>
-    void AddClass(string cssClass);
-
-    /// <summary>
-    /// Called when add class.
-    /// </summary>
-    void OnAddClass();
 
     /// <summary>
     /// Called when drawn background.

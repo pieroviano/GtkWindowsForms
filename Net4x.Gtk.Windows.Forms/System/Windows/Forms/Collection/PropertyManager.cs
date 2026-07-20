@@ -113,7 +113,8 @@ public class PropertyManager : BindingManagerBase
     /// </summary>
     public override void EndCurrentEdit()
     {
-        PullData(out var flag);
+        bool flag;
+        PullData(out flag);
         if (flag)
         {
             var current = Current as IEditableObject;
@@ -246,7 +247,11 @@ public class PropertyManager : BindingManagerBase
         _dataSource = source;
         if (_dataSource != null && !string.IsNullOrEmpty(_propName))
         {
-            _propInfo = TypeDescriptor.GetProperties(source).Find(_propName ?? string.Empty, true) ?? throw new ArgumentException("PropertyManagerPropDoesNotExist");
+            _propInfo = TypeDescriptor.GetProperties(source).Find(_propName ?? string.Empty, true);
+            if (_propInfo == null)
+            {
+                throw new ArgumentException("PropertyManagerPropDoesNotExist");
+            }
             _propInfo.AddValueChanged(source!, PropertyChanged);
         }
     }

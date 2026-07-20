@@ -40,11 +40,10 @@ public class DataGridViewImageColumn : DataGridViewColumn
         ValueType = typeof(Drawing.Image);
         var renderer = new CellRendererPixbufValue(this)
         {
-            Height = RowHeight
+            Height = RowHeight,
+            Editable = false
         };
         base.PackStart(renderer, false);
-        base.SortMode = DataGridViewColumnSortMode.NotSortable;
-        base.Sizing = TreeViewColumnSizing.GrowOnly;
         _cellRenderer = renderer;
     }
 

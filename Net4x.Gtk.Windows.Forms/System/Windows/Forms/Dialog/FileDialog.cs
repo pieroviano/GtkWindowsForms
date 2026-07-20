@@ -750,27 +750,49 @@ public abstract class FileDialog : CommonDialog
         else if (!string.IsNullOrWhiteSpace(this.InitialDirectory))
             fileDialog.SetCurrentFolder(this.InitialDirectory);
 
-        if (_filter != null)
+        if (!string.IsNullOrEmpty(_filter))
         {
-            var filters = _filter.Split('|');
+            var filters = _filter!.Split('|');
             for (var i = 1; i < filters.Length; i += 2)
             {
                 var patterns = filters[i].Split(';');
+                var ffilter = new Gtk.FileFilter();
+                ffilter.Name = $"{filters[i - 1]}（{filters[i]}）";
                 foreach (var pattern in patterns)
                 {
-                    var ffilter = new Gtk.FileFilter();
                     var extand = pattern.TrimStart(new char[] { '*', ' ' });
                     if (MimeMapping.ContainsKey(extand))
                     {
                         ffilter.AddMimeType(MimeMapping[extand]);
                     }
                     ffilter.AddPattern(pattern);
-                    ffilter.Name = $"{filters[i - 1]}（{pattern}）";
-                    fileDialog.AddFilter(ffilter);
-                    if (pattern == DefaultExt)
+                }
+                fileDialog.AddFilter(ffilter);
+            }
+        }
+        if (!string.IsNullOrWhiteSpace(DefaultExt))
+        {
+            var extand = DefaultExt!.TrimStart(new char[] { '*', ' ' });
+            if (fileDialog.Filters.Length > 0)
+            {
+                foreach (Gtk.FileFilter item in fileDialog.Filters)
+                {
+                    if (item.Name.Contains(extand))
                     {
-                        fileDialog.Filter = ffilter;
+                        fileDialog.Filter = item;
+                        break;
                     }
+                }
+            }
+            else
+            {
+                if (MimeMapping.ContainsKey(extand))
+                {
+                    var ffilter = new Gtk.FileFilter();
+                    ffilter.Name = $"{DefaultExt}（{DefaultExt}）";
+                    ffilter.AddMimeType(MimeMapping[extand]);
+                    ffilter.AddPattern(extand);
+                    fileDialog.Filter = ffilter;
                 }
             }
         }

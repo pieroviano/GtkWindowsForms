@@ -29,6 +29,8 @@ public partial class UserControl : ContainerControl
 
     private readonly Gtk.Overlay contaner;
 
+    private bool Is_Control_Shown;
+
     /// <summary>
     /// Occurs when the control is loaded.
     /// </summary>
@@ -50,6 +52,7 @@ public partial class UserControl : ContainerControl
     /// </summary>
     public UserControl() : base()
     {
+        self.Override.sender = this;
         contaner = new Gtk.Overlay
         {
             MarginStart = 0,
@@ -65,6 +68,7 @@ public partial class UserControl : ContainerControl
         self.Add(contaner);
         self.Override.Paint += Override_Paint;
         self.ParentSet += Self_ParentSet;
+        self.Shown += Self_Shown;
     }
 
     /// <summary>
@@ -201,5 +205,14 @@ public partial class UserControl : ContainerControl
     private void Self_ParentSet(object o, ParentSetArgs args)
     {
         OnParentChanged(EventArgs.Empty);
+    }
+
+    private void Self_Shown(object sender, EventArgs e)
+    {
+        if (Is_Control_Shown == false)
+        {
+            Is_Control_Shown = true;
+            OnLoad(EventArgs.Empty);
+        }
     }
 }

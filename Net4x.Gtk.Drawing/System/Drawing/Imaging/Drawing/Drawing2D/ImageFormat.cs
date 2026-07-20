@@ -6,7 +6,7 @@ namespace System.Drawing.Imaging;
 /// <summary>
 /// Specifies the file format of the image. Not inheritable.
 /// </summary>
-[TypeConverter(typeof(ImageFormatConverter))]
+//[TypeConverter(typeof(ImageFormatConverter))]
 public sealed class ImageFormat
 {
 
@@ -206,6 +206,61 @@ public sealed class ImageFormat
         return _guid.GetHashCode();
     }
 
+    public string GetMimeType()
+    {
+
+        if (Guid == s_memoryBMP.Guid)
+        {
+            return ".bmp";
+        }
+        if (Guid == s_bmp.Guid)
+        {
+            return ".bmp";
+        }
+        if (Guid == s_emf.Guid)
+        {
+            return ".emf";
+        }
+        if (Guid == s_wmf.Guid)
+        {
+            return ".wmf";
+        }
+        if (Guid == s_gif.Guid)
+        {
+            return ".gif";
+        }
+        if (Guid == s_jpeg.Guid)
+        {
+            return ".jpeg";
+        }
+        if (Guid == s_png.Guid)
+        {
+            return ".png";
+        }
+        if (Guid == s_tiff.Guid)
+        {
+            return ".tiff";
+        }
+        if (Guid == s_exif.Guid)
+        {
+            return ".exif";
+        }
+        if (Guid == s_icon.Guid)
+        {
+            return ".ico";
+        }
+        if (Guid == s_heif.Guid)
+        {
+            return ".heif";
+        }
+        if (Guid == s_webp.Guid)
+        {
+            return ".webp";
+        }
+
+        return ".bmp";
+    }
+
     /// <summary>
     /// Converts this
     /// <see cref="T:System.Drawing.Imaging.ImageFormat" /> object to a human-readable string.
@@ -272,60 +327,5 @@ public sealed class ImageFormat
     internal ImageCodecInfo FindEncoder()
     {
         return new ImageCodecInfo() { FormatID = this._guid, MimeType = GetMimeType() };
-    }
-
-    private string GetMimeType()
-    {
-
-        if (Guid == s_memoryBMP.Guid)
-        {
-            return ".bmp";
-        }
-        if (Guid == s_bmp.Guid)
-        {
-            return ".bmp";
-        }
-        if (Guid == s_emf.Guid)
-        {
-            return ".emf";
-        }
-        if (Guid == s_wmf.Guid)
-        {
-            return ".wmf";
-        }
-        if (Guid == s_gif.Guid)
-        {
-            return ".gif";
-        }
-        if (Guid == s_jpeg.Guid)
-        {
-            return ".jpeg";
-        }
-        if (Guid == s_png.Guid)
-        {
-            return ".png";
-        }
-        if (Guid == s_tiff.Guid)
-        {
-            return ".tiff";
-        }
-        if (Guid == s_exif.Guid)
-        {
-            return ".exif";
-        }
-        if (Guid == s_icon.Guid)
-        {
-            return ".icon";
-        }
-        if (Guid == s_heif.Guid)
-        {
-            return ".heif";
-        }
-        if (Guid == s_webp.Guid)
-        {
-            return ".webp";
-        }
-
-        return ".bmp";
     }
 }

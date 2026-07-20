@@ -88,7 +88,7 @@ public class TreeNodeCollection : List<TreeNode>
         if (owner.TreeView != null)
         {
             foreach (var node in this)
-                owner.TreeView.RemoveNode(node);
+                owner.TreeView.NativeRemoveNode(node);
         }
         base.Clear();
     }
@@ -134,7 +134,7 @@ public class TreeNodeCollection : List<TreeNode>
     public new void Remove(TreeNode node)
     {
         if (owner.TreeView != null)
-            this.owner.TreeView.RemoveNode(node);
+            this.owner.TreeView.NativeRemoveNode(node);
         base.Remove(node);
     }
 

@@ -13,7 +13,7 @@ namespace System.Windows.Forms;
 /// 2
 /// </filterpriority>
 [DefaultEvent(nameof(CollectionChanged))]
-[TypeConverter($"System.Windows.Forms.Design.ControlBindingsConverter, {AssemblyRef.SystemDesign}")]
+//[TypeConverter($"System.Windows.Forms.Design.ControlBindingsConverter, {AssemblyRef.SystemDesign}")]
 public class ControlBindingsCollection : BindingsCollection
 {
     private readonly IBindableComponent? _control;

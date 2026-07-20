@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -56,6 +56,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// <see cref="T:System.Windows.Forms.PropertyGrid" /> control is browsing a COM object and the user renames the object.
     /// </summary>
     public virtual event ComponentRenameEventHandler? ComComponentNameChanged;
+
+    /// <summary>
+    /// Occurs when a grid item is activated.
+    /// </summary>
+    public virtual event EventHandler? GridItemActivated;
 
     /// <summary>
     /// Occurs when mouse enter.
@@ -146,10 +151,12 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// </summary>
     public PropertyGrid()
     {
+        self.Override.sender = this;
         _propertyView = new PropertyGridView(this);
         self.child1.Add(_propertyView.tree);
         _propertyView.PropertyValueChanged += Self_PropertyValueChanged;
         _propertyView.SelectedGridItemChanged += Self_SelectedGridItemChanged;
+        _propertyView.tree.RowActivated += _propertyView_RowActivated;
     }
 
     /// <summary>
@@ -654,7 +661,10 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
         {
             _selectedObjects = value is null ? Array.Empty<object>() : (object[])value.Clone();
             // only one object is supported
-            _propertyView.LoadPropertyInfo(_selectedObjects[0]);
+            if (_selectedObjects.Length == 0)
+                _propertyView.LoadPropertyInfo(null);
+            else
+                _propertyView.LoadPropertyInfo(_selectedObjects[0]);
         }
     }
 
@@ -883,6 +893,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// </summary>
     public override void Refresh()
     {
+        _propertyView.tree.Selection.UnselectAll();
+        _propertyView.tree.QueueDraw();
     }
 
     /// <summary>
@@ -938,6 +950,29 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     protected virtual void OnComComponentNameChanged(ComponentRenameEventArgs e)
     {
         ComComponentNameChanged?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the GridItemActivated event.
+    /// </summary>
+    protected virtual void OnGridItemActivated(System.EventArgs e)
+    {
+        GridItemActivated?.Invoke(this, e);
+    }
+
+    private void _propertyView_RowActivated(object o, Gtk.RowActivatedArgs args)
+    {
+        if (_propertyView.store.GetIter(out var iter, args.Path))
+        {
+            if (_propertyView.store.GetValue(iter, 0) is GridEntry ov)
+            {
+                self.ShowDescription(ov.Label, ov.Description);
+            }
+        }
+        if (args.Column.XOffset > 50)
+        {
+            OnGridItemActivated(args);
+        }
     }
 
     private void Self_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)

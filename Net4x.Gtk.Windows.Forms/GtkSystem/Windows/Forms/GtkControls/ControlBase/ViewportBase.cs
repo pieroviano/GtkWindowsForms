@@ -33,20 +33,4 @@ public sealed class ViewportBase : Gtk.Viewport, IControlGtk
         get;
         set;
     }
-
-    /// <summary>
-    /// Called when the control is drawn.
-    /// </summary>
-    /// <param name="cr">
-    /// The Cairo context.
-    /// </param>
-    /// <returns>
-    /// </returns>
-    protected override bool OnDrawn(Cairo.Context cr)
-    {
-        var rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
-        Override.OnDrawnBackground(cr, rec);
-
-        return base.OnDrawn(cr);
-    }
 }

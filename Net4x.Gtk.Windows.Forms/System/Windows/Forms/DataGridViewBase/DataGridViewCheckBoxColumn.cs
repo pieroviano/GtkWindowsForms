@@ -47,8 +47,6 @@ public class DataGridViewCheckBoxColumn : DataGridViewColumn
         };
         renderer.Toggled += CellName_Toggled;
         base.PackStart(renderer, true);
-        base.SortMode = DataGridViewColumnSortMode.NotSortable;
-        base.Sizing = TreeViewColumnSizing.GrowOnly;
         _cellRenderer = renderer;
     }
 
@@ -71,12 +69,12 @@ public class DataGridViewCheckBoxColumn : DataGridViewColumn
             return;
         }  
         model.GetIter(out var iter, path);
-        var cell = model.GetValue(iter, this.Index);
-        if (cell is DataGridViewCell val)
+        var row = model.GetValue(iter, 0);
+        if (row is DataGridViewRow val)
         {
             var tggle = (CellRendererToggleValue)o;
-            val.Value = tggle.Active == false;
-            _gridview?.CellValueChanagedHandler(this.Index, path.Indices.Last());
+            val.Cells[Index].Value = tggle.Active == false;
+            _gridview?.CellValueChanagedHandler(Index, iter, path);
         }
     }
 }

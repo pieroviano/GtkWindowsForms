@@ -101,6 +101,14 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
     }
 
     /// <summary>
+    /// Gets the underlying scrolled window.
+    /// </summary>
+    /// <value>
+    /// The underlying <see cref="Gtk.ScrolledWindow" />.
+    /// </value>
+    public Gtk.ScrolledWindow ScrolledWindow { get => this; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether vertical scroll.
     /// </summary>
     /// <value>
@@ -116,6 +124,40 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
         get;
         set;
     } = true;
+
+    /// <summary>
+    /// Scrolls the view to the specified horizontal and vertical values.
+    /// </summary>
+    /// <param name="hscrollValue">
+    /// The horizontal scroll value, or -1 to leave it unchanged.
+    /// </param>
+    /// <param name="vscrollValue">
+    /// The vertical scroll value, or -1 to leave it unchanged.
+    /// </param>
+    /// <returns>
+    /// <c>
+    /// true
+    /// </c> if any scrolling occurred; otherwise,
+    /// <c>
+    /// false
+    /// </c>.
+    /// </returns>
+    public bool ScrollView(double hscrollValue, double vscrollValue)
+    {
+        var res = false;
+        if (hscrollValue > -1 && base.HscrollbarPolicy != Gtk.PolicyType.Never && base.HscrollbarPolicy != Gtk.PolicyType.External)
+        {
+            res = true;
+            base.Hadjustment.Value = hscrollValue;
+        }
+        if (vscrollValue > -1 && base.VscrollbarPolicy != Gtk.PolicyType.Never && base.VscrollbarPolicy != Gtk.PolicyType.External)
+        {
+            res = true;
+            base.Vadjustment.Value = vscrollValue;
+        }
+
+        return res;
+    }
 
     /// <summary>
     /// Adds the class.

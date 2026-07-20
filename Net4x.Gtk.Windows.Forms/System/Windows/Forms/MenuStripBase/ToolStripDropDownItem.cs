@@ -21,22 +21,12 @@ public delegate void ToolStripItemClickedEventHandler(object sender, ToolStripIt
 /// <see cref="T:System.Windows.Forms.ToolStripMenuItem" /> , or
 /// <see cref="T:System.Windows.Forms.ToolStripSplitButton" /> control is clicked.
 /// </summary>
-public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
+public abstract class ToolStripDropDownItem : ToolStripItem
 {
     /// <summary>
-    /// Occurs when drop down closed.
+    /// The self
     /// </summary>
-    public virtual event EventHandler? DropDownClosed;
-
-    /// <summary>
-    /// Occurs when drop down opened.
-    /// </summary>
-    public virtual event EventHandler? DropDownOpened;
-
-    /// <summary>
-    /// Occurs when drop down opening.
-    /// </summary>
-    public virtual event EventHandler? DropDownOpening;
+    public StripMenuToolButton self = new StripMenuToolButton();
 
     /// <summary>
     /// Initializes a new instance of the
@@ -60,7 +50,7 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// <param name="onClick">
     /// The on click.
     /// </param>
-    protected ToolStripDropDownItem(string text, Image image, EventHandler onClick) : this(text, image, onClick, "")
+    protected ToolStripDropDownItem(string text, Image? image, EventHandler? onClick) : this(text, image, onClick, "")
     {
 
     }
@@ -99,9 +89,26 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// <param name="name">
     /// The name.
     /// </param>
-    protected ToolStripDropDownItem(string text, Image? image, EventHandler? onClick, string name) : base("ToolStripDropDownItem", text, image, onClick, name)
+    protected ToolStripDropDownItem(string text, Image? image, EventHandler? onClick, string name) : base(text, image, onClick, name)
     {
-        DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
+        DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+        self.Realized += Self_Realized;
+    }
+
+    /// <summary>
+    /// Gets or sets the display style.
+    /// </summary>
+    /// <value>
+    /// The display style.
+    /// </value>
+    public override ToolStripItemDisplayStyle DisplayStyle
+    {
+        get => base.DisplayStyle;
+        set
+        {
+            base.DisplayStyle = value;
+            SetIcon(value);
+        }
     }
 
     /// <summary>
@@ -123,7 +130,6 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// <value>
     /// The drop down direction.
     /// </value>
-    //public ToolStripItemCollection DropDownItems { get; }
     [Browsable(false)]
     public ToolStripDropDownDirection DropDownDirection
     {
@@ -157,7 +163,19 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// </c>.
     /// </value>
     [Browsable(false)]
-    public virtual bool HasDropDownItems { get; }
+    public virtual bool HasDropDownItems { get => DropDownItems != null && DropDownItems.Count > 0; }
+
+    /// <summary>
+    /// Gets or sets the name.
+    /// </summary>
+    /// <value>
+    /// The name.
+    /// </value>
+    public override string Name
+    {
+        get => self.Name;
+        set => self.Name = value;
+    }
 
     /// <summary>
     /// Gets or sets the text.
@@ -165,11 +183,19 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// <value>
     /// The text.
     /// </value>
-    public override string? Text
+    public override string Text
     {
-        get => base.Text;
-        set => base.Text = value;
-    } //+ " ▼"
+        get => self.Text;
+        set => self.Text = value;
+    }
+
+    /// <summary>
+    /// Gets the widget.
+    /// </summary>
+    /// <value>
+    /// The widget.
+    /// </value>
+    public override IToolMenuItem Widget { get => self; }
 
     /// <summary>
     /// Gets the drop down location.
@@ -182,7 +208,6 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// <summary>
     /// Hides the drop down.
     /// </summary>
-    //public virtual event ToolStripItemClickedEventHandler DropDownItemClicked;
     public void HideDropDown() { }
 
     /// <summary>
@@ -190,27 +215,73 @@ public abstract class ToolStripDropDownItem : WidgetToolStrip<Gtk.MenuItem>
     /// </summary>
     public void ShowDropDown() { }
 
-    /// <summary>
-    /// Raises the DropDownClosed event.
-    /// </summary>
-    protected virtual void OnDropDownClosed(EventArgs e)
+    private void Self_Realized(object? sender, EventArgs e)
     {
-        DropDownClosed?.Invoke(this, e);
+        SetIcon(DisplayStyle);
     }
 
-    /// <summary>
-    /// Raises the DropDownOpened event.
-    /// </summary>
-    protected virtual void OnDropDownOpened(EventArgs e)
+    private void SetIcon(ToolStripItemDisplayStyle displayStyle)
     {
-        DropDownOpened?.Invoke(this, e);
-    }
-
-    /// <summary>
-    /// Raises the DropDownOpening event.
-    /// </summary>
-    protected virtual void OnDropDownOpening(EventArgs e)
-    {
-        DropDownOpening?.Invoke(this, e);
+        if (displayStyle == ToolStripItemDisplayStyle.Text)
+        {
+            self.IsImportant = false;
+        }
+        else if (displayStyle == ToolStripItemDisplayStyle.Image)
+        {
+            self.IsImportant = false;
+            if (this.Image?.Pixbuf != null)
+            {
+                if (self.IconSize == Gtk.IconSize.LargeToolbar)
+                {
+                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 30, 30);
+                }
+                else if (self.IconSize == Gtk.IconSize.Dialog)
+                {
+                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 50, 50);
+                }
+                else
+                {
+                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 20, 20);
+                }
+            }
+        }
+        else if (displayStyle == ToolStripItemDisplayStyle.ImageAndText)
+        {
+            self.IsImportant = true;
+            if (this.Image?.Pixbuf != null)
+            {
+                if (self.IconSize == Gtk.IconSize.LargeToolbar)
+                {
+                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 30, 30);
+                }
+                else if (self.IconSize == Gtk.IconSize.Dialog)
+                {
+                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 50, 50);
+                }
+                else
+                {
+                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 20, 20);
+                }
+            }
+        }
+        else
+        {
+            self.IsImportant = true;
+            if (this.Image?.Pixbuf != null)
+            {
+                if (self.IconSize == Gtk.IconSize.LargeToolbar)
+                {
+                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 30, 30);
+                }
+                else if (self.IconSize == Gtk.IconSize.Dialog)
+                {
+                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 50, 50);
+                }
+                else
+                {
+                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 20, 20);
+                }
+            }
+        }
     }
 }

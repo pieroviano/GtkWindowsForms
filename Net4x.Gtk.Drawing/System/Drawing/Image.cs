@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 
 using System.ComponentModel;
 using System.Drawing.Imaging;
@@ -17,7 +17,7 @@ namespace System.Drawing;
 /// <filterpriority>1
 /// </filterpriority>
 [Serializable]
-public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
+public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISerializable
 {
 
     internal IntPtr nativeImage;
@@ -231,7 +231,23 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
             {
                 try
                 {
-                    _PixbufData = value.SaveToBuffer("bmp");
+                    Width = value.Width;
+                    Height = value.Height;
+                    var type = RawFormat.GetMimeType().Substring(1);
+                    if ("png,jpeg,gif,icon,tiff,webp".Contains(type))
+                    {
+                        _PixbufData = value.SaveToBuffer(type);
+                    }
+                    else if (value.HasAlpha)
+                    {
+                        _PixbufData = value.SaveToBuffer("png");
+                        RawFormat = ImageFormat.Png;
+                    }
+                    else
+                    {
+                        _PixbufData = value.SaveToBuffer("jpeg");
+                        RawFormat = ImageFormat.Jpeg;
+                    }
                 }
                 catch (GLib.GException ex)
                 {
@@ -259,7 +275,10 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
             {
                 try
                 {
-                    _PixbufData = _Pixbuf.SaveToBuffer("bmp");
+                    var type = RawFormat.GetMimeType().Substring(1);
+                    if ("png,jpeg,gif,icon,tiff,webp".Contains(type) == false)
+                        type = "png";
+                    _PixbufData = _Pixbuf.SaveToBuffer(type);
                 }
                 catch (GLib.GException ex)
                 {
@@ -277,7 +296,8 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
             {
                 try
                 {
-                    _Pixbuf = new Gdk.Pixbuf(value);
+                    RawFormat = DetectByFileHeader(value);
+                    Pixbuf = new Gdk.Pixbuf(value);
                 }
                 catch (GLib.GException ex)
                 {
@@ -418,13 +438,10 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     {
         if (!System.IO.File.Exists(filename))
         {
-            filename = System.IO.Path.GetFullPath(filename);
             throw new FileNotFoundException(filename);
         }
-        filename = System.IO.Path.GetFullPath(filename);
         var extension = IO.Path.GetExtension(filename)?.ToLower();
-        var filebytes =File.ReadAllBytes(filename);
-        var bitmap = new Bitmap(filebytes);
+        var bitmap = new Bitmap(filename);
         bitmap.GetImageFormat(extension);
 
         return bitmap;
@@ -684,12 +701,76 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
     /// </summary>
     /// <param name="disposing">True when called from Dispose; false from finalizer.
     /// </param>
-    protected new virtual void Dispose(bool disposing)
+    protected virtual void Dispose(bool disposing)
     {
         _Pixbuf?.Dispose();
         if (_PixbufData != null)
             _PixbufData = null;
-        base.Dispose(disposing);
+    }
+
+    private System.Drawing.Imaging.ImageFormat DetectByFileHeader(Stream stream)
+    {
+        try
+        {
+            using (var reader = new BinaryReader(stream))
+            {
+                byte[] header = reader.ReadBytes(16);
+                return DetectByFileHeader(header);
+            }
+        }
+        catch
+        {
+            return System.Drawing.Imaging.ImageFormat.MemoryBmp;
+        }
+    }
+
+    private System.Drawing.Imaging.ImageFormat DetectByFileHeader(byte[] header)
+    {
+        try
+        {
+            if (header.Length < 15)
+                return System.Drawing.Imaging.ImageFormat.MemoryBmp;
+
+            // JPEG: FF D8
+            if (header[0] == 0xFF && header[1] == 0xD8)
+                return System.Drawing.Imaging.ImageFormat.Jpeg;
+
+            // PNG: 89 50 4E 47 0D 0A 1A 0A
+            if (header[0] == 0x89 && header[1] == 0x50 &&
+                header[2] == 0x4E && header[3] == 0x47 &&
+                header[4] == 0x0D && header[5] == 0x0A &&
+                header[6] == 0x1A && header[7] == 0x0A)
+                return System.Drawing.Imaging.ImageFormat.Png;
+
+            // GIF: GIF87a or GIF89a
+            if (header[0] == 0x47 && header[1] == 0x49 &&
+                header[2] == 0x46 && header[3] == 0x38 &&
+                (header[4] == 0x37 || header[4] == 0x39) &&
+                header[5] == 0x61)
+                return System.Drawing.Imaging.ImageFormat.Gif;
+
+            // TIFF: II or MM
+            if ((header[0] == 0x49 && header[1] == 0x49) ||
+                (header[0] == 0x4D && header[1] == 0x4D))
+                return System.Drawing.Imaging.ImageFormat.Tiff;
+
+            // WebP: RIFF + WEBP
+            if (header[0] == 0x52 && header[1] == 0x49 &&
+                header[2] == 0x46 && header[3] == 0x46 &&
+                header[8] == 0x57 && header[9] == 0x45 &&
+                header[10] == 0x42 && header[11] == 0x50)
+                return System.Drawing.Imaging.ImageFormat.Webp;
+
+            // BMP: BM
+            if (header[0] == 0x42 && header[1] == 0x4D)
+                return System.Drawing.Imaging.ImageFormat.Bmp;
+
+            return System.Drawing.Imaging.ImageFormat.MemoryBmp;
+        }
+        catch
+        {
+            return System.Drawing.Imaging.ImageFormat.MemoryBmp;
+        }
     }
 
     private ImageFormat GetImageFormat(string? extension)

@@ -19,7 +19,7 @@ public class ContextMenuStrip : ToolStripDropDownMenu
     /// </summary>
     public ContextMenuStrip()
     {
-
+        self.StyleContext.AddClass("ContextMenuStrip");
     }
 
     /// <summary>
@@ -29,9 +29,9 @@ public class ContextMenuStrip : ToolStripDropDownMenu
     /// <param name="container">
     /// The container.
     /// </param>
-    public ContextMenuStrip(IContainer container)
+    public ContextMenuStrip(IContainer container) : this()
     {
-
+        container.Add(this);
     }
 
     /// <summary>

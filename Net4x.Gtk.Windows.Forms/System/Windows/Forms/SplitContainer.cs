@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -41,10 +41,11 @@ public partial class SplitContainer : ContainerControl
     /// </summary>
     public SplitContainer() : base()
     {
+        self.Override.sender = this;
         _panel1 = new SplitterPanel(this);
-        _panel1.contaner.Name = "Child1";
+        _panel1.self.contaner.Name = "Child1";
         _panel2 = new SplitterPanel(this);
-        _panel2.contaner.Name = "Child2";
+        _panel2.self.contaner.Name = "Child2";
         self.Pack1(_panel1.Widget, false, true);
         self.Pack2(_panel2.Widget, true, true);
     }
@@ -74,6 +75,23 @@ public partial class SplitContainer : ContainerControl
     /// The GTK control.
     /// </value>
     public override object GtkControl => self;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the splitter is fixed.
+    /// </summary>
+    /// <value>
+    /// <c>
+    /// true
+    /// </c> if the splitter is fixed; otherwise,
+    /// <c>
+    /// false
+    /// </c>.
+    /// </value>
+    public bool IsSplitterFixed
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Gets or sets the orientation.

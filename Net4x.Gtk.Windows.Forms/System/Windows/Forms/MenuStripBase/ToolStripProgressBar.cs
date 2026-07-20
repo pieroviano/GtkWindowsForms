@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
+using Gtk;
 
 namespace System.Windows.Forms;
 
@@ -8,18 +9,29 @@ namespace System.Windows.Forms;
 /// <see cref="T:System.Windows.Forms.StatusStrip" />
 /// </summary>
 [DefaultProperty("Value")]
-public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
+public class ToolStripProgressBar : ToolStripItem
 {
 
-    private readonly int _step;
+    public StripToolItem self = new StripToolItem();
+
+    internal Gtk.LevelBar progressBar = new Gtk.LevelBar();
+
+    private int _step;
+
+    private ProgressBarStyle style;
 
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripProgressBar" /> class.
     /// </summary>
-    public ToolStripProgressBar() : base("ToolStripProgressBar", null)
+    public ToolStripProgressBar() : base()
     {
-        base.MenuItem?.Realized += Control_Realized;
+        progressBar.MaxValue = 100;
+        progressBar.MinValue = 0;
+        progressBar.Orientation = Gtk.Orientation.Horizontal;
+        progressBar.Valign = Align.Center;
+        self.BorderWidth = 0;
+        self.Add(progressBar);
     }
 
     /// <summary>
@@ -54,9 +66,9 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// </value>
     public int Maximum
     {
-        get;
-        set;
-    } = 100;
+        get => (int)progressBar.MaxValue;
+        set => progressBar.MaxValue = value;
+    }
 
     /// <summary>
     /// Gets or sets the minimum.
@@ -66,9 +78,9 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// </value>
     public int Minimum
     {
-        get;
-        set;
-    } = 0;
+        get => (int)progressBar.MinValue;
+        set => progressBar.MinValue = value;
+    }
 
     /// <summary>
     /// Gets the progress bar.
@@ -98,8 +110,8 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
         }
         set
         {
-            base.Size = value;
             progressBar.SetSizeRequest(value.Width, value.Height);
+            base.Size = value;
         }
     }
 
@@ -124,8 +136,15 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// </value>
     public ProgressBarStyle Style
     {
-        get;
-        set;
+        get => style;
+        set
+        {
+            style = value;
+            if (style == ProgressBarStyle.Continuous)
+                progressBar.Mode = LevelBarMode.Continuous;
+            else
+                progressBar.Mode = LevelBarMode.Discrete;
+        }
     }
 
     /// <summary>
@@ -136,12 +155,16 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// </value>
     public int Value
     {
-        get { return (int)Math.Round(progressBar.Value, 0); }
+        get { return (int)progressBar.Value; }
         set
         {
+            progressBar.MaxValue = Maximum;
+            progressBar.MinValue = Minimum;
             progressBar.Value = value;
         }
     }
+
+    public override IToolMenuItem Widget { get => self; }
 
     /// <summary>
     /// Increments the specified value.
@@ -151,7 +174,7 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     /// </param>
     public void Increment(int value)
     {
-
+        progressBar.Value = Math.Min(Maximum, Math.Max(Minimum, progressBar.Value + value));
     }
 
     /// <summary>
@@ -160,11 +183,5 @@ public class ToolStripProgressBar : WidgetToolStrip<Gtk.MenuItem>
     public void PerformStep()
     {
 
-    }
-
-    private void Control_Realized(object sender, EventArgs e)
-    {
-        progressBar.MaxValue = Maximum;
-        progressBar.MinValue = Minimum;
     }
 }

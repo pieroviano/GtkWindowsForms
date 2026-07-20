@@ -6,6 +6,8 @@
  */
 
 using System.ComponentModel;
+using System.Drawing;
+using System.Text;
 using System.Windows.Forms.GtkRender;
 using Gtk;
 
@@ -21,6 +23,15 @@ namespace System.Windows.Forms;
 public class DataGridViewColumn : TreeViewColumn
 {
 
+    /// <summary>
+    /// The editable widget currently used to edit a cell of this column, if any.
+    /// </summary>
+    public ICellEditable? CellEditable;
+
+    internal string? _cellEditablePath;
+
+    internal bool _cellEditing;
+
     internal ICellRenderer? _cellRenderer;
 
     internal DataGridViewCell _cellTemplate;
@@ -29,17 +40,17 @@ public class DataGridViewColumn : TreeViewColumn
 
     internal Gtk.TreeView? _treeView;
 
+    private readonly Gtk.CssProvider css = new();
+
     private DataGridViewAutoSizeColumnMode _AutoSizeMode;
 
     private string _DataPropertyName = string.Empty;
 
     private DataGridViewCellStyle? _DefaultCellStyle;
 
-    private int _DisplayIndex;
-
     //protected override void Dispose(bool disposing) {  }
 
-    private int _index;
+    private int _index = -1;
 
     private string? _markup;
 
@@ -102,10 +113,10 @@ public class DataGridViewColumn : TreeViewColumn
             Mode = CellRendererMode.Editable
         };
         renderer.Edited += Renderer_Edited;
-        renderer.PlaceholderText = "---";
+        renderer.EditingStarted += Renderer_EditingStarted;
+        renderer.PlaceholderText = "";
         renderer.Height = RowHeight;
         base.PackStart(renderer, true);
-        base.Sizing = TreeViewColumnSizing.GrowOnly;
         _cellRenderer = renderer as ICellRenderer;
     }
 
@@ -129,6 +140,8 @@ public class DataGridViewColumn : TreeViewColumn
             _treeView = ownerGridView.GridView;
         }
         _cellTemplate = cellTemplate;
+        base.Resizable = true;
+        base.Sizing = TreeViewColumnSizing.GrowOnly;
     }
 
     /// <summary>
@@ -202,7 +215,7 @@ public class DataGridViewColumn : TreeViewColumn
     public DataGridViewCellStyle? DefaultCellStyle
     {
         get => _DefaultCellStyle;
-        set { _DefaultCellStyle = value; _cellRenderer?.ColumnStyle = value; }
+        set { _DefaultCellStyle = value; _cellRenderer?.ColumnStyle = value; SetDefaultStyle(_DefaultCellStyle); }
     }
 
     /// <summary>
@@ -211,8 +224,14 @@ public class DataGridViewColumn : TreeViewColumn
     [Browsable(false)]
     public int DisplayIndex
     {
-        get => _DisplayIndex;
-        set { _DisplayIndex = value; }
+        get => _treeView == null ? -1 : Array.IndexOf(_treeView.Columns, (TreeViewColumn)this);
+        set
+        {
+            if (_gridview != null && _treeView != null && value >= 0 && _gridview.Columns.Count > value && this.Handle != _treeView.Columns[value].Handle)
+            {
+                _treeView.MoveColumnAfter((TreeViewColumn)this, _treeView.Columns[value]);
+            }
+        }
     }
 
     /// <summary>
@@ -233,7 +252,7 @@ public class DataGridViewColumn : TreeViewColumn
     {
         get;
         set;
-    }
+    } = 100;
 
     /// <summary>
     /// Gets or sets a value indicating whether the column is frozen.
@@ -276,8 +295,13 @@ public class DataGridViewColumn : TreeViewColumn
 
         internal set
         {
-            _index = value; if (_SortMode != DataGridViewColumnSortMode.NotSortable) { base.SortColumnId = value; }
-            foreach (var cell in base.Cells) { base.AddAttribute(cell, "cellvalue", _index); }
+            if (_index == -1)
+                base.AddAttribute(base.Cells[0], "cellvalue", 0);
+            _index = value;
+            if (_SortMode != DataGridViewColumnSortMode.NotSortable)
+            {
+                base.SortColumnId = _index;
+            }
         }
     }
 
@@ -445,7 +469,7 @@ public class DataGridViewColumn : TreeViewColumn
     public new int Width
     {
         get { return base.FixedWidth; }
-        set { base.FixedWidth = value; }
+        set { base.FixedWidth = value; _cellRenderer?.WidthChars = value; }
     }
 
     private int DefaultHeight
@@ -474,6 +498,32 @@ public class DataGridViewColumn : TreeViewColumn
     }
 
     /// <summary>
+    /// Finishes the pending edit operation, if any, and releases the editing widget.
+    /// </summary>
+    public void EditableEditingDone()
+    {
+        if (CellEditable != null)
+        {
+            try
+            {
+                CellEditable.EditingDone += Editable_EditingDone;
+                CellEditable.FinishEditing();
+                CellEditable.EditingDone -= Editable_EditingDone;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.GtkLogger.Debug($"Unexpected exception in EditableEditingDone", ex);
+            }
+            finally
+            {
+                CellEditable?.RemoveWidget();
+                CellEditable = null;
+                _cellEditing = false;
+            }
+        }
+    }
+
+    /// <summary>
     /// Returns an estimate of the preferred width for the column.
     /// </summary>
     /// <param name="autoSizeColumnMode">
@@ -491,13 +541,40 @@ public class DataGridViewColumn : TreeViewColumn
     }
 
     /// <summary>
+    /// Commits the value edited in the cell identified by the specified tree path.
+    /// </summary>
+    /// <param name="treepath">
+    /// The GTK tree path of the edited row.
+    /// </param>
+    /// <param name="value">
+    /// The new value entered by the user.
+    /// </param>
+    public void RendererEdited(string treepath, string value)
+    {
+        _cellEditing = false;
+        var path = new TreePath(treepath);
+        var model = _treeView?.Model;
+        if (model != null)
+        {
+            model.GetIter(out var iter, path);
+            var row = model.GetValue(iter, 0);
+            if (row is DataGridViewRow val)
+            {
+                val.Cells[Index].Value = value;
+                _gridview?.CellValueChanagedHandler(Index, iter, path);
+            }
+        }
+        this.QueueResize();
+    }
+
+    /// <summary>
     /// Applies the provided default
-    /// <see cref="T:System.Windows.Forms.DataGridViewCellStyle" /> to the column renderer and updates wrapping/height behavior.
+    /// <see cref="T:System.Windows.Forms.DataGridViewCellStyle" /> to the column renderer.
     /// </summary>
     /// <param name="cellStyle">
     /// The default style to apply.
     /// </param>
-    public void SetGridViewDefaultStyle(DataGridViewCellStyle? cellStyle)
+    public void SetDefaultStyle(DataGridViewCellStyle? cellStyle)
     {
         if (cellStyle != null)
         {
@@ -506,22 +583,147 @@ public class DataGridViewColumn : TreeViewColumn
                 if (_cellRenderer != null)
                 {
                     _cellRenderer.WrapMode = Pango.WrapMode.WordChar;
-                    _cellRenderer.WrapWidth = 0;
-                    _cellRenderer.WidthChars = 0;
+                    _cellRenderer.WrapWidth = Width;
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Refreshes the renderer and the column header appearance from the current styles of the owning grid.
+    /// </summary>
+    public void UpdateDefaultStyle()
+    {
         if (_gridview != null)
         {
-            if (_gridview.AutoSizeRowsMode == DataGridViewAutoSizeRowsMode.AllCells || _gridview.AutoSizeRowsMode == DataGridViewAutoSizeRowsMode.DisplayedCells || _gridview.RowTemplate.Resizable == DataGridViewTriState.True)
+            if (_cellRenderer != null)
             {
-
+                if (_ReadOnly || _gridview.ReadOnly)
+                {
+                    _cellRenderer.Editable = false;
+                    _cellRenderer.Activatable = false;
+                }
+                else
+                {
+                    _cellRenderer.Editable = true;
+                    _cellRenderer.Activatable = true;
+                }
+                if (_gridview.AutoSizeRowsMode == DataGridViewAutoSizeRowsMode.AllCells || _gridview.AutoSizeRowsMode == DataGridViewAutoSizeRowsMode.DisplayedCells || _gridview.AutoSizeRowsMode == DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders || _gridview.AutoSizeRowsMode == DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders)
+                {
+                    _cellRenderer.Height = -1;
+                }
+                else
+                {
+                    _cellRenderer.Height = RowHeight;
+                }
+                if (_gridview.DefaultCellStyle != null && _gridview.DefaultCellStyle.WrapMode == DataGridViewTriState.True)
+                {
+                    _cellRenderer.WrapMode = Pango.WrapMode.WordChar;
+                    _cellRenderer.WrapWidth = Width;
+                }
             }
-            else
+            if (_gridview.GridView.IsRealized)
+                this.QueueResize();
+
+            var _cellStyle = this.DefaultCellStyle;
+            if (_cellStyle == null && _gridview.ColumnHeadersDefaultCellStyle != null)
+                _cellStyle = _gridview.ColumnHeadersDefaultCellStyle;
+
+            if (_cellStyle != null)
             {
-                _cellRenderer?.Height = RowHeight;
+                var header = ((Gtk.Button)this.Button);
+                var style = new StringBuilder();
+                if (_cellStyle.BackColor.Name != "0")
+                {
+                    var backColor = _cellStyle.BackColor;
+                    var color = $"rgba({backColor.R},{backColor.G},{backColor.B},{backColor.A})";
+                    style.AppendFormat("background-color:{0};background:{0};", color);
+                }
+
+                if (_cellStyle.ForeColor.Name != "0")
+                {
+                    var foreColor = _cellStyle.ForeColor;
+                    var color = $"rgba({foreColor.R},{foreColor.G},{foreColor.B},{foreColor.A})";
+                    style.AppendFormat("color:{0};", color);
+                }
+                if (_cellStyle.Font != null)
+                {
+                    var font = _cellStyle.Font;
+                    if (font.Unit == GraphicsUnit.Pixel)
+                        style.AppendFormat("font-size:{0}px;", font.Size);
+                    else if (font.Unit == GraphicsUnit.Inch)
+                        style.AppendFormat("font-size:{0}in;", font.Size);
+                    else if (font.Unit == GraphicsUnit.Point)
+                        style.AppendFormat("font-size:{0}pt;", font.Size);
+                    else if (font.Unit == GraphicsUnit.Millimeter)
+                        style.AppendFormat("font-size:{0}mm;", font.Size);
+                    else if (font.Unit == GraphicsUnit.Document)
+                        style.AppendFormat("font-size:{0}cm;", font.Size);
+                    else if (font.Unit == GraphicsUnit.Display)
+                        style.AppendFormat("font-size:{0}pc;", font.Size);
+                    else
+                        style.AppendFormat("font-size:{0}pt;", font.Size);
+
+                    if (string.IsNullOrWhiteSpace(font.FontFamily?.Name) == false)
+                    {
+                        style.AppendFormat("font-family:\"{0}\";", font.FontFamily.Name);
+                    }
+                    if (font.Bold)
+                    {
+                        style.Append("font-weight:bold;");
+                    }
+                    if (font.Italic)
+                    {
+                        style.Append("font-style:italic;");
+                    }
+                    if (font.Underline)
+                    {
+                        style.Append("text-decoration:underline;");
+                    }
+                    if (font.Strikeout)
+                    {
+                        style.Append("text-decoration:line-through;");
+                    }
+                }
+
+                if (style.Length > 9)
+                {
+                    css.LoadFromData($".columnheadercell{{{style.ToString()}}}");
+                    if (header.StyleContext.HasClass("columnheadercell"))
+                    {
+                        header.StyleContext.RemoveClass("columnheadercell");
+                        header.StyleContext.RemoveProvider(css);
+                    }
+                    header.StyleContext.AddProvider(css, StyleProviderPriority.User);
+                    header.StyleContext.AddClass("columnheadercell");
+                }
+                switch (_cellStyle.Alignment)
+                {
+                    case DataGridViewContentAlignment.TopLeft:
+                    case DataGridViewContentAlignment.MiddleLeft:
+                    case DataGridViewContentAlignment.BottomLeft:
+                        this.Alignment = 0f;
+                        break;
+
+                    case DataGridViewContentAlignment.TopCenter:
+                    case DataGridViewContentAlignment.MiddleCenter:
+                    case DataGridViewContentAlignment.BottomCenter:
+                        this.Alignment = 0.5f;
+                        break;
+
+                    case DataGridViewContentAlignment.TopRight:
+                    case DataGridViewContentAlignment.MiddleRight:
+                    case DataGridViewContentAlignment.BottomRight:
+                        this.Alignment = 1.0f;
+                        break;
+
+                    default:
+                        this.Alignment = 0f;
+                        break;
+                }
             }
         }
+        SetDefaultStyle(this.DefaultCellStyle);
     }
 
     /// <summary>
@@ -535,6 +737,7 @@ public class DataGridViewColumn : TreeViewColumn
     internal void AtrributesClone(DataGridViewCell newcell)
     {
         newcell.Style = _cellTemplate.Style?.Clone();
+        newcell.OwningRowInternal = _cellTemplate.OwningRowInternal;
         newcell.ReadOnly = _cellTemplate.ReadOnly;
     }
 
@@ -543,7 +746,7 @@ public class DataGridViewColumn : TreeViewColumn
         var newcell = new DataGridViewTextBoxCell();
         AtrributesClone(newcell);
         newcell.Value = value;
-        newcell.ValueType = valueType;
+        newcell.ValueType = valueType ?? typeof(string);
 
         return newcell;
     }
@@ -556,19 +759,30 @@ public class DataGridViewColumn : TreeViewColumn
         Disposed?.Invoke(this, e);
     }
 
-    private void Renderer_Edited(object o, EditedArgs args)
+    private void Editable_EditingDone(object? sender, EventArgs e)
     {
-        var path = new TreePath(args.Path);
-        var model = _treeView?.Model;
-        if (model != null)
+        if (_cellEditing == true && _cellEditablePath != null)
         {
-            model.GetIter(out var iter, path);
-            var cell = model.GetValue(iter, this.Index);
-            if (cell is DataGridViewCell val)
+            if (sender is Gtk.Entry enry)
             {
-                val.Value = args.NewText;
-                _gridview?.CellValueChanagedHandler(this.Index, path.Indices.Last());
+                RendererEdited(_cellEditablePath, enry.Text);
+            }
+            else if (sender is Gtk.ComboBox com)
+            {
+                RendererEdited(_cellEditablePath, com.Entry.Text);
             }
         }
+    }
+
+    private void Renderer_Edited(object o, EditedArgs args)
+    {
+        RendererEdited(args.Path, args.NewText);
+    }
+
+    private void Renderer_EditingStarted(object o, EditingStartedArgs args)
+    {
+        _cellEditing = true;
+        _cellEditablePath = args.Path;
+        CellEditable = args.Editable;
     }
 }

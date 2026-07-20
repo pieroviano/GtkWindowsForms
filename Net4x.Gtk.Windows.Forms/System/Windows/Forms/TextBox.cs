@@ -31,12 +31,15 @@ public partial class TextBox : Control
     /// </summary>
     public override event EventHandler? TextChanged;
 
+    private HorizontalAlignment textAlign;
+
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TextBox" /> class.
     /// </summary>
     public TextBox() : base()
     {
+        self.Override.sender = this;
         self.MaxWidthChars = 1;
         self.WidthChars = 0;
         self.Valign = Gtk.Align.Start;
@@ -151,12 +154,36 @@ public partial class TextBox : Control
     }
 
     /// <summary>
+    /// Gets or sets the currently selected text.
+    /// </summary>
+    /// <value>
+    /// The selected text.
+    /// </value>
+    public string SelectedText
+    {
+        get
+        {
+            if (self.GetSelectionBounds(out var start, out var end))
+                return self.Text.Substring(start, end - start);
+            else
+                return string.Empty;
+        }
+        set
+        {
+            if (self.GetSelectionBounds(out var start, out var end))
+            {
+                self.DeleteSelection();
+                self.InsertText(value, ref start);
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the length of the selection.
     /// </summary>
     /// <value>
     /// The length of the selection.
     /// </value>
-    [System.ComponentModel.Browsable(false)]
     public virtual int SelectionLength
     {
         get
@@ -198,6 +225,49 @@ public partial class TextBox : Control
     {
         get { return self.Text; }
         set { self.Text = value; }
+    }
+
+    /// <summary>
+    /// Gets or sets how text is aligned in the control.
+    /// </summary>
+    /// <value>
+    /// The text alignment.
+    /// </value>
+    public HorizontalAlignment TextAlign
+    {
+        get { return textAlign; }
+        set
+        {
+            textAlign = value;
+            if (value == HorizontalAlignment.Left)
+            {
+                self.Xalign = 0.0f;
+            }
+            else if (value == HorizontalAlignment.Center)
+            {
+                self.Xalign = 0.5f;
+            }
+            else if (value == HorizontalAlignment.Right)
+            {
+                self.Xalign = 1.0f;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Clears the current selection.
+    /// </summary>
+    public void DeselectAll()
+    {
+        SelectionLength = 0;
+    }
+
+    /// <summary>
+    /// Selects all the text in the control.
+    /// </summary>
+    public void SelectAll()
+    {
+        Select(0, -1);
     }
 
     /// <summary>

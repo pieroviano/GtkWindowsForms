@@ -12,6 +12,8 @@ namespace System.Drawing;
 public sealed class FontFamily : MarshalByRefObject, IDisposable
 {
 
+    private static readonly Dictionary<string, string> fontLanguages = new Dictionary<string, string>();
+
     /// <summary>
     /// Initializes a new System.Drawing.FontFamily from the specified generic font family.
     /// </summary>
@@ -42,7 +44,43 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
     /// </param>
     public FontFamily(string? name, FontCollection? fontCollection)
     {
-        this.Name = name;
+        if (fontLanguages.TryGetValue(name, out string enname))
+            this.Name = enname;
+        else
+            this.Name = name;
+    }
+
+    static FontFamily()
+    {
+        if (fontLanguages.Count == 0)
+        {
+            fontLanguages.Add(" simSun", "SimSun");
+            fontLanguages.Add(" simHei", "SimHei");
+            fontLanguages.Add(" microsoft YaHei", "Microsoft Yahei");
+            fontLanguages.Add(" microsoft JhengHei", "Microsoft JhengHei");
+            fontLanguages.Add(" microsoft JhengHei", "Microsoft JhengHei");
+            fontLanguages.Add(" kaiTi", "KaiTi");
+            fontLanguages.Add(" nSimSun", "NSimSun");
+            fontLanguages.Add(" fangSong", "FangSong");
+            fontLanguages.Add(" dFKai-SB", "BiauKai");
+            fontLanguages.Add(" pMingLiU", "PMingLiU");
+            fontLanguages.Add(" mingLiU", "MingLiU");
+            //macos
+            fontLanguages.Add(" pingFang", "PingFang SC");
+            fontLanguages.Add(" sTHeiti", "STHeiti");
+            fontLanguages.Add(" sTKaiti", "STKaiti");
+            fontLanguages.Add(" sTSong", "STSong");
+            fontLanguages.Add(" sTFangsong", "STFangsong");
+            fontLanguages.Add(" sTZhongsong", "STZhongsong");
+            fontLanguages.Add(" sTHupo", "STHupo");
+            fontLanguages.Add(" sTXinwei", "STXinwei");
+            fontLanguages.Add(" sTLiti", "STLiti");
+            fontLanguages.Add(" sTXingkai", "STXingkai");
+            //open
+            fontLanguages.Add(" source Han Sans", "Source Han Sans CN");
+            fontLanguages.Add(" source Han Serif", "Source Han Serif SC");
+            fontLanguages.Add(" wenQuanYi Micro Hei", "WenQuanYi Micro Hei");
+        }
     }
 
     /// <summary>
@@ -207,7 +245,7 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
     /// <returns>
     /// true if the specified System.Drawing.FontStyle is available; otherwise, false.
     /// </returns>
-    public bool IsStyleAvailable(FontStyle style) { return false; }
+    public bool IsStyleAvailable(FontStyle style) { return true; }
 
     /// <summary>
     /// Converts this System.Drawing.FontFamily to a human-readable string representation.
@@ -217,6 +255,6 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
     /// </returns>
     public override string? ToString()
     {
-        return Name;
+        return $"[{GetType().Name}: Name={Name}]";
     }
 }

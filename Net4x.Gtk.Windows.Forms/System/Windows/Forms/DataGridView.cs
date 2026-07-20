@@ -8,6 +8,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Reflection;
+using Gdk;
 using GLib;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
@@ -29,23 +30,37 @@ public partial class DataGridView : ScrollableControl
     /// </summary>
     public readonly DataGridViewBase self = new();
 
-    internal Gtk.TreeStore Store = new(typeof(DataGridViewCell));
+    internal Gtk.TreeStore Store = new(typeof(DataGridViewRow));
 
-    private readonly ControlBindingsCollection _collect;
+    private bool _AllowUserToOrderColumns = true;
 
-    private readonly DataGridViewColumnCollection _columns;
+    private bool _AllowUserToResizeColumns = true;
+
+    private ControlBindingsCollection _collect;
+
+    private DataGridViewColumnCollection _columns;
 
     private object? _DataSource;
 
+    private int _FirstDisplayedScrollingColumnIndex;
+
+    private int _FirstDisplayedScrollingRowIndex;
+
     private bool _MultiSelect = true;
 
-    private readonly DataGridViewRowCollection _rows;
+    private DataGridViewRowCollection _rows;
 
     private DataGridViewRow? _RowTemplate;
 
-    private readonly List<int> _selectedBandIndexes = new();
+    private DataGridViewColumn? _selectedColumn;
 
     private DataGridViewSelectionMode _SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
+
+    private DataGridViewColumn _sortedColumn;
+
+    private SortOrder _sortOrder;
+
+    private bool Is_GridView_Realized;
 
     /// <summary>
     /// Not implemented in this GTK-backed control. Placeholder for compatibility.
@@ -64,13 +79,11 @@ public partial class DataGridView : ScrollableControl
     /// </summary>
     //[Obsolete(" this event is not implemented， develop independently")]
     //public virtual event EventHandler SelectionChanged;
-    [Obsolete(" this event is not implemented， develop independently")]
     public virtual event EventHandler? AllowUserToOrderColumnsChanged;
 
     /// <summary>
     /// Not implemented in this GTK-backed control. Placeholder for compatibility.
     /// </summary>
-    [Obsolete(" this event is not implemented， develop independently")]
     public virtual event EventHandler? AllowUserToResizeColumnsChanged;
 
     /// <summary>
@@ -477,7 +490,6 @@ public partial class DataGridView : ScrollableControl
     /// <summary>
     /// Raised when data binding completes - placeholder for compatibility.
     /// </summary>
-    [Obsolete(" this event is not implemented， develop independently")]
     public virtual event DataGridViewBindingCompleteEventHandler? DataBindingComplete;
 
     /// <summary>
@@ -774,21 +786,68 @@ public partial class DataGridView : ScrollableControl
     /// </summary>
     public DataGridView() : base()
     {
+        self.Override.sender = this;
         this.BorderStyle = BorderStyle.FixedSingle;
-        GridView.Margin = 0;
-        GridView.MarginStart = 0;
-        GridView.MarginEnd = 0;
-        GridView.Selection.Mode = Gtk.SelectionMode.Multiple;
-        GridView.HeadersClickable = true;
-        GridView.HeadersVisible = true;
-        GridView.ActivateOnSingleClick = false;
+        self.GridView.Margin = 0;
+        self.GridView.MarginStart = 0;
+        self.GridView.MarginEnd = 0;
+        self.GridView.Selection.Mode = Gtk.SelectionMode.Multiple;
+        self.GridView.HeadersClickable = true;
+        self.GridView.HeadersVisible = true;
+        self.GridView.ActivateOnSingleClick = false;
 
         _columns = new DataGridViewColumnCollection(this);
         _rows = new DataGridViewRowCollection(this);
         _collect = new ControlBindingsCollection(this);
-        GridView.Realized += GridView_Realized;
-        GridView.RowActivated += GridView_RowActivated;
-        GridView.Selection.Changed += Selection_Changed;
+        self.Realized += Self_Realized;
+        self.GridView.Selection.Changed += Selection_Changed;
+        self.GridView.ColumnsChanged += GridView_ColumnsChanged;
+        self.GridView.ButtonReleaseEvent += GridView_ButtonReleaseEvent;
+        self.GridView.WidgetEvent += GridView_WidgetEvent;
+    }
+
+    public bool AllowUserToAddRows
+    {
+        get;
+        set;
+    }
+
+    public bool AllowUserToDeleteRows
+    {
+        get;
+        set;
+    }
+
+    public bool AllowUserToOrderColumns
+    {
+        get => _AllowUserToOrderColumns;
+        set
+        {
+            _AllowUserToOrderColumns = value;
+            if (AllowUserToOrderColumnsChanged == null)
+                AllowUserToOrderColumnsChanged += DataGridView_AllowUserToOrderColumnsChanged;
+            else
+                AllowUserToOrderColumnsChanged(this, EventArgs.Empty);
+        }
+    }
+
+    public bool AllowUserToResizeColumns
+    {
+        get => AllowUserToResizeColumns;
+        set
+        {
+            _AllowUserToResizeColumns = value;
+            if (AllowUserToResizeColumnsChanged == null)
+                AllowUserToResizeColumnsChanged += DataGridView_AllowUserToResizeColumnsChanged;
+            else
+                AllowUserToResizeColumnsChanged(this, EventArgs.Empty);
+        }
+    }
+
+    public bool AllowUserToResizeRows
+    {
+        get => GridView.Reorderable;
+        set => GridView.Reorderable = value;
     }
 
     /// <summary>
@@ -800,6 +859,12 @@ public partial class DataGridView : ScrollableControl
         set;
     }
 
+    public bool AutoGenerateColumns
+    {
+        get;
+        set;
+    } = true;
+
     /// <summary>
     /// Gets or sets the mode in which row heights are automatically determined.
     /// </summary>
@@ -807,7 +872,7 @@ public partial class DataGridView : ScrollableControl
     {
         get;
         set;
-    }
+    } = DataGridViewAutoSizeRowsMode.None;
 
     /// <summary>
     /// Gets or sets the style applied to column headers.
@@ -847,6 +912,16 @@ public partial class DataGridView : ScrollableControl
         }
     }
 
+    public DataGridViewRow CurrentRow
+    {
+        get
+        {
+            var selectedrows = SelectedRows;
+
+            return selectedrows.Count > 0 ? selectedrows[selectedrows.Count - 1] : null;
+        }
+    }
+
     /// <summary>
     /// Gets the collection of data bindings associated with the grid.
     /// </summary>
@@ -871,7 +946,7 @@ public partial class DataGridView : ScrollableControl
         set
         {
             _DataSource = value;
-            if (GridView.IsVisible)
+            if (Is_GridView_Realized == true)
             {
                 OnSetDataSource();
             }
@@ -885,6 +960,35 @@ public partial class DataGridView : ScrollableControl
     {
         get;
         set;
+    }
+
+    public int FirstDisplayedScrollingColumnIndex
+    {
+        get => _FirstDisplayedScrollingColumnIndex;
+        set
+        {
+            _FirstDisplayedScrollingColumnIndex = value;
+            var grid = GridView;
+            if (_FirstDisplayedScrollingColumnIndex > -1 && grid.NColumns > _FirstDisplayedScrollingColumnIndex)
+            {
+                int x_offset = grid.GetColumn(_FirstDisplayedScrollingColumnIndex).XOffset;
+                self.ScrollView(x_offset, -1);
+            }
+        }
+    }
+
+    public int FirstDisplayedScrollingRowIndex
+    {
+        get => _FirstDisplayedScrollingRowIndex;
+        set
+        {
+            _FirstDisplayedScrollingRowIndex = value;
+            var grid = GridView;
+            if (grid.NColumns > 0 && Rows.Count > value)
+            {
+                grid.ScrollToCell(new TreePath([value]), null, false, 0, 0);
+            }
+        }
     }
 
     /// <summary>
@@ -940,6 +1044,15 @@ public partial class DataGridView : ScrollableControl
         set;
     }
 
+    public int RowCount
+    {
+        get => _rows.Count;
+        set
+        {
+            while (value > _rows.Count) { _rows.RemoveAt(_rows.Count - 1); }
+        }
+    }
+
     /// <summary>
     /// Gets or sets the default style for row headers.
     /// </summary>
@@ -977,7 +1090,13 @@ public partial class DataGridView : ScrollableControl
     /// </summary>
     public DataGridViewRow RowTemplate
     {
-        get { return _RowTemplate ??= new DataGridViewRow(); }
+        get
+        {
+            _RowTemplate ??= new DataGridViewRow();
+            _RowTemplate.DefaultCellStyle = new DataGridViewCellStyle();
+
+            return _RowTemplate;
+        }
         set { _RowTemplate = value; }
     }
 
@@ -994,47 +1113,20 @@ public partial class DataGridView : ScrollableControl
             switch (SelectionMode)
             {
                 case DataGridViewSelectionMode.CellSelect:
-                    {
-                        var cols = Store.NColumns;
-                        Store.Foreach(new TreeModelForeachFunc((model, path, iter) =>
-                        {
-                            for (var i = 0; i < cols; i++)
-                            {
-                                var cell = (DataGridViewCell)model.GetValue(iter, i);
-                                if (cell.Selected)
-                                    stcc.Add(cell);
-                            }
-                            return false;
-                        }));
-                        break;
-                    }
-
+                    break;
                 case DataGridViewSelectionMode.FullColumnSelect:
                 case DataGridViewSelectionMode.ColumnHeaderSelect:
-                    {
-                        foreach (var columnIndex in _selectedBandIndexes)
-                        {
-                            foreach (DataGridViewRow dataGridViewRow in Rows)   // unshares all rows!
-                            {
-                                stcc.Add(dataGridViewRow.Cells[columnIndex]);
-                            }
-                        }
-                        break;
-                    }
-
+                    break;
                 case DataGridViewSelectionMode.FullRowSelect:
                 case DataGridViewSelectionMode.RowHeaderSelect:
+                    foreach (DataGridViewRow dataGridViewRow in SelectedRows)
                     {
-                        foreach (var rowIndex in _selectedBandIndexes)
+                        foreach (var dataGridViewCell in dataGridViewRow.Cells)
                         {
-                            var dataGridViewRow = (DataGridViewRow)Rows[rowIndex];
-                            foreach (DataGridViewCell dataGridViewCell in dataGridViewRow.Cells)
-                            {
-                                stcc.Add(dataGridViewCell);
-                            }
+                            stcc.Add(dataGridViewCell);
                         }
-                        break;
                     }
+                    break;
             }
 
             return stcc;
@@ -1059,11 +1151,8 @@ public partial class DataGridView : ScrollableControl
                     break;
                 case DataGridViewSelectionMode.FullColumnSelect:
                 case DataGridViewSelectionMode.ColumnHeaderSelect:
-                    foreach (var columnIndex in _selectedBandIndexes)
-                    {
-                        strc.Add(Columns[columnIndex]);
-                    }
-
+                    if (_selectedColumn != null)
+                        strc.Add(_selectedColumn);
                     break;
             }
 
@@ -1089,9 +1178,15 @@ public partial class DataGridView : ScrollableControl
                     break;
                 case DataGridViewSelectionMode.FullRowSelect:
                 case DataGridViewSelectionMode.RowHeaderSelect:
-                    foreach (var rowIndex in _selectedBandIndexes)
+                    var treePaths = GridView.Selection.GetSelectedRows();
+                    foreach (var path in treePaths)
                     {
-                        strc.Add(Rows[rowIndex]);
+                        if (Store.GetIter(out TreeIter iter, path))
+                        {
+                            var row = GetRowByIter(Rows, iter, path.Depth);
+                            if (row != null)
+                                strc.Add(row);
+                        }
                     }
                     break;
             }
@@ -1113,26 +1208,37 @@ public partial class DataGridView : ScrollableControl
             switch (_SelectionMode)
             {
                 case DataGridViewSelectionMode.CellSelect:
-                    {
-                        GridView.Selection.Mode = Gtk.SelectionMode.None;
-                        break;
-                    }
-
+                    GridView.Selection.Mode = Gtk.SelectionMode.None;
+                    break;
                 case DataGridViewSelectionMode.FullColumnSelect:
                 case DataGridViewSelectionMode.ColumnHeaderSelect:
-                    {
-                        GridView.Selection.Mode = Gtk.SelectionMode.Multiple;
-                        break;
-                    }
-
+                    GridView.Selection.Mode = Gtk.SelectionMode.None;
+                    break;
                 case DataGridViewSelectionMode.FullRowSelect:
                 case DataGridViewSelectionMode.RowHeaderSelect:
-                    {
-                        GridView.Selection.Mode = Gtk.SelectionMode.Multiple;
-                        break;
-                    }
+                    GridView.Selection.Mode = Gtk.SelectionMode.Multiple;
+                    break;
             }
         }
+    }
+
+    public DataGridViewColumn SortedColumn => _sortedColumn;
+
+    public SortOrder SortOrder => _sortOrder;
+
+    /// <summary>
+    /// Whether to enable the filter function， used forrow.visible function， and disable column sorting at the same time
+    /// </summary>
+    public bool UseModelFilter
+    {
+        get;
+        set;
+    }
+
+    public bool VirtualMode
+    {
+        get => true;
+        set { }
     }
 
     /// <summary>
@@ -1151,55 +1257,20 @@ public partial class DataGridView : ScrollableControl
         GridView.Selection.UnselectAll();
     }
 
+    public void EndEdit()
+    {
+        foreach (DataGridViewColumn column in Columns)
+        {
+            column.EditableEditingDone();
+        }
+    }
+
     /// <summary>
     /// Ends initialization. Sets internal created flag to true.
     /// </summary>
     public override void EndInit()
     {
         _Created = true;
-    }
-
-    /// <summary>
-    /// Returns whether the native (GTK) row at the given index is selected.
-    /// </summary>
-    /// <param name="rowindex">
-    /// Row index to test.
-    /// </param>
-    /// <returns>
-    /// True if the row is selected; otherwise false.
-    /// </returns>
-    public bool NativeRowGetSelected(int rowindex)
-    {
-        switch (SelectionMode)
-        {
-            case DataGridViewSelectionMode.FullRowSelect:
-            case DataGridViewSelectionMode.RowHeaderSelect:
-                return _selectedBandIndexes.Any(i => i == rowindex);
-                break;
-            default:
-                return false;
-        }
-    }
-
-    /// <summary>
-    /// Selects or unselects the native GTK row at the specified index.
-    /// Uses Gtk.Application.Invoke to ensure the selection change is performed on the UI thread.
-    /// </summary>
-    /// <param name="rowindex">
-    /// Row index to operate on.
-    /// </param>
-    /// <param name="selected">
-    /// True to select, false to unselect.
-    /// </param>
-    public void NativeRowSetSelected(int rowindex, bool selected)
-    {
-        Gtk.Application.Invoke(delegate
-        {
-            if (selected)
-                GridView.Selection.SelectIter(Rows[rowindex].TreeIter);
-            else
-                GridView.Selection.UnselectIter(Rows[rowindex].TreeIter);
-        });
     }
 
     /// <summary>
@@ -1213,7 +1284,8 @@ public partial class DataGridView : ScrollableControl
     /// </param>
     public void OnCellPainting(object sender, DataGridViewCellPaintingEventArgs e)
     {
-        CellPainting?.Invoke(sender, e);
+        if (CellPainting != null)
+            CellPainting(sender, e);
     }
 
     /// <summary>
@@ -1241,9 +1313,65 @@ public partial class DataGridView : ScrollableControl
         GridView.ExpandRow(Store.GetPath(row.TreeIter), all);
     }
 
-    internal void CellValueChanagedHandler(int column, int row)
+    public virtual void Sort(DataGridViewColumn dataGridViewColumn, ListSortDirection direction)
     {
-        OnCellValueChanged(new DataGridViewCellEventArgs(column, row));
+        _sortedColumn = dataGridViewColumn;
+        if (direction == ListSortDirection.Ascending)
+        {
+            _sortOrder = SortOrder.Ascending;
+            _sortedColumn.SortOrder = SortType.Ascending;
+        }
+        else if (direction == ListSortDirection.Descending)
+        {
+            _sortOrder = SortOrder.Descending;
+            _sortedColumn.SortOrder = SortType.Descending;
+        }
+        if (self.IsRealized)
+            Store.SetSortColumnId(_sortedColumn.SortColumnId, _sortedColumn.SortOrder);
+    }
+
+    internal void CellValueChanagedHandler(int column, TreeIter iter, TreePath path)
+    {
+        if (CellValueChanged != null)
+        {
+            var row = GetRowByIter(Rows, iter, path.Depth);
+            if (row != null)
+            {
+                OnCellValueChanged(new DataGridViewCellEventArgs(column, row.Index));
+            }
+        }
+    }
+
+    internal bool NativeRowGetSelected(TreeIter rowiter)
+    {
+        switch (SelectionMode)
+        {
+            case DataGridViewSelectionMode.FullRowSelect:
+            case DataGridViewSelectionMode.RowHeaderSelect:
+                return GridView.Selection.GetSelected(out var iter) && iter.Equals(rowiter);
+            default:
+                return false;
+        }
+    }
+
+    internal void NativeRowSetSelected(TreeIter rowiter, bool selected)
+    {
+        Gtk.Application.Invoke(delegate
+        {
+            if (selected)
+                GridView.Selection.SelectIter(rowiter);
+            else
+                GridView.Selection.UnselectIter(rowiter);
+        });
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        _rows.Clear();
+        _columns.Clear();
+        _collect.Clear();
+        _DataSource = null;
+        base.Dispose(disposing);
     }
 
     /// <summary>
@@ -2174,47 +2302,106 @@ public partial class DataGridView : ScrollableControl
         UserDeletingRow?.Invoke(this, e);
     }
 
-    private void GridView_Realized(object sender, EventArgs e)
+    private void DataGridView_AllowUserToOrderColumnsChanged(object? sender, EventArgs e)
     {
-        OnSetDataSource();
-        _columns.Invalidate();
-        foreach (Binding binding in DataBindings)
-            GridView.AddNotification(binding.PropertyName, propertyNotity);
+        foreach (var item in GridView.Columns)
+        {
+            item.Reorderable = _AllowUserToOrderColumns;
+        }
     }
 
-    private void GridView_RowActivated(object o, RowActivatedArgs args)
+    private void DataGridView_AllowUserToResizeColumnsChanged(object? sender, EventArgs e)
     {
-        // single-line selection is effective
-        if (CellClick != null)
+        foreach (var item in GridView.Columns)
         {
-            if (args.Column is DataGridViewColumn column)
+            item.Resizable = _AllowUserToResizeColumns;
+        }
+    }
+
+    private DataGridViewRow GetRowByIter(DataGridViewRowCollection rows, TreeIter iter, int depth)
+    {
+        foreach (DataGridViewRow row in rows.SharedList)
+        {
+            if (row.TreeIter.Equals(iter))
             {
-                OnCellClick(new DataGridViewCellEventArgs(column.Index, args.Path.Indices.Last()));
+                return row;
+            }
+            else if (depth > 1 && row.Children.Count > 0)
+            {
+                return GetRowByIter(row.Children, iter, --depth);
             }
         }
+
+        return null;
+    }
+
+    private void GridView_ButtonReleaseEvent(object o, ButtonReleaseEventArgs args)
+    {
+        if (CellClick != null)
+        {
+            if (o is Gtk.Widget widget && widget.Window.Handle.Equals(args.Event.Window.Parent.Handle) && GridView.GetPathAtPos((int)args.Event.X, (int)args.Event.Y, out var path, out var column))
+            {
+                if (Store.GetIter(out var iter, path))
+                {
+                    var row = GetRowByIter(Rows, iter, path.Depth);
+                    if (row != null)
+                    {
+                        OnCellClick(new DataGridViewCellEventArgs(((DataGridViewColumn)column).Index, row.Index));
+                    }
+                }
+            }
+        }
+    }
+
+    private void GridView_ColumnsChanged(object sender, EventArgs e)
+    {
+        foreach (var item in GridView.Columns)
+        {
+            item.Clicked -= Item_Clicked;
+            item.Clicked += Item_Clicked;
+        }
+    }
+
+    private void GridView_WidgetEvent(object o, WidgetEventArgs args)
+    {
+        if (args.Event.Type == Gdk.EventType.ButtonPress && args.Event is EventButton eb)
+        {
+            args.RetVal = eb.Button > 1;
+        }
+    }
+
+    private void Item_Clicked(object sender, EventArgs e)
+    {
+        _selectedColumn = ((DataGridViewColumn)sender);
     }
 
     private void LoadDataTableSource(DataTable dt)
     {
         foreach (DataColumn col in dt.Columns)
         {
-            if (_columns.Exists(m => m.DataPropertyName == col.ColumnName) == false)
+            DataGridViewColumn column = _columns.Find(m => m.DataPropertyName == col.ColumnName);
+            if (column == null)
             {
-                if (col.DataType.Name == "Boolean")
-                    _columns.Add(new DataGridViewCheckBoxColumn(this) { Name = col.ColumnName, HeaderText = col.ColumnName, DataPropertyName = col.ColumnName, ValueType = col.DataType });
-                else if (col.DataType.Name == "Image" || col.DataType.Name == "Bitmap")
-                    _columns.Add(new DataGridViewImageColumn(this) { Name = col.ColumnName, HeaderText = col.ColumnName, DataPropertyName = col.ColumnName, ValueType = col.DataType });
-                else
-                    _columns.Add(new DataGridViewColumn(this) { Name = col.ColumnName, HeaderText = col.ColumnName, DataPropertyName = col.ColumnName, ValueType = col.DataType });
+                if (AutoGenerateColumns)
+                {
+                    if (col.DataType.Name == "Boolean")
+                        _columns.Add(new DataGridViewCheckBoxColumn(this) { Name = col.ColumnName, HeaderText = col.ColumnName, DataPropertyName = col.ColumnName, ValueType = col.DataType });
+                    else if (col.DataType.Name == "Image" || col.DataType.Name == "Bitmap")
+                        _columns.Add(new DataGridViewImageColumn(this) { Name = col.ColumnName, HeaderText = col.ColumnName, DataPropertyName = col.ColumnName, ValueType = col.DataType });
+                    else
+                        _columns.Add(new DataGridViewColumn(this) { Name = col.ColumnName, HeaderText = col.ColumnName, DataPropertyName = col.ColumnName, ValueType = col.DataType });
+                }
+            }
+            else
+            {
+                column.ValueType = col.DataType;
             }
         }
-        _columns.Invalidate();
-
         if (_columns.Count > 0)
         {
             foreach (DataRow dr in dt.Rows)
             {
-                var newRow = new DataGridViewRow();
+                var newRow = new DataGridViewRow(dr);
                 foreach (var col in _columns)
                 {
                     var cellvalue = dt.Columns.Contains(col.DataPropertyName) ? dr[col.DataPropertyName] : null;
@@ -2234,21 +2421,27 @@ public partial class DataGridView : ScrollableControl
             var _entityType = _type.GetGenericArguments();
             if (_entityType.Length == 1)
             {
-                var pros = _entityType[0].GetProperties(BindingFlags.Public|BindingFlags.Instance);
+                var pros = _entityType[0].GetProperties(BindingFlags.Public | BindingFlags.Instance);
                 foreach (var pro in pros)
                 {
-                    if (_columns.Exists(m => m.DataPropertyName == pro.Name) == false)
+                    var column = _columns.Find(m => m.DataPropertyName == pro.Name);
+                    if (column == null)
                     {
-                        if (pro.PropertyType.Name == "Boolean")
-                            _columns.Add(new DataGridViewCheckBoxColumn(this) { Name = pro.Name, HeaderText = pro.Name, DataPropertyName = pro.Name, ValueType = pro.PropertyType });
-                        else if (pro.PropertyType.Name == "Image" || pro.PropertyType.Name == "Bitmap")
-                            _columns.Add(new DataGridViewImageColumn(this) { Name = pro.Name, HeaderText = pro.Name, DataPropertyName = pro.Name, ValueType = pro.PropertyType });
-                        else
-                            _columns.Add(new DataGridViewColumn(this) { Name = pro.Name, HeaderText = pro.Name, DataPropertyName = pro.Name, ValueType = pro.PropertyType });
+                        if (AutoGenerateColumns)
+                        {
+                            if (pro.PropertyType.Name == "Boolean")
+                                _columns.Add(new DataGridViewCheckBoxColumn(this) { Name = pro.Name, HeaderText = pro.Name, DataPropertyName = pro.Name, ValueType = pro.PropertyType });
+                            else if (pro.PropertyType.Name == "Image" || pro.PropertyType.Name == "Bitmap")
+                                _columns.Add(new DataGridViewImageColumn(this) { Name = pro.Name, HeaderText = pro.Name, DataPropertyName = pro.Name, ValueType = pro.PropertyType });
+                            else
+                                _columns.Add(new DataGridViewColumn(this) { Name = pro.Name, HeaderText = pro.Name, DataPropertyName = pro.Name, ValueType = pro.PropertyType });
+                        }
+                    }
+                    else
+                    {
+                        column.ValueType = pro.PropertyType;
                     }
                 }
-                _columns.Invalidate();
-
                 if (_columns.Count > 0)
                 {
                     var reader = ((IEnumerable?)_DataSource)?.GetEnumerator();
@@ -2256,12 +2449,12 @@ public partial class DataGridView : ScrollableControl
                     {
                         var obj = reader.Current;
                         var type = obj.GetType();
-                        var newRow = new DataGridViewRow();
+                        var newRow = new DataGridViewRow(obj);
                         foreach (var col in _columns)
                         {
                             var cellvalue = type.GetProperty(col.DataPropertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty)?.GetValue(obj);
                             var dataGridViewCell = col.NewCell(cellvalue, col.ValueType);
-                            if (dataGridViewCell != null) newRow.Cells.Add(dataGridViewCell);   
+                            if (dataGridViewCell != null) newRow.Cells.Add(dataGridViewCell);
                         }
                         _rows.Add(newRow);
                     }
@@ -2295,6 +2488,7 @@ public partial class DataGridView : ScrollableControl
             {
                 LoadListSource();
             }
+            DataBindingComplete?.Invoke(this, new DataGridViewBindingCompleteEventArgs(ListChangedType.Reset));
         }
         _Created = true;
     }
@@ -2307,14 +2501,27 @@ public partial class DataGridView : ScrollableControl
 
     private void Selection_Changed(object sender, EventArgs e)
     {
-        _selectedBandIndexes.Clear();
-        var treePaths = GridView.Selection.GetSelectedRows();
-        foreach (var path in treePaths)
-        {
-            var idx = path.Indices.Last();
-            _selectedBandIndexes.Add(idx);
-        }
         if (SelectionChanged != null && Created)
             OnSelectionChanged(e);
+    }
+
+    private void Self_Realized(object sender, EventArgs e)
+    {
+        if (!Is_GridView_Realized)
+        {
+            Is_GridView_Realized = true;
+            OnSetDataSource();
+            _columns.Invalidate();
+            AllowUserToOrderColumnsChanged?.Invoke(this, EventArgs.Empty);
+            AllowUserToResizeColumnsChanged?.Invoke(this, EventArgs.Empty);
+            foreach (Binding binding in DataBindings)
+                GridView.AddNotification(binding.PropertyName, propertyNotity);
+
+            if (_sortedColumn != null)
+            {
+                Store.SetSortColumnId(_sortedColumn.SortColumnId, _sortedColumn.SortOrder);
+            }
+        }
+        this.Invalidate(false);
     }
 }

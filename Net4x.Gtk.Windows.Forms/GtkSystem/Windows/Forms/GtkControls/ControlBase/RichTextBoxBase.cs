@@ -1,4 +1,4 @@
-﻿
+
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 /// <summary>
@@ -16,7 +16,7 @@ public sealed class RichTextBoxBase : ScrollableBoxBase
     /// </summary>
     public RichTextBoxBase() : base()
     {
-        this.Override.AddClass("RichTextBox");
+        this.StyleContext.AddClass("RichTextBox");
         this.TextView.BorderWidth = 1;
         this.TextView.Margin = 0;
         this.TextView.WrapMode = Gtk.WrapMode.Char;

@@ -67,7 +67,10 @@ public class BindingContext : ContextBoundObject
             {
                 var bindingManagerBase1 = newBindingContext.EnsureListManager(bindToObject.DataSource,
                     bindToObject.BindingMemberInfo.BindingPath);
-                bindingManagerBase1?.Bindings.Add(binding);
+                if (bindingManagerBase1 != null)
+                {
+                    bindingManagerBase1.Bindings.Add(binding);
+                }
             }
         }
     }
@@ -108,7 +111,12 @@ public class BindingContext : ContextBoundObject
             var str = num == -1 ? "" : dataMember.Substring(0, num);
             var str1 = dataMember.Substring(num + 1);
             var bindingManagerBase = EnsureListManager(dataSource, str);
-            var propertyDescriptor = (bindingManagerBase.GetItemProperties()?.Find(str1, true)) ?? throw new ArgumentException("RelatedListManagerChild");
+            var propertyDescriptor = bindingManagerBase.GetItemProperties()?.Find(str1, true);
+            if (propertyDescriptor == null)
+            {
+                throw new ArgumentException("RelatedListManagerChild");
+            }
+
             if (!typeof(IList).IsAssignableFrom(propertyDescriptor.PropertyType))
             {
                 relatedCurrencyManager = new RelatedPropertyManager(bindingManagerBase, str1);

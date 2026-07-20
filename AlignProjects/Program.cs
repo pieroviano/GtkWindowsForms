@@ -50,6 +50,17 @@ public static class Program
         Console.WriteLine($"  target commit : {targetCommit}");
         Console.WriteLine($"  source dir    : {sourceDir}");
 
+        // AlignProjects-Plan.md §3.1 determinism self-check. The delta is only meaningful if f is
+        // reproducible: if f(X) differs between two runs, `f(theirs) - f(base)` carries transform noise
+        // that is indistinguishable from real upstream change. Run with ALIGN_SELFCHECK=1 (or a commit)
+        // to transform ONE commit twice and compare byte for byte.
+        var selfCheck = Environment.GetEnvironmentVariable("ALIGN_SELFCHECK");
+        if (!string.IsNullOrEmpty(selfCheck))
+        {
+            var commit = selfCheck == "1" ? targetCommit : selfCheck;
+            return await RunDeterminismCheck(repoRoot, "gtksystem-windows-forms", commit);
+        }
+
         // Phase 2 - ensure new Chinese from the target snapshot is captured as BLANK entries so it
         //           can be filled once and cached. Additive merge: existing entries are preserved;
         //           only new Chinese is appended. Resource literals -> ResX locales synced to zh-Hans.
@@ -576,8 +587,173 @@ public static class Program
     }
 
     /// <summary>
+    /// §3.1 determinism self-check: transforms ONE commit twice, into two independent staging roots,
+    /// and compares the outputs byte for byte. Any difference is transform non-determinism — it would
+    /// otherwise enter the alignment delta disguised as an upstream change. Writes to a dedicated
+    /// build-selfcheck directory so a pending alignment's trees are left alone.
+    /// Returns 0 when identical, 4 when not.
+    /// </summary>
+    private static async Task<int> RunDeterminismCheck(string repoRoot, string submoduleName, string commit)
+    {
+        var buildDir = Path.Combine(repoRoot, "AlignProjects", "build-selfcheck");
+        if (Directory.Exists(buildDir))
+        {
+            Directory.Delete(buildDir, true);
+        }
+
+        var stagingParent = Path.Combine(Path.GetTempPath(), "alignprojects-selfcheck-" + Guid.NewGuid().ToString("N"));
+        ConsoleColor.Green.Write($"Determinism self-check: transforming {commit} TWICE and comparing...", true);
+
+        string runA, runB;
+        try
+        {
+            ConsoleColor.Green.Write("  run 1/2...", true);
+            runA = await ProduceOne(repoRoot, submoduleName, commit,
+                Path.Combine(stagingParent, "run1-root"), Path.Combine(buildDir, "run1"));
+            ConsoleColor.Green.Write("  run 2/2...", true);
+            runB = await ProduceOne(repoRoot, submoduleName, commit,
+                Path.Combine(stagingParent, "run2-root"), Path.Combine(buildDir, "run2"));
+        }
+        finally
+        {
+            try { Directory.Delete(stagingParent, true); } catch { /* best-effort */ }
+        }
+
+        var filesA = RelativeFiles(runA);
+        var filesB = RelativeFiles(runB);
+
+        var onlyA = filesA.Except(filesB, StringComparer.OrdinalIgnoreCase).OrderBy(p => p).ToList();
+        var onlyB = filesB.Except(filesA, StringComparer.OrdinalIgnoreCase).OrderBy(p => p).ToList();
+        var common = filesA.Intersect(filesB, StringComparer.OrdinalIgnoreCase).OrderBy(p => p).ToList();
+
+        var namespaceStyle = new List<string>();
+        var otherDiff = new List<string>();
+        foreach (var rel in common)
+        {
+            var a = Path.Combine(runA, rel);
+            var b = Path.Combine(runB, rel);
+            if (FilesEqual(a, b))
+            {
+                continue;
+            }
+
+            (NamespaceStyleOf(a) != NamespaceStyleOf(b) ? namespaceStyle : otherDiff).Add(rel);
+        }
+
+        Console.WriteLine();
+        ConsoleColor.White.Write($"Compared {common.Count} file(s) produced by both runs.", true);
+        Console.WriteLine($"  identical                        : {common.Count - namespaceStyle.Count - otherDiff.Count}");
+        Console.WriteLine($"  differ (namespace style flipped) : {namespaceStyle.Count}");
+        Console.WriteLine($"  differ (other)                   : {otherDiff.Count}");
+        Console.WriteLine($"  only in run 1                    : {onlyA.Count}");
+        Console.WriteLine($"  only in run 2                    : {onlyB.Count}");
+
+        var clean = namespaceStyle.Count == 0 && otherDiff.Count == 0 && onlyA.Count == 0 && onlyB.Count == 0;
+        if (clean)
+        {
+            ConsoleColor.Green.Write("DETERMINISTIC: the two runs are byte-identical.", true);
+            return 0;
+        }
+
+        RedConsole.Write("NON-DETERMINISTIC: the transform does not reproduce. Alignment deltas are unreliable.");
+        Console.WriteLine($"Trees kept for inspection: {buildDir}");
+        foreach (var rel in namespaceStyle.Take(10))
+        {
+            Console.WriteLine($"  [namespace] {rel}  ({NamespaceStyleOf(Path.Combine(runA, rel))} -> {NamespaceStyleOf(Path.Combine(runB, rel))})");
+        }
+
+        foreach (var rel in otherDiff.Take(10))
+        {
+            Console.WriteLine($"  [other]     {rel}");
+            Console.WriteLine(FirstDifference(Path.Combine(runA, rel), Path.Combine(runB, rel)));
+        }
+
+        foreach (var rel in onlyA.Take(5))
+        {
+            Console.WriteLine($"  [only run1] {rel}");
+        }
+
+        foreach (var rel in onlyB.Take(5))
+        {
+            Console.WriteLine($"  [only run2] {rel}");
+        }
+
+        return 4;
+    }
+
+    /// <summary>
+    /// Relative paths of every produced SOURCE file: excludes the captured provenance manifests and all
+    /// build intermediates. <c>obj/</c> holds timestamped, machine-specific MSBuild output
+    /// (<c>project.assets.json</c>, <c>*.assets.cache</c>, …) which never reproduces and is not part of
+    /// the transform's result.
+    /// </summary>
+    private static List<string> RelativeFiles(string root) =>
+        Directory.EnumerateFiles(root, "*", SearchOption.AllDirectories)
+            .Select(f => f.Substring(root.Length).TrimStart('\\', '/').Replace('\\', '/'))
+            .Where(rel => !rel.StartsWith(ManifestsFolder + "/", StringComparison.OrdinalIgnoreCase)
+                          && !IsBuildIntermediate(rel))
+            .ToList();
+
+    /// <summary>True for MSBuild output paths (<c>obj/</c>, <c>bin/</c>) at any depth.</summary>
+    private static bool IsBuildIntermediate(string relativePath)
+    {
+        var p = "/" + relativePath.Replace('\\', '/') + "/";
+        return p.Contains("/obj/", StringComparison.OrdinalIgnoreCase)
+               || p.Contains("/bin/", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool FilesEqual(string a, string b)
+    {
+        var fa = new FileInfo(a);
+        var fb = new FileInfo(b);
+        if (fa.Length != fb.Length)
+        {
+            return false;
+        }
+
+        return File.ReadAllBytes(a).AsSpan().SequenceEqual(File.ReadAllBytes(b));
+    }
+
+    /// <summary>"file-scoped", "block-scoped" or "none" — the namespace form a generated file uses.</summary>
+    private static string NamespaceStyleOf(string path)
+    {
+        foreach (var line in File.ReadLines(path))
+        {
+            var t = line.TrimStart();
+            if (!t.StartsWith("namespace ", StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            return t.TrimEnd().EndsWith(";", StringComparison.Ordinal) ? "file-scoped" : "block-scoped";
+        }
+
+        return "none";
+    }
+
+    /// <summary>The first differing line pair, for a compact non-determinism report.</summary>
+    private static string FirstDifference(string a, string b)
+    {
+        var la = File.ReadAllLines(a);
+        var lb = File.ReadAllLines(b);
+        for (var i = 0; i < Math.Max(la.Length, lb.Length); i++)
+        {
+            var x = i < la.Length ? la[i] : "<eof>";
+            var y = i < lb.Length ? lb[i] : "<eof>";
+            if (!string.Equals(x, y, StringComparison.Ordinal))
+            {
+                return $"                line {i + 1}:{Environment.NewLine}" +
+                       $"                  run1: {x.Trim()}{Environment.NewLine}" +
+                       $"                  run2: {y.Trim()}";
+            }
+        }
+
+        return "                (identical text; differs in bytes only - encoding or line endings)";
+    }
+
+    /// <summary>
     /// Produces the two transformed trees by running the shared transform against the base and target
-    /// commits in isolated staging roots (§3.1/§3.2). The staging roots live under
+    /// commits in isolated staging roots (§3.2). The staging roots live under
     /// <paramref name="stagingParent"/> (outside the repo — see the cycle note at the call site); only the
     /// resulting trees land under <paramref name="buildDir"/>. Returns the dirs holding the generated Net4x.*.
     /// </summary>
@@ -718,6 +894,13 @@ public static class Program
         foreach (var file in Directory.GetFiles(src, "*", SearchOption.AllDirectories))
         {
             var relative = file.Substring(src.Length).TrimStart('\\', '/');
+
+            // Build intermediates are not transform output: they never reproduce between runs and would
+            // enter the alignment delta as pure noise.
+            if (IsBuildIntermediate(relative))
+            {
+                continue;
+            }
             var target = Path.Combine(dest, relative);
             var dir = Path.GetDirectoryName(target);
             if (!string.IsNullOrEmpty(dir))

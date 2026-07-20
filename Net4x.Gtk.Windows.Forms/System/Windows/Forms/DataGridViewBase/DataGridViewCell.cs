@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace System.Windows.Forms;
 
@@ -57,7 +56,6 @@ public abstract class DataGridViewCell
     /// <value>
     /// The context menu strip.
     /// </value>
-    [DefaultValue(null)]
     public virtual ContextMenuStrip? ContextMenuStrip
     {
         get;
@@ -70,11 +68,7 @@ public abstract class DataGridViewCell
     /// <value>
     /// The data grid view.
     /// </value>
-    public DataGridView? DataGridView
-    {
-        get;
-        set;
-    }
+    public DataGridView? DataGridView { get => OwningRow?.DataGridView; }
 
     /// <summary>
     /// Gets the default new row value.
@@ -104,7 +98,6 @@ public abstract class DataGridViewCell
     /// <value>
     /// The edited formatted value.
     /// </value>
-    [EditorBrowsable(EditorBrowsableState.Advanced)]
     public object? EditedFormattedValue { get; }
 
     /// <summary>
@@ -113,7 +106,6 @@ public abstract class DataGridViewCell
     /// <value>
     /// The type of the edit.
     /// </value>
-    [EditorBrowsable(EditorBrowsableState.Advanced)]
     public virtual Type? EditType { get; }
 
     /// <summary>
@@ -122,7 +114,6 @@ public abstract class DataGridViewCell
     /// <value>
     /// The error icon bounds.
     /// </value>
-    [EditorBrowsable(EditorBrowsableState.Advanced)]
     public Rectangle ErrorIconBounds { get; }
 
     /// <summary>
@@ -194,7 +185,7 @@ public abstract class DataGridViewCell
     /// <value>
     /// The inherited style.
     /// </value>
-    public DataGridViewCellStyle? InheritedStyle { get => RowStyle; }
+    public DataGridViewCellStyle? InheritedStyle { get; }
 
     /// <summary>
     /// Gets a value indicating whether this instance is in edit mode.
@@ -215,8 +206,7 @@ public abstract class DataGridViewCell
     /// <value>
     /// The owning column.
     /// </value>
-    [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public DataGridViewColumn? OwningColumn { get; }
+    public DataGridViewColumn? OwningColumn { get => OwningRow?.DataGridView?.Columns[ColumnIndex]; }
 
     /// <summary>
     /// Gets the owning row.
@@ -224,8 +214,11 @@ public abstract class DataGridViewCell
     /// <value>
     /// The owning row.
     /// </value>
-    [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public DataGridViewRow? OwningRow { get; }
+    public DataGridViewRow? OwningRow
+    {
+        get;
+        internal set;
+    }
 
     /// <summary>
     /// Gets the size of the preferred.
@@ -246,7 +239,6 @@ public abstract class DataGridViewCell
     /// false
     /// </c>.
     /// </value>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual bool ReadOnly
     {
         get;
@@ -273,11 +265,7 @@ public abstract class DataGridViewCell
     /// <value>
     /// The index of the row.
     /// </value>
-    public int RowIndex
-    {
-        get;
-        internal set;
-    }
+    public int RowIndex { get => OwningRow == null ? -1 : OwningRow.Index; }
 
     /// <summary>
     /// Gets or sets a value indicating whether this
@@ -291,7 +279,6 @@ public abstract class DataGridViewCell
     /// false
     /// </c>.
     /// </value>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual bool Selected
     {
         get => _Selected;
@@ -312,7 +299,6 @@ public abstract class DataGridViewCell
     /// <value>
     /// The style.
     /// </value>
-    [Browsable(true)]
     public DataGridViewCellStyle? Style
     {
         get;
@@ -325,10 +311,6 @@ public abstract class DataGridViewCell
     /// <value>
     /// The tag.
     /// </value>
-    [Bindable(true)]
-    [DefaultValue(null)]
-    [Localizable(false)]
-    [TypeConverter(typeof(StringConverter))]
     public object? Tag
     {
         get;
@@ -341,7 +323,6 @@ public abstract class DataGridViewCell
     /// <value>
     /// The tool tip text.
     /// </value>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string? ToolTipText
     {
         get;
@@ -386,15 +367,17 @@ public abstract class DataGridViewCell
     /// </value>
     public virtual bool Visible { get; }
 
-    internal DataGridViewRow? OwningRowInternal
-    {
-        get;
-        set;
-    }
+    internal DataGridViewCellStyle? RowStyle { get => OwningRow?.DefaultCellStyle; }
 
-    internal DataGridViewCellStyle? RowStyle
+    /// <summary>
+    /// Raises the cell painting event on the owning
+    /// <see cref="T:System.Windows.Forms.DataGridView" />.
+    /// </summary>
+    /// <param name="args">
+    /// The event data.
+    /// </param>
+    public void OnCellPainting(DataGridViewCellPaintingEventArgs args)
     {
-        get;
-        set;
+        OwningRow?.DataGridView?.OnCellPainting(this, args);
     }
 }

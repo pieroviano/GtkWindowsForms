@@ -78,7 +78,7 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// </param>
     public ToolStripItemCollection(ToolStripDropDown owner)
     {
-        this.menu = owner.Widget as Gtk.Menu;
+        this.menu = owner.Widget.MenuItem as Gtk.Menu;
         isToolStripDropDown = true;
     }
 
@@ -92,9 +92,15 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     public ToolStripItemCollection(ToolStripItem owner)
     {
         this.owner = owner;
-        if (owner.Widget is Gtk.Menu gmenu)
+        if (owner.Widget.MenuItem is Gtk.Menu gmenu)
         {
             this.menu = gmenu;
+            isToolStripDropDown = true;
+        }
+        else if (owner.Widget.ToolItem is Gtk.MenuToolButton tmenu)
+        {
+            this.menu = new Gtk.Menu();
+            tmenu.Menu = this.menu;
             isToolStripDropDown = true;
         }
     }
@@ -142,7 +148,7 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     public new ToolStripItem this[int index]
     {
         get { return base[index]; }
-        set { menu?.Insert(value.Widget, index); base[index] = value; }
+        set { menu?.Insert(value.Widget.MenuItem, index); base[index] = value; }
     }
 
     /// <summary>
@@ -207,10 +213,25 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// </returns>
     public ToolStripItem Add(string? text, Image? image, EventHandler? onClick)
     {
-        ToolStripItem toolStripItem = new ToolStripLabel();
+        var toolStripItem = new ToolStripMenuItem();
+        toolStripItem.Text = text;
+        toolStripItem.Image = image;
+        if (onClick != null)
+            toolStripItem.Click += onClick;
         AddMemu(toolStripItem);
 
         return toolStripItem;
+    }
+
+    /// <summary>
+    /// Adds the specified item.
+    /// </summary>
+    /// <param name="item">
+    /// The item.
+    /// </param>
+    public new void Add(ToolStripItem item)
+    {
+        AddMemu(item);
     }
 
     /// <summary>
@@ -227,28 +248,28 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
         item.Parent = owner;
         if (isToolStrip == true)
         {
-            toolStrip?.self.Add(item.Widget);
+            toolStrip?.self.Add(item.Widget.ToolItem);
         }
         else if (isStatusStrip == true)
         {
-            statusStrip?.self.Add(item.Widget);
+            statusStrip?.self.Add(item.Widget.ToolItem);
         }
         else if (isMenuStrip == true)
         {
-            toolStrip?.self.Add(item.Widget);
+            toolStrip?.self.Add(item.Widget.MenuItem);
         }
         else if (isToolStripDropDown == true)
         {
-            menu?.Add(item.Widget);
+            menu?.Add(item.Widget.MenuItem);
         }
         else
         {
-            if (owner?.MenuItem?.Submenu == null)
+            if (owner?.MenuItem != null && owner.MenuItem.Submenu == null)
             {
                 this.menu = new Gtk.Menu();
-                owner?.MenuItem?.Submenu = this.menu;
+                owner.MenuItem.Submenu = this.menu;
             }
-            menu?.Add(item.Widget);
+            menu?.Add(item.Widget.MenuItem);
         }
 
         base.Add(item);

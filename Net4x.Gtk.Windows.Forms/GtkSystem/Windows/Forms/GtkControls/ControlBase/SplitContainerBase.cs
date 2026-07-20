@@ -14,7 +14,7 @@ public sealed class SplitContainerBase : Gtk.Paned, IControlGtk
     public SplitContainerBase() : base(Gtk.Orientation.Vertical)
     {
         this.Override = new GtkControlOverride(this);
-        this.Override.AddClass("SplitContainer");
+        this.StyleContext.AddClass("SplitContainer");
         this.BorderWidth = 0;
         this.WideHandle = true;
         this.Orientation = Gtk.Orientation.Horizontal;
@@ -36,41 +36,5 @@ public sealed class SplitContainerBase : Gtk.Paned, IControlGtk
     {
         get;
         set;
-    }
-
-    /// <summary>
-    /// Adds the class.
-    /// </summary>
-    /// <param name="cssClass">
-    /// The CSS class.
-    /// </param>
-    public void AddClass(string cssClass)
-    {
-        this.Override.AddClass(cssClass);
-    }
-
-    /// <summary>
-    /// Called when the control is drawn.
-    /// </summary>
-    /// <param name="cr">
-    /// The Cairo context.
-    /// </param>
-    /// <returns>
-    /// </returns>
-    protected override bool OnDrawn(Cairo.Context cr)
-    {
-        var rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
-        Override.OnPaint(cr, rec);
-
-        return base.OnDrawn(cr);
-    }
-
-    /// <summary>
-    /// Called when the control is shown.
-    /// </summary>
-    protected override void OnShown()
-    {
-        Override.OnAddClass();
-        base.OnShown();
     }
 }

@@ -1,4 +1,5 @@
-﻿using Gtk;
+using Gdk;
+using Gtk;
 using ScrollEventHandler = System.Windows.Forms.ScrollEventHandler;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
@@ -12,6 +13,16 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
 {
     /// <summary>
+    /// The overlay container that hosts the background drawing area.
+    /// </summary>
+    public Gtk.Overlay contaner = new();
+
+    /// <summary>
+    /// The scrolled container that hosts the overlay container.
+    /// </summary>
+    public Gtk.ScrolledWindow fixedcontaner = new();
+
+    /// <summary>
     /// Occurs when a scroll event occurs..
     /// </summary>
     public event ScrollEventHandler? Scroll;
@@ -23,10 +34,27 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     public GroupBoxBase() : base()
     {
         this.Override = new GtkControlOverride(this);
-        this.Override.AddClass("GroupBox");
+        this.StyleContext.AddClass("GroupBox");
         this.LabelXalign = 0.03f;
         base.Valign = Gtk.Align.Start;
         base.Halign = Gtk.Align.Start;
+        contaner.Halign = Align.Fill;
+        contaner.Valign = Align.Fill;
+        var background = new Gtk.DrawingArea();
+        background.Events = Gdk.EventMask.EnterNotifyMask;
+        background.Events |= Gdk.EventMask.ButtonPressMask;
+        background.Events |= Gdk.EventMask.ButtonReleaseMask;
+        background.Drawn += Background_Drawn;
+        contaner.Add(background);
+        fixedcontaner.Events &= EventMask.PointerMotionMask;
+        fixedcontaner.Events &= EventMask.ButtonMotionMask;
+        fixedcontaner.Events &= EventMask.ScrollMask;
+        fixedcontaner.SizeAllocated += Fixedcontaner_SizeAllocated;
+        fixedcontaner.WidgetEventAfter += Fixedcontaner_WidgetEventAfter;
+        fixedcontaner.HscrollbarPolicy = PolicyType.Never;
+        fixedcontaner.VscrollbarPolicy = PolicyType.External;
+        fixedcontaner.Add(contaner);
+        this.Add(fixedcontaner);
     }
 
     /// <summary>
@@ -61,7 +89,7 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     {
         get;
         set;
-    } = false;
+    }
 
     /// <summary>
     /// Gets or sets the
@@ -80,6 +108,14 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     }
 
     /// <summary>
+    /// Gets the scrolled window of this control.
+    /// </summary>
+    /// <value>
+    /// The scrolled window.
+    /// </value>
+    public Gtk.ScrolledWindow ScrolledWindow { get; }
+
+    /// <summary>
     /// Gets or sets a value indicating whether vertical scroll.
     /// </summary>
     /// <value>
@@ -94,17 +130,6 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     {
         get;
         set;
-    } = false;
-
-    /// <summary>
-    /// Adds the class.
-    /// </summary>
-    /// <param name="cssClass">
-    /// The CSS class.
-    /// </param>
-    public void AddClass(string cssClass)
-    {
-        this.Override.AddClass(cssClass);
     }
 
     /// <summary>
@@ -131,28 +156,35 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     }
 
     /// <summary>
-    /// Called when the control is drawn.
+    /// Scrolls the view to the specified values.
     /// </summary>
-    /// <param name="cr">
-    /// The Cairo context.
+    /// <param name="hscrollValue">
+    /// The horizontal scroll value.
+    /// </param>
+    /// <param name="vscrollValue">
+    /// The vertical scroll value.
     /// </param>
     /// <returns>
     /// </returns>
-    protected override bool OnDrawn(Cairo.Context cr)
+    public bool ScrollView(double hscrollValue, double vscrollValue)
     {
-        var rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
-        Override.OnPaint(cr, rec);
-
-        return base.OnDrawn(cr);
+        return false;
     }
 
-    /// <summary>
-    /// Called when the control is shown.
-    /// </summary>
-    protected override void OnShown()
+    private void Background_Drawn(object o, DrawnArgs args)
     {
-        Override.OnAddClass();
-        base.OnShown();
+        Override.OnPaint(args.Cr);
+    }
+
+    private void Fixedcontaner_SizeAllocated(object o, SizeAllocatedArgs args)
+    {
+        contaner.HeightRequest = Math.Max(1, this.HeightRequest - fixedcontaner.MarginStart - fixedcontaner.MarginEnd);
+        fixedcontaner.Vadjustment.Value = 24;
+    }
+
+    private void Fixedcontaner_WidgetEventAfter(object o, WidgetEventAfterArgs args)
+    {
+        fixedcontaner.Vadjustment.Value = 24;
     }
 
     /// <summary>

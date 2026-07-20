@@ -1,10 +1,11 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  * author:chenhongjin
  */
 using System.ComponentModel;
+using System.Drawing;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms;
@@ -23,6 +24,8 @@ public partial class RadioButton : Control
 
     private bool _Checked;
 
+    private System.Drawing.ContentAlignment textAlign;
+
     /// <summary>
     /// Occurs when checked changed.
     /// </summary>
@@ -34,7 +37,37 @@ public partial class RadioButton : Control
     /// </summary>
     public RadioButton() : base()
     {
+        self.Override.sender = this;
         self.ParentSet += Self_ParentSet;
+    }
+
+    /// <summary>
+    /// Gets or sets the appearance of the radio button.
+    /// </summary>
+    /// <value>
+    /// The appearance.
+    /// </value>
+    public System.Windows.Forms.Appearance Appearance
+    {
+        get => self.DrawIndicator ? Appearance.Normal : Appearance.Button;
+        set { self.DrawIndicator = value == Appearance.Normal; }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the ellipsis character (...) appears at the right edge of the control, denoting that the text extends beyond the control.
+    /// </summary>
+    /// <value>
+    /// <c>
+    /// true
+    /// </c> if the text is truncated with an ellipsis; otherwise,
+    /// <c>
+    /// false
+    /// </c>.
+    /// </value>
+    public bool AutoEllipsis
+    {
+        get;
+        set;
     }
 
     /// <summary>
@@ -52,7 +85,7 @@ public partial class RadioButton : Control
     public bool Checked
     {
         get { return self.Active; }
-        set { _Checked = true; self.Active = true; }
+        set { _Checked = value; self.Active = value; }
     }
 
     /// <summary>
@@ -76,6 +109,66 @@ public partial class RadioButton : Control
     }
 
     /// <summary>
+    /// Gets or sets the alignment of the text on the control.
+    /// </summary>
+    /// <value>
+    /// The text alignment.
+    /// </value>
+    public System.Drawing.ContentAlignment TextAlign
+    {
+        get { return textAlign; }
+        set
+        {
+            textAlign = value;
+            if (value == System.Drawing.ContentAlignment.TopLeft)
+            {
+                self.Xalign = 0.0f;
+                self.Yalign = 0.0f;
+            }
+            else if (value == System.Drawing.ContentAlignment.TopCenter)
+            {
+                self.Xalign = 0.5f;
+                self.Yalign = 0.0f;
+            }
+            else if (value == System.Drawing.ContentAlignment.TopRight)
+            {
+                self.Xalign = 1.0f;
+                self.Yalign = 0.0f;
+            }
+            else if (value == System.Drawing.ContentAlignment.MiddleLeft)
+            {
+                self.Xalign = 0.0f;
+                self.Yalign = 0.5f;
+            }
+            else if (value == System.Drawing.ContentAlignment.MiddleCenter)
+            {
+                self.Xalign = 0.5f;
+                self.Yalign = 0.5f;
+            }
+            else if (value == System.Drawing.ContentAlignment.MiddleRight)
+            {
+                self.Xalign = 1.0f;
+                self.Yalign = 0.5f;
+            }
+            else if (value == System.Drawing.ContentAlignment.BottomLeft)
+            {
+                self.Xalign = 0.0f;
+                self.Yalign = 1.0f;
+            }
+            else if (value == System.Drawing.ContentAlignment.BottomCenter)
+            {
+                self.Xalign = 0.5f;
+                self.Yalign = 1.0f;
+            }
+            else if (value == System.Drawing.ContentAlignment.BottomRight)
+            {
+                self.Xalign = 1.0f;
+                self.Yalign = 1.0f;
+            }
+        }
+    }
+
+    /// <summary>
     /// Raises the CheckedChanged event.
     /// </summary>
     protected virtual void OnCheckedChanged(System.EventArgs e)
@@ -90,8 +183,6 @@ public partial class RadioButton : Control
         {
             if (widget is Gtk.RadioButton group)
             {
-                ((Gtk.RadioButton)o).Group = new Gtk.RadioButton[0];
-                // the first one added into the containerradio配组
                 ((Gtk.RadioButton)o).JoinGroup(group);
                 break;
             }

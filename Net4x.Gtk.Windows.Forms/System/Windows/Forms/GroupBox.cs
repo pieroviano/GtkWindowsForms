@@ -1,10 +1,11 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  * author:chenhongjin
  */
 using System.ComponentModel;
+using System.Drawing;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
@@ -23,22 +24,14 @@ public partial class GroupBox : ContainerControl
 
     private readonly ControlCollection _controls = null!;
 
-    private readonly Gtk.Overlay contaner = new();
-
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.GroupBox" /> class.
     /// </summary>
     public GroupBox() : base()
     {
-        _controls = new ControlCollection(this, contaner);
-        _controls.Offset.Offset(0, -20);
-        contaner.MarginStart = 0;
-        contaner.MarginTop = 0;
-        contaner.Halign = Align.Fill;
-        contaner.Valign = Align.Fill;
-        contaner.Add(new Gtk.Fixed() { Halign = Align.Fill, Valign = Align.Fill });
-        self.Child = contaner;
+        self.Override.sender = this;
+        _controls = new ControlCollection(this, self.contaner);
     }
 
     /// <summary>
@@ -69,10 +62,28 @@ public partial class GroupBox : ContainerControl
         set
         {
             base.Padding = value;
-            contaner.MarginStart = value.Left;
-            contaner.MarginTop = value.Top;
-            contaner.MarginEnd = value.Right;
-            contaner.MarginBottom = value.Bottom;
+            self.fixedcontaner.MarginStart = value.Left;
+            self.fixedcontaner.MarginTop = value.Top;
+            self.fixedcontaner.MarginEnd = value.Right;
+            self.fixedcontaner.MarginBottom = value.Bottom;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the size.
+    /// </summary>
+    /// <value>
+    /// The size.
+    /// </value>
+    public override Size Size
+    {
+        get => base.Size;
+        set
+        {
+            base.Size = value;
+            self.contaner.WidthRequest = Math.Max(1, value.Width - self.fixedcontaner.MarginStart - self.fixedcontaner.MarginEnd);
+            self.contaner.HeightRequest = Math.Max(1, value.Height - self.fixedcontaner.MarginStart - self.fixedcontaner.MarginEnd);
+            self.fixedcontaner.Vadjustment.Value = 24;
         }
     }
 

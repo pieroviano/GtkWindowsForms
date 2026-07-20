@@ -33,15 +33,25 @@ namespace System.Windows.Forms;
 [DefaultProperty("Text")]
 [Designer(typeof(ControlDesigner))]
 [ToolboxItemFilter("System.Windows.Forms")]
-public partial class Control : Component, IControl, ISynchronizeInvoke, IComponent, IDisposable, ISupportInitialize, IArrangedElement, IBindableComponent
+public partial class Control : Component, IControl, ISynchronizeInvoke, IComponent, IDisposable, ISupportInitialize, IArrangedElement, IBindableComponent, IWin32Window
 {
+    /// <summary>
+    /// Maps GTK key symbols onto the Windows virtual key codes used by
+    /// <see cref="T:System.Windows.Forms.Keys" />.
+    /// </summary>
+    internal static Dictionary<Gdk.Key, int> keyboardMap = new Dictionary<Gdk.Key, int>();
+
+    /// <summary>
+    /// Optional hook invoked for every raw GTK widget event before it is translated into
+    /// WinForms events. Used by derived controls that need access to the unfiltered event stream.
+    /// </summary>
+    public Action<Gtk.Widget, Gtk.WidgetEventArgs>? WidgetEventDo;
+
     internal bool _Created;
 
     internal bool LockLocation = false;// because the code executes sequentially， special locking
 
     Context? context;
-
-    ImageSurface? image;
 
     Surface? surface;
 
@@ -49,7 +59,13 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     private bool _autoSize;
 
+    private Image? _backgroundImage;
+
+    private ImageLayout _backgroundImageLayout;
+
     private BorderStyle _BorderStyle;
+
+    private Cursor? _Cursor;
 
     private DockStyle _dock;
 
@@ -57,11 +73,19 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     private Color _ForeColor;
 
+    private Image? _image;
+
     private Size _size;
 
     private readonly Gtk.Application app = Application.Init();
 
-    private readonly ArrangedElementCollection? arrangedElementCollection;
+    private readonly EventHandlerList handlerList = new EventHandlerList();
+
+    private bool Is_DoubleButtonPress = false;
+
+    private readonly object paintEventHandler_paint = new object();
+
+    private readonly CssProvider provider = new CssProvider();
 
     private int location_x = 0;
 
@@ -426,12 +450,188 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     public virtual event EventHandler? VisibleChanged;
 
     /// <summary>
-    /// Occurs when the control needs to be painted. The add/remove forward to the GTK override.
+    /// Occurs when the control needs to be painted.
     /// </summary>
     public virtual event PaintEventHandler Paint
     {
-        add { ISelf?.Override.Paint += value; }
-        remove { ISelf?.Override.Paint -= value; }
+        add { handlerList.AddHandler(paintEventHandler_paint, value); }
+        remove { handlerList.RemoveHandler(paintEventHandler_paint, value); }
+    }
+
+    /// <summary>
+    /// Initializes the shared GTK key symbol to virtual key code translation table.
+    /// </summary>
+    static Control()
+    {
+        if (keyboardMap.Count == 0)
+        {
+            keyboardMap = new Dictionary<Gdk.Key, int>
+            {
+                { Gdk.Key.BackSpace, 8 },
+                { Gdk.Key.Tab, 9 },
+                { Gdk.Key.ISO_Left_Tab, 9 },
+                { Gdk.Key.KP_Tab, 9 },
+                { Gdk.Key.Return, 13 },
+                { Gdk.Key.KP_Enter, 13 },
+                { Gdk.Key.Shift_L, 16 },
+                { Gdk.Key.Shift_R, 161 },
+                { Gdk.Key.Shift_Lock, 10 },
+                { Gdk.Key.Control_L, 17 },
+                { Gdk.Key.Control_R, 163 },
+                { Gdk.Key.Alt_L, 18 },
+                { Gdk.Key.Alt_R, 165 },
+                { Gdk.Key.Pause, 19 },
+                { Gdk.Key.Caps_Lock, 20 },
+                { Gdk.Key.VoidSymbol, 20 },
+                { Gdk.Key.Escape, 27 },
+                { Gdk.Key.space, 32 },
+                { Gdk.Key.Prior, 33 },
+                { Gdk.Key.KP_Prior, 33 },
+                { Gdk.Key.Next, 34 },
+                { Gdk.Key.KP_Page_Down, 34 },
+                { Gdk.Key.End, 35 },
+                { Gdk.Key.KP_End, 35 },
+                { Gdk.Key.Home, 36 },
+                { Gdk.Key.KP_Home, 36 },
+                { Gdk.Key.Left, 37 },
+                { Gdk.Key.KP_Left, 37 },
+                { Gdk.Key.Up, 38 },
+                { Gdk.Key.KP_Up, 38 },
+                { Gdk.Key.Right, 39 },
+                { Gdk.Key.KP_Right, 39 },
+                { Gdk.Key.Down, 40 },
+                { Gdk.Key.KP_Down, 40 },
+                { Gdk.Key.Insert, 45 },
+                { Gdk.Key.Delete, 46 },
+                { Gdk.Key.KP_Delete, 46 },
+                { Gdk.Key.Key_0, 48 },
+                { Gdk.Key.Key_1, 49 },
+                { Gdk.Key.Key_2, 50 },
+                { Gdk.Key.Key_3, 51 },
+                { Gdk.Key.Key_4, 52 },
+                { Gdk.Key.Key_5, 53 },
+                { Gdk.Key.Key_6, 54 },
+                { Gdk.Key.Key_7, 55 },
+                { Gdk.Key.Key_8, 56 },
+                { Gdk.Key.Key_9, 57 },
+                { Gdk.Key.parenright, 48 },
+                { Gdk.Key.exclam, 49 },
+                { Gdk.Key.at, 50 },
+                { Gdk.Key.numbersign, 51 },
+                { Gdk.Key.dollar, 52 },
+                { Gdk.Key.percent, 53 },
+                { Gdk.Key.asciicircum, 54 },
+                { Gdk.Key.ampersand, 55 },
+                { Gdk.Key.asterisk, 56 },
+                { Gdk.Key.parenleft, 57 },
+                { Gdk.Key.A, 65 },
+                { Gdk.Key.B, 66 },
+                { Gdk.Key.C, 67 },
+                { Gdk.Key.D, 68 },
+                { Gdk.Key.E, 69 },
+                { Gdk.Key.F, 70 },
+                { Gdk.Key.G, 71 },
+                { Gdk.Key.H, 72 },
+                { Gdk.Key.I, 73 },
+                { Gdk.Key.J, 74 },
+                { Gdk.Key.K, 75 },
+                { Gdk.Key.L, 76 },
+                { Gdk.Key.M, 77 },
+                { Gdk.Key.N, 78 },
+                { Gdk.Key.O, 79 },
+                { Gdk.Key.P, 80 },
+                { Gdk.Key.Q, 81 },
+                { Gdk.Key.R, 82 },
+                { Gdk.Key.S, 83 },
+                { Gdk.Key.T, 84 },
+                { Gdk.Key.U, 85 },
+                { Gdk.Key.V, 86 },
+                { Gdk.Key.W, 87 },
+                { Gdk.Key.X, 88 },
+                { Gdk.Key.Y, 89 },
+                { Gdk.Key.Z, 90 },
+                { Gdk.Key.a, 65 },
+                { Gdk.Key.b, 66 },
+                { Gdk.Key.c, 67 },
+                { Gdk.Key.d, 68 },
+                { Gdk.Key.e, 69 },
+                { Gdk.Key.f, 70 },
+                { Gdk.Key.g, 71 },
+                { Gdk.Key.h, 72 },
+                { Gdk.Key.i, 73 },
+                { Gdk.Key.j, 74 },
+                { Gdk.Key.k, 75 },
+                { Gdk.Key.l, 76 },
+                { Gdk.Key.m, 77 },
+                { Gdk.Key.n, 78 },
+                { Gdk.Key.o, 79 },
+                { Gdk.Key.p, 80 },
+                { Gdk.Key.q, 81 },
+                { Gdk.Key.r, 82 },
+                { Gdk.Key.s, 83 },
+                { Gdk.Key.t, 84 },
+                { Gdk.Key.u, 85 },
+                { Gdk.Key.v, 86 },
+                { Gdk.Key.w, 87 },
+                { Gdk.Key.x, 88 },
+                { Gdk.Key.y, 89 },
+                { Gdk.Key.z, 90 },
+                { Gdk.Key.Meta_L, 91 },
+                { Gdk.Key.Meta_R, 92 },
+                { Gdk.Key.approximate, 93 },
+                { Gdk.Key.KP_0, 96 },
+                { Gdk.Key.KP_1, 97 },
+                { Gdk.Key.KP_2, 98 },
+                { Gdk.Key.KP_3, 99 },
+                { Gdk.Key.KP_4, 100 },
+                { Gdk.Key.KP_5, 101 },
+                { Gdk.Key.KP_6, 102 },
+                { Gdk.Key.KP_7, 103 },
+                { Gdk.Key.KP_8, 104 },
+                { Gdk.Key.KP_9, 105 },
+                { Gdk.Key.KP_Multiply, 106 },
+                { Gdk.Key.KP_Add, 107 },
+                { Gdk.Key.KP_Subtract, 109 },
+                { Gdk.Key.KP_Decimal, 110 },
+                { Gdk.Key.KP_Divide, 111 },
+                { Gdk.Key.F1, 112 },
+                { Gdk.Key.F2, 113 },
+                { Gdk.Key.F3, 114 },
+                { Gdk.Key.F4, 115 },
+                { Gdk.Key.F5, 116 },
+                { Gdk.Key.F6, 117 },
+                { Gdk.Key.F7, 118 },
+                { Gdk.Key.F8, 119 },
+                { Gdk.Key.F9, 120 },
+                { Gdk.Key.F10, 121 },
+                { Gdk.Key.F11, 122 },
+                { Gdk.Key.F12, 123 },
+                { Gdk.Key.Num_Lock, 144 },
+                { Gdk.Key.Scroll_Lock, 145 },
+                { Gdk.Key.period, 190 },
+                { Gdk.Key.greater, 190 },
+                { Gdk.Key.slash, 191 },
+                { Gdk.Key.question, 191 },
+                { Gdk.Key.quoteleft, 192 },
+                { Gdk.Key.asciitilde, 192 },
+                { Gdk.Key.braceleft, 219 },
+                { Gdk.Key.bracketleft, 219 },
+                { Gdk.Key.backslash, 220 },
+                { Gdk.Key.bar, 220 },
+                { Gdk.Key.braceright, 221 },
+                { Gdk.Key.bracketright, 221 },
+                { Gdk.Key.apostrophe, 222 },
+                { Gdk.Key.quotedbl, 222 },
+                { Gdk.Key.semicolon, 186 },
+                { Gdk.Key.colon, 186 },
+                { Gdk.Key.equal, 187 },
+                { Gdk.Key.plus, 187 },
+                { Gdk.Key.comma, 188 },
+                { Gdk.Key.less, 188 },
+                { Gdk.Key.minus, 189 },
+                { Gdk.Key.underscore, 189 },
+            };
+        }
     }
 
     /// <summary>
@@ -443,9 +643,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         this.unique_key = Guid.NewGuid().ToString().ToLower();
 
-        // Initialize child collection and arranged elements so tests using `control.Controls` work
+        // Initialize the child collection so tests using `control.Controls` work
         // (tests expect Controls to be non-null).
-        arrangedElementCollection = new ArrangedElementCollection();
         Controls = new ControlCollection(this);
 
         var widget = this.Widget;
@@ -464,21 +663,20 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             }
             widget.Data["Control"] = this;
             widget.StyleContext.AddClass("DefaultThemeStyle");
-            widget.ButtonPressEvent += Widget_ButtonPressEvent;
-            widget.ButtonReleaseEvent += Widget_ButtonReleaseEvent;
-            widget.EnterNotifyEvent += Widget_EnterNotifyEvent;
-            widget.MotionNotifyEvent += Widget_MotionNotifyEvent;
-            widget.LeaveNotifyEvent += Widget_LeaveNotifyEvent;
-            widget.ScrollEvent += Widget_ScrollEvent;
-            widget.FocusInEvent += Widget_FocusInEvent;
-            widget.FocusOutEvent += Widget_FocusOutEvent;
-            widget.KeyPressEvent += Widget_KeyPressEvent;
-            widget.KeyReleaseEvent += Widget_KeyReleaseEvent;
             widget.Realized += Widget_Realized;
-            widget.ConfigureEvent += Widget_ConfigureEvent;
-            ISelf?.Override.PaintGraphics += Override_PaintGraphics;
+            if (ISelf != null)
+            {
+                ISelf.Override.PaintGraphics += Override_PaintGraphics;
+                ISelf.Override.Paint += Override_Paint;
+            }
             widget.SizeAllocated += Widget_SizeAllocated;
+            widget.ParentSet += Widget_ParentSet;
+            widget.WidgetEvent += Widget_WidgetEvent;
+            this.CursorChanged += Control_CursorChanged;
+            this.DockChanged += Control_DockChanged;
+            this.AnchorChanged += Control_AnchorChanged;
         }
+        GetService(this.GetType());
     }
 
     /// <summary>
@@ -534,13 +732,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets how the control is anchored to its parent container.
     /// </summary>
+    [Browsable(true)]
+    [Description("The way the control is anchored to the edges of its parent container, and the related margins.")]
     public virtual AnchorStyles Anchor
     {
         get => _anchor;
         set
         {
             _anchor = value;
-            SetAnchorStyles(Widget, _anchor);
             OnAnchorChanged(EventArgs.Empty);
         }
     }
@@ -557,31 +756,22 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets a value indicating whether the control is automatically resized to fit its contents.
     /// </summary>
+    [Browsable(true)]
+    [Description("Whether the control is automatically resized to fit its contents.")]
     public virtual bool AutoSize
     {
         get => _autoSize;
         set
         {
             _autoSize = value;
-            if (_autoSize == true)
-            {
-                var widget = this.Widget;
-                if (widget != null)
-                {
-                    widget.WidthRequest = -1;
-                    widget.HeightRequest = -1;
-                }
-            }
-            else
-            {
-                Size = _size;
-            }
         }
     }
 
     /// <summary>
     /// Gets or sets the background color of the control.
     /// </summary>
+    [Browsable(true)]
+    [Description("The background color of the control.")]
     public virtual Color BackColor
     {
         get
@@ -596,7 +786,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             if (ISelf != null)
             {
                 ISelf.Override.BackColor = value;
-                ISelf.Override.OnAddClass();
                 UpdateStyle();
                 Refresh();
             }
@@ -606,19 +795,38 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets the background image for the control.
     /// </summary>
+    [Browsable(true)]
+    [Description("The background image of the control.")]
     public virtual Image? BackgroundImage
     {
-        get => ISelf?.Override.BackgroundImage;
-        set { if (ISelf != null) { ISelf.Override.BackgroundImage = value; Refresh(); } }
+        get => _backgroundImage;
+        set
+        {
+            _backgroundImage = value;
+            if (ISelf != null)
+            {
+                ISelf.Override.BackgroundImage = value;
+            }
+            UpdateStyle();
+        }
     }
 
     /// <summary>
     /// Gets or sets the layout for the background image.
     /// </summary>
+    [Browsable(true)]
+    [Description("The way the background image of the control is positioned.")]
     public virtual ImageLayout BackgroundImageLayout
     {
-        get => ISelf == null ? ImageLayout.None : ISelf.Override.BackgroundImageLayout;
-        set { ISelf?.Override.BackgroundImageLayout = value; }
+        get => _backgroundImageLayout;
+        set
+        {
+            _backgroundImageLayout = value;
+            if (ISelf != null)
+            {
+                ISelf.Override.BackgroundImageLayout = value;
+            }
+        }
     }
 
     /// <summary>
@@ -688,7 +896,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         get
         {
             if (Widget != null)
-                return new(Widget.Clip.X, this.Widget.Clip.Y, this.Widget.Clip.Width, this.Widget.Clip.Height);
+                return new Rectangle(Left, Top, Width, Height);
             else
                 return Rectangle.Empty;
         }
@@ -726,7 +934,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the arranged element collection for child layout.
     /// </summary>
-    public ArrangedElementCollection? Children => arrangedElementCollection;
+    public ArrangedElementCollection? Children => Controls;
 
     /// <summary>
     /// Gets the client rectangle for the control.
@@ -794,8 +1002,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual Cursor? Cursor
     {
-        get;
-        set;
+        get => _Cursor;
+        set
+        {
+            _Cursor = value;
+            OnCursorChanged(EventArgs.Empty);
+        }
     }
 
     /// <summary>
@@ -821,6 +1033,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets how the control is docked within its parent container.
     /// </summary>
+    [Browsable(true)]
+    [Description("The way the control is docked to the edges of its parent container, and the related margins.")]
     public virtual DockStyle Dock
     {
         get
@@ -830,60 +1044,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             _dock = value;
-            if (value == DockStyle.Fill)
-            {
-                var widget = this.Widget;
-                if (widget != null)
-                {
-                    widget.Halign = Align.Fill;
-                    widget.Valign = Align.Fill;
-                }
-            }
-            else if (value == DockStyle.Left)
-            {
-                var widget = this.Widget;
-                if (widget != null)
-                {
-                    widget.Halign = Align.Start;
-                    widget.Valign = Align.Fill;
-                }
-            }
-            else if (value == DockStyle.Top)
-            {
-                var widget = this.Widget;
-                if (widget != null)
-                {
-                    widget.Halign = Align.Fill;
-                    widget.Valign = Align.Start;
-                }
-            }
-            else if (value == DockStyle.Right)
-            {
-                var widget = this.Widget;
-                if (widget != null)
-                {
-                    widget.Halign = Align.End;
-                    widget.Valign = Align.Fill;
-                }
-            }
-            else if (value == DockStyle.Bottom)
-            {
-                var widget = this.Widget;
-                if (widget != null)
-                {
-                    widget.Halign = Align.Fill;
-                    widget.Valign = Align.End;
-                }
-            }
-            else if (value == DockStyle.None)
-            {
-                var widget = this.Widget;
-                if (widget != null)
-                {
-                    widget.Halign = Align.Start;
-                    widget.Valign = Align.Start;
-                }
-            }
             OnDockChanged(EventArgs.Empty);
         }
     }
@@ -913,31 +1073,17 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets the font of the control.
     /// </summary>
+    [Browsable(true)]
+    [Description("The font used by the characters of the control.")]
     public virtual Font Font
     {
         get
         {
-            if (_Font == null)
-            {
-                var fontdes = this.Widget?.PangoContext.FontDescription;
-                if (fontdes == null)
-                {
-                    return _Font ?? new Drawing.Font(new Drawing.FontFamily("Default"), 12);
-                }
-                var size = Convert.ToInt32(fontdes.Size / Pango.Scale.PangoScale);
-                return new Drawing.Font(new Drawing.FontFamily(fontdes.Family), size);
-            }
-            else
-                return _Font;
+            return _Font!;
         }
         set
         {
             _Font = value;
-            if (string.IsNullOrWhiteSpace(_Font?.Name) == false && this.Widget != null && !this.Widget.PangoContext.Families.Any(o => _Font != null && o.Name == _Font.Name))
-            {
-                _Font = new Font("", value.Size, value.Style, value.Unit, value.GdiCharSet);
-                GtkLogger.Info($"\"{_Font.Name}\" font name is not supported, only English names are supported. Please confirm that the font name is correct or replace it with an English name");
-            }
             UpdateStyle();
         }
     }
@@ -983,35 +1129,47 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         get
         {
             var widget = this.Widget;
-            if (widget != null && widget.IsMapped == false && widget is Gtk.Window wnd)
+            if (widget == null)
+                return 0;
+            if (widget.IsMapped == false)
             {
-                return wnd.HeightRequest == -1 ? wnd.DefaultHeight : wnd.HeightRequest;
+                if (widget is Gtk.Window wnd)
+                    return wnd.HeightRequest == -1 ? wnd.DefaultHeight : wnd.HeightRequest;
+                else
+                    return widget.HeightRequest;
             }
-
-            return widget == null ? 0 : (widget.HeightRequest == -1 ? widget.AllocatedHeight : widget.HeightRequest);
+            else if (widget.Valign == Align.Fill)
+                return widget.AllocatedHeight;
+            else
+                return widget.HeightRequest == -1 ? widget.AllocatedHeight : widget.HeightRequest;
         }
         set
         {
             var widget = this.Widget;
             widget?.HeightRequest = Math.Max(-1, value);
-            OnDockChanged(EventArgs.Empty);
-            OnAnchorChanged(EventArgs.Empty);
         }
     }
 
     /// <summary>
     /// Gets or sets the primary image associated with the control.
     /// </summary>
-
+    [Browsable(true)]
+    [Description("The image displayed by the control.")]
     public virtual Image? Image
     {
-        get;
-        set;
+        get => _image;
+        set
+        {
+            _image = value;
+            UpdateStyle();
+        }
     }
 
     /// <summary>
     /// Gets or sets the alignment of the image within the control.
     /// </summary>
+    [Browsable(true)]
+    [Description("The way the image of the control is positioned.")]
     public virtual System.Drawing.ContentAlignment ImageAlign
     {
         get;
@@ -1054,7 +1212,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets a value indicating whether the underlying handle has been created (realized).
     /// </summary>
-    public virtual bool IsHandleCreated { get => this.Widget != null && this.Widget.IsRealized; }
+    public virtual bool IsHandleCreated { get => this.Widget != null && this.Widget.Handle != IntPtr.Zero; }
 
     /// <summary>
     /// Gets a value indicating whether the control is mirrored for right-to-left languages.
@@ -1075,9 +1233,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             var widget = this.Widget;
-            widget?.MarginStart = value;
-            OnDockChanged(EventArgs.Empty);
-            OnAnchorChanged(EventArgs.Empty);
+            widget?.MarginStart = Math.Max(0, value);
         }
     }
 
@@ -1125,6 +1281,56 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         get;
         set;
+    }
+
+    /// <summary>
+    /// Gets the modifier keys (Ctrl, Alt, Shift) that are currently held down.
+    /// </summary>
+    public static Keys ModifierKeys
+    {
+        get
+        {
+            Gdk.Display.Default.GetPointer(out var x, out var y, out var mod);
+            var result = Keys.None;
+            if (mod.HasFlag(Gdk.ModifierType.ControlMask))
+                result |= Keys.Control;
+            else if (mod.HasFlag(Gdk.ModifierType.Mod1Mask))
+                result |= Keys.Alt;
+            else if (mod.HasFlag(Gdk.ModifierType.ShiftMask))
+                result |= Keys.Shift;
+            return result;
+        }
+    }
+
+    /// <summary>
+    /// Gets the mouse buttons that are currently held down.
+    /// </summary>
+    public static MouseButtons MouseButtons
+    {
+        get
+        {
+            Gdk.Display.Default.GetPointer(out var x, out var y, out var mod);
+            var result = MouseButtons.None;
+            if (mod.HasFlag(Gdk.ModifierType.Button1Mask))
+                result |= MouseButtons.Left;
+            else if (mod.HasFlag(Gdk.ModifierType.Button2Mask))
+                result |= MouseButtons.Middle;
+            else if (mod.HasFlag(Gdk.ModifierType.Button3Mask))
+                result |= MouseButtons.Right;
+            return result;
+        }
+    }
+
+    /// <summary>
+    /// Gets the current position of the mouse pointer in screen coordinates.
+    /// </summary>
+    public static Point MousePosition
+    {
+        get
+        {
+            Gdk.Display.Default.GetPointer(out var x, out var y, out var mod);
+            return new Point(x, y);
+        }
     }
 
     /// <summary>
@@ -1208,6 +1414,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets the size of the control.
     /// </summary>
+    [Browsable(true)]
+    [Description("The width and height of the control.")]
     public virtual Size Size
     {
         get
@@ -1217,18 +1425,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             _size = value;
-            if (AutoSize == false)
+            Width = value.Width;
+            Height = value.Height;
+            if (this.Widget != null && this.Widget.IsRealized && this.Widget.Parent is Gtk.Container con)
             {
-                if (this.Widget is Gtk.Button)
-                {
-                    Width = value.Width > 6 ? value.Width - 6 : value.Width;
-                    Height = value.Height > 6 ? value.Height - 6 : value.Height;
-                }
-                else
-                {
-                    Width = value.Width;
-                    Height = value.Height;
-                }
+                con.QueueResize();
+                con.ResizeChildren();
             }
         }
     }
@@ -1277,9 +1479,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         get => this.Widget?.MarginTop ?? 0;
         set
         {
-            this.Widget?.MarginTop = value;
-            OnDockChanged(EventArgs.Empty);
-            OnAnchorChanged(EventArgs.Empty);
+            this.Widget?.MarginTop = Math.Max(0, value);
         }
     }
 
@@ -1321,7 +1521,21 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     public virtual bool Visible
     {
         get { return this.Widget?.Visible ?? false; }
-        set { if (this.Widget != null) { this.Widget.Visible = value; this.Widget.NoShowAll = value == false; } }
+        set
+        {
+            if (this.Widget != null)
+            {
+                this.Widget.NoShowAll = value == false;
+                if (value == true)
+                {
+                    this.Widget.ShowAll();
+                }
+                else
+                {
+                    this.Widget.Visible = value;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -1342,19 +1556,23 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         get
         {
             var widget = this.Widget;
-            if (widget != null && widget.IsMapped == false && widget is Gtk.Window wnd)
+            if (widget == null)
+                return 0;
+            if (widget.IsMapped == false)
             {
-                return wnd.WidthRequest == -1 ? wnd.DefaultWidth : wnd.WidthRequest;
+                if (widget is Gtk.Window wnd)
+                    return wnd.WidthRequest == -1 ? wnd.DefaultWidth : wnd.WidthRequest;
+                else
+                    return widget.WidthRequest;
             }
-
-            var o = this.Widget;
-            return o != null && o.WidthRequest == -1 ? this.Widget?.AllocatedWidth ?? 0 : this.Widget?.WidthRequest ?? 0;
+            else if (widget.Halign == Align.Fill)
+                return widget.AllocatedWidth;
+            else
+                return widget.WidthRequest == -1 ? widget.AllocatedWidth : widget.WidthRequest;
         }
         set
         {
             this.Widget?.WidthRequest = Math.Max(-1, value);
-            OnDockChanged(EventArgs.Empty);
-            OnAnchorChanged(EventArgs.Empty);
         }
     }
 
@@ -1399,7 +1617,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     protected internal virtual bool ShowKeyboardCues { get; }
 
-    IArrangedElement IArrangedElement.Container => throw new NotImplementedException();
+    IArrangedElement IArrangedElement.Container => this.Parent!;
 
     PropertyStore IArrangedElement.Properties => throw new NotImplementedException();
 
@@ -1535,9 +1753,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual IAsyncResult BeginInvoke(Delegate method, params object[]? args)
     {
-        var task = System.Threading.Tasks.Task.Factory.StartNew(state =>
+        var task = System.Threading.Tasks.Task<object?>.Factory.StartNew(state =>
         {
-            method.DynamicInvoke((object[])state);
+            return method.DynamicInvoke((object[])state!);
         }, args);
 
         return task;
@@ -1613,52 +1831,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         try
         {
-            if (image == null)
-                image = new Cairo.ImageSurface(Cairo.Format.Argb32, this.Widget?.AllocatedWidth ?? 0, this.Widget?.AllocatedHeight ?? 0);
-
             surface?.Dispose();
-            surface = image.CreateSimilar(Cairo.Content.ColorAlpha, this.Widget?.AllocatedWidth ?? 0, this.Widget?.AllocatedHeight ?? 0);
+            surface = this.Widget?.Window?.CreateSimilarSurface(Cairo.Content.ColorAlpha, this.Widget?.AllocatedWidth ?? 0, this.Widget?.AllocatedHeight ?? 0);
             context?.Dispose();
-            context = new Cairo.Context(surface);
-            return new Drawing.Graphics(this.Widget, context, this.Widget?.Allocation ?? default);
-        }
-        catch (Exception ex)
-        {
-            GtkLogger.Info(" canvas creation failed：" + ex.Message);
-            throw;
-        }
-    }
-
-    /// <summary>
-    /// Creates a Drawing.Graphics object limited to the specified rectangle.
-    /// </summary>
-    /// <param name="x">
-    /// X coordinate of the target rectangle.
-    /// </param>
-    /// <param name="y">
-    /// Y coordinate of the target rectangle.
-    /// </param>
-    /// <param name="width">
-    /// Width of the target rectangle.
-    /// </param>
-    /// <param name="height">
-    /// Height of the target rectangle.
-    /// </param>
-    /// <returns>
-    /// A Graphics object used to draw to the specified region of the control.
-    /// </returns>
-    public virtual Drawing.Graphics CreateGraphics(int x, int y, int width, int height)
-    {
-        try
-        {
-            if (image == null)
-                image = new Cairo.ImageSurface(Cairo.Format.Argb32, width, height);
-
-            surface?.Dispose();
-            surface = image.CreateSimilar(Cairo.Content.ColorAlpha, width, height);
-            context?.Dispose();
-            context = new Cairo.Context(surface);
-            return new Drawing.Graphics(this.Widget, context, new Gdk.Rectangle(x, y, width, height));
+            context = surface == null ? null : new Cairo.Context(surface);
+            return new Drawing.Graphics(this.Widget, context!, this.Widget?.Allocation ?? default);
         }
         catch (Exception ex)
         {
@@ -1727,13 +1904,50 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual object EndInvoke(IAsyncResult asyncResult)
     {
-        if (asyncResult is System.Threading.Tasks.Task task)
+        if (asyncResult is System.Threading.Tasks.Task<object?> task1)
         {
-            if (task.IsCompleted == false && task.IsCanceled == false && task.IsFaulted == false)
-                task.GetAwaiter().GetResult();
+            try
+            {
+                if (task1.IsCompleted == true)
+                {
+                    return task1.Result!;
+                }
+                else if (task1.IsCanceled == true)
+                {
+                    return null!;
+                }
+                else if (task1.IsFaulted == true)
+                {
+                    return task1.Exception!;
+                }
+                else
+                {
+                    return task1.GetAwaiter().GetResult()!;
+                }
+            }
+            finally
+            {
+                task1.Dispose();
+            }
+        }
+        else if (asyncResult is System.Threading.Tasks.Task task2)
+        {
+            try
+            {
+                if (task2.IsFaulted == true)
+                {
+                    return task2.Exception!;
+                }
+
+                return null!;
+            }
+            finally
+            {
+                task2.Dispose();
+            }
         }
 
-        return asyncResult.AsyncState;
+        return null!;
     }
 
     /// <summary>
@@ -1838,7 +2052,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     public virtual Control? GetNextControl(Control ctl, bool forward)
     {
         Control? prev = null;
-        Control? next = null;
         var finded = false;
 
         var controlCollection = this.Controls;
@@ -1848,23 +2061,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                 if (obj is Control control)
                 {
                     if (finded == true)
-                        next = control;
-
-                    if (control.Widget?.Handle == ctl.Widget?.Handle)
+                        return control;
+                    else if (control.Widget?.Handle == ctl.Widget?.Handle)
                     {
                         finded = true;
-                    }
-
-                    if (finded == true)
-                    {
-                        if (forward == false && prev != null)
-                        {
+                        if (forward == false)
                             return prev;
-                        }
-                        else if (forward == true && next != null)
-                        {
-                            return next;
-                        }
                     }
 
                     prev = control;
@@ -1893,10 +2095,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual void Hide()
     {
-        if (this.GtkControl is Misc con)
-        {
-            con.Hide();
-        }
+        this.Widget?.Hide();
     }
 
     /// <summary>
@@ -1945,14 +2144,13 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         if (this.Widget != null)
         {
-            ISelf?.Override.OnAddClass();
-            this.Widget.Window.InvalidateRect(new Gdk.Rectangle(rc.X, rc.Y, rc.Width, rc.Height), invalidateChildren);
-            if (invalidateChildren == true && this.Widget is Gtk.Container container)
+            this.Widget.Window?.InvalidateRect(new Gdk.Rectangle(rc.X, rc.Y, rc.Width, rc.Height), invalidateChildren);
+            this.Widget.SetStateFlags(StateFlags.Backdrop, true);
+            GLib.Timeout.Add(50, () =>
             {
-                foreach (var child in container.Children)
-                    child.Window.InvalidateRect(child.Allocation, invalidateChildren);
-            }
-            Refresh();
+                this.Widget?.SetStateFlags(Gtk.StateFlags.Prelight, true);
+                return false;
+            });
         }
     }
 
@@ -1980,8 +2178,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         if (this.Widget != null)
         {
-            ISelf?.Override.OnAddClass();
-            this.Widget.Window.InvalidateRect(Widget.Allocation, invalidateChildren);
+            Invalidate(
+                new Rectangle(this.Widget.Allocation.X, this.Widget.Allocation.Y, this.Widget.Allocation.Width,
+                    this.Widget.Allocation.Height), invalidateChildren);
         }
     }
 
@@ -2013,14 +2212,17 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual object? Invoke(Delegate method, params object[]? args)
     {
-        object? result = null;
-        GLib.Idle.Add(() =>
+        lock (this)
         {
-            result = method.DynamicInvoke(args);
-            return false;
-        });
+            object? result = null;
+            GLib.Idle.Add(() =>
+            {
+                result = method?.DynamicInvoke(args);
+                return false;
+            });
 
-        return result;
+            return result;
+        }
     }
 
     /// <summary>
@@ -2031,11 +2233,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </param>
     public virtual void Invoke(Action method)
     {
-        GLib.Idle.Add(() =>
+        lock (this)
         {
-            method.Invoke();
-            return false;
-        });
+            GLib.Idle.Add(() =>
+            {
+                method?.Invoke();
+                return false;
+            });
+        }
     }
 
     /// <summary>
@@ -2052,14 +2257,17 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual TEntry? Invoke<TEntry>(Func<TEntry> method)
     {
-        var result = default(TEntry);
-        GLib.Idle.Add(() =>
+        lock (this)
         {
-            result = method.Invoke();
-            return false;
-        });
+            var result = default(TEntry);
+            GLib.Idle.Add(() =>
+            {
+                result = method.Invoke();
+                return false;
+            });
 
-        return result;
+            return result;
+        }
     }
 
     /// <summary>
@@ -2131,11 +2339,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual Point PointToClient(Point p)
     {
-        if (Widget != null)
+        if (Widget != null && this.Widget.Window != null)
         {
             this.Widget.Window.GetOrigin(out var x, out var y);
-            if (p.X > x && p.Y > y)
-                return new Point(p.X - x, p.Y - y);
+            return new Point(p.X - x, p.Y - y);
         }
 
         return new Point(p.X, p.Y);
@@ -2152,11 +2359,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual Point PointToScreen(Point p)
     {
-        if (Widget != null)
+        if (Widget != null && this.Widget.Window != null)
         {
             this.Widget.Window.GetOrigin(out var x, out var y);
-            if (p.X < x && p.Y < y)
-                return new Point(p.X + x, p.Y + y);
+            return new Point(p.X + x, p.Y + y);
         }
 
         return new Point(p.X, p.Y);
@@ -2201,9 +2407,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual Rectangle RectangleToClient(Rectangle r)
     {
-        if (Widget != null)
+        if (Widget != null && this.Widget.Window != null)
         {
-            this.Widget.Window.GetPosition(out var x, out var y);
+            this.Widget.Window.GetOrigin(out var x, out var y);
             if (r.X > x && r.Y > y)
                 return new Rectangle(r.X - x, r.Y - y, r.Width, r.Height);
         }
@@ -2222,9 +2428,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual Rectangle RectangleToScreen(Rectangle r)
     {
-        if (Widget != null)
+        if (Widget != null && this.Widget.Window != null)
         {
-            this.Widget.Window.GetPosition(out var x, out var y);
+            this.Widget.Window.GetOrigin(out var x, out var y);
             if (r.X < x && r.Y < y)
                 return new Rectangle(r.X + x, r.Y + y, r.Width, r.Height);
         }
@@ -2239,13 +2445,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         if (this.Widget != null && this.Widget.IsVisible)
         {
-            ISelf?.Override.OnAddClass();
             this.Widget.QueueDraw();
-            if (this.Widget is Gtk.Container container)
-            {
-                foreach (var child in container.Children)
-                    child.QueueDraw();
-            }
         }
     }
 
@@ -2418,7 +2618,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual void SendToBack()
     {
-
+        if (this.Widget != null && this.Widget.IsRealized && this.Widget.Window != null)
+            this.Widget.Window.KeepBelow = true;
     }
 
     /// <summary>
@@ -2463,7 +2664,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         if (this.Widget != null)
         {
-            var rect = this.Widget.Clip;
+            var rect = this.Widget.Allocation;
             if (specified == BoundsSpecified.X)
                 rect.X = x;
             else if (specified == BoundsSpecified.Y)
@@ -2489,7 +2690,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                 rect.Width = width;
                 rect.Height = height;
             }
-            this.Widget.SetClip(rect);
+            this.Left = rect.X;
+            this.Top = rect.Y;
+            this.Size = new Size(rect.Width, rect.Height);
         }
     }
 
@@ -2504,7 +2707,19 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </param>
     public void SetBounds(Rectangle bounds, BoundsSpecified specified)
     {
-        throw new NotImplementedException();
+        if (specified.HasFlag(BoundsSpecified.Location) || specified.HasFlag(BoundsSpecified.All))
+            this.Location = bounds.Location;
+        else if (specified.HasFlag(BoundsSpecified.X))
+            this.Left = bounds.Left;
+        else if (specified.HasFlag(BoundsSpecified.Y))
+            this.Top = bounds.Top;
+
+        if (specified.HasFlag(BoundsSpecified.Size) || specified.HasFlag(BoundsSpecified.All))
+            this.Size = bounds.Size;
+        else if (specified.HasFlag(BoundsSpecified.Width))
+            this.Width = bounds.Width;
+        else if (specified.HasFlag(BoundsSpecified.Height))
+            this.Height = bounds.Height;
     }
 
     /// <summary>
@@ -2528,7 +2743,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual void Update()
     {
-        if (this.Widget != null)
+        if (this.Widget != null && this.Widget.Window != null)
         {
             this.Widget.Window.ProcessUpdates(true);
             this.Widget.QueueDraw();
@@ -2550,21 +2765,31 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         try
         {
-            image?.Dispose();
             surface?.Dispose();
             context?.Dispose();
-
-            if (this.Widget != null)
+            _image?.Dispose();
+            _backgroundImage?.Dispose();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Dispose", ex);
+        }
+        try
+        {
+            if (Controls != null)
             {
-                this.Widget.Destroy();
-                this.GtkControl = null;
+                foreach (Control? c in Controls)
+                    c?.Dispose();
+                Controls.Clear();
             }
         }
         catch (Exception ex)
         {
             System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Dispose", ex);
         }
+        GC.SuppressFinalize(this);
         base.Dispose(disposing);
+        GtkControl = null;
     }
 
     /// <summary>
@@ -3102,10 +3327,21 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Handles painting logic for derived controls.
     /// </summary>
-    /// <param name="e">
+    /// <param name="pevent">
     /// Paint event arguments.
     /// </param>
-    protected virtual void OnPaint(System.Windows.Forms.PaintEventArgs e)
+    protected virtual void OnPaint(System.Windows.Forms.PaintEventArgs pevent)
+    {
+
+    }
+
+    /// <summary>
+    /// Paints the background of the control.
+    /// </summary>
+    /// <param name="pevent">
+    /// Paint event arguments.
+    /// </param>
+    protected virtual void OnPaintBackground(System.Windows.Forms.PaintEventArgs pevent)
     {
 
     }
@@ -3292,15 +3528,15 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         if (widget is Gtk.Image) { }
         else
         {
-            if (this.Image != null && this.Image.PixbufData != null)
+            if (this._image != null && this._image.PixbufData != null)
             {
-                var imgdir = $"Resources/{widget.WidgetPath.IterGetName(0)}";
+                var imgdir = Path.Combine("Resources", widget.WidgetPath.IterGetName(0)).Replace("\\", "/");
                 var imguri = $"{imgdir}/{widget.Name}_image.png";
                 if (!File.Exists(imguri))
                 {
                     if (!Directory.Exists(imgdir))
                         Directory.CreateDirectory(imgdir);
-                    var imagepixbuf = new Gdk.Pixbuf(this.Image.PixbufData);
+                    var imagepixbuf = new Gdk.Pixbuf(this._image.PixbufData);
                     imagepixbuf.Save(imguri, "png");
                 }
                 style.AppendFormat("background:url(\"{0}\")", imguri);
@@ -3346,26 +3582,25 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                     style.Append(" center center");
                 }
 
-                if (this.BackgroundImage != null && this.BackgroundImage.PixbufData != null)
+                if (this._backgroundImage != null && this._backgroundImage.PixbufData != null)
                 {
                     var bgimguri = $"{imgdir}/{widget.Name}_bgimage.png";
                     if (!File.Exists(bgimguri))
                     {
-                        var bgpixbuf = new Gdk.Pixbuf(this.BackgroundImage.PixbufData);
+                        var bgpixbuf = new Gdk.Pixbuf(this._backgroundImage.PixbufData);
                         bgpixbuf.Savev(bgimguri, "png", new string[] { }, new string[] { });
                     }
-
                     style.AppendFormat(",url(\"{0}\") repeat", bgimguri);
                 }
                 style.Append(";");
                 style.Append("background-origin: padding-box;");
                 style.Append("background-clip: padding-box;");
             }
-            else if (this.BackgroundImage != null && this.BackgroundImage.PixbufData != null)
+            else if (this._backgroundImage != null && this._backgroundImage.PixbufData != null)
             {
-                var bgimgdir = $"Resources/{widget.WidgetPath.IterGetName(0)}";
+                var bgpixbuf = new Gdk.Pixbuf(this._backgroundImage.PixbufData);
+                var bgimgdir = Path.Combine("Resources", widget.WidgetPath.IterGetName(0)).Replace("\\", "/");
                 var bgimguri = $"{bgimgdir}/{widget.Name}_bgimage.png";
-                var bgpixbuf = new Gdk.Pixbuf(this.BackgroundImage.PixbufData);
                 if (!File.Exists(bgimguri))
                 {
                     if (!Directory.Exists(bgimgdir))
@@ -3446,19 +3681,19 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                 {
                     style.AppendFormat("font-family:\"{0}\";", font.FontFamily?.Name);
                 }
-                if ((font.Style & FontStyle.Bold) != 0)
+                if (font.Bold)
                 {
                     style.Append("font-weight:bold;");
                 }
-                if ((font.Style & FontStyle.Italic) != 0)
+                if (font.Italic)
                 {
                     style.Append("font-style:italic;");
                 }
-                if ((font.Style & FontStyle.Underline) != 0)
+                if (font.Underline)
                 {
                     style.Append("text-decoration:underline;");
                 }
-                if ((font.Style & FontStyle.Strikeout) != 0)
+                if (font.Strikeout)
                 {
                     style.Append("text-decoration:line-through;");
                 }
@@ -3473,12 +3708,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                     css.AppendLine($".{styleClassName} text{{{style.ToString()}}}");
                     css.AppendLine($".{styleClassName} .view{{{style.ToString()}}}");
                 }
-                var provider = new CssProvider();
                 if (provider.LoadFromData(css.ToString()))
                 {
                     if (widget.StyleContext.HasClass(styleClassName))
+                    {
+                        widget.StyleContext.RemoveClass(styleClassName);
                         widget.StyleContext.RemoveProvider(provider);
-                    widget.StyleContext.AddProvider(provider, 900);
+                    }
+                    widget.StyleContext.AddProvider(provider, (uint)StyleProviderPriority.User);
                     widget.StyleContext.AddClass(styleClassName);
                 }
             }
@@ -3511,8 +3748,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     protected virtual void UpdateStyle()
     {
-        if (this.Widget != null && this.Widget.IsMapped)
-            SetStyle(this.Widget);
+        GLib.Timeout.Add(1, () =>
+        {
+            if (this.Widget != null && this.Widget.IsMapped)
+                SetStyle(this.Widget);
+            return false;
+        });
     }
 
     /// <summary>
@@ -3524,6 +3765,36 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     protected virtual void WndProc(ref Message m)
     {
         //GtkLogger.Info($"HWnd:{m.HWnd},WParam:{m.WParam},LParam:{m.LParam},Msg:{m.Msg}");
+    }
+
+    private void Control_AnchorChanged(object? sender, EventArgs e)
+    {
+        SetAnchorStyle(this.Widget, _anchor);
+    }
+
+    private void Control_CursorChanged(object? sender, EventArgs e)
+    {
+        SetCursorStyle();
+    }
+
+    private void Control_DockChanged(object? sender, EventArgs e)
+    {
+        SetDockStyle(this.Widget, _dock);
+    }
+
+    private void InitDockAnchorStyle()
+    {
+        if (_dock != DockStyle.None)
+            OnDockChanged(EventArgs.Empty);
+        else if (_anchor != AnchorStyles.None)
+            OnAnchorChanged(EventArgs.Empty);
+    }
+
+    private void Override_Paint(object sender, PaintEventArgs e)
+    {
+        OnPaintBackground(e);
+        OnPaint(e);
+        handlerList[paintEventHandler_paint]?.DynamicInvoke(sender, e);
     }
 
     private void Override_PaintGraphics(object sender, PaintGraphicsEventArgs e)
@@ -3538,190 +3809,173 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         }
     }
 
-    private void SetAnchorStyles(Widget? widget, AnchorStyles anchorStyles)
+    private void SetAnchorStyle(Gtk.Widget? widget, AnchorStyles anchorStyles)
     {
-        if (anchorStyles.HasFlag(AnchorStyles.Left) && anchorStyles.HasFlag(AnchorStyles.Right))
-        {
-            widget?.Halign = Gtk.Align.Fill;
-        }
-        else if (anchorStyles.HasFlag(AnchorStyles.Left))
-        {
-            widget?.Halign = Gtk.Align.Start;
-        }
-        else if (anchorStyles.HasFlag(AnchorStyles.Right))
-        {
-            widget?.Halign = Gtk.Align.End;
-        }
-        else
-        {
-            widget?.Halign = Gtk.Align.Start;
-        }
+        if (widget == null || widget is FormBase || widget.IsRealized == false)
+            return;
 
-        if (anchorStyles.HasFlag(AnchorStyles.Top) && anchorStyles.HasFlag(AnchorStyles.Bottom))
+        if (widget.Parent is Gtk.Overlay lay)
         {
-            widget?.Valign = Gtk.Align.Fill;
-        }
-        else if (anchorStyles.HasFlag(AnchorStyles.Top))
-        {
-            widget?.Valign = Gtk.Align.Start;
-        }
-        else if (anchorStyles.HasFlag(AnchorStyles.Bottom))
-        {
-            widget?.Valign = Gtk.Align.End;
-        }
-        else
-        {
-            widget?.Valign = Gtk.Align.Start;
-        }
-    }
-
-    private void Widget_ButtonPressEvent(object o, ButtonPressEventArgs args)
-    {
-        if (o is Gtk.Widget owidget && owidget.Window != null)
-        {
-            var result = MouseButtons.None;
-            if (args.Event.Button == 1)
-                result = MouseButtons.Left;
-            else if (args.Event.Button == 2)
-                result = MouseButtons.Middle;
-            else if (args.Event.Button == 3)
-                result = MouseButtons.Right;
-
-            owidget.Window.GetOrigin(out var x, out var y);// avoid event penetration errors
-            var mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
-            OnMouseDown(mouseArgs);
-        }
-    }
-
-    private void Widget_ButtonReleaseEvent(object o, ButtonReleaseEventArgs args)
-    {
-        if (o is Gtk.Widget owidget && owidget.Window != null)
-        {
-            var result = MouseButtons.None;
-            if (args.Event.Button == 1)
-                result = MouseButtons.Left;
-            else if (args.Event.Button == 2)
-                result = MouseButtons.Middle;
-            else if (args.Event.Button == 3)
-                result = MouseButtons.Right;
-            owidget.Window.GetOrigin(out var x, out var y);
-            var mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
-            OnMouseUp(mouseArgs);
-
-            if (args.Event.Type == Gdk.EventType.TwoButtonPress || args.Event.Type == Gdk.EventType.DoubleButtonPress)
+            var framewidth = lay.AllocatedWidth;
+            var frameheight = lay.AllocatedHeight;
+            var widgetwidth = widget.WidthRequest > 1 ? widget.WidthRequest : widget.AllocatedWidth;
+            var widgetheight = widget.HeightRequest > 1 ? widget.HeightRequest : widget.AllocatedHeight;
+            if (anchorStyles.HasFlag(AnchorStyles.Left) && anchorStyles.HasFlag(AnchorStyles.Right))
             {
-                var mouseArgs2 = new MouseEventArgs(result, 2, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0);
-                OnMouseDoubleClick(mouseArgs2);
-                OnDoubleClick(EventArgs.Empty);
+                widget.MarginEnd = Math.Max(0, framewidth - widget.MarginStart - widgetwidth);
+                widget.Halign = Gtk.Align.Fill;
+            }
+            else if (anchorStyles.HasFlag(AnchorStyles.Left))
+            {
+                widget.Halign = Gtk.Align.Start;
+            }
+            else if (anchorStyles.HasFlag(AnchorStyles.Right))
+            {
+                widget.MarginEnd = Math.Max(0, framewidth - widget.MarginStart - widgetwidth);
+                widget.Halign = Gtk.Align.End;
             }
             else
             {
-                OnClick(EventArgs.Empty);
-                OnMouseClick(new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 0));
+                widget.Halign = Gtk.Align.Start;
             }
-            if (ContextMenuStrip != null)
+
+            if (anchorStyles.HasFlag(AnchorStyles.Top) && anchorStyles.HasFlag(AnchorStyles.Bottom))
             {
-                if (args.Event.Button == 3)
-                {
-                    ContextMenuStrip.Widget.ShowAll();
-                    ((Gtk.Menu)ContextMenuStrip.Widget).PopupAtPointer(args.Event);
-                }
+                widget.MarginBottom = Math.Max(0, frameheight - widget.MarginTop - widgetheight);
+                widget.Valign = Gtk.Align.Fill;
             }
-        }
-    }
-
-    private void Widget_ConfigureEvent(object o, ConfigureEventArgs args)
-    {
-        OnMove(EventArgs.Empty);
-    }
-
-    private void Widget_EnterNotifyEvent(object o, EnterNotifyEventArgs args)
-    {
-        if (Cursor != null)
-        {
-            if (Cursor.CursorType == Gdk.CursorType.CursorIsPixmap)
+            else if (anchorStyles.HasFlag(AnchorStyles.Top))
             {
-                this.Widget?.Window.Cursor = new Gdk.Cursor(((Gtk.Widget)o).Display, Cursor.CursorPixbuf, Cursor.CursorsXY.X, Cursor.CursorsXY.Y);
+                widget.Valign = Gtk.Align.Start;
+            }
+            else if (anchorStyles.HasFlag(AnchorStyles.Bottom))
+            {
+                widget.MarginBottom = Math.Max(0, frameheight - widget.MarginTop - widgetheight);
+                widget.Valign = Gtk.Align.End;
             }
             else
             {
-                this.Widget?.Window.Cursor = new Gdk.Cursor(((Gtk.Widget)o).Display, Cursor.CursorType);
+                widget.Valign = Gtk.Align.Start;
             }
         }
-        OnMouseEnter(EventArgs.Empty);
-        OnMouseHover(EventArgs.Empty);
-        OnEnter(args);
     }
 
-    private void Widget_FocusInEvent(object o, FocusInEventArgs args)
+    private void SetCursorStyle()
     {
-        OnGotFocus(args);
-    }
-
-    private void Widget_FocusOutEvent(object o, FocusOutEventArgs args)
-    {
-        var cancelEventArgs = new CancelEventArgs(false);
-        OnLostFocus(args);
-        OnValidating(cancelEventArgs);
-        if (Validated != null && cancelEventArgs.Cancel == false)
+        var widget = this.Widget;
+        if (widget != null && widget.IsRealized && widget.Window != null)
         {
-            OnValidated(cancelEventArgs);
-        }
-    }
-
-    private void Widget_KeyPressEvent(object o, Gtk.KeyPressEventArgs args)
-    {
-        if (KeyDown != null)
-        {
-            if (args.Event is Gdk.EventKey eventkey)
+            if (_Cursor == null)
             {
-                var keys = (Keys)eventkey.HardwareKeycode;
-                if (eventkey.State.HasFlag(Gdk.ModifierType.Mod1Mask))
-                    keys |= Keys.Alt;
-                if (eventkey.State.HasFlag(Gdk.ModifierType.ControlMask))
-                    keys |= Keys.Control;
-                if (eventkey.State.HasFlag(Gdk.ModifierType.ShiftMask))
-                    keys |= Keys.Shift;
-                if (eventkey.State.HasFlag(Gdk.ModifierType.LockMask))
-                    keys |= Keys.CapsLock;
-                OnKeyDown(new KeyEventArgs(keys));
+                if (widget.Window.Cursor != null)
+                    widget.Window.Cursor = null;
+            }
+            else if (_Cursor.CursorType == Gdk.CursorType.CursorIsPixmap)
+            {
+                widget.Window.Cursor = new Gdk.Cursor(widget.Display, _Cursor.CursorPixbuf, _Cursor.CursorsXY.X, _Cursor.CursorsXY.Y);
+            }
+            else
+            {
+                widget.Window.Cursor = new Gdk.Cursor(widget.Display, _Cursor.CursorType);
             }
         }
     }
 
-    private void Widget_KeyReleaseEvent(object o, KeyReleaseEventArgs args)
+    private void SetDockStyle(Gtk.Widget? widget, DockStyle dockStyle)
     {
-        var keys = (Keys)args.Event.HardwareKeycode;
-        OnKeyUp(new KeyEventArgs(keys));
-        OnKeyPress(new KeyPressEventArgs(Convert.ToChar(keys)));
+        if (widget == null || widget is FormBase || widget.IsRealized == false)
+            return;
+
+        if (widget.Parent is Gtk.Overlay lay)
+        {
+            if (dockStyle == DockStyle.Fill)
+            {
+                if (widget.WidthRequest + widget.MarginStart + widget.MarginStart > lay.AllocatedWidth)
+                    widget.WidthRequest = Math.Max(10, lay.AllocatedWidth - widget.MarginStart - widget.MarginStart);
+                if (widget.HeightRequest + widget.MarginTop + widget.MarginTop > lay.AllocatedHeight)
+                    widget.HeightRequest = Math.Max(10, lay.AllocatedHeight - widget.MarginTop - widget.MarginTop);
+                widget.MarginEnd = Math.Min(3, widget.MarginStart);
+                widget.MarginBottom = Math.Min(3, widget.MarginTop);
+                widget.Halign = Align.Fill;
+                widget.Valign = Align.Fill;
+            }
+            else if (dockStyle == DockStyle.Left)
+            {
+                if (widget.HeightRequest + widget.MarginTop + widget.MarginTop > lay.AllocatedHeight)
+                    widget.HeightRequest = Math.Max(10, lay.AllocatedHeight - widget.MarginTop - widget.MarginTop);
+                widget.MarginBottom = Math.Min(3, widget.MarginTop);
+                widget.Halign = Align.Start;
+                widget.Valign = Align.Fill;
+            }
+            else if (dockStyle == DockStyle.Top)
+            {
+                if (widget.WidthRequest + widget.MarginStart + widget.MarginStart > lay.AllocatedWidth)
+                    widget.WidthRequest = Math.Max(10, lay.AllocatedWidth - widget.MarginStart - widget.MarginStart);
+                widget.MarginEnd = Math.Min(3, widget.MarginStart);
+                widget.Halign = Align.Fill;
+                widget.Valign = Align.Start;
+            }
+            else if (dockStyle == DockStyle.Right)
+            {
+                if (widget.HeightRequest + widget.MarginTop + widget.MarginTop > lay.AllocatedHeight)
+                    widget.HeightRequest = Math.Max(10, lay.AllocatedHeight - widget.MarginTop - widget.MarginTop);
+                widget.MarginBottom = Math.Min(3, widget.MarginTop);
+                widget.Halign = Align.End;
+                widget.Valign = Align.Fill;
+            }
+            else if (dockStyle == DockStyle.Bottom)
+            {
+                if (widget.WidthRequest + widget.MarginStart + widget.MarginStart > lay.AllocatedWidth)
+                    widget.WidthRequest = Math.Max(10, lay.AllocatedWidth - widget.MarginStart - widget.MarginStart);
+                widget.MarginEnd = Math.Min(3, widget.MarginStart);
+                widget.Halign = Align.Fill;
+                widget.Valign = Align.End;
+            }
+            else
+            {
+                widget.Halign = Align.Start;
+                widget.Valign = Align.Start;
+            }
+        }
+        else if (widget.Parent is Gtk.Viewport view)
+        {
+            if (dockStyle == DockStyle.Fill)
+            {
+                widget.Halign = Align.Fill;
+                widget.Valign = Align.Fill;
+            }
+            else if (dockStyle == DockStyle.Left)
+            {
+                widget.Halign = Align.Start;
+                widget.Valign = Align.Fill;
+            }
+            else if (dockStyle == DockStyle.Top)
+            {
+                widget.Halign = Align.Fill;
+                widget.Valign = Align.Start;
+            }
+            else if (dockStyle == DockStyle.Right)
+            {
+                widget.Halign = Align.End;
+                widget.Valign = Align.Fill;
+            }
+            else if (dockStyle == DockStyle.Bottom)
+            {
+                widget.Halign = Align.Fill;
+                widget.Valign = Align.End;
+            }
+            else
+            {
+                widget.Halign = Align.Start;
+                widget.Valign = Align.Start;
+            }
+        }
     }
 
-    private void Widget_LeaveNotifyEvent(object o, LeaveNotifyEventArgs args)
+    private void Widget_ParentSet(object o, Gtk.ParentSetArgs args)
     {
-        if (Cursor != null)
-        {
-            this.Widget?.Window.Cursor = null;
-        }
-        OnMouseLeave(EventArgs.Empty);
-        OnLeave(EventArgs.Empty);
-    }
-
-    private void Widget_MotionNotifyEvent(object o, MotionNotifyEventArgs args)
-    {
-        if (o is Gtk.Widget owidget && owidget.Window != null)
-        {
-            var result = MouseButtons.None;
-            // GtkLogger.Info(args.Event.State);
-            if (args.Event.State.HasFlag(Gdk.ModifierType.Button1Mask))
-                result = MouseButtons.Left;
-            else if (args.Event.State.HasFlag(Gdk.ModifierType.Button2Mask))
-                result = MouseButtons.Middle;
-            else if (args.Event.State.HasFlag(Gdk.ModifierType.Button3Mask))
-                result = MouseButtons.Right;
-            owidget.Window.GetOrigin(out var x, out var y);
-            var mouseArgs = new MouseEventArgs(result, 1, (int)args.Event.XRoot - x, (int)args.Event.YRoot - y, 1);
-            OnMouseMove(mouseArgs);
-        }
+        InitDockAnchorStyle();
+        OnParentChanged(EventArgs.Empty);
     }
 
     private void Widget_Realized(object sender, EventArgs e)
@@ -3731,13 +3985,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             WidgetRealized = true;
             InitStyle((Gtk.Widget)sender);
             OnLoad(e);
+            OnCursorChanged(EventArgs.Empty);
+            InitDockAnchorStyle();
         }
-    }
-
-    private void Widget_ScrollEvent(object o, Gtk.ScrollEventArgs args)
-    {
-        var mouseArgs = new MouseEventArgs(MouseButtons.None, 0, (int)args.Event.X, (int)args.Event.Y, (int)args.Event.DeltaY);
-        OnMouseWheel(mouseArgs);
     }
 
     private void Widget_SizeAllocated(object o, SizeAllocatedArgs args)
@@ -3754,6 +4004,248 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             location_x = args.Allocation.X;
             location_y = args.Allocation.Y;
             OnLocationChanged(EventArgs.Empty);
+        }
+    }
+
+    private void Widget_WidgetEvent(object o, Gtk.WidgetEventArgs args)
+    {
+        if (o is not Gtk.Widget owidget || owidget.IsRealized == false)
+            return;
+
+        WidgetEventDo?.Invoke(owidget, args);
+        if (args.Event.Type == Gdk.EventType.MotionNotify)
+        {
+            if (args.Event is Gdk.EventMotion eventmotion && owidget.Window != null)
+            {
+                var clicks = 0;
+                MouseButtons button = MouseButtons.None;
+                if (eventmotion.State.HasFlag(Gdk.ModifierType.Button1Mask))
+                {
+                    button |= MouseButtons.Left;
+                    clicks += 1;
+                }
+                if (eventmotion.State.HasFlag(Gdk.ModifierType.Button2Mask))
+                {
+                    button |= MouseButtons.Middle;
+                    clicks += 1;
+                }
+                if (eventmotion.State.HasFlag(Gdk.ModifierType.Button3Mask))
+                {
+                    button |= MouseButtons.Right;
+                    clicks += 1;
+                }
+                owidget.Window.GetOrigin(out var x, out var y);
+                OnMouseMove(new MouseEventArgs(button, clicks, (int)eventmotion.XRoot - x, (int)eventmotion.YRoot - y, 1));
+            }
+        }
+        else if (args.Event.Type == Gdk.EventType.KeyPress)
+        {
+            if (args.Event is Gdk.EventKey eventkey)
+            {
+                var keys = (Keys)eventkey.HardwareKeycode;
+                keyboardMap.TryGetValue(eventkey.Key, out var keycode);
+                if (keycode != 0)
+                {
+                    keys = (Keys)keycode;
+                    if (eventkey.Key.Equals(Gdk.Key.VoidSymbol) && eventkey.HardwareKeycode == 20)
+                        keys = Keys.CapsLock;
+                }
+                if (eventkey.State.HasFlag(Gdk.ModifierType.Mod1Mask))
+                    keys |= Keys.Alt;
+                if (eventkey.State.HasFlag(Gdk.ModifierType.ControlMask))
+                    keys |= Keys.Control;
+                if (eventkey.State.HasFlag(Gdk.ModifierType.ShiftMask))
+                    keys |= Keys.Shift;
+                if (eventkey.State.HasFlag(Gdk.ModifierType.LockMask))
+                    keys |= Keys.CapsLock;
+                var keyargs = new KeyEventArgs(keys);
+                OnKeyDown(keyargs);
+                args.RetVal = keyargs.SuppressKeyPress;
+                if (!keyargs.SuppressKeyPress)
+                {
+                    var keypress = new KeyPressEventArgs(Convert.ToChar(keycode));
+                    OnKeyPress(keypress);
+                    args.RetVal = keypress.Handled;
+                }
+            }
+        }
+        else if (args.Event.Type == Gdk.EventType.KeyRelease)
+        {
+            if (args.Event is Gdk.EventKey eventkey)
+            {
+                var keys = (Keys)eventkey.HardwareKeycode;
+                if (keyboardMap.TryGetValue(eventkey.Key, out var keycode))
+                {
+                    keys = (Keys)keycode;
+                    if (eventkey.Key.Equals(Gdk.Key.VoidSymbol) && eventkey.HardwareKeycode == 20)
+                        keys = Keys.CapsLock;
+                }
+                if (eventkey.State.HasFlag(Gdk.ModifierType.Mod1Mask))
+                    keys |= Keys.Alt;
+                if (eventkey.State.HasFlag(Gdk.ModifierType.ControlMask))
+                    keys |= Keys.Control;
+                if (eventkey.State.HasFlag(Gdk.ModifierType.ShiftMask))
+                    keys |= Keys.Shift;
+                if (eventkey.State.HasFlag(Gdk.ModifierType.LockMask))
+                    keys |= Keys.CapsLock;
+                var keyargs = new KeyEventArgs(keys);
+                OnKeyUp(keyargs);
+                args.RetVal = keyargs.Handled;
+            }
+        }
+        else if (args.Event.Type == Gdk.EventType.ButtonPress)
+        {
+            if (args.Event is Gdk.EventButton eventbutton && owidget.Window != null)
+            {
+                MouseButtons button = MouseButtons.None;
+                if (eventbutton.Button == 1)
+                    button = MouseButtons.Left;
+                else if (eventbutton.Button == 2)
+                    button = MouseButtons.Middle;
+                else if (eventbutton.Button == 3)
+                    button = MouseButtons.Right;
+                owidget.Window.GetOrigin(out var x, out var y);
+                OnMouseDown(new MouseEventArgs(button, 1, (int)eventbutton.XRoot - x, (int)eventbutton.YRoot - y, 0));
+            }
+        }
+        else if (args.Event.Type == Gdk.EventType.TwoButtonPress || args.Event.Type == Gdk.EventType.DoubleButtonPress)
+        {
+            if (args.Event is Gdk.EventButton eventbutton && eventbutton.Button == 1 && owidget.Window != null)
+            {
+                Is_DoubleButtonPress = true;
+                MouseButtons button = MouseButtons.Left;
+                owidget.Window.GetOrigin(out var x, out var y);
+                OnMouseDoubleClick(new MouseEventArgs(button, 2, (int)eventbutton.XRoot - x, (int)eventbutton.YRoot - y, 0));
+                OnDoubleClick(EventArgs.Empty);
+            }
+        }
+        else if (args.Event.Type == Gdk.EventType.ButtonRelease)
+        {
+            if (args.Event is Gdk.EventButton eventbutton && owidget.Window != null
+                && owidget.Allocation.Contains((int)eventbutton.X, (int)eventbutton.Y))
+            {
+                MouseButtons button = MouseButtons.None;
+                if (eventbutton.Button == 1)
+                    button = MouseButtons.Left;
+                else if (eventbutton.Button == 2)
+                    button = MouseButtons.Middle;
+                else if (eventbutton.Button == 3)
+                    button = MouseButtons.Right;
+
+                owidget.Window.GetOrigin(out var x, out var y);
+                if (eventbutton.Button == 1 && Is_DoubleButtonPress == false)
+                {
+                    OnClick(EventArgs.Empty);
+                    OnMouseClick(new MouseEventArgs(button, 1, (int)eventbutton.XRoot - x, (int)eventbutton.YRoot - y, 0));
+                }
+                OnMouseUp(new MouseEventArgs(button, 1, (int)eventbutton.XRoot - x, (int)eventbutton.YRoot - y, 0));
+                if (eventbutton.Button == 3)
+                {
+                    if (ContextMenuStrip != null)
+                    {
+                        ContextMenuStrip.Widget.ShowAll();
+                        ((Gtk.Menu)ContextMenuStrip.Widget).PopupAtPointer(args.Event);
+                        args.RetVal = true;
+                    }
+                }
+                Is_DoubleButtonPress = false;
+            }
+        }
+        else if (args.Event.Type == Gdk.EventType.TouchBegin)
+        {
+            if (args.Args[0] is Gdk.EventTouch eventbutton && owidget.Window != null)
+            {
+                MouseButtons button = MouseButtons.Left;
+                owidget.Window.GetOrigin(out var x, out var y);
+                OnMouseDown(new MouseEventArgs(button, 1, (int)eventbutton.XRoot - x, (int)eventbutton.YRoot - y, 0));
+            }
+        }
+        else if (args.Event.Type == Gdk.EventType.TouchUpdate)
+        {
+            if (args.Args[0] is Gdk.EventTouch eventmotion && owidget.Window != null)
+            {
+                var clicks = 0;
+                MouseButtons button = MouseButtons.Left;
+                owidget.Window.GetOrigin(out var x, out var y);
+                OnMouseMove(new MouseEventArgs(button, clicks, (int)eventmotion.XRoot - x, (int)eventmotion.YRoot - y, 1));
+            }
+        }
+        else if (args.Event.Type == Gdk.EventType.TouchEnd)
+        {
+            if (args.Args[0] is Gdk.EventTouch eventbutton && owidget.Window != null)
+            {
+                MouseButtons button = MouseButtons.Left;
+                owidget.Window.GetOrigin(out var x, out var y);
+                OnClick(EventArgs.Empty);
+                OnMouseClick(new MouseEventArgs(button, 1, (int)eventbutton.XRoot - x, (int)eventbutton.YRoot - y, 0));
+                OnMouseUp(new MouseEventArgs(button, 1, (int)eventbutton.XRoot - x, (int)eventbutton.YRoot - y, 0));
+            }
+        }
+        else if (args.Event.Type == Gdk.EventType.Configure)
+        {
+            OnMove(EventArgs.Empty);
+        }
+        else if (args.Event.Type == Gdk.EventType.EnterNotify)
+        {
+            OnMouseEnter(EventArgs.Empty);
+            OnMouseHover(EventArgs.Empty);
+            OnEnter(EventArgs.Empty);
+        }
+        else if (args.Event.Type == Gdk.EventType.LeaveNotify)
+        {
+            OnMouseLeave(EventArgs.Empty);
+            OnLeave(EventArgs.Empty);
+        }
+        else if (args.Event.Type == Gdk.EventType.FocusChange)
+        {
+            if (args.Event is Gdk.EventFocus eventfocus)
+            {
+                if (eventfocus.In)
+                {
+                    OnGotFocus(EventArgs.Empty);
+                }
+                else
+                {
+                    var cancelEventArgs = new CancelEventArgs(false);
+                    OnLostFocus(EventArgs.Empty);
+                    OnValidating(cancelEventArgs);
+                    if (Validated != null && cancelEventArgs.Cancel == false)
+                    {
+                        OnValidated(cancelEventArgs);
+                    }
+                }
+            }
+        }
+        else if (args.Event.Type == Gdk.EventType.Scroll)
+        {
+            if (args.Event is Gdk.EventScroll eventscroll)
+            {
+                var clicks = 0;
+                MouseButtons button = MouseButtons.None;
+                if (eventscroll.State.HasFlag(Gdk.ModifierType.Button1Mask))
+                {
+                    button |= MouseButtons.Left;
+                    clicks += 1;
+                }
+                if (eventscroll.State.HasFlag(Gdk.ModifierType.Button2Mask))
+                {
+                    button |= MouseButtons.Middle;
+                    clicks += 1;
+                }
+                if (eventscroll.State.HasFlag(Gdk.ModifierType.Button3Mask))
+                {
+                    button |= MouseButtons.Right;
+                    clicks += 1;
+                }
+                var delta = (int)eventscroll.DeltaY;
+                if (eventscroll.Direction == Gdk.ScrollDirection.Left || eventscroll.Direction == Gdk.ScrollDirection.Right)
+                {
+                    delta = (int)eventscroll.DeltaX;
+                }
+                var mouseArgs = new HandledMouseEventArgs(button, clicks, (int)eventscroll.X, (int)eventscroll.Y, delta);
+                OnMouseWheel(mouseArgs);
+                args.RetVal = mouseArgs.Handled;
+            }
         }
     }
 }

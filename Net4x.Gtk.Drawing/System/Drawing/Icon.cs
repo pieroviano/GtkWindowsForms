@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.IO;
 using System.Runtime.Serialization;
 using Gdk;
 
@@ -17,23 +16,6 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     private Pixbuf? _Pixbuf;
 
     private byte[]? _PixbufData;
-
-    /// <summary>
-    /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Icon" /> class.
-    /// </summary>
-    /// <param name="bytes">The bytes.
-    /// </param>
-    public Icon(byte[]? bytes)
-    {
-        if (bytes != null)
-        {
-            this.PixbufData = bytes;
-            this.Pixbuf = new Gdk.Pixbuf(bytes);
-            this.Width = this.Pixbuf.Width;
-            this.Height = this.Pixbuf.Height;
-        }
-    }
 
     /// <summary>
     /// Initializes a new instance of the
@@ -81,35 +63,31 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
 
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Icon" /> class from the specified data stream.
+    /// <see cref="T:System.Drawing.Icon" /> class.
     /// </summary>
-    /// <param name="stream">
-    /// The data stream from which to load the
-    /// <see cref="T:System.Drawing.Icon" />.
+    /// <param name="bytes">The bytes.
     /// </param>
-    /// <exception cref="T:System.ArgumentException">
-    /// The
-    /// <paramref name="stream" /> parameter is
-    /// <see langword="null" />.
-    /// </exception>
     public Icon(Stream stream) : this(stream, 0, 0)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Icon" /> class of the specified size from the specified stream.
+    /// <see cref="T:System.Drawing.Icon" /> class and attempts to find a version of the icon that matches the requested size.
     /// </summary>
-    /// <param name="stream">
-    /// The stream that contains the icon data.
+    /// <param name="original">
+    /// The
+    /// <see cref="T:System.Drawing.Icon" /> from which to load the newly sized icon.
     /// </param>
     /// <param name="size">
-    /// The desired size of the icon.
+    /// A
+    /// <see cref="T:System.Drawing.Size" /> structure that specifies the height and width of the new
+    /// <see cref="T:System.Drawing.Icon" />.
     /// </param>
     /// <exception cref="T:System.ArgumentException">
     /// The
-    /// <paramref name="stream" /> is
-    /// <see langword="null" /> or does not contain image data.
+    /// <paramref name="original" /> parameter is
+    /// <see langword="null" />.
     /// </exception>
     public Icon(Stream stream, Size size) : this(stream, size.Width, size.Height)
     {
@@ -117,35 +95,35 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
 
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="T:System.Drawing.Icon" /> class from the specified data stream and with the specified width and height.
+    /// <see cref="T:System.Drawing.Icon" /> class and attempts to find a version of the icon that matches the requested size.
     /// </summary>
-    /// <param name="stream">
-    /// The data stream from which to load the icon.
+    /// <param name="original">
+    /// The icon to load the different size from.
     /// </param>
     /// <param name="width">
-    /// The width, in pixels, of the icon.
+    /// The width of the new icon.
     /// </param>
     /// <param name="height">
-    /// The height, in pixels, of the icon.
+    /// The height of the new icon.
     /// </param>
     /// <exception cref="T:System.ArgumentException">
     /// The
-    /// <paramref name="stream" /> parameter is
+    /// <paramref name="original" /> parameter is
     /// <see langword="null" />.
     /// </exception>
     public Icon(Stream stream, int width, int height)
     {
-        this.Width = width;
-        this.Height = height;
+        stream.Position = 0;
         using (var reader = new BinaryReader(stream))
         {
-            var bytes = reader.ReadBytes((int)stream.Length);
+            byte[] bytes = reader.ReadBytes((int)stream.Length);
             this.PixbufData = bytes;
-            this.Pixbuf = new Gdk.Pixbuf(bytes);
-            if (width < 1)
-                this.Width = this.Pixbuf.Width;
-            if (height < 1)
-                this.Height = this.Pixbuf.Height;
+            if (width > 0 && height > 0)
+                this.Pixbuf = new Gdk.Pixbuf(bytes, width, height);
+            else
+                this.Pixbuf = new Gdk.Pixbuf(bytes);
+            this.Width = this.Pixbuf.Width;
+            this.Height = this.Pixbuf.Height;
         }
     }
 
@@ -208,23 +186,10 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
         this.Height = height;
         if (System.IO.File.Exists(fileName))
         {
-            var bytes = System.IO.File.ReadAllBytes(fileName);
-            this.PixbufData = bytes;
-            this.Pixbuf = new Gdk.Pixbuf(bytes);
-            if (width < 1)
-                this.Width = this.Pixbuf.Width;
-            if (height < 1)
-                this.Height = this.Pixbuf.Height;
-        }
-        else if (System.IO.File.Exists($"Resources\\{fileName}.ico"))
-        {
-            var bytes = System.IO.File.ReadAllBytes($"Resources\\{fileName}.ico");
-            this.PixbufData = bytes;
-            this.Pixbuf = new Gdk.Pixbuf(bytes);
-            if (width < 1)
-                this.Width = this.Pixbuf.Width;
-            if (height < 1)
-                this.Height = this.Pixbuf.Height;
+            this.Pixbuf = new Gdk.Pixbuf(fileName);
+            this.Width = this.Pixbuf.Width;
+            this.Height = this.Pixbuf.Height;
+            this.PixbufData = this.Pixbuf.SaveToBuffer("png");
         }
     }
 
@@ -247,6 +212,17 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     public Icon(Type type, string resource)
     {
 
+    }
+
+    internal Icon(byte[] bytes)
+    {
+        if (bytes != null)
+        {
+            this.PixbufData = bytes;
+            this.Pixbuf = new Gdk.Pixbuf(bytes);
+            this.Width = this.Pixbuf.Width;
+            this.Height = this.Pixbuf.Height;
+        }
     }
 
     /// <summary>
@@ -301,16 +277,33 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     {
         get
         {
-            if (_Pixbuf == null && _PixbufData != null) { _Pixbuf = new Gdk.Pixbuf((byte[])_PixbufData.Clone()); }
+            if (_Pixbuf == null && _PixbufData != null)
+            {
+                try
+                {
+                    _Pixbuf = new Gdk.Pixbuf(_PixbufData);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
 
             return _Pixbuf;
         }
         set
         {
             _Pixbuf = value;
-            if (value != null)
+            if (value == null)
+                return;
+
+            try
             {
-                _PixbufData = value.SaveToBuffer("bmp");
+                _PixbufData = value.SaveToBuffer("png");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
     }
@@ -325,16 +318,33 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     {
         get
         {
-            if (_PixbufData == null && _Pixbuf != null) { _PixbufData = _Pixbuf.SaveToBuffer("bmp"); }
+            if (_PixbufData == null && _Pixbuf != null)
+            {
+                try
+                {
+                    _PixbufData = _Pixbuf.SaveToBuffer("png");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
 
             return _PixbufData;
         }
         set
         {
             _PixbufData = value;
-            if (value != null)
+            if (value == null)
+                return;
+
+            try
             {
-                _Pixbuf = new Gdk.Pixbuf((byte[])value.Clone());
+                _Pixbuf = new Gdk.Pixbuf(value);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
     }
@@ -447,7 +457,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
             foreach (var data in PixbufData)
                 outputStream.WriteByte(data);
         else if (Pixbuf != null)
-            foreach (var data in Pixbuf.PixelBytes.Data)
+            foreach (var data in Pixbuf.SaveToBuffer("png"))
                 outputStream.WriteByte(data);
         else if (FileName != null && System.IO.File.Exists(FileName))
             foreach (var data in System.IO.File.ReadAllBytes(FileName))

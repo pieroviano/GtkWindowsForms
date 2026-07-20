@@ -27,17 +27,24 @@ public partial class Button : Control
     private System.Drawing.ContentAlignment textAlign;
 
     /// <summary>
-    /// Occurs when the control is clicked.
-    /// </summary>
-    public override event EventHandler? Click;
-
-    /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Button" /> class.
     /// </summary>
     public Button() : base()
     {
-        self.Clicked += Self_Clicked;
+        self.Override.sender = this;
+    }
+
+    /// <summary>
+    /// Gets or sets the value that is returned to the parent form when the button is clicked.
+    /// </summary>
+    /// <value>
+    /// The dialog result.
+    /// </value>
+    public DialogResult DialogResult
+    {
+        get => self.DialogResult;
+        set => self.DialogResult = value;
     }
 
     /// <summary>
@@ -130,17 +137,5 @@ public partial class Button : Control
                 self.Yalign = 1.0f;
             }
         }
-    }
-
-    /// <summary>
-    /// Raises the Click event.
-    /// </summary>
-    protected internal override void OnClick(System.EventArgs e)
-    {
-        Click?.Invoke(this, e);
-    }
-
-    private void Self_Clicked(object sender, EventArgs e)
-    {
     }
 }

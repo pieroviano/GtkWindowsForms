@@ -26,8 +26,6 @@ public class TabPage : ContainerControl
 
     private readonly ControlCollection _controls;
 
-    private Size _size;
-
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.TabPage" /> class.
@@ -35,7 +33,9 @@ public class TabPage : ContainerControl
     public TabPage() : base()
     {
         _controls = new ControlCollection(this, self.Content);
-        this.Dock = DockStyle.Fill;
+        _tabLabel.StyleContext.AddClass("tablabel");
+        self.Halign = Gtk.Align.Fill;
+        self.Valign = Gtk.Align.Fill;
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public class TabPage : ContainerControl
         {
             return DockStyle.Fill;
         }
-        set { base.Dock = DockStyle.Fill; }
+        set { }
     }
 
     /// <summary>
@@ -161,8 +161,8 @@ public class TabPage : ContainerControl
     /// </value>
     public override Size Size
     {
-        get => _size;
-        set { _size = value; }
+        get;
+        set;
     }
 
     /// <summary>

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -32,6 +32,7 @@ public partial class RichTextBox : ScrollableControl
     /// </summary>
     public RichTextBox() : base()
     {
+        self.Override.sender = this;
         self.TextView.Buffer.Changed += Buffer_Changed;
         this.BorderStyle = BorderStyle.Fixed3D;
     }
@@ -87,12 +88,37 @@ public partial class RichTextBox : ScrollableControl
     }
 
     /// <summary>
+    /// Gets or sets the selected text.
+    /// </summary>
+    /// <value>
+    /// The selected text.
+    /// </value>
+    public string SelectedText
+    {
+        get
+        {
+            if (self.TextView.Buffer.GetSelectionBounds(out TextIter start, out TextIter end))
+                return self.TextView.Buffer.GetText(start, end, false);
+            else
+                return string.Empty;
+        }
+        set
+        {
+            if (self.TextView.Buffer.GetSelectionBounds(out TextIter start, out TextIter end))
+            {
+                //self.TextView.Buffer.Insert(ref start, value);
+                self.TextView.Buffer.DeleteSelection(false, false);
+                self.TextView.Buffer.InsertAtCursor(value);
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the length of the selection.
     /// </summary>
     /// <value>
     /// The length of the selection.
     /// </value>
-    [System.ComponentModel.Browsable(false)]
     public virtual int SelectionLength
     {
         get
@@ -149,6 +175,34 @@ public partial class RichTextBox : ScrollableControl
     }
 
     /// <summary>
+    /// Deselects all text.
+    /// </summary>
+    public void DeselectAll()
+    {
+        SelectionLength = 0;
+    }
+
+    /// <summary>
+    /// Sets input focus to the control.
+    /// </summary>
+    /// <returns>
+    /// <c>
+    /// true
+    /// </c> if the input focus request was successful; otherwise,
+    /// <c>
+    /// false
+    /// </c>.
+    /// </returns>
+    public override bool Focus()
+    {
+        self.TextView.Buffer.GetSelectionBounds(out TextIter start, out TextIter end);
+        self.TextView.ScrollToIter(start, 0, false, 0, 1);
+        self.TextView.IsFocus = true;
+
+        return self.TextView.IsFocus;
+    }
+
+    /// <summary>
     /// Inserts the text at cursor.
     /// </summary>
     /// <param name="text">
@@ -177,6 +231,14 @@ public partial class RichTextBox : ScrollableControl
     }
 
     /// <summary>
+    /// Selects all text.
+    /// </summary>
+    public void SelectAll()
+    {
+        Select(0, Text.Length);
+    }
+
+    /// <summary>
     /// Raises the TextChanged event.
     /// </summary>
     protected override void OnTextChanged(System.EventArgs e)
@@ -194,6 +256,8 @@ public partial class RichTextBox : ScrollableControl
     {
         self.TextView.Name = this.Name;
         base.SetStyle(self.TextView);
+        self.TextView.FocusVadjustment = self.Vadjustment;
+        self.TextView.FocusHadjustment = self.Hadjustment;
     }
 
     private void Buffer_Changed(object sender, EventArgs e)

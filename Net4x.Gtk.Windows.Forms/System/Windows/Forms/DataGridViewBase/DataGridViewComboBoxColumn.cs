@@ -45,15 +45,15 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
         _items = new ObjectCollection(this);
         var renderer = new CellRendererComboValue(this)
         {
-            Editable = true
+            Editable = true,
+            Mode = CellRendererMode.Editable
         };
         renderer.Edited += Renderer_Edited;
+        renderer.EditingStarted += Renderer_EditingStarted;
         renderer.TextColumn = 0;
         renderer.Height = RowHeight;
         renderer.Model = model;
         base.PackStart(renderer, true);
-        base.SortMode = DataGridViewColumnSortMode.NotSortable;
-        base.Sizing = TreeViewColumnSizing.GrowOnly;
         _cellRenderer = renderer;
     }
 
@@ -74,16 +74,14 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
 
     private void Renderer_Edited(object o, EditedArgs args)
     {
-        var path = new TreePath(args.Path);
-        var model = _treeView?.Model;
-        if (model == null) return;
-        model.GetIter(out var iter, path);
-        var cell = model.GetValue(iter, this.Index);
-        if (cell is DataGridViewCell val)
-        {
-            val.Value = args.NewText;
-            _gridview?.CellValueChanagedHandler(this.Index, path.Indices.Last());
-        }
+        RendererEdited(args.Path, args.NewText);
+    }
+
+    private void Renderer_EditingStarted(object o, EditingStartedArgs args)
+    {
+        _cellEditing = true;
+        _cellEditablePath = args.Path;
+        CellEditable = args.Editable;
     }
 
     /// <summary>

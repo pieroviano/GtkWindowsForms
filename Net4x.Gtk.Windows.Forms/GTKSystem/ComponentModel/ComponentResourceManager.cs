@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace GtkSystem.ComponentModel;
 
@@ -13,6 +14,8 @@ public class ComponentResourceManager : System.ComponentModel.ComponentResourceM
 
     private readonly Type formtype;
 
+    private readonly GtkSystem.Resources.ResourceManager resource;
+
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.ComponentModel.ComponentResourceManager" /> class.
@@ -20,10 +23,11 @@ public class ComponentResourceManager : System.ComponentModel.ComponentResourceM
     /// <param name="form">
     /// The form.
     /// </param>
-    public ComponentResourceManager(Type form) : base(form)
+    public ComponentResourceManager([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] Type form) : base(form)
     {
         formtype = form;
         formName = form.Name;
+        resource = new GtkSystem.Resources.ResourceManager(formtype.FullName, formtype.Assembly);
     }
 
     /// <summary>
@@ -64,9 +68,7 @@ public class ComponentResourceManager : System.ComponentModel.ComponentResourceM
     /// </returns>
     public override object GetObject(string name)
     {
-        var temp = new GtkSystem.Resources.ResourceManager(formtype.FullName, formtype.Assembly);
-
-        return temp.GetObject(name);
+        return resource.GetObject(name);
     }
 
     /// <summary>
@@ -83,8 +85,6 @@ public class ComponentResourceManager : System.ComponentModel.ComponentResourceM
     /// </returns>
     public override string? GetString(string name)
     {
-        var temp = new GtkSystem.Resources.ResourceManager(formtype.FullName, formtype.Assembly);
-
-        return temp.GetString(name);
+        return resource.GetString(name);
     }
 }

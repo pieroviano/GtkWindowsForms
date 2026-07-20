@@ -18,6 +18,15 @@ public sealed class ScrollbarBase<T> : Gtk.Scrollbar, IControlGtk
     }
 
     /// <summary>
+    /// Initializes static members of the
+    /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.ScrollbarBase{T}" /> class. Forces the runtime to materialize the closed generic type members so the GType registration is resolved.
+    /// </summary>
+    static ScrollbarBase()
+    {
+        typeof(ScrollbarBase<T>).GetMembers();
+    }
+
+    /// <summary>
     /// Gets the type of the g.
     /// </summary>
     /// <value>

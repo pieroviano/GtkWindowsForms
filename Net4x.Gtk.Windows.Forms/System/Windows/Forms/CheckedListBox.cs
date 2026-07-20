@@ -59,12 +59,13 @@ public partial class CheckedListBox : ContainerControl
     /// </summary>
     public CheckedListBox() : base()
     {
+        self.Override.sender = this;
         _items = new ObjectCollection(this);
         _flow.Orientation = Gtk.Orientation.Horizontal;
         _flow.MinChildrenPerLine = 1;
-        _flow.MaxChildrenPerLine = 99999;
+        _flow.MaxChildrenPerLine = 30;
         _flow.Halign = Gtk.Align.Fill;
-        _flow.Valign = Gtk.Align.Fill;
+        _flow.Valign = Gtk.Align.Start;
         _flow.ChildActivated += Control_ChildActivated;
         self.AutoScroll = true;
         self.Add(_flow);
@@ -176,7 +177,21 @@ public partial class CheckedListBox : ContainerControl
     public bool MultiColumn
     {
         get { return _flow.Orientation == Gtk.Orientation.Vertical; }
-        set { if (value == false) { _flow.Orientation = Gtk.Orientation.Horizontal; } else { _flow.Orientation = Gtk.Orientation.Vertical; } }
+        set
+        {
+            if (value)
+            {
+                _flow.Orientation = Gtk.Orientation.Vertical;
+                _flow.Halign = Gtk.Align.Start;
+                _flow.Valign = Gtk.Align.Fill;
+            }
+            else
+            {
+                _flow.Orientation = Gtk.Orientation.Horizontal;
+                _flow.Halign = Gtk.Align.Fill;
+                _flow.Valign = Gtk.Align.Start;
+            }
+        }
     }
 
     /// <summary>
@@ -213,8 +228,7 @@ public partial class CheckedListBox : ContainerControl
     {
         foreach (Gtk.FlowBoxChild wi in _flow.Children)
         {
-            var box = ((Gtk.Box)wi.Child).Children[0];
-            if (box is Gtk.CheckButton check)
+            if (wi.Child is Gtk.CheckButton check)
             {
                 check.Active = false;
             }
@@ -234,8 +248,17 @@ public partial class CheckedListBox : ContainerControl
     /// </param>
     public void SetItemChecked(int index, bool value)
     {
-        var item = _items.GetCheckedListBoxItem(index);
-        item?.Checked = value;
+        if (_flow.Children.Length > index)
+        {
+            if (_flow.Children[index] is Gtk.FlowBoxChild child)
+            {
+                var checkBox = child.Child.Data["Control"] as CheckBox;
+                if (checkBox != null)
+                {
+                    checkBox.Checked = value;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -249,35 +272,39 @@ public partial class CheckedListBox : ContainerControl
     /// </param>
     public void SetItemCheckState(int index, System.Windows.Forms.CheckState value)
     {
-        var item = _items.GetCheckedListBoxItem(index);
-        item?.Checked = value == System.Windows.Forms.CheckState.Checked;
+        SetItemChecked(index, System.Windows.Forms.CheckState.Checked == value);
     }
 
     internal void NativeAdd(CheckBox checkbox, bool isChecked, int position)
     {
         checkbox.self.Toggled += (object sender, EventArgs e) =>
         {
-            var box = (Gtk.CheckButton)sender;
-            if (this.ItemCheck != null && box.Parent is FlowBoxChild item)
+            var checkButton = (Gtk.CheckButton)sender;
+            if (this.ItemCheck != null && checkButton.Parent is FlowBoxChild item)
             {
-                var checkBox = _items.GetCheckedListBoxItem(item.Index);
-                if (checkBox != null)
+                this.ItemCheck(this, new ItemCheckEventArgs(item.Index, checkButton.Active == true ? CheckState.Checked : CheckState.Unchecked, checkButton.Active == false ? CheckState.Checked : CheckState.Unchecked));
+            }
+        };
+        checkbox.self.WidgetEvent += (object o, WidgetEventArgs args) =>
+        {
+            if (args.Event.Type is Gdk.EventType.ButtonRelease && args.Event is Gdk.EventButton event1 && event1.Button == 1)
+            {
+                var checkButton = (Gtk.CheckButton)o;
+                if (checkButton.Parent is FlowBoxChild item && item.IsSelected == false && this.CheckOnClick == false)
                 {
-                    this.ItemCheck(checkBox, new ItemCheckEventArgs(item.Index, box.Active == true ? CheckState.Checked : CheckState.Unchecked, box.Active == false ? CheckState.Checked : CheckState.Unchecked));
+                    args.RetVal = true;
+                    _flow.SelectChild(item);
                 }
             }
         };
-        var boxitem = new Gtk.FlowBoxChild
-        {
-            HeightRequest = this.ItemHeight
-        };
-        if (this.MultiColumn && this.ColumnWidth > 0)
-        {
-            boxitem.WidthRequest = this.ColumnWidth;
-        }
+
+        checkbox.self.Visible = true;
+        var boxitem = new Gtk.FlowBoxChild();
         boxitem.Valign = Gtk.Align.Start;
         boxitem.Halign = Gtk.Align.Start;
         boxitem.TooltipText = checkbox.Text;
+        boxitem.Visible = true;
+        boxitem.Realized += Boxitem_Realized;
         boxitem.Add(checkbox.self);
         if (position < 0)
         {
@@ -333,12 +360,27 @@ public partial class CheckedListBox : ContainerControl
         SelectedValueChanged?.Invoke(this, e);
     }
 
+    private void Boxitem_Realized(object sender, EventArgs e)
+    {
+        var item = (Gtk.FlowBoxChild)sender;
+        if (this.ItemHeight > 0)
+            item.HeightRequest = this.ItemHeight;
+        if (this.MultiColumn && this.ColumnWidth > 0)
+        {
+            item.WidthRequest = this.ColumnWidth;
+            var checkButton = (Gtk.CheckButton)item.Child;
+            if (checkButton.Child is Gtk.Label label)
+            {
+                label.WidthChars = this.ColumnWidth / 12;
+                label.Ellipsize = Pango.EllipsizeMode.End;
+            }
+        }
+        else
+            item.WidthRequest = this.Width;
+    }
+
     private void Control_ChildActivated(object o, Gtk.ChildActivatedArgs args)
     {
-        var rowIndex = args.Child.Index;
-        if (this.CheckOnClick == true)
-            args.Child.Child.SetProperty("active", new GLib.Value(true));
-
         SelectedIndexChanged?.Invoke(this, args);
         SelectedValueChanged?.Invoke(this, args);
         SelectedItemChanged?.Invoke(this, args);
@@ -442,7 +484,8 @@ public partial class CheckedListBox : ContainerControl
             var listBoxItem = new CheckBox
             {
                 Text = item.ToString(),
-                Checked = isChecked
+                Checked = isChecked,
+                Name = $"listBoxItem{Count}"
             };
             _owner.NativeAdd(listBoxItem, isChecked, position);
             if (position < 0)
@@ -503,10 +546,23 @@ public partial class CheckedListBox : ContainerControl
         /// </param>
         public override void Remove(object obj)
         {
-            var index = base.IndexOf(obj);
-            if (index > -1)
+            if (obj is CheckBox)
             {
-                RemoveAt(index);
+                var index = base.IndexOf(obj);
+                if (index > -1)
+                {
+                    RemoveAt(index);
+                }
+            }
+            else
+            {
+                var index = 0;
+                foreach (CheckBox item in this)
+                {
+                    if (item.Text == obj.ToString())
+                        RemoveAt(index);
+                    index++;
+                }
             }
         }
 

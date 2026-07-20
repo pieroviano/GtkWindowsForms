@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -44,6 +44,7 @@ public partial class TabControl : ContainerControl
     /// </summary>
     public TabControl() : base()
     {
+        self.Override.sender = this;
         _controls = new ControlCollection(this);
         _tabPageControls = new TabPageCollection(this);
         self.SwitchPage += Self_SwitchPage;
@@ -326,7 +327,8 @@ public partial class TabControl : ContainerControl
             try
             {
                 item.Parent = _owner;
-                item.TabLabel.Name = base.Count.ToString();
+                item.TabLabel.Name = $"tablabel{base.Count.ToString()}";
+                item.TabLabel.Data["Index"] = base.Count;
                 item._tabLabel.WidthRequest = _owner.ItemSize.Width;
                 item._tabLabel.HeightRequest = _owner.ItemSize.Height;
                 if (_owner.SizeMode == TabSizeMode.Fixed)
@@ -340,15 +342,15 @@ public partial class TabControl : ContainerControl
                 base.Add(item);
                 item.TabLabel.Drawn += (object sender, DrawnArgs args) =>
                 {
-                    if (_owner.DrawMode == TabDrawMode.OwnerDrawFixed && _owner.DrawItem != null)
+                    if (_owner.DrawItem != null && _owner.DrawMode == TabDrawMode.OwnerDrawFixed)
                     {
                         var tab = (Gtk.Label)sender;
-                        var allocation= tab.Allocation;
+                        var width = tab.AllocatedWidth;
+                        var height = tab.AllocatedHeight;
+                        args.Cr.Save();
                         args.Cr.ResetClip();
-                        var width = allocation.Width + 24;
-                        var height = allocation.Height + 2;
-                        _owner.OnDrawItem(new DrawItemEventArgs(new Graphics(tab, args.Cr, new Gdk.Rectangle(0, 0, width, height)) { diff_left = -12, diff_top = -2 }, _owner.Font, new Rectangle(0, 0, width, height), Convert.ToInt32(tab.Name), DrawItemState.Default));
-
+                        _owner.OnDrawItem(new DrawItemEventArgs(new Graphics(tab, args.Cr, new Gdk.Rectangle(0, 0, width, height)), _owner.Font, new Rectangle(0, 0, width, height), Convert.ToInt32(item.TabLabel.Data["Index"]), DrawItemState.Default));
+                        args.Cr.Restore();
                     }
                 };
                 return _owner.self.AppendPage(item.self, item.TabLabel);
