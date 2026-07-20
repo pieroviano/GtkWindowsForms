@@ -190,7 +190,7 @@ public static class RemoveUnusedUsingsService
         if (_usingDifferences != null)
             return;
 
-        var jsonPath = Path.GetFullPath(@"..\..\..\..\Resources\using-differences.json");
+        var jsonPath = Prepare.Common.IO.RepoPaths.At(@"Resources\using-differences.json");
 
         if (!File.Exists(jsonPath))
         {

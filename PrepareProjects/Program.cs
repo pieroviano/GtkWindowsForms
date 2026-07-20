@@ -1,18 +1,8 @@
-﻿using System.Diagnostics;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using Prepare.Common.Content;
+using System.Diagnostics;
 using Prepare.Common.IO;
 using Prepare.Common.Logging;
 using Prepare.Common.Projects;
-using Prepare.Common.Text;
 using PrepareProjects.Preparation;
-using PrepareProjects.Preparation.Compilation;
-using PrepareProjects.Preparation.Directories;
-using PrepareProjects.Preparation.Source;
-using PrepareProjects.ProjectHandling;
-using XmlDocSync.Services;
 
 namespace PrepareProjects;
 
@@ -24,174 +14,23 @@ public class Program
         // the same source and the patch series applies. Returns the branch to advance on exit.
         var sourceTrackingBranch = SourceRepositorySync.CheckoutGenerationBase();
 
-        PrepareWorker.RenameDirectoriesInSourceRepository();
-
-#if REFRESH_XML_COMMENT_FILES
-        PrepareWorker.RefreshXmlCommentFiles();
-#endif
-
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
-        const string net4xGtkWindowsForms = "Net4x.Gtk.Windows.Forms";
-        ConsoleColor.Green.Write(@$"Preparing {net4xGtkWindowsForms}", true);
-        var (targetDir, sourceProjectPath, csprojPath) =
-            await GtkWindowsFormsProjectHandler.PrepareAsync("GTKSystem.Windows.Forms", net4xGtkWindowsForms);
-
-        const string net4XSystemResourcesExtensions = "Net4x.System.Resources.Extensions";
-        ConsoleColor.Green.Write(@$"Preparing {net4XSystemResourcesExtensions}", true);
-        SystemResourcesExtensionsProjectHandler.Prepare($"{net4XSystemResourcesExtensions}.csproj");
-        var (version, updatePropsFiles) = VersionPrepare.PrepareSolutionVersion();
-
-        ConsoleColor.Green.Write(@"Preparing PoC projects", true);
-        var projectName = await GtkSampleAppProjectsHandler.PrepareAsync("GTKWinFormsApp", "GtkWinFormsApp", version);
-        var otherProjectName =
-            await GtkSampleAppProjectsHandler.PrepareAsync("GTKSystemWinFormsApp11", "GtkSystemWinFormsApp11", version);
-
-        ConsoleColor.Green.Write(@"Regenerating *.Designer.cs from resources for PoC projects", true);
-        ResGenService.RegenerateDesignersFromResources(targetDir, projectName, otherProjectName);
-
-        ConsoleColor.Green.Write(@"Copying code from Resources", true);
-        ResourcesCopyService.CopyCodeFromResources(targetDir);
-
-        ConsoleColor.Green.Write(@"Appling translations and first post processings", true);
-        var fullPath = Path.GetFullPath(Path.Combine(
-#pragma warning disable CS8604 // Possible null reference argument.
-            Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"..\..\..\..\Resources\", BackupUtility.PostProcessing));
-#pragma warning restore CS8604 // Possible null reference argument.
-        PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms", "mono" }, fullPath);
-
-        ConsoleColor.Green.Write(@"Normalyzing comments", true);
-        SummaryCommentTransformer.TransformFolder(targetDir);
-        MemberSpacingFormatter.TransformFolder(targetDir);
-
-        ConsoleColor.Green.Write(@"Removing old Xml comments generated from submodule", true);
-        PrepareWorker.RemoveOldXmlComments(csprojPath);
-
-        ConsoleColor.Green.Write($@"Reorganizing files for {net4xGtkWindowsForms}", true);
-        FolderFixer.ReorganizeFiles(csprojPath, new[]
-        {
-            "Properties",
-            "Content",
-            "Resources"
-        }, ["GTKControls", "GTKSystem"], ["Application"]);
-
-        ConsoleColor.Green.Write(@"Normalizing Gtk folders", true);
-        GtkFoldersService.NormalizeGtkFolders(csprojPath);
-        FixService.FixClasses(csprojPath);
-        var csProjectDirectory = Path.GetDirectoryName(csprojPath)??string.Empty;
-        GtkFoldersService.RenameFolder(Path.Combine(csProjectDirectory, "GtkSystem", "Windows", "Forms"),
-            "GTKControls", "GtkControls", csprojPath);
-
-        ConsoleColor.Green.Write($@"Separating {PrepareWorker.net4xGtkDrawing} from {net4xGtkWindowsForms}", true);
-        DrawingService.SeparateDrawing(PrepareWorker.net4xGtkDrawing);
-        PrepareWorker.OptimizeNet4xGtkDrawingFileSystem(csProjectDirectory);
-
-        ConsoleColor.Green.Write($@"Replacing unimplemented classes with mono equivalent", true);
-        FileContentReplacer.ReplaceContent(
-            @"..\..\..\..\mono\mcs\class\System.Drawing\System.Drawing\CharacterRange.cs",
-            @"..\..\..\..\Net4x.Gtk.Drawing\System\Drawing\CharacterRange.cs"
-        );
-
-        ConsoleColor.Green.Write(@"Applying files first post processing", true);
-        var postprocessingXml = PrepareWorker.GetSubsequentPostprocessingXml(false);
-        PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms", "mono" },
-            postprocessingXml);
-
-        ConsoleColor.Green.Write(@"Regenerating SR.Designer.cs", true);
-        ResGenService.RegenerateSrDesigner(csProjectDirectory, csprojPath);
-
-        ConsoleColor.Green.Write(@"Cleaning IntermediateBackup", true);
-        BackupUtility.CleanEmptyFolders(csProjectDirectory);
-        BackupUtility.CleanBackup(csProjectDirectory, BackupUtility.IntermediateBackup, "Net4x.Gtk.Windows.Forms");
-
-        ConsoleColor.Green.Write(@"Persisting IntermediateBackup", true);
-        var projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);
-        ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, csProjectDirectory, BackupUtility.IntermediateBackup);
-
-        ConsoleColor.Green.Write(@"Merging Xml documentation", true);
-        await PrepareWorker.MergeXmlDocumentationAsync();
-        ConsoleColor.White.Write("Xml comments merged.");
-
-        ConsoleColor.DarkMagenta.Write("Ensuring On....(...EventArgs) are raising event.", true);
-        PrepareWorker.EnsureOnEventRaisesEvent();
-
-
-        ConsoleColor.DarkMagenta.Write("Formatting Net4x.Gtk.Windows.Forms.csproj", true);
-        DotnetFormatter.Format(csprojPath, Path.GetFullPath(@"..\..\..\..\.editorconfig"));
-        ConsoleColor.DarkMagenta.Write("Formatting Net4x.Gtk.Drawing.csproj", true);
-        var net4xGtkDrawingPath = "..\\..\\..\\..\\Net4x.Gtk.Drawing\\Net4x.Gtk.Drawing.csproj";
-        DotnetFormatter.Format(net4xGtkDrawingPath, Path.GetFullPath(@"..\..\..\..\.editorconfig"));
-
-        ConsoleColor.Green.Write(@"Applying files latest post processing", true);
-        postprocessingXml = PrepareWorker.GetSubsequentPostprocessingXml(true);
-        PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms", "mono" },
-            postprocessingXml);
-        BackupUtility.CleanBackup(csProjectDirectory, BackupUtility.LatestBackup, "Net4x.Gtk.Windows.Forms");
-
-        await PrepareWorker.PatchFile(@"..\..\..\..\Net4x.Gtk.Windows.Forms\System\Windows\Forms\Dialog\FileDialog.cs");
-        await PrepareWorker.PatchFile(@"..\..\..\..\Net4x.Gtk.Windows.Forms\System\Windows\Forms\Printing\PrintPreviewDialog.cs");
-        await PrepareWorker.PatchCommentsInFile(@"..\..\..\..\Net4x.Gtk.Windows.Forms\System\Windows\Forms\Dialog\MessageBox\MessageBox.cs");
-        await PrepareWorker.PatchCommentsInFile(@"..\..\..\..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\ImageAnimator.cs");
-        await PrepareWorker.PatchCommentsInFile(@"..\..\..\..\Net4x.Gtk.Windows.Forms\System\Windows\Forms\Printing\PrintDialog.cs");
-
-
-        ConsoleColor.Green.Write(@"Beautifying on project files", true);
-#pragma warning disable CS8604 // Possible null reference argument.
-        var gtkDrawingDirectory = Path.GetDirectoryName(net4xGtkDrawingPath);
-        var exclude = new string[]{"GtkSystem\\Resources\\ResourceManager.cs"};
-        var removeUnusedUsings = true;
-        await CsBeautyfier.ProcessFolderAsync(gtkDrawingDirectory, exclude, removeUnusedUsings);
-        await CsBeautyfier.ProcessFolderAsync(csProjectDirectory, exclude, removeUnusedUsings);
-#pragma warning restore CS8604 // Possible null reference argument.
-
-        ConsoleColor.Green.Write(@"Normalizing end of line on project files", true);
-        LineEndingNormalizer.NormalizeCsFiles(gtkDrawingDirectory);
-        LineEndingNormalizer.NormalizeCsFiles(csProjectDirectory);
-
-        ConsoleColor.Green.Write(@"Splitting project files with multiple types", true);
-        TypeSplitService.ProcessDirectory(gtkDrawingDirectory, [".Designer.cs"]);
-        TypeSplitService.ProcessDirectory(csProjectDirectory, 
-                                                  [
-                                                      ".Designer.cs",
-                                                      @"System\Windows\Forms\MenuStripBase\ToolStripDropDownItem.cs",
-                                                      @"System\Windows\Forms\PropertyGridBase\PropertyGrid.Flags.cs",
-                                                      @"System\Windows\Forms\PropertyGridBase\PropertyGrid.PropertyTabCollection.cs",
-                                                      @"System\Windows\Forms\PropertyGridBase\PropertyGrid.TabInfo.cs",
-                                                      @"System\Resources\ResXResourceReader.cs",
-                                                      @"System\Resources\ResXResourceReader.ReaderAliasResolver.cs",
-                                                      @"System\Resources\ResXFileRef.cs",
-                                                      @"System\Resources\ResxFileRef.Converter.cs",                                                      
-                                                      @"System\Windows\Forms\ListBoxBase\ListBox.IntegerCollection.cs",
-                                                      @"System\Windows\Forms\ListBoxBase\ListBox.IntegerCollection.CustomTabOffsetsEnumerator.cs",
-                                                      @"System\Windows\Forms\ListBoxBase\ListBox.ObjectCollection.cs",
-                                                      @"System\Windows\Forms\ListBoxBase\ListBox.SelectedIndexCollection.cs",
-                                                      @"System\Windows\Forms\ListBoxBase\ListBox.SelectedIndexCollection.SelectedIndexEnumerator.cs",
-                                                      @"System\Windows\Forms\ListBoxBase\ListBox.SelectedObjectCollection.cs",
-                                                      @"System\Windows\Forms\ComboBoxBase\ComboBox.ObjectCollection.cs",
-                                                      @"System\Windows\Forms\ComboBoxBase\ComboBox.ObjectCollection.Entry.cs",
-                                                      @"System\Windows\Forms\ComboBoxBase\ComboBox.ObjectCollection.EntryEnumerator.cs",
-                                                      @"Content\System.ComponentModel.cs",
-                                                      @"Content\System.Resources.ResourceManager.cs",
-                                                      @"GtkSystem\Windows\Forms\GtkControls\ControlBase\GtkControlOverride.cs",
-                                                      @"System\Resources\ResXFileRef.cs",
-                                                      @"System\Resources\ResXResourceReader.cs",
-                                                      //@""
-                                                  ]);
+        // The transform f (copy → translate → reorg → split → format → type-split), shared with AlignProjects.
+        var t = await TransformPipeline.RunTransform();
 
         ConsoleColor.Green.Write(@"Applying patches the solution", true);
         GitPatchApplier.CommitAndApplyPatches();
 
         ConsoleColor.Green.Write(@"Persisting latest project files", true);
-        projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);
-        ProjectUtility.PersistProjectFiles(csprojPath, projectFiles, csProjectDirectory, BackupUtility.LatestBackup);
-        var directoryName = gtkDrawingDirectory ?? string.Empty;
-        projectFiles = ProjectUtility.GetProjectFiles(net4xGtkDrawingPath, out _);
-        ProjectUtility.PersistProjectFiles(net4xGtkDrawingPath, projectFiles, directoryName, BackupUtility.LatestBackup);
+        var projectFiles = ProjectUtility.GetProjectFiles(t.CsprojPath, out _);
+        ProjectUtility.PersistProjectFiles(t.CsprojPath, projectFiles, t.CsProjectDirectory, BackupUtility.LatestBackup);
+        var directoryName = t.GtkDrawingDirectory;
+        projectFiles = ProjectUtility.GetProjectFiles(t.Net4xGtkDrawingPath, out _);
+        ProjectUtility.PersistProjectFiles(t.Net4xGtkDrawingPath, projectFiles, directoryName, BackupUtility.LatestBackup);
         BackupUtility.DeleteBackupFolders("..\\..\\..\\..\\");
 
         ConsoleColor.Green.Write(@"Building the solution", true);
-        updatePropsFiles.Invoke();
-        var solutionPath = PrepareWorker.GetSolutionPath(csProjectDirectory);
+        t.UpdatePropsFiles.Invoke();
+        var solutionPath = PrepareWorker.GetSolutionPath(t.CsProjectDirectory);
         ProjectCompilation.RestoreSolution(solutionPath);
         ProjectCompilation.BuildSolution(solutionPath);
         ProjectCompilation.BuildSolution(Path.GetFullPath("..\\..\\..\\..\\Prepare.Common\\Prepare.Common.csproj"));

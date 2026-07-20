@@ -13,11 +13,9 @@ public static class GtkSampleAppProjectsHandler
 {
     public static async Task<string> PrepareAsync(string? sourceProjectName, string? targetProjectName, string version)
     {
-        var sourceDir = Path.GetFullPath(
-            @$"..\..\..\..\gtksystem-windows-forms\Samples\{sourceProjectName}");
+        var sourceDir = RepoPaths.At($@"gtksystem-windows-forms\Samples\{sourceProjectName}");
 
-        var targetDir = Path.GetFullPath(
-            @$"..\..\..\..\{targetProjectName}");
+        var targetDir = RepoPaths.At($"{targetProjectName}");
 
         ProjectUtility.PrepareEmptyDirectory(targetDir);
         ProjectUtility.CopyDirectory(sourceDir, targetDir);
@@ -80,8 +78,7 @@ public static class GtkSampleAppProjectsHandler
     {
         foreach (var testData in new[] { "TestData1.json", "TestData1.en.json" })
         {
-#pragma warning disable CS8604 // Possible null reference argument.
-            var sourceFileName = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"..\..\..\..\Resources", testData));
+            var sourceFileName = RepoPaths.At(Path.Combine("Resources", testData));
             var destFileName = Path.Combine(targetDir, testData);
             if (File.Exists(destFileName))
             {
@@ -99,8 +96,7 @@ public static class GtkSampleAppProjectsHandler
         var projectName =
             Path.GetFileNameWithoutExtension(csprojPath);
 
-        var resourcesDir = Path.GetFullPath(
-            @"..\..\..\..\Resources");
+        var resourcesDir = RepoPaths.At("Resources");
 
         var sourcePath = Path.Combine(
             resourcesDir,

@@ -2,7 +2,10 @@
 
 `PrepareProjects` is the **code-generation / build pipeline** that regenerates the shippable `Net4x.Gtk.Windows.Forms` and `Net4x.Gtk.Drawing` libraries from the vendored `gtksystem-windows-forms` git submodule, then builds and (optionally) publishes the NuGet packages. It also **pins that submodule to a fixed generation base on entry** and **advances it to the latest gitee upstream on exit** (see [Source-repository management](#source-repository-management-entry--exit)).
 
-It is a console `Exe` — the whole pipeline is the `Main` method in [PrepareProjects/Program.cs](PrepareProjects/Program.cs), executed top to bottom. There is no configuration file; the sequence of steps *is* the pipeline.
+It is a console `Exe` with no configuration file — the sequence of steps *is* the pipeline. The code is split in two:
+
+- [PrepareProjects/TransformPipeline.cs](PrepareProjects/TransformPipeline.cs) — `TransformPipeline.RunTransform()`, the **transform `f`** (copy → translate → reorganize → split drawing → format → type-split). It is deliberately free of source-repo hooks, patching, build, and publish so that **AlignProjects runs the identical transform**. It returns a `TransformResult` carrying the paths and the deferred `updatePropsFiles` action.
+- [PrepareProjects/Program.cs](PrepareProjects/Program.cs) — a thin driver: pin the submodule, `await TransformPipeline.RunTransform()`, then apply patches, persist backups, build, prune dev packages, publish, and advance the submodule.
 
 ## Why this exists
 
@@ -23,7 +26,7 @@ The shippable library is a maintained fork of upstream [GTKSystem.Windows.Forms]
 | `NoWarn` | `CA1416;IDE0055` | Suppresses the platform-compatibility analyzer (CA1416, expected for a Windows-only tool) and a formatting rule. |
 | `SkipPush` | `true` | **MSBuild property** consumed by the `Net4x.PublishNuget` package to skip pushing during a normal build. Note this is distinct from the `SkipPush` *environment variable* the program checks at runtime (see below). |
 
-**Project references** — the pipeline is split across three projects:
+**Project references** — the pipeline draws on two library projects:
 
 - **`Prepare.Common`** — reusable primitives: IO/backup, git patch application, `dotnet` build/format invocation, translation, ResX handling, version bumping, post-processing engine.
 - **`XmlDocSync`** — Roslyn-based source rewriters and beautifiers (XML-doc merge/format, event-invocator normalization, type splitting, unused-using removal, `var` rewriting, etc.).
@@ -56,11 +59,16 @@ The pipeline brackets its work with two operations on the `gtksystem-windows-for
 
 The base commit and tracking branch are `SourceRepositorySync.GenerationBaseCommit` / `DefaultTrackingBranch` (`main`).
 
-## Pipeline stages (order of `Program.Main`)
+## Pipeline stages (execution order)
 
-Each stage prints a colored banner via `ConsoleColor.*.Write`. Stages, in order:
+Each stage prints a colored banner via `ConsoleColor.*.Write`. Stages 2–26 are the body of `TransformPipeline.RunTransform()`; stages 1 and 27–33 are `Program.Main`.
+
+### Driver — before the transform (`Program.Main`)
 
 1. **Pin source repository to the generation base** — `SourceRepositorySync.CheckoutGenerationBase()` (see [above](#source-repository-management-entry--exit)); detached force-checkout of the frozen base commit. Runs first, before any transformation; returns the branch to advance on exit.
+
+### The transform `f` (`TransformPipeline.RunTransform`)
+
 2. **Normalize submodule folders** — `PrepareWorker.RenameDirectoriesInSourceRepository()` renames case-variant folders (`GTKControls`→`GtkControls`, `GTKSystem`→`GtkSystem`) inside the submodule via a two-step move (git is case-insensitive on Windows).
 3. **Register code-page encodings** — needed to read the original non-UTF-8 Chinese source.
 4. **Prepare `Net4x.Gtk.Windows.Forms`** — `GtkWindowsFormsProjectHandler.PrepareAsync("GTKSystem.Windows.Forms", "Net4x.Gtk.Windows.Forms")`:
@@ -87,6 +95,10 @@ Each stage prints a colored banner via `ConsoleColor.*.Write`. Stages, in order:
 24. **Beautify source** — `CsBeautyfier.ProcessFolderAsync(...)` (removes unused usings; excludes `GtkSystem\Resources\ResourceManager.cs`).
 25. **Normalize line endings** — `LineEndingNormalizer.NormalizeCsFiles(...)`.
 26. **Split multi-type files** — `TypeSplitService.ProcessDirectory(...)` splits files containing multiple top-level types into one-type-per-file (with an explicit exclusion list, e.g. `.Designer.cs`, several `PropertyGrid.*`, `ListBox.*`, `ComboBox.*` partials).
+    *(end of the transform — `RunTransform` returns a `TransformResult`; everything below is `Program.Main` again)*
+
+### Driver — after the transform (`Program.Main`)
+
 27. **Commit and apply patches** — `GitPatchApplier.CommitAndApplyPatches()`: `git add .`, commit if staged changes exist ("Auto commit before applying patches"), then apply every `patches/*.patch` **in sorted order** via `git apply --3way`. (Sorted order is why patches are numbered `0001-`, `0002-`, …)
 28. **Persist latest project files** — `ProjectUtility.PersistProjectFiles(..., LatestBackup)` for both projects, then `BackupUtility.DeleteBackupFolders(...)`.
 29. **Apply version to props & build** — invoke the deferred `updatePropsFiles()`, then `ProjectCompilation.RestoreSolution` + `BuildSolution` on the main solution and `Prepare.Common`.
@@ -103,7 +115,7 @@ Each stage prints a colored banner via `ConsoleColor.*.Write`. Stages, in order:
 | Injected/overlaid source or translations | `Resources/*.cs`, `Resources/Translations.xml`, `Resources/*Resources.*.xml` |
 | Text/structure transforms applied during prep | `Resources/PostProcessing.xml`, `IntermediatePostProcessing.xml`, `LatestPostProcessing.xml` (edit via the `UpdatePostProcessing` tool) |
 | Upstream logic | The `gtksystem-windows-forms` submodule |
-| Version scheme / package versions | `Directory.Build.Props`, `Directory.Nuget.Props` (written automatically in step 28) |
+| Version scheme / package versions | `Directory.Build.Props`, `Directory.Nuget.Props` (written automatically in step 29) |
 
 ## External dependencies at runtime
 
@@ -111,3 +123,14 @@ Each stage prints a colored banner via `ConsoleColor.*.Write`. Stages, in order:
 - **`dotnet`** on `PATH` — for `dotnet format`, restore, and build.
 - **`PublishNuget.exe`** — from the `Net4x.PublishNuget` NuGet package cache (only used when pushing).
 - Initialized **submodules** — `gtksystem-windows-forms` (source of truth) and `mono` (fallback `System.Drawing` implementations).
+
+## AlignProjects (post-pipeline)
+
+`AlignProjects` (in `PrepareProjects.sln`) is a companion tool that runs **after** PrepareProjects to forward-port newer gitee upstream changes onto the generated `Net4x.*` projects, incrementally. Where PrepareProjects regenerates `Net4x.*` from the frozen base commit + patches, AlignProjects computes the upstream delta in *transformed space* and 3-way-merges it onto the live projects, preserving the fork's patches/manual edits.
+
+- **Shared transform:** both tools run the same transform `f` — `TransformPipeline.RunTransform` (extracted from `Program.Main`; PrepareProjects then applies patches/build/publish, AlignProjects diffs two transformed snapshots).
+- **Incremental & checkpointed:** each run aligns `last-aligned checkpoint → gitee HEAD` and advances the checkpoint (`AlignProjects/last-aligned.txt`); re-running with nothing new is a no-op.
+- **Two operator pauses:** fill new translations (blank dictionary entries), and resolve merge conflicts (each shown with the `Net4x.*` path and the raw `gtksystem-windows-forms` source).
+- **Status:** the driver (checkpoint, structural preflight, 3-way merge, conflict pause, report) is implemented and tested; the transform-producer half (`repoRoot` threading, staging roots, provenance, determinism) is still pending a GTK-environment validation run.
+
+The as-built tool — stages, exit codes, env overrides, and where the code differs from the plan — is documented in [AlignProjects.md](AlignProjects.md); the design rationale and status live in [AlignProjects-Plan.md](AlignProjects-Plan.md).

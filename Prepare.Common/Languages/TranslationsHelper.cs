@@ -11,11 +11,11 @@ public static class TranslationsHelper
         return doc.Root!
             .Elements("Entry")
             .Select(e => new KeyValuePair<string, string>(
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-                e.Element("Chinese").Value,
-                e.Element("English").Value))
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-            .Where(kv => kv.Key.Length > 0)
+                e.Element("Chinese")?.Value ?? string.Empty,
+                e.Element("English")?.Value ?? string.Empty))
+            // Skip entries with empty Chinese, and skip empty-English (untranslated) entries so
+            // that untranslated Chinese is left intact rather than replaced with an empty string.
+            .Where(kv => kv.Key.Length > 0 && !string.IsNullOrEmpty(kv.Value))
             // IMPORTANT: longer strings first to avoid partial replacements
             .OrderByDescending(kv => kv.Key.Length)
             .ToList();

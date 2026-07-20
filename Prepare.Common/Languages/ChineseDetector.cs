@@ -37,7 +37,7 @@ public static class ChineseDetector
         }
 
         var outputPath = Path.GetFullPath(
-            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\Resources", outputFileName)
+            Path.Combine(Prepare.Common.IO.RepoPaths.Root, "Resources", outputFileName)
         );
 
         // ---- TEXT OUTPUT ----

@@ -10,7 +10,7 @@ namespace Prepare.Common.Services;
 internal class PostProcessingPersister
 {
     private readonly string _postProcessingPath = Path.GetFullPath(
-        Path.Combine(AppContext.BaseDirectory, @$"..\..\..\..\Resources\{BackupUtility.LatestPostProcessing}"));
+        RepoPaths.At($@"Resources\{BackupUtility.LatestPostProcessing}"));
 
     public void PersistReplacements(IEnumerable<TextReplacement> replacements, FileItem fileItem)
     {

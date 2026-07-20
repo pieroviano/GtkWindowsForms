@@ -46,22 +46,21 @@ public static class ProjectUtility
     public static string CopyProjectAndTranslateIt(object? sourceProjectName, object? targetProjectName,
         Func<string, string?, string, string> patchProjectNamespace)
     {
-        var sourceDir = Path.GetFullPath(
-            @$"..\..\..\..\gtksystem-windows-forms\Source\{sourceProjectName}");
+        var sourceDir = RepoPaths.At($@"gtksystem-windows-forms\Source\{sourceProjectName}");
 
-        var targetDir = Path.GetFullPath(@$"..\..\..\..\{targetProjectName}");
+        var targetDir = RepoPaths.At($"{targetProjectName}");
 
         PrepareEmptyDirectory(targetDir);
         CopyDirectory(sourceDir, targetDir);
 
-        var fileToTranslate = Path.GetFullPath(@$"{@$"..\..\..\..\{targetProjectName}"}\GTKSystem.Windows.Forms.csproj");
+        var fileToTranslate = RepoPaths.At($@"{targetProjectName}\GTKSystem.Windows.Forms.csproj");
         Translator.ProcessFileTranslation(fileToTranslate, patchProjectNamespace, "Translations");
         return targetDir;
     }
 
     public static void CopyLocalizationResourcesFiles(string targetDir, params string[] sourceFileNames)
     {
-        var resourcesDir = Path.GetFullPath(@"..\..\..\..\Resources");
+        var resourcesDir = RepoPaths.At("Resources");
         Directory.CreateDirectory(targetDir);
 
         foreach (var sourceFile in sourceFileNames)

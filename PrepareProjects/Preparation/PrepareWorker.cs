@@ -250,12 +250,8 @@ public static class PrepareWorker
 
     public static string GetSubsequentPostprocessingXml(bool isLatest)
     {
-        var directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-#pragma warning disable CS8604 // Possible null reference argument.
-        var postprocessingXml =
-            Path.GetFullPath(Path.Combine(directoryName, @"..\..\..\..\Resources",
-                isLatest ? BackupUtility.LatestPostProcessing : BackupUtility.IntermediatePostProcessing));
-#pragma warning restore CS8604 // Possible null reference argument.
+        var postprocessingXml = RepoPaths.At(Path.Combine("Resources",
+            isLatest ? BackupUtility.LatestPostProcessing : BackupUtility.IntermediatePostProcessing));
         return postprocessingXml;
     }
 
@@ -288,40 +284,50 @@ public static class PrepareWorker
 #if DONT_SKIP_INITIAL
         ConsoleColor.DarkMagenta.Write("Processing XML comments from System.Windows.Forms.xml", true);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
-            "..\\..\\..\\..\\Resources\\System.Windows.Forms.xml",
-            "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms", fixes);
+            RepoPaths.At(@"Resources\System.Windows.Forms.xml"),
+            RepoPaths.At("Net4x.Gtk.Windows.Forms"), fixes);
         ConsoleColor.DarkMagenta.Write("Processing XML comments from System.Drawing.xml", true);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
-            "..\\..\\..\\..\\Resources\\System.Drawing.xml",
-            "..\\..\\..\\..\\Net4x.Gtk.Drawing", fixes);
+            RepoPaths.At(@"Resources\System.Drawing.xml"),
+            RepoPaths.At("Net4x.Gtk.Drawing"), fixes);
 #endif
         ConsoleColor.DarkMagenta.Write("Processing XML comments from Net4x.Gtk.Windows.Forms.xml", true);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
-            "..\\..\\..\\..\\Resources\\Net4x.Gtk.Windows.Forms.xml",
-            "..\\..\\..\\..\\Net4x.Gtk.Windows.Forms", fixes, true, false);
+            RepoPaths.At(@"Resources\Net4x.Gtk.Windows.Forms.xml"),
+            RepoPaths.At("Net4x.Gtk.Windows.Forms"), fixes, true, false);
         ConsoleColor.DarkMagenta.Write("Processing XML comments from Net4x.Gtk.Drawing.xml", true);
         await XmlDocumentationService.MergeXmlDocumentationAsync(
-            "..\\..\\..\\..\\Resources\\Net4x.Gtk.Drawing.xml",
-            "..\\..\\..\\..\\Net4x.Gtk.Drawing", fixes, true, false);
+            RepoPaths.At(@"Resources\Net4x.Gtk.Drawing.xml"),
+            RepoPaths.At("Net4x.Gtk.Drawing"), fixes, true, false);
     }
 
     public static void OptimizeNet4xGtkDrawingFileSystem(string projectDirectory)
     {
-        DrawingDirectoryMover.MoveDrawingDirectory(
-            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Drawing\")),
-            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\")),
-            Path.GetFullPath(Path.Combine(projectDirectory,
-                @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Drawing\")));
-        DrawingDirectoryMover.MoveDrawingDirectory(
-            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing\")),
-            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\")),
-            Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing\")));
-        LogUtility.FileCopyAndLog(@"..\..\..\..\Resources\GtkLogger.cs", Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Diagnostics\GtkLogger.cs"));
-        LogUtility.FileCopyAndLog(@"..\..\..\..\Resources\ColorConverter.cs", Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\ColorConverter.cs"));
+        var drawingRoot = Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\"));
+        var drawing2dDrawing = Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing2D\Drawing\"));
+        var drawing = Path.GetFullPath(Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\Drawing\"));
+
+        if (PathGuard.RequireDirectory(drawing2dDrawing, "flatten Net4x.Gtk.Drawing System/Drawing/Drawing2D/Drawing"))
+        {
+            DrawingDirectoryMover.MoveDrawingDirectory(drawing2dDrawing, drawingRoot, drawing2dDrawing);
+        }
+
+        if (PathGuard.RequireDirectory(drawing, "flatten Net4x.Gtk.Drawing System/Drawing/Drawing"))
+        {
+            DrawingDirectoryMover.MoveDrawingDirectory(drawing, drawingRoot, drawing);
+        }
+
+        LogUtility.FileCopyAndLog(RepoPaths.At(@"Resources\GtkLogger.cs"), Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Diagnostics\GtkLogger.cs"));
+        LogUtility.FileCopyAndLog(RepoPaths.At(@"Resources\ColorConverter.cs"), Path.Combine(projectDirectory, @"..\Net4x.Gtk.Drawing\System\Drawing\ColorConverter.cs"));
     }
 
     public static async Task PatchCommentsInFile(string path)
     {
+        if (!PathGuard.RequireFile(path, "patch comments in file"))
+        {
+            return;
+        }
+
         var text = await File.ReadAllTextAsync(path);
         text = text.Replace(
             "\n    //END ADD                                                                                                      //",
@@ -345,6 +351,11 @@ public static class PrepareWorker
 
     public static async Task PatchFile(string path)
     {
+        if (!PathGuard.RequireFile(path, "patch file (System.System. fix)"))
+        {
+            return;
+        }
+
         var text = await File.ReadAllTextAsync(path);
         text = text.Replace("System.System.", "System.");
         await CsFile.WriteAllTextAsync(path, text);
@@ -352,19 +363,19 @@ public static class PrepareWorker
 
     public static void RefreshXmlCommentFiles()
     {
-        if (File.Exists(@"..\..\..\..\Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.xml"))
+        if (File.Exists(RepoPaths.At(@"Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.xml")))
         {
-            File.Delete(@"..\..\..\..\Resources\Net4x.Gtk.Windows.Forms.xml");
-            var destFileName = Path.GetFullPath(@"..\..\..\..\Resources\Net4x.Gtk.Windows.Forms.xml");
-            LogUtility.FileCopyAndLog(@"..\..\..\..\Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.xml",
+            File.Delete(RepoPaths.At(@"Resources\Net4x.Gtk.Windows.Forms.xml"));
+            var destFileName = RepoPaths.At(@"Resources\Net4x.Gtk.Windows.Forms.xml");
+            LogUtility.FileCopyAndLog(RepoPaths.At(@"Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.xml"),
                 destFileName);
         }
 
-        if (File.Exists(@"..\..\..\..\Net4x.Gtk.Drawing\Net4x.Gtk.Drawing.xml"))
+        if (File.Exists(RepoPaths.At(@"Net4x.Gtk.Drawing\Net4x.Gtk.Drawing.xml")))
         {
-            File.Delete(@"..\..\..\..\Resources\Net4x.Gtk.Drawing.xml");
-            var destFileName = Path.GetFullPath(@"..\..\..\..\Resources\Net4x.Gtk.Drawing.xml");
-            LogUtility.FileCopyAndLog(@"..\..\..\..\Net4x.Gtk.Drawing\Net4x.Gtk.Drawing.xml",
+            File.Delete(RepoPaths.At(@"Resources\Net4x.Gtk.Drawing.xml"));
+            var destFileName = RepoPaths.At(@"Resources\Net4x.Gtk.Drawing.xml");
+            LogUtility.FileCopyAndLog(RepoPaths.At(@"Net4x.Gtk.Drawing\Net4x.Gtk.Drawing.xml"),
                 destFileName);
         }
     }
@@ -379,21 +390,28 @@ public static class PrepareWorker
 
     public static void RenameDirectoriesInSourceRepository()
     {
-        var newPath = @"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GtkControls";
-        if (!CaseSensitiveChecker.DirectoryExists(newPath))
+        var sourceRoot = RepoPaths.At(@"gtksystem-windows-forms\Source\GTKSystem.Windows.Forms");
+        NormalizeCasing(Path.Combine(sourceRoot, "GTKControls"), Path.Combine(sourceRoot, "GtkControls"));
+        NormalizeCasing(Path.Combine(sourceRoot, "GTKSystem"), Path.Combine(sourceRoot, "GtkSystem"));
+    }
+
+    private static void NormalizeCasing(string upperCasePath, string targetPath)
+    {
+        if (CaseSensitiveChecker.DirectoryExists(targetPath))
         {
-            Directory.Move(@"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKControls",
-                @"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKControls1");
-            Directory.Move(@"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKControls1", newPath);
+            return; // already normalized
         }
 
-        newPath = @"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GtkSystem";
-        if (!CaseSensitiveChecker.DirectoryExists(newPath))
+        if (!PathGuard.RequireDirectory(upperCasePath,
+                $"case-normalize '{Path.GetFileName(targetPath)}' in the source repository"))
         {
-            Directory.Move(@"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKSystem",
-                @"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKSystem1");
-            Directory.Move(@"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKSystem1", newPath);
+            return;
         }
+
+        // The file system is case-insensitive on Windows, so rename via a distinct temp name.
+        var tempPath = targetPath + "1";
+        Directory.Move(upperCasePath, tempPath);
+        Directory.Move(tempPath, targetPath);
     }
 
     private static void EventOnMethod(string file)

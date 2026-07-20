@@ -38,6 +38,14 @@ public static class ProjectPreparation
             Path.Combine(targetDir, "GTKSystem.Windows.Forms.csproj.user"),
             Path.Combine(targetDir, "Net4x.Gtk.Windows.Forms.csproj.user"));
 
+        if (!File.Exists(newCsproj))
+        {
+            // Neither the renamed nor the original project file is present: the upstream project
+            // may have been renamed. Fail loud so downstream csproj-path assumptions don't break obscurely.
+            PathGuard.RequireFile(oldCsproj,
+                "rename GTKSystem.Windows.Forms.csproj -> Net4x.Gtk.Windows.Forms.csproj");
+        }
+
         return newCsproj;
     }
 }

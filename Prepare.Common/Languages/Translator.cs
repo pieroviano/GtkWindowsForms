@@ -9,7 +9,7 @@ public static class Translator
         Func<string, string?, string, string> patchProjectNamespace,
         string? xmlTranslationFileName)
     {
-        var xmlTranslationPath = Path.GetFullPath(@$"..\..\..\..\Resources\{xmlTranslationFileName}.xml");
+        var xmlTranslationPath = Prepare.Common.IO.RepoPaths.At($@"Resources\{xmlTranslationFileName}.xml");
         var xmlTranslations = TranslationsHelper.LoadTranslations(xmlTranslationPath);
         TranslateFile(null, null, fileToTranslate, null,
             patchProjectNamespace, null, xmlTranslations);
@@ -53,7 +53,9 @@ public static class Translator
         {
             var cn = translation.Key;
             var en = translation.Value;
-            if (string.IsNullOrEmpty(cn))
+            // Skip empty Chinese, and skip empty-English (untranslated) entries so untranslated
+            // Chinese is left in place instead of being erased.
+            if (string.IsNullOrEmpty(cn) || string.IsNullOrEmpty(en))
             {
                 continue;
             }

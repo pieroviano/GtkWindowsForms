@@ -1575,4 +1575,1479 @@
 		<English>Explain</English>
 	</Entry>
 
+
+	<Entry>
+		<Chinese>菜单</Chinese>
+		<English>Menu</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>下拉列表</Chinese>
+		<English>Dropdown list</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>项</Chinese>
+		<English>Item</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>打开主窗口</Chinese>
+		<English>Open main window</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>状态文本</Chinese>
+		<English>Status text</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>下拉菜单</Chinese>
+		<English>Dropdown menu</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>此文件主要是为了覆盖原生</Chinese>
+		<English>This file is mainly to override the native</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>类</Chinese>
+		<English>class</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>原生类不支持读取项目资源图像文件</Chinese>
+		<English>The native class does not support reading project resource image files</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>实现了项目资源文件和图像文件读取</Chinese>
+		<English>Implements reading of project resource files and image files</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>如果项目里没有使用资源图像文件</Chinese>
+		<English>If the project does not use resource image files</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>可以不用新建此文件</Chinese>
+		<English>you do not need to create this file</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>加载数据点</Chinese>
+		<English>Load data points</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>不加载数据点</Chinese>
+		<English>Do not load data points</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>加载数据提示</Chinese>
+		<English>Load data tooltip</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>数据集列表数据源</Chinese>
+		<English>Dataset list data source</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>加载数据</Chinese>
+		<English>Load data</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>点</Chinese>
+		<English>Point</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>编辑</Chinese>
+		<English>Edit</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>网络图片异步加载</Chinese>
+		<English>Asynchronous loading of network images</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>数据源</Chinese>
+		<English>Data source</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>这是</Chinese>
+		<English>This is</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>示例效果</Chinese>
+		<English>Example effect</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>测量</Chinese>
+		<English>Measure</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>量</Chinese>
+		<English>Quantity</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>溜</Chinese>
+		<English>Slide</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>关闭窗口返回</Chinese>
+		<English>Close window and return</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>组</Chinese>
+		<English>Group</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>菜单三</Chinese>
+		<English>Menu Three</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>三级菜单</Chinese>
+		<English>Third-level menu</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>二级菜单</Chinese>
+		<English>Second-level menu</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>加载数据表数据</Chinese>
+		<English>Load DataTable data</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>这是下拉列表控件数据测试</Chinese>
+		<English>This is a dropdown list control data test</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>序号</Chinese>
+		<English>No.</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>状态</Chinese>
+		<English>Status</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>标题</Chinese>
+		<English>Title</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>日期</Chinese>
+		<English>Date</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>时间</Chinese>
+		<English>Time</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>操作</Chinese>
+		<English>Action</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>图片</Chinese>
+		<English>Image</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>分组框标题</Chinese>
+		<English>Group box title</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>全部勾选</Chinese>
+		<English>Select all</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>选择颜色按钮</Chinese>
+		<English>Choose color button</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>北京市</Chinese>
+		<English>Beijing</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>天津市</Chinese>
+		<English>Tianjin</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>河南省</Chinese>
+		<English>Henan Province</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>山西省</Chinese>
+		<English>Shanxi Province</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>内蒙古自治区</Chinese>
+		<English>Inner Mongolia Autonomous Region</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>辽宁省</Chinese>
+		<English>Liaoning Province</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>吉林省</Chinese>
+		<English>Jilin Province</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>黑龙江省</Chinese>
+		<English>Heilongjiang Province</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>上海市</Chinese>
+		<English>Shanghai</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>江苏省</Chinese>
+		<English>Jiangsu Province</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>浙江省</Chinese>
+		<English>Zhejiang Province</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>安徽省</Chinese>
+		<English>Anhui Province</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>福建省</Chinese>
+		<English>Fujian Province</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>经济特区</Chinese>
+		<English>Special Economic Zone</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>年</Chinese>
+		<English>Year</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>月</Chinese>
+		<English>Month</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>时</Chinese>
+		<English>Hour</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>分</Chinese>
+		<English>Minute</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>秒</Chinese>
+		<English>Second</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>直辖市</Chinese>
+		<English>Municipality</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>打开网站</Chinese>
+		<English>Open website</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>全国</Chinese>
+		<English>Nationwide</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>日</Chinese>
+		<English>Day</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>演示</Chinese>
+		<English>Demo</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>数据表格示例</Chinese>
+		<English>Data grid example</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>容器类表格示例</Chinese>
+		<English>Container-type grid example</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>绘图和图片示例</Chinese>
+		<English>Drawing and image example</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>菜单一</Chinese>
+		<English>Menu One</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>菜单二</Chinese>
+		<English>Menu Two</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>一级菜单</Chinese>
+		<English>First-level menu</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>默认风格界面</Chinese>
+		<English>Default style interface</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>异常警告</Chinese>
+		<English>Exception warning</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>机房空调运行监控事件</Chinese>
+		<English>Server room air-conditioning operation monitoring event</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>同时添加分组和数据</Chinese>
+		<English>Add group and data at the same time</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>向指定分组添加数据</Chinese>
+		<English>Add data to the specified group</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>这是一种添加多栏数据的方法</Chinese>
+		<English>This is a method to add multi-column data</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>子列数据</Chinese>
+		<English>Sub-column data</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>将数据绑定到</Chinese>
+		<English>Bind the data to</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>什么是</Chinese>
+		<English>What is</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>定义视图模式</Chinese>
+		<English>Define view mode</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>分组</Chinese>
+		<English>Group</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>控件提供了使用不同布局或视图中显示一组数据项的基础结构</Chinese>
+		<English>The control provides the infrastructure to display a set of data items using different layouts or views</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>例如</Chinese>
+		<English>For example</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>用户可能需要在表格中显示数据项</Chinese>
+		<English>Users may need to display data items in a table</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>并同时对表格的列进行排序</Chinese>
+		<English>and sort the table columns at the same time</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>派生自</Chinese>
+		<English>Derived from</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>通常</Chinese>
+		<English>Usually</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>该控件的项为数据集合的成员</Chinese>
+		<English>the items of this control are members of the data collection</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>并且表示为</Chinese>
+		<English>and are represented as</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>对象</Chinese>
+		<English>objects</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>是一个</Chinese>
+		<English>is a</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>且只能包含单个子元素</Chinese>
+		<English>and can only contain a single child element</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>但是</Chinese>
+		<English>However</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>该子元素可以是任何视觉元素</Chinese>
+		<English>the child element can be any visual element</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>监控滚动事件日志</Chinese>
+		<English>Monitor scroll event log</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>桌面应用程序跨平台界面框架</Chinese>
+		<English>Cross-platform UI framework for desktop applications</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>跨平台运行</Chinese>
+		<English>Run cross-platform</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>支持</Chinese>
+		<English>Support</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>便于开发跨平台</Chinese>
+		<English>Facilitates developing cross-platform</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>软件</Chinese>
+		<English>software</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>便于将</Chinese>
+		<English>Facilitates</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>升级为跨平台软件</Chinese>
+		<English>upgrading to cross-platform software</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>文本</Chinese>
+		<English>Text</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>子菜单</Chinese>
+		<English>Submenu</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>右对齐按钮</Chinese>
+		<English>Right-aligned button</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>一个右靠菜单</Chinese>
+		<English>A right-aligned menu</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>图文菜单</Chinese>
+		<English>Image-and-text menu</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>文本菜单</Chinese>
+		<English>Text menu</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>按钮菜单</Chinese>
+		<English>Button menu</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>测试</Chinese>
+		<English>Test</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>滑块数值</Chinese>
+		<English>Slider value</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>列表视图</Chinese>
+		<English>List view</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>分割容器布局</Chinese>
+		<English>Split container layout</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>界面开发示例一</Chinese>
+		<English>UI development example one</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>占位框</Chinese>
+		<English>Placeholder box</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>显示窗口</Chinese>
+		<English>Show window</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>关闭应用</Chinese>
+		<English>Close application</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>隐藏窗口</Chinese>
+		<English>Hide window</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>自定义</Chinese>
+		<English>Custom</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>图像文件</Chinese>
+		<English>Image file</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>测试打开文件</Chinese>
+		<English>Test open file</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>测试保存文件</Chinese>
+		<English>Test save file</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>浏览文件夹</Chinese>
+		<English>Browse folder</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>疑问</Chinese>
+		<English>Question</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>警告</Chinese>
+		<English>Warning</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>节点</Chinese>
+		<English>Node</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>测试按钮</Chinese>
+		<English>Test button</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>警告消息</Chinese>
+		<English>Warning message</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>警告消息警告消息</Chinese>
+		<English>Warning message warning message</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>选择颜色</Chinese>
+		<English>Choose color</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>保存文件</Chinese>
+		<English>Save file</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>打开文件</Chinese>
+		<English>Open file</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>横幅栏</Chinese>
+		<English>Banner bar</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>序列</Chinese>
+		<English>Sequence</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>模拟动画</Chinese>
+		<English>Simulated animation</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>扇形</Chinese>
+		<English>Sector</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>紫</Chinese>
+		<English>Purple</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>黄</Chinese>
+		<English>Yellow</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>蓝</Chinese>
+		<English>Blue</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>项目</Chinese>
+		<English>Project</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>测试数</Chinese>
+		<English>Test count</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>项目分析中</Chinese>
+		<English>Analyzing project</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>打印查看</Chinese>
+		<English>Print preview</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>指标</Chinese>
+		<English>Indicator</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>停止</Chinese>
+		<English>Stop</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>注销</Chinese>
+		<English>Log out</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>进样停止</Chinese>
+		<English>Sample injection stop</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>急诊模式</Chinese>
+		<English>Emergency mode</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>报警</Chinese>
+		<English>Alarm</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>开始</Chinese>
+		<English>Start</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>星期六</Chinese>
+		<English>Saturday</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>帮助</Chinese>
+		<English>Help</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>维护</Chinese>
+		<English>Maintenance</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>样本数据清洗</Chinese>
+		<English>Sample data cleaning</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>试剂装载列表</Chinese>
+		<English>Reagent loading list</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>校准品</Chinese>
+		<English>Calibrator</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>质控品装载列表</Chinese>
+		<English>Quality control loading list</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>参数下载</Chinese>
+		<English>Parameter download</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>样本跟踪</Chinese>
+		<English>Sample tracking</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>必需的设计器变量</Chinese>
+		<English>Required designer variable</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>清理所有正在使用的资源</Chinese>
+		<English>Clean up any resources being used</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>如果应释放托管资源</Chinese>
+		<English>true if managed resources should be disposed</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>为</Chinese>
+		<English>is</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>否则为</Chinese>
+		<English>otherwise</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>组件设计器生成的代码</Chinese>
+		<English>Code generated by the component designer</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>设计器支持所需的方法</Chinese>
+		<English>Method required for designer support</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>不要修改</Chinese>
+		<English>Do not modify</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>使用代码编辑器修改此方法的内容</Chinese>
+		<English>the contents of this method with the code editor</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>这是自定义控件</Chinese>
+		<English>This is a custom control</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>此代码由工具生成</Chinese>
+		<English>This code was generated by a tool</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>运行时版本</Chinese>
+		<English>Runtime version</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>对此文件的更改可能会导致不正确的行为</Chinese>
+		<English>Changes to this file may cause incorrect behavior</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>并且如果</Chinese>
+		<English>and if</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>重新生成代码</Chinese>
+		<English>the code is regenerated</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>这些更改将会丢失</Chinese>
+		<English>these changes will be lost</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>一个强类型的资源类</Chinese>
+		<English>A strongly-typed resource class</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>用于查找本地化的字符串等</Chinese>
+		<English>for looking up localized strings, etc.</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>此类是由</Chinese>
+		<English>This class was generated by</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>类通过类似于</Chinese>
+		<English>the class, through a tool similar to</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>或</Chinese>
+		<English>or</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>的工具自动生成的</Chinese>
+		<English>the tool, automatically generated</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>若要添加或移除成员</Chinese>
+		<English>To add or remove a member</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>请编辑</Chinese>
+		<English>edit</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>文件</Chinese>
+		<English>file</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>然后重新运行</Chinese>
+		<English>then rerun</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>以</Chinese>
+		<English>with</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>作为命令选项</Chinese>
+		<English>as a command option</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>或重新生成</Chinese>
+		<English>or regenerate</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>返回此类使用的缓存的</Chinese>
+		<English>Returns the cached</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>实例</Chinese>
+		<English>instance</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>重写当前线程的</Chinese>
+		<English>Overrides the current thread's</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>属性</Chinese>
+		<English>property</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>对</Chinese>
+		<English>for</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>使用此强类型资源类的所有资源查找执行重写</Chinese>
+		<English>Overrides all resource lookups that use this strongly-typed resource class</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>查找</Chinese>
+		<English>Looks up</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>类型的本地化资源</Chinese>
+		<English>a localized resource of type</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>目录不存在</Chinese>
+		<English>Directory does not exist</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>这里可以自定义或调整控件样式</Chinese>
+		<English>Here you can customize or adjust the control style</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>是否默认跟随系统主题</Chinese>
+		<English>Whether to follow the system theme by default</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>是否应用内置样式</Chinese>
+		<English>Whether to apply the built-in style</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>指定主题</Chinese>
+		<English>Specify theme</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>时有效</Chinese>
+		<English>effective when</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>是否使用自定义主题</Chinese>
+		<English>Whether to use a custom theme</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>对应</Chinese>
+		<English>corresponds to</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>是否使用自定义样式</Chinese>
+		<English>Whether to use custom styles</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>自定义主题名称</Chinese>
+		<English>Custom theme name</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>主题文件所在文件夹</Chinese>
+		<English>Folder where the theme file is located</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>自由定义样式文件</Chinese>
+		<English>Freely define the style file</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>基于</Chinese>
+		<English>Based on</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>组件开发</Chinese>
+		<English>component development</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>兼容原生</Chinese>
+		<English>compatible with native</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>控件</Chinese>
+		<English>control</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>界面的跨平台界面组件</Chinese>
+		<English>cross-platform interface component for the UI</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>使用本组件</Chinese>
+		<English>Use this component</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>代替</Chinese>
+		<English>instead of</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>是否起用过滤功能</Chinese>
+		<English>Whether to enable the filter function</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>用于</Chinese>
+		<English>Used for</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>功能</Chinese>
+		<English>function</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>同时禁用列排序</Chinese>
+		<English>and disable column sorting at the same time</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>选择今天</Chinese>
+		<English>Select today</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>日期限制</Chinese>
+		<English>Date limit</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>按格式化赋值</Chinese>
+		<English>Assign by format</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>正常</Chinese>
+		<English>Normal</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>格式化掩码</Chinese>
+		<English>Format mask</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>支持动画</Chinese>
+		<English>Supports animation</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>动画图片不缩放和定位</Chinese>
+		<English>Animated images are not scaled or positioned</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>供有需要的使用</Chinese>
+		<English>For use by those who need it</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>扩展方法</Chinese>
+		<English>Extension method</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>控件显示的图像</Chinese>
+		<English>The image displayed by the control</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>控件图像显示的定位方式</Chinese>
+		<English>The positioning of the control's image display</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>控件背景图像显示的定位方式</Chinese>
+		<English>The positioning of the control's background image display</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>控件的背景图像</Chinese>
+		<English>The control's background image</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>控件的背景颜色</Chinese>
+		<English>The control's background color</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>控件在父容器四边停靠的定位方式</Chinese>
+		<English>How the control docks to the four sides of its parent container</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>边距</Chinese>
+		<English>Margin</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>控件大小是否自动调整</Chinese>
+		<English>Whether the control size adjusts automatically</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>右键打开的上下文菜单</Chinese>
+		<English>The context menu opened by right-click</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>控件是否可以操作</Chinese>
+		<English>Whether the control can be operated</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>控件的字符所使用的字体</Chinese>
+		<English>The font used by the control's characters</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>控件的字符所使用的颜色</Chinese>
+		<English>The color used by the control's characters</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>控件在父容器的位置</Chinese>
+		<English>The control's position within its parent container</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>控件内边距区域</Chinese>
+		<English>The control's inner padding area</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>控件内容与其边框之间的空间</Chinese>
+		<English>The space between the control's content and its border</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>控件面积的长宽</Chinese>
+		<English>The width and height of the control's area</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>控件显示的文本字符</Chinese>
+		<English>The text characters displayed by the control</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>你正在关闭该窗口</Chinese>
+		<English>You are closing this window</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>撑开</Chinese>
+		<English>Stretch</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>此模式列不支持排序</Chinese>
+		<English>This mode column does not support sorting</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>使用此模式列支持排序</Chinese>
+		<English>Using this mode, the column supports sorting</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>选择文件</Chinese>
+		<English>Select file</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>确定</Chinese>
+		<English>OK</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>取消</Chinese>
+		<English>Cancel</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>选择字体</Chinese>
+		<English>Select font</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>宋体</Chinese>
+		<English>SimSun</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>黑体</Chinese>
+		<English>SimHei</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>微软雅黑</Chinese>
+		<English>Microsoft YaHei</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>微软正黑</Chinese>
+		<English>Microsoft JhengHei</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>微軟正黑體</Chinese>
+		<English>Microsoft JhengHei</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>楷体</Chinese>
+		<English>KaiTi</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>新宋体</Chinese>
+		<English>NSimSun</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>仿宋</Chinese>
+		<English>FangSong</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>標楷體</Chinese>
+		<English>DFKai-SB</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>新細明體</Chinese>
+		<English>PMingLiU</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>細明體</Chinese>
+		<English>MingLiU</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>苹方</Chinese>
+		<English>PingFang</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>华文黑体</Chinese>
+		<English>STHeiti</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>华文楷体</Chinese>
+		<English>STKaiti</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>华文宋体</Chinese>
+		<English>STSong</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>华文仿宋</Chinese>
+		<English>STFangsong</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>华文中宋</Chinese>
+		<English>STZhongsong</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>华文琥珀</Chinese>
+		<English>STHupo</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>华文新魏</Chinese>
+		<English>STXinwei</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>华文隶书</Chinese>
+		<English>STLiti</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>华文行楷</Chinese>
+		<English>STXingkai</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>思源黑体</Chinese>
+		<English>Source Han Sans</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>思源宋体</Chinese>
+		<English>Source Han Serif</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>文泉驿微米黑</Chinese>
+		<English>WenQuanYi Micro Hei</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>此笔刷固定为径向渐变</Chinese>
+		<English>This brush is fixed to a radial gradient</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>贝塞尔条件坐标集合</Chinese>
+		<English>Bezier condition coordinate set</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>不能小于等于</Chinese>
+		<English>cannot be less than or equal to</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>下</Chinese>
+		<English>Down</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>一致</Chinese>
+		<English>consistent</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>文件正在使用</Chinese>
+		<English>The file is in use</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>无法覆盖写入</Chinese>
+		<English>cannot be overwritten</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>读取前</Chinese>
+		<English>Read the first</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>个字节</Chinese>
+		<English>bytes</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>文件太小</Chinese>
+		<English>The file is too small</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>是</Chinese>
+		<English>Yes</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>否</Chinese>
+		<English>No</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>放弃</Chinese>
+		<English>Abort</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>重试</Chinese>
+		<English>Retry</English>
+	</Entry>
+
+	<Entry>
+		<Chinese>忽略</Chinese>
+		<English>Ignore</English>
+	</Entry>
 </Translations>

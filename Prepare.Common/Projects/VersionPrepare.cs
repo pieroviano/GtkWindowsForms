@@ -1,4 +1,5 @@
 using System.Xml.Linq;
+using Prepare.Common.IO;
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 
@@ -9,13 +10,13 @@ public static class VersionPrepare
     public static (string VersionText, Action UpdatePropsFiles) PrepareSolutionVersion()
     {
         var csprojPath = Path.GetFullPath(
-            @"..\..\..\..\gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKSystem.Windows.Forms.csproj");
+            RepoPaths.At(@"gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKSystem.Windows.Forms.csproj"));
 
         var directoryBuildPropsPath = Path.GetFullPath(
-            @"..\..\..\..\Directory.Build.Props");
+            RepoPaths.At("Directory.Build.Props"));
 
         var directoryNugetPropsPath = Path.GetFullPath(
-            @"..\..\..\..\Directory.Nuget.Props");
+            RepoPaths.At("Directory.Nuget.Props"));
 
         // --- Read Version from csproj ---
         var csprojDoc = XDocument.Load(csprojPath);

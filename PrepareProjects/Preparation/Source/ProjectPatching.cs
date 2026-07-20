@@ -72,7 +72,7 @@ public static class ProjectPatching
         Directory.CreateDirectory(contentDir);
 
         var resourcesDirectory = Path.GetFullPath(
-            @"..\..\..\..\Resources");
+            RepoPaths.At("Resources"));
 
         CopyIfExists(
             Path.Combine(resourcesDirectory, "System.ComponentModel.cs"),
@@ -98,7 +98,7 @@ public static class ProjectPatching
     private static void CopyPropsFile(string targetDir)
     {
         var resourcesDir = Path.GetFullPath(
-            @"..\..\..\..\Resources");
+            RepoPaths.At("Resources"));
 
         var sourceProps = Path.Combine(
             resourcesDir,
@@ -113,7 +113,7 @@ public static class ProjectPatching
 
     private static void CopyXmlDocFile(string targetDir)
     {
-        var resourcesDir = Path.GetFullPath(@"..\..\..\..\Resources");
+        var resourcesDir = Path.GetFullPath(RepoPaths.At("Resources"));
 
         var sourceProps = Path.Combine(resourcesDir, "Net4x.Gtk.Windows.Forms.xml");
 
@@ -125,7 +125,7 @@ public static class ProjectPatching
     private static void CopyTargetsFile(string targetDir)
     {
         var resourcesDir = Path.GetFullPath(
-            @"..\..\..\..\Resources");
+            RepoPaths.At("Resources"));
 
         var sourceProps = Path.Combine(
             resourcesDir,

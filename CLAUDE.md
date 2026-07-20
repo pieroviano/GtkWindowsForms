@@ -13,7 +13,7 @@ This is a **maintained fork** of [GTKSystem.Windows.Forms](https://github.com/ea
 | Solution | Purpose |
 |---|---|
 | `Net4x.Gtk.Windows.Forms.sln` | **The product**: the library projects, sample apps (`GtkWinFormsApp`, `GtkSystemWinFormsApp11`), and test projects. Build/run/test this normally. |
-| `PrepareProjects.sln` | **The build/generation pipeline**: `PrepareProjects` (orchestrator, see [PrepareProjects/Program.cs](PrepareProjects/Program.cs)), `Prepare.Common`, `XmlDocSync`, `UpdatePostProcessing`. Running it regenerates the library from the submodule. |
+| `PrepareProjects.sln` | **The build/generation pipeline**: `PrepareProjects` (orchestrator, see [PrepareProjects/Program.cs](PrepareProjects/Program.cs)), `Prepare.Common`, `XmlDocSync`, `UpdatePostProcessing`, and `AlignProjects`. Running it regenerates the library from the submodule. |
 
 ### CRITICAL: the shippable library source is generated
 
@@ -27,6 +27,8 @@ The contents of `Net4x.Gtk.Windows.Forms/` and `Net4x.Gtk.Drawing/` are **produc
 - **Upstream logic** → the `gtksystem-windows-forms` submodule itself.
 
 Directories ending in `.LatestBackup` (e.g. `Net4x.Gtk.Windows.Forms.LatestBackup`) are pipeline-generated backups — not source.
+
+**`AlignProjects`** (in `PrepareProjects.sln`) is a companion post-pipeline that incrementally forward-ports newer gitee upstream changes onto the generated `Net4x.*` (transformed-space delta + 3-way merge, preserving patches). See [AlignProjects-Plan.md](AlignProjects-Plan.md) and [PrepareProjects.md](PrepareProjects.md); its transform-producer half is not finished yet.
 
 ## Common commands
 
