@@ -450,6 +450,417 @@ namespace GtkWinFormsApp.Properties
         }
         
         /// <summary>
+        ///     Looks up a localized string similar to Secondary Menu 1.
+        /// </summary>
+        internal static string Gtk_Form1_1
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form1_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Tertiary Menu 1.
+        /// </summary>
+        internal static string Gtk_Form1_1_2
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form1_1_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Close the window to return.
+        /// </summary>
+        internal static string Gtk_Form1_1_3
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form1_1_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to tertiaryMenu1ToolStripMenuItem.
+        /// </summary>
+        internal static string Gtk_Form1_1ToolStripMenuItem
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form1_1ToolStripMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to secondaryMenu1ToolStripMenuItem.
+        /// </summary>
+        internal static string Gtk_Form1_1ToolStripMenuItem_2
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form1_1ToolStripMenuItem_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to 1. Load data point yes 
+        ///2. Do not load data point no.
+        /// </summary>
+        internal static string Gtk_Form1_1yes_n2no
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form1_1yes_n2no", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Secondary Menu 2.
+        /// </summary>
+        internal static string Gtk_Form1_2
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form1_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to 666 Slip.
+        /// </summary>
+        internal static string Gtk_Form1_666
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form1_666", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Measure S3 volume.
+        /// </summary>
+        internal static string Gtk_Form1_S3
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form1_S3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to tab group{e.Index}.
+        /// </summary>
+        internal static string Gtk_Form1_tab_e_Index
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form1_tab_e_Index", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to menuThreeToolStripMenuItem.
+        /// </summary>
+        internal static string Gtk_Form1_ToolStripMenuItem
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form1_ToolStripMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Load data point yes, load data
+        ///Point yes, load data point yes, load data point yes.
+        /// </summary>
+        internal static string Gtk_Form1_yes_nyesyesyes
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form1_yes_nyesyesyes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to yyyy-MM-dd HH:mm:ss.
+        /// </summary>
+        internal static string Gtk_Form1_yyyyMMdd_HHmmss
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form1_yyyyMMdd_HHmmss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Exception warning{i} --- Data center air conditioning operation monitoring event --- {DateTime.Now.Ticks} ------ {DateTime.Now.ToString()}.
+        /// </summary>
+        internal static string Gtk_Form2_i_DateTime_Now_Ticks_DateTime_Now_ToStri
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form2_i_DateTime_Now_Ticks_DateTime_Now_ToStri", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Exception warning{i} --- Data center air conditioning operation monitoring event --- {DateTime.Now.Ticks} ------ {DateTime.Now.ToString()}
+        ///.
+        /// </summary>
+        internal static string Gtk_Form2_i_DateTime_Now_Ticks_DateTime_Now_ToStri_2
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form2_i_DateTime_Now_Ticks_DateTime_Now_ToStri_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Submenu 1.
+        /// </summary>
+        internal static string Gtk_Form3_1
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to A right-aligned menu.
+        /// </summary>
+        internal static string Gtk_Form3_1_2
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_1_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Custom.
+        /// </summary>
+        internal static string Gtk_Form3_10
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to submenu1ToolStripMenuItem.
+        /// </summary>
+        internal static string Gtk_Form3_1ToolStripMenuItem
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_1ToolStripMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Image and text menu.
+        /// </summary>
+        internal static string Gtk_Form3_2
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Text menu.
+        /// </summary>
+        internal static string Gtk_Form3_3
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Button menu.
+        /// </summary>
+        internal static string Gtk_Form3_4
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Test.
+        /// </summary>
+        internal static string Gtk_Form3_5
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to UI development example one.
+        /// </summary>
+        internal static string Gtk_Form3_6
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Show window.
+        /// </summary>
+        internal static string Gtk_Form3_7
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Close application.
+        /// </summary>
+        internal static string Gtk_Form3_8
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Hide window.
+        /// </summary>
+        internal static string Gtk_Form3_9
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to bbMenu2ToolStripMenuItem.
+        /// </summary>
+        internal static string Gtk_Form3_bb2ToolStripMenuItem
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_bb2ToolStripMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to bbMenuToolStripMenuItem.
+        /// </summary>
+        internal static string Gtk_Form3_bbToolStripMenuItem
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_bbToolStripMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to C# cross-platform UI framework for desktop applications.
+        /// </summary>
+        internal static string Gtk_Form3_C
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_C", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to cMenuToolStripMenuItem.
+        /// </summary>
+        internal static string Gtk_Form3_cToolStripMenuItem
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_cToolStripMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to testTextgggggggg.
+        /// </summary>
+        internal static string Gtk_Form3_testgggggggg
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_testgggggggg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to rightAlignedButtonToolStripMenuItem.
+        /// </summary>
+        internal static string Gtk_Form3_ToolStripMenuItem
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_ToolStripMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Compile once, run cross-platform, supporting Windows, Linux and MacOS 
+        ///Makes it easy to develop cross-platform WinForms software, and to upgrade C# WinForms apps to cross-platform software.
+        /// </summary>
+        internal static string Gtk_Form3_WindowsLinuxMacOS_nwinformC_winform
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form3_WindowsLinuxMacOS_nwinformC_winform", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Image files|*.jpg;bang.png1|Image files 2|*.bmp.
+        /// </summary>
+        internal static string Gtk_Form4_jpg_bang_png1_2_bmp
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form4_jpg_bang_png1_2_bmp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to show tooltip2 warning message warning message.
+        /// </summary>
+        internal static string Gtk_Form4_show_tooltip2
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form4_show_tooltip2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to tip2 warning message warning message.
+        /// </summary>
+        internal static string Gtk_Form4_tip2
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Form4_tip2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///     Looks up a localized string similar to Fujian Province.
         /// </summary>
         internal static string Gtk_Fujian_Province
@@ -1174,6 +1585,292 @@ namespace GtkWinFormsApp.Properties
             get
             {
                 return ResourceManager.GetString("Gtk_Tab_group_e_Index", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Item.
+        /// </summary>
+        internal static string Gtk_Test1_1
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Indicator 1.
+        /// </summary>
+        internal static string Gtk_Test1_1_2
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_1_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Help.
+        /// </summary>
+        internal static string Gtk_Test1_10
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Maintenance.
+        /// </summary>
+        internal static string Gtk_Test1_11
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Sample data cleaning.
+        /// </summary>
+        internal static string Gtk_Test1_12
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Reagent loading list.
+        /// </summary>
+        internal static string Gtk_Test1_13
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_13", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Calibrator/QC material loading list.
+        /// </summary>
+        internal static string Gtk_Test1_14
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_14", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Parameter download.
+        /// </summary>
+        internal static string Gtk_Test1_15
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_15", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Sample tracking.
+        /// </summary>
+        internal static string Gtk_Test1_16
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_16", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Sequence.
+        /// </summary>
+        internal static string Gtk_Test1_17
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_17", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Test count.
+        /// </summary>
+        internal static string Gtk_Test1_2
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Indicator 2.
+        /// </summary>
+        internal static string Gtk_Test1_2_2
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_2_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to 2025/8/10 (Saturday) 22:03.
+        /// </summary>
+        internal static string Gtk_Test1_2025_8_10_22_03
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_2025_8_10_22_03", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Print preview.
+        /// </summary>
+        internal static string Gtk_Test1_3
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Indicator 3.
+        /// </summary>
+        internal static string Gtk_Test1_3_2
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_3_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Indicator 4.
+        /// </summary>
+        internal static string Gtk_Test1_4
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Stop.
+        /// </summary>
+        internal static string Gtk_Test1_4_2
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_4_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Indicator 5.
+        /// </summary>
+        internal static string Gtk_Test1_5
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Log out.
+        /// </summary>
+        internal static string Gtk_Test1_5_2
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_5_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Indicator 6.
+        /// </summary>
+        internal static string Gtk_Test1_6
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Stop sampling.
+        /// </summary>
+        internal static string Gtk_Test1_6_2
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_6_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Indicator 7.
+        /// </summary>
+        internal static string Gtk_Test1_7
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Emergency mode.
+        /// </summary>
+        internal static string Gtk_Test1_7_2
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_7_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Alarm.
+        /// </summary>
+        internal static string Gtk_Test1_8
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to Start.
+        /// </summary>
+        internal static string Gtk_Test1_9
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     Looks up a localized string similar to XXX item analysis in progress....
+        /// </summary>
+        internal static string Gtk_Test1_XXX
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_Test1_XXX", resourceCulture);
             }
         }
         

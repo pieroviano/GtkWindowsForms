@@ -32,25 +32,38 @@ namespace GtkWinFormsApp
         private void InitializeComponent()
         {
             button1 = new Button();
+            pictureBox1 = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new System.Drawing.Point(3, 42);
+            button1.Location = new System.Drawing.Point(13, 90);
             button1.Name = "button1";
             button1.Size = new System.Drawing.Size(153, 71);
             button1.TabIndex = 0;
             button1.Text = Properties.GtkWinFormsAppResources.Gtk_This_is_a_custom_control;
             button1.UseVisualStyleBackColor = true;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.BackgroundImage = Properties.Resources.timg;
+            pictureBox1.Location = new System.Drawing.Point(29, 44);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new System.Drawing.Size(72, 40);
+            pictureBox1.TabIndex = 1;
+            pictureBox1.TabStop = false;
+            // 
             // UserControl11
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoScroll = false;
             BackColor = System.Drawing.Color.LightGreen;
+            Controls.Add(pictureBox1);
             Controls.Add(button1);
             Name = "UserControl11";
-            Size = new System.Drawing.Size(186, 143);
+            Size = new System.Drawing.Size(144, 131);
             Load += UserControl11_Load;
             Scroll += UserControl11_Scroll;
             Click += UserControl11_Click;
@@ -65,11 +78,13 @@ namespace GtkWinFormsApp
             MouseMove += UserControl11_MouseMove;
             MouseUp += UserControl11_MouseUp;
             ParentChanged += UserControl11_ParentChanged;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private Button button1;
+        private PictureBox pictureBox1;
     }
 }

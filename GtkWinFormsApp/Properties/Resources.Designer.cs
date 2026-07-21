@@ -63,6 +63,16 @@ namespace GtkWinFormsApp.Properties {
         /// <summary>
         ///   Find System.Drawing.Bitmap type of localization resource.
         /// </summary>
+        internal static System.Drawing.Bitmap RC {
+            get {
+                object obj = ResourceManager.GetObject("RC", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Find System.Drawing.Bitmap type of localization resource.
+        /// </summary>
         internal static System.Drawing.Bitmap timg {
             get {
                 object obj = ResourceManager.GetObject("timg", resourceCulture);

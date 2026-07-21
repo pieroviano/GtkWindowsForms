@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿// GtkLogger lives in System.Diagnostics and is not covered by ImplicitUsings.
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace GtkSystemWinFormsApp11
 {
@@ -16,7 +9,8 @@ namespace GtkSystemWinFormsApp11
         public Form1()
         {
             InitializeComponent();
-            this.SizeChanged += Form1_SizeChanged;
+            //this.SizeChanged += Form1_SizeChanged;
+            //this.Load += Form1_Load;
         }
 
         private void Form1_SizeChanged(object? sender, EventArgs e)
@@ -26,7 +20,7 @@ namespace GtkSystemWinFormsApp11
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+ 
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)

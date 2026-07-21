@@ -565,6 +565,195 @@ ImageList 所添加的图片必须放到程序目录下的Resource目录下（�
   <data name="Gtk_this_FileName" xml:space="preserve">
     <value>Properties\GtkWinFormsAppResources.zh-Hans.resx</value>
   </data>
+  <data name="Gtk_Form1_yyyyMMdd_HHmmss" xml:space="preserve">
+    <value>yyyy年MM月dd HH时mm分ss秒</value>
+  </data>
+  <data name="Gtk_Form1_ToolStripMenuItem" xml:space="preserve">
+    <value>菜单三ToolStripMenuItem</value>
+  </data>
+  <data name="Gtk_Form1_1" xml:space="preserve">
+    <value>二级菜单1</value>
+  </data>
+  <data name="Gtk_Form1_1ToolStripMenuItem" xml:space="preserve">
+    <value>三级菜单1ToolStripMenuItem</value>
+  </data>
+  <data name="Gtk_Form1_1_2" xml:space="preserve">
+    <value>三级菜单1</value>
+  </data>
+  <data name="Gtk_Form1_2" xml:space="preserve">
+    <value>二级菜单2</value>
+  </data>
+  <data name="Gtk_Form1_1ToolStripMenuItem_2" xml:space="preserve">
+    <value>二级菜单1ToolStripMenuItem</value>
+  </data>
+  <data name="Gtk_Form1_1yes_n2no" xml:space="preserve">
+    <value>1、加载数据点yes \n2、不加载数据点no</value>
+  </data>
+  <data name="Gtk_Form1_yes_nyesyesyes" xml:space="preserve">
+    <value>加载数据点yes加载数据\n点yes加载数据点yes加载数据点yes</value>
+  </data>
+  <data name="Gtk_Form1_S3" xml:space="preserve">
+    <value>测量 S3量</value>
+  </data>
+  <data name="Gtk_Form1_666" xml:space="preserve">
+    <value>666溜</value>
+  </data>
+  <data name="Gtk_Form1_1_3" xml:space="preserve">
+    <value>关闭窗口返回</value>
+  </data>
+  <data name="Gtk_Form1_tab_e_Index" xml:space="preserve">
+    <value>tab组{e.Index}</value>
+  </data>
+  <data name="Gtk_Form2_i_DateTime_Now_Ticks_DateTime_Now_ToStri" xml:space="preserve">
+    <value>异常警告{i} --- 机房空调运行监控事件 --- {DateTime.Now.Ticks} ------ {DateTime.Now.ToString()}</value>
+  </data>
+  <data name="Gtk_Form2_i_DateTime_Now_Ticks_DateTime_Now_ToStri_2" xml:space="preserve">
+    <value>异常警告{i} --- 机房空调运行监控事件 --- {DateTime.Now.Ticks} ------ {DateTime.Now.ToString()}\n</value>
+  </data>
+  <data name="Gtk_Form3_1ToolStripMenuItem" xml:space="preserve">
+    <value>子菜单1ToolStripMenuItem</value>
+  </data>
+  <data name="Gtk_Form3_1" xml:space="preserve">
+    <value>子菜单1</value>
+  </data>
+  <data name="Gtk_Form3_bbToolStripMenuItem" xml:space="preserve">
+    <value>bb菜单ToolStripMenuItem</value>
+  </data>
+  <data name="Gtk_Form3_bb2ToolStripMenuItem" xml:space="preserve">
+    <value>bb菜单2ToolStripMenuItem</value>
+  </data>
+  <data name="Gtk_Form3_cToolStripMenuItem" xml:space="preserve">
+    <value>c菜单ToolStripMenuItem</value>
+  </data>
+  <data name="Gtk_Form3_ToolStripMenuItem" xml:space="preserve">
+    <value>右对齐按钮ToolStripMenuItem</value>
+  </data>
+  <data name="Gtk_Form3_1_2" xml:space="preserve">
+    <value>一个右靠菜单</value>
+  </data>
+  <data name="Gtk_Form3_2" xml:space="preserve">
+    <value>图文菜单</value>
+  </data>
+  <data name="Gtk_Form3_3" xml:space="preserve">
+    <value>文本菜单</value>
+  </data>
+  <data name="Gtk_Form3_4" xml:space="preserve">
+    <value>按钮菜单</value>
+  </data>
+  <data name="Gtk_Form3_5" xml:space="preserve">
+    <value>测试</value>
+  </data>
+  <data name="Gtk_Form3_6" xml:space="preserve">
+    <value>界面开发示例一</value>
+  </data>
+  <data name="Gtk_Form3_7" xml:space="preserve">
+    <value>显示窗口</value>
+  </data>
+  <data name="Gtk_Form3_8" xml:space="preserve">
+    <value>关闭应用</value>
+  </data>
+  <data name="Gtk_Form3_9" xml:space="preserve">
+    <value>隐藏窗口</value>
+  </data>
+  <data name="Gtk_Form3_10" xml:space="preserve">
+    <value>自定义</value>
+  </data>
+  <data name="Gtk_Form3_C" xml:space="preserve">
+    <value>C# 桌面应用程序跨平台界面框架</value>
+  </data>
+  <data name="Gtk_Form3_WindowsLinuxMacOS_nwinformC_winform" xml:space="preserve">
+    <value>一次编译，跨平台运行，支持Windows、Linux、MacOS \n便于开发跨平台winform软件，便于将C# winform升级为跨平台软件</value>
+  </data>
+  <data name="Gtk_Form3_testgggggggg" xml:space="preserve">
+    <value>test文本gggggggg</value>
+  </data>
+  <data name="Gtk_Form4_show_tooltip2" xml:space="preserve">
+    <value>show tooltip2警告消息警告消息</value>
+  </data>
+  <data name="Gtk_Form4_tip2" xml:space="preserve">
+    <value>tip2警告消息警告消息</value>
+  </data>
+  <data name="Gtk_Form4_jpg_bang_png1_2_bmp" xml:space="preserve">
+    <value>图像文件|*.jpg;bang.png1|图像文件2|*.bmp</value>
+  </data>
+  <data name="Gtk_Test1_1" xml:space="preserve">
+    <value>项目</value>
+  </data>
+  <data name="Gtk_Test1_2" xml:space="preserve">
+    <value>测试数</value>
+  </data>
+  <data name="Gtk_Test1_XXX" xml:space="preserve">
+    <value>XXX项目分析中...</value>
+  </data>
+  <data name="Gtk_Test1_3" xml:space="preserve">
+    <value>打印查看</value>
+  </data>
+  <data name="Gtk_Test1_1_2" xml:space="preserve">
+    <value>指标1</value>
+  </data>
+  <data name="Gtk_Test1_2_2" xml:space="preserve">
+    <value>指标2</value>
+  </data>
+  <data name="Gtk_Test1_3_2" xml:space="preserve">
+    <value>指标3</value>
+  </data>
+  <data name="Gtk_Test1_4" xml:space="preserve">
+    <value>指标4</value>
+  </data>
+  <data name="Gtk_Test1_5" xml:space="preserve">
+    <value>指标5</value>
+  </data>
+  <data name="Gtk_Test1_6" xml:space="preserve">
+    <value>指标6</value>
+  </data>
+  <data name="Gtk_Test1_7" xml:space="preserve">
+    <value>指标7</value>
+  </data>
+  <data name="Gtk_Test1_4_2" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="Gtk_Test1_5_2" xml:space="preserve">
+    <value>注销</value>
+  </data>
+  <data name="Gtk_Test1_6_2" xml:space="preserve">
+    <value>进样停止</value>
+  </data>
+  <data name="Gtk_Test1_7_2" xml:space="preserve">
+    <value>急诊模式</value>
+  </data>
+  <data name="Gtk_Test1_8" xml:space="preserve">
+    <value>报警</value>
+  </data>
+  <data name="Gtk_Test1_9" xml:space="preserve">
+    <value>开始</value>
+  </data>
+  <data name="Gtk_Test1_2025_8_10_22_03" xml:space="preserve">
+    <value>2025/8/10 (星期六) 22:03</value>
+  </data>
+  <data name="Gtk_Test1_10" xml:space="preserve">
+    <value>帮助</value>
+  </data>
+  <data name="Gtk_Test1_11" xml:space="preserve">
+    <value>维护</value>
+  </data>
+  <data name="Gtk_Test1_12" xml:space="preserve">
+    <value>样本数据清洗</value>
+  </data>
+  <data name="Gtk_Test1_13" xml:space="preserve">
+    <value>试剂装载列表</value>
+  </data>
+  <data name="Gtk_Test1_14" xml:space="preserve">
+    <value>校准品/质控品装载列表</value>
+  </data>
+  <data name="Gtk_Test1_15" xml:space="preserve">
+    <value>参数下载</value>
+  </data>
+  <data name="Gtk_Test1_16" xml:space="preserve">
+    <value>样本跟踪</value>
+  </data>
+  <data name="Gtk_Test1_17" xml:space="preserve">
+    <value>序列</value>
+  </data>
   <data name="this_FileName" xml:space="preserve">
     <value>Properties\GtkWinFormsAppResources.zh-Hans.resx</value>
   </data>

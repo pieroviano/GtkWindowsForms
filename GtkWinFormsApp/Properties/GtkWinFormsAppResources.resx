@@ -565,6 +565,199 @@ imageList1.Images.SetKeyName(1, "timg2.jpg");</value>
   <data name="Gtk_this_FileName" xml:space="preserve">
     <value>Properties\GtkWinFormsAppResources.resx</value>
   </data>
+  <data name="Gtk_Form1_yyyyMMdd_HHmmss" xml:space="preserve">
+    <value>yyyy-MM-dd HH:mm:ss</value>
+  </data>
+  <data name="Gtk_Form1_ToolStripMenuItem" xml:space="preserve">
+    <value>menuThreeToolStripMenuItem</value>
+  </data>
+  <data name="Gtk_Form1_1" xml:space="preserve">
+    <value>Secondary Menu 1</value>
+  </data>
+  <data name="Gtk_Form1_1ToolStripMenuItem" xml:space="preserve">
+    <value>tertiaryMenu1ToolStripMenuItem</value>
+  </data>
+  <data name="Gtk_Form1_1_2" xml:space="preserve">
+    <value>Tertiary Menu 1</value>
+  </data>
+  <data name="Gtk_Form1_2" xml:space="preserve">
+    <value>Secondary Menu 2</value>
+  </data>
+  <data name="Gtk_Form1_1ToolStripMenuItem_2" xml:space="preserve">
+    <value>secondaryMenu1ToolStripMenuItem</value>
+  </data>
+  <data name="Gtk_Form1_1yes_n2no" xml:space="preserve">
+    <value>1. Load data point yes 
+2. Do not load data point no</value>
+  </data>
+  <data name="Gtk_Form1_yes_nyesyesyes" xml:space="preserve">
+    <value>Load data point yes, load data
+Point yes, load data point yes, load data point yes</value>
+  </data>
+  <data name="Gtk_Form1_S3" xml:space="preserve">
+    <value>Measure S3 volume</value>
+  </data>
+  <data name="Gtk_Form1_666" xml:space="preserve">
+    <value>666 Slip</value>
+  </data>
+  <data name="Gtk_Form1_1_3" xml:space="preserve">
+    <value>Close the window to return</value>
+  </data>
+  <data name="Gtk_Form1_tab_e_Index" xml:space="preserve">
+    <value>tab group{e.Index}</value>
+  </data>
+  <data name="Gtk_Form2_i_DateTime_Now_Ticks_DateTime_Now_ToStri" xml:space="preserve">
+    <value>Exception warning{i} --- Data center air conditioning operation monitoring event --- {DateTime.Now.Ticks} ------ {DateTime.Now.ToString()}</value>
+  </data>
+  <data name="Gtk_Form2_i_DateTime_Now_Ticks_DateTime_Now_ToStri_2" xml:space="preserve">
+    <value>Exception warning{i} --- Data center air conditioning operation monitoring event --- {DateTime.Now.Ticks} ------ {DateTime.Now.ToString()}
+</value>
+  </data>
+  <data name="Gtk_Form3_1ToolStripMenuItem" xml:space="preserve">
+    <value>submenu1ToolStripMenuItem</value>
+  </data>
+  <data name="Gtk_Form3_1" xml:space="preserve">
+    <value>Submenu 1</value>
+  </data>
+  <data name="Gtk_Form3_bbToolStripMenuItem" xml:space="preserve">
+    <value>bbMenuToolStripMenuItem</value>
+  </data>
+  <data name="Gtk_Form3_bb2ToolStripMenuItem" xml:space="preserve">
+    <value>bbMenu2ToolStripMenuItem</value>
+  </data>
+  <data name="Gtk_Form3_cToolStripMenuItem" xml:space="preserve">
+    <value>cMenuToolStripMenuItem</value>
+  </data>
+  <data name="Gtk_Form3_ToolStripMenuItem" xml:space="preserve">
+    <value>rightAlignedButtonToolStripMenuItem</value>
+  </data>
+  <data name="Gtk_Form3_1_2" xml:space="preserve">
+    <value>A right-aligned menu</value>
+  </data>
+  <data name="Gtk_Form3_2" xml:space="preserve">
+    <value>Image and text menu</value>
+  </data>
+  <data name="Gtk_Form3_3" xml:space="preserve">
+    <value>Text menu</value>
+  </data>
+  <data name="Gtk_Form3_4" xml:space="preserve">
+    <value>Button menu</value>
+  </data>
+  <data name="Gtk_Form3_5" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="Gtk_Form3_6" xml:space="preserve">
+    <value>UI development example one</value>
+  </data>
+  <data name="Gtk_Form3_7" xml:space="preserve">
+    <value>Show window</value>
+  </data>
+  <data name="Gtk_Form3_8" xml:space="preserve">
+    <value>Close application</value>
+  </data>
+  <data name="Gtk_Form3_9" xml:space="preserve">
+    <value>Hide window</value>
+  </data>
+  <data name="Gtk_Form3_10" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="Gtk_Form3_C" xml:space="preserve">
+    <value>C# cross-platform UI framework for desktop applications</value>
+  </data>
+  <data name="Gtk_Form3_WindowsLinuxMacOS_nwinformC_winform" xml:space="preserve">
+    <value>Compile once, run cross-platform, supporting Windows, Linux and MacOS 
+Makes it easy to develop cross-platform WinForms software, and to upgrade C# WinForms apps to cross-platform software</value>
+  </data>
+  <data name="Gtk_Form3_testgggggggg" xml:space="preserve">
+    <value>testTextgggggggg</value>
+  </data>
+  <data name="Gtk_Form4_show_tooltip2" xml:space="preserve">
+    <value>show tooltip2 warning message warning message</value>
+  </data>
+  <data name="Gtk_Form4_tip2" xml:space="preserve">
+    <value>tip2 warning message warning message</value>
+  </data>
+  <data name="Gtk_Form4_jpg_bang_png1_2_bmp" xml:space="preserve">
+    <value>Image files|*.jpg;bang.png1|Image files 2|*.bmp</value>
+  </data>
+  <data name="Gtk_Test1_1" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="Gtk_Test1_2" xml:space="preserve">
+    <value>Test count</value>
+  </data>
+  <data name="Gtk_Test1_XXX" xml:space="preserve">
+    <value>XXX item analysis in progress...</value>
+  </data>
+  <data name="Gtk_Test1_3" xml:space="preserve">
+    <value>Print preview</value>
+  </data>
+  <data name="Gtk_Test1_1_2" xml:space="preserve">
+    <value>Indicator 1</value>
+  </data>
+  <data name="Gtk_Test1_2_2" xml:space="preserve">
+    <value>Indicator 2</value>
+  </data>
+  <data name="Gtk_Test1_3_2" xml:space="preserve">
+    <value>Indicator 3</value>
+  </data>
+  <data name="Gtk_Test1_4" xml:space="preserve">
+    <value>Indicator 4</value>
+  </data>
+  <data name="Gtk_Test1_5" xml:space="preserve">
+    <value>Indicator 5</value>
+  </data>
+  <data name="Gtk_Test1_6" xml:space="preserve">
+    <value>Indicator 6</value>
+  </data>
+  <data name="Gtk_Test1_7" xml:space="preserve">
+    <value>Indicator 7</value>
+  </data>
+  <data name="Gtk_Test1_4_2" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="Gtk_Test1_5_2" xml:space="preserve">
+    <value>Log out</value>
+  </data>
+  <data name="Gtk_Test1_6_2" xml:space="preserve">
+    <value>Stop sampling</value>
+  </data>
+  <data name="Gtk_Test1_7_2" xml:space="preserve">
+    <value>Emergency mode</value>
+  </data>
+  <data name="Gtk_Test1_8" xml:space="preserve">
+    <value>Alarm</value>
+  </data>
+  <data name="Gtk_Test1_9" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Gtk_Test1_2025_8_10_22_03" xml:space="preserve">
+    <value>2025/8/10 (Saturday) 22:03</value>
+  </data>
+  <data name="Gtk_Test1_10" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Gtk_Test1_11" xml:space="preserve">
+    <value>Maintenance</value>
+  </data>
+  <data name="Gtk_Test1_12" xml:space="preserve">
+    <value>Sample data cleaning</value>
+  </data>
+  <data name="Gtk_Test1_13" xml:space="preserve">
+    <value>Reagent loading list</value>
+  </data>
+  <data name="Gtk_Test1_14" xml:space="preserve">
+    <value>Calibrator/QC material loading list</value>
+  </data>
+  <data name="Gtk_Test1_15" xml:space="preserve">
+    <value>Parameter download</value>
+  </data>
+  <data name="Gtk_Test1_16" xml:space="preserve">
+    <value>Sample tracking</value>
+  </data>
+  <data name="Gtk_Test1_17" xml:space="preserve">
+    <value>Sequence</value>
+  </data>
   <data name="this_FileName" xml:space="preserve">
     <value>Properties\GtkWinFormsAppResources.resx</value>
   </data>

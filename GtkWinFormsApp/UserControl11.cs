@@ -12,13 +12,24 @@ public partial class UserControl11 : UserControl
 {
     public UserControl11()
     {
+        Size = new System.Drawing.Size(144, 131);
         InitializeComponent();
-        this.MouseWheel += UserControl11_MouseWheel;
+        //this.MouseWheel += UserControl11_MouseWheel;
+        PictureBox pictureBox2 = new PictureBox();
+        pictureBox2.BackgroundImage = Properties.Resources.timg;
+        pictureBox2.Location = new System.Drawing.Point(9, 3);
+        pictureBox2.Name = "pictureBox1";
+        pictureBox2.Size = new System.Drawing.Size(72, 40);
+        pictureBox2.TabIndex = 1;
+        pictureBox2.TabStop = false;
+        this.Controls.Add(pictureBox2);
+        //this.Show();
+        //this.Invalidate();
     }
 
     private void UserControl11_MouseWheel(object sender, MouseEventArgs e)
     {
-        GtkLogger.Info("UserControl11_MouseWheel");
+        GtkLogger.Info($"UserControl11_MouseWheel {e.Button},{e.Clicks},({e.X},{e.Y})");
     }
 
     private void UserControl11_Paint(object sender, PaintEventArgs e)

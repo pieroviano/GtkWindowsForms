@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>false</UseWindowsForms>
@@ -14,13 +14,18 @@
     <NoWarn>$(NoWarn);CS8002;CS0067;CS0169;CS0419;CS0436;CS0162;CS0168;CS0414;CS0612;CS0618;CS0649;CS1574;CS3021;CS8002;CS8625;NETSDK1106;NETSDK1137;IDE0161;NU1603</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="FormWeb.cs" />
+    <Compile Remove="FormWeb.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="FormWeb.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Version stays centrally pinned (fork state); upstream hardcodes it. -->
     <PackageReference Include="GtkSharp" Version="$(GtkSharpLatestVersion).*" />
   </ItemGroup>
   <ItemGroup>
     <Using Include="System.Windows.Forms" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="obj\Debug\net8.0\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="**\*.resx">

@@ -11,6 +11,7 @@ internal static class Program
     [STAThread]
     static void Main()
     {
+        System.AppContext.SetSwitch("System.Drawing.EnableUnixSupport", true);
         // Application.SetHighDpiMode(HighDpiMode.SystemAware);
         MessageBox.ReplaceInstance();
         Application.EnableVisualStyles();

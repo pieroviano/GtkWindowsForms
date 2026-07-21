@@ -13,6 +13,11 @@ public partial class Form4 : Form
         this.Shown += Form4_Shown;
 
         button4.Click += Button4_Click;
+        button10.Click += Button10_Click;
+    }
+
+    private void Button10_Click(object? sender, EventArgs e)
+    {
     }
 
     private void Button4_Click(object? sender, EventArgs e)
@@ -28,7 +33,7 @@ public partial class Form4 : Form
     {
         var ofd = new OpenFileDialog
         {
-            Filter = Properties.GtkWinFormsAppResources.Gtk_Image_files_jpg_png_Image_files_2_bmp,
+            //Filter = Properties.GtkWinFormsAppResources.Gtk_Form4_jpg_bang_png1_2_bmp,
             Multiselect = true,
             Title = Properties.GtkWinFormsAppResources.Gtk_Click_Test_Open_File,
             DefaultExt = "*.png"
@@ -93,15 +98,5 @@ public partial class Form4 : Form
     {
         MessageBox.Show("test message test message test messagetest message test message test message test messagetest message test message test message test messagetest message test message test message test messagetest message test message test message test messagetest message", Properties.GtkWinFormsAppResources.Gtk_Click_Doubt, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
         MessageBox.Show("test message test message \ntest messagetest message", Properties.GtkWinFormsAppResources.Gtk_Click_Warn, MessageBoxButtons.RetryCancel, MessageBoxIcon.Warning);
-    }
-
-    private void vScrollBar1_ValueChanged(object sender, EventArgs e)
-    {
-
-    }
-
-    private void hScrollBar1_ValueChanged(object sender, EventArgs e)
-    {
-
     }
 }
