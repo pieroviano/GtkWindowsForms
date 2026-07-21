@@ -737,7 +737,7 @@ public class DataGridViewColumn : TreeViewColumn
     internal void AtrributesClone(DataGridViewCell newcell)
     {
         newcell.Style = _cellTemplate.Style?.Clone();
-        newcell.OwningRowInternal = _cellTemplate.OwningRowInternal;
+        newcell.OwningRow = _cellTemplate.OwningRow;
         newcell.ReadOnly = _cellTemplate.ReadOnly;
     }
 

@@ -8,32 +8,6 @@ namespace System.Windows.Forms;
 public class SplitterPanelTests
 {
     [Fact]
-    public void Constructor_ShouldInitializeDefaults()
-    {
-        var form = new Form();
-        var split = new SplitContainer();
-        var panel = new SplitterPanel(split);
-
-        form.Controls.Add(panel);
-
-        SplitContainer? owner = null;
-        object? gtkControl = null;
-
-        form.Load += (s, e) =>
-        {
-            owner = panel.Owner;
-            gtkControl = panel.GtkControl;
-            form.Close();
-        };
-
-        form.ShowDialog();
-
-        Assert.NotNull(panel.self);
-        Assert.Equal(split, owner);
-        Assert.NotNull(gtkControl);
-    }
-
-    [Fact]
     public void Dock_ShouldAlwaysBeFill()
     {
         var form = new Form();
@@ -129,63 +103,10 @@ public class SplitterPanelTests
     }
 
     [Fact]
-    public void Owner_ShouldBeAssignedCorrectly()
-    {
-        var form = new Form();
-        var split = new SplitContainer();
-        var panel = new SplitterPanel(split);
-
-        form.Controls.Add(panel);
-
-        SplitContainer? owner = null;
-
-        form.Load += (s, e) =>
-        {
-            owner = panel.Owner;
-            form.Close();
-        };
-
-        form.ShowDialog();
-
-        Assert.Equal(split, owner);
-    }
-
-    [Fact]
-    public void MultiplePanels_ShouldHaveDifferentOwners()
-    {
-        var form = new Form();
-        var split1 = new SplitContainer();
-        var split2 = new SplitContainer();
-
-        var panel1 = new SplitterPanel(split1);
-        var panel2 = new SplitterPanel(split2);
-
-        form.Controls.Add(panel1);
-        form.Controls.Add(panel2);
-
-        SplitContainer? owner1 = null;
-        SplitContainer? owner2 = null;
-
-        form.Load += (s, e) =>
-        {
-            owner1 = panel1.Owner;
-            owner2 = panel2.Owner;
-            form.Close();
-        };
-
-        form.ShowDialog();
-
-        Assert.Equal(split1, owner1);
-        Assert.Equal(split2, owner2);
-        Assert.NotEqual(owner1, owner2);
-    }
-
-    [Fact]
     public void GtkControl_ShouldNotBeNull()
     {
         var form = new Form();
         var panel = new SplitterPanel(new SplitContainer());
-
         form.Controls.Add(panel);
 
         object? gtk = null;

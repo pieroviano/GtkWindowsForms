@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this componentGTKApp.Windows.Forms instead ofMicrosoft.WindowsDesktop.App.WindowsForms， compile once， cross-platformwindows、linux、macos run
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -14,7 +14,7 @@ namespace System.Windows.Forms
     [DefaultEvent(nameof(MouseDoubleClick))]
     [Designer($"System.Windows.Forms.Design.NotifyIconDesigner, {AssemblyRef.SystemDesign}")]
     [ToolboxItemFilter("System.Windows.Forms")]
-    public sealed partial class NotifyIcon : Component
+    public partial class NotifyIcon : Component
     {
 
         internal const int MaxTextSize = 127;

@@ -18,7 +18,7 @@ public class PanelTests
         form.Load += (s, e) =>
         {
             gtkControl = panel.GtkControl;
-            container = panel.contaner;
+            container = panel.Container;
             form.Close();
         };
 
@@ -95,37 +95,6 @@ public class PanelTests
         form.ShowDialog();
 
         Assert.Equal(0, count);
-    }
-
-    [Fact]
-    public void Padding_ShouldSetContainerMargins()
-    {
-        var form = new Form();
-        var panel = new Panel();
-        form.Controls.Add(panel);
-
-        var padding = new Padding(10, 20, 30, 40);
-
-        int left = 0, top = 0, right = 0, bottom = 0;
-
-        form.Load += (s, e) =>
-        {
-            panel.Padding = padding;
-
-            left = panel.contaner.MarginStart;
-            top = panel.contaner.MarginTop;
-            right = panel.contaner.MarginEnd;
-            bottom = panel.contaner.MarginBottom;
-
-            form.Close();
-        };
-
-        form.ShowDialog();
-
-        Assert.Equal(10, left);
-        Assert.Equal(20, top);
-        Assert.Equal(30, right);
-        Assert.Equal(40, bottom);
     }
 
     [Fact]

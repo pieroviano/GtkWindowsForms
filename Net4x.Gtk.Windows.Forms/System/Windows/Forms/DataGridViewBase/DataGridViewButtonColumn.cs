@@ -64,10 +64,14 @@ public class DataGridViewButtonColumn : DataGridViewColumn
     {
         if (args.Column.Handle == this.Handle)
         {
-            if (args.Column.Cells[0] is CellRendererText cell)
+            var path = args.Path;
+            var model = _treeView?.Model;
+            if (model == null)
+                return;
+
+            if (model.GetIter(out var iter, path))
             {
-                var path = args.Path;
-                _gridview?.CellValueChanagedHandler(this.Index, path.Indices.Last());
+                _gridview?.CellValueChanagedHandler(this.Index, iter, path);
             }
         }
     }

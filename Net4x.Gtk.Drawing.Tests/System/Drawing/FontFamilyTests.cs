@@ -1,7 +1,6 @@
 ﻿extern alias gtk;
-
+using gtk::System.Drawing.Text;
 using FontFamily = gtk::System.Drawing.FontFamily;
-using GenericFontFamilies = gtk::System.Drawing.GenericFontFamilies;
 using FontStyle = gtk::System.Drawing.FontStyle;
 
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.

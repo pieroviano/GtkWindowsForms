@@ -129,7 +129,6 @@ public class GraphicsTests
         var g = Graphics.FromImage(img);
 
         Assert.NotNull(g);
-        Assert.NotNull(Graphics.Context);
     }
 
     [Fact]

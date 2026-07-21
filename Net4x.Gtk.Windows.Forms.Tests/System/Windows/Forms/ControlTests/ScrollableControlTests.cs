@@ -152,9 +152,11 @@ public class ScrollableControlTests
         public int HeightRequest { get; set; }
         public bool HScroll { get; set; }
         public GtkControlOverride Override { get; set; }
+        public ScrolledWindow ScrolledWindow { get; set; }
         public bool VScroll { get; set; }
         public int WidthRequest { get; set; }
         public void Add(Widget child) => throw new NotImplementedException();
+        public bool ScrollView(double hscrollValue, double vscrollValue) => throw new NotImplementedException();
 
         public void AddClass(string cssClass) => throw new NotImplementedException();
 

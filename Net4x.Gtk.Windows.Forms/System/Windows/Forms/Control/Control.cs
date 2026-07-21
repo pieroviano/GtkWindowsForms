@@ -12,14 +12,17 @@ using System.Text;
 using System.Windows.Forms.Design;
 using System.Windows.Forms.Layout;
 using Cairo;
+using Gdk;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using Color = System.Drawing.Color;
 using Container = Gtk.Container;
 using Image = System.Drawing.Image;
+using Path = System.IO.Path;
 using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
 using Region = System.Drawing.Region;
+using Size = System.Drawing.Size;
 
 namespace System.Windows.Forms;
 
@@ -1290,7 +1293,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         get
         {
-            Gdk.Display.Default.GetPointer(out var x, out var y, out var mod);
+            Gdk.Display.Default.GetPointer(out var x, out var y, out ModifierType mod);
             var result = Keys.None;
             if (mod.HasFlag(Gdk.ModifierType.ControlMask))
                 result |= Keys.Control;
@@ -1309,7 +1312,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         get
         {
-            Gdk.Display.Default.GetPointer(out var x, out var y, out var mod);
+            Gdk.Display.Default.GetPointer(out var x, out var y, out ModifierType mod);
             var result = MouseButtons.None;
             if (mod.HasFlag(Gdk.ModifierType.Button1Mask))
                 result |= MouseButtons.Left;
@@ -1328,7 +1331,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         get
         {
-            Gdk.Display.Default.GetPointer(out var x, out var y, out var mod);
+            Gdk.Display.Default.GetPointer(out var x, out var y, out ModifierType mod);
             return new Point(x, y);
         }
     }

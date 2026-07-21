@@ -833,7 +833,7 @@ public partial class DataGridView : ScrollableControl
 
     public bool AllowUserToResizeColumns
     {
-        get => AllowUserToResizeColumns;
+        get => _AllowUserToResizeColumns;
         set
         {
             _AllowUserToResizeColumns = value;
@@ -1121,7 +1121,7 @@ public partial class DataGridView : ScrollableControl
                 case DataGridViewSelectionMode.RowHeaderSelect:
                     foreach (DataGridViewRow dataGridViewRow in SelectedRows)
                     {
-                        foreach (var dataGridViewCell in dataGridViewRow.Cells)
+                        foreach (DataGridViewCell dataGridViewCell in dataGridViewRow.Cells)
                         {
                             stcc.Add(dataGridViewCell);
                         }
