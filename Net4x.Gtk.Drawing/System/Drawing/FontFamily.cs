@@ -44,7 +44,7 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
     /// </param>
     public FontFamily(string? name, FontCollection? fontCollection)
     {
-        if (fontLanguages.TryGetValue(name, out string enname))
+        if (name != null && fontLanguages.TryGetValue(name, out string enname))
             this.Name = enname;
         else
             this.Name = name;
@@ -54,32 +54,37 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
     {
         if (fontLanguages.Count == 0)
         {
-            fontLanguages.Add(" simSun", "SimSun");
-            fontLanguages.Add(" simHei", "SimHei");
-            fontLanguages.Add(" microsoft YaHei", "Microsoft Yahei");
-            fontLanguages.Add(" microsoft JhengHei", "Microsoft JhengHei");
-            fontLanguages.Add(" microsoft JhengHei", "Microsoft JhengHei");
-            fontLanguages.Add(" kaiTi", "KaiTi");
-            fontLanguages.Add(" nSimSun", "NSimSun");
-            fontLanguages.Add(" fangSong", "FangSong");
-            fontLanguages.Add(" dFKai-SB", "BiauKai");
-            fontLanguages.Add(" pMingLiU", "PMingLiU");
-            fontLanguages.Add(" mingLiU", "MingLiU");
+            // Keys are the native Chinese font names a caller may pass to Font/FontFamily; values are the
+            // canonical family names GTK/Pango knows. These keys MUST stay in Chinese - they are runtime
+            // lookup data, not UI text. (The generation pipeline translates Chinese literals, which both
+            // emptied this table and collapsed the two distinct Microsoft JhengHei keys into a duplicate
+            // that threw from the static ctor; kept correct here via patch.)
+            fontLanguages.Add("宋体", "SimSun");
+            fontLanguages.Add("黑体", "SimHei");
+            fontLanguages.Add("微软雅黑", "Microsoft Yahei");
+            fontLanguages.Add("微软正黑", "Microsoft JhengHei");
+            fontLanguages.Add("微軟正黑體", "Microsoft JhengHei");
+            fontLanguages.Add("楷体", "KaiTi");
+            fontLanguages.Add("新宋体", "NSimSun");
+            fontLanguages.Add("仿宋", "FangSong");
+            fontLanguages.Add("標楷體", "BiauKai");
+            fontLanguages.Add("新細明體", "PMingLiU");
+            fontLanguages.Add("細明體", "MingLiU");
             //macos
-            fontLanguages.Add(" pingFang", "PingFang SC");
-            fontLanguages.Add(" sTHeiti", "STHeiti");
-            fontLanguages.Add(" sTKaiti", "STKaiti");
-            fontLanguages.Add(" sTSong", "STSong");
-            fontLanguages.Add(" sTFangsong", "STFangsong");
-            fontLanguages.Add(" sTZhongsong", "STZhongsong");
-            fontLanguages.Add(" sTHupo", "STHupo");
-            fontLanguages.Add(" sTXinwei", "STXinwei");
-            fontLanguages.Add(" sTLiti", "STLiti");
-            fontLanguages.Add(" sTXingkai", "STXingkai");
+            fontLanguages.Add("苹方", "PingFang SC");
+            fontLanguages.Add("华文黑体", "STHeiti");
+            fontLanguages.Add("华文楷体", "STKaiti");
+            fontLanguages.Add("华文宋体", "STSong");
+            fontLanguages.Add("华文仿宋", "STFangsong");
+            fontLanguages.Add("华文中宋", "STZhongsong");
+            fontLanguages.Add("华文琥珀", "STHupo");
+            fontLanguages.Add("华文新魏", "STXinwei");
+            fontLanguages.Add("华文隶书", "STLiti");
+            fontLanguages.Add("华文行楷", "STXingkai");
             //open
-            fontLanguages.Add(" source Han Sans", "Source Han Sans CN");
-            fontLanguages.Add(" source Han Serif", "Source Han Serif SC");
-            fontLanguages.Add(" wenQuanYi Micro Hei", "WenQuanYi Micro Hei");
+            fontLanguages.Add("思源黑体", "Source Han Sans CN");
+            fontLanguages.Add("思源宋体", "Source Han Serif SC");
+            fontLanguages.Add("文泉驿微米黑", "WenQuanYi Micro Hei");
         }
     }
 
