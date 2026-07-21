@@ -10,14 +10,22 @@ public static class ProjectUtility
 {
     public static void CopyDirectory(string sourceDir, string targetDir, string? prefixOfFilesToDelete = "GTKWinFormsApp_Win")
     {
-        var files = Directory.GetFiles(sourceDir);
+        // Ordinal ordering everywhere files are enumerated: the alignment tools diff two transformed
+        // snapshots, so anything that varies with filesystem enumeration order would read as an upstream
+        // change (AlignProjects-Plan.md §3.1 determinism).
+        var files = Directory.GetFiles(sourceDir).OrderBy(f => f, StringComparer.Ordinal);
         foreach (var file in files)
         {
             var destFile = Path.Combine(targetDir, Path.GetFileName(file));
             LogUtility.FileCopyAndLog(file, destFile, true);
         }
 
-        var directories = Directory.GetDirectories(sourceDir).Where(d => !d.EndsWith("\\bin") && !d.EndsWith("\\obj"));
+        // '.vs' is IDE state the upstream repo happens to carry (suo files, content indexes, caches). It is
+        // not source, never reproduces, and - once the alignment tools diff two transformed snapshots -
+        // would show up as upstream "changes" that nobody made.
+        var directories = Directory.GetDirectories(sourceDir)
+            .Where(d => !d.EndsWith("\\bin") && !d.EndsWith("\\obj") && !d.EndsWith("\\.vs"))
+            .OrderBy(d => d, StringComparer.Ordinal);
         foreach (var directory in directories)
         {
             var destDir = Path.Combine(targetDir, Path.GetFileName(directory));

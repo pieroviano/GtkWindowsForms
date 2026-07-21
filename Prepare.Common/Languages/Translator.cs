@@ -26,7 +26,10 @@ public static class Translator
             throw new DirectoryNotFoundException(targetDirectory);
         }
 
-        foreach (var file in Directory.EnumerateFiles(targetDirectory, "*.cs", SearchOption.AllDirectories))
+        // Ordinal ordering: the alignment tools compare two transformed snapshots byte for byte, so the
+        // transform must not depend on filesystem enumeration order (AlignProjects-Plan.md §3.1).
+        foreach (var file in Directory.EnumerateFiles(targetDirectory, "*.cs", SearchOption.AllDirectories)
+                     .OrderBy(f => f, StringComparer.Ordinal))
         {
             sourceProjectName = TranslateFile(sourceProjectName,
                 targetProjectName, file, localizationResourceName, patchProjectNamespace,

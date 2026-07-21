@@ -55,7 +55,7 @@ The existing dictionary machinery is reused unchanged for **applying** translati
 
 2. **Apply-side safety guard** — `TranslationsHelper.LoadTranslations` and `Translator.MakeRawTranslationOnFile` now **skip empty-English entries**, so an unfilled blank leaves its Chinese **in place** instead of erasing it. This makes "enrich now, fill later" safe regardless of ordering. (Shared with PrepareProjects — benefits both.)
 
-3. **Interactive manual-translation pause** ([AlignProjects/Program.cs](AlignProjects/Program.cs) `PauseForManualTranslation`) — after enrichment, if new blanks were added it prints a prominent notice with counts + file paths, then waits for ENTER so the blank `<English>` values can be filled by hand. It skips the pause when there is nothing new, and when stdin is redirected (non-interactive runs continue automatically). This is where the one-time translation happens — replacing the previously-considered separate AI fill utility.
+3. **Interactive manual-translation pause** ([Align.Common/ManualTranslationPause.cs](Align.Common/ManualTranslationPause.cs), called from [AlignProjects/Program.cs](AlignProjects/Program.cs)) — after enrichment, if new blanks were added it prints a prominent notice with counts + file paths, then waits for ENTER so the blank `<English>` values can be filled by hand. It skips the pause when there is nothing new, and when stdin is redirected (non-interactive runs continue automatically). This is where the one-time translation happens — replacing the previously-considered separate AI fill utility.
 
 ### Ordering
 

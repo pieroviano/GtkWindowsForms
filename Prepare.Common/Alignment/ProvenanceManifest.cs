@@ -20,11 +20,21 @@ public sealed class ProvenanceManifest
     public void Add(string generatedRelativePath, string sourceFullPath) =>
         _map[Normalize(generatedRelativePath)] = sourceFullPath;
 
-    /// <summary>Writes the manifest to <paramref name="path"/> (creating the directory).</summary>
+    /// <summary>
+    /// Drops a mapping - for a generated file the transform later deletes or renames away, so the
+    /// manifest never points the operator at a path that no longer exists.
+    /// </summary>
+    public void Remove(string generatedRelativePath) => _map.Remove(Normalize(generatedRelativePath));
+
+    /// <summary>
+    /// Writes the manifest to <paramref name="path"/> (creating the directory). Entries are ordinal-sorted:
+    /// the manifest travels with the transformed tree, and the determinism self-check compares those trees
+    /// byte for byte - insertion order would make an otherwise reproducible run look non-deterministic.
+    /// </summary>
     public void Save(string path)
     {
         var sb = new StringBuilder();
-        foreach (var kv in _map)
+        foreach (var kv in _map.OrderBy(e => e.Key, StringComparer.Ordinal))
         {
             sb.Append(kv.Key).Append('\t').Append(kv.Value).Append('\n');
         }

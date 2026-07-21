@@ -48,9 +48,11 @@ public static class TransformPipeline
         var (version, updatePropsFiles) = VersionPrepare.PrepareSolutionVersion();
 
         ConsoleColor.Green.Write(@"Preparing PoC projects", true);
-        var projectName = await GtkSampleAppProjectsHandler.PrepareAsync("GTKWinFormsApp", "GtkWinFormsApp", version);
-        var otherProjectName =
-            await GtkSampleAppProjectsHandler.PrepareAsync("GTKSystemWinFormsApp11", "GtkSystemWinFormsApp11", version);
+        // The sample transform fs - shared with AlignSamples (see SampleTransformPipeline).
+        var projectName = await GtkSampleAppProjectsHandler.PrepareAsync(
+            SampleTransformPipeline.Samples[0].SourceProjectName, SampleTransformPipeline.Samples[0].TargetProjectName);
+        var otherProjectName = await GtkSampleAppProjectsHandler.PrepareAsync(
+            SampleTransformPipeline.Samples[1].SourceProjectName, SampleTransformPipeline.Samples[1].TargetProjectName);
 
         ConsoleColor.Green.Write(@"Regenerating *.Designer.cs from resources for PoC projects", true);
         ResGenService.RegenerateDesignersFromResources(targetDir, projectName, otherProjectName);

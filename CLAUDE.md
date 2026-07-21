@@ -13,7 +13,7 @@ This is a **maintained fork** of [GTKSystem.Windows.Forms](https://github.com/ea
 | Solution | Purpose |
 |---|---|
 | `Net4x.Gtk.Windows.Forms.sln` | **The product**: the library projects, sample apps (`GtkWinFormsApp`, `GtkSystemWinFormsApp11`), and test projects. Build/run/test this normally. |
-| `PrepareProjects.sln` | **The build/generation pipeline**: `PrepareProjects` (orchestrator, see [PrepareProjects/Program.cs](PrepareProjects/Program.cs)), `Prepare.Common`, `XmlDocSync`, `UpdatePostProcessing`, and `AlignProjects`. Running it regenerates the library from the submodule. |
+| `PrepareProjects.sln` | **The build/generation pipeline**: `PrepareProjects` (orchestrator, see [PrepareProjects/Program.cs](PrepareProjects/Program.cs)), `Prepare.Common`, `Align.Common`, `XmlDocSync`, `UpdatePostProcessing`, and the two post-pipelines `AlignProjects` / `AlignSamples`. Running it regenerates the library from the submodule. |
 
 ### CRITICAL: the shippable library source is generated
 
@@ -28,7 +28,9 @@ The contents of `Net4x.Gtk.Windows.Forms/` and `Net4x.Gtk.Drawing/` are **produc
 
 Directories ending in `.LatestBackup` (e.g. `Net4x.Gtk.Windows.Forms.LatestBackup`) are pipeline-generated backups — not source.
 
-**`AlignProjects`** (in `PrepareProjects.sln`) is a companion post-pipeline that incrementally forward-ports newer gitee upstream changes onto the generated `Net4x.*` (transformed-space delta + 3-way merge, preserving patches). See [AlignProjects-Plan.md](AlignProjects-Plan.md) and [PrepareProjects.md](PrepareProjects.md); its transform-producer half is not finished yet.
+**`AlignProjects`** and **`AlignSamples`** (both in `PrepareProjects.sln`) are companion post-pipelines that incrementally forward-port newer gitee upstream changes onto the generated code — a transformed-space delta, 3-way merged, preserving patches. `AlignProjects` covers the `Net4x.*` libraries (transform `f`); `AlignSamples` covers the sample apps (transform `fs`) and additionally keeps them culture-aware (new Chinese is keyed into the resx pair and reviewed at an operator pause, and the culture invariant is verified after the merge). They share one driver (`Align.Common.AlignmentDriver`) and keep independent checkpoints.
+
+Run order — never chained automatically: `PrepareProjects` → `AlignProjects` → `AlignSamples`. See [AlignProjects.md](AlignProjects.md) / [AlignProjects-Plan.md](AlignProjects-Plan.md) and [AlignSamples.md](AlignSamples.md) / [AlignSamples-Plan.md](AlignSamples-Plan.md); AlignProjects' transform-producer half is not finished yet.
 
 ## Common commands
 

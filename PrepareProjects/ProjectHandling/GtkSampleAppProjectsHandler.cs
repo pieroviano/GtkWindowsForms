@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Xml.Linq;
+using Prepare.Common.Alignment;
 using Prepare.Common.Content;
 using Prepare.Common.IO;
 using Prepare.Common.Languages;
@@ -11,8 +12,17 @@ namespace PrepareProjects.ProjectHandling;
 
 public static class GtkSampleAppProjectsHandler
 {
-    public static async Task<string> PrepareAsync(string? sourceProjectName, string? targetProjectName, string version)
+    /// <summary>
+    /// The sample transform <c>fs</c> for ONE sample: copy <c>Samples/&lt;source&gt;</c> → <c>&lt;target&gt;</c>,
+    /// overlay the localization/data resources, rewrite the csproj, and translate + key the Chinese.
+    /// Everything resolves through <see cref="RepoPaths"/>, so a caller that points the root at a staging
+    /// tree (<see cref="SampleTransformPipeline"/>) never touches the live samples or submodule.
+    /// </summary>
+    public static async Task<string> PrepareAsync(string? sourceProjectName, string? targetProjectName,
+        SampleTransformOptions? options = null)
     {
+        options ??= SampleTransformOptions.Pipeline;
+
         var sourceDir = RepoPaths.At($@"gtksystem-windows-forms\Samples\{sourceProjectName}");
 
         var targetDir = RepoPaths.At($"{targetProjectName}");
@@ -20,50 +30,62 @@ public static class GtkSampleAppProjectsHandler
         ProjectUtility.PrepareEmptyDirectory(targetDir);
         ProjectUtility.CopyDirectory(sourceDir, targetDir);
 
-        ReplaceTestDataJson(targetDir);
+        // Provenance: every generated file starts as a straight copy of its upstream counterpart; the
+        // steps below overwrite the entries they redirect elsewhere (overlays, renames, deletions).
+        var provenance = options.Provenance;
+        MapCopiedTree(provenance, targetDir, sourceDir);
+
+        ReplaceTestDataJson(targetDir, provenance);
 
         DeleteIfExists(Path.Combine(targetDir, "工程说明.txt"));
+        provenance?.Remove(RepoRelative(Path.Combine(targetDir, "工程说明.txt")));
         CopyIfExists(Path.Combine(targetDir, "Resources", "010.jpg"), Path.Combine(targetDir, "Resources", "img11.jpg"));
+        MapIfExists(provenance, Path.Combine(targetDir, "Resources", "img11.jpg"),
+            Path.Combine(sourceDir, "Resources", "010.jpg"));
 
-        ProjectUtility.CopyLocalizationResourcesFiles(Path.Combine(targetDir, "Properties"),
+        var propertiesDir = Path.Combine(targetDir, "Properties");
+        ProjectUtility.CopyLocalizationResourcesFiles(propertiesDir,
             "GtkWinFormsAppResources.xml", "GtkWinFormsAppResources.zh-Hans.xml", "TestData1.json", "TestData1.en.json");
+        MapLocalizationOverlay(provenance, propertiesDir);
 
-        var csprojPath = RenameProjectFiles(targetDir, sourceProjectName, targetProjectName);
-        await ProjectUtility.EnsureLatestGtkSharpAsync(csprojPath);
+        var csprojPath = RenameProjectFiles(targetDir, sourceProjectName, targetProjectName, provenance, sourceDir);
+
+        // Skipped under AlignSamples: this queries nuget.org for the newest GtkSharp and rewrites the
+        // csproj, so the produced BASE/THEIRS trees would differ by whatever the feed served that minute -
+        // network churn entering the alignment delta as if it were an upstream change. The live sample
+        // keeps its pinned version; version normalization is OURS-side state.
+        if (options.EnsureLatestGtkSharp)
+        {
+            await ProjectUtility.EnsureLatestGtkSharpAsync(csprojPath);
+        }
 
         EnsureStrongNameSigning(csprojPath);
         EnsureResxEmbeddedResources(csprojPath);
         EnsureResources(csprojPath);
 
         UpdateLinkedCompileItems(csprojPath);
+        provenance?.Remove(RepoRelative(Path.Combine(targetDir, "System.ComponentModel.cs")));
+        provenance?.Remove(RepoRelative(Path.Combine(targetDir, "System.Resources.ResourceManager.cs")));
         UpdateProjectReferences(csprojPath, sourceProjectName, targetProjectName);
 
         EnsureResourcesDesignerCompileItem(csprojPath);
         EnsurePrepareBuildTarget(csprojPath);
 
         CopyAndFormatGtkWinFormsDesigner(csprojPath, targetDir);
+        MapIfExists(provenance, Path.Combine(propertiesDir, "GtkWinFormsAppResources.Designer.cs"),
+            RepoPaths.At(Path.Combine("Resources", "GtkWinFormsAppResources.Designer.cs")));
 
         EnsureGtkWinFormsResourcesDesignerCompileItem(csprojPath);
         EnsureGtkWinFormsResourcesEmbedded(csprojPath);
         EnsureResourcesResxDesigner(csprojPath);
         EnsureJsonNoneItems(csprojPath);
 
+        // The former per-file `Form1.cs`/`Form3.cs` string fix-ups now live in
+        // Resources/samplesTranslations.xml (keyed with their `//` comment prefix so the dictionary
+        // reproduces them verbatim): dictionary-driven, manifest-visible, and applied to every sample
+        // rather than two hardcoded paths. See AlignSamples-Plan.md Phase 1.
         ProjectTranslation.TranslateFiles(sourceProjectName, targetProjectName, targetDir,
             ProjectPatching.PatchProjectNamespace, "GtkWinFormsAppResources", "samplesTranslations");
-        var path = Path.Combine(targetDir, "Form1.cs");
-        if (File.Exists(path))
-        {
-            var text = await File.ReadAllTextAsync(path);
-            text = text.Replace("1、数据集列表数据源", "1. Dataset list data source").Replace("2、datatable数据源", "2. Datatable data source");
-            await CsFile.WriteAllTextAsync(path, text);
-        }
-        path = Path.Combine(targetDir, "Form3.cs");
-        if (File.Exists(path))
-        {
-            var text = await File.ReadAllTextAsync(path);
-            text = text.Replace("打印", " Print");
-            await CsFile.WriteAllTextAsync(path, text);
-        }
 
         ConsoleColor.White.Write("Copy completed, project updated.", true);
 #pragma warning disable CS8604 // Possible null reference argument.
@@ -74,7 +96,7 @@ public static class GtkSampleAppProjectsHandler
         return projPath;
     }
 
-    private static void ReplaceTestDataJson(string targetDir)
+    private static void ReplaceTestDataJson(string targetDir, ProvenanceManifest? provenance)
     {
         foreach (var testData in new[] { "TestData1.json", "TestData1.en.json" })
         {
@@ -86,6 +108,70 @@ public static class GtkSampleAppProjectsHandler
             }
             LogUtility.FileCopyAndLog(sourceFileName, destFileName);
 #pragma warning restore CS8604 // Possible null reference argument.
+            MapIfExists(provenance, destFileName, sourceFileName);
+        }
+    }
+
+    // --- provenance -------------------------------------------------------------------------------
+    // generated file -> the file it actually came from, recorded as each copy/overlay/rename happens.
+    // The alignment conflict pause reads this to name the exact upstream original of a conflicted file
+    // (AlignSamples-Plan.md Phase 1); nothing else depends on it, so every hook is null-tolerant.
+
+    /// <summary>
+    /// Repo-relative, forward-slashed path - used for BOTH sides of a manifest entry. The source side is
+    /// relative too because <c>fs</c> runs against a throwaway staging root: an absolute path there names
+    /// a directory that is deleted before the operator ever reads the manifest. The alignment driver
+    /// rebases relative sources onto the live repo, where the file really exists.
+    /// </summary>
+    private static string RepoRelative(string fullPath) =>
+        Path.GetRelativePath(RepoPaths.Root, Path.GetFullPath(fullPath)).Replace('\\', '/');
+
+    /// <summary>Maps every file just copied into <paramref name="targetDir"/> back to its counterpart under the upstream sample.</summary>
+    private static void MapCopiedTree(ProvenanceManifest? provenance, string targetDir, string sourceDir)
+    {
+        if (provenance == null)
+        {
+            return;
+        }
+
+        foreach (var file in Directory.EnumerateFiles(targetDir, "*", SearchOption.AllDirectories)
+                     .OrderBy(f => f, StringComparer.Ordinal))
+        {
+            var relative = Path.GetRelativePath(targetDir, file);
+            provenance.Add(RepoRelative(file), RepoRelative(Path.Combine(sourceDir, relative)));
+        }
+    }
+
+    /// <summary>Records <paramref name="generatedPath"/> ← <paramref name="sourcePath"/> when the generated file was actually produced.</summary>
+    private static void MapIfExists(ProvenanceManifest? provenance, string generatedPath, string sourcePath)
+    {
+        if (provenance != null && File.Exists(generatedPath))
+        {
+            provenance.Add(RepoRelative(generatedPath), RepoRelative(sourcePath));
+        }
+    }
+
+    /// <summary>
+    /// The localization overlay: the generated <c>Properties</c> resx/json come from the repo's
+    /// <c>Resources</c> dir (the fork's own translated copies), not from upstream.
+    /// </summary>
+    private static void MapLocalizationOverlay(ProvenanceManifest? provenance, string propertiesDir)
+    {
+        if (provenance == null)
+        {
+            return;
+        }
+
+        foreach (var (generated, source) in new[]
+                 {
+                     ("GtkWinFormsAppResources.resx", "GtkWinFormsAppResources.xml"),
+                     ("GtkWinFormsAppResources.zh-Hans.resx", "GtkWinFormsAppResources.zh-Hans.xml"),
+                     ("TestData1.json", "TestData1.json"),
+                     ("TestData1.en.json", "TestData1.en.json")
+                 })
+        {
+            MapIfExists(provenance, Path.Combine(propertiesDir, generated),
+                RepoPaths.At(Path.Combine("Resources", source)));
         }
     }
 
@@ -407,18 +493,34 @@ public static class GtkSampleAppProjectsHandler
         }
     }
 
-    private static string RenameProjectFiles(string targetDir, string? sourceProjectName, string? targetProjectName)
+    private static string RenameProjectFiles(string targetDir, string? sourceProjectName, string? targetProjectName,
+        ProvenanceManifest? provenance = null, string? sourceDir = null)
     {
         var oldCsproj = Path.Combine(targetDir, $"{sourceProjectName}.csproj");
         var newCsproj = Path.Combine(targetDir, $"{targetProjectName}.csproj");
 
         RenameIfExists(oldCsproj, newCsproj);
+        RemapRename(provenance, oldCsproj, newCsproj, sourceDir, $"{sourceProjectName}.csproj");
 
-        RenameIfExists(
-            Path.Combine(targetDir, $"{sourceProjectName}.csproj.user"),
-            Path.Combine(targetDir, $"{targetProjectName}.csproj.user"));
+        var oldUser = Path.Combine(targetDir, $"{sourceProjectName}.csproj.user");
+        var newUser = Path.Combine(targetDir, $"{targetProjectName}.csproj.user");
+        RenameIfExists(oldUser, newUser);
+        RemapRename(provenance, oldUser, newUser, sourceDir, $"{sourceProjectName}.csproj.user");
 
         return newCsproj;
+    }
+
+    /// <summary>Moves a manifest entry with the file: the new path keeps pointing at the upstream original.</summary>
+    private static void RemapRename(ProvenanceManifest? provenance, string oldPath, string newPath,
+        string? sourceDir, string sourceFileName)
+    {
+        if (provenance == null || sourceDir == null)
+        {
+            return;
+        }
+
+        provenance.Remove(RepoRelative(oldPath));
+        MapIfExists(provenance, newPath, Path.Combine(sourceDir, sourceFileName));
     }
 
     private static void UpdateLinkedCompileItems(string csprojPath)

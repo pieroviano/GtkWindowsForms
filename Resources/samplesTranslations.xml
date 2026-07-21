@@ -169,4 +169,16 @@
 		<Chinese></Chinese>
 		<English></English>
 	</Entry>
+	<Entry>
+		<Chinese>//1、数据集列表数据源</Chinese>
+		<English>//1. Dataset list data source</English>
+	</Entry>
+	<Entry>
+		<Chinese>//2、datatable数据源</Chinese>
+		<English>//2. Datatable data source</English>
+	</Entry>
+	<Entry>
+		<Chinese>//打印</Chinese>
+		<English>// Print</English>
+	</Entry>
 </Translations>

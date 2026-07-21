@@ -29,8 +29,12 @@ public static class AlignmentCheckpoint
         return fallbackCommit;
     }
 
-    /// <summary>Writes <paramref name="commit"/> as the new checkpoint, creating the directory if needed.</summary>
-    public static void Write(string checkpointFilePath, string commit)
+    /// <summary>
+    /// Writes <paramref name="commit"/> as the new checkpoint, creating the directory if needed.
+    /// <paramref name="toolName"/> only names the owning tool in the header comment - each alignment
+    /// tool keeps its own checkpoint file, so the two never share state.
+    /// </summary>
+    public static void Write(string checkpointFilePath, string commit, string toolName = "AlignProjects")
     {
         var dir = Path.GetDirectoryName(checkpointFilePath);
         if (!string.IsNullOrEmpty(dir))
@@ -39,7 +43,7 @@ public static class AlignmentCheckpoint
         }
 
         File.WriteAllText(checkpointFilePath,
-            "# AlignProjects last-aligned upstream commit (auto-managed)" + Environment.NewLine +
+            $"# {toolName} last-aligned upstream commit (auto-managed)" + Environment.NewLine +
             commit.Trim() + Environment.NewLine);
     }
 }

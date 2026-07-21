@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Prepare.Common.Projects;
 
 namespace Prepare.Common.Alignment;
@@ -30,17 +30,24 @@ public sealed class DeltaMergeResult
 /// </summary>
 public sealed class DeltaMerge
 {
-    private const string BaseBranch = "align/base";
-    private const string TheirsBranch = "align/theirs";
-
     private readonly string _repoDir;
     private readonly string[] _scope;
+    private readonly string _baseBranch;
+    private readonly string _theirsBranch;
     private string _originalBranch = string.Empty;
 
-    public DeltaMerge(string repoDir, IEnumerable<string> scopePaths)
+    /// <param name="repoDir">The repository whose working tree holds <c>OURS</c>.</param>
+    /// <param name="scopePaths">Repo-relative directories the delta may replace.</param>
+    /// <param name="branchPrefix">
+    /// Prefix of the throwaway branches (<c>&lt;prefix&gt;/base</c>, <c>&lt;prefix&gt;/theirs</c>). Each
+    /// alignment tool uses its own so a pending run of one never collides with the other.
+    /// </param>
+    public DeltaMerge(string repoDir, IEnumerable<string> scopePaths, string branchPrefix = "align")
     {
         _repoDir = Path.GetFullPath(repoDir);
         _scope = scopePaths.ToArray();
+        _baseBranch = branchPrefix + "/base";
+        _theirsBranch = branchPrefix + "/theirs";
     }
 
     /// <summary>
@@ -51,17 +58,17 @@ public sealed class DeltaMerge
     public DeltaMergeResult Apply(string baseDir, string theirsDir)
     {
         _originalBranch = Git("rev-parse --abbrev-ref HEAD").output.Trim();
-        DeleteBranch(BaseBranch);
-        DeleteBranch(TheirsBranch);
+        DeleteBranch(_baseBranch);
+        DeleteBranch(_theirsBranch);
 
         // align/base = OURS HEAD with the scope replaced by BASE.
-        GitOrThrow($"checkout -b {BaseBranch}");
+        GitOrThrow($"checkout -b {_baseBranch}");
         ReplaceScope(baseDir);
         StageScope();
         GitOrThrow("commit --allow-empty --no-verify -m \"align base\"");
 
         // align/theirs = align/base with the scope replaced by THEIRS (diff vs base = pure upstream delta).
-        GitOrThrow($"checkout -b {TheirsBranch}");
+        GitOrThrow($"checkout -b {_theirsBranch}");
         ReplaceScope(theirsDir);
         StageScope();
         GitOrThrow("commit --allow-empty --no-verify -m \"align theirs\"");
@@ -70,13 +77,13 @@ public sealed class DeltaMerge
         GitOrThrow($"checkout {_originalBranch}");
 
         // Empty delta (base == theirs in scope) => nothing to align; clean no-op.
-        if (Git($"diff --quiet {BaseBranch} {TheirsBranch}").exitCode == 0)
+        if (Git($"diff --quiet {_baseBranch} {_theirsBranch}").exitCode == 0)
         {
             Cleanup();
             return new DeltaMergeResult(true, Array.Empty<string>());
         }
 
-        if (Git($"cherry-pick {TheirsBranch}").exitCode == 0)
+        if (Git($"cherry-pick {_theirsBranch}").exitCode == 0)
         {
             Cleanup();
             return new DeltaMergeResult(true, Array.Empty<string>());
@@ -254,8 +261,8 @@ public sealed class DeltaMerge
             Git($"checkout {_originalBranch}");
         }
 
-        DeleteBranch(BaseBranch);
-        DeleteBranch(TheirsBranch);
+        DeleteBranch(_baseBranch);
+        DeleteBranch(_theirsBranch);
     }
 
     private void ReplaceScope(string sourceRoot)

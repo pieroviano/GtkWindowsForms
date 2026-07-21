@@ -85,75 +85,94 @@ Failures are reported and exit non-zero, mirroring AlignProjects §3.7.
 
 | Piece | State |
 |---|---|
-| Phase 0 — extract the shared alignment driver out of AlignProjects | Pending |
-| Phase 1 — extract & harden the sample transform `fs` (`RunSampleTransform`) | Pending |
-| Phase 2 — globalization enrichment (keys, data-file siblings) + pause | Pending |
-| Phase 3 — the AlignSamples driver (checkpoint, preflight, merge, conflict pause, report + culture check) | Pending |
-| Phase 4 — wire-up & docs | Pending |
+| Phase 0 — extract the shared alignment driver out of AlignProjects | **Done** — lives in `Align.Common` |
+| Phase 1 — extract & harden the sample transform `fs` (`RunSampleTransform`) | **Done** — `SampleTransformPipeline` |
+| Phase 2 — globalization enrichment (keys, data-file siblings) + pause | **Done** — `SampleGlobalizationEnricher` |
+| Phase 3 — the AlignSamples driver (checkpoint, preflight, merge, conflict pause, report + culture check) | **Done** — `AlignSamples` |
+| Phase 4 — wire-up & docs | **Done** |
 
 ## Project setup
 
 - Console project **`AlignSamples/AlignSamples.csproj`** in `PrepareProjects.sln`, `net8.0-windows`, `OutputType=Exe`, mirroring `AlignProjects.csproj`.
-- **References:** `Prepare.Common` (and the shared driver library, wherever Phase 0 lands it), `XmlDocSync` if needed by `fs`.
+- **References:** `Align.Common` (the shared driver, Phase 0), `Prepare.Common`, `XmlDocSync` if needed by `fs`.
 - **Config (env vars):** `ALIGNSAMPLES_BASE_COMMIT` (default: the checkpoint, else `e5227ae`), `ALIGNSAMPLES_TARGET_COMMIT` (default `main` HEAD), `ALIGN_SOURCE_DIR` (shared; default the submodule). Testing seams analogous to AlignProjects: `ALIGNSAMPLES_BASE_TREE`/`ALIGNSAMPLES_THEIRS_TREE` to run the merge against pre-produced trees.
 
 ## Implementation phases
 
-### Phase 0 — Extract the shared alignment driver (decision: extract, not duplicate)
+### Phase 0 — Extract the shared alignment driver (decision: extract, not duplicate) — **Done**
 
-Factor AlignProjects' Phase-3 driver into a reusable component (in `Prepare.Common` or a new `Align.Common`), parameterized by:
+AlignProjects' Phase-3 driver now lives in the new **`Align.Common`** class library (`net8.0`, `IsPackable=false`, in `PrepareProjects.sln`) — not in `Prepare.Common`, which is a shipped NuGet package and multi-targets `netstandard2.0`:
 
-- **scope** — the set of generated dirs to merge (`Net4x.Gtk.Windows.Forms` + `Net4x.Gtk.Drawing` for AlignProjects; `GtkWinFormsApp` + `GtkSystemWinFormsApp11` for AlignSamples);
-- **transform delegate** — `RunTransform` vs `RunSampleTransform`, both `(repoRoot) → generated dirs + provenance manifest`;
-- **checkpoint file path**, temp-branch names (`align-samples/base` / `align-samples/theirs`), and report labels.
+| Type | Role |
+|---|---|
+| [AlignmentOptions](Align.Common/AlignmentOptions.cs) | Everything tool-specific: `Scope`, `Transform`, `CheckpointFile`, `ToolName`, `SubmoduleName`, `BranchPrefix`, `ConflictLogName`, `ProvenanceFallback`, `PostMergeChecks`. Derives `ToolDirectory` / `BuildDirectory` / `SelfCheckDirectory`. |
+| [AlignmentDriver](Align.Common/AlignmentDriver.cs) | `RunAsync` (produce trees → align → retain/clean `build/`) and `AlignFromTrees` (preflight §3.4 → merge §3.5 → conflict pause §3.6 → residual-Chinese + post-merge report §3.7 → checkpoint §3.8). |
+| [TransformedTreeProducer](Align.Common/TransformedTreeProducer.cs) | Staging-root mirror plan, `ProduceOneAsync`/`ProduceTransformedTreesAsync`, and the §3.1 determinism self-check. |
+| [ConflictResolutionSession](Align.Common/ConflictResolutionSession.cs) | The auto-merge pass, `conflicts.log`, fork-copy index and the single operator pause. |
+| [ManualTranslationPause](Align.Common/ManualTranslationPause.cs) | The translation pause, with an `extraDetails` hook for Phase 2's proposed keys / data-file placeholders. |
 
-`AlignProjects` is refactored to call the shared driver (behavior-preserving — its existing tests must stay green); `AlignSamples` calls it with the sample parameters. This is the same no-drift argument that settled "extract `f`" in AlignProjects.
+Parameterization landed in the two `Prepare.Common` types the driver leans on: `DeltaMerge` takes a `branchPrefix` (default `align`, so `align-samples/base` / `align-samples/theirs` never collide with a pending libraries run), and `AlignmentCheckpoint.Write` takes a `toolName` for the header comment. Both defaults preserve existing behavior.
 
-**Tests (Prepare.Tests):** driver parameterization — scope filtering (files outside the scope are never touched by the merge), checkpoint isolation (each tool reads/advances only its own file).
+[AlignProjects/Program.cs](AlignProjects/Program.cs) is now just configuration: scope, the `f` delegate (`RepoPaths.Root` swap + `TransformPipeline.RunTransform`), the `Translations.xml`/resx enrichment + pause, and the `*.Files.xml` provenance fallback. `AlignSamples` will instantiate the same driver with the sample parameters.
 
-### Phase 1 — Extract & harden `fs` (`RunSampleTransform`)
+**Tests (Prepare.Tests):** [AlignmentDriverTests](Prepare.Tests/AlignmentDriverTests.cs) — scope filtering (an out-of-scope dir with a real upstream change is left untouched), checkpoint isolation (the samples run advances only its own file; the libraries checkpoint is unchanged), post-merge-check failures → exit 1 without blocking the merge, and mirror-plan exclusions (tool dir, scope dirs, submodule; `Resources` copied not junctioned). Full suite green (153 tests).
 
-Factor the body of `GtkSampleAppProjectsHandler.PrepareAsync` into a callable `RunSampleTransform(repoRoot, sourceProjectName, targetProjectName)`:
+### Phase 1 — Extract & harden `fs` (`RunSampleTransform`) — **Done**
 
-- **Parameterize the repo root** (option B, as settled for AlignProjects §3.1): all `RepoPaths.At(...)` lookups (`Samples/<src>`, `Resources/`, the `Net4x.*` reference targets) resolve against `repoRoot`, so the transform reads a source worktree and writes into a private staging root — never the live samples or submodule.
-- **Skip non-alignment steps** when running under AlignSamples: `EnsureLatestGtkSharpAsync` (network/version churn would pollute the delta) — the live csproj keeps its pinned versions; version normalization is OURS-side state.
-- **Determinism:** stable culture-invariant ordering wherever files/entries are enumerated; two-run byte-identical self-check, mirroring AlignProjects.
-- **Provenance manifest:** record `generated-file → upstream-source-file` for every copy/rename/translate step so conflict listings can always name the raw `Samples/...` original. (Simpler than the library case — no splits — but the hardcoded per-file fix-ups in `PrepareAsync`, e.g. the `Form1.cs`/`Form3.cs` string replacements, must be folded into `samplesTranslations.xml` entries so they're dictionary-driven and manifest-visible, not code-side specials.)
+`fs` is [SampleTransformPipeline](PrepareProjects/SampleTransformPipeline.cs) — the sample-side counterpart of `TransformPipeline` (`f`):
 
-**Tests (Prepare.Tests):** `RunSampleTransform` against a fixture tree — repoRoot isolation (nothing outside the staging root is written), determinism (two runs byte-identical), manifest correctness for a renamed + translated file.
+- **`RunSampleTransformAsync(repoRoot, source, target, options)`** runs one sample; **`RunAllSampleTransformsAsync(repoRoot)`** runs both (the order in `SampleTransformPipeline.Samples` is fixed) and writes `provenance.tsv` at the root. That second one is what AlignSamples will hand the driver as its `Transform` delegate.
+- **Repo root parameterized** (§3.1 option B): the body of `GtkSampleAppProjectsHandler.PrepareAsync` was left resolving everything through `RepoPaths`, and `fs` points `RepoPaths.Root` at the given root for the duration, restoring it after — so a staging root is read and written, never the live samples or submodule. A test asserts the root is restored and that nothing lands in the real repo.
+- **Non-alignment steps skipped**: `SampleTransformOptions.EnsureLatestGtkSharp` gates the nuget.org GtkSharp bump (on for PrepareProjects, off for AlignSamples). Version normalization stays OURS-side state.
+- **Determinism**: ordinal ordering added where the transform enumerates the filesystem (`ProjectUtility.CopyDirectory`, `Translator.ReplaceStringsInFiles`) and where the manifest is written (`ProvenanceManifest.Save`). A test runs `fs` twice over identical fixture roots and compares every produced file byte for byte.
+- **Provenance manifest**: `ProvenanceManifest` entries are recorded at each copy / overlay / rename, and dropped for files the transform deletes (`工程说明.txt`, the linked `System.*.cs`). **Both sides are repo-relative** — the staging root is deleted before the operator ever reads the manifest — and `AlignmentDriver` rebases relative sources onto the live repo, where the file actually opens. `TransformedTreeProducer` now carries `provenance.tsv` out of the staging root into the captured tree.
+- **Per-sample designer regeneration**: `ResGenService.RegenerateSampleDesigner` split out of `RegenerateDesignersFromResources`, so `fs` is complete per sample instead of depending on the library pipeline.
+- **Hardcoded fix-ups migrated**: the `Form1.cs` / `Form3.cs` string replacements are now three `Resources/samplesTranslations.xml` entries, keyed *with* their `//` comment prefix (`//打印` → `// Print`) so the translator's "prefix a space / lowercase after punctuation" rule doesn't fire and the output is byte-identical to the old code path. Those three comments are the only matches anywhere under `Samples/`, so generated output is unchanged.
 
-### Phase 2 — Globalization enrichment + pause
+**Tests (Prepare.Tests):** [SampleTransformPipelineTests](Prepare.Tests/SampleTransformPipelineTests.cs) — repoRoot isolation, two-run byte-identical determinism, manifest correctness (renamed csproj, translated `.cs`, renamed asset, overlaid resx/json, deleted file absent, every path relative), and that the migrated dictionary entries render exactly as the old hardcodes did. `Prepare.Tests` now targets `net8.0-windows` so it can reference `PrepareProjects` (where `f`/`fs` live).
 
-Implements the [globalization model](#globalization-model-the-part-alignprojects-doesnt-have):
+### Phase 2 — Globalization enrichment + pause — **Done**
 
-1. **`EnrichSampleResources(repoRoot, sampleSourceDirs)`** — the string scan + key proposal + additive append to `GtkWinFormsAppResources.xml`/`.zh-Hans.xml` and `samplesTranslations.xml`.
-2. **`EnrichSampleDataFiles(repoRoot, sampleSourceDirs)`** — the Chinese-in-assets scan + `.en` sibling maintenance in `Resources/`.
-3. **Pause** — one combined `PauseForManualTranslation`-style stop listing new keys (with proposed names + context) and new/changed data-file content; ENTER to continue; auto-continue when non-interactive. Blanks left unfilled remain Chinese at apply time (guard already in place).
+Implemented in [SampleGlobalizationEnricher](Prepare.Common/Languages/SampleGlobalizationEnricher.cs) (`Enrich` = both halves; `EnrichSampleResources` / `EnrichSampleDataFiles` individually):
 
-**Tests (Prepare.Tests):** key generation (style, sanitization, collision handling → ordinal suffixes), additivity (existing entries and BOM/format untouched), data-file sibling creation and gap-filling, blank-skip behavior for both resx mapping and data siblings.
+1. **Two channels, decided by where the Chinese sits.** A Chinese run inside a double-quoted literal (or a `.resx` `<value>`) is a UI string → the **whole literal** becomes a proposed key, because that is exactly what the transform maps onto `Properties.GtkWinFormsAppResources.<Key>`. Chinese anywhere else — comments, inline code — becomes a blank `samplesTranslations.xml` entry. Resource literals are never duplicated into the dictionary, so a filled dictionary entry can't pre-empt the resource mapping (which runs first in `Translator.TranslateFile`).
+2. **Key proposal** — `Gtk_<Form>_<hint>`, the form taken from the file name (`Form1.Designer.cs` → `Form1`) and the hint from the literal's ASCII content (`datatable数据源` → `Gtk_MainForm_datatable`), falling back to a per-form ordinal (`Gtk_MainForm_1`) exactly like the hand-authored `Gtk_MainForm_Menu_1`. Collisions with existing *or* freshly-proposed keys get `_2`, `_3`, …
+3. **Data files** — the hardcoded `TestData1.json` / `TestData1.en.json` pair generalized: any `.json`/`.txt`/`.csv`/`.md` asset containing Chinese gets both a Chinese original and an `<name>.en.<ext>` sibling in `Resources/`. New siblings are seeded from the Chinese original rather than blanked — the file must stay structurally valid (the sample loads it), and "unfilled ⇒ still Chinese" is the same guarantee the dictionary makes. **Existing siblings are never overwritten**; one that still contains Chinese is reported as a gap. Files the transform deletes (`工程说明.txt`) and binary assets are excluded.
+4. **Pause** — `ManualTranslationPause.RunForSamples(result, resourcesDir)` prints one combined listing: each proposed key with its zh-Hans value and `file:line`, the new blank dictionary entries, and the data-file siblings; ENTER to continue, auto-continue when non-interactive.
 
-### Phase 3 — The AlignSamples driver
+Additive contract, same as AlignProjects Phase 2: entries are appended as **text** just before `</root>` / `</Translations>` (an `XDocument` round-trip would reformat all 150 entries and bury the change), existing entries are untouched and in order, BOM and line endings are preserved, filled translations are cached forever, and a second run over the same input adds nothing.
 
-Instantiate the shared driver with the sample parameters. Flow (all semantics inherited from AlignProjects §3.0–§3.9 unless noted):
+Smoke-checked against the live submodule (into a throwaway overlay copy): 63 proposed keys, 48 new dictionary entries, 0 spurious data files.
 
-1. Resolve **base** (checkpoint, else `e5227ae`) and **target** (submodule `HEAD`); **warn** if target is ahead of AlignProjects' checkpoint (ordering decision).
-2. Run Phase-2 enrichment → pause → commit the enriched/filled dictionaries.
-3. Produce `BASE`/`THEIRS` via `RunSampleTransform` in two staging roots (git worktrees + `Resources` junction), scoped to the two sample dirs.
-4. **Structural preflight** — `BASE` vs `OURS` must differ only inside files, not in layout; abort with a report otherwise.
-5. **3-way merge** via throwaway commits + cherry-pick, scoped to `GtkWinFormsApp/` + `GtkSystemWinFormsApp11/`.
-6. **Conflict pause** — full paths of the conflicted generated file, the raw `Samples/...` source (from the manifest), and the `build/theirs`/`build/base` aids; resolve → `git add` → ENTER; re-check for remaining unmerged paths.
-7. **Report** — files added/modified/deleted, conflicts, residual-Chinese scan **plus the culture-completeness check** (key parity, no blank invariant values, referenced keys exist).
-8. **Checkpoint advance + commit** on success; restore from git on failure; cleanup worktrees/staging/temp branches.
+**Tests (Prepare.Tests):** [SampleGlobalizationEnricherTests](Prepare.Tests/SampleGlobalizationEnricherTests.cs) — key style and ASCII-hint/ordinal fallback, collision suffixes, already-keyed Chinese not re-proposed, comment-vs-literal channel split, `.resx` values treated as UI strings, additivity (prefix-identical file + BOM intact + filled entries kept), idempotence, data-file sibling creation, never-overwrite + gap reporting, transform-deleted files skipped, and the combined pause listing.
 
-Exit codes mirror AlignProjects: `0` clean · `1` clean but residual Chinese / culture-check failures · `2` structural-drift abort · `3` conflicts unresolved.
+### Phase 3 — The AlignSamples driver — **Done**
 
-**Tests (Prepare.Tests):** structural preflight on fixture trees (added/removed path → abort), merge scope (library dirs untouched), culture-completeness check (missing zh-Hans key, blank invariant value, orphan code reference each → failure), checkpoint not advanced on conflict.
+[AlignSamples/Program.cs](AlignSamples/Program.cs) — a thin console app (`net8.0-windows`, in `PrepareProjects.sln`) that instantiates the Phase-0 driver with the sample parameters: scope = the two samples, transform = `SampleTransformPipeline.RunAllSampleTransformsAsync`, checkpoint = `AlignSamples/last-aligned.txt`, branch prefix `align-samples`, conflict log `conflicts-samples.log`, post-merge check = the culture verifier. Flow:
 
-### Phase 4 — Wire-up & docs
+1. **Base/target** from its own checkpoint (bootstrap `e5227ae`) and `main`; env overrides `ALIGNSAMPLES_BASE_COMMIT` / `_TARGET_COMMIT` / `ALIGN_SOURCE_DIR`, test seams `ALIGNSAMPLES_BASE_TREE` / `_THEIRS_TREE` / `_PROVENANCE`, self-check `ALIGNSAMPLES_SELFCHECK`.
+2. **Ordering warning** when AlignProjects' checkpoint differs from the samples' base — never an error.
+3. **Phase-2 enrichment → pause → commit.** The enriched overlay files are committed by pathspec (`Resources/GtkWinFormsAppResources*.xml`, `samplesTranslations.xml`, any data siblings) — the 3-way merge needs a clean tree, and hand-filled translations must not ride along in the cherry-pick.
+4. **BASE/THEIRS** produced by running `fs` in two staging worktrees, **5. merge**, **6. conflict pause**, **8. checkpoint advance** — all from the shared driver.
+7. **Report** — the driver's residual-Chinese scan plus [SampleCultureVerifier](Prepare.Common/Languages/SampleCultureVerifier.cs): identical key sets between the invariant and `zh-Hans` resources, no blank invariant values, every `Properties.GtkWinFormsAppResources.<Key>` referenced in code present in both, and no residual `[一-鿿]` outside the files meant to hold it (the `zh-Hans` resx and any asset with an `.en.<ext>` sibling — generalizing the hardcoded `TestData1.json` exemption).
 
-- Run order documented: `PrepareProjects` → `AlignProjects` → `AlignSamples` (manual or scripted; not chained automatically).
-- Document in [PrepareProjects.md](PrepareProjects.md) (or a sibling section) alongside AlignProjects.
-- `AlignSamples/last-aligned.txt` ships pointing at `e5227ae`.
+Exit codes: `0` clean · `1` clean but residual Chinese / culture-check failures · `2` structural-drift abort · `3` conflicts unresolved.
+
+**Deviation from §3.4 (measured, deliberate):** the structural preflight **reports** rather than aborts. `AlignmentOptions.AbortOnStructuralDrift` implements the abort (exit 2, tested), but AlignSamples leaves it off: comparing `fs(e5227ae)` against the live samples shows the residual difference is five files upstream ships and this fork does not keep (`GTKWinFormsApp.xml`, `GTKSystemWinFormsApp11.xml`, `Properties/launchSettings.json`, both `PublishProfiles/*`). That is the same "patch deletions / committed settings" category AlignProjects already treats as informational, so aborting would fail every run. The merge plus conflict pause remain the real safety net.
+
+Measuring that also removed a real source of delta noise: `fs` no longer copies upstream's `.vs/` directory (suo files, content indexes, caches — 40 files of IDE state that would have entered the delta as upstream "changes").
+
+**Verified end to end on real data:** `ALIGNSAMPLES_SELFCHECK` ran `fs` twice against the live submodule in isolated staging worktrees — byte-identical both at `main` and at the bootstrap base, with no leftover worktrees.
+
+**Tests (Prepare.Tests):** [SampleCultureVerifierTests](Prepare.Tests/SampleCultureVerifierTests.cs) — a culture-aware sample passes; missing `zh-Hans` key, key only in `zh-Hans`, blank invariant value, orphan code reference, residual Chinese and a missing resource each fail, while the `zh-Hans` resx and `TestData1.json`/`.en.json` pair are whitelisted. [AlignmentDriverTests](Prepare.Tests/AlignmentDriverTests.cs) adds structural-drift abort (exit 2, checkpoint untouched, nothing merged) and unresolved conflicts (exit 3, checkpoint untouched, markers + conflict log left for the operator).
+
+### Phase 4 — Wire-up & docs — **Done**
+
+- **[AlignSamples.md](AlignSamples.md)** — the as-built document (why a second align tool, core mechanism, the globalization model, checkpoint, how to run, exit codes, env overrides, stages, `fs`, the structural-preflight decision, dependencies), mirroring [AlignProjects.md](AlignProjects.md).
+- **[PrepareProjects.md](PrepareProjects.md)** — an "AlignSamples (post-pipeline, samples)" section alongside the AlignProjects one, plus a **Run order** section: `PrepareProjects` → `AlignProjects` → `AlignSamples`, invoked by hand, never chained, with the libraries-before-samples rationale.
+- **[AlignProjects.md](AlignProjects.md)** — refreshed for the Phase-0 extraction: the driver now lives in `Align.Common` and `Program.cs` is configuration only; renamed helpers (`ManualTranslationPause`, `TransformedTreeProducer`, `ConflictResolutionSession`); `ALIGN_SELFCHECK` documented; the plan-vs-implementation row for §3.4 updated to name `AbortOnStructuralDrift`; cross-link to AlignSamples.
+- **[CLAUDE.md](CLAUDE.md)** — both post-pipelines described together, with the run order and the shared-driver/independent-checkpoint facts.
+- `AlignSamples/last-aligned.txt` ships pointing at `e5227ae`; `/AlignSamples/build/` and `/AlignSamples/build-selfcheck/` are gitignored; the project is in `PrepareProjects.sln`, and both new docs are in its Documentation folder.
 
 ## How to run (once built)
 
@@ -167,10 +186,10 @@ Interactive runs hit up to two pauses (translation/keys, then merge conflicts). 
 
 ## Verification
 
-- [ ] Phase 0: AlignProjects still passes its existing tests after the driver extraction (behavior-preserving refactor).
-- [ ] Phase 1: `RunSampleTransform` is repoRoot-isolated, deterministic (two-run byte-identical), and emits an exact provenance manifest; the `Form1.cs`/`Form3.cs` code-side replacements are migrated into `samplesTranslations.xml`.
-- [ ] Phase 2: new Chinese strings get proposed keys + blank English additively; new/changed Chinese data content gets `.en` sibling placeholders; the pause lists everything with context; unfilled blanks leave Chinese in place.
-- [ ] Phase 3: preflight aborts on layout drift; merge touches only the two sample dirs; conflict pause prints generated + raw upstream full paths; checkpoint advances only on success.
+- [x] Phase 0: AlignProjects still passes its existing tests after the driver extraction (behavior-preserving refactor).
+- [x] Phase 1: `RunSampleTransform` is repoRoot-isolated, deterministic (two-run byte-identical), and emits an exact provenance manifest; the `Form1.cs`/`Form3.cs` code-side replacements are migrated into `samplesTranslations.xml`.
+- [x] Phase 2: new Chinese strings get proposed keys + blank English additively; new/changed Chinese data content gets `.en` sibling placeholders; the pause lists everything with context; unfilled blanks leave Chinese in place.
+- [x] Phase 3: preflight reports layout drift (abort available via `AbortOnStructuralDrift`; measured as unusable for the samples — see above); merge touches only the two sample dirs; conflict pause prints generated + raw upstream full paths; checkpoint advances only on success.
 - [ ] Culture invariant holds after alignment: resx key parity (invariant vs zh-Hans), no blank invariant values, every referenced `GtkWinFormsAppResources` key present, no residual `[一-鿿]` outside whitelisted files.
 - [ ] `dotnet build Net4x.Gtk.Windows.Forms.sln` (Debug + Release) clean; both samples start; UI shows English on a non-Chinese OS culture and Chinese under `zh-Hans`.
 - [ ] Re-run right after a clean alignment is a no-op; advancing the submodule and re-running applies only the new delta.
@@ -200,4 +219,4 @@ Interactive runs hit up to two pauses (translation/keys, then merge conflicts). 
 
 ## Open decisions
 
-None blocking. Implementation-time details remain: exact home of the shared driver (`Prepare.Common` vs a new `Align.Common`), the key-sanitization rules (max length, ordinal format), and the text-asset extension whitelist for the data-file scan.
+None blocking. The shared driver's home is settled (`Align.Common`, Phase 0). Both remaining implementation details are settled in Phase 2: key sanitization (ASCII-only hint, 40-char cap, `_N` collision suffixes) and the text-asset whitelist (`.json`, `.txt`, `.csv`, `.md`).

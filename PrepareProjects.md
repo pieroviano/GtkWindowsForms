@@ -134,3 +134,26 @@ Each stage prints a colored banner via `ConsoleColor.*.Write`. Stages 2–26 are
 - **Status:** the driver (checkpoint, structural preflight, 3-way merge, conflict pause, report) is implemented and tested; the transform-producer half (`repoRoot` threading, staging roots, provenance, determinism) is still pending a GTK-environment validation run.
 
 The as-built tool — stages, exit codes, env overrides, and where the code differs from the plan — is documented in [AlignProjects.md](AlignProjects.md); the design rationale and status live in [AlignProjects-Plan.md](AlignProjects-Plan.md).
+
+## AlignSamples (post-pipeline, samples)
+
+`AlignSamples` (in `PrepareProjects.sln`) does for the **sample apps** what AlignProjects does for the libraries: it forward-ports newer gitee upstream changes onto `GtkWinFormsApp` and `GtkSystemWinFormsApp11`, which AlignProjects' scope deliberately excludes. `AutoClosingMessageBoxApp` is fork-only and out of scope.
+
+- **Shared driver:** both align tools run the same `Align.Common.AlignmentDriver` (staging roots, preflight, 3-way merge, conflict pause, report, checkpoint); only the options differ — scope, transform, checkpoint file, branch prefix, conflict log.
+- **Shared transform `fs`:** `SampleTransformPipeline` — the sample counterpart of `f`, called by PrepareProjects *and* AlignSamples, so `BASE` matches the real base of `OURS`.
+- **Independent checkpoint:** `AlignSamples/last-aligned.txt`, so the samples may lag or lead the libraries.
+- **Extra duty — globalization:** new Chinese is keyed into the `zh-Hans`/invariant resource pair (or the sample dictionary, or an `.en` data sibling) *before* the transform, reviewed at an operator pause; after the merge the culture invariant is verified (key parity, no blank English, no orphan references, no stray Chinese).
+
+The as-built tool is documented in [AlignSamples.md](AlignSamples.md); the design rationale and phase status live in [AlignSamples-Plan.md](AlignSamples-Plan.md).
+
+## Run order
+
+The three tools are **never chained automatically** — each is invoked by hand, in this order:
+
+```sh
+dotnet run --project PrepareProjects/PrepareProjects.csproj   # regenerate Net4x.* + samples from the frozen base, build, publish
+dotnet run --project AlignProjects/AlignProjects.csproj       # absorb new upstream into the libraries
+dotnet run --project AlignSamples/AlignSamples.csproj         # absorb new upstream into the samples
+```
+
+Libraries before samples: upstream sample changes may use library APIs that have not been ported yet. AlignSamples only **warns** when its base differs from AlignProjects' checkpoint — building the solution afterwards is the hard safety net. Both align tools need a clean working tree and a real console (they pause for translations and for conflicts).

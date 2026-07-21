@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<!-- Plain net8.0 (not -windows): nothing here touches WinForms, and Prepare.Tests (net8.0) must be
+		     able to reference it to cover the shared driver. -->
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<IsPackable>false</IsPackable>
+		<NoWarn>CA1416;IDE0055</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Prepare.Common\Prepare.Common.csproj" />
+	</ItemGroup>
+
+</Project>

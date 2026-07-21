@@ -2,7 +2,7 @@
 
 `AlignProjects` is the **post-pipeline**: a console tool run *after* [PrepareProjects](PrepareProjects.md) that forward-ports newer gitee upstream changes onto the already-generated `Net4x.Gtk.Windows.Forms` and `Net4x.Gtk.Drawing` projects — **incrementally**, and **preserving the fork's patches and manual edits**.
 
-This document describes the tool **as built** ([AlignProjects/Program.cs](AlignProjects/Program.cs) + `Prepare.Common/Alignment/`). The design rationale, decisions, and remaining verification checklist live in [AlignProjects-Plan.md](AlignProjects-Plan.md); where the two disagree, this file describes what the code actually does today (see [Plan vs. implementation](#plan-vs-implementation)).
+This document describes the tool **as built** ([AlignProjects/Program.cs](AlignProjects/Program.cs) + `Align.Common/` + `Prepare.Common/Alignment/`). Since the samples got their own post-pipeline, the driver itself — staging roots, preflight, merge, conflict pause, report, checkpoint — lives in the shared `Align.Common.AlignmentDriver`, and `Program.cs` is only the library-specific configuration (scope, the transform `f`, translation enrichment, provenance fallback). [AlignSamples](AlignSamples.md) runs the same driver with sample parameters. The design rationale, decisions, and remaining verification checklist live in [AlignProjects-Plan.md](AlignProjects-Plan.md); where the two disagree, this file describes what the code actually does today (see [Plan vs. implementation](#plan-vs-implementation)).
 
 ## Why it exists (vs. PrepareProjects)
 
@@ -57,6 +57,7 @@ Run it **interactively** — both operator pauses need a real console. With stdi
 | `0` | Clean alignment; checkpoint advanced |
 | `1` | Aligned, but residual untranslated Chinese remains; checkpoint advanced |
 | `3` | Conflicts left unresolved (or a non-interactive run hit conflicts); checkpoint **not** advanced |
+| `5` | The target ref could not be resolved in the submodule (not initialized/fetched) |
 
 ### Environment overrides
 
@@ -64,10 +65,11 @@ Run it **interactively** — both operator pauses need a real console. With stdi
 |---|---|---|
 | `ALIGN_REPO_ROOT` | 4 levels up from the exe | Repo root (test seam) |
 | `ALIGN_BASE_COMMIT` | checkpoint, else `e5227ae` | Delta base |
-| `ALIGN_TARGET_COMMIT` | `SourceRepositorySync.DefaultTrackingBranch` (`main`) | Delta target |
+| `ALIGN_TARGET_COMMIT` | `SourceRepositorySync.DefaultTrackingBranch` (`main`) | Delta target; resolved to a commit id via `<ref>` → `origin/<ref>` → `gitee/<ref>` (exit `5` if none matches) |
 | `ALIGN_SOURCE_DIR` | `gtksystem-windows-forms/` | Tree scanned for new Chinese |
 | `ALIGN_BASE_TREE` / `ALIGN_THEIRS_TREE` | — | Supply pre-produced transformed trees and **skip running the transform** — the seam used for smoke-testing the merge half |
 | `ALIGN_PROVENANCE` | `<theirsTree>/provenance.tsv` | Generated→source manifest for the conflict report; when absent, `<theirsTree>/_manifests/*.Files.xml` is used instead |
+| `ALIGN_SELFCHECK` | — | `1` (or a commit) → transform that commit **twice** and compare byte for byte; exits `4` if `f` does not reproduce, without aligning |
 
 ## Stages (order of `Program.Main`)
 
@@ -75,10 +77,10 @@ Run it **interactively** — both operator pauses need a real console. With stdi
 
 2. **Enrich translations (additive)** — `TranslationEnrichment.EnrichTranslationsDictionary` scans the target submodule (`.cs`, regex `[一-鿿]+`, excluding `bin`/`obj`) and **appends** every unseen Chinese string to `Resources/Translations.xml` as a **blank-English** entry. Existing entries are never dropped, reordered, or reformatted; BOM/formatting are preserved. `EnrichResxLocales` does the same for locale resx files, adding blank values for keys present in `*.zh-Hans.xml`.
 
-3. **PAUSE — manual translation** (`PauseForManualTranslation`) — if anything new was added, prints counts + file paths and waits for ENTER so the blank `<English>` values can be filled by hand. Skipped when nothing is new or stdin is redirected. Filled entries are cached forever, so later runs re-add nothing.
+3. **PAUSE — manual translation** (`ManualTranslationPause.Run`) — if anything new was added, prints counts + file paths and waits for ENTER so the blank `<English>` values can be filled by hand. Skipped when nothing is new or stdin is redirected. Filled entries are cached forever, so later runs re-add nothing.
    > The **apply-side guard** in `TranslationsHelper`/`Translator` skips empty-English entries, so an unfilled blank leaves its Chinese **in place** rather than erasing it. That is what makes "enrich now, fill later" safe, and what stage 8 then reports.
 
-4. **Produce BASE and THEIRS** (`ProduceTransformedTrees` → `ProduceOne`) — the trees land in `AlignProjects/build/{base,theirs}` (gitignored, cleared on entry); the **staging roots** themselves go under `%TEMP%\alignprojects-staging-<guid>\` and are deleted afterwards. For each commit, in its own staging root:
+4. **Produce BASE and THEIRS** (`TransformedTreeProducer`) — the trees land in `AlignProjects/build/{base,theirs}` (gitignored, cleared on entry); the **staging roots** themselves go under `%TEMP%\alignprojects-staging-<guid>\` and are deleted afterwards. For each commit, in its own staging root:
    - `StagingRoot.Create` adds a detached `git worktree` of the submodule at that commit, junctions (`mklink /J`) the read-only top-level repo directories, **copies** `Resources/` (the transform *writes* there — see below), copies every top-level file (props, `Nuget.Config`, `.snk`, …), and creates empty `Net4x.*` output dirs — so the transform sees a full repo layout but **writes in isolation**;
    - `RepoPaths.Root` is redirected at the staging root, `TransformPipeline.RunTransform()` runs, and `RepoPaths.Root` is restored in a `finally`;
    - the two generated `Net4x.*` dirs are copied out to `build/base` / `build/theirs`, that run's `*.Files.xml` manifests are captured into `build/<side>/_manifests/`, and the staging root is disposed (worktree removed, junctions deleted — their targets untouched).
@@ -99,7 +101,7 @@ Run it **interactively** — both operator pauses need a real console. With stdi
 
 7. **3-way merge** (`DeltaMerge.Apply`) — uses git's real merge machinery so the base blobs actually exist as objects: stage `build/base` as commit **`align/base`**, `build/theirs` as **`align/theirs`**, then `git cherry-pick align/theirs` back on the working branch. Result: `OURS + (THEIRS − BASE)`, touching only the two scoped project dirs. A clean pick is committed automatically.
 
-8. **PAUSE — conflict resolution** (`PauseForConflictResolution`, driven by `ConflictReporter`) — the upstream delta is first auto-merged into **every** conflicted file; whatever still needs a human is then written to **`conflicts.log` in the solution directory** and the run pauses **once**. The operator works through the whole list in an editor, `git add`s each resolved file, and presses ENTER; anything still outstanding rewrites the log and pauses again. The log is deleted once nothing remains. (Stopping per file does not scale — a large upstream delta produces hundreds of conflicts.)
+8. **PAUSE — conflict resolution** (`ConflictResolutionSession.Resolve`, driven by `ConflictReporter`) — the upstream delta is first auto-merged into **every** conflicted file; whatever still needs a human is then written to **`conflicts.log` in the solution directory** and the run pauses **once**. The operator works through the whole list in an editor, `git add`s each resolved file, and presses ENTER; anything still outstanding rewrites the log and pauses again. The log is deleted once nothing remains. (Stopping per file does not scale — a large upstream delta produces hundreds of conflicts.)
 
    Each log entry carries full paths, ordered by usefulness:
    - `edit here (fork)` — the conflicted file in the live tree;
@@ -115,7 +117,7 @@ Run it **interactively** — both operator pauses need a real console. With stdi
 
 9. **Residual-Chinese report** (`ResidualChineseScanner.Scan`) — scans the merged `Net4x.*` for `[一-鿿]` and lists each offending file with a match count. Non-empty ⇒ exit code `1`; it means a dictionary blank was left unfilled in stage 3.
 
-10. **Advance the checkpoint** — `AlignmentCheckpoint.Write(checkpointFile, targetCommit)`. `AlignProjects/build/` is then deleted — **unless conflicts were left unresolved** (exit `≥ 2`), in which case it is retained and its location printed, because stage 8 just told the operator to diff files inside it.
+10. **Advance the checkpoint** — `AlignmentCheckpoint.Write(checkpointFile, targetCommit)`, with the **resolved commit id** (never the branch name — a moving ref would make the next base mean "wherever `main` is now" instead of "what this run absorbed"), followed by a pathspec-scoped commit of that one file, so a later `git checkout`/`restore` cannot silently revert it. `AlignProjects/build/` is then deleted — **unless conflicts were left unresolved** (exit `≥ 2`), in which case it is retained and its location printed, because stage 8 just told the operator to diff files inside it.
 
 ## Plan vs. implementation
 
@@ -123,11 +125,11 @@ Run it **interactively** — both operator pauses need a real console. With stdi
 
 | Plan says | Code does |
 |---|---|
-| §3.4 structural preflight **aborts** the run (exit `2`) on layout drift | Informational note only; never aborts. Exit code `2` is unused. |
-| §3.0/§3.8 the tool **auto-commits** the filled translations before the merge and the aligned `Net4x.*` + checkpoint after | Not implemented. `DeltaMerge` commits the cherry-pick itself; translations and the checkpoint file are left as working-tree changes for you to commit. |
+| §3.4 structural preflight **aborts** the run (exit `2`) on layout drift | Informational note only. The abort exists as `AlignmentOptions.AbortOnStructuralDrift` (exit `2`) but is left off: `f(base)` and `OURS` differ structurally by design, because patches rename, move, split and delete files. |
+| §3.0/§3.8 the tool **auto-commits** the filled translations before the merge and the aligned `Net4x.*` + checkpoint after | Partly. `DeltaMerge` commits the cherry-pick and the driver commits the advanced checkpoint (pathspec-scoped); the filled translations are still left as working-tree changes for you to commit. |
 | §3.9 failure restores `Net4x.*` and the submodule from git | Not implemented as an outer handler. `DeltaMerge` exposes `Abort()`/`Cleanup()`, but `Program` does not call them — after a `3` exit the cherry-pick is still in progress (`git cherry-pick --abort` to back out). |
 
-Also still pending per the plan's status table: the transform's **determinism self-check** and native **provenance emission** (§3.1). `RunTransform` still does not write `provenance.tsv`; stage 5 now derives the mapping from the `*.Files.xml` manifests instead, which covers copies/moves/renames but not type splits.
+Also still pending per the plan's status table: native **provenance emission** from `f` (§3.1). `RunTransform` still does not write `provenance.tsv` — stage 5 derives the mapping from the `*.Files.xml` manifests instead, which covers copies/moves/renames but not type splits. (The sample transform `fs` *does* emit one; see [AlignSamples.md](AlignSamples.md).) The **determinism self-check** is implemented — `ALIGN_SELFCHECK` — but a full validation run on `f` has not been recorded.
 
 ## External dependencies
 
@@ -139,6 +141,7 @@ Also still pending per the plan's status table: the transform's **determinism se
 ## Related documents
 
 - [PrepareProjects.md](PrepareProjects.md) — the generation pipeline and the shared transform `f`.
+- [AlignSamples.md](AlignSamples.md) — the sample-side post-pipeline, running the same driver with the sample transform `fs`.
 - [AlignProjects-Plan.md](AlignProjects-Plan.md) — design, decisions, phase status, verification checklist.
 - [Gitee-Update-Plan.md](Gitee-Update-Plan.md) — the overall upstream-delta strategy.
 - [CLAUDE.md](CLAUDE.md) — where durable changes belong (patches, `Resources/`, post-processing, submodule).
