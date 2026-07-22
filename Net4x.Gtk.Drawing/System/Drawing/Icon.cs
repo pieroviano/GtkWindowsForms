@@ -65,7 +65,7 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// Initializes a new instance of the
     /// <see cref="T:System.Drawing.Icon" /> class.
     /// </summary>
-    /// <param name="bytes">The bytes.
+    /// <param name="stream">The stream.
     /// </param>
     public Icon(Stream stream) : this(stream, 0, 0)
     {
@@ -75,20 +75,12 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// Initializes a new instance of the
     /// <see cref="T:System.Drawing.Icon" /> class and attempts to find a version of the icon that matches the requested size.
     /// </summary>
-    /// <param name="original">
-    /// The
-    /// <see cref="T:System.Drawing.Icon" /> from which to load the newly sized icon.
-    /// </param>
+    /// <param name="stream">The stream.</param>
     /// <param name="size">
     /// A
     /// <see cref="T:System.Drawing.Size" /> structure that specifies the height and width of the new
     /// <see cref="T:System.Drawing.Icon" />.
     /// </param>
-    /// <exception cref="T:System.ArgumentException">
-    /// The
-    /// <paramref name="original" /> parameter is
-    /// <see langword="null" />.
-    /// </exception>
     public Icon(Stream stream, Size size) : this(stream, size.Width, size.Height)
     {
     }
@@ -97,20 +89,13 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// Initializes a new instance of the
     /// <see cref="T:System.Drawing.Icon" /> class and attempts to find a version of the icon that matches the requested size.
     /// </summary>
-    /// <param name="original">
-    /// The icon to load the different size from.
-    /// </param>
+    /// <param name="stream">The stream.</param>
     /// <param name="width">
     /// The width of the new icon.
     /// </param>
     /// <param name="height">
     /// The height of the new icon.
     /// </param>
-    /// <exception cref="T:System.ArgumentException">
-    /// The
-    /// <paramref name="original" /> parameter is
-    /// <see langword="null" />.
-    /// </exception>
     public Icon(Stream stream, int width, int height)
     {
         stream.Position = 0;

@@ -1,4 +1,4 @@
-#nullable enable
+﻿#nullable enable
 
 using System.ComponentModel;
 using System.Drawing.Imaging;
@@ -412,7 +412,7 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
     /// <summary>
     /// Disposes this image and releases resources.
     /// </summary>
-    public new void Dispose()
+    public void Dispose()
     {
         Dispose(true);
     }

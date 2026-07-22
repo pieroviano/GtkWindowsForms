@@ -63,7 +63,7 @@ public partial class Form3 : Form
 
     private void Panel5_Click(object? sender, EventArgs e)
     {
-        var a = (Panel)sender;
+        var a = (Panel?)sender;
         //var b = a.self;
 
         panel5.Controls.Remove(panel2);

@@ -92,12 +92,15 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     public ToolStripItemCollection(ToolStripItem owner)
     {
         this.owner = owner;
-        if (owner.Widget.MenuItem is Gtk.Menu gmenu)
+        // owner.Widget is null while the owning ToolStripItem is still in its constructor (the item builds
+        // this collection before GetWidget() runs). Use null-conditional access so that case is a no-op
+        // instead of a NullReferenceException - which, thrown from a GTK signal callback, crashes the host.
+        if (owner.Widget?.MenuItem is Gtk.Menu gmenu)
         {
             this.menu = gmenu;
             isToolStripDropDown = true;
         }
-        else if (owner.Widget.ToolItem is Gtk.MenuToolButton tmenu)
+        else if (owner.Widget?.ToolItem is Gtk.MenuToolButton tmenu)
         {
             this.menu = new Gtk.Menu();
             tmenu.Menu = this.menu;

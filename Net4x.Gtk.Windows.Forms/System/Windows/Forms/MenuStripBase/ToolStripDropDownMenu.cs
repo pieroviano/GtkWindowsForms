@@ -24,7 +24,7 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// <summary>
     /// Occurs when layout.
     /// </summary>
-    public virtual event EventHandler<LayoutEventArgs>? Layout;
+    public new virtual event EventHandler<LayoutEventArgs>? Layout;
 
     /// <summary>
     /// Occurs when paint background.
@@ -144,7 +144,7 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// The
     /// <see cref="T:System.Windows.Forms.LayoutEventArgs" /> instance containing the event data.
     /// </param>
-    protected void OnLayout(LayoutEventArgs e)
+    protected override void OnLayout(LayoutEventArgs e)
     {
         Layout?.Invoke(this, e);
     }

@@ -1,4 +1,4 @@
-using Gtk;
+﻿using Gtk;
 
 namespace System.Windows.Forms
 {
@@ -85,7 +85,7 @@ namespace System.Windows.Forms
 
             internal DataObject(string format, bool autoConvert, object data) : this() => SetData(format, autoConvert, data);
 
-            public object GetData(string format, bool autoConvert)
+            public object? GetData(string format, bool autoConvert)
             {
                 if (format == DataFormats.Text || format == DataFormats.UnicodeText)
                 {
@@ -98,7 +98,7 @@ namespace System.Windows.Forms
                 }
                 else if (format == DataFormats.Bitmap)
                 {
-                    Drawing.Bitmap bitmap = null;
+                    Drawing.Bitmap? bitmap = null;
                     clipboard.RequestImage((clip, image) =>
                     {
                         bitmap = new Drawing.Bitmap(image.Width, image.Height);
@@ -108,7 +108,7 @@ namespace System.Windows.Forms
                 }
                 else
                 {
-                    object result = null;
+                    object? result = null;
                     clipboard.RequestContents(Gdk.Selection.Clipboard, new ClipboardReceivedFunc((clip, data) =>
                     {
                         using (MemoryStream ms = new MemoryStream((byte[])data.Data.Clone()))

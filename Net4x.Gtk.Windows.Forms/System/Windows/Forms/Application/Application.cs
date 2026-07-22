@@ -617,7 +617,14 @@ tooltip label {padding: 0px 10px; color: #555555;}
                 Debugger.Launch();
             }
 #endif
-            Gtk.Application.Quit();
+            // Only quit when a GTK main loop is actually running. Calling gtk_main_quit with no active
+            // loop trips a fatal Gtk-CRITICAL assertion (main_loops != NULL) - e.g. Application.Exit()
+            // invoked with no prior Application.Run(), as in unit tests. Real WinForms treats Exit with no
+            // running message loop as a no-op, so mirror that here.
+            if (Gtk.Main.Level() > 0)
+            {
+                Gtk.Application.Quit();
+            }
         }
     }
 

@@ -79,7 +79,9 @@ public class TimerTests
 
         var result = timer.ToString();
 
-        Assert.Equal("System.Windows.Forms.Timer", result);
+        // Matches real System.Windows.Forms.Timer, whose ToString appends the interval. The gitee
+        // alignment corrected this from the old stub that returned only the type name. Default is 100.
+        Assert.Equal("System.Windows.Forms.Timer, Interval: 100", result);
     }
 
     [Fact]

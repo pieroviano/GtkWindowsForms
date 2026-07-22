@@ -193,7 +193,10 @@ public class Timer : Component
     /// </summary>
     protected virtual void OnTick(System.EventArgs e)
     {
-        if (_enabled)
-            _onTimer?.Invoke(this, EventArgs.Empty);
+        // Raise unconditionally: the OnXxx contract (and real .NET) is that invoking OnTick fires Tick.
+        // Enabled-gating happens at the scheduling level - a stopped timer removes its GLib timeout, so
+        // OnTick is not called during normal operation anyway. (Upstream added an `if (_enabled)` guard
+        // that swallowed the event when OnTick is invoked directly.)
+        _onTimer?.Invoke(this, e);
     }
 }

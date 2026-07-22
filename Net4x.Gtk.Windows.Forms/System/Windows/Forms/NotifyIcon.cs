@@ -481,8 +481,8 @@ namespace System.Windows.Forms
 
         private static void statuswin_Shown(object? sender, EventArgs e)
         {
-            var pw = (Gtk.Window)sender;
-            pw.Window.Hide();
+            var pw = (Gtk.Window?)sender;
+            pw?.Window.Hide();
         }
     }
 

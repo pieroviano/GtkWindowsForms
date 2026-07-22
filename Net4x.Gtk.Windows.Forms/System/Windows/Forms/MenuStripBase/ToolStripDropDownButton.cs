@@ -13,17 +13,17 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     /// <summary>
     /// Occurs when mouse down.
     /// </summary>
-    public virtual event EventHandler<MouseEventArgs>? MouseDown;
+    public new virtual event EventHandler<MouseEventArgs>? MouseDown;
 
     /// <summary>
     /// Occurs when mouse leave.
     /// </summary>
-    public virtual event EventHandler<EventArgs>? MouseLeave;
+    public new virtual event EventHandler<EventArgs>? MouseLeave;
 
     /// <summary>
     /// Occurs when mouse up.
     /// </summary>
-    public virtual event EventHandler<MouseEventArgs>? MouseUp;
+    public new virtual event EventHandler<MouseEventArgs>? MouseUp;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -153,7 +153,7 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     /// The
     /// <see cref="T:System.Windows.Forms.MouseEventArgs" /> instance containing the event data.
     /// </param>
-    protected void OnMouseDown(MouseEventArgs e)
+    protected override void OnMouseDown(MouseEventArgs e)
     {
         MouseDown?.Invoke(this, e);
     }
@@ -166,7 +166,7 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     /// The
     /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
-    protected void OnMouseLeave(EventArgs e)
+    protected override void OnMouseLeave(EventArgs e)
     {
         MouseLeave?.Invoke(this, e);
     }
@@ -179,7 +179,7 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
     /// The
     /// <see cref="T:System.Windows.Forms.MouseEventArgs" /> instance containing the event data.
     /// </param>
-    protected void OnMouseUp(MouseEventArgs e)
+    protected override void OnMouseUp(MouseEventArgs e)
     {
         MouseUp?.Invoke(this, e);
     }

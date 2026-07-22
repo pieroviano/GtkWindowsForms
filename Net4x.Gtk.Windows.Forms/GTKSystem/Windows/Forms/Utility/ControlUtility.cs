@@ -31,7 +31,7 @@ namespace GtkSystem.Windows.Forms
             return result != null;
         }
 
-        public static bool TryToControl<T>(this Gtk.Widget widget, GLib.GType gtype, out T control)
+        public static bool TryToControl<T>(this Gtk.Widget widget, GLib.GType gtype, out T? control)
         {
             Gtk.Widget pwidget = widget.GetAncestor(gtype);
             if (pwidget != null && pwidget.Data["Control"] is T tcontrol)
@@ -44,7 +44,7 @@ namespace GtkSystem.Windows.Forms
             return false;
         }
 
-        public static bool TryToControl<T>(this Gtk.Widget widget, out T control)
+        public static bool TryToControl<T>(this Gtk.Widget widget, out T? control)
         {
             var pwidget = GetIControl(widget);
             if (pwidget != null && pwidget.Data["Control"] is T tcontrol)

@@ -1039,7 +1039,7 @@ public class ListView : ContainerControl
                     checkboxself.ImagePosition = PositionType.Left;
                     if (!string.IsNullOrWhiteSpace(item.ImageKey))
                     {
-                        Drawing.Image img = this.SmallImageList.GetBitmap(item.ImageKey);
+                        Drawing.Image? img = this.SmallImageList.GetBitmap(item.ImageKey);
                         if (img != null)
                         {
                             checkboxself.Image = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
@@ -1047,7 +1047,7 @@ public class ListView : ContainerControl
                     }
                     else if (item.ImageIndex > -1)
                     {
-                        Drawing.Image img = this.SmallImageList.GetBitmap(item.ImageIndex);
+                        Drawing.Image? img = this.SmallImageList.GetBitmap(item.ImageIndex);
                         if (img != null)
                         {
                             checkboxself.Image = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
@@ -1110,7 +1110,7 @@ public class ListView : ContainerControl
                         checkboxself.ImagePosition = PositionType.Top;
                         if (!string.IsNullOrWhiteSpace(item.ImageKey))
                         {
-                            Drawing.Image img = this.LargeImageList.GetBitmap(item.ImageKey);
+                            Drawing.Image? img = this.LargeImageList.GetBitmap(item.ImageKey);
                             if (img != null)
                             {
                                 checkboxself.Image = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
@@ -1118,7 +1118,7 @@ public class ListView : ContainerControl
                         }
                         else if (item.ImageIndex > -1)
                         {
-                            Drawing.Image img = this.LargeImageList.GetBitmap(item.ImageIndex);
+                            Drawing.Image? img = this.LargeImageList.GetBitmap(item.ImageIndex);
                             if (img != null)
                             {
                                 checkboxself.Image = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
@@ -1139,7 +1139,7 @@ public class ListView : ContainerControl
                         checkboxself.ImagePosition = PositionType.Left;
                         if (!string.IsNullOrWhiteSpace(item.ImageKey))
                         {
-                            Drawing.Image img = this.SmallImageList.GetBitmap(item.ImageKey);
+                            var img = this.SmallImageList.GetBitmap(item.ImageKey);
                             if (img != null)
                             {
                                 checkboxself.Image = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
@@ -1147,7 +1147,7 @@ public class ListView : ContainerControl
                         }
                         else if (item.ImageIndex > -1)
                         {
-                            Drawing.Image img = this.SmallImageList.GetBitmap(item.ImageIndex);
+                            var img = this.SmallImageList.GetBitmap(item.ImageIndex);
                             if (img != null)
                             {
                                 checkboxself.Image = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };

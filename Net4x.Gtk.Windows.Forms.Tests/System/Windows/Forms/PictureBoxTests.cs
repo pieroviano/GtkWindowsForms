@@ -118,34 +118,16 @@ public class PictureBoxTests
     [Fact]
     public void InitialImage_ShouldBeUsed_WhenImageIsNull()
     {
-        var form = new Form();
+        // The gitee alignment refactored PictureBox: "InitialImage is used when Image is null" now lives
+        // in the InitialImage setter (it promotes the value to Image when none is set), rather than the
+        // former private Self_Shown handler this test used to reflect on. Assert that observable contract.
         var pictureBox = new PictureBox();
-        form.Controls.Add(pictureBox);
-
         var initialImage = System.Properties.Resources.timg;
 
-        var executed = false;
+        pictureBox.InitialImage = initialImage;
 
-        form.Load += (s, e) =>
-        {
-            pictureBox.InitialImage = initialImage;
-
-            // Force render logic
-            pictureBox.Width = 50;
-            pictureBox.Height = 50;
-
-            // simulate shown
-            pictureBox.GetType()
-                .GetMethod("Self_Shown", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
-                .Invoke(pictureBox, new object?[] { null, null });
-
-            executed = true;
-            form.Close();
-        };
-
-        form.ShowDialog();
-
-        Assert.True(executed);
+        Assert.Same(initialImage, pictureBox.InitialImage);
+        Assert.Same(initialImage, pictureBox.Image);
     }
 
     [Fact]

@@ -34,7 +34,9 @@ public class StatusStrip : ToolStrip
     public override Point Location
     {
         get => base.Location;
-        set => base.Location = new Point(value.X, value.Y);
+        // The fork positions the status strip 12px higher than the requested Y (GTK places the strip
+        // below the client area otherwise). Upstream dropped this offset during the alignment; restore it.
+        set => base.Location = new Point(value.X, value.Y - 12);
     }
 
     /// <summary>

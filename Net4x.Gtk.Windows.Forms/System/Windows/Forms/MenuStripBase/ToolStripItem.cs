@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms.Layout;
 using Gtk;
+using Image = System.Drawing.Image;
 
 namespace System.Windows.Forms;
 
@@ -134,6 +135,13 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
         dropDownItems = new ToolStripItemCollection(this);
         this.unique_key = Guid.NewGuid().ToString().ToLower();
         var _widget = GetWidget();
+        // A bare ToolStripItem (no concrete subclass overriding Widget) has no backing GTK widget - there
+        // is nothing to wire. Returning here matches the pre-alignment ctor, which did no widget wiring,
+        // and avoids a NullReferenceException that would crash the GTK signal callback it runs in.
+        if (_widget == null)
+        {
+            return;
+        }
         _widget.Realized += _widget_Realized;
         _widget.ButtonPressEvent += _widget_ButtonPressEvent;
         _widget.ButtonReleaseEvent += _widget_ButtonReleaseEvent;
@@ -477,7 +485,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The image.
     /// </value>
-    public virtual System.Drawing.Image Image
+    public virtual Image? Image
     {
         get;
         set;
@@ -682,7 +690,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The parent.
     /// </value>
-    public virtual ToolStripItem Parent
+    public virtual ToolStripItem? Parent
     {
         get;
         set;
@@ -1016,7 +1024,9 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
 
     public Gtk.Widget GetWidget()
     {
-        return this.Widget.ToolItem ?? this.Widget.MenuItem;
+        // Widget is null for a bare ToolStripItem (concrete items override it); propagate null rather than
+        // dereferencing so the parameterless constructor can handle the no-widget case.
+        return this.Widget?.ToolItem ?? this.Widget?.MenuItem;
     }
 
     public virtual void PerformClick()
@@ -1114,7 +1124,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
         base.Dispose(disposing);
     }
 
-    protected virtual void InitStyle(Gtk.Widget widget)
+    protected virtual void InitStyle(Widget? widget)
     {
         SetStyle(widget);
     }
@@ -1561,7 +1571,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
         if (!_widgetRealized)
         {
             _widgetRealized = true;
-            InitStyle((Gtk.Widget)sender);
+            InitStyle((Gtk.Widget?)sender);
         }
     }
 

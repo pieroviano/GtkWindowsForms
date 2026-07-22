@@ -1,4 +1,5 @@
-using Gtk;
+﻿using Gtk;
+using Image = System.Drawing.Image;
 
 namespace System.Windows.Forms;
 
@@ -74,7 +75,7 @@ public class ToolStripMenuItem : ToolStripItem
         set => base.DisplayStyle = value;
     }
 
-    public override Drawing.Image Image
+    public override Image? Image
     {
         get => base.Image;
         set
@@ -96,10 +97,10 @@ public class ToolStripMenuItem : ToolStripItem
         set => self.Name = value;
     }
 
-    public override string Text
+    public override string? Text
     {
         get => self.Text;
-        set { self.Text = value; }
+        set { self.Text = value??string.Empty; }
     }
 
     public override TextImageRelation TextImageRelation
@@ -141,7 +142,7 @@ public class ToolStripMenuItem : ToolStripItem
     /// <summary>
     /// Raises the CheckedChanged event.
     /// </summary>
-    protected virtual void OnCheckedChanged(System.EventArgs e)
+    protected new virtual void OnCheckedChanged(System.EventArgs e)
     {
         CheckedChanged?.Invoke(this, e);
     }
@@ -149,7 +150,7 @@ public class ToolStripMenuItem : ToolStripItem
     /// <summary>
     /// Raises the CheckStateChanged event.
     /// </summary>
-    protected virtual void OnCheckStateChanged(System.EventArgs e)
+    protected new virtual void OnCheckStateChanged(System.EventArgs e)
     {
         CheckStateChanged?.Invoke(this, e);
     }
@@ -159,7 +160,7 @@ public class ToolStripMenuItem : ToolStripItem
         SetIconImage(this.Image);
     }
 
-    private void SetIconImage(Drawing.Image image)
+    private void SetIconImage(Image? image)
     {
         if (self.IsRealized && image?.Pixbuf != null)
         {

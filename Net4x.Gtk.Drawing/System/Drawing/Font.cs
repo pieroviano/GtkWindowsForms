@@ -258,7 +258,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// </exception>
     public Font(FontFamily? family, float emSize, FontStyle style, GraphicsUnit unit, byte gdiCharSet, bool gdiVerticalFont)
     {
-        this.Name = family.Name;
+        this.Name = family?.Name;
         this.FontFamily = family;
         this.Size = emSize;
         this.Style = style;

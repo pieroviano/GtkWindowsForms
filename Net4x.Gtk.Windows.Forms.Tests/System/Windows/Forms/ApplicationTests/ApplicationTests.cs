@@ -72,11 +72,12 @@ public class ApplicationTests
     }
 
     [Fact]
-    public void StartupPath_ReturnsCurrentDirectory()
+    public void StartupPath_ReturnsBaseDirectory()
     {
-        var expected = Directory.GetCurrentDirectory();
-
-        Assert.Equal(expected, Application.StartupPath);
+        // Matches real .NET 6+: Application.StartupPath returns AppContext.BaseDirectory, which keeps its
+        // trailing directory separator (callers such as the samples concatenate "Resources/..." onto it).
+        // The gitee alignment corrected this from the old stub that returned the cwd without a separator.
+        Assert.Equal(AppContext.BaseDirectory, Application.StartupPath);
     }
 
     [Fact]

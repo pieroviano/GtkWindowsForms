@@ -345,7 +345,7 @@ public class Bitmap : Image
     /// </exception>
     public Bitmap Clone(RectangleF rect, PixelFormat format)
     {
-        return new Bitmap((int)rect.Width, (int)rect.Height, format) { PixbufData = (byte[])this.PixbufData.Clone() };
+        return new Bitmap((int)rect.Width, (int)rect.Height, format) { PixbufData = (byte[]?)this.PixbufData?.Clone() };
     }
 
     /// <summary>

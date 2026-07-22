@@ -18,7 +18,9 @@ public class PanelTests
         form.Load += (s, e) =>
         {
             gtkControl = panel.GtkControl;
-            container = panel.Container;
+            // The panel's GTK container backing. (panel.Container is Component.Container - the design-time
+            // IContainer site, which is null at runtime - so it never verified what this test intends.)
+            container = panel.GtkContainer;
             form.Close();
         };
 

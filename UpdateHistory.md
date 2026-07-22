@@ -1,103 +1,103 @@
 ## Update History
 
- #### 2026/7/10 V1.3.26.89
+ #### 2026/7/10
    	1. Updated Control base functionality, PropertyGrid, GroupBox, Label
  	2. Reworked and optimized the control base code; added MDIForm control support.
- #### 2026/3/11 V1.3.26.88
+ #### 2026/3/11
   	1. Removed the automatic word-wrap of Button text;
 	2. Updated FlowLayoutPanel/TableLayoutPanel;
   	3. Optimized and fixed some base events and properties;
 	4. Fixed PictureBox events and properties;
 	5. 【!】Major change: refactored the container structure and the Dock/Anchor layout code
- #### 2026/2/27 V1.3.26.87
+ #### 2026/2/27
   	1. Updated and fixed Control base properties and methods;
 	2. Reworked the TableLayoutPanel, FlowLayoutPanel and GroupBox controls;
 	3. Implemented Tab-key navigation
- #### 2026/2/5 V1.3.26.86
+ #### 2026/2/5
   	1. Fixed the cursor property; switched to a built-in cursor
 	2. Updated the container layout code
 	3. Fixed ToolTip functionality
 	4. Fixed touch-screen events
- #### 2026/1/11 V1.3.26.85
+ #### 2026/1/11
   	1. 【!】Optimized CheckedListBox (older versions could become sluggish)
 	2. Optimized ListView; added column-width dragging
 	3. 【!】Added AOT compilation support — note there are extensive code changes
- #### 2025/12/24 V1.3.26.84
+ #### 2025/12/24
  	1. 【!】Reworked DataGridView core functionality and properties
 	2. Updated ComboBox
 	3. Added a Screen class implementation
 	4. Completed the Graphics string-drawing methods
 	5. 【!】Optimized the container layout code — more accurate dynamic Dock/Anchor layout
 	6. Fixed some base functionality
- #### 2025/12/13 V1.3.26.83
+ #### 2025/12/13
  	1. Fixed DataGridView value-row indexing, events and styles
 	2. Updated the base event code
- #### 2025/11/27 V1.3.26.82
+ #### 2025/11/27
  	1. Updated menu background color and menu layout
 	2. Updated control keyboard/mouse events
 	3. Updated window title-bar button functionality
 	4. Optimized the ComboBox control
 	5. Optimized the ListView control
 	6. Updated DataGridView; optimized multi-level style properties
- #### 2025/11/1 V1.3.26.81
+ #### 2025/11/1
 	1. Updated menu styling
 	2. Updated window functionality
- #### 2025/10/25 V1.3.26.80
+ #### 2025/10/25
 	1. Updated row add/remove functionality for DataGridView and TreeView
- #### 2025/10/22 V1.3.26.79
+ #### 2025/10/22
 	1. Fixed image, style and resource-path issues; supports launching the app from any location
 	2. Optimized some code
- #### 2025/10/17 V1.3.26.77
+ #### 2025/10/17
 	1. Implemented hiding the window's taskbar icon on Windows
 	2. Implemented free control over showing the window maximize/minimize buttons
 	3. Optimized some code
- #### 2025/9/14 V1.3.26.76
+ #### 2025/9/14
 	1. Updated menus
 	2. Updated container functionality
 	3. [!] Updated the project's form-designer usage approach — now compatible with using native projects at the same time; strongly recommended (already updated in the demo projects)
- #### 2025/8/15 V1.3.26.75
+ #### 2025/8/15
 	1. Optimized ListView
 	2. Fixed events and properties of some controls
 	3. Fixed and optimized container properties
 	4. Updated the structure of some controls
 	5. Added a UI-styling development sample
- #### 2025/8/15 V1.3.26.74
+ #### 2025/8/15
 	1. [!] Fixed an issue where the window title bar could be missing the resize buttons
- #### 2025/8/14 V1.3.26.73
+ #### 2025/8/14
 	1. [!] Refactored the menu bar and improved its functionality
 	2. Updated window-state functionality
 	3. Optimized the control style-configuration functionality
 	4. [!] Resolved the image resource-directory issue
 	5. Added and optimized control properties and functionality
- #### 2025/7/24 V1.3.26.72
+ #### 2025/7/24
 	1. [!] Updated and optimized window events — significant improvements to window events and their hierarchy
- #### 2025/7/24 V1.3.24.71
+ #### 2025/7/24
 	1. Added the NotifyIcon component
 	2. Updated the image-processing code
- #### 2025/7/6 V1.3.24.70
+ #### 2025/7/6
 	1. Added EndEdit support to DataGridView
 	2. Updated DataGridView column-handling functionality
- #### 2025/6/29 V1.3.24.69
+ #### 2025/6/29
 	1. Optimized mouse events
- #### 2025/6/13 V1.3.24.68
+ #### 2025/6/13
  	1. Updated control completion events to be unique
- #### 2025/5/19 V1.3.24.67
+ #### 2025/5/19
 	1. Optimized size control of container controls
 	2. Added class libraries; fixed discovered issues
 	3. Updated TableLayoutPanel
 	4. Updated PictureBox with animated-image support
- #### 2025/4/29 V1.3.24.66
+ #### 2025/4/29
 	1. Updated the PictureBox and ListView controls
 	2. Updated the ListBox and RichTextBox controls; added content scrolling
- #### 2025/4/20 V1.3.24.65
+ #### 2025/4/20
 	1. Changed containers so they are no longer stretched by inner child controls
 	2. Updated some control event methods and properties
 	3. Updated the font-configuration functionality
 	4. Optimized Graphics
- #### 2025/3/10 V1.3.24.64
+ #### 2025/3/10
 	1. Fixed mouse events
 	2. Added Control event methods
- #### 2025/3/10 V1.3.24.63
+ #### 2025/3/10
 	1. Fixed a file-picker memory-conflict issue and the filter format
 	2. Updated dialog-window icons
 	3. Fixed child-window closing issues and the container scrollbar-not-showing issue
@@ -105,65 +105,65 @@
 	5. Changed the window image resource-directory structure; added a form-designer usage demo project
 	6. Fixed the Graphics font-configuration code
 	7. Updated ListView
- #### 2025/2/27 V1.3.24.62
+ #### 2025/2/27
 	1. Fixed the DataGridView sorting-disabled property
 	2. Fixed the FileDialog FileName property
- #### 2025/2/26 V1.3.24.61
+ #### 2025/2/26
 	1. Updated TextBox\CheckBox\ListView\DataGridView
 	2. Fixed and optimized some functionality
 	3. Added the SwitchBox development control
 	4. Added the PropertyGrid control
- #### 2025/2/9 V1.3.24.60
+ #### 2025/2/9
 	1. Updated ListView\TabControl, optimized functionality, fixed a ListView scrollbar bug
 	2. Fixed container layout precision and mechanism
 	3. Added netstandard2.0 support
  
- #### 2025/2/5 V1.3.24.59
+ #### 2025/2/5
 	1. Updated the default display type of ToolStripButton
 	2. Updated ToolStrip to support right-aligning the last menu item
 	3. Major ListView update — added implementation methods and improved the UI
 	4. Updated Form and fixed a bug
- #### 2025/1/2 V1.3.24.58
+ #### 2025/1/2
 	1. Updated the layout functionality of container controls.
 	2. Updated DataGridView data-binding functionality.
 	3. Updated the window close functionality.
- #### 2024/12/20 V1.3.24.57
+ #### 2024/12/20
 	1. Updated listview, listbox, checkedlistbox and datagridview functionality.
- #### 2024/12/14 V1.3.24.56
+ #### 2024/12/14
 	1. Implemented the control SizeChange event.
 	2. Updated message-box content wrapping and datagridview auto-wrapping
 	3. Updated listview add/remove functionality
 	4. Fixed some discovered issues
- #### 2024/11/7 V1.3.24.53
+ #### 2024/11/7
 	1. Fixed container-control functionality.
 	2. Completed treeview functionality
 	3. Implemented basic ImageList component configuration and image retrieval
 	4. Fixed some discovered issues
- #### 2024/10/23 V1.3.24.51
+ #### 2024/10/23
 	1. [Major update] Completed container-control functionality and fixed errors.
 	2. Completed Graphics/Image drawing functionality
 	3. Fixed some discovered issues
- #### 2024/10/19 V1.3.24.50
+ #### 2024/10/19
 	1. [Major update] Refactored the container layout, improving dock/Anchor with better performance and more stable multi-level nesting.
 	2. Implemented datagridview auto-wrapping functionality and properties
 	3. Added operations to bring a Form to the top, activate it, and get already-open forms
 	4. Fixed some discovered issues
- #### 2024/9/28 V1.3.24.49
+ #### 2024/9/28
    1. Fixed the window Paint event and the CreateGraphics method
    2. Added the ScrollBar and FontDialog controls
    3. Fixed the SelectIndexChanged\SelectValueChanged\SelectItemChanged events
- #### 2024/8/28 V1.3.24.48
+ #### 2024/8/28
    1. Implemented right-click menus for all controls
    2. Added theme-configuration and style-configuration functionality
- #### 2024/8/28 V1.3.24.47
+ #### 2024/8/28
    1. Adjusted and optimized control position/border properties for precise alignment.
    2. Added some missing control events
- #### 2024/8/27 V1.3.24.46
+ #### 2024/8/27
    1. Reworked and optimized window-closing behavior; unified the Windows and Linux window title bars, improving compatibility when reopening a native window after closing.
    2. Implemented DataGridView cell-style (CellStyle) functionality; reworked the cell image-loading code, optimized performance and fixed bugs
    3. Optimized the base dataset library
    4. Optimized the printing component; added a print-preview control and print-preview window
- #### 2024/7/16 V1.3.24.45
+ #### 2024/7/16
    1. Reworked and optimized the control event code
  #### 2024/7/16
    1. Fixed the open-file dialog and message pop-ups

@@ -154,7 +154,7 @@ namespace GtkWinFormsApp
         }
         private void pictureBox_chart_Paint(object sender, PaintEventArgs e)
         {
-            Graphics g = e.Graphics;
+            Graphics? g = e.Graphics;
             int radius = 30;
             int radiusdiff = 35;
             int angle = 20;

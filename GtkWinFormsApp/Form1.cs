@@ -71,8 +71,8 @@ public partial class Form1 : Form
         using (FileStream reader = new FileStream( (System.Globalization.CultureInfo.CurrentCulture.Name ?? "").StartsWith("zh")? System.IO.Path.Combine("Properties", "TestData1.json"): System.IO.Path.Combine("Properties", "TestData1.en.json"), FileMode.Open, FileAccess.Read))
         {
             DataContractJsonSerializer dataContractJson = new DataContractJsonSerializer(typeof(List<TestDataMode>));
-            object obj = dataContractJson.ReadObject(reader);
-            List<TestDataMode> json = obj as List<TestDataMode>;
+            object? obj = dataContractJson.ReadObject(reader);
+            List<TestDataMode>? json = obj as List<TestDataMode>;
 
             IEnumerable<TreeNode> childs = GetChild(null, json);
             treeView1.Nodes.AddRange(childs.ToArray());
@@ -234,7 +234,7 @@ public partial class Form1 : Form
 
     private void toolStripMenuItem1_Click(object sender, EventArgs e)
     {
-        ToolStripItem menu = sender as ToolStripItem;
+        ToolStripItem? menu = sender as ToolStripItem;
         GtkLogger.Info(menu.Text);
     }
 

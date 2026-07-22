@@ -207,7 +207,10 @@ public partial class PictureBox : Control
             var image = new Gtk.Image(new Gdk.PixbufAnimation(url.Replace("\\\\", "/").Replace("\\", "/")))
             {
                 Halign = Gtk.Align.Center,
-                Valign = Gtk.Align.Center
+                Valign = Gtk.Align.Center,
+                // Must be visible: adding an unmapped-but-invisible child to an already-shown overlay
+                // trips a fatal "gtk_widget_map: widget visible" GTK-CRITICAL when the parent maps it.
+                Visible = true
             };
             self.contaner.AddOverlay(image);
         }
@@ -220,7 +223,14 @@ public partial class PictureBox : Control
         }
         else
         {
-            var pixbuf = new Gdk.Pixbuf(url.Replace("\\\\", "/").Replace("\\", "/"));
+            var path = url.Replace("\\\\", "/").Replace("\\", "/");
+            // A missing local file is a no-op, not an error (Load is expected not to throw). Upstream
+            // dropped this File.Exists guard during the alignment, so a bad path threw a GLib.GException.
+            if (!System.IO.File.Exists(path))
+            {
+                return;
+            }
+            var pixbuf = new Gdk.Pixbuf(path);
             this.Image = new Bitmap(pixbuf.Width, pixbuf.Height) { Pixbuf = pixbuf };
         }
     }

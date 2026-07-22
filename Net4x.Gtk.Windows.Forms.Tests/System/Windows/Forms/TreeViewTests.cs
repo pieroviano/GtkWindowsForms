@@ -265,6 +265,8 @@ public class TreeViewTests
         var top = tree.TopNode;
 
         Assert.NotNull(top);
-        Assert.Equal("__root", top.Name);
+        // "__root__" is the TreeView's internal root sentinel name (see TreeView.cs / TreeNode.cs). The
+        // gitee alignment renamed it from "__root"; the value is an implementation detail, not a public API.
+        Assert.Equal("__root__", top.Name);
     }
 }
