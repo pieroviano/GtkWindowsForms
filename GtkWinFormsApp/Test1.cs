@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,6 +18,8 @@ namespace GtkWinFormsApp
         {
             InitializeComponent();
 
+            ApplyCultureBackground();
+
             DataTable dt = new DataTable();
             dt.Columns.Add("id", typeof(string));
             dt.Columns.Add("project", typeof(string));
@@ -35,9 +37,39 @@ namespace GtkWinFormsApp
             this.FormClosing += Test1_FormClosing;
         }
         
+        /// <summary>
+        /// The form background (defined in theme/Test1.css) uses Test1_bgimage.png, which bakes Chinese
+        /// text into the banner. Under a non-Chinese UI culture, override the CSS with the English
+        /// rendering (Test1_bgimage.en.png) so the banner matches the rest of the localized UI. The
+        /// override is applied at User priority so it wins over the app's Application-priority theme CSS.
+        /// </summary>
+        private void ApplyCultureBackground()
+        {
+            if (System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName
+                    .Equals("zh", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            var enImage = System.IO.Path.Combine(
+                System.AppContext.BaseDirectory, "theme", "Test1", "Test1_bgimage.en.png");
+            if (!System.IO.File.Exists(enImage))
+            {
+                return;
+            }
+
+            // GTK resolves a bare path in url() relative to the working directory; a file:// URI loads
+            // the image regardless of where the process was launched from.
+            var url = new Uri(enImage).AbsoluteUri;
+            var provider = new Gtk.CssProvider();
+            provider.LoadFromData($"#Test1 .Form {{ background-image: url(\"{url}\"); }}");
+            Gtk.StyleContext.AddProviderForScreen(
+                Gdk.Screen.Default, provider, (uint)Gtk.StyleProviderPriority.User);
+        }
+
         private void Test1_FormClosing(object sender, FormClosingEventArgs e)
         {
-   
+
         }
  
         private void DataGridView1_Click(object? sender, EventArgs e)

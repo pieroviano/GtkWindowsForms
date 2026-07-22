@@ -161,6 +161,9 @@
     <None Update="theme\Test1\Test1_bgimage.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="theme\Test1\Test1_bgimage.en.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="**\*.resx">

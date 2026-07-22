@@ -1,23 +1,23 @@
 ﻿[setup]
-/*是否默认跟随系统主题*/
+/* Whether to follow the system theme by default */
 AutoTheme=true
-/*是否应用内置样式*/
+/* Whether to apply the built-in styles */
 UseDefaultStyle=true
-/*指定主题，AutoTheme=false时有效*/
+/* Specify the theme; effective when AutoTheme=false */
 DefaultThemeName=Windows-10
-/*是否使用自定义主题，对应[custom theme]*/
+/* Whether to use a custom theme; corresponds to [custom theme] */
 UseCustomTheme=false
-/*是否使用自定义样式，对应[custom style]*/
+/* Whether to use a custom style; corresponds to [custom style] */
 UseCustomStyle=true
 
 [custom theme]
-/* 自定义主题名称 */
+/* Custom theme name */
 Name=Windows-10
-/* 主题文件所在文件夹GTK_DATA_PREFIX=/mnt/d/GTK/GTKSystemWindowsForms-All/Samples/GTKWinFormsApp/bin/Debug/net8.0/theme */
+/* Folder containing the theme files; GTK_DATA_PREFIX=/mnt/d/GTK/GTKSystemWindowsForms-All/Samples/GTKWinFormsApp/bin/Debug/net8.0/theme */
 ThemeFolder=theme
-/* 主题css引用文件路径，相对路径 */
+/* Theme CSS reference file path (relative) */
 ThemeCssPath=theme/windows10.css
 
 [custom style]
-/* 自由定义样式文件 */
+/* Freely defined style file */
 StylePath=style.css
