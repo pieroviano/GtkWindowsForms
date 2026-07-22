@@ -62,10 +62,14 @@ public partial class GroupBox : ContainerControl
         set
         {
             base.Padding = value;
-            self.fixedcontaner.MarginStart = value.Left;
-            self.fixedcontaner.MarginTop = value.Top;
-            self.fixedcontaner.MarginEnd = value.Right;
-            self.fixedcontaner.MarginBottom = value.Bottom;
+            // Apply padding to the content overlay, not the scrolled wrapper (self.fixedcontaner). Setting
+            // a margin on the ScrolledWindow forces a relayout that maps its internal scrollbar, which is
+            // invisible under VscrollbarPolicy.External, aborting with a fatal "gtk_widget_map" GTK-CRITICAL
+            // once the group box is shown. The overlay carried the padding pre-alignment; restore that.
+            self.contaner.MarginStart = value.Left;
+            self.contaner.MarginTop = value.Top;
+            self.contaner.MarginEnd = value.Right;
+            self.contaner.MarginBottom = value.Bottom;
         }
     }
 

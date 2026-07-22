@@ -60,19 +60,33 @@ public class GroupBoxTests
     [Fact]
     public void Padding_ShouldUpdateMargins()
     {
-        // GroupBox.Padding applies the padding to the scrolled container (self.fixedcontaner), not the
-        // overlay (self.contaner) this test used to reflect on. Assert that directly. It also avoids
-        // realizing the control via ShowDialog: on the gitee-aligned GroupBox, setting Padding on an
-        // already-shown group box triggers a GTK relayout that maps a still-invisible child and aborts
-        // with a "gtk_widget_map" GTK-CRITICAL - a real defect tracked separately from this test.
+        var form = new Form();
         var groupBox = new GroupBox();
+        form.Controls.Add(groupBox);
 
-        groupBox.Padding = new Padding(10, 20, 30, 40);
+        int start = 0, top = 0, end = 0, bottom = 0;
 
-        Assert.Equal(10, groupBox.self.fixedcontaner.MarginStart);
-        Assert.Equal(20, groupBox.self.fixedcontaner.MarginTop);
-        Assert.Equal(30, groupBox.self.fixedcontaner.MarginEnd);
-        Assert.Equal(40, groupBox.self.fixedcontaner.MarginBottom);
+        form.Load += (s, e) =>
+        {
+            // Setting Padding while the group box is shown must not crash: previously it applied the
+            // margins to the scrolled wrapper, whose invisible external scrollbar was then mapped, aborting
+            // with a fatal "gtk_widget_map" GTK-CRITICAL. Padding now targets the content overlay.
+            groupBox.Padding = new Padding(10, 20, 30, 40);
+
+            start = groupBox.self.contaner.MarginStart;
+            top = groupBox.self.contaner.MarginTop;
+            end = groupBox.self.contaner.MarginEnd;
+            bottom = groupBox.self.contaner.MarginBottom;
+
+            form.Close();
+        };
+
+        form.ShowDialog();
+
+        Assert.Equal(10, start);
+        Assert.Equal(20, top);
+        Assert.Equal(30, end);
+        Assert.Equal(40, bottom);
     }
 
     [Fact]
