@@ -14,7 +14,7 @@ public partial class PrinterSettings : ICloneable
 {
     private readonly byte[]? _cachedDevmode;
 
-    private readonly short _copies = -1;
+    private short _copies = -1;
 
     private readonly PageSettings _defaultPageSettings;
 
@@ -70,8 +70,18 @@ public partial class PrinterSettings : ICloneable
     /// </summary>
     public short Copies
     {
-        get;
-        set;
+        // This was an auto-property defaulting to 0 copies; WinForms reports 1 when the value was
+        // never set (the -1 sentinel field existed but was never consulted) and rejects negatives.
+        get => _copies == -1 ? (short)1 : _copies;
+        set
+        {
+            if (value < 0)
+            {
+                throw new ArgumentException($"Value of '{value}' is not valid for 'Copies'. 'Copies' must be greater than or equal to 0.", nameof(value));
+            }
+
+            _copies = value;
+        }
     }
 
     /// <summary>
@@ -96,17 +106,26 @@ public partial class PrinterSettings : ICloneable
         get => _fromPage;
         set
         {
+            // WinForms validates the page range bounds; these setters accepted anything.
+            if (value < _minPage)
+            {
+                throw new ArgumentException($"Value of '{value}' is not valid for 'FromPage'. 'FromPage' must be greater than or equal to {_minPage}.", nameof(value));
+            }
+
             _fromPage = value;
         }
     }
 
+    private static StringCollection? _installedPrinters;
+
     /// <summary>
     /// Gets the collection of installed printer names. Implementation/platform-specific.
     /// </summary>
-    public static StringCollection? InstalledPrinters
+    public static StringCollection InstalledPrinters
     {
-        get;
-        set;
+        // WinForms never returns null here - with no print system the collection is empty.
+        get => _installedPrinters ??= new StringCollection();
+        set => _installedPrinters = value;
     }
 
     /// <summary>
@@ -142,6 +161,11 @@ public partial class PrinterSettings : ICloneable
         get => _maxPage;
         set
         {
+            if (value < _minPage)
+            {
+                throw new ArgumentException($"Value of '{value}' is not valid for 'MaximumPage'. 'MaximumPage' must be greater than or equal to {_minPage}.", nameof(value));
+            }
+
             _maxPage = value;
         }
     }
@@ -154,6 +178,11 @@ public partial class PrinterSettings : ICloneable
         get => _minPage;
         set
         {
+            if (value < 0)
+            {
+                throw new ArgumentException($"Value of '{value}' is not valid for 'MinimumPage'. 'MinimumPage' must be greater than or equal to 0.", nameof(value));
+            }
+
             _minPage = value;
         }
     }
@@ -184,6 +213,11 @@ public partial class PrinterSettings : ICloneable
         get => _printRange;
         set
         {
+            if (!Enum.IsDefined(typeof(PrintRange), value))
+            {
+                throw new ComponentModel.InvalidEnumArgumentException(nameof(value), (int)value, typeof(PrintRange));
+            }
+
             _printRange = value;
         }
     }
@@ -205,6 +239,11 @@ public partial class PrinterSettings : ICloneable
         get => _toPage;
         set
         {
+            if (value < _minPage)
+            {
+                throw new ArgumentException($"Value of '{value}' is not valid for 'ToPage'. 'ToPage' must be greater than or equal to {_minPage}.", nameof(value));
+            }
+
             _toPage = value;
         }
     }
@@ -241,12 +280,9 @@ public partial class PrinterSettings : ICloneable
     {
         var imageFormat = image.RawFormat;
 
-        if (!imageFormat.Equals(ImageFormat.Jpeg) && !imageFormat.Equals(ImageFormat.Png))
-        {
-            return false;
-        }
-
-        return false;
+        // Both branches returned false, making the format check dead code; JPEG and PNG are the
+        // directly printable formats.
+        return imageFormat.Equals(ImageFormat.Jpeg) || imageFormat.Equals(ImageFormat.Png);
     }
 
     /// <summary>

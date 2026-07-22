@@ -1,4 +1,4 @@
-extern alias gtk;
+﻿extern alias gtk;
 using Graphics = gtk::System.Drawing.Graphics;
 using Bitmap = gtk::System.Drawing.Bitmap;
 using SolidBrush = gtk::System.Drawing.SolidBrush;
@@ -8,7 +8,7 @@ using BufferedGraphics = gtk::System.Drawing.BufferedGraphics;
 
 namespace System.Drawing;
 
-/// <summary>Covers the buffered-graphics family from EMULATION-GAPS.md §3.7, which was missing entirely —
+/// <summary>Covers the buffered-graphics family, which was missing entirely —
 /// so the standard flicker-free custom-painting recipe did not compile. The tests exercise that recipe:
 /// allocate a buffer against a surface, draw into it, and render it in one go.</summary>
 [Collection("NonParallelCollection")]

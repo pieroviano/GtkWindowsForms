@@ -1,9 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Windows.Forms;
 
 namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
 
-/// <summary>Covers the EMULATION-GAPS.md §4.3 throw sites in <see cref="TabControl"/> and
+/// <summary><see cref="TabControl"/> and
 /// <see cref="ListBox"/>. In both cases the public surface worked and the gaps sat just behind it: every
 /// explicit <see cref="IList"/>/<see cref="ICollection"/> member of <c>TabPages</c> threw, and the whole
 /// <c>FindString</c> family of <see cref="ListBox"/> threw.</summary>

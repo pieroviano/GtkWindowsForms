@@ -92,7 +92,10 @@ public partial class PaperSize
     /// <value>
     /// The kind.
     /// </value>
-    public PaperKind Kind => PaperKind.Custom;
+    public PaperKind Kind =>
+        // This always returned Custom, hiding the stored kind. WinForms reports the stored kind and
+        // reserves Custom for raw values it does not name.
+        Enum.IsDefined(typeof(PaperKind), _kind) ? _kind : PaperKind.Custom;
 
     /// <summary>
     /// Gets or sets the name of the paper.

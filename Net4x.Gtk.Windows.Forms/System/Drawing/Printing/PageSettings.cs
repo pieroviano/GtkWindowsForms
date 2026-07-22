@@ -10,13 +10,15 @@ public unsafe class PageSettings : ICloneable
 {
     private Margins _margins = new();
 
-    private readonly PaperSize? _paperSize;
+    private PaperSize? _paperSize;
 
-    private readonly PaperSource? _paperSource;
+    private PaperSource? _paperSource;
 
-    private readonly PrinterResolution? _printerResolution;
+    private PrinterResolution? _printerResolution;
 
     private PrinterSettings _printerSettings;
+
+    private RectangleF _printableArea;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -46,9 +48,17 @@ public unsafe class PageSettings : ICloneable
     /// </value>
     public Rectangle Bounds
     {
-        get;
+        // This was a stored value nothing ever set, so it stayed empty. WinForms computes the page
+        // bounds from the paper size, swapping the axes in landscape orientation; margins are not
+        // applied.
+        get
+        {
+            var size = PaperSize;
 
-        internal set;
+            return Landscape
+                ? new Rectangle(0, 0, size.Height, size.Width)
+                : new Rectangle(0, 0, size.Width, size.Height);
+        }
     }
 
     /// <summary>
@@ -131,10 +141,12 @@ public unsafe class PageSettings : ICloneable
     /// <value>
     /// The size of the paper.
     /// </value>
-    public PaperSize? PaperSize
+    public PaperSize PaperSize
     {
-        get;
-        set;
+        // WinForms never returns null here - the value defaults from the printer. Without a real
+        // printer the shim defaults to Letter (850 x 1100 hundredths of an inch).
+        get => _paperSize ??= new PaperSize(PaperKind.Letter, "Letter", 850, 1100);
+        set => _paperSize = value;
     }
 
     /// <summary>
@@ -143,10 +155,10 @@ public unsafe class PageSettings : ICloneable
     /// <value>
     /// The paper source.
     /// </value>
-    public PaperSource? PaperSource
+    public PaperSource PaperSource
     {
-        get;
-        set;
+        get => _paperSource ??= new PaperSource(PaperSourceKind.FormSource, "FormSource");
+        set => _paperSource = value;
     }
 
     /// <summary>
@@ -157,9 +169,13 @@ public unsafe class PageSettings : ICloneable
     /// </value>
     public RectangleF PrintableArea
     {
-        get;
+        // A virtual page has no hard margins, so the whole (portrait) page is printable unless the
+        // print pipeline supplies a tighter area.
+        get => _printableArea.IsEmpty
+            ? new RectangleF(0, 0, PaperSize.Width, PaperSize.Height)
+            : _printableArea;
 
-        internal set;
+        internal set => _printableArea = value;
     }
 
     /// <summary>
@@ -168,10 +184,10 @@ public unsafe class PageSettings : ICloneable
     /// <value>
     /// The printer resolution.
     /// </value>
-    public PrinterResolution? PrinterResolution
+    public PrinterResolution PrinterResolution
     {
-        get;
-        set;
+        get => _printerResolution ??= new PrinterResolution(PrinterResolutionKind.Custom, 200, 200);
+        set => _printerResolution = value;
     }
 
     /// <summary>

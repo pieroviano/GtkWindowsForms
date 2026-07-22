@@ -1,9 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Windows.Forms;
 
 namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
 
-/// <summary>Covers EMULATION-GAPS.md §4.3, where <see cref="LinkLabel"/> stood at 24 throw sites. They were
+/// <summary><see cref="LinkLabel"/> stood at 24 throw sites. They were
 /// all in one place: <c>Links</c> was a never-assigned auto-property (so it was null), the collection had no
 /// backing store — <c>Add</c> overwrote the label's <c>Text</c>, <c>Contains</c> did a substring search on
 /// it — and <see cref="LinkLabel.Link"/> discarded its constructor arguments. A multi-link LinkLabel, the

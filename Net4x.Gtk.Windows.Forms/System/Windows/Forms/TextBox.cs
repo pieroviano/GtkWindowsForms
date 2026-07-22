@@ -315,7 +315,10 @@ public partial class TextBox : Control
 
     private void Self_Changed(object sender, EventArgs e)
     {
-        if (TextChanged != null && self.IsVisible) { OnTextChanged(EventArgs.Empty); }
+        // TextChanged used to be suppressed while the widget was not visible, so bindings with
+        // DataSourceUpdateMode.OnPropertyChanged (and any logic keyed on TextChanged before the
+        // form is shown) never heard programmatic changes. WinForms raises it unconditionally.
+        OnTextChanged(EventArgs.Empty);
     }
 
     private void Self_KeyPressEvent(object o, Gtk.KeyPressEventArgs args)

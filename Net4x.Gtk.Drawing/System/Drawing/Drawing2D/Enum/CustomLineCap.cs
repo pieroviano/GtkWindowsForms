@@ -67,7 +67,7 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
         // The constructors discarded everything they were given, the getters threw while the setters
         // silently accepted, and Clone returned null - so a custom cap could be built but never inspected,
         // copied or applied. The state is now stored; the cap still does not render (Cairo has no
-        // user-defined cap primitive), which is recorded in EMULATION-GAPS.md.
+        // user-defined cap primitive), which is recorded.
         _fillPath = fillPath;
         _strokePath = strokePath;
         BaseCap = baseCap;

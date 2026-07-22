@@ -6,7 +6,7 @@ using SizeF = global::System.Drawing.SizeF;
 
 namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
 
-/// <summary>Covers EMULATION-GAPS.md §2.13. <c>AutoScaleMode</c> and <c>AutoScaleDimensions</c> were inert
+/// <summary><c>AutoScaleMode</c> and <c>AutoScaleDimensions</c> were inert
 /// auto-properties, yet every designer-generated form sets them — four forms in this repository's own
 /// sample app do. With them inert, a layout produced at one font metric is never rescaled at another,
 /// which is the case a cross-platform layer hits hardest.</summary>

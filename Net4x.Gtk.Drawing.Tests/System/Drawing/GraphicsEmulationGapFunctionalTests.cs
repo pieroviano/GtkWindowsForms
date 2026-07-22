@@ -10,7 +10,7 @@ using GraphicsUnit = gtk::System.Drawing.GraphicsUnit;
 
 namespace System.Drawing;
 
-/// <summary>Covers the <c>Net4x.Gtk.Drawing</c> gaps recorded in EMULATION-GAPS.md: the IsVisible family
+/// <summary>Covers the <c>Net4x.Gtk.Drawing</c> gaps recorded: the IsVisible family
 /// (§4.1), the quality/rendering modes and page transform (§2.8), and the GDI interop entry points (§2.11).
 /// Each test asserts the behaviour the gap document says WinForms requires.</summary>
 [Collection("NonParallelCollection")]

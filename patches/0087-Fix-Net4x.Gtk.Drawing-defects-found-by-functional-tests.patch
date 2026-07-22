@@ -91,6 +91,9 @@ Region is no longer a single rectangle (SS2.7)
    accepted, and Clone returned null; it now stores, round-trips and clones its state. A custom cap still
    does not render - Cairo has no user-defined cap primitive - which stays on the gap list (SS4.4)
 
+- Image.Pixbuf setter: no longer re-encodes unknown-format buffers as lossy JPEG nor
+  overwrites RawFormat with the buffer encoding (a stream-loaded BMP reported Jpeg);
+  unsupported encodings now buffer as lossless PNG with RawFormat untouched.
 ---
 diff --git a/Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs b/Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs
 index b6ec9d3a..d4cbf94a 100644
@@ -2220,7 +2223,7 @@ index 0beb4e59..aebc3cef 100644
  
      /// <summary>
 diff --git a/Net4x.Gtk.Drawing/System/Drawing/Image.cs b/Net4x.Gtk.Drawing/System/Drawing/Image.cs
-index c3c78095..08cd0bda 100644
+index c3c78095..268f43be 100644
 --- a/Net4x.Gtk.Drawing/System/Drawing/Image.cs
 +++ b/Net4x.Gtk.Drawing/System/Drawing/Image.cs
 @@ -162,15 +162,7 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
@@ -2259,7 +2262,39 @@ index c3c78095..08cd0bda 100644
  
      /// <summary>
      /// Gets or sets the underlying Gdk
-@@ -313,6 +297,17 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
+@@ -233,21 +217,18 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
+                 {
+                     Width = value.Width;
+                     Height = value.Height;
+-                    var type = RawFormat.GetMimeType().Substring(1);
+-                    if ("png,jpeg,gif,icon,tiff,webp".Contains(type))
+-                    {
+-                        _PixbufData = value.SaveToBuffer(type);
+-                    }
+-                    else if (value.HasAlpha)
+-                    {
+-                        _PixbufData = value.SaveToBuffer("png");
+-                        RawFormat = ImageFormat.Png;
+-                    }
+-                    else
++                    // Only formats gdk-pixbuf can write back can serve as the buffer encoding;
++                    // anything else (including an image with no known format) buffers as lossless
++                    // PNG. This setter used to re-encode such images as JPEG - losing pixel data -
++                    // and overwrite RawFormat with the buffer encoding, so a BMP loaded from a
++                    // stream reported Jpeg.
++                    var type = _rawFormat?.GetMimeType().Substring(1);
++                    if (type != "png" && type != "jpeg" && type != "tiff" && type != "ico" && type != "bmp")
+                     {
+-                        _PixbufData = value.SaveToBuffer("jpeg");
+-                        RawFormat = ImageFormat.Jpeg;
++                        type = "png";
+                     }
++
++                    _PixbufData = value.SaveToBuffer(type);
+                 }
+                 catch (GLib.GException ex)
+                 {
+@@ -313,6 +294,17 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
          }
      }
  
@@ -2277,7 +2312,7 @@ index c3c78095..08cd0bda 100644
      /// <summary>
      /// Gets the pixel format for the image.
      /// </summary>
-@@ -380,13 +375,26 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
+@@ -380,13 +372,26 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
      /// <summary>
      /// Gets the vertical resolution in pixels per inch.
      /// </summary>
@@ -2308,7 +2343,7 @@ index c3c78095..08cd0bda 100644
          }
      }
  
-@@ -501,7 +509,9 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
+@@ -501,7 +506,9 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
      /// </summary>
      public RectangleF GetBounds(ref GraphicsUnit pageUnit)
      {
@@ -2319,7 +2354,7 @@ index c3c78095..08cd0bda 100644
      }
  
      /// <summary>
-@@ -542,11 +552,23 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
+@@ -542,11 +549,23 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
      }
  
      /// <summary>
@@ -2345,7 +2380,7 @@ index c3c78095..08cd0bda 100644
      }
  
      /// <summary>
-@@ -586,7 +608,40 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
+@@ -586,7 +605,40 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
      /// </summary>
      public void RotateFlip(RotateFlipType rotateFlipType)
      {
@@ -2360,7 +2395,7 @@ index c3c78095..08cd0bda 100644
 +        var value = (int)rotateFlipType;
 +        var quarterTurns = value & 3;
 +        var flipHorizontally = (value & 4) != 0;
-+
+ 
 +        var result = pixbuf;
 +        if (quarterTurns != 0)
 +        {
@@ -2377,7 +2412,7 @@ index c3c78095..08cd0bda 100644
 +        {
 +            result = result.Flip(true);
 +        }
- 
++
 +        if (result != null)
 +        {
 +            // Assigning through the property also refreshes Width/Height (a 90/270 turn transposes them).
@@ -2386,7 +2421,7 @@ index c3c78095..08cd0bda 100644
      }
  
      /// <summary>
-@@ -620,7 +675,37 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
+@@ -620,7 +672,37 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
      /// </summary>
      public void Save(Stream stream, ImageFormat format)
      {

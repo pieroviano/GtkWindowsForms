@@ -217,21 +217,18 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
                 {
                     Width = value.Width;
                     Height = value.Height;
-                    var type = RawFormat.GetMimeType().Substring(1);
-                    if ("png,jpeg,gif,icon,tiff,webp".Contains(type))
+                    // Only formats gdk-pixbuf can write back can serve as the buffer encoding;
+                    // anything else (including an image with no known format) buffers as lossless
+                    // PNG. This setter used to re-encode such images as JPEG - losing pixel data -
+                    // and overwrite RawFormat with the buffer encoding, so a BMP loaded from a
+                    // stream reported Jpeg.
+                    var type = _rawFormat?.GetMimeType().Substring(1);
+                    if (type != "png" && type != "jpeg" && type != "tiff" && type != "ico" && type != "bmp")
                     {
-                        _PixbufData = value.SaveToBuffer(type);
+                        type = "png";
                     }
-                    else if (value.HasAlpha)
-                    {
-                        _PixbufData = value.SaveToBuffer("png");
-                        RawFormat = ImageFormat.Png;
-                    }
-                    else
-                    {
-                        _PixbufData = value.SaveToBuffer("jpeg");
-                        RawFormat = ImageFormat.Jpeg;
-                    }
+
+                    _PixbufData = value.SaveToBuffer(type);
                 }
                 catch (GLib.GException ex)
                 {

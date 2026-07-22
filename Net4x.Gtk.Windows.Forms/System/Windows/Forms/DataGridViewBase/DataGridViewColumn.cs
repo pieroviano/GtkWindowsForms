@@ -232,7 +232,9 @@ public class DataGridViewColumn : TreeViewColumn
         {
             if (_gridview != null && _treeView != null && value >= 0 && _gridview.Columns.Count > value && this.Handle != _treeView.Columns[value].Handle)
             {
-                _treeView.MoveColumnAfter((TreeViewColumn)this, _treeView.Columns[value]);
+                // Moving after the column at [value] left this column at value + 1, so
+                // DisplayIndex = 0 was unreachable; the head position needs a null base column.
+                _treeView.MoveColumnAfter((TreeViewColumn)this, value == 0 ? null : _treeView.Columns[value - 1]);
             }
         }
     }
@@ -493,11 +495,25 @@ public class DataGridViewColumn : TreeViewColumn
     /// Creates a shallow clone of the column.
     /// </summary>
     /// <returns>
-    /// A cloned object (implementation returns null in this port).
+    /// A new column of the same runtime type carrying this column's configuration.
     /// </returns>
     public object? Clone()
     {
-        return null;
+        // This returned null, so any code that duplicates columns crashed.
+        var clone = (DataGridViewColumn)Activator.CreateInstance(GetType())!;
+        clone.Name = Name;
+        clone.HeaderText = HeaderText;
+        clone.DataPropertyName = DataPropertyName;
+        clone.ValueType = ValueType;
+        clone.Width = Width;
+        clone.MinimumWidth = MinimumWidth;
+        clone.ReadOnly = ReadOnly;
+        clone.Frozen = Frozen;
+        clone.SortMode = SortMode;
+        clone.ToolTipText = ToolTipText;
+        clone.DefaultCellStyle = DefaultCellStyle;
+
+        return clone;
     }
 
     /// <summary>

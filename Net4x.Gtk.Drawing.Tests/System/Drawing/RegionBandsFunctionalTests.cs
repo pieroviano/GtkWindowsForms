@@ -6,7 +6,7 @@ using Matrix = gtk::System.Drawing.Drawing2D.Matrix;
 
 namespace System.Drawing;
 
-/// <summary>Covers EMULATION-GAPS.md §2.7. The region was backed by a single <see cref="RectangleF"/>, so
+/// <summary>The region was backed by a single <see cref="RectangleF"/>, so
 /// every combine operation collapsed to rectangle arithmetic and a non-rectangular region was not
 /// representable. These tests assert the cases that arithmetic gets wrong — the ones earlier tests in this
 /// suite had to be written around and documented as "approximations".</summary>

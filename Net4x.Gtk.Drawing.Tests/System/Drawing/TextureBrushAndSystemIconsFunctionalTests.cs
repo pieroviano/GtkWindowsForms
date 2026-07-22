@@ -1,4 +1,4 @@
-extern alias gtk;
+﻿extern alias gtk;
 using Graphics = gtk::System.Drawing.Graphics;
 using Bitmap = gtk::System.Drawing.Bitmap;
 using Icon = gtk::System.Drawing.Icon;
@@ -9,7 +9,7 @@ using WrapMode = gtk::System.Drawing.Drawing2D.WrapMode;
 
 namespace System.Drawing;
 
-/// <summary>Covers the last two Class A gaps in <c>Net4x.Gtk.Drawing</c> from EMULATION-GAPS.md §3.7:
+/// <summary>Covers the last two Class A gaps in <c>Net4x.Gtk.Drawing</c>:
 /// <see cref="TextureBrush"/>, the one core GDI+ brush type that was missing, and <see cref="SystemIcons"/>.
 /// Also covers the <see cref="Matrix"/> members that used to throw (§4.4).</summary>
 [Collection("NonParallelCollection")]

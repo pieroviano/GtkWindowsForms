@@ -180,12 +180,198 @@ TabControl and ListBox throw sites (SS4.3)
    is populated at assignment. OnSetDataSource only touches the column/row model and clears rows first, so
    it now runs on assignment and again (idempotently) on realize
 
+- System.Drawing.Printing: PaperSize.Kind/PaperSource.Kind report the stored kind (Custom
+  only for undefined raw values); PageSettings.Bounds is computed from PaperSize and
+  Landscape (was a stored, always-empty value) with non-null Letter/FormSource/resolution
+  defaults; PrinterSettings.Copies defaults to 1 and the page-range family validates its
+  bounds; IsDirectPrintingSupported no longer returns false unconditionally;
+  PrintDocument.PageSetup no longer swaps top/right margins and converts GTK points to
+  hundredths of an inch.
+- Control: FindForm no longer loops forever for controls nested below the first level
+  (the parent walk re-read this.Parent); EndInvoke rethrows a faulted delegate's
+  exception instead of returning the Exception object; DeviceDpi reports the GDK screen
+  resolution (>= 96) instead of a never-assigned 0, and LogicalToDeviceUnits scales by it.
+- TextBox: TextChanged is raised unconditionally (it was suppressed while the widget was
+  not visible, so OnPropertyChanged bindings and pre-Show logic never heard programmatic
+  changes); Control.DataBindings is annotated non-nullable (it is lazily created).
+- ListView.Sort(): honours ListViewItemSorter by sorting the item model (it was a no-op
+  unless a sort column was set, so the WinForms custom-sorter API did nothing).
+- DataGridView rows/columns: DataGridViewRow.State reports the real flag combination (it
+  was hard-coded to None); the GetFirstRow/GetNextRow/GetPreviousRow/GetLastRow family
+  tests state flags instead of exact equality, honours the exclude filter as an exclusion
+  and scans the correct ranges (GetNextRow(0, ...) used to index items[-1]);
+  Rows.Insert(index, count) constructs the rows it fills (NullReferenceException);
+  DataGridViewColumn.Clone returns a configured copy instead of null, and DisplayIndex = 0
+  is reachable (MoveColumnAfter needs a null base column for the head position).
 ---
+diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PageSettings.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PageSettings.cs
+index 674500d5..447a5883 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PageSettings.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PageSettings.cs
+@@ -10,14 +10,16 @@ public unsafe class PageSettings : ICloneable
+ {
+     private Margins _margins = new();
+ 
+-    private readonly PaperSize? _paperSize;
++    private PaperSize? _paperSize;
+ 
+-    private readonly PaperSource? _paperSource;
++    private PaperSource? _paperSource;
+ 
+-    private readonly PrinterResolution? _printerResolution;
++    private PrinterResolution? _printerResolution;
+ 
+     private PrinterSettings _printerSettings;
+ 
++    private RectangleF _printableArea;
++
+     /// <summary>
+     /// Initializes a new instance of the
+     /// <see cref="T:System.Drawing.Printing.PageSettings" /> class.
+@@ -46,9 +48,17 @@ public unsafe class PageSettings : ICloneable
+     /// </value>
+     public Rectangle Bounds
+     {
+-        get;
++        // This was a stored value nothing ever set, so it stayed empty. WinForms computes the page
++        // bounds from the paper size, swapping the axes in landscape orientation; margins are not
++        // applied.
++        get
++        {
++            var size = PaperSize;
+ 
+-        internal set;
++            return Landscape
++                ? new Rectangle(0, 0, size.Height, size.Width)
++                : new Rectangle(0, 0, size.Width, size.Height);
++        }
+     }
+ 
+     /// <summary>
+@@ -131,10 +141,12 @@ public unsafe class PageSettings : ICloneable
+     /// <value>
+     /// The size of the paper.
+     /// </value>
+-    public PaperSize? PaperSize
++    public PaperSize PaperSize
+     {
+-        get;
+-        set;
++        // WinForms never returns null here - the value defaults from the printer. Without a real
++        // printer the shim defaults to Letter (850 x 1100 hundredths of an inch).
++        get => _paperSize ??= new PaperSize(PaperKind.Letter, "Letter", 850, 1100);
++        set => _paperSize = value;
+     }
+ 
+     /// <summary>
+@@ -143,10 +155,10 @@ public unsafe class PageSettings : ICloneable
+     /// <value>
+     /// The paper source.
+     /// </value>
+-    public PaperSource? PaperSource
++    public PaperSource PaperSource
+     {
+-        get;
+-        set;
++        get => _paperSource ??= new PaperSource(PaperSourceKind.FormSource, "FormSource");
++        set => _paperSource = value;
+     }
+ 
+     /// <summary>
+@@ -157,9 +169,13 @@ public unsafe class PageSettings : ICloneable
+     /// </value>
+     public RectangleF PrintableArea
+     {
+-        get;
++        // A virtual page has no hard margins, so the whole (portrait) page is printable unless the
++        // print pipeline supplies a tighter area.
++        get => _printableArea.IsEmpty
++            ? new RectangleF(0, 0, PaperSize.Width, PaperSize.Height)
++            : _printableArea;
+ 
+-        internal set;
++        internal set => _printableArea = value;
+     }
+ 
+     /// <summary>
+@@ -168,10 +184,10 @@ public unsafe class PageSettings : ICloneable
+     /// <value>
+     /// The printer resolution.
+     /// </value>
+-    public PrinterResolution? PrinterResolution
++    public PrinterResolution PrinterResolution
+     {
+-        get;
+-        set;
++        get => _printerResolution ??= new PrinterResolution(PrinterResolutionKind.Custom, 200, 200);
++        set => _printerResolution = value;
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PaperSize.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PaperSize.cs
+index dc8663e5..b98fc5be 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PaperSize.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PaperSize.cs
+@@ -92,7 +92,10 @@ public partial class PaperSize
+     /// <value>
+     /// The kind.
+     /// </value>
+-    public PaperKind Kind => PaperKind.Custom;
++    public PaperKind Kind =>
++        // This always returned Custom, hiding the stored kind. WinForms reports the stored kind and
++        // reserves Custom for raw values it does not name.
++        Enum.IsDefined(typeof(PaperKind), _kind) ? _kind : PaperKind.Custom;
+ 
+     /// <summary>
+     /// Gets or sets the name of the paper.
+diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PaperSource.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PaperSource.cs
+index 6edf3cc1..46ded206 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PaperSource.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PaperSource.cs
+@@ -35,7 +35,9 @@ public partial class PaperSource
+     /// <value>
+     /// The kind.
+     /// </value>
+-    public PaperSourceKind Kind => _kind;
++    public PaperSourceKind Kind =>
++        // WinForms reports Custom for raw source values outside the named set rather than leaking them.
++        Enum.IsDefined(typeof(PaperSourceKind), _kind) ? _kind : PaperSourceKind.Custom;
+ 
+     /// <summary>
+     /// Gets or sets the kind of the raw.
 diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
-index 808263ae..bebab0b6 100644
+index 808263ae..b2120065 100644
 --- a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
 +++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
-@@ -194,8 +194,10 @@ public class PrintDocument : Component
+@@ -152,9 +152,24 @@ public class PrintDocument : Component
+             _pageSetup = value;
+             var pageSettings = DefaultPageSettings;
+             pageSettings.Landscape = value.Orientation == Gtk.PageOrientation.Landscape || value.Orientation == Gtk.PageOrientation.ReverseLandscape;
+-            pageSettings.Margins = new Margins((int)value.GetLeftMargin(Unit.Points), (int)value.GetTopMargin(Unit.Points), (int)value.GetRightMargin(Unit.Points), (int)value.GetBottomMargin(Unit.Points));
+-            Enum.TryParse(value.PaperSize.DisplayName, out PaperKind paperKind);
+-            pageSettings.PaperSize = new System.Drawing.Printing.PaperSize(paperKind, value.PaperSize.Name, (int)value.PaperSize.GetWidth(Unit.Points), (int)value.PaperSize.GetHeight(Unit.Points));
++            // The margins were passed as (left, top, right, bottom) into a (left, right, top, bottom)
++            // constructor - swapping top and right - and GTK points went in unconverted although
++            // Margins and PaperSize are in hundredths of an inch.
++            pageSettings.Margins = new Margins(
++                PointsToHundredthsOfAnInch(value.GetLeftMargin(Unit.Points)),
++                PointsToHundredthsOfAnInch(value.GetRightMargin(Unit.Points)),
++                PointsToHundredthsOfAnInch(value.GetTopMargin(Unit.Points)),
++                PointsToHundredthsOfAnInch(value.GetBottomMargin(Unit.Points)));
++            if (!Enum.TryParse(value.PaperSize.DisplayName, out PaperKind paperKind))
++            {
++                paperKind = PaperKind.Custom;
++            }
++
++            pageSettings.PaperSize = new System.Drawing.Printing.PaperSize(
++                paperKind,
++                value.PaperSize.Name,
++                PointsToHundredthsOfAnInch(value.PaperSize.GetWidth(Unit.Points)),
++                PointsToHundredthsOfAnInch(value.PaperSize.GetHeight(Unit.Points)));
+             _userSetPageSettings = true;
+         }
+     }
+@@ -194,8 +209,10 @@ public class PrintDocument : Component
              AllowPrintToFile = false,
              PrintToFile = false
          };
@@ -195,6 +381,143 @@ index 808263ae..bebab0b6 100644
 +        // Print() used to show the print dialog. In WinForms it prints straight to the configured
 +        // printer; showing a dialog is the caller's choice via PrintDialog.
 +        printDialog.RunPrint(null, false);
+     }
+ 
+     /// <summary>
+@@ -207,6 +224,8 @@ public class PrintDocument : Component
+     /// </returns>
+     public override string ToString() => $"[PrintDocument {DocumentName}]";
+ 
++    private static int PointsToHundredthsOfAnInch(double points) => (int)Math.Round(points * 100.0 / 72.0);
++
+     /// <summary>
+     /// Raises the
+     /// <see cref="T:System.Drawing.Printing.PrintDocument.BeginPrint" /> event.
+diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs
+index 15961b5b..9ad03084 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs
+@@ -14,7 +14,7 @@ public partial class PrinterSettings : ICloneable
+ {
+     private readonly byte[]? _cachedDevmode;
+ 
+-    private readonly short _copies = -1;
++    private short _copies = -1;
+ 
+     private readonly PageSettings _defaultPageSettings;
+ 
+@@ -70,8 +70,18 @@ public partial class PrinterSettings : ICloneable
+     /// </summary>
+     public short Copies
+     {
+-        get;
+-        set;
++        // This was an auto-property defaulting to 0 copies; WinForms reports 1 when the value was
++        // never set (the -1 sentinel field existed but was never consulted) and rejects negatives.
++        get => _copies == -1 ? (short)1 : _copies;
++        set
++        {
++            if (value < 0)
++            {
++                throw new ArgumentException($"Value of '{value}' is not valid for 'Copies'. 'Copies' must be greater than or equal to 0.", nameof(value));
++            }
++
++            _copies = value;
++        }
+     }
+ 
+     /// <summary>
+@@ -96,17 +106,26 @@ public partial class PrinterSettings : ICloneable
+         get => _fromPage;
+         set
+         {
++            // WinForms validates the page range bounds; these setters accepted anything.
++            if (value < _minPage)
++            {
++                throw new ArgumentException($"Value of '{value}' is not valid for 'FromPage'. 'FromPage' must be greater than or equal to {_minPage}.", nameof(value));
++            }
++
+             _fromPage = value;
+         }
+     }
+ 
++    private static StringCollection? _installedPrinters;
++
+     /// <summary>
+     /// Gets the collection of installed printer names. Implementation/platform-specific.
+     /// </summary>
+-    public static StringCollection? InstalledPrinters
++    public static StringCollection InstalledPrinters
+     {
+-        get;
+-        set;
++        // WinForms never returns null here - with no print system the collection is empty.
++        get => _installedPrinters ??= new StringCollection();
++        set => _installedPrinters = value;
+     }
+ 
+     /// <summary>
+@@ -142,6 +161,11 @@ public partial class PrinterSettings : ICloneable
+         get => _maxPage;
+         set
+         {
++            if (value < _minPage)
++            {
++                throw new ArgumentException($"Value of '{value}' is not valid for 'MaximumPage'. 'MaximumPage' must be greater than or equal to {_minPage}.", nameof(value));
++            }
++
+             _maxPage = value;
+         }
+     }
+@@ -154,6 +178,11 @@ public partial class PrinterSettings : ICloneable
+         get => _minPage;
+         set
+         {
++            if (value < 0)
++            {
++                throw new ArgumentException($"Value of '{value}' is not valid for 'MinimumPage'. 'MinimumPage' must be greater than or equal to 0.", nameof(value));
++            }
++
+             _minPage = value;
+         }
+     }
+@@ -184,6 +213,11 @@ public partial class PrinterSettings : ICloneable
+         get => _printRange;
+         set
+         {
++            if (!Enum.IsDefined(typeof(PrintRange), value))
++            {
++                throw new ComponentModel.InvalidEnumArgumentException(nameof(value), (int)value, typeof(PrintRange));
++            }
++
+             _printRange = value;
+         }
+     }
+@@ -205,6 +239,11 @@ public partial class PrinterSettings : ICloneable
+         get => _toPage;
+         set
+         {
++            if (value < _minPage)
++            {
++                throw new ArgumentException($"Value of '{value}' is not valid for 'ToPage'. 'ToPage' must be greater than or equal to {_minPage}.", nameof(value));
++            }
++
+             _toPage = value;
+         }
+     }
+@@ -241,12 +280,9 @@ public partial class PrinterSettings : ICloneable
+     {
+         var imageFormat = image.RawFormat;
+ 
+-        if (!imageFormat.Equals(ImageFormat.Jpeg) && !imageFormat.Equals(ImageFormat.Png))
+-        {
+-            return false;
+-        }
+-
+-        return false;
++        // Both branches returned false, making the format check dead code; JPEG and PNG are the
++        // directly printable formats.
++        return imageFormat.Equals(ImageFormat.Jpeg) || imageFormat.Equals(ImageFormat.Png);
      }
  
      /// <summary>
@@ -536,7 +859,7 @@ index 00000000..c789a22f
 +    internal override void HostClear() => Strip.Items.Clear();
 +}
 diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ContainerControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ContainerControl.cs
-index 20d81be8..183af65e 100644
+index 20d81be8..68f761fa 100644
 --- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ContainerControl.cs
 +++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ContainerControl.cs
 @@ -1,4 +1,6 @@
@@ -678,7 +1001,7 @@ index 20d81be8..183af65e 100644
 +    //
 +    // The members below are therefore live and usable - PerformAutoScale() really scales, and the factor
 +    // is really computed - but nothing scales a form behind the caller's back until there is a design-time
-+    // metric that is commensurate with the runtime one. See EMULATION-GAPS.md SS2.13.
++    // metric that is commensurate with the runtime one.
 +
 +    /// <summary>
 +    /// The dimensions the current environment presents for the given mode.
@@ -745,7 +1068,7 @@ index 20d81be8..183af65e 100644
      /// Gets or sets the control that is active on the container control.
      /// </summary>
 diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
-index 415561b9..c4e35a7b 100644
+index 415561b9..02498b84 100644
 --- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 +++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 @@ -843,10 +843,26 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
@@ -846,20 +1169,36 @@ index 415561b9..c4e35a7b 100644
  
      /// <summary>
      /// Gets or sets the cursor for the control.
-@@ -1022,7 +1057,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -1022,12 +1057,26 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// <summary>
      /// Gets the collection of data bindings for the control.
      /// </summary>
 -    public virtual ControlBindingsCollection? DataBindings { get; }
 +    // This was an auto-property nothing ever assigned, so control.DataBindings was null on every control
 +    // that did not override it and data binding could not be used at all.
-+    public virtual ControlBindingsCollection? DataBindings => _dataBindings ??= new ControlBindingsCollection(this);
++    public virtual ControlBindingsCollection DataBindings => _dataBindings ??= new ControlBindingsCollection(this);
 +
 +    private ControlBindingsCollection? _dataBindings;
  
      /// <summary>
      /// Gets the device DPI for the control.
-@@ -1097,6 +1136,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </summary>
+-    public virtual int DeviceDpi { get; }
++    public virtual int DeviceDpi
++    {
++        // This was a never-assigned auto-property, so every control reported 0 dpi and any
++        // WinForms-style scaling arithmetic (value * DeviceDpi / 96) collapsed to zero.
++        get
++        {
++            var resolution = Gdk.Screen.Default?.Resolution ?? -1;
++
++            return resolution > 0 ? (int)Math.Round(resolution) : 96;
++        }
++    }
+ 
+     /// <summary>
+     /// Gets the rectangle that represents the display area of the control.
+@@ -1097,6 +1146,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
          }
      }
  
@@ -871,7 +1210,7 @@ index 415561b9..c4e35a7b 100644
      /// <summary>
      /// Gets or sets the foreground color of the control.
      /// </summary>
-@@ -1128,7 +1172,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -1128,7 +1182,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// <summary>
      /// Gets a value indicating whether the control has child controls.
      /// </summary>
@@ -881,7 +1220,7 @@ index 415561b9..c4e35a7b 100644
  
      /// <summary>
      /// Gets or sets the height of the control.
-@@ -1197,7 +1242,73 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -1197,7 +1252,73 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// <summary>
      /// Gets a value indicating whether calls to the control must be marshaled to the UI thread.
      /// </summary>
@@ -956,7 +1295,7 @@ index 415561b9..c4e35a7b 100644
  
      /// <summary>
      /// Gets or sets a value indicating whether the control is accessible.
-@@ -1408,7 +1519,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -1408,7 +1529,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </summary>
      public virtual int Right
      {
@@ -966,7 +1305,7 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -1495,7 +1607,20 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -1495,7 +1617,20 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// <summary>
      /// Gets the top-level control that contains this control.
      /// </summary>
@@ -988,7 +1327,7 @@ index 415561b9..c4e35a7b 100644
  
      /// <summary>
      /// Gets a unique key associated with the control (used for styling or resources).
-@@ -1762,12 +1887,34 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -1762,12 +1897,34 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </returns>
      public virtual IAsyncResult BeginInvoke(Delegate method, params object[]? args)
      {
@@ -1018,16 +1357,16 @@ index 415561b9..c4e35a7b 100644
 +                completion.TrySetException(
 +                    ex is Reflection.TargetInvocationException { InnerException: { } inner } ? inner : ex);
 +            }
- 
--        return task;
++
 +            return false;
 +        });
-+
+ 
+-        return task;
 +        return completion.Task;
      }
  
      /// <summary>
-@@ -1795,9 +1942,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -1795,9 +1952,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </returns>
      public virtual IAsyncResult BeginInvoke(Action method)
      {
@@ -1042,7 +1381,7 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -1819,6 +1969,20 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -1819,6 +1979,20 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </returns>
      public virtual bool Contains(Control ctl)
      {
@@ -1063,7 +1402,7 @@ index 415561b9..c4e35a7b 100644
          return false;
      }
  
-@@ -1894,6 +2058,44 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -1894,6 +2068,44 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </param>
      public virtual void DrawToBitmap(Bitmap bitmap, Rectangle targetBounds)
      {
@@ -1108,7 +1447,67 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -2018,7 +2220,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -1916,26 +2128,19 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </returns>
+     public virtual object EndInvoke(IAsyncResult asyncResult)
+     {
++        // A faulted delegate used to come back as the Exception object instead of throwing;
++        // WinForms propagates the delegate's exception to the EndInvoke caller. GetResult() waits
++        // when still running, returns the value when completed and rethrows when faulted.
+         if (asyncResult is System.Threading.Tasks.Task<object?> task1)
+         {
+             try
+             {
+-                if (task1.IsCompleted == true)
+-                {
+-                    return task1.Result!;
+-                }
+-                else if (task1.IsCanceled == true)
++                if (task1.IsCanceled == true)
+                 {
+                     return null!;
+                 }
+-                else if (task1.IsFaulted == true)
+-                {
+-                    return task1.Exception!;
+-                }
+-                else
+-                {
+-                    return task1.GetAwaiter().GetResult()!;
+-                }
++
++                return task1.GetAwaiter().GetResult()!;
+             }
+             finally
+             {
+@@ -1946,11 +2151,13 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+         {
+             try
+             {
+-                if (task2.IsFaulted == true)
++                if (task2.IsCanceled == true)
+                 {
+-                    return task2.Exception!;
++                    return null!;
+                 }
+ 
++                task2.GetAwaiter().GetResult();
++
+                 return null!;
+             }
+             finally
+@@ -1982,7 +2189,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+                 if (control is Form)
+                     break;
+                 else
+-                    control = this.Parent;
++                    // Walking up used to re-read this.Parent, so any control nested deeper than one
++                    // level below the form spun here forever.
++                    control = control.Parent;
+             }
+             return control as Form;
+         }
+@@ -2018,7 +2227,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </returns>
      public virtual Control? GetChildAtPoint(Point pt)
      {
@@ -1118,7 +1517,7 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -2035,6 +2238,30 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -2035,6 +2245,30 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </returns>
      public virtual Control? GetChildAtPoint(Point pt, GetChildAtPointSkip skipValue)
      {
@@ -1149,7 +1548,7 @@ index 415561b9..c4e35a7b 100644
          return null;
      }
  
-@@ -2046,7 +2273,16 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -2046,7 +2280,16 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </returns>
      public virtual IContainerControl? GetContainerControl()
      {
@@ -1167,7 +1566,7 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -2224,17 +2460,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -2224,17 +2467,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </returns>
      public virtual object? Invoke(Delegate method, params object[]? args)
      {
@@ -1190,7 +1589,7 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -2245,14 +2476,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -2245,14 +2483,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </param>
      public virtual void Invoke(Action method)
      {
@@ -1206,7 +1605,7 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -2269,17 +2493,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -2269,17 +2500,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </returns>
      public virtual TEntry? Invoke<TEntry>(Func<TEntry> method)
      {
@@ -1227,7 +1626,27 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -2466,7 +2683,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -2293,7 +2517,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </returns>
+     public virtual int LogicalToDeviceUnits(int value)
+     {
+-        return value;
++        // Was the identity even on scaled displays; WinForms scales 96-dpi logical units by the
++        // device dpi.
++        return (int)Math.Round(value * DeviceDpi / 96.0);
+     }
+ 
+     /// <summary>
+@@ -2307,7 +2533,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </returns>
+     public virtual Size LogicalToDeviceUnits(Size value)
+     {
+-        return value;
++        return new Size(LogicalToDeviceUnits(value.Width), LogicalToDeviceUnits(value.Height));
+     }
+ 
+     /// <summary>
+@@ -2466,7 +2692,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </summary>
      public virtual void ResetBackColor()
      {
@@ -1243,7 +1662,7 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -2474,7 +2698,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -2474,7 +2707,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </summary>
      public virtual void ResetBindings()
      {
@@ -1252,7 +1671,7 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -2482,7 +2706,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -2482,7 +2715,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </summary>
      public virtual void ResetCursor()
      {
@@ -1261,7 +1680,7 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -2490,7 +2714,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -2490,7 +2723,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </summary>
      public virtual void ResetFont()
      {
@@ -1270,7 +1689,7 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -2498,7 +2722,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -2498,7 +2731,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </summary>
      public virtual void ResetForeColor()
      {
@@ -1280,7 +1699,7 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -2506,7 +2731,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -2506,7 +2740,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </summary>
      public virtual void ResetImeMode()
      {
@@ -1289,7 +1708,7 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -2514,7 +2739,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -2514,7 +2748,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </summary>
      public virtual void ResetRightToLeft()
      {
@@ -1298,7 +1717,7 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -2522,7 +2747,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -2522,7 +2756,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </summary>
      public virtual void ResetText()
      {
@@ -1307,7 +1726,7 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -2552,7 +2777,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -2552,7 +2786,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </param>
      public virtual void Scale(float ratio)
      {
@@ -1317,7 +1736,7 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -2566,7 +2792,22 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -2566,7 +2801,22 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </param>
      public virtual void Scale(float dx, float dy)
      {
@@ -1327,12 +1746,12 @@ index 415561b9..c4e35a7b 100644
 +            (int)Math.Round(bounds.Y * dy),
 +            (int)Math.Round(bounds.Width * dx),
 +            (int)Math.Round(bounds.Height * dy));
-+
+ 
 +        if (Controls == null)
 +        {
 +            return;
 +        }
- 
++
 +        for (var i = 0; i < Controls.Count; i++)
 +        {
 +            Controls[i].Scale(dx, dy);
@@ -1340,7 +1759,7 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -2577,7 +2818,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -2577,7 +2827,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </param>
      public virtual void Scale(SizeF factor)
      {
@@ -1349,7 +1768,7 @@ index 415561b9..c4e35a7b 100644
      }
  
      /// <summary>
-@@ -2676,7 +2917,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -2676,7 +2926,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      {
          if (this.Widget != null)
          {
@@ -1361,7 +1780,7 @@ index 415561b9..c4e35a7b 100644
              if (specified == BoundsSpecified.X)
                  rect.X = x;
              else if (specified == BoundsSpecified.Y)
-@@ -3745,8 +3989,33 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+@@ -3745,8 +3998,33 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </param>
      protected virtual void SetStyle(ControlStyles styles, bool value)
      {
@@ -1434,6 +1853,19 @@ index 9fce6cea..052e0bb5 100644
 +    /// </summary>
 +    Transparent = 4
 +}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
+index bf2086e0..c05b7377 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
+@@ -670,7 +670,7 @@ public interface IControl
+     /// <value>
+     /// The data bindings.
+     /// </value>
+-    ControlBindingsCollection? DataBindings { get; }
++    ControlBindingsCollection DataBindings { get; }
+ 
+     /// <summary>
+     /// Gets the device dpi.
 diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ControlPaint.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ControlPaint.cs
 new file mode 100644
 index 00000000..1535d3ac
@@ -1783,7 +2215,7 @@ index 0c8057e0..4c2f7d5b 100644
      }
  
 diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumn.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumn.cs
-index 6e5bc381..f7d3b927 100644
+index 6e5bc381..0ae9f1b3 100644
 --- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumn.cs
 +++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumn.cs
 @@ -154,7 +154,10 @@ public class DataGridViewColumn : TreeViewColumn
@@ -1798,8 +2230,99 @@ index 6e5bc381..f7d3b927 100644
          }
      }
  
+@@ -229,7 +232,9 @@ public class DataGridViewColumn : TreeViewColumn
+         {
+             if (_gridview != null && _treeView != null && value >= 0 && _gridview.Columns.Count > value && this.Handle != _treeView.Columns[value].Handle)
+             {
+-                _treeView.MoveColumnAfter((TreeViewColumn)this, _treeView.Columns[value]);
++                // Moving after the column at [value] left this column at value + 1, so
++                // DisplayIndex = 0 was unreachable; the head position needs a null base column.
++                _treeView.MoveColumnAfter((TreeViewColumn)this, value == 0 ? null : _treeView.Columns[value - 1]);
+             }
+         }
+     }
+@@ -490,11 +495,25 @@ public class DataGridViewColumn : TreeViewColumn
+     /// Creates a shallow clone of the column.
+     /// </summary>
+     /// <returns>
+-    /// A cloned object (implementation returns null in this port).
++    /// A new column of the same runtime type carrying this column's configuration.
+     /// </returns>
+     public object? Clone()
+     {
+-        return null;
++        // This returned null, so any code that duplicates columns crashed.
++        var clone = (DataGridViewColumn)Activator.CreateInstance(GetType())!;
++        clone.Name = Name;
++        clone.HeaderText = HeaderText;
++        clone.DataPropertyName = DataPropertyName;
++        clone.ValueType = ValueType;
++        clone.Width = Width;
++        clone.MinimumWidth = MinimumWidth;
++        clone.ReadOnly = ReadOnly;
++        clone.Frozen = Frozen;
++        clone.SortMode = SortMode;
++        clone.ToolTipText = ToolTipText;
++        clone.DefaultCellStyle = DefaultCellStyle;
++
++        return clone;
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs
+index 66c3f3e1..81ddc3c8 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs
+@@ -317,7 +317,46 @@ public class DataGridViewRow
+     /// <value>
+     /// The state.
+     /// </value>
+-    public DataGridViewElementStates State { get { return DataGridViewElementStates.None; } }
++    public DataGridViewElementStates State
++    {
++        // This always returned None, so every state-filtered operation on the row collection
++        // (GetFirstRow, GetRowCount, GetRowsHeight, ...) matched nothing.
++        get
++        {
++            var state = DataGridViewElementStates.None;
++            if (Displayed)
++            {
++                state |= DataGridViewElementStates.Displayed;
++            }
++
++            if (Frozen)
++            {
++                state |= DataGridViewElementStates.Frozen;
++            }
++
++            if (ReadOnly)
++            {
++                state |= DataGridViewElementStates.ReadOnly;
++            }
++
++            if (Resizable == DataGridViewTriState.True)
++            {
++                state |= DataGridViewElementStates.Resizable;
++            }
++
++            if (Selected)
++            {
++                state |= DataGridViewElementStates.Selected;
++            }
++
++            if (Visible)
++            {
++                state |= DataGridViewElementStates.Visible;
++            }
++
++            return state;
++        }
++    }
+ 
+     /// <summary>
+     /// Gets the tree iter.
 diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowCollection.cs
-index 6f3d207f..c08e0a7a 100644
+index 6f3d207f..1fafbde3 100644
 --- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowCollection.cs
 +++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowCollection.cs
 @@ -202,7 +202,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
@@ -1837,7 +2360,8 @@ index 6f3d207f..c08e0a7a 100644
 +        {
 +            copies[i] = CopyRow(source);
 +        }
-+
+ 
+-        return count;
 +        this.AddRange(copies);
 +
 +        return items.Count - 1;
@@ -1882,13 +2406,188 @@ index 6f3d207f..c08e0a7a 100644
 +                copy.Cells.Add(cell);
 +            }
 +        }
- 
--        return count;
++
 +        return copy;
      }
  
      /// <summary>
-@@ -733,6 +794,12 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
+@@ -322,6 +383,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
+         return items.GetEnumerator();
+     }
+ 
++    // The whole navigation family compared State with == (a row's state is a flag combination,
++    // so exact equality almost never held), treated the exclude filter as a second include filter,
++    // and scanned from indexStart - 1, which both re-included the start row and indexed items[-1].
++    private bool RowMatches(int index, DataGridViewElementStates includeFilter) =>
++        (((DataGridViewRow)items[index]).State & includeFilter) == includeFilter;
++
++    private bool RowMatches(int index, DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter) =>
++        RowMatches(index, includeFilter) && (((DataGridViewRow)items[index]).State & excludeFilter) == DataGridViewElementStates.None;
++
+     /// <summary>
+     /// Gets the first row.
+     /// </summary>
+@@ -333,17 +403,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
+     /// </returns>
+     public int GetFirstRow(DataGridViewElementStates includeFilter)
+     {
+-        var idx = -1;
+         for (var i = 0; i < items.Count; i++)
+         {
+-            if (((DataGridViewRow)items[i]).State == includeFilter)
++            if (RowMatches(i, includeFilter))
+             {
+-                idx = i;
+-                break;
++                return i;
+             }
+         }
+ 
+-        return idx;
++        return -1;
+     }
+ 
+     /// <summary>
+@@ -360,17 +428,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
+     /// </returns>
+     public int GetFirstRow(DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
+     {
+-        var idx = -1;
+         for (var i = 0; i < items.Count; i++)
+         {
+-            if (((DataGridViewRow)items[i]).State == includeFilter || ((DataGridViewRow)items[i]).State == excludeFilter)
++            if (RowMatches(i, includeFilter, excludeFilter))
+             {
+-                idx = i;
+-                break;
++                return i;
+             }
+         }
+ 
+-        return idx;
++        return -1;
+     }
+ 
+     /// <summary>
+@@ -384,16 +450,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
+     /// </returns>
+     public int GetLastRow(DataGridViewElementStates includeFilter)
+     {
+-        var idx = -1;
+-        for (var i = 0; i < items.Count; i++)
++        for (var i = items.Count - 1; i >= 0; i--)
+         {
+-            if (((DataGridViewRow)items[i]).State == includeFilter)
++            if (RowMatches(i, includeFilter))
+             {
+-                idx = i;
++                return i;
+             }
+         }
+ 
+-        return idx;
++        return -1;
+     }
+ 
+     /// <summary>
+@@ -410,17 +475,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
+     /// </returns>
+     public int GetNextRow(int indexStart, DataGridViewElementStates includeFilter)
+     {
+-        var idx = -1;
+-        for (var i = indexStart - 1; i < items.Count; i++)
++        for (var i = indexStart + 1; i < items.Count; i++)
+         {
+-            if (((DataGridViewRow)items[i]).State == includeFilter)
++            if (RowMatches(i, includeFilter))
+             {
+-                idx = i;
+-                break;
++                return i;
+             }
+         }
+ 
+-        return idx;
++        return -1;
+     }
+ 
+     /// <summary>
+@@ -440,17 +503,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
+     /// </returns>
+     public int GetNextRow(int indexStart, DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
+     {
+-        var idx = -1;
+-        for (var i = indexStart - 1; i < items.Count; i++)
++        for (var i = indexStart + 1; i < items.Count; i++)
+         {
+-            if (((DataGridViewRow)items[i]).State == includeFilter || ((DataGridViewRow)items[i]).State == excludeFilter)
++            if (RowMatches(i, includeFilter, excludeFilter))
+             {
+-                idx = i;
+-                break;
++                return i;
+             }
+         }
+ 
+-        return idx;
++        return -1;
+     }
+ 
+     /// <summary>
+@@ -470,17 +531,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
+     /// </returns>
+     public int GetPreviousRow(int indexStart, DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
+     {
+-        var idx = -1;
+-        for (var i = indexStart - 1; i > -1; i--)
++        for (var i = Math.Min(indexStart, items.Count) - 1; i >= 0; i--)
+         {
+-            if (((DataGridViewRow)items[i]).State == includeFilter || ((DataGridViewRow)items[i]).State == excludeFilter)
++            if (RowMatches(i, includeFilter, excludeFilter))
+             {
+-                idx = i;
+-                break;
++                return i;
+             }
+         }
+ 
+-        return idx;
++        return -1;
+     }
+ 
+     /// <summary>
+@@ -497,17 +556,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
+     /// </returns>
+     public int GetPreviousRow(int indexStart, DataGridViewElementStates includeFilter)
+     {
+-        var idx = -1;
+-        for (var i = indexStart - 1; i > -1; i--)
++        for (var i = Math.Min(indexStart, items.Count) - 1; i >= 0; i--)
+         {
+-            if (((DataGridViewRow)items[i]).State == includeFilter)
++            if (RowMatches(i, includeFilter))
+             {
+-                idx = i;
+-                break;
++                return i;
+             }
+         }
+ 
+-        return idx;
++        return -1;
+     }
+ 
+     /// <summary>
+@@ -654,6 +711,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
+         var rows = new DataGridViewRow[count];
+         for (var r = 0; r < count; r++)
+         {
++            // The array slots were never populated, so adding the cells dereferenced null.
++            rows[r] = new DataGridViewRow();
+             var dataGridViewColumnCollection = dataGridView?.Columns;
+             if (dataGridViewColumnCollection != null)
+                 foreach (var col in dataGridViewColumnCollection)
+@@ -733,6 +792,12 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
      /// </param>
      public virtual void RemoveAt(int index)
      {
@@ -6218,7 +6917,7 @@ index ed9c201f..9cc0ce6e 100644
 +    }
 +}
 diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
-index 2b819721..e8a9ca7b 100644
+index 2b819721..4f27c5b9 100644
 --- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
 +++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
 @@ -704,17 +704,32 @@ public class ListView : ContainerControl
@@ -6320,7 +7019,22 @@ index 2b819721..e8a9ca7b 100644
  
          return idx == -1 ? null : Items[idx];
      }
-@@ -1353,7 +1400,9 @@ public class ListView : ContainerControl
+@@ -902,6 +949,14 @@ public class ListView : ContainerControl
+     /// </summary>
+     public void Sort()
+     {
++        // ListViewItemSorter was ignored entirely - Sort() only refreshed GTK column sorting, so
++        // the WinForms custom-sorter API was a no-op. Sort the item model with it; the visual
++        // order of an already-realized view still follows column sorting only.
++        if (ListViewItemSorter != null)
++        {
++            Items.Sort((x, y) => ListViewItemSorter.Compare(x, y));
++        }
++
+         if (SortColumn != null)
+         {
+             foreach (var group in GetAllGroups())
+@@ -1353,7 +1408,9 @@ public class ListView : ContainerControl
  
      internal void NativeHeaderClear()
      {
@@ -6331,7 +7045,7 @@ index 2b819721..e8a9ca7b 100644
          foreach (var col in header.Children)
          {
              header.Remove(col);
-@@ -1364,7 +1413,7 @@ public class ListView : ContainerControl
+@@ -1364,7 +1421,7 @@ public class ListView : ContainerControl
  
      internal void NativeHeaderRemove(ColumnHeader column)
      {
@@ -8420,6 +9134,22 @@ index aeb8c3d1..27fba50d 100644
      }
  }
 \ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
+index 3223ffc6..476b237e 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
+@@ -315,7 +315,10 @@ public partial class TextBox : Control
+ 
+     private void Self_Changed(object sender, EventArgs e)
+     {
+-        if (TextChanged != null && self.IsVisible) { OnTextChanged(EventArgs.Empty); }
++        // TextChanged used to be suppressed while the widget was not visible, so bindings with
++        // DataSourceUpdateMode.OnPropertyChanged (and any logic keyed on TextChanged before the
++        // form is shown) never heard programmatic changes. WinForms raises it unconditionally.
++        OnTextChanged(EventArgs.Empty);
+     }
+ 
+     private void Self_KeyPressEvent(object o, Gtk.KeyPressEventArgs args)
 diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextRenderer.cs
 new file mode 100644
 index 00000000..26a87bd4

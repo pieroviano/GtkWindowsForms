@@ -383,6 +383,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
         return items.GetEnumerator();
     }
 
+    // The whole navigation family compared State with == (a row's state is a flag combination,
+    // so exact equality almost never held), treated the exclude filter as a second include filter,
+    // and scanned from indexStart - 1, which both re-included the start row and indexed items[-1].
+    private bool RowMatches(int index, DataGridViewElementStates includeFilter) =>
+        (((DataGridViewRow)items[index]).State & includeFilter) == includeFilter;
+
+    private bool RowMatches(int index, DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter) =>
+        RowMatches(index, includeFilter) && (((DataGridViewRow)items[index]).State & excludeFilter) == DataGridViewElementStates.None;
+
     /// <summary>
     /// Gets the first row.
     /// </summary>
@@ -394,17 +403,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </returns>
     public int GetFirstRow(DataGridViewElementStates includeFilter)
     {
-        var idx = -1;
         for (var i = 0; i < items.Count; i++)
         {
-            if (((DataGridViewRow)items[i]).State == includeFilter)
+            if (RowMatches(i, includeFilter))
             {
-                idx = i;
-                break;
+                return i;
             }
         }
 
-        return idx;
+        return -1;
     }
 
     /// <summary>
@@ -421,17 +428,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </returns>
     public int GetFirstRow(DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
     {
-        var idx = -1;
         for (var i = 0; i < items.Count; i++)
         {
-            if (((DataGridViewRow)items[i]).State == includeFilter || ((DataGridViewRow)items[i]).State == excludeFilter)
+            if (RowMatches(i, includeFilter, excludeFilter))
             {
-                idx = i;
-                break;
+                return i;
             }
         }
 
-        return idx;
+        return -1;
     }
 
     /// <summary>
@@ -445,16 +450,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </returns>
     public int GetLastRow(DataGridViewElementStates includeFilter)
     {
-        var idx = -1;
-        for (var i = 0; i < items.Count; i++)
+        for (var i = items.Count - 1; i >= 0; i--)
         {
-            if (((DataGridViewRow)items[i]).State == includeFilter)
+            if (RowMatches(i, includeFilter))
             {
-                idx = i;
+                return i;
             }
         }
 
-        return idx;
+        return -1;
     }
 
     /// <summary>
@@ -471,17 +475,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </returns>
     public int GetNextRow(int indexStart, DataGridViewElementStates includeFilter)
     {
-        var idx = -1;
-        for (var i = indexStart - 1; i < items.Count; i++)
+        for (var i = indexStart + 1; i < items.Count; i++)
         {
-            if (((DataGridViewRow)items[i]).State == includeFilter)
+            if (RowMatches(i, includeFilter))
             {
-                idx = i;
-                break;
+                return i;
             }
         }
 
-        return idx;
+        return -1;
     }
 
     /// <summary>
@@ -501,17 +503,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </returns>
     public int GetNextRow(int indexStart, DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
     {
-        var idx = -1;
-        for (var i = indexStart - 1; i < items.Count; i++)
+        for (var i = indexStart + 1; i < items.Count; i++)
         {
-            if (((DataGridViewRow)items[i]).State == includeFilter || ((DataGridViewRow)items[i]).State == excludeFilter)
+            if (RowMatches(i, includeFilter, excludeFilter))
             {
-                idx = i;
-                break;
+                return i;
             }
         }
 
-        return idx;
+        return -1;
     }
 
     /// <summary>
@@ -531,17 +531,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </returns>
     public int GetPreviousRow(int indexStart, DataGridViewElementStates includeFilter, DataGridViewElementStates excludeFilter)
     {
-        var idx = -1;
-        for (var i = indexStart - 1; i > -1; i--)
+        for (var i = Math.Min(indexStart, items.Count) - 1; i >= 0; i--)
         {
-            if (((DataGridViewRow)items[i]).State == includeFilter || ((DataGridViewRow)items[i]).State == excludeFilter)
+            if (RowMatches(i, includeFilter, excludeFilter))
             {
-                idx = i;
-                break;
+                return i;
             }
         }
 
-        return idx;
+        return -1;
     }
 
     /// <summary>
@@ -558,17 +556,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </returns>
     public int GetPreviousRow(int indexStart, DataGridViewElementStates includeFilter)
     {
-        var idx = -1;
-        for (var i = indexStart - 1; i > -1; i--)
+        for (var i = Math.Min(indexStart, items.Count) - 1; i >= 0; i--)
         {
-            if (((DataGridViewRow)items[i]).State == includeFilter)
+            if (RowMatches(i, includeFilter))
             {
-                idx = i;
-                break;
+                return i;
             }
         }
 
-        return idx;
+        return -1;
     }
 
     /// <summary>
@@ -715,6 +711,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
         var rows = new DataGridViewRow[count];
         for (var r = 0; r < count; r++)
         {
+            // The array slots were never populated, so adding the cells dereferenced null.
+            rows[r] = new DataGridViewRow();
             var dataGridViewColumnCollection = dataGridView?.Columns;
             if (dataGridViewColumnCollection != null)
                 foreach (var col in dataGridViewColumnCollection)

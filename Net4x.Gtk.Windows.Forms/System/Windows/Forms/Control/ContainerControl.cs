@@ -150,7 +150,7 @@ public class ContainerControl : ScrollableControl, IContainerControl
     //
     // The members below are therefore live and usable - PerformAutoScale() really scales, and the factor
     // is really computed - but nothing scales a form behind the caller's back until there is a design-time
-    // metric that is commensurate with the runtime one. See EMULATION-GAPS.md SS2.13.
+    // metric that is commensurate with the runtime one.
 
     /// <summary>
     /// The dimensions the current environment presents for the given mode.

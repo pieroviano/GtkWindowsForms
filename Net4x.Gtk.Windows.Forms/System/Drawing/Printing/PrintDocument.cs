@@ -152,9 +152,24 @@ public class PrintDocument : Component
             _pageSetup = value;
             var pageSettings = DefaultPageSettings;
             pageSettings.Landscape = value.Orientation == Gtk.PageOrientation.Landscape || value.Orientation == Gtk.PageOrientation.ReverseLandscape;
-            pageSettings.Margins = new Margins((int)value.GetLeftMargin(Unit.Points), (int)value.GetTopMargin(Unit.Points), (int)value.GetRightMargin(Unit.Points), (int)value.GetBottomMargin(Unit.Points));
-            Enum.TryParse(value.PaperSize.DisplayName, out PaperKind paperKind);
-            pageSettings.PaperSize = new System.Drawing.Printing.PaperSize(paperKind, value.PaperSize.Name, (int)value.PaperSize.GetWidth(Unit.Points), (int)value.PaperSize.GetHeight(Unit.Points));
+            // The margins were passed as (left, top, right, bottom) into a (left, right, top, bottom)
+            // constructor - swapping top and right - and GTK points went in unconverted although
+            // Margins and PaperSize are in hundredths of an inch.
+            pageSettings.Margins = new Margins(
+                PointsToHundredthsOfAnInch(value.GetLeftMargin(Unit.Points)),
+                PointsToHundredthsOfAnInch(value.GetRightMargin(Unit.Points)),
+                PointsToHundredthsOfAnInch(value.GetTopMargin(Unit.Points)),
+                PointsToHundredthsOfAnInch(value.GetBottomMargin(Unit.Points)));
+            if (!Enum.TryParse(value.PaperSize.DisplayName, out PaperKind paperKind))
+            {
+                paperKind = PaperKind.Custom;
+            }
+
+            pageSettings.PaperSize = new System.Drawing.Printing.PaperSize(
+                paperKind,
+                value.PaperSize.Name,
+                PointsToHundredthsOfAnInch(value.PaperSize.GetWidth(Unit.Points)),
+                PointsToHundredthsOfAnInch(value.PaperSize.GetHeight(Unit.Points)));
             _userSetPageSettings = true;
         }
     }
@@ -208,6 +223,8 @@ public class PrintDocument : Component
     /// <see cref="T:System.String" /> that represents this instance.
     /// </returns>
     public override string ToString() => $"[PrintDocument {DocumentName}]";
+
+    private static int PointsToHundredthsOfAnInch(double points) => (int)Math.Round(points * 100.0 / 72.0);
 
     /// <summary>
     /// Raises the

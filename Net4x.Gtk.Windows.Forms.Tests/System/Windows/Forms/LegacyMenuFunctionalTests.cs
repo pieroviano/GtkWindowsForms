@@ -1,10 +1,10 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Windows.Forms;
 using Point = global::System.Drawing.Point;
 
 namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
 
-/// <summary>Covers EMULATION-GAPS.md §3.5, the legacy menu and status API. These types are obsolete in
+/// <summary>The legacy menu and status API. These types are obsolete in
 /// modern WinForms but, as the document puts it, are "exactly what an old application — the migration
 /// target this project exists to serve — will be using". They were missing entirely, so such an application
 /// failed to compile rather than failing at runtime. They are adapters over the ToolStrip family, so the

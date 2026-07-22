@@ -949,6 +949,14 @@ public class ListView : ContainerControl
     /// </summary>
     public void Sort()
     {
+        // ListViewItemSorter was ignored entirely - Sort() only refreshed GTK column sorting, so
+        // the WinForms custom-sorter API was a no-op. Sort the item model with it; the visual
+        // order of an already-realized view still follows column sorting only.
+        if (ListViewItemSorter != null)
+        {
+            Items.Sort((x, y) => ListViewItemSorter.Compare(x, y));
+        }
+
         if (SortColumn != null)
         {
             foreach (var group in GetAllGroups())

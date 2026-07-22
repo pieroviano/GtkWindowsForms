@@ -670,7 +670,7 @@ public interface IControl
     /// <value>
     /// The data bindings.
     /// </value>
-    ControlBindingsCollection? DataBindings { get; }
+    ControlBindingsCollection DataBindings { get; }
 
     /// <summary>
     /// Gets the device dpi.

@@ -317,7 +317,46 @@ public class DataGridViewRow
     /// <value>
     /// The state.
     /// </value>
-    public DataGridViewElementStates State { get { return DataGridViewElementStates.None; } }
+    public DataGridViewElementStates State
+    {
+        // This always returned None, so every state-filtered operation on the row collection
+        // (GetFirstRow, GetRowCount, GetRowsHeight, ...) matched nothing.
+        get
+        {
+            var state = DataGridViewElementStates.None;
+            if (Displayed)
+            {
+                state |= DataGridViewElementStates.Displayed;
+            }
+
+            if (Frozen)
+            {
+                state |= DataGridViewElementStates.Frozen;
+            }
+
+            if (ReadOnly)
+            {
+                state |= DataGridViewElementStates.ReadOnly;
+            }
+
+            if (Resizable == DataGridViewTriState.True)
+            {
+                state |= DataGridViewElementStates.Resizable;
+            }
+
+            if (Selected)
+            {
+                state |= DataGridViewElementStates.Selected;
+            }
+
+            if (Visible)
+            {
+                state |= DataGridViewElementStates.Visible;
+            }
+
+            return state;
+        }
+    }
 
     /// <summary>
     /// Gets the tree iter.

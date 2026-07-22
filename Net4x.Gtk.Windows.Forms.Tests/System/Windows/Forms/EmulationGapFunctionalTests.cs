@@ -1,4 +1,4 @@
-extern alias gtk;
+﻿extern alias gtk;
 using System.Windows.Forms;
 using Bitmap = gtk::System.Drawing.Bitmap;
 using Color = global::System.Drawing.Color;
@@ -7,7 +7,7 @@ using Size = global::System.Drawing.Size;
 
 namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
 
-/// <summary>Covers the <c>Net4x.Gtk.Windows.Forms</c> gaps recorded in EMULATION-GAPS.md: the
+/// <summary>Covers the <c>Net4x.Gtk.Windows.Forms</c> gaps: the
 /// <c>VirtualModel</c> misspelling (§2.12), <c>SetStyle</c>/<c>GetStyle</c> having no backing state (§2.4)
 /// and <c>DrawToBitmap</c> being an empty method (§2.14).</summary>
 [Collection("NonParallelCollection")]

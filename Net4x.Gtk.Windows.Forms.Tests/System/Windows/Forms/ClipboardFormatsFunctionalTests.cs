@@ -2,7 +2,7 @@
 
 namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
 
-/// <summary>Covers EMULATION-GAPS.md §4.2: <c>GetDataPresent</c> and <c>GetFormats</c> all threw, so the
+/// <summary><c>GetDataPresent</c> and <c>GetFormats</c> all threw, so the
 /// guard every well-written paste handler calls before <c>GetData</c> failed while the unguarded call
 /// worked. The point of these tests is that the defensive path now answers instead of throwing.</summary>
 [Collection("NonParallelCollection")]

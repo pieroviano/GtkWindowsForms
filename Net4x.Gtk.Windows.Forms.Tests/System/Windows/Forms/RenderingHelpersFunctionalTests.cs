@@ -1,4 +1,4 @@
-extern alias gtk;
+﻿extern alias gtk;
 using System.Windows.Forms;
 using Graphics = gtk::System.Drawing.Graphics;
 using Bitmap = gtk::System.Drawing.Bitmap;
@@ -11,8 +11,8 @@ using SystemColors = global::System.Drawing.SystemColors;
 
 namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
 
-/// <summary>Covers the rendering and metrics helpers that EMULATION-GAPS.md §3.1 calls "the highest-frequency
-/// break": <see cref="TextRenderer"/>, <see cref="ControlPaint"/> and <see cref="SystemInformation"/>. These
+/// <summary>Covers the rendering and metrics helpers: <see cref="TextRenderer"/>, 
+/// <see cref="ControlPaint"/> and <see cref="SystemInformation"/>. These
 /// types did not exist at all, so any source using them failed to compile.</summary>
 [Collection("NonParallelCollection")]
 public class RenderingHelpersFunctionalTests

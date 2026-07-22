@@ -1059,14 +1059,24 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     // This was an auto-property nothing ever assigned, so control.DataBindings was null on every control
     // that did not override it and data binding could not be used at all.
-    public virtual ControlBindingsCollection? DataBindings => _dataBindings ??= new ControlBindingsCollection(this);
+    public virtual ControlBindingsCollection DataBindings => _dataBindings ??= new ControlBindingsCollection(this);
 
     private ControlBindingsCollection? _dataBindings;
 
     /// <summary>
     /// Gets the device DPI for the control.
     /// </summary>
-    public virtual int DeviceDpi { get; }
+    public virtual int DeviceDpi
+    {
+        // This was a never-assigned auto-property, so every control reported 0 dpi and any
+        // WinForms-style scaling arithmetic (value * DeviceDpi / 96) collapsed to zero.
+        get
+        {
+            var resolution = Gdk.Screen.Default?.Resolution ?? -1;
+
+            return resolution > 0 ? (int)Math.Round(resolution) : 96;
+        }
+    }
 
     /// <summary>
     /// Gets the rectangle that represents the display area of the control.
@@ -2118,26 +2128,19 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual object EndInvoke(IAsyncResult asyncResult)
     {
+        // A faulted delegate used to come back as the Exception object instead of throwing;
+        // WinForms propagates the delegate's exception to the EndInvoke caller. GetResult() waits
+        // when still running, returns the value when completed and rethrows when faulted.
         if (asyncResult is System.Threading.Tasks.Task<object?> task1)
         {
             try
             {
-                if (task1.IsCompleted == true)
-                {
-                    return task1.Result!;
-                }
-                else if (task1.IsCanceled == true)
+                if (task1.IsCanceled == true)
                 {
                     return null!;
                 }
-                else if (task1.IsFaulted == true)
-                {
-                    return task1.Exception!;
-                }
-                else
-                {
-                    return task1.GetAwaiter().GetResult()!;
-                }
+
+                return task1.GetAwaiter().GetResult()!;
             }
             finally
             {
@@ -2148,10 +2151,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             try
             {
-                if (task2.IsFaulted == true)
+                if (task2.IsCanceled == true)
                 {
-                    return task2.Exception!;
+                    return null!;
                 }
+
+                task2.GetAwaiter().GetResult();
 
                 return null!;
             }
@@ -2184,7 +2189,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                 if (control is Form)
                     break;
                 else
-                    control = this.Parent;
+                    // Walking up used to re-read this.Parent, so any control nested deeper than one
+                    // level below the form spun here forever.
+                    control = control.Parent;
             }
             return control as Form;
         }
@@ -2510,7 +2517,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual int LogicalToDeviceUnits(int value)
     {
-        return value;
+        // Was the identity even on scaled displays; WinForms scales 96-dpi logical units by the
+        // device dpi.
+        return (int)Math.Round(value * DeviceDpi / 96.0);
     }
 
     /// <summary>
@@ -2524,7 +2533,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual Size LogicalToDeviceUnits(Size value)
     {
-        return value;
+        return new Size(LogicalToDeviceUnits(value.Width), LogicalToDeviceUnits(value.Height));
     }
 
     /// <summary>

@@ -35,7 +35,9 @@ public partial class PaperSource
     /// <value>
     /// The kind.
     /// </value>
-    public PaperSourceKind Kind => _kind;
+    public PaperSourceKind Kind =>
+        // WinForms reports Custom for raw source values outside the named set rather than leaking them.
+        Enum.IsDefined(typeof(PaperSourceKind), _kind) ? _kind : PaperSourceKind.Custom;
 
     /// <summary>
     /// Gets or sets the kind of the raw.
