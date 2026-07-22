@@ -181,7 +181,7 @@
     <NugetOptimizerVersion>1.0.0</NugetOptimizerVersion>
     <NuGetUploaderVersion>1.0.0</NuGetUploaderVersion>
     <NuGetUtilityPocVersion>2.0.12</NuGetUtilityPocVersion>
-    <NuGetUtilityVersion>1.0.8</NuGetUtilityVersion>
+    <NuGetUtilityVersion>1.0.9</NuGetUtilityVersion>
     <NumberConverterLibVersion>1.2.0</NumberConverterLibVersion>
     <NUnitToXunitConverterVersion>1.0.0</NUnitToXunitConverterVersion>
     <ObfuscarVersion>2.2.37</ObfuscarVersion>

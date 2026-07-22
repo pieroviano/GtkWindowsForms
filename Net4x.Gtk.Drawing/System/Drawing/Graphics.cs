@@ -22,7 +22,12 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// <summary>
     /// The underlying Cairo context used by this Graphics instance.
     /// </summary>
-    public Cairo.Context context;
+    /// <remarks>
+    /// This was public, which put a raw, unsynchronised substrate handle on the shipped API surface and
+    /// let callers bypass the ownership bookkeeping below. It is internal now; the Forms library and both
+    /// test assemblies already have <c>InternalsVisibleTo</c> grants.
+    /// </remarks>
+    internal Cairo.Context context;
 
     private float _angle = 0;
 
@@ -58,16 +63,27 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         this.context = context;
         this.rectangle = rectangle;
         this._clipBounds = new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-        this.Clip = new Region(new Rectangle(this.rectangle.X, this.rectangle.Y, this.rectangle.Width, this.rectangle.Height));
+        // Assign the backing field rather than the property: the surface starts unclipped, so there is
+        // nothing to push down to Cairo yet.
+        this._clip = new Region(new Rectangle(this.rectangle.X, this.rectangle.Y, this.rectangle.Width, this.rectangle.Height));
     }
+
+    /// <summary>The clip region this Graphics is currently honouring.</summary>
+    private Region _clip;
 
     /// <summary>
     /// Gets or sets the clipping region for this Graphics object.
     /// </summary>
+    /// <remarks>
+    /// This used to be an auto-property assigned once in the constructor: no SetClip/IntersectClip/
+    /// ResetClip overload ever wrote to it, so the getter reported the full surface no matter what had
+    /// been clipped, and the setter stored a region that was never pushed down to Cairo - assigning a
+    /// clip region did nothing at all. It is now backed by the same state every clip mutator maintains.
+    /// </remarks>
     public Region Clip
     {
-        get;
-        set;
+        get => _clip;
+        set => SetClip(value ?? new Region(), CombineMode.Replace);
     }
 
     /// <summary>
@@ -1818,7 +1834,24 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
         var surface = new Cairo.ImageSurface(Cairo.Format.Argb32, _width, _height);
         var imageContext = new Cairo.Context(surface);
-        image.Pixbuf = new Pixbuf(surface, 0, 0, image.Width, image.Height);
+
+        // The blank surface was published straight back as the image's pixbuf, so simply asking an image
+        // for a Graphics erased everything already drawn on it - breaking both the "load an image, then
+        // annotate it" and the "draw in two passes" patterns. GDI+ composes onto the existing content, so
+        // seed the surface from it and let the flush on Dispose publish the result.
+        var existing = image.Pixbuf;
+        if (existing != null)
+        {
+            imageContext.Save();
+            Gdk.CairoHelper.SetSourcePixbuf(imageContext, existing, 0, 0);
+            imageContext.Operator = Cairo.Operator.Source;
+            imageContext.Paint();
+            imageContext.Restore();
+        }
+        else
+        {
+            image.Pixbuf = new Pixbuf(surface, 0, 0, image.Width, image.Height);
+        }
 
         return new Drawing.Graphics(image, imageContext, new Gdk.Rectangle(0, 0, _width, _height))
         {
@@ -2189,6 +2222,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     {
         this.context.ResetClip();
         this._clipBounds = new RectangleF(this.rectangle.X, this.rectangle.Y, this.rectangle.Width, this.rectangle.Height);
+        // Left Clip reporting whatever it had been set to, even though the clip was gone.
+        this._clip = new Region(new Rectangle(this.rectangle.X, this.rectangle.Y, this.rectangle.Width, this.rectangle.Height));
     }
 
     /// <summary>
@@ -2266,8 +2301,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     }
 
     /// <summary>
-    /// Sets the clipping region to the specified path with combine mode. The path is approximated by its
-    /// bounding rectangle, matching how <see cref="SetClip(Region, CombineMode)"/> handles regions.
+    /// Sets the clipping region to the specified path with combine mode. Curved paths are approximated
+    /// by the band decomposition <see cref="Region(GraphicsPath)"/> produces.
     /// </summary>
     public void SetClip(GraphicsPath path, CombineMode combineMode)
     {
@@ -2277,7 +2312,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             return;
         }
 
-        SetClip(path.GetBounds(), combineMode);
+        // Went through path.GetBounds(), which threw away everything but the bounding box even when the
+        // path decomposed into several bands. Region(GraphicsPath) keeps that decomposition.
+        SetClip(new Region(path), combineMode);
     }
 
     /// <summary>
@@ -2289,12 +2326,17 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     }
 
     /// <summary>
-    /// Sets the clipping region from another Graphics object with combine mode. Not implemented.
+    /// Sets the clipping region from another Graphics object with combine mode.
     /// </summary>
     public void SetClip(Graphics g, CombineMode combineMode)
     {
-        var rect = g.ClipBounds;
-        SetClip(rect, combineMode);
+        if (g == null)
+        {
+            return;
+        }
+
+        // Copied only the other context's bounding box, so a multi-band clip arrived here flattened.
+        SetClip(g.Clip, combineMode);
     }
 
     /// <summary>
@@ -2326,19 +2368,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void SetClip(RectangleF rect, CombineMode combineMode)
     {
-        // Cairo's Clip() always intersects with the existing clip, so a Replace has to drop the current
-        // clip first; otherwise SetClip could only ever shrink the clipped area.
-        if (combineMode == CombineMode.Replace)
-        {
-            context.ResetClip();
-        }
-
-        context.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
-        context.Clip();
-
-        this._clipBounds = combineMode == CombineMode.Replace
-            ? rect
-            : RectangleF.Intersect(this._clipBounds, rect);
+        SetClip(new Region(rect), combineMode);
     }
 
     /// <summary>
@@ -2353,6 +2383,13 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// <summary>
     /// Sets the clipping region to the specified region with combine mode.
     /// </summary>
+    /// <remarks>
+    /// Every SetClip/IntersectClip overload funnels through here. Combining happens on the
+    /// <see cref="Region" /> - which implements the whole CombineMode family exactly for rectangular
+    /// inputs - and the result is then pushed to Cairo in one go. Previously only Replace and Intersect
+    /// were honoured: Union, Exclude, Xor and Complement all silently behaved like Intersect, because
+    /// Cairo's own Clip() can only ever narrow.
+    /// </remarks>
     public void SetClip(Region region, CombineMode combineMode)
     {
         if (region == null)
@@ -2360,22 +2397,69 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             return;
         }
 
-        // This reduced the region to its bounding rectangle, so clipping to a non-rectangular region
-        // silently clipped to its bounds instead. Clip to the region's actual bands.
-        var bands = region.Bands;
-        if (bands.Count <= 1)
+        var combined = _clip.Clone();
+        switch (combineMode)
         {
-            SetClip(region.GetBounds(this), combineMode);
+            case CombineMode.Replace:
+                combined = region.Clone();
+                break;
+            case CombineMode.Intersect:
+                combined.Intersect(region);
+                break;
+            case CombineMode.Union:
+                combined.Union(region);
+                break;
+            case CombineMode.Exclude:
+                combined.Exclude(region);
+                break;
+            case CombineMode.Xor:
+                combined.Xor(region);
+                break;
+            case CombineMode.Complement:
+                combined.Complement(region);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(combineMode), combineMode, "Unknown CombineMode.");
+        }
+
+        ApplyClip(combined);
+    }
+
+    /// <summary>
+    /// Makes <paramref name="clip" /> the active clip: records it as <see cref="Clip" />, refreshes
+    /// <see cref="ClipBounds" />, and re-applies it to the Cairo context from scratch.
+    /// </summary>
+    private void ApplyClip(Region clip)
+    {
+        _clip = clip;
+
+        // Cairo's Clip() only ever intersects with what is already there, so any change - not just a
+        // Replace - has to start from a clean clip and re-apply the whole region.
+        context.ResetClip();
+        context.NewPath();
+
+        var surfaceBounds = new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+
+        if (clip.IsInfinite(this))
+        {
+            _clipBounds = surfaceBounds;
 
             return;
         }
 
-        if (combineMode == CombineMode.Replace)
+        var bands = clip.Bands;
+        if (bands.Count == 0)
         {
-            context.ResetClip();
+            // An empty clip must reject everything. Clipping to a zero-area rectangle is how that is
+            // expressed in Cairo; leaving the context unclipped would draw the whole surface instead.
+            context.Rectangle(0, 0, 0, 0);
+            context.Clip();
+            context.NewPath();
+            _clipBounds = RectangleF.Empty;
+
+            return;
         }
 
-        context.NewPath();
         var union = bands[0];
         foreach (var band in bands)
         {
@@ -2385,9 +2469,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
         context.Clip();
         context.NewPath();
-        this._clipBounds = combineMode == CombineMode.Replace
-            ? union
-            : RectangleF.Intersect(this._clipBounds, union);
+        _clipBounds = union;
     }
 
     /// <summary>

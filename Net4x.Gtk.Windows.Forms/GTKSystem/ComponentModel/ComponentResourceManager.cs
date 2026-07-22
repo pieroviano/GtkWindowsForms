@@ -51,7 +51,10 @@ public class ComponentResourceManager : System.ComponentModel.ComponentResourceM
     /// </returns>
     public override object GetObject(string name, CultureInfo culture)
     {
-        return GetObject(name);
+        // Dropped the culture and resolved the neutral resource instead, so a localized designer resource
+        // could never win. The underlying manager walks the fallback chain. Null is a documented result
+        // here (resource not found), which the un-annotated base signature cannot express.
+        return resource.GetObject(name, culture)!;
     }
 
     /// <summary>
@@ -86,5 +89,24 @@ public class ComponentResourceManager : System.ComponentModel.ComponentResourceM
     public override string? GetString(string name)
     {
         return resource.GetString(name);
+    }
+
+    /// <summary>
+    /// Returns the value of the specified string resource, localized for the specified culture.
+    /// </summary>
+    /// <param name="name">
+    /// The name of the resource to retrieve.
+    /// </param>
+    /// <param name="culture">
+    /// The culture to resolve for. If null, <see cref="CultureInfo.CurrentUICulture" /> is used.
+    /// </param>
+    /// <returns>
+    /// The value of the resource, or null if <paramref name="name" /> cannot be found.
+    /// </returns>
+    public override string? GetString(string name, CultureInfo? culture)
+    {
+        // This overload was not forwarded at all, so it fell through to the base implementation rather
+        // than the manager that knows how to read this project's resources.
+        return resource.GetString(name, culture);
     }
 }

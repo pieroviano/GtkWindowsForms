@@ -11,4 +11,31 @@
     <RepositoryType>git</RepositoryType>
     <NoWarn>$(NoWarn);CS0067;CS0169;CS0419;CS0536;MSB3243</NoWarn>
   </PropertyGroup>
+  <!--
+    Package versions the shipped libraries reference.
+
+    These used to float: GtkSharp was referenced as "$(GtkSharpLatestVersion).*" and the resource shim as
+    "$(Net4xGtkWindowsFormsVersion).$(VersionBuildSuffix)", with VersionBuildSuffix set to "*" for Release
+    as well as Debug. Two builds of the same commit could therefore resolve different GtkSharp revisions -
+    and for a GTK interop layer the revision is exactly where marshalling behaviour changes. Release builds
+    now pin; Debug keeps floating so local work still picks up new revisions.
+
+    Override on the command line (-p:GtkSharpPackageVersion=...) to move a pin deliberately.
+  -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <GtkSharpPackageVersion Condition="'$(GtkSharpPackageVersion)' == ''">$(GtkSharpLatestVersion).95</GtkSharpPackageVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' != 'Release'">
+    <GtkSharpPackageVersion Condition="'$(GtkSharpPackageVersion)' == ''">$(GtkSharpLatestVersion).*</GtkSharpPackageVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!--
+      This is Microsoft's System.Resources.Extensions, not the Net4x.System.Resources.Extensions project in
+      this solution: that project publishes as "Gtk.System.Resources.Extensions", so a reference to
+      "System.Resources.Extensions" never resolved to it. It was requested as "1.3.24.*", which has no match
+      on any configured feed, so NuGet floated it up to Microsoft's 4.6.0 - the version named here. Naming it
+      makes the shipped dependency honest and reproducible instead of "whatever NuGet lands on".
+    -->
+    <SystemResourcesExtensionsPackageVersion Condition="'$(SystemResourcesExtensionsPackageVersion)' == ''">4.6.0</SystemResourcesExtensionsPackageVersion>
+  </PropertyGroup>
 </Project>

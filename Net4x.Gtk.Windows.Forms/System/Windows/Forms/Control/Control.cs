@@ -2108,15 +2108,13 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         }
     }
 
-    /// <summary>
-    /// Disposes the control and its resources.
-    /// </summary>
-    public new void Dispose()
-    {
-        Dispose(true);
-        base.Dispose();
-        IsDisposed = true;
-    }
+    // The public Dispose() was declared `new`, shadowing Component.Dispose(). Two things went wrong.
+    // It ran Dispose(true) and then base.Dispose(), which runs Dispose(true) a second time - so the whole
+    // child-disposal walk executed twice and every second Cairo Dispose threw into the logging catch
+    // below. And because it only shadowed, every caller that goes through IDisposable or Component -
+    // which is what container teardown and the `components.Dispose()` in generated Designer code do -
+    // bypassed it entirely and left IsDisposed false on a disposed control. The whole contract now lives
+    // in Dispose(bool), which is the one entry point both paths share.
 
     /// <summary>
     /// Initiates a drag-and-drop operation.
@@ -3116,31 +3114,53 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </param>
     protected override void Dispose(bool disposing)
     {
-        try
+        // Disposal has to be idempotent: WinForms lets a control be disposed twice, and a control that
+        // sits in its parent's Controls collection is reached both by an explicit Dispose() and by the
+        // parent's disposal walk. Without this guard the walk ran twice over the whole tree and each
+        // repeat disposal of an already-disposed Cairo object landed in the catch blocks below.
+        if (IsDisposed)
         {
-            surface?.Dispose();
-            context?.Dispose();
-            _image?.Dispose();
-            _backgroundImage?.Dispose();
+            return;
         }
-        catch (Exception ex)
+
+        IsDisposed = true;
+
+        // Only the managed side is safe to touch when this runs from a finalizer: the Cairo/Gdk objects
+        // below are themselves finalizable and may already be gone.
+        if (disposing)
         {
-            System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Dispose", ex);
-        }
-        try
-        {
-            if (Controls != null)
+            try
             {
-                foreach (Control? c in Controls)
-                    c?.Dispose();
-                Controls.Clear();
+                surface?.Dispose();
+                context?.Dispose();
+                // The off-screen CreateGraphics surface was never released, so every control that had
+                // ever called CreateGraphics leaked its backing ImageSurface.
+                image?.Dispose();
+                _image?.Dispose();
+                _backgroundImage?.Dispose();
             }
+            catch (Exception ex)
+            {
+                System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Dispose", ex);
+            }
+
+            try
+            {
+                if (Controls != null)
+                {
+                    foreach (Control? c in Controls)
+                        c?.Dispose();
+                    Controls.Clear();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Dispose", ex);
+            }
+
+            GC.SuppressFinalize(this);
         }
-        catch (Exception ex)
-        {
-            System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Dispose", ex);
-        }
-        GC.SuppressFinalize(this);
+
         base.Dispose(disposing);
         GtkControl = null;
     }

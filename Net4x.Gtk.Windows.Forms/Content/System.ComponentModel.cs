@@ -29,30 +29,8 @@ public class ComponentResourceManager : GtkSystem.ComponentModel.ComponentResour
 
     }
 
-    /// <summary>
-    /// Retrieves an object from the resource set with the specified name, using the specified culture information.
-    /// </summary>
-    /// <param name="name">The name of the resource object to retrieve. Cannot be null.
-    /// </param>
-    /// <param name="culture">The culture information to use when searching for the resource. If null, the default culture is used.
-    /// </param>
-    /// <returns>An object representing the requested resource, or null if the resource is not found.
-    /// </returns>
-    public new object GetObject(string name, CultureInfo culture)
-    {
-
-        return GetObject(name);
-    }
-
-    /// <summary>
-    /// Retrieves an object associated with the specified name from the resource set.
-    /// </summary>
-    /// <param name="name">The name of the resource to retrieve. Cannot be null.
-    /// </param>
-    /// <returns>The object corresponding to the specified resource name, or null if the resource is not found.
-    /// </returns>
-    public new object GetObject(string name)
-    {
-        return base.GetObject(name);
-    }
+    // Two `new` GetObject overloads used to sit here. They shadowed rather than overrode, so they only
+    // applied when the static type was exactly this class - and the culture-taking one discarded its
+    // culture and returned the neutral resource. The base class overrides both correctly, including the
+    // culture fallback chain, so forwarding shims are not needed.
 }

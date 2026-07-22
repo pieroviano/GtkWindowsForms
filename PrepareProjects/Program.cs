@@ -10,6 +10,16 @@ public class Program
 {
     public static async Task Main()
     {
+        // The transform rewrites the generated trees from the submodule, so any hand edit sitting there
+        // uncommitted is about to be destroyed - and, not being in patches/, will not come back. Say so
+        // before doing it rather than after.
+        if (!GeneratedTreeGuard.VerifyBeforeTransform(Path.GetFullPath(@"..\..\..\..\")))
+        {
+            ConsoleColor.Red.Write("Aborting: capture the changes above first.", true);
+
+            return;
+        }
+
         // Pin the source fork to the fixed generation base (detached) so every run transforms
         // the same source and the patch series applies. Returns the branch to advance on exit.
         var sourceTrackingBranch = SourceRepositorySync.CheckoutGenerationBase();

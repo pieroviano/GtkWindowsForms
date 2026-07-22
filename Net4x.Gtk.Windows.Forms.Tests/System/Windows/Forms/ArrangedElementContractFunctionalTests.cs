@@ -19,7 +19,7 @@ public class ArrangedElementContractFunctionalTests
         var children = item.Children;
 
         Assert.NotNull(children);
-        Assert.Equal(0, children.Count);
+        Assert.Empty(children);
     }
 
     [Fact]
