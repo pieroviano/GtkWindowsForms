@@ -175,6 +175,11 @@ TabControl and ListBox throw sites (SS4.3)
  - ToolStripItem.Bounds, DisplayRectangle and GetPreferredSize threw, so owner-draw code could not ask an
    item where it is or how big it wants to be
 
+ - DataGridView data binding was deferred until the GTK widget was realized, so an unbound grid read
+   Rows.Count == 0 immediately after DataSource was assigned - a deviation from WinForms, where the model
+   is populated at assignment. OnSetDataSource only touches the column/row model and clears rows first, so
+   it now runs on assignment and again (idempotently) on realize
+
 ---
 diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
 index 808263ae..bebab0b6 100644
@@ -1734,10 +1739,27 @@ index 00000000..1535d3ac
 +    private static float Clamp(float value) => value < 0f ? 0f : value > 1f ? 1f : value;
 +}
 diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
-index 0c8057e0..3b155263 100644
+index 0c8057e0..4c2f7d5b 100644
 --- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
 +++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
-@@ -1049,7 +1049,21 @@ public partial class DataGridView : ScrollableControl
+@@ -946,10 +946,12 @@ public partial class DataGridView : ScrollableControl
+         set
+         {
+             _DataSource = value;
+-            if (Is_GridView_Realized == true)
+-            {
+-                OnSetDataSource();
+-            }
++            // Binding used to be deferred until the GTK widget was realized, so an unbound grid read
++            // Rows.Count == 0 right after DataSource was assigned - a deviation from WinForms, where the
++            // model is populated immediately. OnSetDataSource only touches the column/row model (the
++            // realize handler re-runs it for the widget side, and it clears the rows first, so running it
++            // twice is safe).
++            OnSetDataSource();
+         }
+     }
+ 
+@@ -1049,7 +1051,21 @@ public partial class DataGridView : ScrollableControl
          get => _rows.Count;
          set
          {

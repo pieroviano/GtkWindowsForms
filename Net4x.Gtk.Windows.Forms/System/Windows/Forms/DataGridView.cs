@@ -946,10 +946,12 @@ public partial class DataGridView : ScrollableControl
         set
         {
             _DataSource = value;
-            if (Is_GridView_Realized == true)
-            {
-                OnSetDataSource();
-            }
+            // Binding used to be deferred until the GTK widget was realized, so an unbound grid read
+            // Rows.Count == 0 right after DataSource was assigned - a deviation from WinForms, where the
+            // model is populated immediately. OnSetDataSource only touches the column/row model (the
+            // realize handler re-runs it for the widget side, and it clears the rows first, so running it
+            // twice is safe).
+            OnSetDataSource();
         }
     }
 
