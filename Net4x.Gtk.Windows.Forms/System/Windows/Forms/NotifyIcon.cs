@@ -23,7 +23,7 @@ namespace System.Windows.Forms
 
         int offset_index = 0;
 
-        Gtk.StatusIcon statusIcon = null;
+        Gtk.StatusIcon? statusIcon = null;
 
         Gtk.Window statuswin;
 
@@ -224,7 +224,7 @@ namespace System.Windows.Forms
                 if (_icon != value)
                 {
                     _icon = value;
-                    if (statusIcon != null)
+                    if (statusIcon != null && _icon != null)
                     {
                         using (MemoryStream ms = new MemoryStream())
                         {

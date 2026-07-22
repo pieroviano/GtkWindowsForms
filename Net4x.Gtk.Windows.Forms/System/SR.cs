@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 //using GtkSystem.Resources;
@@ -9,7 +9,7 @@ namespace System;
 internal static partial class SR
 {
 
-    private static ResourceManager s_resourceManager;
+    private static ResourceManager s_resourceManager = null!;
 
     private static readonly bool s_usingResourceKeys = AppContext.TryGetSwitch("System.Resources.UseSystemResourceKeys", out bool usingResourceKeys) ? usingResourceKeys : true;
 

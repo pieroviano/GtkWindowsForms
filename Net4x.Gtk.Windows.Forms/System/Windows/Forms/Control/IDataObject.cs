@@ -28,7 +28,7 @@ public interface IDataObject
     /// <filterpriority>
     /// 1
     /// </filterpriority>
-    object GetData(string format, bool autoConvert);
+    object? GetData(string format, bool autoConvert);
 
     /// <summary>
     /// Retrieves the data associated with the specified data format.
@@ -43,7 +43,7 @@ public interface IDataObject
     /// <filterpriority>
     /// 1
     /// </filterpriority>
-    object GetData(string format);
+    object? GetData(string format);
 
     /// <summary>
     /// Retrieves the data associated with the specified class type format.
@@ -59,7 +59,7 @@ public interface IDataObject
     /// <filterpriority>
     /// 1
     /// </filterpriority>
-    object GetData(Type format);
+    object? GetData(Type format);
 
     /// <summary>
     /// Determines whether data stored in this instance is associated with the specified format, using a Boolean value to determine whether to convert the data to the format.

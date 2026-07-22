@@ -5,7 +5,7 @@ namespace GtkSystem.Windows.Forms
 {
     public static class ControlUtility
     {
-        public static Gtk.Widget GetIControl(Gtk.Widget widget)
+        public static Gtk.Widget? GetIControl(Gtk.Widget widget)
         {
             if (widget == null)
                 return null;
@@ -15,7 +15,7 @@ namespace GtkSystem.Windows.Forms
                 return GetIControl(widget.Parent);
         }
 
-        public static Control ToControl(this Gtk.Widget widget)
+        public static Control? ToControl(this Gtk.Widget widget)
         {
             var pwidget = GetIControl(widget);
             if (pwidget != null)
@@ -24,7 +24,7 @@ namespace GtkSystem.Windows.Forms
             return null;
         }
 
-        public static bool TryGetIControl(this Gtk.Widget widget, out Gtk.Widget result)
+        public static bool TryGetIControl(this Gtk.Widget widget, out Gtk.Widget? result)
         {
             result = GetIControl(widget);
 

@@ -18,9 +18,9 @@ public class ToolStripMenuItem : ToolStripItem
 
     public StripMenuItem self = new StripMenuItem();
 
-    public override event EventHandler CheckedChanged;
+    public override event EventHandler? CheckedChanged;
 
-    public override event EventHandler CheckStateChanged;
+    public override event EventHandler? CheckStateChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -97,10 +97,10 @@ public class ToolStripMenuItem : ToolStripItem
         set => self.Name = value;
     }
 
-    public override string? Text
+    public override string Text
     {
         get => self.Text;
-        set { self.Text = value??string.Empty; }
+        set { self.Text = value ?? string.Empty; }
     }
 
     public override TextImageRelation TextImageRelation

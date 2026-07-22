@@ -263,11 +263,11 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
                     {
                         var v1 = ((DataGridViewRow)m.GetValue(t1, 0)).Cells[colIndex] as DataGridViewCell;
                         var v2 = ((DataGridViewRow)m.GetValue(t2, 0)).Cells[colIndex] as DataGridViewCell;
-                        if (v1?.Value == null || v2?.Value == null)
+                        if (v1 == null || v2 == null || v1.Value == null || v2.Value == null)
                             return 0;
-                        else if (v1.ValueType.IsValueType && long.TryParse(v1.Value.ToString(), out var rv1) && long.TryParse(v2.Value.ToString(), out var rv2))
+                        else if (v1.ValueType?.IsValueType == true && long.TryParse(v1.Value.ToString(), out var rv1) && long.TryParse(v2.Value.ToString(), out var rv2))
                             return rv1.CompareTo(rv2);
-                        else if (v1.ValueType.Name == "DateTime")
+                        else if (v1.ValueType?.Name == "DateTime")
                             return ((DateTime)v1.Value).CompareTo((DateTime)v2.Value);
                         else
                             return v1.Value.ToString().CompareTo(v2.Value.ToString());

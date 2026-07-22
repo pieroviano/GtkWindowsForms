@@ -21,7 +21,7 @@ public partial class Panel : ScrollableControl
     /// </summary>
     public readonly PanelBase self = new();
 
-    private ControlCollection _controls;
+    private ControlCollection _controls = null!;
 
     /// <summary>
     /// Initializes a new instance of the

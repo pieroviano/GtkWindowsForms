@@ -102,7 +102,7 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
                 {
                     for (var i = items.Count; i < owner.DataGridView.Columns.Count; i++)
                     {
-                        var cell = owner.DataGridView.Columns[i].NewCell();
+                        var cell = owner.DataGridView.Columns[i].NewCell()!;
                         cell.ColumnIndex = i;
                         cell.OwningRow = owner;
                         items.Add(cell);
@@ -141,7 +141,7 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
                         }
                         else
                         {
-                            var cell = owner.DataGridView.Columns[i].NewCell();
+                            var cell = owner.DataGridView.Columns[i].NewCell()!;
                             cell.ColumnIndex = i;
                             cell.OwningRow = owner;
                             items.Add(cell);

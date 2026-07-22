@@ -1,4 +1,4 @@
-using Gdk;
+﻿using Gdk;
 using Gtk;
 using ScrollEventHandler = System.Windows.Forms.ScrollEventHandler;
 
@@ -113,7 +113,7 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     /// <value>
     /// The scrolled window.
     /// </value>
-    public Gtk.ScrolledWindow ScrolledWindow { get; }
+    public Gtk.ScrolledWindow ScrolledWindow { get; } = null!;
 
     /// <summary>
     /// Gets or sets a value indicating whether vertical scroll.

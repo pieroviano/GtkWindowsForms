@@ -115,19 +115,19 @@ namespace System.Windows.Forms
                         {
                             var dataContract = new Runtime.Serialization.DataContractSerializer(typeof(ClipDataObject));
                             var dataobj = dataContract.ReadObject(ms) as ClipDataObject;
-                            result = dataobj.Data;
+                            result = dataobj?.Data;
                         }
                     }));
                     return result;
                 }
             }
 
-            public object GetData(string format)
+            public object? GetData(string format)
             {
                 return GetData(format, true);
             }
 
-            public object GetData(Type format)
+            public object? GetData(Type format)
             {
                 return GetData(format.Name, true);
             }
@@ -165,7 +165,7 @@ namespace System.Windows.Forms
                 }
                 else if (format == DataFormats.Bitmap)
                 {
-                    clipboard.Image = ((Drawing.Image)data).Pixbuf.Copy();
+                    clipboard.Image = ((Drawing.Image)data).Pixbuf!.Copy();
                 }
                 else
                 {

@@ -1,4 +1,4 @@
-using Gtk;
+﻿using Gtk;
 
 namespace System.Windows.Forms
 {
@@ -6,7 +6,7 @@ namespace System.Windows.Forms
     public class StripToolButton : Gtk.ToolButton, IToolMenuItem
     {
 
-        private Gdk.Pixbuf _image;
+        private Gdk.Pixbuf _image = null!;
 
         public StripToolButton() : base(null, "") { this.Homogeneous = false; }
 
@@ -38,7 +38,7 @@ namespace System.Windows.Forms
             }
         }
 
-        public Gtk.Widget MenuItem { get; }
+        public Gtk.Widget MenuItem { get; } = null!;
 
         public string Text
         {

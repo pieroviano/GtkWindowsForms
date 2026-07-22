@@ -62,7 +62,7 @@ public partial class Form1 : Form
         GtkLogger.Info("DataGridView1_Click");
     }
 
-    private void Form1_Load(object sender, EventArgs e)
+    private void Form1_Load(object? sender, EventArgs e)
     {
 
         treeView1.Nodes.Clear();
@@ -74,7 +74,7 @@ public partial class Form1 : Form
             object? obj = dataContractJson.ReadObject(reader);
             List<TestDataMode>? json = obj as List<TestDataMode>;
 
-            IEnumerable<TreeNode> childs = GetChild(null, json);
+            IEnumerable<TreeNode> childs = GetChild(null, json ?? Enumerable.Empty<TestDataMode>());
             treeView1.Nodes.AddRange(childs.ToArray());
             foreach (TreeNode child in treeView1.Nodes)
                 child.Expand();
@@ -97,12 +97,12 @@ public partial class Form1 : Form
         dataGridView1.DoubleClick += DataGridView1_DoubleClick;
     }
 
-    private void DataGridView1_DoubleClick(object sender, EventArgs e)
+    private void DataGridView1_DoubleClick(object? sender, EventArgs e)
     {
         GtkLogger.Info("DataGridView1_DoubleClick");
     }
 
-    private IEnumerable<TreeNode> GetChild(string treeID, IEnumerable<TestDataMode> data)
+    private IEnumerable<TreeNode> GetChild(string? treeID, IEnumerable<TestDataMode> data)
     {
         List<TreeNode> children = new List<TreeNode>();
         var list = data.Where(w => w.parent == treeID);
@@ -121,7 +121,7 @@ public partial class Form1 : Form
     }
 
     TestEntity b = new TestEntity();
-    private void button1_Click(object sender, EventArgs e)
+    private void button1_Click(object? sender, EventArgs e)
     {
 
         GtkLogger.Info(treeView1.SelectedNode?.Text);
@@ -205,7 +205,7 @@ public partial class Form1 : Form
     }
 
 
-    private void button2_Click(object sender, EventArgs e)
+    private void button2_Click(object? sender, EventArgs e)
     {
         dataGridView1.EndEdit();
         //foreach (DataGridViewRow row in dataGridView1.SelectedRows)
@@ -232,10 +232,10 @@ public partial class Form1 : Form
         }
     }
 
-    private void toolStripMenuItem1_Click(object sender, EventArgs e)
+    private void toolStripMenuItem1_Click(object? sender, EventArgs e)
     {
         ToolStripItem? menu = sender as ToolStripItem;
-        GtkLogger.Info(menu.Text);
+        GtkLogger.Info(menu?.Text);
     }
 
     private void textBox1_Validating(object sender, CancelEventArgs e)
@@ -243,69 +243,69 @@ public partial class Form1 : Form
         GtkLogger.Info("textBox1_Validating");
     }
 
-    private void textBox1_Enter(object sender, EventArgs e)
+    private void textBox1_Enter(object? sender, EventArgs e)
     {
         GtkLogger.Info("textBox1_Enter");
     }
 
-    private void maskedTextBox2_Validated(object sender, EventArgs e)
+    private void maskedTextBox2_Validated(object? sender, EventArgs e)
     {
         GtkLogger.Info("maskedTextBox2_Validated");
     }
 
-    private void checkBox2_CheckedChanged(object sender, EventArgs e)
+    private void checkBox2_CheckedChanged(object? sender, EventArgs e)
     {
 
     }
 
-    private void checkBox2_CheckStateChanged(object sender, EventArgs e)
+    private void checkBox2_CheckStateChanged(object? sender, EventArgs e)
     {
 
     }
 
-    private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+    private void numericUpDown1_ValueChanged(object? sender, EventArgs e)
     {
         GtkLogger.Info("numericUpDown1_ValueChanged");
     }
 
-    private void radioButton3_CheckedChanged(object sender, EventArgs e)
+    private void radioButton3_CheckedChanged(object? sender, EventArgs e)
     {
         GtkLogger.Info("radioButton3_CheckedChanged");
     }
 
-    private void radioButton2_CheckedChanged(object sender, EventArgs e)
+    private void radioButton2_CheckedChanged(object? sender, EventArgs e)
     {
         GtkLogger.Info("radioButton2_CheckedChanged");
     }
 
-    private void radioButton1_CheckedChanged(object sender, EventArgs e)
+    private void radioButton1_CheckedChanged(object? sender, EventArgs e)
     {
         GtkLogger.Info("radioButton1_CheckedChanged");
     }
 
-    private void textBox1_TextChanged(object sender, EventArgs e)
+    private void textBox1_TextChanged(object? sender, EventArgs e)
     {
         GtkLogger.Info("textBox1_TextChanged");
     }
 
-    private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+    private void comboBox1_SelectedIndexChanged(object? sender, EventArgs e)
     {
         GtkLogger.Info($"comboBox1_SelectedIndexChanged {comboBox1.SelectedIndex},{comboBox1.SelectedValue},{comboBox1.Text}");
     }
 
-    private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
+    private void comboBox1_SelectedValueChanged(object? sender, EventArgs e)
     {
         var i = comboBox1.SelectedIndex;
         var o = comboBox1.SelectedItem;
         GtkLogger.Info("comboBox1_SelectedValueChanged");
     }
 
-    private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+    private void dateTimePicker1_ValueChanged(object? sender, EventArgs e)
     {
         GtkLogger.Info("dateTimePicker1_ValueChanged");
     }
 
-    private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+    private void dataGridView1_SelectionChanged(object? sender, EventArgs e)
     {
         //6
         //if(dataGridView1.SelectedRows.Count > 0) 
@@ -313,7 +313,7 @@ public partial class Form1 : Form
         GtkLogger.Info("dataGridView1_SelectionChanged");
     }
 
-    private void dataGridView1_MultiSelectChanged(object sender, EventArgs e)
+    private void dataGridView1_MultiSelectChanged(object? sender, EventArgs e)
     { //1
         GtkLogger.Info("dataGridView1_MultiSelectChanged");
     }
@@ -374,12 +374,12 @@ public partial class Form1 : Form
         GtkLogger.Info("dataGridView1_CellClick");
     }
 
-    private void richTextBox1_TextChanged(object sender, EventArgs e)
+    private void richTextBox1_TextChanged(object? sender, EventArgs e)
     {
         GtkLogger.Info("richTextBox1_TextChanged");
     }
 
-    private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+    private void tabControl1_SelectedIndexChanged(object? sender, EventArgs e)
     {
         GtkLogger.Info("tabControl1_SelectedIndexChanged");
     }
@@ -392,7 +392,7 @@ public partial class Form1 : Form
 
     private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
     {
-        GtkLogger.Info("treeView1_AfterSelect：" + treeView1.SelectedNode.FullPath);
+        GtkLogger.Info("treeView1_AfterSelect：" + treeView1.SelectedNode?.FullPath);
         GtkLogger.Info("treeView1_AfterSelect：" + e.Node?.Text);
     }
 
@@ -406,12 +406,12 @@ public partial class Form1 : Form
 
     }
 
-    private void test2ToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+    private void test2ToolStripMenuItem_CheckedChanged(object? sender, EventArgs e)
     {
         GtkLogger.Info("test2ToolStripMenuItem_CheckedChanged");
     }
 
-    private void test2ToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
+    private void test2ToolStripMenuItem_CheckStateChanged(object? sender, EventArgs e)
     {
         GtkLogger.Info("test2ToolStripMenuItem_CheckedChanged");
     }
@@ -421,7 +421,7 @@ public partial class Form1 : Form
         GtkLogger.Info("test2ToolStripMenuItem_DropDownItemClicked");
     }
 
-    private void toolStripMenuItem3_Click(object sender, EventArgs e)
+    private void toolStripMenuItem3_Click(object? sender, EventArgs e)
     {
         GtkLogger.Info("toolStripMenuItem3_Click");
     }
@@ -431,7 +431,7 @@ public partial class Form1 : Form
         GtkLogger.Info("toolStripMenuItem3_DropDownItemClicked");
     }
 
-    private void checkedListBox1_SelectedValueChanged(object sender, EventArgs e)
+    private void checkedListBox1_SelectedValueChanged(object? sender, EventArgs e)
     {
         GtkLogger.Info($"checkedListBox1_SelectedValueChanged:{sender}");
     }
@@ -455,7 +455,7 @@ public partial class Form1 : Form
     private void pictureBox2_Paint(object sender, PaintEventArgs e)
     {
         //GtkLogger.Info("pictureBox2_Paint");
-        var g = e.Graphics;
+        var g = e.Graphics!;
         g.Clear(Color.White);
 
         //g.FillRectangle(new SolidBrush(Color.AliceBlue), new Rectangle(0, 0, 100, 50));
@@ -503,19 +503,19 @@ public partial class Form1 : Form
         //newStringFormat.Alignment = StringAlignment.Far;
         // Measure string.
         SizeF stringSize = new SizeF();
-        stringSize = e.Graphics.MeasureString(measureString, stringFont, layoutSize, newStringFormat, out int charactersfitted, out int linesfilled);
+        stringSize = e.Graphics!.MeasureString(measureString, stringFont, layoutSize, newStringFormat, out int charactersfitted, out int linesfilled);
         //GtkLogger.Info(stringSize.Height);
         textBox1.Text = $"{charactersfitted},{linesfilled}";
         // Draw rectangle representing size of string.
-        e.Graphics.DrawRectangle(new Pen(Color.Red, 1), 0.0F, 0.0F, stringSize.Width, stringSize.Height);
+        e.Graphics!.DrawRectangle(new Pen(Color.Red, 1), 0.0F, 0.0F, stringSize.Width, stringSize.Height);
 
         // Draw string to screen.
-        e.Graphics.DrawString(measureString, stringFont, Brushes.Black, new PointF(0, 0), newStringFormat);
+        e.Graphics!.DrawString(measureString, stringFont, Brushes.Black, new PointF(0, 0), newStringFormat);
         richTextBox1.AppendText(stringSize.Width.ToString());
 
     }
 
-    private void button6_Click(object sender, EventArgs e)
+    private void button6_Click(object? sender, EventArgs e)
     {
         GtkLogger.Info($"{dataGridView1.Columns[1].DisplayIndex}");
         // textBox1.InsertTextAtCursor(Properties.GtkWinFormsAppResources.Gtk_Form1_666);
@@ -531,7 +531,7 @@ public partial class Form1 : Form
         checkedListBox1.Items.Add("dddd");
     }
 
-    private void button7_Click(object sender, EventArgs e)
+    private void button7_Click(object? sender, EventArgs e)
     {
         Form2 form = new Form2();
         DialogResult result = form.ShowDialog(this);
@@ -545,11 +545,11 @@ public partial class Form1 : Form
     private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
     {
         var rect = tabControl1.GetTabRect(e.Index);
-        //e.Graphics.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(rect.X, rect.Y, rect.Width, rect.Height));
-        e.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue), e.Bounds);
+        //e.Graphics!.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(rect.X, rect.Y, rect.Width, rect.Height));
+        e.Graphics!.FillRectangle(new SolidBrush(Color.DarkBlue), e.Bounds);
         var font = new Font(FontFamily.GenericSansSerif, 12);
-        e.Graphics.DrawString(string.Format(Properties.GtkWinFormsAppResources.Gtk_Tab_group_e_Index, e.Index), font, new SolidBrush(Color.Red), new PointF(0, 0));
-        e.Graphics.DrawImage(Image.FromFile("./Resources/BindingNavigator.Delete.ico"), new Point(e.Bounds.Width - 16, 0));
+        e.Graphics!.DrawString(string.Format(Properties.GtkWinFormsAppResources.Gtk_Tab_group_e_Index, e.Index), font, new SolidBrush(Color.Red), new PointF(0, 0));
+        e.Graphics!.DrawImage(Image.FromFile("./Resources/BindingNavigator.Delete.ico"), new Point(e.Bounds.Width - 16, 0));
     }
 
     private void button1_Paint(object sender, PaintEventArgs e)
@@ -590,12 +590,12 @@ public partial class Form1 : Form
         richTextBox1.AppendText("textBox1_KeyUp");
     }
 
-    private void tabPage2_Click(object sender, EventArgs e)
+    private void tabPage2_Click(object? sender, EventArgs e)
     {
         // MessageBox.Show("ffsssssss");
     }
 
-    private void comboBox1_DropDown(object sender, EventArgs e)
+    private void comboBox1_DropDown(object? sender, EventArgs e)
     {
         GtkLogger.Info("comboBox1_DropDown");
     }

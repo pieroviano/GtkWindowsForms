@@ -1,4 +1,4 @@
-using Gtk;
+﻿using Gtk;
 
 namespace System.Windows.Forms
 {
@@ -6,9 +6,9 @@ namespace System.Windows.Forms
     public class StripSeparator : IToolMenuItem
     {
 
-        public Gtk.SeparatorMenuItem menuItem = null;
+        public Gtk.SeparatorMenuItem? menuItem = null;
 
-        public Gtk.SeparatorToolItem toolItem = null;
+        public Gtk.SeparatorToolItem? toolItem = null;
 
         public StripSeparator() : base() { }
 
@@ -34,7 +34,7 @@ namespace System.Windows.Forms
         {
             get;
             set;
-        }
+        } = null!;
 
         public Gtk.Widget MenuItem
         {
@@ -51,13 +51,13 @@ namespace System.Windows.Forms
         {
             get;
             set;
-        }
+        } = null!;
 
         public string Text
         {
             get;
             set;
-        }
+        } = null!;
 
         public Gtk.Widget ToolItem
         {

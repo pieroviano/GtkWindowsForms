@@ -22,7 +22,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
 
     //  public virtual bool Focused { get { return this.IsFocus; } }
 
-    private Font _Font;
+    private Font _Font = null!;
 
     private Color _ForeColor;
 
@@ -174,7 +174,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <param name="onClick">
     /// The on click.
     /// </param>
-    protected ToolStripItem(string text, Drawing.Image image, EventHandler onClick) : this(text, image, onClick, "")
+    protected ToolStripItem(string text, Drawing.Image? image, EventHandler? onClick) : this(text, image, onClick, "")
     {
     }
 
@@ -194,7 +194,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <param name="name">
     /// The name.
     /// </param>
-    protected ToolStripItem(string text, Drawing.Image image, EventHandler onClick, string name) : this()
+    protected ToolStripItem(string text, Drawing.Image? image, EventHandler? onClick, string name) : this()
     {
         this.Name = name;
         this.Text = text;
@@ -281,7 +281,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     {
         get;
         set;
-    }
+    } = null!;
 
     /// <summary>
     /// Gets or sets the background image layout.
@@ -525,7 +525,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     {
         get;
         set;
-    }
+    } = null!;
 
     /// <summary>
     /// Gets or sets the image scaling.
@@ -599,7 +599,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     {
         get;
         set;
-    }
+    } = null!;
 
     /// <summary>
     /// Gets or sets the merge action.
@@ -635,7 +635,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     {
         get;
         set;
-    }
+    } = null!;
 
     /// <summary>
     /// Gets or sets the overflow.
@@ -659,7 +659,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     {
         get;
         set;
-    }
+    } = null!;
 
     /// <summary>
     /// Gets the owner item.
@@ -667,7 +667,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The owner item.
     /// </value>
-    public virtual ToolStripItem OwnerItem { get; }
+    public virtual ToolStripItem OwnerItem { get; } = null!;
 
     /// <summary>
     /// Gets or sets the padding.
@@ -744,7 +744,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     {
         get;
         set;
-    }
+    } = null!;
 
     /// <summary>
     /// Gets the right.
@@ -812,7 +812,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     {
         get;
         set;
-    }
+    } = null!;
 
     /// <summary>
     /// Gets or sets the text.
@@ -824,7 +824,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     {
         get;
         set;
-    }
+    } = null!;
 
     /// <summary>
     /// Gets or sets the text align.
@@ -917,7 +917,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     {
         get;
         set;
-    }
+    } = null!;
 
     /// <summary>
     /// Gets or sets the top.
@@ -981,7 +981,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     {
         get;
         protected set;
-    }
+    } = null!;
 
     /// <summary>
     /// Gets or sets the width.
@@ -1024,9 +1024,10 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
 
     public Gtk.Widget GetWidget()
     {
-        // Widget is null for a bare ToolStripItem (concrete items override it); propagate null rather than
-        // dereferencing so the parameterless constructor can handle the no-widget case.
-        return this.Widget?.ToolItem ?? this.Widget?.MenuItem;
+        // Widget is null for a bare ToolStripItem (concrete items override it); the parameterless
+        // constructor null-checks the result at runtime, so forgive the nullable expression here rather
+        // than widening the return type (which would ripple null onto every concrete-item caller).
+        return (this.Widget?.ToolItem ?? this.Widget?.MenuItem)!;
     }
 
     public virtual void PerformClick()
@@ -1103,7 +1104,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
 
     }
 
-    void IArrangedElement.PerformLayout(IArrangedElement affectedElement, string propertyName)
+    void IArrangedElement.PerformLayout(IArrangedElement affectedElement, string? propertyName)
     {
         throw new NotImplementedException();
     }
@@ -1126,7 +1127,10 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
 
     protected virtual void InitStyle(Widget? widget)
     {
-        SetStyle(widget);
+        if (widget != null)
+        {
+            SetStyle(widget);
+        }
     }
 
     /// <summary>
@@ -1467,9 +1471,9 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
             else
                 style.AppendFormat("font-size:{0}pt;", font.Size);
 
-            if (string.IsNullOrWhiteSpace(font.FontFamily.Name) == false)
+            if (string.IsNullOrWhiteSpace(font.FontFamily?.Name) == false)
             {
-                style.AppendFormat("font-family:\"{0}\";", font.FontFamily.Name);
+                style.AppendFormat("font-family:\"{0}\";", font.FontFamily?.Name);
             }
             if (font.Bold)
             {

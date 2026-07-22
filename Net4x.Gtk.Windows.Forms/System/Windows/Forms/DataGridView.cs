@@ -56,7 +56,7 @@ public partial class DataGridView : ScrollableControl
 
     private DataGridViewSelectionMode _SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
 
-    private DataGridViewColumn _sortedColumn;
+    private DataGridViewColumn _sortedColumn = null!;
 
     private SortOrder _sortOrder;
 
@@ -912,7 +912,7 @@ public partial class DataGridView : ScrollableControl
         }
     }
 
-    public DataGridViewRow CurrentRow
+    public DataGridViewRow? CurrentRow
     {
         get
         {
@@ -2318,7 +2318,7 @@ public partial class DataGridView : ScrollableControl
         }
     }
 
-    private DataGridViewRow GetRowByIter(DataGridViewRowCollection rows, TreeIter iter, int depth)
+    private DataGridViewRow? GetRowByIter(DataGridViewRowCollection rows, TreeIter iter, int depth)
     {
         foreach (DataGridViewRow row in rows.SharedList)
         {

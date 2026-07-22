@@ -284,7 +284,7 @@ public partial class ToolTip : Component, IExtenderProvider
         Control[] controls = _tools.Keys.ToArray();
         foreach (Control control in controls)
         {
-            control.Widget.TooltipText = string.Empty;
+            control.Widget!.TooltipText = string.Empty;
             control.Widget.HasTooltip = false;
         }
         _tools.Clear();
@@ -295,7 +295,7 @@ public partial class ToolTip : Component, IExtenderProvider
     {
         TipInfo info = new(caption, TipInfo.Type.Auto);
         _tools.Add(control, info);
-        control.Widget.HasTooltip = true;
+        control.Widget!.HasTooltip = true;
         control.Widget.QueryTooltip += Widget_QueryTooltip;
     }
 
@@ -372,11 +372,11 @@ public partial class ToolTip : Component, IExtenderProvider
 
     private void ShowTooltip(string? text, IWin32Window window, int duration)
     {
-        if (window is Control form && form.Widget.IsFocus)
+        if (window is Control form && form.Widget?.IsFocus == true)
         {
             foreach (var tip in _tools)
             {
-                tip.Key.Widget.TriggerTooltipQuery();
+                tip.Key.Widget?.TriggerTooltipQuery();
             }
         }
     }

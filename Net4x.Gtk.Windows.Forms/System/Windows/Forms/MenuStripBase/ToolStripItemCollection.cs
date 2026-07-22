@@ -217,7 +217,7 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     public ToolStripItem Add(string? text, Image? image, EventHandler? onClick)
     {
         var toolStripItem = new ToolStripMenuItem();
-        toolStripItem.Text = text;
+        toolStripItem.Text = text ?? string.Empty;
         toolStripItem.Image = image;
         if (onClick != null)
             toolStripItem.Click += onClick;

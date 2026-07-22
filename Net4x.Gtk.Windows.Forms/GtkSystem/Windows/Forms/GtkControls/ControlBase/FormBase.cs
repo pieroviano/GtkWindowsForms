@@ -418,7 +418,9 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     private void maximize_Clicked(object? sender, EventArgs e)
     {
         var maximize = sender as Gtk.Button;
-        if (maximize?.Name == "restore")
+        if (maximize == null)
+            return;
+        if (maximize.Name == "restore")
         {
             if (this.IsToplevel)
             {
@@ -458,7 +460,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         }
         else
         {
-            maximize.Image = Gtk.Image.NewFromIconName("window-restore-symbolic", IconSize.SmallToolbar);
+            maximize!.Image = Gtk.Image.NewFromIconName("window-restore-symbolic", IconSize.SmallToolbar);
             maximize.Name = "restore";
             prevSize.Width = this.AllocatedWidth;
             prevSize.Height = this.AllocatedHeight;

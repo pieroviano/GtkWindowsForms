@@ -1,4 +1,4 @@
-using Gtk;
+﻿using Gtk;
 
 namespace System.Windows.Forms
 {
@@ -30,7 +30,7 @@ namespace System.Windows.Forms
         {
             get;
             set;
-        }
+        } = null!;
 
         public Gtk.Widget MenuItem { get => this; }
 
@@ -38,8 +38,8 @@ namespace System.Windows.Forms
         {
             get;
             set;
-        }
+        } = null!;
 
-        public Gtk.Widget ToolItem { get; }
+        public Gtk.Widget ToolItem { get; } = null!;
     }
 }

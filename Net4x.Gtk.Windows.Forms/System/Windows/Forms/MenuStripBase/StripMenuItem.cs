@@ -1,4 +1,4 @@
-using Gtk;
+﻿using Gtk;
 
 namespace System.Windows.Forms
 {
@@ -8,7 +8,7 @@ namespace System.Windows.Forms
 
         public Gtk.CheckButton checkButton = new Gtk.CheckButton() { Visible = true, Relief = ReliefStyle.None };
 
-        private Gdk.Pixbuf _Image;
+        private Gdk.Pixbuf _Image = null!;
 
         public StripMenuItem() : base()
         {
@@ -68,7 +68,7 @@ namespace System.Windows.Forms
             set => checkButton.Label = value;
         }
 
-        public Gtk.Widget ToolItem { get; }
+        public Gtk.Widget ToolItem { get; } = null!;
 
         protected override void Dispose(bool disposing)
         {

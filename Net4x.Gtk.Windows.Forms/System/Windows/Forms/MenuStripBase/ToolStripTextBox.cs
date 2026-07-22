@@ -51,7 +51,7 @@ public class ToolStripTextBox : ToolStripItem
     /// <value>
     /// The text.
     /// </value>
-    public override string? Text
+    public override string Text
     {
         get => entry.Text;
         set => entry.Text = value;

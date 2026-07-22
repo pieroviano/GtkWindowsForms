@@ -61,7 +61,7 @@ public class ListView : ContainerControl
     /// <summary>
     /// Occurs when checked changed.
     /// </summary>
-    public virtual event EventHandler<object?> CheckedChanged;
+    public virtual event EventHandler<object?>? CheckedChanged;
 
     /// <summary>
     /// Occurs when column click.
@@ -614,7 +614,7 @@ public class ListView : ContainerControl
     /// <value>
     /// The sort column.
     /// </value>
-    public ColumnHeader SortColumn
+    public ColumnHeader? SortColumn
     {
         set;
         get;
@@ -1531,7 +1531,7 @@ public class ListView : ContainerControl
         }
         foreach (ListViewItem item in Items)
         {
-            if (selecteds.Contains(item._flowBoxChild.Handle))
+            if (item._flowBoxChild != null && selecteds.Contains(item._flowBoxChild.Handle))
             {
                 if (item._selected == false)
                 {
@@ -1561,7 +1561,7 @@ public class ListView : ContainerControl
             else
             {
                 var flowbox = checkButton.Parent.Parent.Parent.Parent.Parent as Gtk.FlowBox;
-                flowbox.ProcessEvent(args.Event);
+                flowbox?.ProcessEvent(args.Event);
             }
             args.RetVal = true;
         }
@@ -1569,7 +1569,7 @@ public class ListView : ContainerControl
         {
             var checkButton = (Gtk.CheckButton)o;
             var flowbox = checkButton.Parent.Parent.Parent.Parent.Parent as Gtk.FlowBox;
-            flowbox.ProcessEvent(args.Event);
+            flowbox?.ProcessEvent(args.Event);
             args.RetVal = true;
         }
     }
@@ -1716,14 +1716,14 @@ public class ListView : ContainerControl
     {
         var box = sender as CheckBox;
         var checkitem = box?.self.Parent.Parent.Parent.Parent as Gtk.FlowBoxChild;
-        var thisitem = this.Items.Find(m => m._flowBoxChild.Handle == checkitem?.Handle);
+        var thisitem = this.Items.Find(m => m._flowBoxChild?.Handle == checkitem?.Handle);
         if (thisitem != null)
         {
             thisitem.Checked = box?.self.Active ?? false;
-            ItemCheck?.Invoke(sender, new ItemCheckEventArgs(checkitem?.Index ?? -1, (box?.self.Active ?? false) ? CheckState.Checked : CheckState.Unchecked, (box?.self.Active ?? false) ? CheckState.Unchecked : CheckState.Checked));
+            ItemCheck?.Invoke(sender!, new ItemCheckEventArgs(checkitem?.Index ?? -1, (box?.self.Active ?? false) ? CheckState.Checked : CheckState.Unchecked, (box?.self.Active ?? false) ? CheckState.Unchecked : CheckState.Checked));
             if ((box?.self.Active ?? false) == true)
             {
-                ItemChecked?.Invoke(sender, new ItemCheckedEventArgs(thisitem));
+                ItemChecked?.Invoke(sender!, new ItemCheckedEventArgs(thisitem));
             }
         }
     }

@@ -666,7 +666,7 @@ public class DataGridViewColumn : TreeViewColumn
 
                     if (string.IsNullOrWhiteSpace(font.FontFamily?.Name) == false)
                     {
-                        style.AppendFormat("font-family:\"{0}\";", font.FontFamily.Name);
+                        style.AppendFormat("font-family:\"{0}\";", font.FontFamily?.Name);
                     }
                     if (font.Bold)
                     {
