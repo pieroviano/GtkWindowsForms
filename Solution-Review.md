@@ -4,9 +4,9 @@
 **Scope:** the product solution [Net4x.Gtk.Windows.Forms.sln](Net4x.Gtk.Windows.Forms.sln) — the six shipped
 libraries, the sample apps, and the seven test projects. The generation pipeline
 (`PrepareProjects.sln`) is out of scope except where it constrains the product.
-**Basis:** static reading of the sources, a full `dotnet build` of the solution, a `dotnet pack` of the
-main package with its `.nuspec` inspected, and a full run of every test project that does not need a
-display.
+**Basis:** static reading of the sources, a full `dotnet restore` + `dotnet build` of the solution, a
+`dotnet pack` of the main package with its `.nuspec` inspected, inspection of the assemblies that land
+beside the sample apps, and a full run of every test project that does not need a display.
 
 Companion documents, not duplicated here: [Architecture.md](Architecture.md) (how the runtime works),
 [Solution-Projects.md](Solution-Projects.md) (per-project inventory), [EMULATION-GAPS.md](EMULATION-GAPS.md)
@@ -21,12 +21,12 @@ Companion documents, not duplicated here: [Architecture.md](Architecture.md) (ho
 |---|---|
 | **Overall** | Approve with comments. The architecture is sound and unusually well-documented for a compatibility shim; the defects found are localized, not structural. |
 | **Build** | ✅ `dotnet restore` + `dotnet build Net4x.Gtk.Windows.Forms.sln` → 0 errors, 0 warnings. |
-| **Tests** | ✅ 3,645 passing across six projects; `GtkWinFormsApp.UITests` (10 more) needs a desktop session and was not run. |
-| **Should fix** | 2 items — `Control` never raises `Disposed` (§4.1); two shipped projects are empty and the resource shim they document is absent from the build (§5.1). |
-| **Consider** | `Application`'s missing unhandled-exception policy (§2.2), two silent no-op methods (§4.3), the `Directory.Nuget.Props` coupling (§5.3), thin coverage on two paths (§6.4). |
+| **Tests** | ✅ 3,696 passing across six projects; `GtkWinFormsApp.UITests` (10 more) needs a desktop session and was not run. |
+| **Should fix** | 1 item — the `System.Resources.Extensions` displacement does not take effect (§5.1); a product decision rather than a defect to patch. |
+| **Consider** | the band approximation when clipping to a curved path (§4.2); `Graphics.GetContextInfo()` handing out the live Cairo context (§4.4). |
 
 **Scale for context.** ~127 kLOC of generated library source (99.9 k Forms + 27.4 k Drawing, 681 + 131
-public types), against ~42 kLOC of tests. That test-to-code ratio is the single most reassuring number in
+public types), against ~43 kLOC of tests. That test-to-code ratio is the single most reassuring number in
 this repository, and — §6 — the tests assert behaviour rather than coverage.
 
 ---
@@ -86,10 +86,15 @@ after someone has actually hit the hang.
 similarly disciplined: single-loop-per-thread enforcement, `Control.CaptureUiThread()`, context
 save/restore, and `ThreadExit`/context-dispose/`ApplicationExit` ordering in a `finally`.
 
-**Worth addressing:** there is no `Application.ThreadException` and no `SetUnhandledExceptionMode` anywhere
-in the library. WinForms apps routinely install a `ThreadException` handler as their last line of defence;
-here that is both a compile break for such an app and — more importantly — an absent policy. An exception
-escaping a click handler crosses the GtkSharp signal-marshalling boundary with no defined behaviour.
+The unhandled-exception path is defined rather than left to chance. `Application.ThreadException` and
+`SetUnhandledExceptionMode` exist, and — the part that actually matters — something feeds them:
+`InstallUnhandledExceptionHook` subscribes to `GLib.ExceptionManager.UnhandledException`, which is how an
+exception thrown inside a click handler leaves managed code on this substrate. The policy itself is a
+pure function, `Application.Decide(mode, hasHandler)`, kept apart from the GLib plumbing so it can be
+read and tested without a message loop; `ApplicationThreadExceptionFunctionalTests` walks the whole
+matrix. The default (`Automatic` with no handler) deliberately does *not* swallow — silently continuing
+after an unhandled exception hides the failure, which is the opposite of what a last line of defence is
+for.
 
 ### 2.3 Comments explain *why*, and that is a genuine asset
 
@@ -140,7 +145,7 @@ untracked, and the `.csproj` exclusion that mirrors [Patches.txt](Patches.txt).
 
 ### 3.3 ✅ The patch series is ordered unambiguously and applies loudly
 
-93 patches, applied in filename order. Two guards sit on that:
+95 patches, applied in filename order. Two guards sit on that:
 
 - **Unique ordinals.** `GitPatchApplier.EnsureOrdinalsAreUnique` throws if two patches share a leading
   number, because their relative order would then be decided by their *description text* rather than by
@@ -152,43 +157,38 @@ untracked, and the `.csproj` exclusion that mirrors [Patches.txt](Patches.txt).
   run, with an explicit "the generated library is missing the fixes above" — rather than being swallowed
   by a discarded return value.
 
-### 3.4 🟡 The working tree currently carries uncommitted generated-tree edits
+### 3.4 ✅ The generated-tree changes are captured
 
-Five files under `Net4x.Gtk.Windows.Forms/` and `Net4x.Gtk.Drawing/` are modified but not committed. They
-*are* captured — [patches/0089-Fix-disposal-clipping-and-culture-defects-found-by-review.patch](patches)
-holds exactly that delta and has been verified to apply cleanly to a clean tree — so nothing is at risk;
-the commit is simply outstanding. Worth completing before the next pipeline run, which the §3.2 guard will
-otherwise (correctly) refuse to start.
+Every behavioural change made to `Net4x.Gtk.Windows.Forms/` and `Net4x.Gtk.Drawing/` has a patch behind
+it, so a regeneration reproduces it rather than silently dropping it: `0089` covers the disposal,
+clipping and culture work, `0090` the `Disposed` event, the unhandled-exception policy and the z-order
+methods. Both were produced with the [Patches.txt](Patches.txt) recipe, and each body is the commit diff
+verbatim — so they apply to a freshly transformed tree by construction.
 
 ---
 
 ## 4. Implementation findings
 
-### 4.1 🟠 `Control` never raises `Disposed`
+### 4.1 🟢 `Control` raises `Disposed`, and the reason it once could not is worth knowing
 
-Subscribing to `Disposed` on a `Control` does not reach `Component`'s event list. The handler is stored
-under `Component.Events`/`s_eventDisposed` for a plain `Component`, but for a `Control` that slot is empty
-after the same subscription, so `Component.Dispose(bool)` — which is reached, and which does raise the
-event for a plain `Component` — finds nothing to invoke. The event therefore never fires, through any
-entry point (`control.Disposed`, or the same subscription made through a `Component`-typed reference).
+`Control` overrides `CanRaiseEvents`, and it must return `true`
+([Control.cs:1854](Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs#L1854)). The override
+being an auto-property — permanently `false` — is not inert, which is the interesting part:
+`EventHandlerList` holds a reference to the component that owns it and its **indexer getter** returns
+`null` whenever that owner reports it cannot raise events. `Component` stores the `Disposed`
+subscription in exactly that list. So `+=` succeeded, the handler was genuinely in the list, and every
+lookup returned `null` — `Component.Dispose` found nothing to invoke and the event never fired for any
+control, through any entry point.
 
-`Control` declares no `Disposed` member of its own; the only one reflection reports is `Component`'s
-(`Disposed@System.ComponentModel.Component`), and `Events` is not overridden. So the mechanism by which
-the subscription is diverted is not yet identified — but the effect is reproducible and easy to
-demonstrate.
+It is a good example of a defect that reads as impossible from either end alone: the handler *is* added,
+and `Dispose` *is* reached. Only the interaction explains it, and only for a type that overrides
+`CanRaiseEvents`.
 
-**Why it matters.** `Disposed` is the standard hook for "this control is going away, release what I
-attached to it": event unsubscription, cache eviction, native handle cleanup. All of it silently never
-runs. Nothing warns; the code simply does not execute.
-
-Worth a dedicated investigation rather than a quick patch — the divergence between "the handler is added"
-and "the handler is not in the list Dispose reads" is the interesting part, and whatever explains it may
-affect other `Component`-inherited members too.
-
-The rest of the disposal contract is in good order: `Dispose(bool)` guards re-entry on `IsDisposed`,
-honours `disposing` before touching finalizable Cairo objects, walks children exactly once, and is
-reachable identically through `Dispose()`, `IDisposable`, and `Component` — covered by
-[ControlDisposalFunctionalTests.cs](Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlDisposalFunctionalTests.cs).
+`Disposed` firing exactly once — on direct disposal, through `IDisposable`, and on children reached by a
+parent's walk — is covered by
+[ControlDisposalFunctionalTests.cs](Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlDisposalFunctionalTests.cs),
+along with the rest of the disposal contract: `Dispose(bool)` guards re-entry on `IsDisposed`, honours
+`disposing` before touching finalizable Cairo objects, and walks each descendant once.
 
 ### 4.2 🟢 Clipping is coherent, with one documented approximation
 
@@ -206,18 +206,19 @@ clipping to a curved path is clipped to that decomposition rather than the true 
 the XML doc on the overload and in `Region`'s own header comment — visible rather than silent, which is
 the right call — but it is a real difference from GDI+ for a caller clipping to an ellipse.
 
-### 4.3 🟡 Two silent no-op methods
+### 4.3 🟢 The z-order and handle-creation methods do what they say
 
-[BringToFront()](Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs#L2044) and
-[CreateControl()](Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs#L2080) have empty
-bodies. Both are operations users expect to have an effect — z-order and forced handle creation — and
-both compile, run, and do nothing. A `PlatformNotSupportedException`, or a comment stating the deviation
-the way `CreateGraphics` does, would be preferable to silence; silent-and-wrong is the worst of the three
-possible outcomes.
+`BringToFront`, `SendToBack` and `CreateControl` were empty bodies (`SendToBack` set the toplevel
+window-manager hint `KeepBelow`, which is not what a child control among siblings needs). All three now
+carry the half of the WinForms contract that is observable without a display — the parent's child order,
+and `Created` — as well as the GDK raise/lower and the realize walk that need a live window.
+[ControlZOrderFunctionalTests.cs](Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlZOrderFunctionalTests.cs)
+asserts the ordering directly via `Controls.GetChildIndex`, and that `CreateControl` creates the whole
+child tree rather than just the control it was called on.
 
-For context, this is a small residue: a scan of the 4,670-line `Control.cs` finds only 8 empty-bodied
-public/protected methods, and the other 6 are legitimately empty (`BeginInit`/`EndInit`, the
-`OnPaint`/`OnPaintBackground` base bodies, `Select`, `ScaleBitmapLogicalToDevice`).
+A scan of the 4,670-line `Control.cs` now finds 6 empty-bodied public/protected methods, all of them
+legitimately empty (`BeginInit`/`EndInit`, the `OnPaint`/`OnPaintBackground` base bodies, `Select`,
+`ScaleBitmapLogicalToDevice`).
 
 ### 4.4 🟢 Overall code-health markers are good
 
@@ -235,33 +236,64 @@ it. The context field itself is correctly `internal`.
 
 ## 5. Packaging & build configuration
 
-### 5.1 🟠 Two of the six libraries are empty, and one of them is load-bearing on paper
+### 5.1 🟡 The empty assemblies are deliberate; one of them is not achieving what it is for
 
-| Project | Source files | Ships as |
-|---|---:|---|
-| `Net4x.System.Resources.Extensions` | **0** | nothing (no `GeneratePackageOnBuild`) |
-| `Net4x.Gtk.Windows.Extensions` | **0** | `Gtk.Windows.Extensions` — a package containing one empty assembly |
+Two of the shipped projects contain no source, and both `.csproj` files say why:
 
-The second is merely dead weight: [Packages/Gtk.Windows.Extensions.1.3.24.26203.nupkg](Packages) contains
-`lib/netstandard2.0/Net4x.Gtk.Windows.Extensions.dll` and a README, and nothing else.
+```xml
+<!-- Net4x.System.Resources.Extensions -->
+<!-- The assembly is intentionally left empty it replaces the System.Resources.Extensions.dll Microsoft assembly -->
 
-The first matters more, because [Architecture.md](Architecture.md) describes it as a working part of the
-system — "a drop-in reimplementation of `System.Resources.Extensions` (its `AssemblyName` *is*
-`System.Resources.Extensions`), so designer-generated `.resx` resources deserialize correctly
-cross-platform". It contains no code, and it is not what the build consumes: the project publishes as
-`Gtk.System.Resources.Extensions` while both libraries reference the package id
-`System.Resources.Extensions`, so the reference resolves to **Microsoft's** `System.Resources.Extensions`
-4.6.0 from nuget.org — confirmed in the restored graph and in the shipped `.nuspec`.
+<!-- Net4x.Gtk.Windows.Extensions -->
+<!-- The assembly is intentionally left empty. It is a project where every developer can add its extension classes -->
+```
 
-The functionality itself is not missing; it lives inside the Forms library at
-[GTKSystem/Resources/Extensions/](Net4x.Gtk.Windows.Forms/GTKSystem/Resources/Extensions) (the
-1,200-line `DeserializingResourceReader` and friends). So the practical question is a product decision,
-not a bug: either delete both empty projects and correct Architecture.md, or populate the shim and settle
-how it is meant to reach consumers — publishing under a name Microsoft owns is not an option, so it would
-have to arrive as `Gtk.System.Resources.Extensions` and shadow the BCL assembly by assembly name.
+Taken with the rest of the code these read as sound designs, not omissions:
 
-Until that is decided, the reference at least names the version it actually resolves to (§5.2) rather
-than floating into it.
+- **`Net4x.Gtk.Windows.Extensions`** is a seam - a published package a consumer fills with their own
+  extension classes over the Forms library. Empty is its steady state.
+- **`Net4x.System.Resources.Extensions`** builds an assembly *named* `System.Resources.Extensions` in
+  order to **displace Microsoft's** in an application's output folder. Nothing needs the displaced types:
+  the working reader/writer live in the Forms library under
+  [GTKSystem/Resources/Extensions/](Net4x.Gtk.Windows.Forms/GTKSystem/Resources/Extensions), in namespace
+  `GtkSystem.Resources.Extensions`, and no file in the repository references a
+  `System.Resources.Extensions.*` type. Displacing an implementation that deserialises through
+  `BinaryFormatter` - the thing that does not work cross-platform - is exactly the right instinct. All
+  three sample apps carry a `ProjectReference` to it, which is what that strategy requires.
+
+**What does not hold is the displacement.** The empty assembly this project builds is 4,608 bytes; the
+`System.Resources.Extensions.dll` that actually lands beside every sample app is Microsoft's:
+
+```
+Net4x.System.Resources.Extensions/bin/Debug/netstandard2.0/  4,608 bytes   (today)
+GtkWinFormsApp/bin/Debug/net8.0/                            54,136 bytes   (13 Sep 2019)
+GtkSystemWinFormsApp11/bin/Debug/net8.0/                    54,136 bytes   (13 Sep 2019)
+AutoClosingMessageBoxApp/bin/Debug/net10.0/                 54,136 bytes   (13 Sep 2019)
+```
+
+The `System.Resources.Extensions` **package** reference - which reaches the apps transitively through
+`Gtk.Windows.Forms` and `Gtk.Drawing` (§5.2) - carries the higher assembly version, so MSBuild's conflict
+resolution prefers it over the `ProjectReference`. The project reference is present, builds, and is then
+overruled.
+
+Today the practical consequence is small, because nothing binds to those types either way; what is
+missing is the guarantee the design was reaching for. Three ways out, and the choice is a product
+decision rather than a defect to patch:
+
+1. **Make the displacement win** - give the shim an assembly version above Microsoft's so conflict
+   resolution picks it. Cheapest, and it makes the existing `ProjectReference`s mean what they say.
+2. **Remove the package reference** from the shipped libraries, so Microsoft's assembly never enters the
+   graph. Cleanest, but it is an outward-facing packaging change and needs the resx round-trip suites
+   re-run against a real app.
+3. **Accept Microsoft's assembly** and retire the shim, on the grounds that nothing binds to it.
+
+I would not pick one from the outside: option 1 hands every consuming app an empty
+`System.Resources.Extensions.dll`, and whether that is safe depends on what else in a *user's*
+application might reference the real one - which this repository cannot see.
+
+Also worth noting while here: `Gtk.System.Resources.Extensions` has no `GeneratePackageOnBuild`, so
+unlike the other five it is never packed. That is consistent with options 2 and 3 and inconsistent with
+option 1, so it is the same decision, not a separate one.
 
 ### 5.2 🟢 Shipped dependencies are honest and Release builds are reproducible
 
@@ -281,35 +313,38 @@ local work picks up new revisions — and both pins are overridable from the com
 here than in most projects: for a GTK interop layer, the GtkSharp *revision* is exactly where marshalling
 behaviour changes, so two builds of one commit resolving different revisions would be a real hazard.
 
-### 5.3 🟡 `Directory.Nuget.Props` couples this repo to an unrelated catalogue
+### 5.3 🟢 `Directory.Nuget.Props` carries this solution's versions and nothing else
 
-The file is a several-hundred-entry version manifest spanning packages this solution has no relationship
-with (`AutoMapperVersion`, `BouncyCastleVersion`, `CefSharpLibraryVersion`, `DapperLibraryVersion`, …),
-clearly shared across the wider `CommonLibrary` tree. The cost is that this repository cannot be built or
-reasoned about standalone: an edit made elsewhere, for another consumer, lands here as a version change
-nobody working on this solution asked for.
+[Directory.Nuget.Props](Directory.Nuget.Props) declares eight properties, each read by a `.csproj`,
+`.props` or `.targets` in this repository, each with a comment naming its reader:
 
-The exposure is easy to underrate, so it is worth being concrete about the shape of the failure it
-produces. A single line moving in that manifest —
+| Property | Read by |
+|---|---|
+| `DirectoryNuGet` | import guard for `Directory.Build.Props` |
+| `NuGetPackageRoot` | resolves the `NuGet.Utility` props/targets imports in the shippable csprojs |
+| `VersionBuildSuffix` | revision wildcard for the in-house references in `Prepare.Common` |
+| `Net4xGtkWindowsFormsVersion` | this solution's own version |
+| `GtkSharpLatestVersion` | the GTK3 binding the product is built on |
+| `NuGetUtilityVersion` | build-time utility, `PrivateAssets="All"` |
+| `Net4xBaseTypesVersion`, `SystemTextJson10Version` | the generation pipeline projects |
 
-```diff
--    <NuGetUtilityVersion>1.0.8</NuGetUtilityVersion>
-+    <NuGetUtilityVersion>1.0.9</NuGetUtilityVersion>
-```
+That is the whole file, and the discipline is worth keeping. A version manifest is an unusually effective
+way to import someone else's problems: one line moving in a manifest shared across sibling repositories is
+enough to stop a solution restoring (`NU1102`) for as long as the named version is unresolvable - with
+nothing in the affected repository having changed, and an error naming a build utility rather than
+anything the developer was working on. Scoping the file to what this solution actually consumes removes
+that surface instead of mitigating it.
 
-— is enough to stop the whole solution restoring (`NU1102`) for as long as the named version is not
-resolvable from any configured feed. Nothing in this repository would have changed and nothing in it
-would be wrong; the break arrives through a file whose other 400 lines are irrelevant here, and the error
-names a build utility rather than anything the developer was working on. The window is however long it
-takes for the publish on the other side to land.
+Both directions are enforced by
+[DirectoryNugetPropsTests.cs](Prepare.Tests/DirectoryNugetPropsTests.cs), so drift fails a test rather
+than lingering: a declared-but-unreferenced property fails, a referenced-but-undefined `*Version` fails,
+and exceeding 20 properties fails with "check whether the shared CommonLibrary manifest has been copied
+back over it". The placement contract is asserted too - `VersionPrepare` rewrites
+`Net4xGtkWindowsFormsVersion` in place during the pipeline and looks for it in the *first*
+`PropertyGroup` only.
 
-Both variables this solution reads from that manifest are versions of packages *it* depends on
-(`GtkSharpLatestVersion`, `Net4xGtkWindowsFormsVersion`, `NuGetUtilityVersion`, `Net4xBaseTypesVersion`,
-`SystemTextJson10Version`), so there is a natural fix: declare them locally and let the shared manifest
-override rather than dictate. [Directory.Build.Props](Directory.Build.Props) already imports the shared
-manifest first and sets its own properties afterwards — the mechanism is in place and is what the
-GtkSharp/`System.Resources.Extensions` pins in §5.2 use. Extending it to the remaining variables would
-make the repository buildable on its own terms.
+[Directory.Build.Props](Directory.Build.Props) imports the file and may override anything in it
+afterwards, which is where the configuration-dependent pins of §5.2 live.
 
 ### 5.4 🟢 The rest of the packaging is careful
 
@@ -333,12 +368,12 @@ neutral, per key rather than per file) is true of the real mechanism, not a stan
 
 | Project | Tests | Result |
 |---|---:|---|
-| `Net4x.Gtk.Windows.Forms.Tests` | 2,214 | ✅ |
+| `Net4x.Gtk.Windows.Forms.Tests` | 2,242 | ✅ |
 | `Net4x.Gtk.Drawing.Tests` | 1,184 | ✅ |
-| `Prepare.Tests` | 192 | ✅ |
+| `Prepare.Tests` | 197 | ✅ |
 | `Gtk.Windows.FormsDesigner.Tests` | 45 | ✅ |
-| `Net4x.ResxProcessor.Tests` | 9 | ✅ |
-| `AutoClosingMessageBox.Tests` | 1 | ✅ |
+| `Net4x.ResxProcessor.Tests` | 20 | ✅ |
+| `AutoClosingMessageBox.Tests` | 8 | ✅ |
 | `GtkWinFormsApp.UITests` | 10 | needs a display; not run |
 
 ### 6.2 ✅ `GtkWinFormsApp.UITests` is the right answer to "does the app still work?"
@@ -361,12 +396,18 @@ are actually exercised on every push. The UI suite is deliberately excluded with
 the pipeline itself is deliberately not *run*, since it is destructive to the generated trees and publishes
 packages.
 
-### 6.4 🟡 Coverage is unevenly distributed
+### 6.4 🟢 The thin spots have been thickened
 
-`AutoClosingMessageBox.Tests` has a single test; `Net4x.ResxProcessor.Tests` has nine for a tool that
-regenerates `.Designer.cs` during every pipeline run. Both sit on paths where a silent regression is
-expensive — a wrong `.Designer.cs` corrupts every regenerated sample. Not urgent, but they are the thinnest
-ice in the suite.
+`AutoClosingMessageBox.Tests` and `Net4x.ResxProcessor.Tests` were the two places where a silent
+regression would have been expensive and nothing would have caught it — the resx processor rewrites every
+`.resx` in the tree unattended on every pipeline run, and a wrong answer there corrupts a regenerated
+sample rather than failing.
+
+Both now assert the cases that matter rather than the happy path only: for the processor, idempotency
+across repeated runs, nested relative paths, existing entries and `resheader`s surviving, an existing
+stamp not being overwritten, non-resx XML left byte-identical, and the quoted-folder argument the
+pipeline actually passes; for the message box, the thread-static singleton semantics and the timeout
+configuration that decides when a dialog closes. Neither needs a display.
 
 ---
 
@@ -374,15 +415,12 @@ ice in the suite.
 
 | # | Item | § | Effort |
 |---|---|---|---|
-| 1 | Investigate why `Control` subscriptions never reach `Component`'s `Disposed` list, and fix | 4.1 | ~a day, mostly diagnosis |
-| 2 | Decide the fate of the two empty projects; correct Architecture.md either way | 5.1 | a decision + ~half a day |
-| 3 | Add `Application.ThreadException` / `SetUnhandledExceptionMode` and a defined unhandled-exception policy | 2.2 | ~a day |
-| 4 | Make `BringToFront` / `CreateControl` either work or fail loudly | 4.3 | ~half a day |
-| 5 | Commit the outstanding generated-tree delta (already captured as patch 0089) | 3.4 | minutes |
-| 6 | Extract the variables this repo reads from the shared NuGet manifest into a local props file | 5.3 | ~an hour |
-| 7 | Thicken `AutoClosingMessageBox.Tests` and `Net4x.ResxProcessor.Tests` | 6.4 | ~a day |
+| 1 | Decide how the `System.Resources.Extensions` displacement should work — or that it should not | 5.1 | a decision, then ~half a day |
+| 2 | Clip to the true outline of a curved `GraphicsPath` rather than its band decomposition | 4.2 | ~a day |
+| 3 | Stop `Graphics.GetContextInfo()` handing out the live Cairo context | 4.4 | ~an hour |
+| 4 | Run the UI suite somewhere automated, so rendering order and layout are gated too | 6.2 | ~a day |
 
-Items 1, 3 and 4 touch generated trees and therefore each need a `patches/` entry, not just an edit.
+Items 2 and 3 touch generated trees and therefore need a `patches/` entry, not just an edit.
 
 ---
 

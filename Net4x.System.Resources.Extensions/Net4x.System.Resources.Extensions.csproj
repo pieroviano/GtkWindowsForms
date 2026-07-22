@@ -6,6 +6,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <AssemblyName>System.Resources.Extensions</AssemblyName>
+    <!-- The assembly is intentionally left empty it replaces the System.Resources.Extensions.dll Microsoft assembly -->
     <PackageId>Gtk.System.Resources.Extensions</PackageId>
   </PropertyGroup>
 </Project>

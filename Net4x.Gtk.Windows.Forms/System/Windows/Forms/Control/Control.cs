@@ -1851,7 +1851,16 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets a value indicating whether the component can raise an event.
     /// </summary>
-    protected override bool CanRaiseEvents { get; }
+    /// <remarks>
+    /// This was an auto-property override, so it was permanently <see langword="false" /> - and that is
+    /// not inert. <see cref="T:System.ComponentModel.EventHandlerList" /> keeps a reference to the
+    /// component that owns it and its indexer *getter* returns <see langword="null" /> whenever that
+    /// owner reports it cannot raise events. <see cref="T:System.ComponentModel.Component" /> stores the
+    /// <see cref="E:System.ComponentModel.Component.Disposed" /> subscription in exactly that list, so
+    /// the handler was added successfully and then became permanently unreachable: <c>Dispose</c> looked
+    /// it up, got <see langword="null" />, and the event never fired for any control.
+    /// </remarks>
+    protected override bool CanRaiseEvents => true;
 
     /// <summary>
     /// Gets the create parameters used to create the underlying window.
@@ -2041,9 +2050,36 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Brings the control to the front of the z-order.
     /// </summary>
+    /// <remarks>
+    /// This had an empty body: it compiled, ran, and did nothing. The observable half of the WinForms
+    /// contract is the parent's child order - <c>Controls.GetChildIndex</c> reports 0 afterwards - so
+    /// that is what it maintains, in addition to raising the GDK window when there is a realized one.
+    /// </remarks>
     public virtual void BringToFront()
     {
+        Parent?.Controls?.SetChildIndex(this, 0);
 
+        var widget = Widget;
+        if (widget == null || !widget.IsRealized || widget.Window == null)
+        {
+            return;
+        }
+
+        try
+        {
+            if (widget is Gtk.Window window)
+            {
+                window.Present();
+            }
+            else
+            {
+                widget.Window.Raise();
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.GtkLogger.Debug("Unexpected exception in BringToFront", ex);
+        }
     }
 
     /// <summary>
@@ -2077,9 +2113,45 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Creates the control and any child controls.
     /// </summary>
+    /// <remarks>
+    /// This had an empty body, so <see cref="P:System.Windows.Forms.Control.Created" /> stayed false for
+    /// a control the caller had explicitly asked to create. WinForms creates the control's handle and
+    /// then does the same for its children, which is what the walk below reproduces.
+    /// </remarks>
     public virtual void CreateControl()
     {
+        if (_Created)
+        {
+            return;
+        }
 
+        // Set first: the recursive walk below can reach this control again through a cycle.
+        _Created = true;
+
+        var widget = Widget;
+        // Realizing a widget that is not yet attached to a toplevel makes GTK complain and buys nothing;
+        // the handle appears when the widget joins a window.
+        if (widget != null && !widget.IsRealized && widget.Toplevel is Gtk.Window { IsRealized: true })
+        {
+            try
+            {
+                widget.Realize();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.GtkLogger.Debug("Unexpected exception in CreateControl", ex);
+            }
+        }
+
+        if (Controls == null)
+        {
+            return;
+        }
+
+        foreach (Control? child in Controls)
+        {
+            child?.CreateControl();
+        }
     }
 
     /// <summary>
@@ -2954,10 +3026,38 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Sends the control to the back of the z-order.
     /// </summary>
+    /// <remarks>
+    /// The counterpart of <see cref="M:System.Windows.Forms.Control.BringToFront" />, and it had the
+    /// matching gap: it set the window-manager hint <c>KeepBelow</c>, which applies to toplevel windows
+    /// rather than to a child control's place among its siblings, and it never touched the child order
+    /// that <c>Controls.GetChildIndex</c> reports.
+    /// </remarks>
     public virtual void SendToBack()
     {
-        if (this.Widget != null && this.Widget.IsRealized && this.Widget.Window != null)
-            this.Widget.Window.KeepBelow = true;
+        var siblings = Parent?.Controls;
+        siblings?.SetChildIndex(this, siblings.Count - 1);
+
+        var widget = Widget;
+        if (widget == null || !widget.IsRealized || widget.Window == null)
+        {
+            return;
+        }
+
+        try
+        {
+            if (widget is Gtk.Window)
+            {
+                widget.Window.KeepBelow = true;
+            }
+            else
+            {
+                widget.Window.Lower();
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.GtkLogger.Debug("Unexpected exception in SendToBack", ex);
+        }
     }
 
     /// <summary>

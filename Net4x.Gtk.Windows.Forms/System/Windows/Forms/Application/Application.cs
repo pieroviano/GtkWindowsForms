@@ -52,6 +52,181 @@ public sealed class Application
     public static event EventHandler? ThreadExit;
 
     /// <summary>
+    /// Occurs when an exception escapes to the message loop - the last line of defence a Windows Forms
+    /// application has, and the one most of them install.
+    /// </summary>
+    /// <remarks>
+    /// Neither this event nor <see cref="M:System.Windows.Forms.Application.SetUnhandledExceptionMode(System.Windows.Forms.UnhandledExceptionMode)" />
+    /// existed, so an application that installs a handler did not compile, and - worse - there was no
+    /// policy at all: an exception thrown by a click handler unwound through GtkSharp's signal
+    /// marshalling with undefined behaviour.
+    /// </remarks>
+    public static event Threading.ThreadExceptionEventHandler? ThreadException;
+
+    /// <summary>
+    /// How exceptions reaching the message loop are treated. See
+    /// <see cref="M:System.Windows.Forms.Application.SetUnhandledExceptionMode(System.Windows.Forms.UnhandledExceptionMode)" />.
+    /// </summary>
+    private static UnhandledExceptionMode unhandledExceptionMode = UnhandledExceptionMode.Automatic;
+
+    /// <summary>Set once the GLib unhandled-exception hook has been installed.</summary>
+    private static bool exceptionHookInstalled;
+
+    /// <summary>
+    /// What to do with an exception that reached the message loop.
+    /// </summary>
+    internal enum UnhandledExceptionDisposition
+    {
+        /// <summary>Hand it to <see cref="E:System.Windows.Forms.Application.ThreadException" />.</summary>
+        RaiseThreadException,
+
+        /// <summary>No handler is attached: report it and keep the application alive.</summary>
+        ReportAndContinue,
+
+        /// <summary>Let it propagate and terminate the process.</summary>
+        Rethrow,
+    }
+
+    /// <summary>
+    /// The policy itself, kept separate from the GLib plumbing so it can be reasoned about - and tested -
+    /// without a message loop.
+    /// </summary>
+    /// <param name="mode">The configured mode.</param>
+    /// <param name="hasHandler">Whether anything is subscribed to <see cref="E:System.Windows.Forms.Application.ThreadException" />.</param>
+    internal static UnhandledExceptionDisposition Decide(UnhandledExceptionMode mode, bool hasHandler)
+    {
+        switch (mode)
+        {
+            case UnhandledExceptionMode.ThrowException:
+                return UnhandledExceptionDisposition.Rethrow;
+
+            case UnhandledExceptionMode.CatchException:
+                // Catch even with nobody listening - that is what distinguishes this mode from Automatic.
+                return hasHandler
+                    ? UnhandledExceptionDisposition.RaiseThreadException
+                    : UnhandledExceptionDisposition.ReportAndContinue;
+
+            case UnhandledExceptionMode.Automatic:
+            default:
+                return hasHandler
+                    ? UnhandledExceptionDisposition.RaiseThreadException
+                    : UnhandledExceptionDisposition.Rethrow;
+        }
+    }
+
+    /// <summary>
+    /// Sets how unhandled exceptions reaching the message loop are treated.
+    /// </summary>
+    /// <param name="mode">The mode to apply.</param>
+    /// <exception cref="T:System.InvalidOperationException">
+    /// A message loop is already running on this thread. Windows Forms requires the mode to be chosen
+    /// before <see cref="M:System.Windows.Forms.Application.Run" />, so that the policy cannot change
+    /// underneath a running application.
+    /// </exception>
+    public static void SetUnhandledExceptionMode(UnhandledExceptionMode mode)
+    {
+        SetUnhandledExceptionMode(mode, true);
+    }
+
+    /// <summary>
+    /// Sets how unhandled exceptions reaching the message loop are treated.
+    /// </summary>
+    /// <param name="mode">The mode to apply.</param>
+    /// <param name="threadScope">
+    /// Accepted for source compatibility. This implementation keeps one process-wide policy, because the
+    /// GTK main loop it hooks is itself process-wide.
+    /// </param>
+    public static void SetUnhandledExceptionMode(UnhandledExceptionMode mode, bool threadScope)
+    {
+        if (mode != UnhandledExceptionMode.Automatic &&
+            mode != UnhandledExceptionMode.ThrowException &&
+            mode != UnhandledExceptionMode.CatchException)
+        {
+            throw new global::System.ComponentModel.InvalidEnumArgumentException(
+                nameof(mode), (int)mode, typeof(UnhandledExceptionMode));
+        }
+
+        lock (internalSyncObject)
+        {
+            if (MessageLoop)
+            {
+                throw new InvalidOperationException(
+                    "The unhandled-exception mode must be set before the message loop starts.");
+            }
+
+            unhandledExceptionMode = mode;
+        }
+    }
+
+    /// <summary>
+    /// Raises <see cref="E:System.Windows.Forms.Application.ThreadException" /> for
+    /// <paramref name="t" />, applying the configured
+    /// <see cref="T:System.Windows.Forms.UnhandledExceptionMode" />.
+    /// </summary>
+    /// <param name="t">The exception that reached the message loop.</param>
+    /// <returns>
+    /// <see langword="true" /> if the exception was handled and the application should continue;
+    /// <see langword="false" /> if it must be allowed to propagate.
+    /// </returns>
+    public static bool OnThreadException(Exception t)
+    {
+        if (t == null)
+        {
+            throw new ArgumentNullException(nameof(t));
+        }
+
+        var handler = ThreadException;
+        switch (Decide(unhandledExceptionMode, handler != null))
+        {
+            case UnhandledExceptionDisposition.RaiseThreadException:
+                try
+                {
+                    handler!(null, new Threading.ThreadExceptionEventArgs(t));
+                }
+                catch (Exception failure)
+                {
+                    // A ThreadException handler that throws would otherwise recurse straight back here.
+                    GtkLogger.Error("The ThreadException handler threw.", failure);
+
+                    return false;
+                }
+
+                return true;
+
+            case UnhandledExceptionDisposition.ReportAndContinue:
+                GtkLogger.Error("Unhandled exception reached the message loop.", t);
+
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
+    /// <summary>
+    /// Routes exceptions escaping GtkSharp's signal marshalling - which is how an exception thrown by a
+    /// click handler leaves managed code - through <see cref="M:System.Windows.Forms.Application.OnThreadException(System.Exception)" />.
+    /// </summary>
+    private static void InstallUnhandledExceptionHook()
+    {
+        if (exceptionHookInstalled)
+        {
+            return;
+        }
+
+        exceptionHookInstalled = true;
+        GLib.ExceptionManager.UnhandledException += args =>
+        {
+            var exception = args.ExceptionObject as Exception
+                            ?? new Exception(args.ExceptionObject?.ToString() ?? "Unhandled exception.");
+
+            // ExitApplication true means "let this terminate the process", which is exactly the
+            // Rethrow disposition; handled exceptions leave the application running.
+            args.ExitApplication = !OnThreadException(exception);
+        };
+    }
+
+    /// <summary>
     /// Gets a value indicating whether a message loop is running on this thread.
     /// </summary>
     public static bool MessageLoop { get; private set; }
@@ -620,6 +795,9 @@ tooltip label {padding: 0px 10px; color: #555555;}
 
         // The thread that runs the message loop is the UI thread Control.InvokeRequired compares against.
         Control.CaptureUiThread();
+
+        // From here on, an exception escaping a handler has somewhere defined to go.
+        InstallUnhandledExceptionHook();
 
         var previousContext = CurrentContext;
         CurrentContext = context;

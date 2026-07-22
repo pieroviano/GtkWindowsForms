@@ -4,6 +4,7 @@
   <PropertyGroup>
     <VersionPrefix>$(Net4xGtkWindowsFormsVersion)</VersionPrefix>
     <VersionSuffix>26203</VersionSuffix>
+    <MinimalDirectoryNuGetProps>true</MinimalDirectoryNuGetProps>
     <SolutionDir Condition="'$(SolutionDir)'==''">$(MSBuildThisFileDirectory)</SolutionDir>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>

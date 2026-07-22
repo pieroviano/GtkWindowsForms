@@ -1,0 +1,409 @@
+From 21cafdcd1a56550b3de5cec8417c0a043c4d32a6 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Thu, 23 Jul 2026 02:15:27 +0300
+Subject: [PATCH] Fix Disposed event, unhandled-exception policy and z-order
+
+Defects found by the solution review. Each is covered by a new functional test.
+
+Control
+ - CanRaiseEvents was an auto-property override, so it was permanently false. That is not inert:
+   EventHandlerList holds a reference to the component that owns it and its indexer *getter* returns
+   null whenever that owner reports it cannot raise events, and Component stores the Disposed
+   subscription in exactly that list. The handler was added successfully and then became permanently
+   unreachable, so Dispose looked it up, got null, and the Disposed event never fired for any control.
+ - BringToFront and CreateControl had empty bodies - they compiled, ran and did nothing. SendToBack set
+   the toplevel window-manager hint KeepBelow, which applies to a window rather than to a child
+   control's place among its siblings, and never touched the child order GetChildIndex reports. All
+   three now maintain the observable WinForms contract (child order, Created) as well as the GDK
+   raise/lower and the realize walk that need a live window.
+
+Application
+ - ThreadException and SetUnhandledExceptionMode did not exist, so an application installing the usual
+   last-line-of-defence handler did not compile - and, worse, there was no policy at all: an exception
+   thrown by a click handler unwound through GtkSharp's signal marshalling with undefined behaviour.
+   The policy is a pure function (Decide) so it can be reasoned about and tested without a message
+   loop, fed by a GLib.ExceptionManager.UnhandledException hook that Run installs. The default
+   (Automatic, no handler) deliberately does not swallow.
+
+---
+ .../Windows/Forms/Application/Application.cs  | 178 ++++++++++++++++++
+ .../Application/UnhandledExceptionMode.cs     |  24 +++
+ .../System/Windows/Forms/Control/Control.cs   | 106 ++++++++++-
+ 3 files changed, 305 insertions(+), 3 deletions(-)
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/UnhandledExceptionMode.cs
+
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+index 2d91756c..919ed90f 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+@@ -51,6 +51,181 @@ public sealed class Application
+     /// </summary>
+     public static event EventHandler? ThreadExit;
+ 
++    /// <summary>
++    /// Occurs when an exception escapes to the message loop - the last line of defence a Windows Forms
++    /// application has, and the one most of them install.
++    /// </summary>
++    /// <remarks>
++    /// Neither this event nor <see cref="M:System.Windows.Forms.Application.SetUnhandledExceptionMode(System.Windows.Forms.UnhandledExceptionMode)" />
++    /// existed, so an application that installs a handler did not compile, and - worse - there was no
++    /// policy at all: an exception thrown by a click handler unwound through GtkSharp's signal
++    /// marshalling with undefined behaviour.
++    /// </remarks>
++    public static event Threading.ThreadExceptionEventHandler? ThreadException;
++
++    /// <summary>
++    /// How exceptions reaching the message loop are treated. See
++    /// <see cref="M:System.Windows.Forms.Application.SetUnhandledExceptionMode(System.Windows.Forms.UnhandledExceptionMode)" />.
++    /// </summary>
++    private static UnhandledExceptionMode unhandledExceptionMode = UnhandledExceptionMode.Automatic;
++
++    /// <summary>Set once the GLib unhandled-exception hook has been installed.</summary>
++    private static bool exceptionHookInstalled;
++
++    /// <summary>
++    /// What to do with an exception that reached the message loop.
++    /// </summary>
++    internal enum UnhandledExceptionDisposition
++    {
++        /// <summary>Hand it to <see cref="E:System.Windows.Forms.Application.ThreadException" />.</summary>
++        RaiseThreadException,
++
++        /// <summary>No handler is attached: report it and keep the application alive.</summary>
++        ReportAndContinue,
++
++        /// <summary>Let it propagate and terminate the process.</summary>
++        Rethrow,
++    }
++
++    /// <summary>
++    /// The policy itself, kept separate from the GLib plumbing so it can be reasoned about - and tested -
++    /// without a message loop.
++    /// </summary>
++    /// <param name="mode">The configured mode.</param>
++    /// <param name="hasHandler">Whether anything is subscribed to <see cref="E:System.Windows.Forms.Application.ThreadException" />.</param>
++    internal static UnhandledExceptionDisposition Decide(UnhandledExceptionMode mode, bool hasHandler)
++    {
++        switch (mode)
++        {
++            case UnhandledExceptionMode.ThrowException:
++                return UnhandledExceptionDisposition.Rethrow;
++
++            case UnhandledExceptionMode.CatchException:
++                // Catch even with nobody listening - that is what distinguishes this mode from Automatic.
++                return hasHandler
++                    ? UnhandledExceptionDisposition.RaiseThreadException
++                    : UnhandledExceptionDisposition.ReportAndContinue;
++
++            case UnhandledExceptionMode.Automatic:
++            default:
++                return hasHandler
++                    ? UnhandledExceptionDisposition.RaiseThreadException
++                    : UnhandledExceptionDisposition.Rethrow;
++        }
++    }
++
++    /// <summary>
++    /// Sets how unhandled exceptions reaching the message loop are treated.
++    /// </summary>
++    /// <param name="mode">The mode to apply.</param>
++    /// <exception cref="T:System.InvalidOperationException">
++    /// A message loop is already running on this thread. Windows Forms requires the mode to be chosen
++    /// before <see cref="M:System.Windows.Forms.Application.Run" />, so that the policy cannot change
++    /// underneath a running application.
++    /// </exception>
++    public static void SetUnhandledExceptionMode(UnhandledExceptionMode mode)
++    {
++        SetUnhandledExceptionMode(mode, true);
++    }
++
++    /// <summary>
++    /// Sets how unhandled exceptions reaching the message loop are treated.
++    /// </summary>
++    /// <param name="mode">The mode to apply.</param>
++    /// <param name="threadScope">
++    /// Accepted for source compatibility. This implementation keeps one process-wide policy, because the
++    /// GTK main loop it hooks is itself process-wide.
++    /// </param>
++    public static void SetUnhandledExceptionMode(UnhandledExceptionMode mode, bool threadScope)
++    {
++        if (mode != UnhandledExceptionMode.Automatic &&
++            mode != UnhandledExceptionMode.ThrowException &&
++            mode != UnhandledExceptionMode.CatchException)
++        {
++            throw new global::System.ComponentModel.InvalidEnumArgumentException(
++                nameof(mode), (int)mode, typeof(UnhandledExceptionMode));
++        }
++
++        lock (internalSyncObject)
++        {
++            if (MessageLoop)
++            {
++                throw new InvalidOperationException(
++                    "The unhandled-exception mode must be set before the message loop starts.");
++            }
++
++            unhandledExceptionMode = mode;
++        }
++    }
++
++    /// <summary>
++    /// Raises <see cref="E:System.Windows.Forms.Application.ThreadException" /> for
++    /// <paramref name="t" />, applying the configured
++    /// <see cref="T:System.Windows.Forms.UnhandledExceptionMode" />.
++    /// </summary>
++    /// <param name="t">The exception that reached the message loop.</param>
++    /// <returns>
++    /// <see langword="true" /> if the exception was handled and the application should continue;
++    /// <see langword="false" /> if it must be allowed to propagate.
++    /// </returns>
++    public static bool OnThreadException(Exception t)
++    {
++        if (t == null)
++        {
++            throw new ArgumentNullException(nameof(t));
++        }
++
++        var handler = ThreadException;
++        switch (Decide(unhandledExceptionMode, handler != null))
++        {
++            case UnhandledExceptionDisposition.RaiseThreadException:
++                try
++                {
++                    handler!(null, new Threading.ThreadExceptionEventArgs(t));
++                }
++                catch (Exception failure)
++                {
++                    // A ThreadException handler that throws would otherwise recurse straight back here.
++                    GtkLogger.Error("The ThreadException handler threw.", failure);
++
++                    return false;
++                }
++
++                return true;
++
++            case UnhandledExceptionDisposition.ReportAndContinue:
++                GtkLogger.Error("Unhandled exception reached the message loop.", t);
++
++                return true;
++
++            default:
++                return false;
++        }
++    }
++
++    /// <summary>
++    /// Routes exceptions escaping GtkSharp's signal marshalling - which is how an exception thrown by a
++    /// click handler leaves managed code - through <see cref="M:System.Windows.Forms.Application.OnThreadException(System.Exception)" />.
++    /// </summary>
++    private static void InstallUnhandledExceptionHook()
++    {
++        if (exceptionHookInstalled)
++        {
++            return;
++        }
++
++        exceptionHookInstalled = true;
++        GLib.ExceptionManager.UnhandledException += args =>
++        {
++            var exception = args.ExceptionObject as Exception
++                            ?? new Exception(args.ExceptionObject?.ToString() ?? "Unhandled exception.");
++
++            // ExitApplication true means "let this terminate the process", which is exactly the
++            // Rethrow disposition; handled exceptions leave the application running.
++            args.ExitApplication = !OnThreadException(exception);
++        };
++    }
++
+     /// <summary>
+     /// Gets a value indicating whether a message loop is running on this thread.
+     /// </summary>
+@@ -621,6 +796,9 @@ tooltip label {padding: 0px 10px; color: #555555;}
+         // The thread that runs the message loop is the UI thread Control.InvokeRequired compares against.
+         Control.CaptureUiThread();
+ 
++        // From here on, an exception escaping a handler has somewhere defined to go.
++        InstallUnhandledExceptionHook();
++
+         var previousContext = CurrentContext;
+         CurrentContext = context;
+ 
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/UnhandledExceptionMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/UnhandledExceptionMode.cs
+new file mode 100644
+index 00000000..563d6165
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/UnhandledExceptionMode.cs
+@@ -0,0 +1,24 @@
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Defines where a Windows Forms application should send unhandled exceptions.
++/// </summary>
++public enum UnhandledExceptionMode
++{
++    /// <summary>
++    /// Route the exception to <see cref="E:System.Windows.Forms.Application.ThreadException" /> unless
++    /// the application has opted out. This is the default.
++    /// </summary>
++    Automatic = 0,
++
++    /// <summary>
++    /// Never route the exception; let it propagate out of the message loop and terminate the process.
++    /// </summary>
++    ThrowException = 1,
++
++    /// <summary>
++    /// Always route the exception to <see cref="E:System.Windows.Forms.Application.ThreadException" />,
++    /// even when no handler is attached.
++    /// </summary>
++    CatchException = 2,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+index 245b2f81..21424667 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+@@ -1851,7 +1851,16 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// <summary>
+     /// Gets a value indicating whether the component can raise an event.
+     /// </summary>
+-    protected override bool CanRaiseEvents { get; }
++    /// <remarks>
++    /// This was an auto-property override, so it was permanently <see langword="false" /> - and that is
++    /// not inert. <see cref="T:System.ComponentModel.EventHandlerList" /> keeps a reference to the
++    /// component that owns it and its indexer *getter* returns <see langword="null" /> whenever that
++    /// owner reports it cannot raise events. <see cref="T:System.ComponentModel.Component" /> stores the
++    /// <see cref="E:System.ComponentModel.Component.Disposed" /> subscription in exactly that list, so
++    /// the handler was added successfully and then became permanently unreachable: <c>Dispose</c> looked
++    /// it up, got <see langword="null" />, and the event never fired for any control.
++    /// </remarks>
++    protected override bool CanRaiseEvents => true;
+ 
+     /// <summary>
+     /// Gets the create parameters used to create the underlying window.
+@@ -2041,9 +2050,36 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// <summary>
+     /// Brings the control to the front of the z-order.
+     /// </summary>
++    /// <remarks>
++    /// This had an empty body: it compiled, ran, and did nothing. The observable half of the WinForms
++    /// contract is the parent's child order - <c>Controls.GetChildIndex</c> reports 0 afterwards - so
++    /// that is what it maintains, in addition to raising the GDK window when there is a realized one.
++    /// </remarks>
+     public virtual void BringToFront()
+     {
++        Parent?.Controls?.SetChildIndex(this, 0);
++
++        var widget = Widget;
++        if (widget == null || !widget.IsRealized || widget.Window == null)
++        {
++            return;
++        }
+ 
++        try
++        {
++            if (widget is Gtk.Window window)
++            {
++                window.Present();
++            }
++            else
++            {
++                widget.Window.Raise();
++            }
++        }
++        catch (Exception ex)
++        {
++            System.Diagnostics.GtkLogger.Debug("Unexpected exception in BringToFront", ex);
++        }
+     }
+ 
+     /// <summary>
+@@ -2077,9 +2113,45 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// <summary>
+     /// Creates the control and any child controls.
+     /// </summary>
++    /// <remarks>
++    /// This had an empty body, so <see cref="P:System.Windows.Forms.Control.Created" /> stayed false for
++    /// a control the caller had explicitly asked to create. WinForms creates the control's handle and
++    /// then does the same for its children, which is what the walk below reproduces.
++    /// </remarks>
+     public virtual void CreateControl()
+     {
++        if (_Created)
++        {
++            return;
++        }
++
++        // Set first: the recursive walk below can reach this control again through a cycle.
++        _Created = true;
++
++        var widget = Widget;
++        // Realizing a widget that is not yet attached to a toplevel makes GTK complain and buys nothing;
++        // the handle appears when the widget joins a window.
++        if (widget != null && !widget.IsRealized && widget.Toplevel is Gtk.Window { IsRealized: true })
++        {
++            try
++            {
++                widget.Realize();
++            }
++            catch (Exception ex)
++            {
++                System.Diagnostics.GtkLogger.Debug("Unexpected exception in CreateControl", ex);
++            }
++        }
+ 
++        if (Controls == null)
++        {
++            return;
++        }
++
++        foreach (Control? child in Controls)
++        {
++            child?.CreateControl();
++        }
+     }
+ 
+     /// <summary>
+@@ -2954,10 +3026,38 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// <summary>
+     /// Sends the control to the back of the z-order.
+     /// </summary>
++    /// <remarks>
++    /// The counterpart of <see cref="M:System.Windows.Forms.Control.BringToFront" />, and it had the
++    /// matching gap: it set the window-manager hint <c>KeepBelow</c>, which applies to toplevel windows
++    /// rather than to a child control's place among its siblings, and it never touched the child order
++    /// that <c>Controls.GetChildIndex</c> reports.
++    /// </remarks>
+     public virtual void SendToBack()
+     {
+-        if (this.Widget != null && this.Widget.IsRealized && this.Widget.Window != null)
+-            this.Widget.Window.KeepBelow = true;
++        var siblings = Parent?.Controls;
++        siblings?.SetChildIndex(this, siblings.Count - 1);
++
++        var widget = Widget;
++        if (widget == null || !widget.IsRealized || widget.Window == null)
++        {
++            return;
++        }
++
++        try
++        {
++            if (widget is Gtk.Window)
++            {
++                widget.Window.KeepBelow = true;
++            }
++            else
++            {
++                widget.Window.Lower();
++            }
++        }
++        catch (Exception ex)
++        {
++            System.Diagnostics.GtkLogger.Debug("Unexpected exception in SendToBack", ex);
++        }
+     }
+ 
+     /// <summary>
+-- 
+2.53.0.windows.3
+

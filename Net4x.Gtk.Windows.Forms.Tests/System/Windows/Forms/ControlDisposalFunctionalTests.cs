@@ -109,6 +109,73 @@ public class ControlDisposalFunctionalTests
         Assert.Equal(1, child.EffectiveDisposals);
     }
 
+
+    [Fact]
+    public void Dispose_RaisesTheDisposedEvent()
+    {
+        var control = new Control();
+        var raised = 0;
+        control.Disposed += (_, _) => raised++;
+
+        control.Dispose();
+
+        Assert.Equal(1, raised);
+    }
+
+    [Fact]
+    public void Dispose_RaisesTheDisposedEventOnlyOnce()
+    {
+        var control = new Control();
+        var raised = 0;
+        control.Disposed += (_, _) => raised++;
+
+        control.Dispose();
+        control.Dispose();
+
+        Assert.Equal(1, raised);
+    }
+
+    [Fact]
+    public void Dispose_ThroughIDisposable_RaisesTheDisposedEvent()
+    {
+        var control = new Control();
+        var raised = 0;
+        control.Disposed += (_, _) => raised++;
+
+        ((IDisposable)control).Dispose();
+
+        Assert.Equal(1, raised);
+    }
+
+    [Fact]
+    public void Dispose_OfAParent_RaisesDisposedOnItsChildren()
+    {
+        var parent = new Control();
+        var child = new Control();
+        parent.Controls!.Add(child);
+        var raised = 0;
+        child.Disposed += (_, _) => raised++;
+
+        parent.Dispose();
+
+        Assert.Equal(1, raised);
+    }
+
+    [Fact]
+    public void UnsubscribedHandler_IsNotCalled()
+    {
+        var control = new Control();
+        var raised = 0;
+        EventHandler handler = (_, _) => raised++;
+        control.Disposed += handler;
+        control.Disposed -= handler;
+
+        control.Dispose();
+
+        Assert.Equal(0, raised);
+    }
+
+
     [Fact]
     public void Dispose_ClearsTheChildCollection()
     {

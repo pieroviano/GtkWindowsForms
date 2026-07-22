@@ -42,16 +42,22 @@ re-implemented on top of GTK3 (via GtkSharp) and Cairo.
 
 Supporting assemblies around that core:
 
-- **`Net4x.System.Resources.Extensions`** — a drop-in reimplementation of
-  `System.Resources.Extensions` (its `AssemblyName` *is* `System.Resources.Extensions`), so
-  designer-generated `.resx` resources (including binary-serialized objects) deserialize correctly
-  cross-platform. Forms and Drawing consume it as the `System.Resources.Extensions` package.
+- **`Net4x.System.Resources.Extensions`** — an **intentionally empty** assembly whose `AssemblyName`
+  *is* `System.Resources.Extensions`, so that it displaces Microsoft's assembly of that name in an
+  application's output folder. It carries no code and is not meant to: the working implementation lives
+  in the Forms library under `GTKSystem/Resources/Extensions/`, in namespace
+  `GtkSystem.Resources.Extensions`, so nothing needs the displaced types. The sample apps reference the
+  project for that reason. (See the comment in its `.csproj`. Note that displacement only takes effect
+  if this assembly wins MSBuild's conflict resolution against the `System.Resources.Extensions` NuGet
+  package — see [Solution-Review.md](Solution-Review.md) §5.1.)
 - **`Net4x.Gtk.Windows.FormsDesigner`** — MSBuild-integrated design-time support
   (`Microsoft.Build.*` tasks plus `build/` props+targets) so the **native Visual Studio WinForms
   designer** can open forms that target this framework.
 - **`Net4x.ResxProcessor`** — a `net8.0` tool bundled inside the `Gtk.Windows.Forms` NuGet package
   under `tools/`; regenerates `.Designer.cs` from `.resx` during builds.
-- **`Net4x.Gtk.Windows.Extensions`** — optional helper layer on top of the Forms library.
+- **`Net4x.Gtk.Windows.Extensions`** — an **intentionally empty** project, published as
+  `Gtk.Windows.Extensions`: the place for a consumer's own extension classes over the Forms library
+  (see the comment in its `.csproj`). It has no code of its own by design.
 
 ## The core pattern: public WinForms facade + GTK "base" widget
 
@@ -181,9 +187,10 @@ alias** to disambiguate from the real `System.Drawing`.
 WinForms designer files lean heavily on `.resx` resources (images, icons, layout data), historically
 via `BinaryFormatter`-based serialization. The chain here:
 
-1. **`Net4x.System.Resources.Extensions`** ships as `System.Resources.Extensions` so
-   `DeserializingResourceReader` & co. resolve to this cross-platform implementation. The Forms
-   library additionally carries mirrored reader code under
+1. **`Net4x.System.Resources.Extensions`** ships as an empty `System.Resources.Extensions` to displace
+   Microsoft's assembly, so nothing can bind to its `BinaryFormatter`-based implementation. The reading
+   itself is done by the Forms library's own `GtkSystem.Resources.Extensions.DeserializingResourceReader`
+   & co. The Forms library additionally carries mirrored reader code under
    `GtkSystem/Resources/` (`ResourceManager`, `FastResourceComparer`, …) and a WinForms-aware
    `ComponentResourceManager` under `GtkSystem/ComponentModel/`.
 2. **`Net4x.ResxProcessor`** (bundled in the package under `tools/`) regenerates
