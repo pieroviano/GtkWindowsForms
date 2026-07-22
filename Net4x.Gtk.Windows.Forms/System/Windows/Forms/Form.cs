@@ -135,23 +135,6 @@ public partial class Form : ContainerControl, IWin32Window
         internal set => _ActiveMdiChild = value;
     }
 
-    /// <summary>
-    /// Gets or sets the design-time autoscale dimensions for the form.
-    /// </summary>
-    public SizeF AutoScaleDimensions
-    {
-        get;
-        set;
-    }
-
-    /// <summary>
-    /// Gets or sets the automatic scaling mode of the form.
-    /// </summary>
-    public AutoScaleMode AutoScaleMode
-    {
-        get;
-        set;
-    }
 
     /// <summary>
     /// Gets or sets the height and width of the client area of the form.
@@ -278,6 +261,39 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Gets or sets the primary menu strip for the form.
     /// </summary>
+    /// <summary>
+    /// Gets or sets the legacy <see cref="T:System.Windows.Forms.MainMenu" /> displayed on this form.
+    /// </summary>
+    /// <remarks>
+    /// This is how the legacy menu API attaches to a form. Assigning it adds the underlying MenuStrip to
+    /// the form and makes it the main menu strip, so old and new menu code end up in the same place.
+    /// </remarks>
+    public MainMenu? Menu
+    {
+        get => _menu;
+        set
+        {
+            if (ReferenceEquals(_menu, value))
+            {
+                return;
+            }
+
+            if (_menu != null)
+            {
+                Controls.Remove(_menu.Strip);
+            }
+
+            _menu = value;
+            if (value != null)
+            {
+                Controls.Add(value.Strip);
+                MainMenuStrip = value.Strip;
+            }
+        }
+    }
+
+    private MainMenu? _menu;
+
     public MenuStrip? MainMenuStrip
     {
         get;
@@ -743,6 +759,9 @@ public partial class Form : ContainerControl, IWin32Window
     /// </param>
     public override void ResumeLayout(bool resume)
     {
+        // This was an empty override, so it swallowed the base implementation entirely - including
+        // the auto-scaling a designer-generated form relies on being applied when layout resumes.
+        base.ResumeLayout(resume);
     }
 
     /// <summary>

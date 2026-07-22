@@ -275,7 +275,10 @@ public sealed class PrintDialog : CommonDialog
             }
             else
             {
-                var result = printOperation.Run(PrintOperationAction.PrintDialog, owner == null ? window : ((Form)owner).self);
+                // showDialog was ignored and the print dialog was always shown, so unattended printing
+                // blocked on a UI prompt. WinForms PrintDocument.Print() prints silently.
+                var action = showDialog ? PrintOperationAction.PrintDialog : PrintOperationAction.Print;
+                var result = printOperation.Run(action, owner == null ? window : ((Form)owner).self);
                 return result != Gtk.PrintOperationResult.Cancel && result != Gtk.PrintOperationResult.Error;
             }
         }

@@ -66,14 +66,31 @@ public class RegionOpsFunctionalTests
     }
 
     [Fact]
-    public void Complement_OfAnInfiniteRegion_BecomesTheSuppliedArea()
+    public void Complement_OfAnInfiniteRegion_IsEmpty()
     {
-        // Complement of the whole plane is exactly the supplied rectangle - representable exactly here.
+        // Complement keeps the portion of the argument that does NOT intersect this region. The infinite
+        // region covers everything, so nothing of the argument survives. This test previously asserted the
+        // opposite, matching an implementation that simply replaced the region with the argument.
+        using var bmp = new Bitmap(4, 4);
+        using var g = Graphics.FromImage(bmp);
         using var r = new Region();
+
         r.Complement(new Rectangle(10, 10, 20, 20));
 
-        Assert.True(r.IsVisible(new Point(15, 15)), "the supplied area becomes the region");
-        Assert.False(r.IsVisible(new Point(100, 100)), "everything else is excluded");
+        Assert.True(r.IsEmpty(g), "nothing lies outside the infinite region");
+        Assert.False(r.IsVisible(new Point(15, 15)), "the supplied area does not become the region");
+    }
+
+    [Fact]
+    public void Complement_OfAFiniteRegion_KeepsThePartOfTheArgumentOutsideIt()
+    {
+        using var r = new Region(new Rectangle(0, 0, 20, 20));
+
+        r.Complement(new Rectangle(10, 0, 20, 20));
+
+        Assert.False(r.IsVisible(new Point(5, 10)), "the original region is not part of the result");
+        Assert.False(r.IsVisible(new Point(15, 10)), "the overlap is not part of the result");
+        Assert.True(r.IsVisible(new Point(25, 10)), "the part of the argument outside the region survives");
     }
 
     [Fact]

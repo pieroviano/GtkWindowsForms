@@ -193,20 +193,13 @@ public partial class ListBox : ListControl
     /// <value>
     /// The draw mode.
     /// </value>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     [DefaultValue(DrawMode.Normal)]
     public virtual DrawMode DrawMode
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-        set
-        {
-            throw new System.NotImplementedException();
-        }
-    }
+        // Both accessors threw, so a list box could not even report its draw mode.
+        get;
+        set;
+    } = DrawMode.Normal;
 
     /// <summary>
     /// Gets the GTK control.
@@ -727,12 +720,7 @@ public partial class ListBox : ListControl
     /// <returns>
     /// System.Int32.
     /// </returns>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
-    public int FindString(string s)
-    {
-        throw new System.NotImplementedException();
-    }
+    public int FindString(string s) => FindString(s, -1);
 
     /// <summary>
     /// Finds the string.
@@ -746,12 +734,7 @@ public partial class ListBox : ListControl
     /// <returns>
     /// System.Int32.
     /// </returns>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
-    public int FindString(string s, int startIndex)
-    {
-        throw new System.NotImplementedException();
-    }
+    public int FindString(string s, int startIndex) => FindStringCore(s, startIndex, false);
 
     /// <summary>
     /// Finds the string exact.
@@ -762,12 +745,7 @@ public partial class ListBox : ListControl
     /// <returns>
     /// System.Int32.
     /// </returns>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
-    public int FindStringExact(string s)
-    {
-        throw new System.NotImplementedException();
-    }
+    public int FindStringExact(string s) => FindStringExact(s, -1);
 
     /// <summary>
     /// Finds the string exact.
@@ -781,11 +759,52 @@ public partial class ListBox : ListControl
     /// <returns>
     /// System.Int32.
     /// </returns>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
-    public int FindStringExact(string s, int startIndex)
+    public int FindStringExact(string s, int startIndex) => FindStringCore(s, startIndex, true);
+
+    /// <summary>
+    /// Searches the items for <paramref name="text" />, starting after <paramref name="startIndex" /> and
+    /// wrapping around, and returns the index of the first match or
+    /// <see cref="F:System.Windows.Forms.ListBox.NoMatches" />.
+    /// </summary>
+    /// <param name="text">The text to look for.</param>
+    /// <param name="startIndex">The index to start searching after; -1 to start at the beginning.</param>
+    /// <param name="exact">Whether the whole item must match rather than just its start.</param>
+    /// <remarks>
+    /// The whole FindString family threw. WinForms matches case-insensitively, treats a null or empty
+    /// search string as no match, and wraps around the end of the list.
+    /// </remarks>
+    private int FindStringCore(string text, int startIndex, bool exact)
     {
-        throw new System.NotImplementedException();
+        var count = Items.Count;
+        if (string.IsNullOrEmpty(text) || count == 0)
+        {
+            return NoMatches;
+        }
+
+        if (startIndex < -1 || startIndex >= count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(startIndex));
+        }
+
+        for (var offset = 1; offset <= count; offset++)
+        {
+            var index = (startIndex + offset) % count;
+            var candidate = Items[index]?.ToString();
+            if (candidate == null)
+            {
+                continue;
+            }
+
+            var hit = exact
+                ? string.Equals(candidate, text, StringComparison.CurrentCultureIgnoreCase)
+                : candidate.StartsWith(text, StringComparison.CurrentCultureIgnoreCase);
+            if (hit)
+            {
+                return index;
+            }
+        }
+
+        return NoMatches;
     }
 
     /// <summary>
@@ -889,12 +908,7 @@ public partial class ListBox : ListControl
     /// <returns>
     /// System.Int32.
     /// </returns>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
-    public int IndexFromPoint(Drawing.Point p)
-    {
-        throw new System.NotImplementedException();
-    }
+    public int IndexFromPoint(Drawing.Point p) => IndexFromPoint(p.X, p.Y);
 
     /// <summary>
     /// Indexes from point.
@@ -910,7 +924,11 @@ public partial class ListBox : ListControl
     /// </returns>
     public int IndexFromPoint(int x, int y)
     {
-        return self.ListBox.GetRowAtY(y).Index;
+        // GetRowAtY returns null when the point is past the last item, so this dereferenced null instead of
+        // reporting "no item here" the way WinForms does.
+        var row = self.ListBox.GetRowAtY(y);
+
+        return row?.Index ?? NoMatches;
     }
 
     /// <summary>
@@ -1210,4 +1228,4 @@ public partial class ListBox : ListControl
             return DisplayText?.ToString();
         }
     }
-}
+}

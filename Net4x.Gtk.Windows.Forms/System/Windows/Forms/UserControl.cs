@@ -71,29 +71,6 @@ public partial class UserControl : ContainerControl
         self.Shown += Self_Shown;
     }
 
-    /// <summary>
-    /// Gets or sets the design-time AutoScale dimensions for this control.
-    /// </summary>
-    /// <value>
-    /// The automatic scale dimensions.
-    /// </value>
-    public System.Drawing.SizeF AutoScaleDimensions
-    {
-        get;
-        set;
-    }
-
-    /// <summary>
-    /// Gets or sets the automatic scaling mode for this control.
-    /// </summary>
-    /// <value>
-    /// The automatic scale mode.
-    /// </value>
-    public System.Windows.Forms.AutoScaleMode AutoScaleMode
-    {
-        get;
-        set;
-    }
 
     /// <summary>
     /// Gets the collection of child controls contained within this

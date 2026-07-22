@@ -19,7 +19,9 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
 
     private readonly bool isToolStripDropDown;
 
-    private Menu? menu;
+    // Qualified: the legacy WinForms Menu type now exists in this namespace, so an unqualified
+    // 'Menu' here would bind to it rather than to Gtk's.
+    private Gtk.Menu? menu;
 
     private readonly ToolStripItem? owner;
 

@@ -840,7 +840,27 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
             if (List is IBindingListView { SupportsFiltering: true } list)
             {
                 list.Filter = value;
+                // Filtering can drop rows out from under the cursor; the position was left past the
+                // end of the filtered list, so Current pointed outside it.
+                ClampPositionToList();
             }
+        }
+    }
+
+    /// <summary>
+    /// Pulls the cursor back inside the list after the list has shrunk.
+    /// </summary>
+    private void ClampPositionToList()
+    {
+        if (_currencyManager == null)
+        {
+            return;
+        }
+
+        var last = Count - 1;
+        if (last >= 0 && _currencyManager.Position > last)
+        {
+            _currencyManager.Position = last;
         }
     }
 

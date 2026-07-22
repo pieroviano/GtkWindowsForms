@@ -32,6 +32,65 @@ GraphicsPath / Matrix / Region / Font / Icon
    carried nothing so a Region could not be round-tripped
  - Font.Height/GetHeight and Icon.Size were stubs
 
+Emulation gaps from EMULATION-GAPS.md
+ - the eight Graphics.IsVisible overloads all threw NotImplementedException; they now answer from the
+   clip bounds the class already tracks (SS4.1)
+ - SmoothingMode, InterpolationMode and CompositingMode were auto-properties with no consumer anywhere in
+   the file, so setting them read back correctly and changed nothing; they now map onto Cairo's Antialias
+   and Operator and Gdk's interpolation filter (SS2.8)
+ - PageUnit and PageScale were inert, so a Graphics set to Millimeter or Inch still drew at pixel
+   coordinates - a geometric error; they now fold into the current transform (SS2.8)
+ - Font.FromHfont / FromHdc / FromLogFont returned Arial 12 for any input, a silent wrong font; they now
+   throw PlatformNotSupportedException, which an integrator can act on (SS2.11)
+
+ - MeasureString measured a single line and then clamped to the layout area, so text that wraps in
+   WinForms reported the width of the box and the height of one line; it now lays the words out against
+   the available width and reports the real number of lines
+ - added the missing SystemBrushes and SystemFonts types, which SystemColors/SystemPens already implied
+
+ - TextureBrush was the one core GDI+ brush type missing (SolidBrush, HatchBrush, LinearGradientBrush and
+   PathGradientBrush were all present); it is backed by a Cairo surface pattern with tile/clamp wrap
+ - SystemIcons was missing; the icons come from the GTK icon theme where it has a match and are drawn
+   programmatically otherwise, so no icon assets need shipping
+ - Matrix.Elements, IsIdentity and IsInvertible threw, which blocked inspecting or serialising a transform
+   even though the transform operations themselves worked (SS4.4)
+
+Region is no longer a single rectangle (SS2.7)
+ - the interior was one RectangleF, so Union of two disjoint rectangles reported the gap between them as
+   inside, Exclude shrank the bounding box instead of leaving a hole, and Xor of two partly overlapping
+   rectangles returned their *union* - keeping the overlap an exclusive-or must remove
+ - the interior is now a list of disjoint rectangles, the band list GDI+ itself uses, making the whole
+   combine family exact for rectangular inputs and making non-rectangular regions representable
+ - region-vs-region combines went through the other region's GraphicsPath bounds; they now work on the
+   band lists directly
+ - GetRegionScans returned the single bounding rectangle; it now returns the actual bands
+ - IsVisible tested the bounding rectangle, so a point in the hole of an L-shaped region counted as inside
+ - Region.Clone shared the interior with the original
+ - Graphics.SetClip(Region) reduced the region to its bounding rectangle, so clipping to a non-rectangular
+   region silently clipped to its bounds; it now clips to the real bands
+
+ - ToolboxBitmapAttribute was missing. Because it decorates a class declaration, an entire custom-control
+   library failed to compile rather than one call site (SS3.7)
+
+ - the Cairo surface and context behind Graphics.FromImage were STATIC, so every Graphics created that way
+   shared one surface: allocating a second disposed the first one's surface out from under it and two
+   Graphics objects over two different bitmaps could not coexist. They are now per-instance, and a Graphics
+   only disposes a context it owns. This is the root cause of the "CreateGraphics disposes the previous
+   surface" behaviour noted in SS2.5
+ - added BufferedGraphics, BufferedGraphicsContext and BufferedGraphicsManager, the standard flicker-free
+   painting recipe, which the static surface had made impossible (SS3.7)
+ - the Graphics interop entry points (FromHdc x3, FromHwnd x2, GetHdc, GetHalftonePalette) threw
+   NotImplementedException; they now throw PlatformNotSupportedException as SSP4 recommends
+ - TextContrast threw from its getter while its setter silently accepted, so a value could be assigned and
+   never read back
+
+ - Pen.PenType threw; it now derives the pen type from the kind of brush the pen strokes with (SS4.4)
+ - Icon.FromHandle threw NotImplementedException; it now throws PlatformNotSupportedException naming the
+   alternative, like the other GDI-handle entry points (SS4.4)
+ - CustomLineCap discarded its constructor arguments, threw from every getter while its setters silently
+   accepted, and Clone returned null; it now stores, round-trips and clones its state. A custom cap still
+   does not render - Cairo has no user-defined cap primitive - which stays on the gap list (SS4.4)
+
 ---
 diff --git a/Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs b/Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs
 index b6ec9d3a..d4cbf94a 100644
@@ -234,6 +293,346 @@ index b6ec9d3a..d4cbf94a 100644
      }
  
      private static Stream GetResourceStream(Type type, string resource)
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphics.cs b/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphics.cs
+new file mode 100644
+index 00000000..1002a951
+--- /dev/null
++++ b/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphics.cs
+@@ -0,0 +1,82 @@
++namespace System.Drawing;
++
++/// <summary>
++/// Provides a graphics buffer for double buffering.
++/// </summary>
++/// <remarks>
++/// The buffered-graphics family was missing entirely, so the standard flicker-free custom-painting
++/// recipe — allocate a buffer, draw into it, render it in one go — did not compile. The buffer here is an
++/// off-screen <see cref="T:System.Drawing.Bitmap" />; <see cref="M:System.Drawing.BufferedGraphics.Render" />
++/// blits it onto the target surface.
++/// </remarks>
++public sealed class BufferedGraphics : IDisposable
++{
++    private readonly Rectangle _targetRectangle;
++
++    private Bitmap? _buffer;
++
++    private Graphics? _bufferGraphics;
++
++    private Graphics? _targetGraphics;
++
++    /// <summary>
++    /// Initializes a new buffer of the given size drawing onto the given target.
++    /// </summary>
++    /// <param name="targetGraphics">The surface the buffer is rendered onto, if any.</param>
++    /// <param name="targetRectangle">The area the buffer covers.</param>
++    internal BufferedGraphics(Graphics? targetGraphics, Rectangle targetRectangle)
++    {
++        _targetGraphics = targetGraphics;
++        _targetRectangle = targetRectangle;
++        _buffer = new Bitmap(Math.Max(1, targetRectangle.Width), Math.Max(1, targetRectangle.Height));
++        _bufferGraphics = Graphics.FromImage(_buffer);
++    }
++
++    /// <summary>
++    /// Gets the surface to draw the buffered content onto.
++    /// </summary>
++    public Graphics Graphics => _bufferGraphics
++                                ?? throw new ObjectDisposedException(nameof(BufferedGraphics));
++
++    /// <summary>
++    /// Writes the buffer onto the surface it was allocated against.
++    /// </summary>
++    public void Render() => Render(_targetGraphics);
++
++    /// <summary>
++    /// Writes the buffer onto the given surface.
++    /// </summary>
++    /// <param name="target">The surface to write onto. Nothing happens when it is null.</param>
++    public void Render(Graphics? target)
++    {
++        if (target == null || _buffer == null || _bufferGraphics == null)
++        {
++            return;
++        }
++
++        // Flush the buffer's own drawing before blitting it, otherwise the last operations are still
++        // sitting in the Cairo context.
++        _bufferGraphics.Flush();
++        target.DrawImage(_buffer, _targetRectangle.X, _targetRectangle.Y);
++    }
++
++    /// <summary>
++    /// Writes the buffer onto the given device context. Not available on this platform.
++    /// </summary>
++    /// <param name="targetDC">A handle to a device context.</param>
++    public void Render(IntPtr targetDC) =>
++        throw new PlatformNotSupportedException(
++            "GDI device contexts are not available on this platform; render onto a Graphics instead.");
++
++    /// <summary>
++    /// Releases the buffer.
++    /// </summary>
++    public void Dispose()
++    {
++        _bufferGraphics?.Dispose();
++        _bufferGraphics = null;
++        _buffer?.Dispose();
++        _buffer = null;
++        _targetGraphics = null;
++    }
++}
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphicsContext.cs b/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphicsContext.cs
+new file mode 100644
+index 00000000..440ada6d
+--- /dev/null
++++ b/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphicsContext.cs
+@@ -0,0 +1,64 @@
++namespace System.Drawing;
++
++/// <summary>
++/// Provides methods for creating graphics buffers that can be used for double buffering.
++/// </summary>
++/// <remarks>
++/// Part of the buffered-graphics family, which was missing entirely.
++/// </remarks>
++public sealed class BufferedGraphicsContext : IDisposable
++{
++    private Size _maximumBuffer = new(225, 96);
++
++    /// <summary>
++    /// Gets or sets the maximum size of a buffer to keep in memory.
++    /// </summary>
++    /// <exception cref="T:System.ArgumentException">
++    /// The width or height is not positive.
++    /// </exception>
++    public Size MaximumBuffer
++    {
++        get => _maximumBuffer;
++        set
++        {
++            if (value.Width <= 0 || value.Height <= 0)
++            {
++                throw new ArgumentException("The maximum buffer size must be positive.", nameof(value));
++            }
++
++            _maximumBuffer = value;
++        }
++    }
++
++    /// <summary>
++    /// Creates a buffer of the given size drawing onto the given surface.
++    /// </summary>
++    /// <param name="targetGraphics">The surface the buffer will be rendered onto.</param>
++    /// <param name="targetRectangle">The area the buffer covers.</param>
++    /// <returns>The allocated buffer.</returns>
++    public BufferedGraphics Allocate(Graphics? targetGraphics, Rectangle targetRectangle) =>
++        new(targetGraphics, targetRectangle);
++
++    /// <summary>
++    /// Creates a buffer of the given size for the given device context. Not available on this platform.
++    /// </summary>
++    /// <param name="targetDC">A handle to a device context.</param>
++    /// <param name="targetRectangle">The area the buffer covers.</param>
++    public BufferedGraphics Allocate(IntPtr targetDC, Rectangle targetRectangle) =>
++        throw new PlatformNotSupportedException(
++            "GDI device contexts are not available on this platform; allocate against a Graphics instead.");
++
++    /// <summary>
++    /// Releases any cached buffer this context is holding.
++    /// </summary>
++    public void Invalidate()
++    {
++    }
++
++    /// <summary>
++    /// Releases the resources used by this context.
++    /// </summary>
++    public void Dispose()
++    {
++    }
++}
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphicsManager.cs b/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphicsManager.cs
+new file mode 100644
+index 00000000..ef56f3f6
+--- /dev/null
++++ b/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphicsManager.cs
+@@ -0,0 +1,23 @@
++namespace System.Drawing;
++
++/// <summary>
++/// Provides access to the default <see cref="T:System.Drawing.BufferedGraphicsContext" /> for the
++/// application domain.
++/// </summary>
++/// <remarks>
++/// Part of the buffered-graphics family, which was missing entirely. This is the entry point of the
++/// standard flicker-free painting recipe:
++/// <code>
++/// using var buffer = BufferedGraphicsManager.Current.Allocate(e.Graphics, ClientRectangle);
++/// buffer.Graphics.Clear(BackColor);
++/// // ... draw ...
++/// buffer.Render();
++/// </code>
++/// </remarks>
++public static class BufferedGraphicsManager
++{
++    /// <summary>
++    /// Gets the default context for the current application domain.
++    /// </summary>
++    public static BufferedGraphicsContext Current { get; } = new();
++}
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs
+index 4e828b05..097ed68d 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs
+@@ -19,7 +19,7 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
+     /// A
+     /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> object that defines the outline of the custom cap.
+     /// </param>
+-    public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath)
++    public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath) : this(fillPath, strokePath, LineCap.Flat, 0f)
+     {
+     }
+ 
+@@ -39,7 +39,7 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
+     /// <param name="baseCap">
+     /// The line cap from which to create the custom cap.
+     /// </param>
+-    public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath, LineCap baseCap)
++    public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath, LineCap baseCap) : this(fillPath, strokePath, baseCap, 0f)
+     {
+     }
+ 
+@@ -64,8 +64,24 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
+     /// </param>
+     public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath, LineCap baseCap, float baseInset)
+     {
++        // The constructors discarded everything they were given, the getters threw while the setters
++        // silently accepted, and Clone returned null - so a custom cap could be built but never inspected,
++        // copied or applied. The state is now stored; the cap still does not render (Cairo has no
++        // user-defined cap primitive), which is recorded in EMULATION-GAPS.md.
++        _fillPath = fillPath;
++        _strokePath = strokePath;
++        BaseCap = baseCap;
++        BaseInset = baseInset;
+     }
+ 
++    private readonly GraphicsPath? _fillPath;
++
++    private readonly GraphicsPath? _strokePath;
++
++    private LineCap _startCap = LineCap.Flat;
++
++    private LineCap _endCap = LineCap.Flat;
++
+     /// <summary>
+     /// Gets or sets the
+     /// <see cref="T:System.Drawing.Drawing2D.LineCap" /> enumeration on which this
+@@ -78,13 +94,8 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public LineCap BaseCap
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
+-        set
+-        {
+-        }
++        get;
++        set;
+     }
+ 
+     /// <summary>
+@@ -95,13 +106,8 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public float BaseInset
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
+-        set
+-        {
+-        }
++        get;
++        set;
+     }
+ 
+     /// <summary>
+@@ -116,14 +122,9 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public LineJoin StrokeJoin
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
+-        set
+-        {
+-        }
+-    }
++        get;
++        set;
++    } = LineJoin.Miter;
+ 
+     /// <summary>
+     /// Gets or sets the amount by which to scale this
+@@ -135,14 +136,9 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public float WidthScale
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
+-        set
+-        {
+-        }
+-    }
++        get;
++        set;
++    } = 1f;
+ 
+     /// <summary>
+     /// Creates an exact copy of this
+@@ -154,7 +150,17 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public object? Clone()
+     {
+-        return null;
++        return new CustomLineCap(
++            _fillPath?.Clone() as GraphicsPath ?? new GraphicsPath(),
++            _strokePath?.Clone() as GraphicsPath ?? new GraphicsPath(),
++            BaseCap,
++            BaseInset)
++        {
++            StrokeJoin = StrokeJoin,
++            WidthScale = WidthScale,
++            _startCap = _startCap,
++            _endCap = _endCap
++        };
+     }
+ 
+     /// <summary>
+@@ -178,7 +184,8 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
+     /// </param>
+     public void GetStrokeCaps(out LineCap startCap, out LineCap endCap)
+     {
+-        throw new System.NotImplementedException();
++        startCap = _startCap;
++        endCap = _endCap;
+     }
+ 
+     /// <summary>
+@@ -194,6 +201,8 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
+     /// </param>
+     public void SetStrokeCaps(LineCap startCap, LineCap endCap)
+     {
++        _startCap = startCap;
++        _endCap = endCap;
+     }
+ 
+     /// <summary>
 diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
 index 6d68f841..5ed28f50 100644
 --- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
@@ -355,10 +754,50 @@ index 6d68f841..5ed28f50 100644
  
      /// <summary>
 diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Matrix.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Matrix.cs
-index 85e27a5d..a37c85d6 100644
+index 85e27a5d..8ca2ce50 100644
 --- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Matrix.cs
 +++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Matrix.cs
-@@ -288,12 +288,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+@@ -125,10 +125,9 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+     /// </returns>
+     public float[] Elements
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
++        // This threw, so a transform could not be inspected or serialised even though the transform
++        // operations themselves worked.
++        get => new[] { m11, m12, m21, m22, dx, dy };
+     }
+ 
+     /// <summary>
+@@ -196,10 +195,8 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+     /// </returns>
+     public bool IsIdentity
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
++        get => m11 == 1f && m12 == 0f && m21 == 0f && m22 == 1f && dx == 0f && dy == 0f
++               && angle == 0f && (scaleX == 0f || scaleX == 1f) && (scaleY == 0f || scaleY == 1f);
+     }
+ 
+     /// <summary>
+@@ -214,10 +211,8 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+     /// </returns>
+     public bool IsInvertible
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
++        // A matrix is invertible exactly when its determinant is non-zero.
++        get => Math.Abs((m11 * m22) - (m12 * m21)) > float.Epsilon;
+     }
+ 
+     /// <summary>
+@@ -288,12 +283,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
      /// The x translation value of this
      /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
      /// </returns>
@@ -376,7 +815,7 @@ index 85e27a5d..a37c85d6 100644
  
      /// <summary>
      /// Gets the y translation value (the dy value, or the element in the third row and second column) of this
-@@ -303,12 +302,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+@@ -303,12 +297,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
      /// The y translation value of this
      /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
      /// </returns>
@@ -394,7 +833,7 @@ index 85e27a5d..a37c85d6 100644
  
      /// <summary>
      /// Gets or sets the order.
-@@ -729,6 +727,19 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+@@ -729,6 +722,19 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
      /// </param>
      public void TransformPoints(PointF[] pts)
      {
@@ -414,7 +853,7 @@ index 85e27a5d..a37c85d6 100644
          this.transformPoints = pts;
      }
  
-@@ -742,7 +753,23 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+@@ -742,7 +748,23 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
      /// </param>
      public void TransformPoints(Point[] pts)
      {
@@ -439,7 +878,7 @@ index 85e27a5d..a37c85d6 100644
      }
  
      /// <summary>
-@@ -754,6 +781,18 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+@@ -754,6 +776,18 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
      /// </param>
      public void TransformVectors(PointF[] pts)
      {
@@ -458,7 +897,7 @@ index 85e27a5d..a37c85d6 100644
  
          this.transformVectors = pts;
      }
-@@ -768,7 +807,23 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+@@ -768,7 +802,23 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
      /// </param>
      public void TransformVectors(Point[] pts)
      {
@@ -483,7 +922,7 @@ index 85e27a5d..a37c85d6 100644
      }
  
      /// <summary>
-@@ -787,8 +842,7 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+@@ -787,8 +837,7 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
      /// </param>
      public void Translate(float offsetX, float offsetY)
      {
@@ -493,7 +932,7 @@ index 85e27a5d..a37c85d6 100644
      }
  
      /// <summary>
-@@ -811,7 +865,19 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+@@ -811,7 +860,19 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
      public void Translate(float offsetX, float offsetY, MatrixOrder order)
      {
          this.order = order;
@@ -515,7 +954,7 @@ index 85e27a5d..a37c85d6 100644
  
      /// <summary>
 diff --git a/Net4x.Gtk.Drawing/System/Drawing/Font.cs b/Net4x.Gtk.Drawing/System/Drawing/Font.cs
-index 38814a76..da9c5c83 100644
+index 38814a76..a39814ae 100644
 --- a/Net4x.Gtk.Drawing/System/Drawing/Font.cs
 +++ b/Net4x.Gtk.Drawing/System/Drawing/Font.cs
 @@ -312,7 +312,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
@@ -527,7 +966,47 @@ index 38814a76..da9c5c83 100644
  
      /// <summary>
      /// Gets a value indicating whether the font is a member of System.Drawing.SystemFonts.
-@@ -531,7 +531,33 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
+@@ -475,7 +475,8 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
+     /// <returns>
+     /// The System.Drawing.Font this method creates.
+     /// </returns>
+-    public static Font FromHdc(IntPtr hdc) { return new Font("Arial", 12); }
++    public static Font FromHdc(IntPtr hdc) =>
++        throw new PlatformNotSupportedException("GDI device contexts are not available on this platform; construct a Font from a family name and size instead.");
+ 
+     /// <summary>
+     /// Creates a System.Drawing.Font from the specified Windows handle.
+@@ -486,7 +487,8 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
+     /// <returns>
+     /// The System.Drawing.Font this method creates.
+     /// </returns>
+-    public static Font FromHfont(IntPtr hfont) { return new Font("Arial", 12); }
++    public static Font FromHfont(IntPtr hfont) =>
++        throw new PlatformNotSupportedException("GDI font handles are not available on this platform; construct a Font from a family name and size instead.");
+ 
+     /// <summary>
+     /// Creates a System.Drawing.Font from the specified GDI logical font (LOGFONT) structure.
+@@ -500,7 +502,8 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
+     /// <returns>
+     /// The System.Drawing.Font that this method creates.
+     /// </returns>
+-    public static Font FromLogFont(object lf, IntPtr hdc) { return new Font("Arial", 12); }
++    public static Font FromLogFont(object lf, IntPtr hdc) =>
++        throw new PlatformNotSupportedException("GDI LOGFONT structures are not available on this platform; construct a Font from a family name and size instead.");
+ 
+     /// <summary>
+     /// Creates a System.Drawing.Font from the specified GDI logical font (LOGFONT) structure.
+@@ -511,7 +514,8 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
+     /// <returns>
+     /// The System.Drawing.Font that this method creates.
+     /// </returns>
+-    public static Font FromLogFont(object lf) { return new Font("Arial", 12); }
++    public static Font FromLogFont(object lf) =>
++        throw new PlatformNotSupportedException("GDI LOGFONT structures are not available on this platform; construct a Font from a family name and size instead.");
+ 
+     /// <summary>
+     /// Gets the hash code for this System.Drawing.Font.
+@@ -531,7 +535,33 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
      /// <returns>
      /// The height, in pixels, of this System.Drawing.Font.
      /// </returns>
@@ -562,7 +1041,7 @@ index 38814a76..da9c5c83 100644
  
      /// <summary>
      /// Returns the line spacing, in the current unit of a specified System.Drawing.Graphics,
-@@ -543,7 +569,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
+@@ -543,7 +573,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
      /// <returns>
      /// The line spacing, in pixels, of this font.
      /// </returns>
@@ -571,7 +1050,7 @@ index 38814a76..da9c5c83 100644
  
      /// <summary>
      /// Returns the line spacing, in pixels, of this font.
-@@ -551,7 +577,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
+@@ -551,7 +581,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
      /// <returns>
      /// The line spacing, in pixels, of this font.
      /// </returns>
@@ -581,10 +1060,22 @@ index 38814a76..da9c5c83 100644
      /// <summary>
      /// Populates a
 diff --git a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
-index 5a5eb883..da24dfc4 100644
+index 5a5eb883..237fcd86 100644
 --- a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
 +++ b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
-@@ -34,6 +34,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -28,12 +28,19 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+ 
+     private readonly Image? image;
+ 
+-    private static Context? imagecontext;
++    // These were static, so every Graphics created by FromImage shared one Cairo surface and context:
++    // allocating a second one disposed the first one's drawing surface out from under it. Two Graphics
++    // objects over two different bitmaps could not coexist, which is exactly what double buffering needs,
++    // and it is also why each CreateGraphics call was observed to dispose the previous surface.
++    private ImageSurface? ownedSurface;
+ 
+-    private static ImageSurface? imagesurface;
++    private bool ownsContext;
  
      private readonly Gdk.Rectangle rectangle;
  
@@ -594,7 +1085,7 @@ index 5a5eb883..da24dfc4 100644
      private readonly Widget? widget;
  
      internal Graphics(Widget? widget, Cairo.Context context, Gdk.Rectangle rectangle) : this(context, rectangle)
-@@ -50,6 +53,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -50,6 +57,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      {
          this.context = context;
          this.rectangle = rectangle;
@@ -602,7 +1093,7 @@ index 5a5eb883..da24dfc4 100644
          this.Clip = new Region(new Rectangle(this.rectangle.X, this.rectangle.Y, this.rectangle.Width, this.rectangle.Height));
      }
  
-@@ -69,7 +73,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -69,7 +77,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      {
          get
          {
@@ -611,7 +1102,28 @@ index 5a5eb883..da24dfc4 100644
          }
      }
  
-@@ -94,18 +98,15 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -78,10 +86,18 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public CompositingMode CompositingMode
+     {
+-        get;
+-        set;
++        get => _compositingMode;
++        set
++        {
++            _compositingMode = value;
++            this.context.Operator = value == CompositingMode.SourceCopy
++                ? Cairo.Operator.Source
++                : Cairo.Operator.Over;
++        }
+     }
+ 
++    private CompositingMode _compositingMode = CompositingMode.SourceOver;
++
+     /// <summary>
+     /// Gets or sets the compositing quality for this Graphics object.
+     /// </summary>
+@@ -94,27 +110,38 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// <summary>
      /// Gets the horizontal resolution, in dots per inch.
      /// </summary>
@@ -635,7 +1147,145 @@ index 5a5eb883..da24dfc4 100644
  
      /// <summary>
      /// Gets or sets the interpolation mode used for scaling operations.
-@@ -198,29 +199,33 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public InterpolationMode InterpolationMode
+     {
++        // Nothing consumed this, so image scaling always used a fixed filter. It now selects the
++        // Gdk interpolation used when images are resampled.
+         get;
+         set;
+-    }
++    } = InterpolationMode.Default;
++
++    /// <summary>
++    /// The Gdk filter matching <see cref="P:System.Drawing.Graphics.InterpolationMode" />.
++    /// </summary>
++    private Gdk.InterpType ImageInterpolation => InterpolationMode switch
++    {
++        InterpolationMode.NearestNeighbor => Gdk.InterpType.Nearest,
++        InterpolationMode.Low => Gdk.InterpType.Nearest,
++        InterpolationMode.Bilinear or InterpolationMode.HighQualityBilinear => Gdk.InterpType.Bilinear,
++        InterpolationMode.Bicubic or InterpolationMode.HighQualityBicubic or InterpolationMode.High => Gdk.InterpType.Hyper,
++        _ => Gdk.InterpType.Tiles
++    };
+ 
+     /// <summary>
+     /// Gets a value specifying whether the current clipping region is empty.
+@@ -140,17 +167,64 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public float PageScale
+     {
+-        get;
+-        set;
++        // PageUnit and PageScale were inert auto-properties, so a Graphics set to Millimeter or Inch
++        // still drew at pixel coordinates - a geometric error, not a cosmetic one. Fold them into
++        // the current transform instead.
++        get => _pageScale;
++        set
++        {
++            ApplyPageTransform(_pageUnit, _pageScale, _pageUnit, value);
++            _pageScale = value;
++        }
++    }
++
++    private float _pageScale = 1f;
++
++    private GraphicsUnit _pageUnit = GraphicsUnit.Display;
++
++    /// <summary>
++    /// Scales the current transform by the change in page unit/scale, so the page transform composes
++    /// with whatever world transform is already in effect.
++    /// </summary>
++    private void ApplyPageTransform(GraphicsUnit oldUnit, float oldScale, GraphicsUnit newUnit, float newScale)
++    {
++        var previous = PixelsPerUnit(oldUnit) * oldScale;
++        var next = PixelsPerUnit(newUnit) * newScale;
++        if (previous <= 0d || next <= 0d)
++        {
++            return;
++        }
++
++        var delta = next / previous;
++        if (Math.Abs(delta - 1d) > 1e-9d)
++        {
++            this.context.Scale(delta, delta);
++        }
+     }
+ 
++    /// <summary>
++    /// How many device pixels one unit of <paramref name="unit" /> covers at the default 96 dpi.
++    /// </summary>
++    private static double PixelsPerUnit(GraphicsUnit unit) => unit switch
++    {
++        GraphicsUnit.Point => DefaultDpi / 72d,
++        GraphicsUnit.Inch => DefaultDpi,
++        GraphicsUnit.Document => DefaultDpi / 300d,
++        GraphicsUnit.Millimeter => DefaultDpi / 25.4d,
++        _ => 1d
++    };
++
+     /// <summary>
+     /// Gets or sets the unit of measure used for page coordinates.
+     /// </summary>
+     public GraphicsUnit PageUnit
+     {
+-        get;
+-        set;
++        get => _pageUnit;
++        set
++        {
++            ApplyPageTransform(_pageUnit, _pageScale, value, _pageScale);
++            _pageUnit = value;
++        }
+     }
+ 
+     /// <summary>
+@@ -176,51 +250,66 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public SmoothingMode SmoothingMode
+     {
+-        get;
+-        set;
++        // These were plain auto-properties with no consumer anywhere in the file, so setting
++        // SmoothingMode = AntiAlias read back correctly and changed nothing about the rendering.
++        get => _smoothingMode;
++        set
++        {
++            _smoothingMode = value;
++            this.context.Antialias = value switch
++            {
++                SmoothingMode.None or SmoothingMode.HighSpeed => Cairo.Antialias.None,
++                SmoothingMode.AntiAlias or SmoothingMode.HighQuality => Cairo.Antialias.Default,
++                _ => Cairo.Antialias.Default
++            };
++        }
+     }
+ 
++    private SmoothingMode _smoothingMode = SmoothingMode.Default;
++
+     /// <summary>
+-    /// Gets or sets the text contrast used by this Graphics object.
+-    /// Not implemented in this wrapper.
++    /// Gets or sets the gamma correction applied to rendered text, from 0 to 12.
+     /// </summary>
++    /// <remarks>
++    /// The getter threw while the setter silently accepted, so a value could be assigned and never read
++    /// back. It now round-trips. Cairo has no equivalent knob, so the value does not affect rendering.
++    /// </remarks>
+     public int TextContrast
+     {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
+-        set
+-        {
+-        }
+-    }
++        get;
++        set;
++    } = 4;
+ 
      /// <summary>
      /// Gets or sets the text rendering hint. Not implemented in this wrapper.
      /// </summary>
@@ -682,7 +1332,7 @@ index 5a5eb883..da24dfc4 100644
          }
      }
  
-@@ -263,7 +268,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -263,7 +352,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </returns>
      public GraphicsContainer BeginContainer()
      {
@@ -693,7 +1343,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -272,7 +279,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -272,7 +363,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public GraphicsContainer BeginContainer(Rectangle dstrect, Rectangle srcrect, GraphicsUnit unit)
      {
@@ -703,7 +1353,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -280,7 +288,16 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -280,7 +372,16 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public GraphicsContainer BeginContainer(RectangleF dstrect, RectangleF srcrect, GraphicsUnit unit)
      {
@@ -721,7 +1371,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -330,6 +347,10 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -330,6 +431,10 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void Dispose()
      {
@@ -732,7 +1382,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -409,7 +430,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -409,7 +514,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void DrawClosedCurve(Pen pen, PointF[] points)
      {
@@ -741,7 +1391,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -425,7 +446,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -425,7 +530,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void DrawClosedCurve(Pen pen, Point[] points)
      {
@@ -750,7 +1400,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -441,7 +462,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -441,7 +546,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void DrawCurve(Pen pen, PointF[] points)
      {
@@ -759,7 +1409,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -449,7 +470,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -449,7 +554,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void DrawCurve(Pen pen, PointF[] points, int offset, int numberOfSegments)
      {
@@ -768,7 +1418,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -473,7 +494,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -473,7 +578,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void DrawCurve(Pen pen, Point[] points)
      {
@@ -777,7 +1427,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -1098,6 +1119,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -1098,6 +1203,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void EndContainer(GraphicsContainer container)
      {
@@ -786,7 +1436,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -1353,17 +1376,41 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -1353,17 +1460,41 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      }
  
      /// <summary>
@@ -830,7 +1480,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -1371,7 +1418,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -1371,7 +1502,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void FillClosedCurve(Brush brush, PointF[] points)
      {
@@ -839,7 +1489,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -1379,7 +1426,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -1379,7 +1510,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void FillClosedCurve(Brush brush, PointF[] points, FillMode fillmode)
      {
@@ -848,7 +1498,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -1395,7 +1442,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -1395,7 +1526,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void FillClosedCurve(Brush brush, Point[] points)
      {
@@ -857,7 +1507,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -1403,7 +1450,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -1403,7 +1534,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void FillClosedCurve(Brush brush, Point[] points, FillMode fillmode)
      {
@@ -866,7 +1516,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -1565,6 +1612,18 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -1565,6 +1696,18 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void FillRegion(Brush brush, Region region)
      {
@@ -885,7 +1535,122 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -1709,7 +1768,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -1584,9 +1727,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     {
+         try
+         {
+-            if (this.image != null && Graphics.imagesurface != null && Graphics.imagesurface.Status == Cairo.Status.Success)
++            if (this.image != null && this.ownedSurface != null && this.ownedSurface.Status == Cairo.Status.Success)
+             {
+-                this.image.Pixbuf = new Pixbuf(Graphics.imagesurface, 0, 0, this.image.Width, this.image.Height);
++                this.image.Pixbuf = new Pixbuf(this.ownedSurface, 0, 0, this.image.Width, this.image.Height);
+             }
+         }
+ 
+@@ -1594,10 +1737,13 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+         {
+             if (intention == FlushIntention.Sync)
+             {
+-                Graphics.imagesurface?.Dispose();
+-                Graphics.imagesurface = null;
+-                Graphics.imagecontext?.Dispose();
+-                Graphics.imagecontext = null;
++                this.ownedSurface?.Dispose();
++                this.ownedSurface = null;
++                if (this.ownsContext)
++                {
++                    this.context?.Dispose();
++                    this.ownsContext = false;
++                }
+             }
+         }
+ 
+@@ -1611,7 +1757,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     [EditorBrowsable(EditorBrowsableState.Advanced)]
+     public static Graphics FromHdc(IntPtr hdc)
+     {
+-        throw new System.NotImplementedException();
++        throw new PlatformNotSupportedException("GDI device contexts are not available on this platform; create a Graphics from an Image instead.");
+     }
+ 
+     /// <summary>
+@@ -1620,7 +1766,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     [EditorBrowsable(EditorBrowsableState.Advanced)]
+     public static Graphics FromHdc(IntPtr hdc, IntPtr hdevice)
+     {
+-        throw new System.NotImplementedException();
++        throw new PlatformNotSupportedException("GDI device contexts are not available on this platform; create a Graphics from an Image instead.");
+     }
+ 
+     /// <summary>
+@@ -1629,7 +1775,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     [EditorBrowsable(EditorBrowsableState.Advanced)]
+     public static Graphics FromHdcInternal(IntPtr hdc)
+     {
+-        throw new System.NotImplementedException();
++        throw new PlatformNotSupportedException("GDI device contexts are not available on this platform; create a Graphics from an Image instead.");
+     }
+ 
+     /// <summary>
+@@ -1638,7 +1784,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     [EditorBrowsable(EditorBrowsableState.Advanced)]
+     public static Graphics FromHwnd(IntPtr hwnd)
+     {
+-        throw new System.NotImplementedException();
++        throw new PlatformNotSupportedException("Window handles are not available on this platform; draw through the control's paint event instead.");
+     }
+ 
+     /// <summary>
+@@ -1647,7 +1793,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     [EditorBrowsable(EditorBrowsableState.Advanced)]
+     public static Graphics FromHwndInternal(IntPtr hwnd)
+     {
+-        throw new System.NotImplementedException();
++        throw new PlatformNotSupportedException("Window handles are not available on this platform; draw through the control's paint event instead.");
+     }
+ 
+     /// <summary>
+@@ -1670,13 +1816,15 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+         if (_height < 1)
+             throw new ArgumentOutOfRangeException("Image.Height不能小于等于0");
+ 
+-        imagesurface?.Dispose();
+-        imagesurface = new Cairo.ImageSurface(Cairo.Format.Argb32, _width, _height);
+-        imagecontext?.Dispose();
+-        imagecontext = new Cairo.Context(imagesurface);
+-        image.Pixbuf = new Pixbuf(imagesurface, 0, 0, image.Width, image.Height);
++        var surface = new Cairo.ImageSurface(Cairo.Format.Argb32, _width, _height);
++        var imageContext = new Cairo.Context(surface);
++        image.Pixbuf = new Pixbuf(surface, 0, 0, image.Width, image.Height);
+ 
+-        return new Drawing.Graphics(image, imagecontext, new Gdk.Rectangle(0, 0, _width, _height));
++        return new Drawing.Graphics(image, imageContext, new Gdk.Rectangle(0, 0, _width, _height))
++        {
++            ownedSurface = surface,
++            ownsContext = true
++        };
+     }
+ 
+     /// <summary>
+@@ -1693,7 +1841,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public static IntPtr GetHalftonePalette()
+     {
+-        throw new System.NotImplementedException();
++        throw new PlatformNotSupportedException("GDI halftone palettes are not available on this platform.");
+     }
+ 
+     /// <summary>
+@@ -1701,7 +1849,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public IntPtr GetHdc()
+     {
+-        throw new System.NotImplementedException();
++        throw new PlatformNotSupportedException("GDI device contexts are not available on this platform; create a Graphics from an Image instead.");
+     }
+ 
+     /// <summary>
+@@ -1709,7 +1857,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public Color GetNearestColor(Color color)
      {
@@ -895,7 +1660,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -1717,6 +1777,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -1717,6 +1866,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void IntersectClip(Rectangle rect)
      {
@@ -904,7 +1669,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -1724,13 +1786,21 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -1724,77 +1875,86 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void IntersectClip(RectangleF rect)
      {
@@ -927,7 +1692,88 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -1802,7 +1872,31 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+-    /// Determines whether the specified point is contained within the visible clip region. Not implemented.
++    /// Determines whether the specified point is contained within the visible clip region.
+     /// </summary>
+     public bool IsVisible(Point point)
+     {
+-        throw new System.NotImplementedException();
++        return IsVisible(point.X, (float)point.Y);
+     }
+ 
+     /// <summary>
+-    /// Determines whether the specified floating-point point is contained within the visible clip region. Not implemented.
++    /// Determines whether the specified floating-point point is contained within the visible clip region.
+     /// </summary>
+     public bool IsVisible(PointF point)
+     {
+-        throw new System.NotImplementedException();
++        // The whole IsVisible family threw; the clip bounds are already tracked, so answer from them.
++        return ClipBounds.Contains(point);
+     }
+ 
+     /// <summary>
+-    /// Determines whether the specified rectangle is contained within the visible clip region. Not implemented.
++    /// Determines whether the specified rectangle is contained within the visible clip region.
+     /// </summary>
+     public bool IsVisible(Rectangle rect)
+     {
+-        throw new System.NotImplementedException();
++        return IsVisible((float)rect.X, rect.Y, rect.Width, rect.Height);
+     }
+ 
+     /// <summary>
+-    /// Determines whether the specified floating-point rectangle is contained within the visible clip region. Not implemented.
++    /// Determines whether the specified floating-point rectangle is contained within the visible clip region.
+     /// </summary>
+     public bool IsVisible(RectangleF rect)
+     {
+-        throw new System.NotImplementedException();
++        return ClipBounds.IntersectsWith(rect);
+     }
+ 
+     /// <summary>
+-    /// Determines whether the specified coordinates are visible. Not implemented.
++    /// Determines whether the specified coordinates are visible.
+     /// </summary>
+     public bool IsVisible(int x, int y)
+     {
+-        throw new System.NotImplementedException();
++        return IsVisible((float)x, y);
+     }
+ 
+     /// <summary>
+-    /// Determines whether the specified integer rectangle is visible. Not implemented.
++    /// Determines whether the specified integer rectangle is visible.
+     /// </summary>
+     public bool IsVisible(int x, int y, int width, int height)
+     {
+-        throw new System.NotImplementedException();
++        return IsVisible((float)x, y, width, height);
+     }
+ 
+     /// <summary>
+-    /// Determines whether the specified floating point coordinates are visible. Not implemented.
++    /// Determines whether the specified floating point coordinates are visible.
+     /// </summary>
+     public bool IsVisible(float x, float y)
+     {
+-        throw new System.NotImplementedException();
++        return IsVisible(new PointF(x, y));
+     }
+ 
+     /// <summary>
+-    /// Determines whether the specified floating point rectangle is visible. Not implemented.
++    /// Determines whether the specified floating point rectangle is visible.
+     /// </summary>
+     public bool IsVisible(float x, float y, float width, float height)
+     {
+-        throw new System.NotImplementedException();
++        return IsVisible(new RectangleF(x, y, width, height));
+     }
+ 
+     /// <summary>
+@@ -1802,7 +1962,31 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public Region[] MeasureCharacterRanges(string text, Font font, RectangleF layoutRect, StringFormat stringFormat)
      {
@@ -960,7 +1806,48 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -1906,7 +2000,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -1861,6 +2045,40 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+         var width = (float)(textext.Width + desent);
+         var height = fontheight;
+ 
++        // The measurement used to be single-line and then simply clamped to the layout area, so text that
++        // would wrap in WinForms reported the width of the box and the height of one line. Lay the words
++        // out against the available width instead and report the real number of lines.
++        var lines = 1;
++        var wraps = !stringFormat.FormatFlags.HasFlag(StringFormatFlags.NoWrap)
++                    && !stringFormat.FormatFlags.HasFlag(StringFormatFlags.DirectionVertical)
++                    && layoutArea.Width > 0
++                    && layoutArea.Width < float.MaxValue
++                    && width > layoutArea.Width;
++        if (wraps)
++        {
++            var widest = 0f;
++            var current = string.Empty;
++            foreach (var word in text.Split(' '))
++            {
++                var candidate = current.Length == 0 ? word : current + " " + word;
++                var candidateWidth = (float)(this.context.TextExtents(candidate).Width + desent);
++                if (candidateWidth <= layoutArea.Width || current.Length == 0)
++                {
++                    current = candidate;
++                    widest = Math.Max(widest, candidateWidth);
++                }
++                else
++                {
++                    lines++;
++                    widest = Math.Max(widest, (float)(this.context.TextExtents(current).Width + desent));
++                    current = word;
++                }
++            }
++
++            width = Math.Min(layoutArea.Width, Math.Max(widest, (float)(this.context.TextExtents(current).Width + desent)));
++            height = fontheight * lines;
++        }
++
+         this.context.Restore();
+         var result = new SizeF(width, height);
+         if (stringFormat.FormatFlags.HasFlag(StringFormatFlags.DirectionVertical))
+@@ -1906,7 +2124,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void MultiplyTransform(Drawing2D.Matrix matrix)
      {
@@ -969,7 +1856,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -1914,7 +2008,31 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -1914,7 +2132,31 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void MultiplyTransform(Drawing2D.Matrix matrix, MatrixOrder order)
      {
@@ -1002,7 +1889,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -1946,6 +2064,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -1946,6 +2188,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      public void ResetClip()
      {
          this.context.ResetClip();
@@ -1010,7 +1897,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -1953,7 +2072,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -1953,7 +2196,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void ResetTransform()
      {
@@ -1021,7 +1908,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -2013,17 +2134,26 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -2013,17 +2258,26 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      }
  
      /// <summary>
@@ -1050,7 +1937,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -2072,12 +2202,32 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -2072,17 +2326,68 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void SetClip(RectangleF rect, CombineMode combineMode)
      {
@@ -1084,7 +1971,45 @@ index 5a5eb883..da24dfc4 100644
      /// </summary>
      public void SetClip(Region region, CombineMode combineMode)
      {
-@@ -2090,6 +2240,28 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+-        RectangleF rect = region.GetBounds(this);
+-        SetClip(rect, combineMode);
++        if (region == null)
++        {
++            return;
++        }
++
++        // This reduced the region to its bounding rectangle, so clipping to a non-rectangular region
++        // silently clipped to its bounds instead. Clip to the region's actual bands.
++        var bands = region.Bands;
++        if (bands.Count <= 1)
++        {
++            SetClip(region.GetBounds(this), combineMode);
++
++            return;
++        }
++
++        if (combineMode == CombineMode.Replace)
++        {
++            context.ResetClip();
++        }
++
++        context.NewPath();
++        var union = bands[0];
++        foreach (var band in bands)
++        {
++            context.Rectangle(band.X, band.Y, band.Width, band.Height);
++            union = RectangleF.Union(union, band);
++        }
++
++        context.Clip();
++        context.NewPath();
++        this._clipBounds = combineMode == CombineMode.Replace
++            ? union
++            : RectangleF.Intersect(this._clipBounds, union);
+     }
+ 
+     /// <summary>
+@@ -2090,6 +2395,28 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void TransformPoints(CoordinateSpace destSpace, CoordinateSpace srcSpace, PointF[] pts)
      {
@@ -1113,7 +2038,7 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -2104,17 +2276,21 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -2104,17 +2431,21 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public void TranslateClip(int dx, int dy)
      {
@@ -1140,7 +2065,25 @@ index 5a5eb883..da24dfc4 100644
      }
  
      /// <summary>
-@@ -2249,10 +2425,27 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -2163,6 +2494,17 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+             this.context.SetSourceRGBA(hbrush.ForegroundColor.R / 255f, hbrush.ForegroundColor.G / 255f, hbrush.ForegroundColor.B / 255f, hbrush.ForegroundColor.A / 255f);
+         }
+ 
++        else if (pen.Brush is TextureBrush tbrush)
++        {
++            // TextureBrush did not exist; it paints through a Cairo surface pattern, which supports the
++            // tile and clamp wrap modes natively.
++            using var pattern = tbrush.CreatePattern();
++            if (pattern != null)
++            {
++                this.context.SetSource(pattern);
++            }
++        }
++
+         else if (pen.Brush is PathGradientBrush pbrush)
+         {
+             // this brush is fixed to a radial gradient
+@@ -2249,10 +2591,27 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
              var cairoMatrix = new Cairo.Matrix(matrix.m11, matrix.m12, matrix.m21, matrix.m22, matrix.dx, matrix.dy);
              cairoMatrix.Init(matrix.m11, matrix.m12, matrix.m21, matrix.m22, matrix.dx, matrix.dy);
  
@@ -1172,7 +2115,7 @@ index 5a5eb883..da24dfc4 100644
              if (matrix.invert)
                  cairoMatrix.Invert();
  
-@@ -2280,6 +2473,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -2280,6 +2639,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
          DrawLinesCore(pen, data.ToArray());
      }
  
@@ -1182,7 +2125,7 @@ index 5a5eb883..da24dfc4 100644
      private void DrawCurveCore(bool isClosePath, bool isfill, Pen pen, PointF[] points, int offset, int numberOfSegments, float tension, FillMode fillmode)
      {
          if (points.Length > 1)
-@@ -2288,7 +2484,34 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -2288,7 +2650,34 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
              this.SetTranslateWithDifference(offset, offset);
              this.SetSourcePen(pen, isfill);
              this.context.NewPath();
@@ -1218,7 +2161,7 @@ index 5a5eb883..da24dfc4 100644
              if (isClosePath)
                  this.context.ClosePath();
              if (isfill)
-@@ -2349,7 +2572,12 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -2349,7 +2738,12 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
          {
              var scaleimg = new Gdk.Pixbuf(surface, 0, 0, destRect.Width, destRect.Height);
  
@@ -1228,11 +2171,11 @@ index 5a5eb883..da24dfc4 100644
 +            // and drew the wrong part of the image).
 +            var scaleX = destRect.Width / srcWidth;
 +            var scaleY = destRect.Height / srcHeight;
-+            img.Scale(scaleimg, 0, 0, destRect.Width, destRect.Height, -srcX * scaleX, -srcY * scaleY, scaleX, scaleY, Gdk.InterpType.Tiles);
++            img.Scale(scaleimg, 0, 0, destRect.Width, destRect.Height, -srcX * scaleX, -srcY * scaleY, scaleX, scaleY, ImageInterpolation);
              this.context.Save();
              this.SetTranslateWithDifference(destRect.X, destRect.Y);
              Gdk.CairoHelper.SetSourcePixbuf(this.context, scaleimg, 0, 0);
-@@ -2387,7 +2615,12 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+@@ -2387,7 +2781,12 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
          using (var surface = new Cairo.ImageSurface(Cairo.Format.Argb32, width, height))
          {
              var newimg = new Gdk.Pixbuf(surface, 0, 0, width, height);
@@ -1247,7 +2190,7 @@ index 5a5eb883..da24dfc4 100644
              using (var p = this.context.GetSource())
              {
 diff --git a/Net4x.Gtk.Drawing/System/Drawing/Icon.cs b/Net4x.Gtk.Drawing/System/Drawing/Icon.cs
-index 0beb4e59..eb9a2cb4 100644
+index 0beb4e59..aebc3cef 100644
 --- a/Net4x.Gtk.Drawing/System/Drawing/Icon.cs
 +++ b/Net4x.Gtk.Drawing/System/Drawing/Icon.cs
 @@ -343,12 +343,9 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
@@ -1266,6 +2209,16 @@ index 0beb4e59..eb9a2cb4 100644
  
      /// <summary>
      /// Gets the width of this
+@@ -424,7 +421,8 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
+     /// </returns>
+     public static Icon FromHandle(IntPtr handle)
+     {
+-        throw new System.NotImplementedException();
++        throw new PlatformNotSupportedException(
++            "GDI icon handles are not available on this platform; construct an Icon from a file or stream instead.");
+     }
+ 
+     /// <summary>
 diff --git a/Net4x.Gtk.Drawing/System/Drawing/Image.cs b/Net4x.Gtk.Drawing/System/Drawing/Image.cs
 index c3c78095..08cd0bda 100644
 --- a/Net4x.Gtk.Drawing/System/Drawing/Image.cs
@@ -1472,11 +2425,205 @@ index c3c78095..08cd0bda 100644
      }
  
      /// <summary>
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Pen.cs b/Net4x.Gtk.Drawing/System/Drawing/Pen.cs
+index edb3af6a..4b473742 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Pen.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Pen.cs
+@@ -381,10 +381,15 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
+     /// </returns>
+     public PenType PenType
+     {
+-        get
++        // This threw; GDI+ derives the pen type from the kind of brush the pen strokes with.
++        get => Brush switch
+         {
+-            throw new System.NotImplementedException();
+-        }
++            Drawing2D.HatchBrush => PenType.HatchFill,
++            Drawing2D.LinearGradientBrush => PenType.LinearGradient,
++            Drawing2D.PathGradientBrush => PenType.PathGradient,
++            TextureBrush => PenType.TextureFill,
++            _ => PenType.SolidColor
++        };
+     }
+ 
+     /// <summary>
 diff --git a/Net4x.Gtk.Drawing/System/Drawing/Region.cs b/Net4x.Gtk.Drawing/System/Drawing/Region.cs
-index 874c8d04..c9474231 100644
+index 874c8d04..8e4cd118 100644
 --- a/Net4x.Gtk.Drawing/System/Drawing/Region.cs
 +++ b/Net4x.Gtk.Drawing/System/Drawing/Region.cs
-@@ -26,6 +26,10 @@ public sealed class Region : MarshalByRefObject, IDisposable
+@@ -20,12 +20,181 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     private bool isEmpty = false;
+     private bool isInfinite = false;
+ 
++    // ---------------------------------------------------------------------
++    // The region was backed by a single RectangleF, so every combine operation
++    // collapsed to rectangle arithmetic: Xor of two partially overlapping
++    // rectangles returned their union, Exclude shrank the bounding box, and a
++    // non-rectangular region was not representable at all. The interior is now
++    // a list of disjoint rectangles - the band list GDI+ itself uses - which
++    // makes the whole combine family exact for rectangular inputs.
++    //
++    // A GraphicsPath contributes its bounding rectangle, so curved regions are
++    // still approximated by their bounds; the path is kept alongside so that
++    // clipping can use the true shape.
++    // ---------------------------------------------------------------------
++
++    private List<RectangleF> bands = new();
++
++    /// <summary>The disjoint rectangles whose union is this region.</summary>
++    internal IReadOnlyList<RectangleF> Bands => bands;
++
++    /// <summary>Replaces the interior with the given rectangles and refreshes the derived state.</summary>
++    private void SetBands(List<RectangleF> value)
++    {
++        bands = Compact(value);
++        isInfinite = false;
++        isEmpty = bands.Count == 0;
++        rectangle = BoundsOf(bands);
++        graphicsPath = new GraphicsPath();
++        foreach (var band in bands)
++        {
++            graphicsPath.AddRectangle(band);
++        }
++
++        UpdateRegionData();
++    }
++
++    /// <summary>Drops degenerate rectangles.</summary>
++    private static List<RectangleF> Compact(List<RectangleF> value)
++    {
++        var result = new List<RectangleF>(value.Count);
++        foreach (var band in value)
++        {
++            if (band.Width > 0f && band.Height > 0f)
++            {
++                result.Add(band);
++            }
++        }
++
++        return result;
++    }
++
++    /// <summary>The smallest rectangle containing every band.</summary>
++    private static RectangleF BoundsOf(List<RectangleF> value)
++    {
++        if (value.Count == 0)
++        {
++            return RectangleF.Empty;
++        }
++
++        var result = value[0];
++        for (var i = 1; i < value.Count; i++)
++        {
++            result = RectangleF.Union(result, value[i]);
++        }
++
++        return result;
++    }
++
++    /// <summary>Adds <paramref name="a" /> minus <paramref name="b" /> to <paramref name="into" />, as up to four disjoint rectangles.</summary>
++    private static void SubtractInto(RectangleF a, RectangleF b, List<RectangleF> into)
++    {
++        var overlap = RectangleF.Intersect(a, b);
++        if (overlap.Width <= 0f || overlap.Height <= 0f)
++        {
++            into.Add(a);
++
++            return;
++        }
++
++        if (overlap.Top > a.Top)
++        {
++            into.Add(new RectangleF(a.Left, a.Top, a.Width, overlap.Top - a.Top));
++        }
++
++        if (overlap.Bottom < a.Bottom)
++        {
++            into.Add(new RectangleF(a.Left, overlap.Bottom, a.Width, a.Bottom - overlap.Bottom));
++        }
++
++        if (overlap.Left > a.Left)
++        {
++            into.Add(new RectangleF(a.Left, overlap.Top, overlap.Left - a.Left, overlap.Height));
++        }
++
++        if (overlap.Right < a.Right)
++        {
++            into.Add(new RectangleF(overlap.Right, overlap.Top, a.Right - overlap.Right, overlap.Height));
++        }
++    }
++
++    /// <summary>Everything in <paramref name="from" /> that is not in <paramref name="what" />.</summary>
++    private static List<RectangleF> SubtractBands(List<RectangleF> from, List<RectangleF> what)
++    {
++        var current = new List<RectangleF>(from);
++        foreach (var cut in what)
++        {
++            var next = new List<RectangleF>();
++            foreach (var piece in current)
++            {
++                SubtractInto(piece, cut, next);
++            }
++
++            current = next;
++        }
++
++        return Compact(current);
++    }
++
++    /// <summary>Everything in either operand, kept disjoint.</summary>
++    private static List<RectangleF> UnionBands(List<RectangleF> a, List<RectangleF> b)
++    {
++        var result = new List<RectangleF>(a);
++        foreach (var addition in b)
++        {
++            result.AddRange(SubtractBands(new List<RectangleF> { addition }, result));
++        }
++
++        return Compact(result);
++    }
++
++    /// <summary>Everything in both operands.</summary>
++    private static List<RectangleF> IntersectBands(List<RectangleF> a, List<RectangleF> b)
++    {
++        var result = new List<RectangleF>();
++        foreach (var x in a)
++        {
++            foreach (var y in b)
++            {
++                var overlap = RectangleF.Intersect(x, y);
++                if (overlap.Width > 0f && overlap.Height > 0f)
++                {
++                    result.Add(overlap);
++                }
++            }
++        }
++
++        return result;
++    }
++
++    /// <summary>Everything in exactly one of the operands.</summary>
++    private static List<RectangleF> XorBands(List<RectangleF> a, List<RectangleF> b) =>
++        UnionBands(SubtractBands(a, b), SubtractBands(b, a));
++
++    /// <summary>The bands a path contributes: its bounding rectangle.</summary>
++    private static List<RectangleF> BandsOfPath(GraphicsPath path)
++    {
++        var bounds = path.GetBounds();
++
++        return bounds.Width > 0f && bounds.Height > 0f
++            ? new List<RectangleF> { bounds }
++            : new List<RectangleF>();
++    }
++
++    /// <summary>The bands of another region, as a fresh list.</summary>
++    private static List<RectangleF> BandsOfRegion(Region region) => new(region.bands);
++
++
+     /// <summary>
+     /// Initializes a new
+     /// <see cref="T:System.Drawing.Region" />.
      /// </summary>
      public Region()
      {
@@ -1487,7 +2634,23 @@ index 874c8d04..c9474231 100644
      }
  
      /// <summary>
-@@ -68,11 +72,13 @@ public sealed class Region : MarshalByRefObject, IDisposable
+@@ -45,11 +214,10 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     public Region(GraphicsPath path)
+     {
+         if (path == null) throw new ArgumentNullException(nameof(path));
+-        graphicsPath = path.Clone() as GraphicsPath ?? new GraphicsPath();
+-        rectangle = graphicsPath.GetBounds();
+-        isEmpty = rectangle.IsEmpty;
+-        isInfinite = false;
+-        UpdateRegionData();
++        var clone = path.Clone() as GraphicsPath ?? new GraphicsPath();
++        SetBands(BandsOfPath(clone));
++        // Keep the real path so that clipping can use the true shape rather than the bounding box.
++        graphicsPath = clone;
+     }
+ 
+     /// <summary>
+@@ -68,11 +236,13 @@ public sealed class Region : MarshalByRefObject, IDisposable
      public Region(RegionData rgnData)
      {
          regionData = rgnData ?? throw new ArgumentNullException(nameof(rgnData));
@@ -1502,7 +2665,258 @@ index 874c8d04..c9474231 100644
      }
  
      /// <summary>
-@@ -625,6 +631,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
+@@ -87,12 +257,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     /// </param>
+     public Region(Rectangle rect)
+     {
+-        rectangle = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+-        graphicsPath = new GraphicsPath();
+-        graphicsPath.AddRectangle(rectangle);
+-        isEmpty = rectangle.IsEmpty;
+-        isInfinite = false;
+-        UpdateRegionData();
++        SetBands(new List<RectangleF> { new(rect.X, rect.Y, rect.Width, rect.Height) });
+     }
+ 
+     /// <summary>
+@@ -107,12 +272,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     /// </param>
+     public Region(RectangleF rect)
+     {
+-        rectangle = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+-        graphicsPath = new GraphicsPath();
+-        graphicsPath.AddRectangle(rectangle);
+-        isEmpty = rectangle.IsEmpty;
+-        isInfinite = false;
+-        UpdateRegionData();
++        SetBands(new List<RectangleF> { new(rect.X, rect.Y, rect.Width, rect.Height) });
+     }
+ 
+     /// <summary>
+@@ -131,7 +291,10 @@ public sealed class Region : MarshalByRefObject, IDisposable
+             rectangle = new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height),
+             regionData = regionData,
+             isEmpty = isEmpty,
+-            isInfinite = isInfinite // conservative copy (RegionData is immutable-like here)
++            isInfinite = isInfinite,
++            // The band list has to be copied, not shared: without this, emptying the original emptied
++            // the clone as well.
++            bands = new List<RectangleF>(bands)
+         };
+         return clone;
+     }
+@@ -155,41 +318,15 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     {
+         if (path == null) throw new ArgumentNullException(nameof(path));
+ 
+-        // Approximate complement: treat complement as "set to provided path" if current is infinite,
+-        // otherwise subtract intersection area from current bounding box (approximation).
++        // Complement replaces this region with the part of the argument that is outside it.
+         if (isInfinite)
+         {
+-            graphicsPath = path.Clone() as GraphicsPath ?? new GraphicsPath();
+-            rectangle = graphicsPath.GetBounds();
+-            isInfinite = false;
+-            isEmpty = rectangle.IsEmpty;
+-        }
+-        else if (isEmpty)
+-        {
+-            // complement of empty is empty in this simplistic model
+-        }
+-        else
+-        {
+-            var pathBounds = path.GetBounds();
+-            if (rectangle.IntersectsWith(pathBounds))
+-            {
+-                // simple approximation: reduce our rectangle by intersection bounding box
+-                var inter = RectangleF.Intersect(rectangle, pathBounds);
+-                if (inter == rectangle)
+-                {
+-                    MakeEmpty();
+-                }
+-                else
+-                {
+-                    // shrink bounding box conservatively (not geometrically exact)
+-                    rectangle = rectangle.SubtractSafe(inter);
+-                    graphicsPath = new GraphicsPath();
+-                    if (!rectangle.IsEmpty)
+-                        graphicsPath.AddRectangle(rectangle);
+-                }
+-            }
++            SetBands(new List<RectangleF>());
++
++            return;
+         }
+-        UpdateRegionData();
++
++        SetBands(SubtractBands(BandsOfPath(path), bands));
+     }
+ 
+     /// <summary>
+@@ -246,7 +383,22 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     public void Complement(Region region)
+     {
+         if (region == null) throw new ArgumentNullException(nameof(region));
+-        Complement(region.graphicsPath);
++
++        if (isInfinite)
++        {
++            SetBands(new List<RectangleF>());
++
++            return;
++        }
++
++        if (region.isInfinite)
++        {
++            MakeInfinite();
++
++            return;
++        }
++
++        SetBands(SubtractBands(BandsOfRegion(region), bands));
+     }
+ 
+     /// <summary>
+@@ -311,32 +463,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     public void Exclude(GraphicsPath path)
+     {
+         if (path == null) throw new ArgumentNullException(nameof(path));
+-        if (isEmpty) return;
+-        if (isInfinite)
+-        {
+-            // infinite minus a finite path -> still infinite (approx)
+-            return;
+-        }
++        if (isInfinite) return;
+ 
+-        var pathBounds = path.GetBounds();
+-        if (rectangle.IntersectsWith(pathBounds))
+-        {
+-            // if the excluding rect fully covers current rectangle, region becomes empty
+-            if (pathBounds.Contains(rectangle))
+-            {
+-                MakeEmpty();
+-            }
+-            else
+-            {
+-                // conservative approximation: shrink the bounding rectangle by removing the intersection
+-                var inter = RectangleF.Intersect(rectangle, pathBounds);
+-                rectangle = rectangle.SubtractSafe(inter);
+-                graphicsPath = new GraphicsPath();
+-                if (!rectangle.IsEmpty)
+-                    graphicsPath.AddRectangle(rectangle);
+-            }
+-        }
+-        UpdateRegionData();
++        SetBands(SubtractBands(bands, BandsOfPath(path)));
+     }
+ 
+     /// <summary>
+@@ -390,7 +519,15 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     public void Exclude(Region region)
+     {
+         if (region == null) throw new ArgumentNullException(nameof(region));
+-        Exclude(region.graphicsPath);
++        if (isInfinite) return;
++        if (region.isInfinite)
++        {
++            SetBands(new List<RectangleF>());
++
++            return;
++        }
++
++        SetBands(SubtractBands(bands, BandsOfRegion(region)));
+     }
+ 
+     /// <summary>
+@@ -500,16 +637,29 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     /// </exception>
+     public RectangleF[] GetRegionScans(System.Drawing.Drawing2D.Matrix matrix)
+     {
+-        if (matrix == null) throw new ArgumentNullException(nameof(matrix));
+-        if (isInfinite)
+-            return new[] { new RectangleF(float.NegativeInfinity, float.NegativeInfinity, float.PositiveInfinity, float.PositiveInfinity) };
++        // This returned the single bounding rectangle; it now returns the actual bands, which is what
++        // GetRegionScans means.
++        var scans = new RectangleF[bands.Count];
++        for (var i = 0; i < bands.Count; i++)
++        {
++            var band = bands[i];
++            if (matrix == null)
++            {
++                scans[i] = band;
++
++                continue;
++            }
++
++            var corners = new[] { new PointF(band.Left, band.Top), new PointF(band.Right, band.Bottom) };
++            matrix.TransformPoints(corners);
++            scans[i] = RectangleF.FromLTRB(
++                Math.Min(corners[0].X, corners[1].X),
++                Math.Min(corners[0].Y, corners[1].Y),
++                Math.Max(corners[0].X, corners[1].X),
++                Math.Max(corners[0].Y, corners[1].Y));
++        }
+ 
+-        // approximate by transforming the bounding rectangle
+-        var r = rectangle;
+-        var pts = new[] { new PointF(r.Left, r.Top), new PointF(r.Right, r.Top), new PointF(r.Right, r.Bottom), new PointF(r.Left, r.Bottom) };
+-        matrix.TransformPoints(pts);
+-        var bounds = RectangleFExtensions.FromPoints(pts);
+-        return new[] { bounds };
++        return scans;
+     }
+ 
+     /// <summary>
+@@ -525,33 +675,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     public void Intersect(GraphicsPath path)
+     {
+         if (path == null) throw new ArgumentNullException(nameof(path));
+-        if (isInfinite)
+-        {
+-            graphicsPath = path.Clone() as GraphicsPath ?? new GraphicsPath();
+-            rectangle = graphicsPath.GetBounds();
+-            isInfinite = false;
+-            isEmpty = rectangle.IsEmpty;
+-        }
+-        else if (isEmpty)
+-        {
+-            return;
+-        }
+-        else
+-        {
+-            var pb = path.GetBounds();
+-            var inter = RectangleF.Intersect(rectangle, pb);
+-            if (inter.IsEmpty)
+-            {
+-                MakeEmpty();
+-            }
+-            else
+-            {
+-                rectangle = inter;
+-                graphicsPath = new GraphicsPath();
+-                graphicsPath.AddRectangle(rectangle);
+-            }
+-        }
+-        UpdateRegionData();
++
++        // Intersecting the infinite region with a shape yields that shape.
++        SetBands(isInfinite ? BandsOfPath(path) : IntersectBands(bands, BandsOfPath(path)));
+     }
+ 
+     /// <summary>
+@@ -601,7 +727,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     public void Intersect(Region region)
+     {
+         if (region == null) throw new ArgumentNullException(nameof(region));
+-        Intersect(region.graphicsPath);
++        if (region.isInfinite) return;
++
++        SetBands(isInfinite ? BandsOfRegion(region) : IntersectBands(bands, BandsOfRegion(region)));
+     }
+ 
+     /// <summary>
+@@ -625,6 +753,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
      public bool IsEmpty(Graphics g)
      {
          if (g == null) throw new ArgumentNullException(nameof(g));
@@ -1512,7 +2926,81 @@ index 874c8d04..c9474231 100644
          return isEmpty || (rectangle.IsEmpty && graphicsPath.PointCount == 0);
      }
  
-@@ -1147,10 +1156,29 @@ public sealed class Region : MarshalByRefObject, IDisposable
+@@ -716,15 +847,18 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     public bool IsVisible(PointF point)
+     {
+         if (isInfinite) return true;
+-        if (isEmpty) return false;
+-        if (rectangle.IsEmpty && graphicsPath.PointCount == 0) return false;
+-        if (!rectangle.IsEmpty && rectangle.Contains(point)) return true;
+-        // fallback to path hit-test
+-        using (var bmp = new Bitmap(1, 1))
+-        using (var g = Graphics.FromImage(bmp))
++
++        // This tested the bounding rectangle, so a point in the hole of an L-shaped region counted as
++        // visible. It now tests the bands.
++        foreach (var band in bands)
+         {
+-            return graphicsPath.IsVisible(point, g);
++            if (band.Contains(point))
++            {
++                return true;
++            }
+         }
++
++        return false;
+     }
+ 
+     /// <summary>
+@@ -823,14 +957,16 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     public bool IsVisible(RectangleF rect)
+     {
+         if (isInfinite) return true;
+-        if (isEmpty) return false;
+-        if (!rectangle.IsEmpty && rectangle.IntersectsWith(rect)) return true;
+-        // fallback to path hit-test using a small bitmap
+-        using (var bmp = new Bitmap(1, 1))
+-        using (var g = Graphics.FromImage(bmp))
++
++        foreach (var band in bands)
+         {
+-            return graphicsPath.IsVisible(rect, g);
++            if (band.IntersectsWith(rect))
++            {
++                return true;
++            }
+         }
++
++        return false;
+     }
+ 
+     /// <summary>
+@@ -1055,11 +1191,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     /// </summary>
+     public void MakeEmpty()
+     {
+-        isEmpty = true;
+-        isInfinite = false;
+-        graphicsPath?.Reset();
+-        rectangle = RectangleF.Empty;
+-        UpdateRegionData();
++        SetBands(new List<RectangleF>());
+     }
+ 
+     /// <summary>
+@@ -1068,9 +1200,10 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     /// </summary>
+     public void MakeInfinite()
+     {
++        bands = new List<RectangleF>();
+         isInfinite = true;
+         isEmpty = false;
+-        graphicsPath?.Reset();
++        graphicsPath = new GraphicsPath();
+         rectangle = RectangleF.Empty;
+         UpdateRegionData();
+     }
+@@ -1147,11 +1280,14 @@ public sealed class Region : MarshalByRefObject, IDisposable
      public void Translate(float dx, float dy)
      {
          if (isInfinite || isEmpty) return;
@@ -1520,33 +3008,111 @@ index 874c8d04..c9474231 100644
 -        m.Translate(dx, dy);
 -        graphicsPath.Transform(m);
 -        rectangle = graphicsPath.GetBounds();
+-        UpdateRegionData();
 +
-+        // Shift the region's extent directly. Recomputing it from graphicsPath.GetBounds() discarded the
-+        // extent entirely for rectangle-based regions (whose geometry lives in 'rectangle', not the path),
-+        // so Translate silently did nothing useful.
-+        if (!rectangle.IsEmpty)
++        var moved = new List<RectangleF>(bands.Count);
++        foreach (var band in bands)
 +        {
-+            rectangle = new RectangleF(rectangle.X + dx, rectangle.Y + dy, rectangle.Width, rectangle.Height);
++            moved.Add(new RectangleF(band.X + dx, band.Y + dy, band.Width, band.Height));
 +        }
 +
-+        // Move the backing path as well, so path hit-testing follows the translation. (PointCount cannot
-+        // be used to detect an empty path here - it only tracks points supplied at construction time.)
-+        using (var m = new System.Drawing.Drawing2D.Matrix())
-+        {
-+            m.Translate(dx, dy);
-+            graphicsPath.Transform(m);
-+
-+            var pathBounds = graphicsPath.GetBounds();
-+            if (rectangle.IsEmpty && !pathBounds.IsEmpty)
-+            {
-+                rectangle = pathBounds;
-+            }
-+        }
-+
-         UpdateRegionData();
++        SetBands(moved);
      }
  
-@@ -1348,10 +1376,52 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     /// <summary>
+@@ -1172,19 +1308,8 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     {
+         if (path == null) throw new ArgumentNullException(nameof(path));
+         if (isInfinite) return;
+-        if (isEmpty)
+-        {
+-            graphicsPath = path.Clone() as GraphicsPath ?? new GraphicsPath();
+-            rectangle = graphicsPath.GetBounds();
+-            isEmpty = rectangle.IsEmpty;
+-        }
+-        else
+-        {
+-            if (path.Clone() is GraphicsPath clone)
+-                graphicsPath.AddPath(clone, false);
+-            rectangle = RectangleF.Union(rectangle, path.GetBounds());
+-        }
+-        UpdateRegionData();
++
++        SetBands(UnionBands(bands, BandsOfPath(path)));
+     }
+ 
+     /// <summary>
+@@ -1238,7 +1363,17 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     public void Union(Region region)
+     {
+         if (region == null) throw new ArgumentNullException(nameof(region));
+-        Union(region.graphicsPath);
++        if (isInfinite) return;
++        if (region.isInfinite)
++        {
++            MakeInfinite();
++
++            return;
++        }
++
++        // These used to funnel through the other region's GraphicsPath, so region-vs-region combines were
++        // only as good as the bounding box of that path. They now work on the band lists directly.
++        SetBands(UnionBands(bands, BandsOfRegion(region)));
+     }
+ 
+     /// <summary>
+@@ -1255,39 +1390,11 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     public void Xor(GraphicsPath path)
+     {
+         if (path == null) throw new ArgumentNullException(nameof(path));
+-        if (isInfinite)
+-        {
+-            // infinite xor finite -> still infinite
+-            return;
+-        }
+-        if (isEmpty)
+-        {
+-            graphicsPath = path.Clone() as GraphicsPath ?? new GraphicsPath();
+-            rectangle = graphicsPath.GetBounds();
+-            isEmpty = rectangle.IsEmpty;
+-            UpdateRegionData();
+-            return;
+-        }
++        if (isInfinite) return;
+ 
+-        // approximate XOR using bounding rectangles: union - intersection (conservative)
+-        var unionRect = RectangleF.Union(rectangle, path.GetBounds());
+-        var inter = RectangleF.Intersect(rectangle, path.GetBounds());
+-        if (inter.IsEmpty)
+-        {
+-            Union(path);
+-        }
+-        else if (inter == rectangle && inter == path.GetBounds())
+-        {
+-            MakeEmpty();
+-        }
+-        else
+-        {
+-            graphicsPath = new GraphicsPath();
+-            graphicsPath.AddRectangle(unionRect);
+-            // not a precise XOR, but provides consistent bounding info
+-            rectangle = unionRect;
+-            UpdateRegionData();
+-        }
++        // This returned the union of the two bounding boxes when they partly overlapped, which is the
++        // opposite of an exclusive-or: the overlap was kept rather than removed.
++        SetBands(XorBands(bands, BandsOfPath(path)));
+     }
+ 
+     /// <summary>
+@@ -1344,14 +1451,58 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     public void Xor(Region region)
+     {
+         if (region == null) throw new ArgumentNullException(nameof(region));
+-        Xor(region.graphicsPath);
++        if (isInfinite || region.isInfinite) return;
++
++        SetBands(XorBands(bands, BandsOfRegion(region)));
      }
  
      // helper to keep regionData in sync with our simple managed representation.
@@ -1615,3 +3181,779 @@ index 3e26de69..4d98ecbf 100644
      /// <summary>
      /// Initializes a new
      /// <see cref="T:System.Drawing.StringFormat" /> object.
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/SystemBrushes.cs b/Net4x.Gtk.Drawing/System/Drawing/SystemBrushes.cs
+new file mode 100644
+index 00000000..2dc4b1e0
+--- /dev/null
++++ b/Net4x.Gtk.Drawing/System/Drawing/SystemBrushes.cs
+@@ -0,0 +1,113 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
++namespace System.Drawing;
++
++/// <summary>
++/// Each property of the <see cref="T:System.Drawing.SystemBrushes" /> class is a
++/// <see cref="T:System.Drawing.SolidBrush" /> in a colour from the Windows display palette.
++/// </summary>
++/// <remarks>
++/// This type was missing entirely while <see cref="T:System.Drawing.SystemColors" /> and
++/// <see cref="T:System.Drawing.SystemPens" /> were present, so owner-draw code that filled with a system
++/// brush did not compile.
++/// </remarks>
++public static class SystemBrushes
++{
++    /// <summary>Gets a brush in the colour of the active window border.</summary>
++    public static Brush ActiveBorder => FromSystemColor(SystemColors.ActiveBorder);
++
++    /// <summary>Gets a brush in the background colour of the active window title bar.</summary>
++    public static Brush ActiveCaption => FromSystemColor(SystemColors.ActiveCaption);
++
++    /// <summary>Gets a brush in the colour of the text of the active window title bar.</summary>
++    public static Brush ActiveCaptionText => FromSystemColor(SystemColors.ActiveCaptionText);
++
++    /// <summary>Gets a brush in the colour of the application workspace.</summary>
++    public static Brush AppWorkspace => FromSystemColor(SystemColors.AppWorkspace);
++
++    /// <summary>Gets a brush in the face colour of a three-dimensional element.</summary>
++    public static Brush ButtonFace => FromSystemColor(SystemColors.ButtonFace);
++
++    /// <summary>Gets a brush in the highlight colour of a three-dimensional element.</summary>
++    public static Brush ButtonHighlight => FromSystemColor(SystemColors.ButtonHighlight);
++
++    /// <summary>Gets a brush in the shadow colour of a three-dimensional element.</summary>
++    public static Brush ButtonShadow => FromSystemColor(SystemColors.ButtonShadow);
++
++    /// <summary>Gets a brush in the face colour of a control.</summary>
++    public static Brush Control => FromSystemColor(SystemColors.Control);
++
++    /// <summary>Gets a brush in the shadow colour of a control.</summary>
++    public static Brush ControlDark => FromSystemColor(SystemColors.ControlDark);
++
++    /// <summary>Gets a brush in the dark shadow colour of a control.</summary>
++    public static Brush ControlDarkDark => FromSystemColor(SystemColors.ControlDarkDark);
++
++    /// <summary>Gets a brush in the light colour of a control.</summary>
++    public static Brush ControlLight => FromSystemColor(SystemColors.ControlLight);
++
++    /// <summary>Gets a brush in the highlight colour of a control.</summary>
++    public static Brush ControlLightLight => FromSystemColor(SystemColors.ControlLightLight);
++
++    /// <summary>Gets a brush in the colour of text in a control.</summary>
++    public static Brush ControlText => FromSystemColor(SystemColors.ControlText);
++
++    /// <summary>Gets a brush in the colour of the desktop.</summary>
++    public static Brush Desktop => FromSystemColor(SystemColors.Desktop);
++
++    /// <summary>Gets a brush in the colour of dimmed text.</summary>
++    public static Brush GrayText => FromSystemColor(SystemColors.GrayText);
++
++    /// <summary>Gets a brush in the background colour of selected items.</summary>
++    public static Brush Highlight => FromSystemColor(SystemColors.Highlight);
++
++    /// <summary>Gets a brush in the colour of the text of selected items.</summary>
++    public static Brush HighlightText => FromSystemColor(SystemColors.HighlightText);
++
++    /// <summary>Gets a brush in the colour used to designate a hot-tracked item.</summary>
++    public static Brush HotTrack => FromSystemColor(SystemColors.HotTrack);
++
++    /// <summary>Gets a brush in the colour of an inactive window border.</summary>
++    public static Brush InactiveBorder => FromSystemColor(SystemColors.InactiveBorder);
++
++    /// <summary>Gets a brush in the background colour of an inactive window title bar.</summary>
++    public static Brush InactiveCaption => FromSystemColor(SystemColors.InactiveCaption);
++
++    /// <summary>Gets a brush in the colour of the text of an inactive window title bar.</summary>
++    public static Brush InactiveCaptionText => FromSystemColor(SystemColors.InactiveCaptionText);
++
++    /// <summary>Gets a brush in the background colour of a ToolTip.</summary>
++    public static Brush Info => FromSystemColor(SystemColors.Info);
++
++    /// <summary>Gets a brush in the colour of the text of a ToolTip.</summary>
++    public static Brush InfoText => FromSystemColor(SystemColors.InfoText);
++
++    /// <summary>Gets a brush in the background colour of a menu.</summary>
++    public static Brush Menu => FromSystemColor(SystemColors.Menu);
++
++    /// <summary>Gets a brush in the colour of menu text.</summary>
++    public static Brush MenuText => FromSystemColor(SystemColors.MenuText);
++
++    /// <summary>Gets a brush in the background colour of a scroll bar.</summary>
++    public static Brush ScrollBar => FromSystemColor(SystemColors.ScrollBar);
++
++    /// <summary>Gets a brush in the background colour of a window.</summary>
++    public static Brush Window => FromSystemColor(SystemColors.Window);
++
++    /// <summary>Gets a brush in the colour of a window frame.</summary>
++    public static Brush WindowFrame => FromSystemColor(SystemColors.WindowFrame);
++
++    /// <summary>Gets a brush in the colour of the text of a window.</summary>
++    public static Brush WindowText => FromSystemColor(SystemColors.WindowText);
++
++    /// <summary>
++    /// Creates a <see cref="T:System.Drawing.Brush" /> from the specified system colour.
++    /// </summary>
++    /// <param name="c">A system colour.</param>
++    /// <returns>A brush in that colour.</returns>
++    public static Brush FromSystemColor(Color c)
++    {
++        return new SolidBrush(c);
++    }
++}
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/SystemFonts.cs b/Net4x.Gtk.Drawing/System/Drawing/SystemFonts.cs
+new file mode 100644
+index 00000000..97bf5adc
+--- /dev/null
++++ b/Net4x.Gtk.Drawing/System/Drawing/SystemFonts.cs
+@@ -0,0 +1,63 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
++namespace System.Drawing;
++
++/// <summary>
++/// Specifies the fonts used to display text in Windows display elements.
++/// </summary>
++/// <remarks>
++/// This type was missing entirely, so layout code reading a system font did not compile. Each property
++/// returns a fresh <see cref="T:System.Drawing.Font" />, as the framework does, so the caller owns it and
++/// may dispose it.
++/// </remarks>
++public static class SystemFonts
++{
++    /// <summary>The family used for every system font on this platform.</summary>
++    private const string DefaultFamily = "Sans";
++
++    /// <summary>The point size of the standard UI fonts.</summary>
++    private const float DefaultSize = 9f;
++
++    /// <summary>Gets the font used for captions of active windows.</summary>
++    public static Font CaptionFont => new(DefaultFamily, DefaultSize, FontStyle.Bold);
++
++    /// <summary>Gets the default font used for dialog boxes and forms.</summary>
++    public static Font DefaultFont => new(DefaultFamily, DefaultSize);
++
++    /// <summary>Gets the font used for dialog box text.</summary>
++    public static Font DialogFont => new(DefaultFamily, DefaultSize);
++
++    /// <summary>Gets the font used for icon titles.</summary>
++    public static Font IconTitleFont => new(DefaultFamily, DefaultSize);
++
++    /// <summary>Gets the font used for menus.</summary>
++    public static Font MenuFont => new(DefaultFamily, DefaultSize);
++
++    /// <summary>Gets the font used for message boxes.</summary>
++    public static Font MessageBoxFont => new(DefaultFamily, DefaultSize);
++
++    /// <summary>Gets the font used for captions of small windows, such as tool windows.</summary>
++    public static Font SmallCaptionFont => new(DefaultFamily, DefaultSize - 1f, FontStyle.Bold);
++
++    /// <summary>Gets the font used to display text in the status bar.</summary>
++    public static Font StatusFont => new(DefaultFamily, DefaultSize);
++
++    /// <summary>
++    /// Returns the font associated with the specified Windows system font name.
++    /// </summary>
++    /// <param name="systemFontName">The name of a system font, such as <c>MenuFont</c>.</param>
++    /// <returns>The matching font, or <see langword="null" /> when the name is not recognised.</returns>
++    public static Font? GetFontByName(string? systemFontName) => systemFontName switch
++    {
++        nameof(CaptionFont) => CaptionFont,
++        nameof(DefaultFont) => DefaultFont,
++        nameof(DialogFont) => DialogFont,
++        nameof(IconTitleFont) => IconTitleFont,
++        nameof(MenuFont) => MenuFont,
++        nameof(MessageBoxFont) => MessageBoxFont,
++        nameof(SmallCaptionFont) => SmallCaptionFont,
++        nameof(StatusFont) => StatusFont,
++        _ => null
++    };
++}
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/SystemIcons.cs b/Net4x.Gtk.Drawing/System/Drawing/SystemIcons.cs
+new file mode 100644
+index 00000000..977ae8c4
+--- /dev/null
++++ b/Net4x.Gtk.Drawing/System/Drawing/SystemIcons.cs
+@@ -0,0 +1,137 @@
++namespace System.Drawing;
++
++/// <summary>
++/// Each property of the <see cref="T:System.Drawing.SystemIcons" /> class is an
++/// <see cref="T:System.Drawing.Icon" /> for a Windows system-wide icon.
++/// </summary>
++/// <remarks>
++/// This type was missing entirely, so custom message dialogs using <c>SystemIcons.Error</c> and friends did
++/// not compile. The icons are rendered from the GTK icon theme where it supplies a match, and drawn
++/// programmatically otherwise, so no icon assets need to be shipped with the library.
++/// </remarks>
++public static class SystemIcons
++{
++    /// <summary>The edge length of a generated icon, in pixels.</summary>
++    private const int IconSize = 32;
++
++    /// <summary>Gets an icon for the application.</summary>
++    public static Icon Application => FromTheme("application-x-executable", Color.FromArgb(255, 90, 90, 90), Shape.Square);
++
++    /// <summary>Gets an icon containing an asterisk, used for information messages.</summary>
++    public static Icon Asterisk => Information;
++
++    /// <summary>Gets an icon containing an exclamation mark.</summary>
++    public static Icon Exclamation => Warning;
++
++    /// <summary>Gets an icon containing a red circle with a white cross, used for error messages.</summary>
++    public static Icon Error => FromTheme("dialog-error", Color.FromArgb(255, 200, 40, 40), Shape.Circle);
++
++    /// <summary>Gets an icon containing a red circle with a white cross.</summary>
++    public static Icon Hand => Error;
++
++    /// <summary>Gets an icon containing a blue circle with an "i", used for information messages.</summary>
++    public static Icon Information => FromTheme("dialog-information", Color.FromArgb(255, 40, 110, 200), Shape.Circle);
++
++    /// <summary>Gets an icon containing a question mark.</summary>
++    public static Icon Question => FromTheme("dialog-question", Color.FromArgb(255, 40, 110, 200), Shape.Circle);
++
++    /// <summary>Gets an icon containing a yellow triangle with an exclamation mark.</summary>
++    public static Icon Warning => FromTheme("dialog-warning", Color.FromArgb(255, 220, 170, 20), Shape.Triangle);
++
++    /// <summary>Gets an icon containing a shield.</summary>
++    public static Icon Shield => FromTheme("security-high", Color.FromArgb(255, 60, 130, 190), Shape.Shield);
++
++    /// <summary>Gets an icon for a window.</summary>
++    public static Icon WinLogo => Application;
++
++    /// <summary>The fallback outline drawn when the icon theme has no match.</summary>
++    private enum Shape
++    {
++        Circle,
++        Triangle,
++        Square,
++        Shield
++    }
++
++    /// <summary>
++    /// Loads <paramref name="themeName" /> from the GTK icon theme, falling back to a drawn placeholder.
++    /// </summary>
++    /// <param name="themeName">The freedesktop icon name to look for.</param>
++    /// <param name="fallbackColor">The colour of the drawn placeholder.</param>
++    /// <param name="shape">The outline of the drawn placeholder.</param>
++    private static Icon FromTheme(string themeName, Color fallbackColor, Shape shape)
++    {
++        try
++        {
++            var theme = Gtk.IconTheme.Default;
++            if (theme != null && theme.HasIcon(themeName))
++            {
++                var pixbuf = theme.LoadIcon(themeName, IconSize, Gtk.IconLookupFlags.UseBuiltin);
++                if (pixbuf != null)
++                {
++                    return IconFromPixbuf(pixbuf);
++                }
++            }
++        }
++        catch (Exception ex)
++        {
++            Diagnostics.GtkLogger.Debug($"SystemIcons could not load '{themeName}' from the icon theme: {ex.Message}");
++        }
++
++        return Draw(fallbackColor, shape);
++    }
++
++    /// <summary>
++    /// Draws a simple placeholder icon in the given colour and shape.
++    /// </summary>
++    private static Icon Draw(Color color, Shape shape)
++    {
++        using var surface = new Cairo.ImageSurface(Cairo.Format.Argb32, IconSize, IconSize);
++        using (var context = new Cairo.Context(surface))
++        {
++            context.SetSourceRGBA(color.R / 255d, color.G / 255d, color.B / 255d, 1d);
++            switch (shape)
++            {
++                case Shape.Circle:
++                    context.Arc(IconSize / 2d, IconSize / 2d, (IconSize / 2d) - 2d, 0d, 2d * Math.PI);
++                    break;
++
++                case Shape.Triangle:
++                    context.MoveTo(IconSize / 2d, 2d);
++                    context.LineTo(IconSize - 2d, IconSize - 3d);
++                    context.LineTo(2d, IconSize - 3d);
++                    context.ClosePath();
++                    break;
++
++                case Shape.Shield:
++                    context.MoveTo(IconSize / 2d, 2d);
++                    context.LineTo(IconSize - 4d, 8d);
++                    context.LineTo(IconSize / 2d, IconSize - 2d);
++                    context.LineTo(4d, 8d);
++                    context.ClosePath();
++                    break;
++
++                default:
++                    context.Rectangle(3d, 3d, IconSize - 6d, IconSize - 6d);
++                    break;
++            }
++
++            context.Fill();
++        }
++
++        surface.Flush();
++
++        return IconFromPixbuf(new Gdk.Pixbuf(surface, 0, 0, IconSize, IconSize));
++    }
++
++    /// <summary>
++    /// Wraps a pixbuf in an <see cref="T:System.Drawing.Icon" />.
++    /// </summary>
++    private static Icon IconFromPixbuf(Gdk.Pixbuf pixbuf)
++    {
++        var bitmap = new Bitmap(pixbuf.Width, pixbuf.Height) { Pixbuf = pixbuf };
++        using var stream = new IO.MemoryStream(pixbuf.SaveToBuffer("png"));
++
++        return new Icon(stream);
++    }
++}
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/TextureBrush.cs b/Net4x.Gtk.Drawing/System/Drawing/TextureBrush.cs
+new file mode 100644
+index 00000000..f72da1a8
+--- /dev/null
++++ b/Net4x.Gtk.Drawing/System/Drawing/TextureBrush.cs
+@@ -0,0 +1,239 @@
++using System.Drawing.Drawing2D;
++using System.Drawing.Imaging;
++
++namespace System.Drawing;
++
++/// <summary>
++/// Each property of the <see cref="T:System.Drawing.TextureBrush" /> class is a
++/// <see cref="T:System.Drawing.Brush" /> object that uses an image to fill the interior of a shape.
++/// </summary>
++/// <remarks>
++/// This was the one core GDI+ brush type the shim did not have — <see cref="T:System.Drawing.SolidBrush" />,
++/// <see cref="T:System.Drawing.Drawing2D.HatchBrush" />,
++/// <see cref="T:System.Drawing.Drawing2D.LinearGradientBrush" /> and
++/// <see cref="T:System.Drawing.Drawing2D.PathGradientBrush" /> were all present. Cairo supports surface
++/// patterns with repeat modes natively, which is what backs this class.
++/// </remarks>
++public sealed class TextureBrush : Brush
++{
++    /// <summary>
++    /// Initializes a new <see cref="T:System.Drawing.TextureBrush" /> that uses the specified image.
++    /// </summary>
++    /// <param name="bitmap">The image to fill with.</param>
++    public TextureBrush(Image bitmap) : this(bitmap, WrapMode.Tile)
++    {
++    }
++
++    /// <summary>
++    /// Initializes a new <see cref="T:System.Drawing.TextureBrush" /> that uses the specified image and
++    /// wrap mode.
++    /// </summary>
++    /// <param name="image">The image to fill with.</param>
++    /// <param name="wrapMode">How the image is tiled when it is smaller than the area being filled.</param>
++    public TextureBrush(Image image, WrapMode wrapMode)
++    {
++        Image = image ?? throw new ArgumentNullException(nameof(image));
++        WrapMode = wrapMode;
++        ImageRectangle = new RectangleF(0f, 0f, image.Width, image.Height);
++        Transform = new Matrix();
++    }
++
++    /// <summary>
++    /// Initializes a new <see cref="T:System.Drawing.TextureBrush" /> that uses the specified region of the
++    /// specified image.
++    /// </summary>
++    /// <param name="image">The image to fill with.</param>
++    /// <param name="dstRect">The region of <paramref name="image" /> to use.</param>
++    public TextureBrush(Image image, Rectangle dstRect) : this(image, WrapMode.Tile)
++    {
++        ImageRectangle = new RectangleF(dstRect.X, dstRect.Y, dstRect.Width, dstRect.Height);
++    }
++
++    /// <summary>
++    /// Initializes a new <see cref="T:System.Drawing.TextureBrush" /> that uses the specified region of the
++    /// specified image.
++    /// </summary>
++    /// <param name="image">The image to fill with.</param>
++    /// <param name="dstRect">The region of <paramref name="image" /> to use.</param>
++    public TextureBrush(Image image, RectangleF dstRect) : this(image, WrapMode.Tile)
++    {
++        ImageRectangle = dstRect;
++    }
++
++    /// <summary>
++    /// Initializes a new <see cref="T:System.Drawing.TextureBrush" /> that uses the specified image, wrap
++    /// mode and region.
++    /// </summary>
++    /// <param name="image">The image to fill with.</param>
++    /// <param name="wrapMode">How the image is tiled.</param>
++    /// <param name="dstRect">The region of <paramref name="image" /> to use.</param>
++    public TextureBrush(Image image, WrapMode wrapMode, Rectangle dstRect) : this(image, wrapMode)
++    {
++        ImageRectangle = new RectangleF(dstRect.X, dstRect.Y, dstRect.Width, dstRect.Height);
++    }
++
++    /// <summary>
++    /// Initializes a new <see cref="T:System.Drawing.TextureBrush" /> that uses the specified image, wrap
++    /// mode and region.
++    /// </summary>
++    /// <param name="image">The image to fill with.</param>
++    /// <param name="wrapMode">How the image is tiled.</param>
++    /// <param name="dstRect">The region of <paramref name="image" /> to use.</param>
++    public TextureBrush(Image image, WrapMode wrapMode, RectangleF dstRect) : this(image, wrapMode)
++    {
++        ImageRectangle = dstRect;
++    }
++
++    /// <summary>
++    /// Initializes a new <see cref="T:System.Drawing.TextureBrush" /> that uses the specified image and
++    /// image attributes.
++    /// </summary>
++    /// <param name="image">The image to fill with.</param>
++    /// <param name="dstRect">The region of <paramref name="image" /> to use.</param>
++    /// <param name="imageAttr">Additional image attributes; kept for compatibility.</param>
++    public TextureBrush(Image image, RectangleF dstRect, ImageAttributes? imageAttr) : this(image, dstRect)
++    {
++        ImageAttributes = imageAttr;
++    }
++
++    /// <summary>
++    /// Initializes a new <see cref="T:System.Drawing.TextureBrush" /> that uses the specified image and
++    /// image attributes.
++    /// </summary>
++    /// <param name="image">The image to fill with.</param>
++    /// <param name="dstRect">The region of <paramref name="image" /> to use.</param>
++    /// <param name="imageAttr">Additional image attributes; kept for compatibility.</param>
++    public TextureBrush(Image image, Rectangle dstRect, ImageAttributes? imageAttr) : this(image, dstRect)
++    {
++        ImageAttributes = imageAttr;
++    }
++
++    /// <summary>
++    /// Gets the image this brush fills with.
++    /// </summary>
++    public Image Image { get; }
++
++    /// <summary>
++    /// Gets the region of <see cref="P:System.Drawing.TextureBrush.Image" /> this brush draws.
++    /// </summary>
++    public RectangleF ImageRectangle { get; private set; }
++
++    /// <summary>
++    /// Gets or sets the wrap mode used when the fill area is larger than the image.
++    /// </summary>
++    public WrapMode WrapMode { get; set; }
++
++    /// <summary>
++    /// Gets or sets the transform applied to the image before it is drawn.
++    /// </summary>
++    public Matrix Transform { get; set; }
++
++    /// <summary>
++    /// Gets the image attributes supplied when the brush was created, if any.
++    /// </summary>
++    public ImageAttributes? ImageAttributes { get; private set; }
++
++    /// <summary>
++    /// Creates an exact copy of this brush.
++    /// </summary>
++    /// <returns>The copy.</returns>
++    public override object Clone() => new TextureBrush(Image, WrapMode, ImageRectangle)
++    {
++        Transform = Transform,
++        ImageAttributes = ImageAttributes
++    };
++
++    /// <summary>
++    /// Resets the transform of this brush to the identity matrix.
++    /// </summary>
++    public void ResetTransform() => Transform = new Matrix();
++
++    /// <summary>
++    /// Multiplies the transform of this brush by the specified matrix.
++    /// </summary>
++    /// <param name="matrix">The matrix to multiply by.</param>
++    public void MultiplyTransform(Matrix matrix) => MultiplyTransform(matrix, MatrixOrder.Prepend);
++
++    /// <summary>
++    /// Multiplies the transform of this brush by the specified matrix in the specified order.
++    /// </summary>
++    /// <param name="matrix">The matrix to multiply by.</param>
++    /// <param name="order">The order in which to apply the multiplication.</param>
++    public void MultiplyTransform(Matrix matrix, MatrixOrder order)
++    {
++        if (matrix == null)
++        {
++            return;
++        }
++
++        Transform.Multiply(matrix, order);
++    }
++
++    /// <summary>
++    /// Translates the transform of this brush by the specified amounts.
++    /// </summary>
++    /// <param name="dx">The horizontal offset.</param>
++    /// <param name="dy">The vertical offset.</param>
++    public void TranslateTransform(float dx, float dy) => Transform.Translate(dx, dy);
++
++    /// <summary>
++    /// Translates the transform of this brush by the specified amounts in the specified order.
++    /// </summary>
++    /// <param name="dx">The horizontal offset.</param>
++    /// <param name="dy">The vertical offset.</param>
++    /// <param name="order">The order in which to apply the translation.</param>
++    public void TranslateTransform(float dx, float dy, MatrixOrder order) => Transform.Translate(dx, dy, order);
++
++    /// <summary>
++    /// Scales the transform of this brush by the specified amounts.
++    /// </summary>
++    /// <param name="sx">The horizontal scale factor.</param>
++    /// <param name="sy">The vertical scale factor.</param>
++    public void ScaleTransform(float sx, float sy) => Transform.Scale(sx, sy);
++
++    /// <summary>
++    /// Scales the transform of this brush by the specified amounts in the specified order.
++    /// </summary>
++    /// <param name="sx">The horizontal scale factor.</param>
++    /// <param name="sy">The vertical scale factor.</param>
++    /// <param name="order">The order in which to apply the scaling.</param>
++    public void ScaleTransform(float sx, float sy, MatrixOrder order) => Transform.Scale(sx, sy, order);
++
++    /// <summary>
++    /// Rotates the transform of this brush by the specified angle.
++    /// </summary>
++    /// <param name="angle">The angle of rotation, in degrees.</param>
++    public void RotateTransform(float angle) => Transform.Rotate(angle);
++
++    /// <summary>
++    /// Rotates the transform of this brush by the specified angle in the specified order.
++    /// </summary>
++    /// <param name="angle">The angle of rotation, in degrees.</param>
++    /// <param name="order">The order in which to apply the rotation.</param>
++    public void RotateTransform(float angle, MatrixOrder order) => Transform.Rotate(angle, order);
++
++    /// <summary>
++    /// Builds the Cairo pattern that paints this texture, honouring the wrap mode.
++    /// </summary>
++    /// <returns>The pattern, or <see langword="null" /> when the image has no pixels.</returns>
++    internal Cairo.Pattern? CreatePattern()
++    {
++        var pixbuf = Image.Pixbuf;
++        if (pixbuf == null)
++        {
++            return null;
++        }
++
++        var surface = new Cairo.ImageSurface(Cairo.Format.Argb32, pixbuf.Width, pixbuf.Height);
++        using (var context = new Cairo.Context(surface))
++        {
++            Gdk.CairoHelper.SetSourcePixbuf(context, pixbuf, 0, 0);
++            context.Paint();
++        }
++
++        return new Cairo.SurfacePattern(surface)
++        {
++            Extend = WrapMode == WrapMode.Clamp ? Cairo.Extend.None : Cairo.Extend.Repeat
++        };
++    }
++}
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/ToolboxBitmapAttribute.cs b/Net4x.Gtk.Drawing/System/Drawing/ToolboxBitmapAttribute.cs
+new file mode 100644
+index 00000000..4d3cd03f
+--- /dev/null
++++ b/Net4x.Gtk.Drawing/System/Drawing/ToolboxBitmapAttribute.cs
+@@ -0,0 +1,194 @@
++using System.IO;
++using System.Reflection;
++
++namespace System.Drawing;
++
++/// <summary>
++/// Specifies the image used to represent a component in the Visual Studio toolbox.
++/// </summary>
++/// <remarks>
++/// This attribute was missing, which made it a compile break on the *declaration* of any custom control —
++/// <c>[ToolboxBitmap(typeof(MyControl), "icon.bmp")]</c> — rather than at a call site, so an entire
++/// custom-control library failed to build. The image is resolved from the declaring type's assembly
++/// resources or from disk; a missing image yields <see langword="null" /> rather than an exception, which
++/// is what the framework does.
++/// </remarks>
++[AttributeUsage(AttributeTargets.Class)]
++public class ToolboxBitmapAttribute : Attribute
++{
++    /// <summary>The edge length of the small image the toolbox uses.</summary>
++    private const int SmallImageSize = 16;
++
++    private readonly string? _imageFile;
++
++    private readonly Type? _imageType;
++
++    private readonly string? _imageName;
++
++    private Image? _smallImage;
++
++    private Image? _largeImage;
++
++    /// <summary>
++    /// Initializes a new instance of the <see cref="T:System.Drawing.ToolboxBitmapAttribute" /> class with
++    /// an image loaded from the given file.
++    /// </summary>
++    /// <param name="imageFile">The path of the image file.</param>
++    public ToolboxBitmapAttribute(string imageFile)
++    {
++        _imageFile = imageFile;
++    }
++
++    /// <summary>
++    /// Initializes a new instance of the <see cref="T:System.Drawing.ToolboxBitmapAttribute" /> class with
++    /// an image loaded from the assembly of the given type.
++    /// </summary>
++    /// <param name="t">A type whose assembly contains the image resource.</param>
++    public ToolboxBitmapAttribute(Type t)
++    {
++        _imageType = t;
++        _imageName = t?.Name;
++    }
++
++    /// <summary>
++    /// Initializes a new instance of the <see cref="T:System.Drawing.ToolboxBitmapAttribute" /> class with
++    /// the named image resource from the assembly of the given type.
++    /// </summary>
++    /// <param name="t">A type whose assembly contains the image resource.</param>
++    /// <param name="name">The name of the embedded resource.</param>
++    public ToolboxBitmapAttribute(Type t, string name)
++    {
++        _imageType = t;
++        _imageName = name;
++    }
++
++    /// <summary>
++    /// The default attribute, carrying no image.
++    /// </summary>
++    public static readonly ToolboxBitmapAttribute Default = new(string.Empty);
++
++    /// <summary>
++    /// Returns the small (16x16) image for the component, or <see langword="null" /> when there is none.
++    /// </summary>
++    /// <param name="component">The component whose image is wanted.</param>
++    public Image? GetImage(object? component) => GetImage(component, true);
++
++    /// <summary>
++    /// Returns the image for the component, or <see langword="null" /> when there is none.
++    /// </summary>
++    /// <param name="component">The component whose image is wanted.</param>
++    /// <param name="large">Whether the large image is wanted.</param>
++    public Image? GetImage(object? component, bool large) =>
++        GetImage(component?.GetType(), large);
++
++    /// <summary>
++    /// Returns the small (16x16) image for the type, or <see langword="null" /> when there is none.
++    /// </summary>
++    /// <param name="type">The type whose image is wanted.</param>
++    public Image? GetImage(Type? type) => GetImage(type, false);
++
++    /// <summary>
++    /// Returns the image for the type, or <see langword="null" /> when there is none.
++    /// </summary>
++    /// <param name="type">The type whose image is wanted.</param>
++    /// <param name="large">Whether the large image is wanted.</param>
++    public Image? GetImage(Type? type, bool large) => GetImage(type, null, large);
++
++    /// <summary>
++    /// Returns the named image from the type's assembly, or <see langword="null" /> when there is none.
++    /// </summary>
++    /// <param name="type">The type whose assembly holds the resource.</param>
++    /// <param name="imgName">The name of the resource, or <see langword="null" /> to use the attribute's.</param>
++    /// <param name="large">Whether the large image is wanted.</param>
++    public Image? GetImage(Type? type, string? imgName, bool large)
++    {
++        var cached = large ? _largeImage : _smallImage;
++        if (cached != null)
++        {
++            return cached;
++        }
++
++        var loaded = Load(type ?? _imageType, imgName ?? _imageName);
++        if (loaded == null)
++        {
++            return null;
++        }
++
++        if (large)
++        {
++            _largeImage = loaded;
++
++            return _largeImage;
++        }
++
++        _smallImage = loaded.Width == SmallImageSize && loaded.Height == SmallImageSize
++            ? loaded
++            : loaded.GetThumbnailImage(SmallImageSize, SmallImageSize, () => false, IntPtr.Zero);
++
++        return _smallImage;
++    }
++
++    /// <summary>
++    /// Returns the image a type's <see cref="T:System.Drawing.ToolboxBitmapAttribute" /> names, or
++    /// <see langword="null" /> when the type carries no such attribute.
++    /// </summary>
++    /// <param name="type">The type to inspect.</param>
++    /// <param name="imageName">The name of the resource, or <see langword="null" /> to use the type name.</param>
++    /// <param name="large">Whether the large image is wanted.</param>
++    public static Image? GetImageFromResource(Type type, string? imageName, bool large) =>
++        new ToolboxBitmapAttribute(type, imageName ?? type?.Name ?? string.Empty).GetImage(type, imageName, large);
++
++    /// <summary>
++    /// Loads the image from the type's assembly resources, then from disk, and gives up quietly.
++    /// </summary>
++    private Image? Load(Type? type, string? name)
++    {
++        try
++        {
++            if (!string.IsNullOrEmpty(_imageFile) && File.Exists(_imageFile))
++            {
++                return Image.FromFile(_imageFile!);
++            }
++
++            if (type == null || string.IsNullOrEmpty(name))
++            {
++                return null;
++            }
++
++            var assembly = type.GetTypeInfo().Assembly;
++            foreach (var candidate in new[] { name!, type.Namespace + "." + name, type.FullName + ".bmp" })
++            {
++                var stream = assembly.GetManifestResourceStream(candidate);
++                if (stream != null)
++                {
++                    return Image.FromStream(stream);
++                }
++            }
++
++            return File.Exists(name) ? Image.FromFile(name!) : null;
++        }
++        catch (Exception ex)
++        {
++            // A missing or unreadable toolbox image is not an error worth failing a build or a run over.
++            Diagnostics.GtkLogger.Debug("ToolboxBitmapAttribute could not load an image: " + ex.Message);
++
++            return null;
++        }
++    }
++
++    /// <summary>
++    /// Indicates whether the given object is an equivalent attribute.
++    /// </summary>
++    /// <param name="value">The object to compare with.</param>
++    public override bool Equals(object? value) =>
++        value is ToolboxBitmapAttribute other
++        && other._imageFile == _imageFile
++        && other._imageType == _imageType
++        && other._imageName == _imageName;
++
++    /// <summary>
++    /// Returns a hash code for this attribute.
++    /// </summary>
++    public override int GetHashCode() =>
++        (_imageFile?.GetHashCode() ?? 0) ^ (_imageType?.GetHashCode() ?? 0) ^ (_imageName?.GetHashCode() ?? 0);
++}

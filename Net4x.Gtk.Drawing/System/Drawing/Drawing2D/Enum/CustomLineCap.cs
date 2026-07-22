@@ -19,7 +19,7 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
     /// A
     /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> object that defines the outline of the custom cap.
     /// </param>
-    public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath)
+    public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath) : this(fillPath, strokePath, LineCap.Flat, 0f)
     {
     }
 
@@ -39,7 +39,7 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
     /// <param name="baseCap">
     /// The line cap from which to create the custom cap.
     /// </param>
-    public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath, LineCap baseCap)
+    public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath, LineCap baseCap) : this(fillPath, strokePath, baseCap, 0f)
     {
     }
 
@@ -64,7 +64,23 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
     /// </param>
     public CustomLineCap(GraphicsPath fillPath, GraphicsPath strokePath, LineCap baseCap, float baseInset)
     {
+        // The constructors discarded everything they were given, the getters threw while the setters
+        // silently accepted, and Clone returned null - so a custom cap could be built but never inspected,
+        // copied or applied. The state is now stored; the cap still does not render (Cairo has no
+        // user-defined cap primitive), which is recorded in EMULATION-GAPS.md.
+        _fillPath = fillPath;
+        _strokePath = strokePath;
+        BaseCap = baseCap;
+        BaseInset = baseInset;
     }
+
+    private readonly GraphicsPath? _fillPath;
+
+    private readonly GraphicsPath? _strokePath;
+
+    private LineCap _startCap = LineCap.Flat;
+
+    private LineCap _endCap = LineCap.Flat;
 
     /// <summary>
     /// Gets or sets the
@@ -78,13 +94,8 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public LineCap BaseCap
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-        set
-        {
-        }
+        get;
+        set;
     }
 
     /// <summary>
@@ -95,13 +106,8 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public float BaseInset
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-        set
-        {
-        }
+        get;
+        set;
     }
 
     /// <summary>
@@ -116,14 +122,9 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public LineJoin StrokeJoin
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-        set
-        {
-        }
-    }
+        get;
+        set;
+    } = LineJoin.Miter;
 
     /// <summary>
     /// Gets or sets the amount by which to scale this
@@ -135,14 +136,9 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public float WidthScale
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-        set
-        {
-        }
-    }
+        get;
+        set;
+    } = 1f;
 
     /// <summary>
     /// Creates an exact copy of this
@@ -154,7 +150,17 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public object? Clone()
     {
-        return null;
+        return new CustomLineCap(
+            _fillPath?.Clone() as GraphicsPath ?? new GraphicsPath(),
+            _strokePath?.Clone() as GraphicsPath ?? new GraphicsPath(),
+            BaseCap,
+            BaseInset)
+        {
+            StrokeJoin = StrokeJoin,
+            WidthScale = WidthScale,
+            _startCap = _startCap,
+            _endCap = _endCap
+        };
     }
 
     /// <summary>
@@ -178,7 +184,8 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
     /// </param>
     public void GetStrokeCaps(out LineCap startCap, out LineCap endCap)
     {
-        throw new System.NotImplementedException();
+        startCap = _startCap;
+        endCap = _endCap;
     }
 
     /// <summary>
@@ -194,6 +201,8 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
     /// </param>
     public void SetStrokeCaps(LineCap startCap, LineCap endCap)
     {
+        _startCap = startCap;
+        _endCap = endCap;
     }
 
     /// <summary>

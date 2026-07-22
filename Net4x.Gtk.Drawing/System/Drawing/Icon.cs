@@ -421,7 +421,8 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// </returns>
     public static Icon FromHandle(IntPtr handle)
     {
-        throw new System.NotImplementedException();
+        throw new PlatformNotSupportedException(
+            "GDI icon handles are not available on this platform; construct an Icon from a file or stream instead.");
     }
 
     /// <summary>

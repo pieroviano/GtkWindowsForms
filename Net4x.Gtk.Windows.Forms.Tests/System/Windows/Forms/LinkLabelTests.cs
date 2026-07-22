@@ -151,75 +151,49 @@ public class LinkLabelTests
         Assert.Equal(linkLabel.Text, linkArg.Description);
     }
 
+    // The three tests that stood here asserted the old broken behaviour as the contract: that
+    // Links.Add(object) overwrote the label's Text with the value's string form, that Clear() wiped the
+    // Text, and that Contains() did a substring search on it. WinForms does none of those - a link
+    // collection stores links and never touches Text. They are replaced by the real semantics.
+
     [Fact]
-    public void LinkCollection_Add_ShouldSetOwnerText()
+    public void LinkCollection_Add_StoresTheLinkAndLeavesTheTextAlone()
     {
-        var form = new Form();
-        var linkLabel = new LinkLabel();
-        form.Controls.Add(linkLabel);
-
+        var linkLabel = new LinkLabel { Text = "visit our site today" };
         var collection = new LinkLabel.LinkCollection(linkLabel);
-        var textBefore = "";
-        var textAfter = "";
 
-        form.Load += (s, e) =>
-        {
-            textBefore = linkLabel.Text;
-            collection.Add("https://example.com");
-            textAfter = linkLabel.Text;
-            form.Close();
-        };
+        var added = collection.Add(new LinkLabel.Link(6, 3));
 
-        form.ShowDialog();
-
-        Assert.Equal("", textBefore);
-        Assert.Equal("https://example.com", textAfter);
+        Assert.Single(collection);
+        Assert.Same(added, collection[0]);
+        Assert.Equal("visit our site today", linkLabel.Text);
     }
 
     [Fact]
-    public void LinkCollection_Clear_ShouldClearOwnerText()
+    public void LinkCollection_Clear_EmptiesTheCollectionAndLeavesTheTextAlone()
     {
-        var form = new Form();
-        var linkLabel = new LinkLabel();
-        form.Controls.Add(linkLabel);
-
+        var linkLabel = new LinkLabel { Text = "visit our site today" };
         var collection = new LinkLabel.LinkCollection(linkLabel);
+        collection.Add(new LinkLabel.Link(6, 3));
 
-        form.Load += (s, e) =>
-        {
-            collection.Add("https://example.com");
-            collection.Clear();
-            form.Close();
-        };
+        collection.Clear();
 
-        form.ShowDialog();
-
-        Assert.Equal("", linkLabel.Text);
+        Assert.Empty(collection);
+        Assert.Equal("visit our site today", linkLabel.Text);
     }
 
     [Fact]
-    public void LinkCollection_Contains_ShouldReturnCorrectValue()
+    public void LinkCollection_Contains_IsIdentityBased()
     {
-        var form = new Form();
-        var linkLabel = new LinkLabel();
-        form.Controls.Add(linkLabel);
-
+        var linkLabel = new LinkLabel { Text = "visit our site today" };
         var collection = new LinkLabel.LinkCollection(linkLabel);
-        var containsBefore = false;
-        var containsAfter = false;
+        var link = new LinkLabel.Link(6, 3);
+        var stranger = new LinkLabel.Link(0, 5);
 
-        form.Load += (s, e) =>
-        {
-            containsBefore = collection.Contains("https://example.com");
-            collection.Add("https://example.com");
-            containsAfter = collection.Contains("https://example.com");
-            form.Close();
-        };
+        collection.Add(link);
 
-        form.ShowDialog();
-
-        Assert.False(containsBefore);
-        Assert.True(containsAfter);
+        Assert.True(collection.Contains(link), "the added link should be contained");
+        Assert.False(collection.Contains(stranger), "a link that was never added should not be contained");
     }
 
     [Fact]

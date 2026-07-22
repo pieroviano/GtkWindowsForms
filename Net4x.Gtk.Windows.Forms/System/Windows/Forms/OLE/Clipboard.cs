@@ -132,29 +132,91 @@ namespace System.Windows.Forms
                 return GetData(format.Name, true);
             }
 
+            /// <summary>
+            /// Indicates whether the clipboard holds data in the specified format.
+            /// </summary>
+            /// <param name="format">The format to look for.</param>
+            /// <param name="autoConvert">Whether to consider formats the data can be converted to.</param>
+            /// <remarks>
+            /// These five members all threw, so the guard every well-written paste handler calls before
+            /// GetData failed while the unguarded call worked. They now answer from the GTK clipboard's
+            /// advertised targets.
+            /// </remarks>
             public bool GetDataPresent(string format, bool autoConvert)
             {
-                throw new NotImplementedException();
+                if (string.IsNullOrEmpty(format))
+                {
+                    return false;
+                }
+
+                foreach (var available in GetFormats(autoConvert))
+                {
+                    if (string.Equals(available, format, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
             }
 
+            /// <summary>
+            /// Indicates whether the clipboard holds data in the specified format.
+            /// </summary>
+            /// <param name="format">The format to look for.</param>
             public bool GetDataPresent(string format)
             {
-                throw new NotImplementedException();
+                return GetDataPresent(format, true);
             }
 
+            /// <summary>
+            /// Indicates whether the clipboard holds data of the specified type.
+            /// </summary>
+            /// <param name="format">The type to look for.</param>
             public bool GetDataPresent(Type format)
             {
-                throw new NotImplementedException();
+                return format != null && GetDataPresent(format.FullName ?? format.Name, true);
             }
 
+            /// <summary>
+            /// Returns the formats the clipboard data is available in.
+            /// </summary>
+            /// <param name="autoConvert">Whether to include formats the data can be converted to.</param>
             public string[] GetFormats(bool autoConvert)
             {
-                throw new NotImplementedException();
+                var formats = new List<string>();
+
+                if (clipboard.WaitIsTextAvailable())
+                {
+                    formats.Add(DataFormats.Text);
+                    formats.Add(DataFormats.UnicodeText);
+                    if (autoConvert)
+                    {
+                        formats.Add(DataFormats.StringFormat);
+                    }
+                }
+
+                if (clipboard.WaitIsImageAvailable())
+                {
+                    formats.Add(DataFormats.Bitmap);
+                }
+
+                // Only the formats GetData can actually return are reported; the GtkSharp WaitForTargets
+                // binding cannot be called from managed code, so the advertised target list is unavailable.
+                if (formats.Count > 0 && autoConvert && !formats.Contains(DataFormats.Serializable))
+                {
+                    formats.Add(DataFormats.Serializable);
+                }
+
+                return formats.ToArray();
             }
 
+            /// <summary>
+            /// Returns the formats the clipboard data is available in, including convertible ones.
+            /// </summary>
             public string[] GetFormats()
             {
-                throw new NotImplementedException();
+                return GetFormats(true);
             }
 
             public void SetData(string format, bool autoConvert, object data)

@@ -704,16 +704,31 @@ public class ListView : ContainerControl
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the virtual model is used.
+    /// Gets or sets a value indicating whether the list view is in virtual mode.
     /// </summary>
     /// <value>
-    /// <c>true</c> if the virtual model is used; otherwise, <c>false</c>.
+    /// <c>true</c> if the list view is in virtual mode; otherwise, <c>false</c>.
     /// </value>
-    public bool VirtualModel
+    /// <remarks>
+    /// This was spelled <c>VirtualModel</c>, so designer-generated code from a real WinForms project
+    /// did not compile. The old spelling is kept as an obsolete alias.
+    /// </remarks>
+    public bool VirtualMode
     {
         get;
         set;
     } = true;
+
+    /// <summary>
+    /// Obsolete misspelling of <see cref="P:System.Windows.Forms.ListView.VirtualMode" />.
+    /// </summary>
+    [Obsolete("Use VirtualMode; VirtualModel was a misspelling of the WinForms property name.")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public bool VirtualModel
+    {
+        get => VirtualMode;
+        set => VirtualMode = value;
+    }
 
     internal ListViewGroup DefaultGroup
     {

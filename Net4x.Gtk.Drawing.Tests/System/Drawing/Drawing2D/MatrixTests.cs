@@ -289,27 +289,28 @@ public class MatrixTests
         Assert.Null(clone);
     }
 
-    [Fact]
-    public void Elements_ThrowsNotImplemented()
-    {
-        var m = new Matrix();
+    // These three used to throw NotImplementedException, which blocked inspecting or serialising a
+    // transform even though the transform operations themselves worked. They now report real values.
 
-        Assert.Throws<NotImplementedException>(() => _ = m.Elements);
+    [Fact]
+    public void Elements_ReportsTheSixMatrixValues()
+    {
+        var m = new Matrix(1f, 2f, 3f, 4f, 5f, 6f);
+
+        Assert.Equal(new[] { 1f, 2f, 3f, 4f, 5f, 6f }, m.Elements);
     }
 
     [Fact]
-    public void IsIdentity_ThrowsNotImplemented()
+    public void IsIdentity_IsTrueOnlyForTheIdentityMatrix()
     {
-        var m = new Matrix();
-
-        Assert.Throws<NotImplementedException>(() => _ = m.IsIdentity);
+        Assert.True(new Matrix().IsIdentity, "a new matrix should be the identity");
+        Assert.False(new Matrix(2f, 0f, 0f, 2f, 0f, 0f).IsIdentity, "a scaled matrix is not the identity");
     }
 
     [Fact]
-    public void IsInvertible_ThrowsNotImplemented()
+    public void IsInvertible_FollowsTheDeterminant()
     {
-        var m = new Matrix();
-
-        Assert.Throws<NotImplementedException>(() => _ = m.IsInvertible);
+        Assert.True(new Matrix(2f, 0f, 0f, 3f, 0f, 0f).IsInvertible, "a non-zero determinant is invertible");
+        Assert.False(new Matrix(0f, 0f, 0f, 0f, 0f, 0f).IsInvertible, "a zero determinant is not invertible");
     }
 }

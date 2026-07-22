@@ -843,9 +843,25 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual BindingContext? BindingContext
     {
-        get;
-        set;
+        // This was an auto-property nothing ever assigned, so it stayed null, no binding manager was
+        // ever created for a control, and consequently no Binding ever pushed a value into it.
+        // WinForms inherits the parent's context and gives a root control one of its own.
+        get
+        {
+            if (_bindingContext != null)
+            {
+                return _bindingContext;
+            }
+
+            var inherited = Parent?.BindingContext;
+
+            return inherited ?? (_bindingContext = new BindingContext());
+        }
+
+        set => _bindingContext = value;
     }
+
+    private BindingContext? _bindingContext;
 
     /// <summary>
     /// Gets or sets the border style for the control.
@@ -987,6 +1003,25 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets the context menu associated with the control.
     /// </summary>
+    /// <summary>
+    /// Gets or sets the legacy <see cref="T:System.Windows.Forms.ContextMenu" /> for this control.
+    /// </summary>
+    /// <remarks>
+    /// This is how the legacy menu API attaches a shortcut menu to a control. Assigning it also sets
+    /// ContextMenuStrip, so old and new shortcut-menu code share one attachment point.
+    /// </remarks>
+    public virtual ContextMenu? ContextMenu
+    {
+        get => _contextMenu;
+        set
+        {
+            _contextMenu = value;
+            ContextMenuStrip = value?.Strip;
+        }
+    }
+
+    private ContextMenu? _contextMenu;
+
     public virtual ContextMenuStrip? ContextMenuStrip
     {
         get;
@@ -1001,7 +1036,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets a value indicating whether the control has been created.
     /// </summary>
-    public virtual bool Created => _Created;
+    // _Created was only set by PerformLayout/CreateControl, so a live control with a real GTK handle
+    // still reported itself uncreated - which switched the whole data-binding pipeline off, since a
+    // Binding only activates for a created component.
+    public virtual bool Created => _Created || IsHandleCreated;
 
     /// <summary>
     /// Gets or sets the cursor for the control.
@@ -1097,6 +1135,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             UpdateStyle();
         }
     }
+
+    /// <summary>
+    /// The font a control uses when neither it nor any ancestor has been given one.
+    /// </summary>
+    public static Font DefaultFont { get; } = new Font("Sans", 9f);
 
     /// <summary>
     /// Gets or sets the foreground color of the control.
@@ -2015,6 +2058,44 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </param>
     public virtual void DrawToBitmap(Bitmap bitmap, Rectangle targetBounds)
     {
+        // This was an empty method, so callers got a blank image with no error. Render the widget when it
+        // is realized; otherwise at least lay down the control's background, so the caller receives the
+        // control's appearance rather than nothing at all.
+        if (bitmap == null)
+        {
+            throw new ArgumentNullException(nameof(bitmap));
+        }
+
+        var width = Math.Min(Math.Max(targetBounds.Width, 1), bitmap.Width);
+        var height = Math.Min(Math.Max(targetBounds.Height, 1), bitmap.Height);
+        if (width <= 0 || height <= 0)
+        {
+            return;
+        }
+
+        using var surface = new Cairo.ImageSurface(Cairo.Format.Argb32, width, height);
+        using (var cairo = new Cairo.Context(surface))
+        {
+            var background = BackColor;
+            if (background.IsEmpty || background.A == 0)
+            {
+                background = Color.White;
+            }
+
+            cairo.SetSourceRGBA(background.R / 255d, background.G / 255d, background.B / 255d, 1d);
+            cairo.Rectangle(0, 0, width, height);
+            cairo.Fill();
+
+            var widget = this.Widget;
+            if (widget != null && widget.IsRealized)
+            {
+                cairo.Translate(-targetBounds.X, -targetBounds.Y);
+                widget.Draw(cairo);
+            }
+        }
+
+        surface.Flush();
+        bitmap.Pixbuf = new Gdk.Pixbuf(surface, 0, 0, width, height);
     }
 
     /// <summary>
@@ -3908,7 +3989,32 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </param>
     protected virtual void SetStyle(ControlStyles styles, bool value)
     {
+        // This was an empty method and there was no GetStyle at all, so the standard custom-control
+        // recipe (UserPaint | AllPaintingInWmPaint | OptimizedDoubleBuffer | ResizeRedraw) recorded
+        // nothing and could not be read back.
+        if (value)
+        {
+            _controlStyles |= styles;
+        }
+        else
+        {
+            _controlStyles &= ~styles;
+        }
     }
+
+    /// <summary>
+    /// Returns whether every bit of <paramref name="flag" /> is set for this control.
+    /// </summary>
+    /// <param name="flag">The style bits to test.</param>
+    protected internal bool GetStyle(ControlStyles flag) => (_controlStyles & flag) == flag;
+
+    /// <summary>
+    /// The control styles in effect. Defaults match the WinForms Control defaults.
+    /// </summary>
+    private ControlStyles _controlStyles =
+        ControlStyles.UserPaint | ControlStyles.StandardClick | ControlStyles.Selectable |
+        ControlStyles.StandardDoubleClick | ControlStyles.AllPaintingInWmPaint |
+        ControlStyles.UseTextForAccessibility;
 
     /// <summary>
     /// Updates the background styling when mapped.

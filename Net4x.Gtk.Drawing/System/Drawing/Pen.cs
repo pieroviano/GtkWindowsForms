@@ -381,10 +381,15 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
     /// </returns>
     public PenType PenType
     {
-        get
+        // This threw; GDI+ derives the pen type from the kind of brush the pen strokes with.
+        get => Brush switch
         {
-            throw new System.NotImplementedException();
-        }
+            Drawing2D.HatchBrush => PenType.HatchFill,
+            Drawing2D.LinearGradientBrush => PenType.LinearGradient,
+            Drawing2D.PathGradientBrush => PenType.PathGradient,
+            TextureBrush => PenType.TextureFill,
+            _ => PenType.SolidColor
+        };
     }
 
     /// <summary>

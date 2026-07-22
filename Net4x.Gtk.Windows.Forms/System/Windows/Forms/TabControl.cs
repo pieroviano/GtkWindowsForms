@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -453,11 +453,14 @@ public partial class TabControl : ContainerControl
         /// </value>
         public bool IsReadOnly { get { return false; } }
 
-        bool IList.IsFixedSize => throw new NotImplementedException();
+        // The public surface of this collection works, but every explicit IList/ICollection member threw,
+        // so anything that reached the pages through the interface - IList list = tabControl.TabPages, a
+        // CopyTo, a non-generic enumeration helper - failed. They now delegate to the public members.
+        bool IList.IsFixedSize => false;
 
-        bool ICollection.IsSynchronized => throw new NotImplementedException();
+        bool ICollection.IsSynchronized => false;
 
-        object ICollection.SyncRoot => throw new NotImplementedException();
+        object ICollection.SyncRoot => this;
 
         /// <summary>
         /// Gets the
@@ -483,7 +486,12 @@ public partial class TabControl : ContainerControl
         /// </returns>
         public virtual TabPage this[int index] { get { return _owner.Controls[index]; } set { Add(value); } }
 
-        object IList.this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        object IList.this[int index]
+        {
+            get => this[index];
+            set => this[index] = value as TabPage
+                                 ?? throw new ArgumentException("Value must be a TabPage.", nameof(value));
+        }
 
         /// <summary>
         /// Adds the specified key.
@@ -651,12 +659,7 @@ public partial class TabControl : ContainerControl
         /// value
         /// </paramref> if found in the list; otherwise, -1.
         /// </returns>
-        /// <exception cref="T:System.NotImplementedException">
-        /// </exception>
-        public int IndexOf(object value)
-        {
-            throw new NotImplementedException();
-        }
+        public int IndexOf(object value) => value is TabPage page ? IndexOf(page) : -1;
 
         /// <summary>
         /// Indexes the of.
@@ -784,12 +787,8 @@ public partial class TabControl : ContainerControl
         /// <see cref="T:System.Collections.IList">
         /// </see>.
         /// </param>
-        /// <exception cref="T:System.NotImplementedException">
-        /// </exception>
-        public void Insert(int index, object value)
-        {
-            throw new NotImplementedException();
-        }
+        public void Insert(int index, object value) =>
+            Insert(index, value as TabPage ?? throw new ArgumentException("Value must be a TabPage.", nameof(value)));
 
         /// <summary>
         /// Removes the specified value.
@@ -828,27 +827,39 @@ public partial class TabControl : ContainerControl
 
         int IList.Add(object value)
         {
-            throw new NotImplementedException();
+            Add(value as TabPage ?? throw new ArgumentException("Value must be a TabPage.", nameof(value)));
+
+            return Count - 1;
         }
 
-        bool IList.Contains(object value)
+        bool IList.Contains(object value) => value is TabPage page && Contains(page);
+
+        /// <summary>
+        /// Copies the pages into the given array starting at the given position.
+        /// </summary>
+        /// <param name="array">The array to copy into.</param>
+        /// <param name="index">The position in the array to start at.</param>
+        public void CopyTo(Array array, int index)
         {
-            throw new NotImplementedException();
+            if (array == null)
+            {
+                throw new ArgumentNullException(nameof(array));
+            }
+
+            for (var i = 0; i < Count; i++)
+            {
+                array.SetValue(this[i], index + i);
+            }
         }
 
-        void CopyTo(Array array, int index)
-        {
-            throw new NotImplementedException();
-        }
-
-        void ICollection.CopyTo(Array array, int index)
-        {
-            throw new NotImplementedException();
-        }
+        void ICollection.CopyTo(Array array, int index) => CopyTo(array, index);
 
         void IList.Remove(object value)
         {
-            throw new NotImplementedException();
+            if (value is TabPage page)
+            {
+                Remove(page);
+            }
         }
     }
 }

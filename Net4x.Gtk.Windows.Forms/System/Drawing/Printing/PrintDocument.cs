@@ -194,8 +194,10 @@ public class PrintDocument : Component
             AllowPrintToFile = false,
             PrintToFile = false
         };
-        printDialog.Document.DocumentName = "PrintDocument";
-        printDialog.RunPrint(null, true);
+        printDialog.Document.DocumentName = DocumentName;
+        // Print() used to show the print dialog. In WinForms it prints straight to the configured
+        // printer; showing a dialog is the caller's choice via PrintDialog.
+        printDialog.RunPrint(null, false);
     }
 
     /// <summary>

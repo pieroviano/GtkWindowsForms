@@ -475,7 +475,8 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// <returns>
     /// The System.Drawing.Font this method creates.
     /// </returns>
-    public static Font FromHdc(IntPtr hdc) { return new Font("Arial", 12); }
+    public static Font FromHdc(IntPtr hdc) =>
+        throw new PlatformNotSupportedException("GDI device contexts are not available on this platform; construct a Font from a family name and size instead.");
 
     /// <summary>
     /// Creates a System.Drawing.Font from the specified Windows handle.
@@ -486,7 +487,8 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// <returns>
     /// The System.Drawing.Font this method creates.
     /// </returns>
-    public static Font FromHfont(IntPtr hfont) { return new Font("Arial", 12); }
+    public static Font FromHfont(IntPtr hfont) =>
+        throw new PlatformNotSupportedException("GDI font handles are not available on this platform; construct a Font from a family name and size instead.");
 
     /// <summary>
     /// Creates a System.Drawing.Font from the specified GDI logical font (LOGFONT) structure.
@@ -500,7 +502,8 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// <returns>
     /// The System.Drawing.Font that this method creates.
     /// </returns>
-    public static Font FromLogFont(object lf, IntPtr hdc) { return new Font("Arial", 12); }
+    public static Font FromLogFont(object lf, IntPtr hdc) =>
+        throw new PlatformNotSupportedException("GDI LOGFONT structures are not available on this platform; construct a Font from a family name and size instead.");
 
     /// <summary>
     /// Creates a System.Drawing.Font from the specified GDI logical font (LOGFONT) structure.
@@ -511,7 +514,8 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// <returns>
     /// The System.Drawing.Font that this method creates.
     /// </returns>
-    public static Font FromLogFont(object lf) { return new Font("Arial", 12); }
+    public static Font FromLogFont(object lf) =>
+        throw new PlatformNotSupportedException("GDI LOGFONT structures are not available on this platform; construct a Font from a family name and size instead.");
 
     /// <summary>
     /// Gets the hash code for this System.Drawing.Font.

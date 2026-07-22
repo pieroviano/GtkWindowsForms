@@ -1065,6 +1065,11 @@ public class Binding
         {
             _validateInfo = eventDescriptor;
         }
+
+        // WinForms finishes CheckBinding by re-evaluating whether the binding is live. Without this a
+        // binding attached after its manager already existed never activated, so PushData took the
+        // "not binding" branch and wrote null into the bound control property.
+        UpdateIsBinding();
     }
 
     private BindingCompleteEventArgs CreateBindingCompleteEventArgs(BindingCompleteContext context, Exception? ex)

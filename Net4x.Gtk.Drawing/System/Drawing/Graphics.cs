@@ -28,9 +28,13 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
     private readonly Image? image;
 
-    private static Context? imagecontext;
+    // These were static, so every Graphics created by FromImage shared one Cairo surface and context:
+    // allocating a second one disposed the first one's drawing surface out from under it. Two Graphics
+    // objects over two different bitmaps could not coexist, which is exactly what double buffering needs,
+    // and it is also why each CreateGraphics call was observed to dispose the previous surface.
+    private ImageSurface? ownedSurface;
 
-    private static ImageSurface? imagesurface;
+    private bool ownsContext;
 
     private readonly Gdk.Rectangle rectangle;
 
@@ -82,9 +86,17 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public CompositingMode CompositingMode
     {
-        get;
-        set;
+        get => _compositingMode;
+        set
+        {
+            _compositingMode = value;
+            this.context.Operator = value == CompositingMode.SourceCopy
+                ? Cairo.Operator.Source
+                : Cairo.Operator.Over;
+        }
     }
+
+    private CompositingMode _compositingMode = CompositingMode.SourceOver;
 
     /// <summary>
     /// Gets or sets the compositing quality for this Graphics object.
@@ -113,9 +125,23 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public InterpolationMode InterpolationMode
     {
+        // Nothing consumed this, so image scaling always used a fixed filter. It now selects the
+        // Gdk interpolation used when images are resampled.
         get;
         set;
-    }
+    } = InterpolationMode.Default;
+
+    /// <summary>
+    /// The Gdk filter matching <see cref="P:System.Drawing.Graphics.InterpolationMode" />.
+    /// </summary>
+    private Gdk.InterpType ImageInterpolation => InterpolationMode switch
+    {
+        InterpolationMode.NearestNeighbor => Gdk.InterpType.Nearest,
+        InterpolationMode.Low => Gdk.InterpType.Nearest,
+        InterpolationMode.Bilinear or InterpolationMode.HighQualityBilinear => Gdk.InterpType.Bilinear,
+        InterpolationMode.Bicubic or InterpolationMode.HighQualityBicubic or InterpolationMode.High => Gdk.InterpType.Hyper,
+        _ => Gdk.InterpType.Tiles
+    };
 
     /// <summary>
     /// Gets a value specifying whether the current clipping region is empty.
@@ -141,17 +167,64 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public float PageScale
     {
-        get;
-        set;
+        // PageUnit and PageScale were inert auto-properties, so a Graphics set to Millimeter or Inch
+        // still drew at pixel coordinates - a geometric error, not a cosmetic one. Fold them into
+        // the current transform instead.
+        get => _pageScale;
+        set
+        {
+            ApplyPageTransform(_pageUnit, _pageScale, _pageUnit, value);
+            _pageScale = value;
+        }
     }
+
+    private float _pageScale = 1f;
+
+    private GraphicsUnit _pageUnit = GraphicsUnit.Display;
+
+    /// <summary>
+    /// Scales the current transform by the change in page unit/scale, so the page transform composes
+    /// with whatever world transform is already in effect.
+    /// </summary>
+    private void ApplyPageTransform(GraphicsUnit oldUnit, float oldScale, GraphicsUnit newUnit, float newScale)
+    {
+        var previous = PixelsPerUnit(oldUnit) * oldScale;
+        var next = PixelsPerUnit(newUnit) * newScale;
+        if (previous <= 0d || next <= 0d)
+        {
+            return;
+        }
+
+        var delta = next / previous;
+        if (Math.Abs(delta - 1d) > 1e-9d)
+        {
+            this.context.Scale(delta, delta);
+        }
+    }
+
+    /// <summary>
+    /// How many device pixels one unit of <paramref name="unit" /> covers at the default 96 dpi.
+    /// </summary>
+    private static double PixelsPerUnit(GraphicsUnit unit) => unit switch
+    {
+        GraphicsUnit.Point => DefaultDpi / 72d,
+        GraphicsUnit.Inch => DefaultDpi,
+        GraphicsUnit.Document => DefaultDpi / 300d,
+        GraphicsUnit.Millimeter => DefaultDpi / 25.4d,
+        _ => 1d
+    };
 
     /// <summary>
     /// Gets or sets the unit of measure used for page coordinates.
     /// </summary>
     public GraphicsUnit PageUnit
     {
-        get;
-        set;
+        get => _pageUnit;
+        set
+        {
+            ApplyPageTransform(_pageUnit, _pageScale, value, _pageScale);
+            _pageUnit = value;
+        }
     }
 
     /// <summary>
@@ -177,24 +250,35 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public SmoothingMode SmoothingMode
     {
-        get;
-        set;
-    }
-
-    /// <summary>
-    /// Gets or sets the text contrast used by this Graphics object.
-    /// Not implemented in this wrapper.
-    /// </summary>
-    public int TextContrast
-    {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
+        // These were plain auto-properties with no consumer anywhere in the file, so setting
+        // SmoothingMode = AntiAlias read back correctly and changed nothing about the rendering.
+        get => _smoothingMode;
         set
         {
+            _smoothingMode = value;
+            this.context.Antialias = value switch
+            {
+                SmoothingMode.None or SmoothingMode.HighSpeed => Cairo.Antialias.None,
+                SmoothingMode.AntiAlias or SmoothingMode.HighQuality => Cairo.Antialias.Default,
+                _ => Cairo.Antialias.Default
+            };
         }
     }
+
+    private SmoothingMode _smoothingMode = SmoothingMode.Default;
+
+    /// <summary>
+    /// Gets or sets the gamma correction applied to rendered text, from 0 to 12.
+    /// </summary>
+    /// <remarks>
+    /// The getter threw while the setter silently accepted, so a value could be assigned and never read
+    /// back. It now round-trips. Cairo has no equivalent knob, so the value does not affect rendering.
+    /// </remarks>
+    public int TextContrast
+    {
+        get;
+        set;
+    } = 4;
 
     /// <summary>
     /// Gets or sets the text rendering hint. Not implemented in this wrapper.
@@ -1643,9 +1727,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     {
         try
         {
-            if (this.image != null && Graphics.imagesurface != null && Graphics.imagesurface.Status == Cairo.Status.Success)
+            if (this.image != null && this.ownedSurface != null && this.ownedSurface.Status == Cairo.Status.Success)
             {
-                this.image.Pixbuf = new Pixbuf(Graphics.imagesurface, 0, 0, this.image.Width, this.image.Height);
+                this.image.Pixbuf = new Pixbuf(this.ownedSurface, 0, 0, this.image.Width, this.image.Height);
             }
         }
 
@@ -1653,10 +1737,13 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         {
             if (intention == FlushIntention.Sync)
             {
-                Graphics.imagesurface?.Dispose();
-                Graphics.imagesurface = null;
-                Graphics.imagecontext?.Dispose();
-                Graphics.imagecontext = null;
+                this.ownedSurface?.Dispose();
+                this.ownedSurface = null;
+                if (this.ownsContext)
+                {
+                    this.context?.Dispose();
+                    this.ownsContext = false;
+                }
             }
         }
 
@@ -1670,7 +1757,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     public static Graphics FromHdc(IntPtr hdc)
     {
-        throw new System.NotImplementedException();
+        throw new PlatformNotSupportedException("GDI device contexts are not available on this platform; create a Graphics from an Image instead.");
     }
 
     /// <summary>
@@ -1679,7 +1766,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     public static Graphics FromHdc(IntPtr hdc, IntPtr hdevice)
     {
-        throw new System.NotImplementedException();
+        throw new PlatformNotSupportedException("GDI device contexts are not available on this platform; create a Graphics from an Image instead.");
     }
 
     /// <summary>
@@ -1688,7 +1775,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     public static Graphics FromHdcInternal(IntPtr hdc)
     {
-        throw new System.NotImplementedException();
+        throw new PlatformNotSupportedException("GDI device contexts are not available on this platform; create a Graphics from an Image instead.");
     }
 
     /// <summary>
@@ -1697,7 +1784,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     public static Graphics FromHwnd(IntPtr hwnd)
     {
-        throw new System.NotImplementedException();
+        throw new PlatformNotSupportedException("Window handles are not available on this platform; draw through the control's paint event instead.");
     }
 
     /// <summary>
@@ -1706,7 +1793,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     public static Graphics FromHwndInternal(IntPtr hwnd)
     {
-        throw new System.NotImplementedException();
+        throw new PlatformNotSupportedException("Window handles are not available on this platform; draw through the control's paint event instead.");
     }
 
     /// <summary>
@@ -1729,13 +1816,15 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         if (_height < 1)
             throw new ArgumentOutOfRangeException("Image.Height不能小于等于0");
 
-        imagesurface?.Dispose();
-        imagesurface = new Cairo.ImageSurface(Cairo.Format.Argb32, _width, _height);
-        imagecontext?.Dispose();
-        imagecontext = new Cairo.Context(imagesurface);
-        image.Pixbuf = new Pixbuf(imagesurface, 0, 0, image.Width, image.Height);
+        var surface = new Cairo.ImageSurface(Cairo.Format.Argb32, _width, _height);
+        var imageContext = new Cairo.Context(surface);
+        image.Pixbuf = new Pixbuf(surface, 0, 0, image.Width, image.Height);
 
-        return new Drawing.Graphics(image, imagecontext, new Gdk.Rectangle(0, 0, _width, _height));
+        return new Drawing.Graphics(image, imageContext, new Gdk.Rectangle(0, 0, _width, _height))
+        {
+            ownedSurface = surface,
+            ownsContext = true
+        };
     }
 
     /// <summary>
@@ -1752,7 +1841,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public static IntPtr GetHalftonePalette()
     {
-        throw new System.NotImplementedException();
+        throw new PlatformNotSupportedException("GDI halftone palettes are not available on this platform.");
     }
 
     /// <summary>
@@ -1760,7 +1849,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public IntPtr GetHdc()
     {
-        throw new System.NotImplementedException();
+        throw new PlatformNotSupportedException("GDI device contexts are not available on this platform; create a Graphics from an Image instead.");
     }
 
     /// <summary>
@@ -1804,67 +1893,68 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     }
 
     /// <summary>
-    /// Determines whether the specified point is contained within the visible clip region. Not implemented.
+    /// Determines whether the specified point is contained within the visible clip region.
     /// </summary>
     public bool IsVisible(Point point)
     {
-        throw new System.NotImplementedException();
+        return IsVisible(point.X, (float)point.Y);
     }
 
     /// <summary>
-    /// Determines whether the specified floating-point point is contained within the visible clip region. Not implemented.
+    /// Determines whether the specified floating-point point is contained within the visible clip region.
     /// </summary>
     public bool IsVisible(PointF point)
     {
-        throw new System.NotImplementedException();
+        // The whole IsVisible family threw; the clip bounds are already tracked, so answer from them.
+        return ClipBounds.Contains(point);
     }
 
     /// <summary>
-    /// Determines whether the specified rectangle is contained within the visible clip region. Not implemented.
+    /// Determines whether the specified rectangle is contained within the visible clip region.
     /// </summary>
     public bool IsVisible(Rectangle rect)
     {
-        throw new System.NotImplementedException();
+        return IsVisible((float)rect.X, rect.Y, rect.Width, rect.Height);
     }
 
     /// <summary>
-    /// Determines whether the specified floating-point rectangle is contained within the visible clip region. Not implemented.
+    /// Determines whether the specified floating-point rectangle is contained within the visible clip region.
     /// </summary>
     public bool IsVisible(RectangleF rect)
     {
-        throw new System.NotImplementedException();
+        return ClipBounds.IntersectsWith(rect);
     }
 
     /// <summary>
-    /// Determines whether the specified coordinates are visible. Not implemented.
+    /// Determines whether the specified coordinates are visible.
     /// </summary>
     public bool IsVisible(int x, int y)
     {
-        throw new System.NotImplementedException();
+        return IsVisible((float)x, y);
     }
 
     /// <summary>
-    /// Determines whether the specified integer rectangle is visible. Not implemented.
+    /// Determines whether the specified integer rectangle is visible.
     /// </summary>
     public bool IsVisible(int x, int y, int width, int height)
     {
-        throw new System.NotImplementedException();
+        return IsVisible((float)x, y, width, height);
     }
 
     /// <summary>
-    /// Determines whether the specified floating point coordinates are visible. Not implemented.
+    /// Determines whether the specified floating point coordinates are visible.
     /// </summary>
     public bool IsVisible(float x, float y)
     {
-        throw new System.NotImplementedException();
+        return IsVisible(new PointF(x, y));
     }
 
     /// <summary>
-    /// Determines whether the specified floating point rectangle is visible. Not implemented.
+    /// Determines whether the specified floating point rectangle is visible.
     /// </summary>
     public bool IsVisible(float x, float y, float width, float height)
     {
-        throw new System.NotImplementedException();
+        return IsVisible(new RectangleF(x, y, width, height));
     }
 
     /// <summary>
@@ -1954,6 +2044,40 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         TextExtents textext = this.context.TextExtents(text);
         var width = (float)(textext.Width + desent);
         var height = fontheight;
+
+        // The measurement used to be single-line and then simply clamped to the layout area, so text that
+        // would wrap in WinForms reported the width of the box and the height of one line. Lay the words
+        // out against the available width instead and report the real number of lines.
+        var lines = 1;
+        var wraps = !stringFormat.FormatFlags.HasFlag(StringFormatFlags.NoWrap)
+                    && !stringFormat.FormatFlags.HasFlag(StringFormatFlags.DirectionVertical)
+                    && layoutArea.Width > 0
+                    && layoutArea.Width < float.MaxValue
+                    && width > layoutArea.Width;
+        if (wraps)
+        {
+            var widest = 0f;
+            var current = string.Empty;
+            foreach (var word in text.Split(' '))
+            {
+                var candidate = current.Length == 0 ? word : current + " " + word;
+                var candidateWidth = (float)(this.context.TextExtents(candidate).Width + desent);
+                if (candidateWidth <= layoutArea.Width || current.Length == 0)
+                {
+                    current = candidate;
+                    widest = Math.Max(widest, candidateWidth);
+                }
+                else
+                {
+                    lines++;
+                    widest = Math.Max(widest, (float)(this.context.TextExtents(current).Width + desent));
+                    current = word;
+                }
+            }
+
+            width = Math.Min(layoutArea.Width, Math.Max(widest, (float)(this.context.TextExtents(current).Width + desent)));
+            height = fontheight * lines;
+        }
 
         this.context.Restore();
         var result = new SizeF(width, height);
@@ -2231,8 +2355,39 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void SetClip(Region region, CombineMode combineMode)
     {
-        RectangleF rect = region.GetBounds(this);
-        SetClip(rect, combineMode);
+        if (region == null)
+        {
+            return;
+        }
+
+        // This reduced the region to its bounding rectangle, so clipping to a non-rectangular region
+        // silently clipped to its bounds instead. Clip to the region's actual bands.
+        var bands = region.Bands;
+        if (bands.Count <= 1)
+        {
+            SetClip(region.GetBounds(this), combineMode);
+
+            return;
+        }
+
+        if (combineMode == CombineMode.Replace)
+        {
+            context.ResetClip();
+        }
+
+        context.NewPath();
+        var union = bands[0];
+        foreach (var band in bands)
+        {
+            context.Rectangle(band.X, band.Y, band.Width, band.Height);
+            union = RectangleF.Union(union, band);
+        }
+
+        context.Clip();
+        context.NewPath();
+        this._clipBounds = combineMode == CombineMode.Replace
+            ? union
+            : RectangleF.Intersect(this._clipBounds, union);
     }
 
     /// <summary>
@@ -2337,6 +2492,17 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             this.context.SetSourceRGBA(hbrush.BackgroundColor.R / 255f, hbrush.BackgroundColor.G / 255f, hbrush.BackgroundColor.B / 255f, hbrush.BackgroundColor.A / 255f);
             this.context.Paint();
             this.context.SetSourceRGBA(hbrush.ForegroundColor.R / 255f, hbrush.ForegroundColor.G / 255f, hbrush.ForegroundColor.B / 255f, hbrush.ForegroundColor.A / 255f);
+        }
+
+        else if (pen.Brush is TextureBrush tbrush)
+        {
+            // TextureBrush did not exist; it paints through a Cairo surface pattern, which supports the
+            // tile and clamp wrap modes natively.
+            using var pattern = tbrush.CreatePattern();
+            if (pattern != null)
+            {
+                this.context.SetSource(pattern);
+            }
         }
 
         else if (pen.Brush is PathGradientBrush pbrush)
@@ -2577,7 +2743,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             // and drew the wrong part of the image).
             var scaleX = destRect.Width / srcWidth;
             var scaleY = destRect.Height / srcHeight;
-            img.Scale(scaleimg, 0, 0, destRect.Width, destRect.Height, -srcX * scaleX, -srcY * scaleY, scaleX, scaleY, Gdk.InterpType.Tiles);
+            img.Scale(scaleimg, 0, 0, destRect.Width, destRect.Height, -srcX * scaleX, -srcY * scaleY, scaleX, scaleY, ImageInterpolation);
             this.context.Save();
             this.SetTranslateWithDifference(destRect.X, destRect.Y);
             Gdk.CairoHelper.SetSourcePixbuf(this.context, scaleimg, 0, 0);

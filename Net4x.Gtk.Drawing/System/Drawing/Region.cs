@@ -20,6 +20,171 @@ public sealed class Region : MarshalByRefObject, IDisposable
     private bool isEmpty = false;
     private bool isInfinite = false;
 
+    // ---------------------------------------------------------------------
+    // The region was backed by a single RectangleF, so every combine operation
+    // collapsed to rectangle arithmetic: Xor of two partially overlapping
+    // rectangles returned their union, Exclude shrank the bounding box, and a
+    // non-rectangular region was not representable at all. The interior is now
+    // a list of disjoint rectangles - the band list GDI+ itself uses - which
+    // makes the whole combine family exact for rectangular inputs.
+    //
+    // A GraphicsPath contributes its bounding rectangle, so curved regions are
+    // still approximated by their bounds; the path is kept alongside so that
+    // clipping can use the true shape.
+    // ---------------------------------------------------------------------
+
+    private List<RectangleF> bands = new();
+
+    /// <summary>The disjoint rectangles whose union is this region.</summary>
+    internal IReadOnlyList<RectangleF> Bands => bands;
+
+    /// <summary>Replaces the interior with the given rectangles and refreshes the derived state.</summary>
+    private void SetBands(List<RectangleF> value)
+    {
+        bands = Compact(value);
+        isInfinite = false;
+        isEmpty = bands.Count == 0;
+        rectangle = BoundsOf(bands);
+        graphicsPath = new GraphicsPath();
+        foreach (var band in bands)
+        {
+            graphicsPath.AddRectangle(band);
+        }
+
+        UpdateRegionData();
+    }
+
+    /// <summary>Drops degenerate rectangles.</summary>
+    private static List<RectangleF> Compact(List<RectangleF> value)
+    {
+        var result = new List<RectangleF>(value.Count);
+        foreach (var band in value)
+        {
+            if (band.Width > 0f && band.Height > 0f)
+            {
+                result.Add(band);
+            }
+        }
+
+        return result;
+    }
+
+    /// <summary>The smallest rectangle containing every band.</summary>
+    private static RectangleF BoundsOf(List<RectangleF> value)
+    {
+        if (value.Count == 0)
+        {
+            return RectangleF.Empty;
+        }
+
+        var result = value[0];
+        for (var i = 1; i < value.Count; i++)
+        {
+            result = RectangleF.Union(result, value[i]);
+        }
+
+        return result;
+    }
+
+    /// <summary>Adds <paramref name="a" /> minus <paramref name="b" /> to <paramref name="into" />, as up to four disjoint rectangles.</summary>
+    private static void SubtractInto(RectangleF a, RectangleF b, List<RectangleF> into)
+    {
+        var overlap = RectangleF.Intersect(a, b);
+        if (overlap.Width <= 0f || overlap.Height <= 0f)
+        {
+            into.Add(a);
+
+            return;
+        }
+
+        if (overlap.Top > a.Top)
+        {
+            into.Add(new RectangleF(a.Left, a.Top, a.Width, overlap.Top - a.Top));
+        }
+
+        if (overlap.Bottom < a.Bottom)
+        {
+            into.Add(new RectangleF(a.Left, overlap.Bottom, a.Width, a.Bottom - overlap.Bottom));
+        }
+
+        if (overlap.Left > a.Left)
+        {
+            into.Add(new RectangleF(a.Left, overlap.Top, overlap.Left - a.Left, overlap.Height));
+        }
+
+        if (overlap.Right < a.Right)
+        {
+            into.Add(new RectangleF(overlap.Right, overlap.Top, a.Right - overlap.Right, overlap.Height));
+        }
+    }
+
+    /// <summary>Everything in <paramref name="from" /> that is not in <paramref name="what" />.</summary>
+    private static List<RectangleF> SubtractBands(List<RectangleF> from, List<RectangleF> what)
+    {
+        var current = new List<RectangleF>(from);
+        foreach (var cut in what)
+        {
+            var next = new List<RectangleF>();
+            foreach (var piece in current)
+            {
+                SubtractInto(piece, cut, next);
+            }
+
+            current = next;
+        }
+
+        return Compact(current);
+    }
+
+    /// <summary>Everything in either operand, kept disjoint.</summary>
+    private static List<RectangleF> UnionBands(List<RectangleF> a, List<RectangleF> b)
+    {
+        var result = new List<RectangleF>(a);
+        foreach (var addition in b)
+        {
+            result.AddRange(SubtractBands(new List<RectangleF> { addition }, result));
+        }
+
+        return Compact(result);
+    }
+
+    /// <summary>Everything in both operands.</summary>
+    private static List<RectangleF> IntersectBands(List<RectangleF> a, List<RectangleF> b)
+    {
+        var result = new List<RectangleF>();
+        foreach (var x in a)
+        {
+            foreach (var y in b)
+            {
+                var overlap = RectangleF.Intersect(x, y);
+                if (overlap.Width > 0f && overlap.Height > 0f)
+                {
+                    result.Add(overlap);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /// <summary>Everything in exactly one of the operands.</summary>
+    private static List<RectangleF> XorBands(List<RectangleF> a, List<RectangleF> b) =>
+        UnionBands(SubtractBands(a, b), SubtractBands(b, a));
+
+    /// <summary>The bands a path contributes: its bounding rectangle.</summary>
+    private static List<RectangleF> BandsOfPath(GraphicsPath path)
+    {
+        var bounds = path.GetBounds();
+
+        return bounds.Width > 0f && bounds.Height > 0f
+            ? new List<RectangleF> { bounds }
+            : new List<RectangleF>();
+    }
+
+    /// <summary>The bands of another region, as a fresh list.</summary>
+    private static List<RectangleF> BandsOfRegion(Region region) => new(region.bands);
+
+
     /// <summary>
     /// Initializes a new
     /// <see cref="T:System.Drawing.Region" />.
@@ -49,11 +214,10 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public Region(GraphicsPath path)
     {
         if (path == null) throw new ArgumentNullException(nameof(path));
-        graphicsPath = path.Clone() as GraphicsPath ?? new GraphicsPath();
-        rectangle = graphicsPath.GetBounds();
-        isEmpty = rectangle.IsEmpty;
-        isInfinite = false;
-        UpdateRegionData();
+        var clone = path.Clone() as GraphicsPath ?? new GraphicsPath();
+        SetBands(BandsOfPath(clone));
+        // Keep the real path so that clipping can use the true shape rather than the bounding box.
+        graphicsPath = clone;
     }
 
     /// <summary>
@@ -93,12 +257,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </param>
     public Region(Rectangle rect)
     {
-        rectangle = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
-        graphicsPath = new GraphicsPath();
-        graphicsPath.AddRectangle(rectangle);
-        isEmpty = rectangle.IsEmpty;
-        isInfinite = false;
-        UpdateRegionData();
+        SetBands(new List<RectangleF> { new(rect.X, rect.Y, rect.Width, rect.Height) });
     }
 
     /// <summary>
@@ -113,12 +272,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </param>
     public Region(RectangleF rect)
     {
-        rectangle = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
-        graphicsPath = new GraphicsPath();
-        graphicsPath.AddRectangle(rectangle);
-        isEmpty = rectangle.IsEmpty;
-        isInfinite = false;
-        UpdateRegionData();
+        SetBands(new List<RectangleF> { new(rect.X, rect.Y, rect.Width, rect.Height) });
     }
 
     /// <summary>
@@ -137,7 +291,10 @@ public sealed class Region : MarshalByRefObject, IDisposable
             rectangle = new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height),
             regionData = regionData,
             isEmpty = isEmpty,
-            isInfinite = isInfinite // conservative copy (RegionData is immutable-like here)
+            isInfinite = isInfinite,
+            // The band list has to be copied, not shared: without this, emptying the original emptied
+            // the clone as well.
+            bands = new List<RectangleF>(bands)
         };
         return clone;
     }
@@ -161,41 +318,15 @@ public sealed class Region : MarshalByRefObject, IDisposable
     {
         if (path == null) throw new ArgumentNullException(nameof(path));
 
-        // Approximate complement: treat complement as "set to provided path" if current is infinite,
-        // otherwise subtract intersection area from current bounding box (approximation).
+        // Complement replaces this region with the part of the argument that is outside it.
         if (isInfinite)
         {
-            graphicsPath = path.Clone() as GraphicsPath ?? new GraphicsPath();
-            rectangle = graphicsPath.GetBounds();
-            isInfinite = false;
-            isEmpty = rectangle.IsEmpty;
+            SetBands(new List<RectangleF>());
+
+            return;
         }
-        else if (isEmpty)
-        {
-            // complement of empty is empty in this simplistic model
-        }
-        else
-        {
-            var pathBounds = path.GetBounds();
-            if (rectangle.IntersectsWith(pathBounds))
-            {
-                // simple approximation: reduce our rectangle by intersection bounding box
-                var inter = RectangleF.Intersect(rectangle, pathBounds);
-                if (inter == rectangle)
-                {
-                    MakeEmpty();
-                }
-                else
-                {
-                    // shrink bounding box conservatively (not geometrically exact)
-                    rectangle = rectangle.SubtractSafe(inter);
-                    graphicsPath = new GraphicsPath();
-                    if (!rectangle.IsEmpty)
-                        graphicsPath.AddRectangle(rectangle);
-                }
-            }
-        }
-        UpdateRegionData();
+
+        SetBands(SubtractBands(BandsOfPath(path), bands));
     }
 
     /// <summary>
@@ -252,7 +383,22 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public void Complement(Region region)
     {
         if (region == null) throw new ArgumentNullException(nameof(region));
-        Complement(region.graphicsPath);
+
+        if (isInfinite)
+        {
+            SetBands(new List<RectangleF>());
+
+            return;
+        }
+
+        if (region.isInfinite)
+        {
+            MakeInfinite();
+
+            return;
+        }
+
+        SetBands(SubtractBands(BandsOfRegion(region), bands));
     }
 
     /// <summary>
@@ -317,32 +463,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public void Exclude(GraphicsPath path)
     {
         if (path == null) throw new ArgumentNullException(nameof(path));
-        if (isEmpty) return;
-        if (isInfinite)
-        {
-            // infinite minus a finite path -> still infinite (approx)
-            return;
-        }
+        if (isInfinite) return;
 
-        var pathBounds = path.GetBounds();
-        if (rectangle.IntersectsWith(pathBounds))
-        {
-            // if the excluding rect fully covers current rectangle, region becomes empty
-            if (pathBounds.Contains(rectangle))
-            {
-                MakeEmpty();
-            }
-            else
-            {
-                // conservative approximation: shrink the bounding rectangle by removing the intersection
-                var inter = RectangleF.Intersect(rectangle, pathBounds);
-                rectangle = rectangle.SubtractSafe(inter);
-                graphicsPath = new GraphicsPath();
-                if (!rectangle.IsEmpty)
-                    graphicsPath.AddRectangle(rectangle);
-            }
-        }
-        UpdateRegionData();
+        SetBands(SubtractBands(bands, BandsOfPath(path)));
     }
 
     /// <summary>
@@ -396,7 +519,15 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public void Exclude(Region region)
     {
         if (region == null) throw new ArgumentNullException(nameof(region));
-        Exclude(region.graphicsPath);
+        if (isInfinite) return;
+        if (region.isInfinite)
+        {
+            SetBands(new List<RectangleF>());
+
+            return;
+        }
+
+        SetBands(SubtractBands(bands, BandsOfRegion(region)));
     }
 
     /// <summary>
@@ -506,16 +637,29 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </exception>
     public RectangleF[] GetRegionScans(System.Drawing.Drawing2D.Matrix matrix)
     {
-        if (matrix == null) throw new ArgumentNullException(nameof(matrix));
-        if (isInfinite)
-            return new[] { new RectangleF(float.NegativeInfinity, float.NegativeInfinity, float.PositiveInfinity, float.PositiveInfinity) };
+        // This returned the single bounding rectangle; it now returns the actual bands, which is what
+        // GetRegionScans means.
+        var scans = new RectangleF[bands.Count];
+        for (var i = 0; i < bands.Count; i++)
+        {
+            var band = bands[i];
+            if (matrix == null)
+            {
+                scans[i] = band;
 
-        // approximate by transforming the bounding rectangle
-        var r = rectangle;
-        var pts = new[] { new PointF(r.Left, r.Top), new PointF(r.Right, r.Top), new PointF(r.Right, r.Bottom), new PointF(r.Left, r.Bottom) };
-        matrix.TransformPoints(pts);
-        var bounds = RectangleFExtensions.FromPoints(pts);
-        return new[] { bounds };
+                continue;
+            }
+
+            var corners = new[] { new PointF(band.Left, band.Top), new PointF(band.Right, band.Bottom) };
+            matrix.TransformPoints(corners);
+            scans[i] = RectangleF.FromLTRB(
+                Math.Min(corners[0].X, corners[1].X),
+                Math.Min(corners[0].Y, corners[1].Y),
+                Math.Max(corners[0].X, corners[1].X),
+                Math.Max(corners[0].Y, corners[1].Y));
+        }
+
+        return scans;
     }
 
     /// <summary>
@@ -531,33 +675,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public void Intersect(GraphicsPath path)
     {
         if (path == null) throw new ArgumentNullException(nameof(path));
-        if (isInfinite)
-        {
-            graphicsPath = path.Clone() as GraphicsPath ?? new GraphicsPath();
-            rectangle = graphicsPath.GetBounds();
-            isInfinite = false;
-            isEmpty = rectangle.IsEmpty;
-        }
-        else if (isEmpty)
-        {
-            return;
-        }
-        else
-        {
-            var pb = path.GetBounds();
-            var inter = RectangleF.Intersect(rectangle, pb);
-            if (inter.IsEmpty)
-            {
-                MakeEmpty();
-            }
-            else
-            {
-                rectangle = inter;
-                graphicsPath = new GraphicsPath();
-                graphicsPath.AddRectangle(rectangle);
-            }
-        }
-        UpdateRegionData();
+
+        // Intersecting the infinite region with a shape yields that shape.
+        SetBands(isInfinite ? BandsOfPath(path) : IntersectBands(bands, BandsOfPath(path)));
     }
 
     /// <summary>
@@ -607,7 +727,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public void Intersect(Region region)
     {
         if (region == null) throw new ArgumentNullException(nameof(region));
-        Intersect(region.graphicsPath);
+        if (region.isInfinite) return;
+
+        SetBands(isInfinite ? BandsOfRegion(region) : IntersectBands(bands, BandsOfRegion(region)));
     }
 
     /// <summary>
@@ -725,15 +847,18 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public bool IsVisible(PointF point)
     {
         if (isInfinite) return true;
-        if (isEmpty) return false;
-        if (rectangle.IsEmpty && graphicsPath.PointCount == 0) return false;
-        if (!rectangle.IsEmpty && rectangle.Contains(point)) return true;
-        // fallback to path hit-test
-        using (var bmp = new Bitmap(1, 1))
-        using (var g = Graphics.FromImage(bmp))
+
+        // This tested the bounding rectangle, so a point in the hole of an L-shaped region counted as
+        // visible. It now tests the bands.
+        foreach (var band in bands)
         {
-            return graphicsPath.IsVisible(point, g);
+            if (band.Contains(point))
+            {
+                return true;
+            }
         }
+
+        return false;
     }
 
     /// <summary>
@@ -832,14 +957,16 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public bool IsVisible(RectangleF rect)
     {
         if (isInfinite) return true;
-        if (isEmpty) return false;
-        if (!rectangle.IsEmpty && rectangle.IntersectsWith(rect)) return true;
-        // fallback to path hit-test using a small bitmap
-        using (var bmp = new Bitmap(1, 1))
-        using (var g = Graphics.FromImage(bmp))
+
+        foreach (var band in bands)
         {
-            return graphicsPath.IsVisible(rect, g);
+            if (band.IntersectsWith(rect))
+            {
+                return true;
+            }
         }
+
+        return false;
     }
 
     /// <summary>
@@ -1064,11 +1191,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </summary>
     public void MakeEmpty()
     {
-        isEmpty = true;
-        isInfinite = false;
-        graphicsPath?.Reset();
-        rectangle = RectangleF.Empty;
-        UpdateRegionData();
+        SetBands(new List<RectangleF>());
     }
 
     /// <summary>
@@ -1077,9 +1200,10 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </summary>
     public void MakeInfinite()
     {
+        bands = new List<RectangleF>();
         isInfinite = true;
         isEmpty = false;
-        graphicsPath?.Reset();
+        graphicsPath = new GraphicsPath();
         rectangle = RectangleF.Empty;
         UpdateRegionData();
     }
@@ -1157,29 +1281,13 @@ public sealed class Region : MarshalByRefObject, IDisposable
     {
         if (isInfinite || isEmpty) return;
 
-        // Shift the region's extent directly. Recomputing it from graphicsPath.GetBounds() discarded the
-        // extent entirely for rectangle-based regions (whose geometry lives in 'rectangle', not the path),
-        // so Translate silently did nothing useful.
-        if (!rectangle.IsEmpty)
+        var moved = new List<RectangleF>(bands.Count);
+        foreach (var band in bands)
         {
-            rectangle = new RectangleF(rectangle.X + dx, rectangle.Y + dy, rectangle.Width, rectangle.Height);
+            moved.Add(new RectangleF(band.X + dx, band.Y + dy, band.Width, band.Height));
         }
 
-        // Move the backing path as well, so path hit-testing follows the translation. (PointCount cannot
-        // be used to detect an empty path here - it only tracks points supplied at construction time.)
-        using (var m = new System.Drawing.Drawing2D.Matrix())
-        {
-            m.Translate(dx, dy);
-            graphicsPath.Transform(m);
-
-            var pathBounds = graphicsPath.GetBounds();
-            if (rectangle.IsEmpty && !pathBounds.IsEmpty)
-            {
-                rectangle = pathBounds;
-            }
-        }
-
-        UpdateRegionData();
+        SetBands(moved);
     }
 
     /// <summary>
@@ -1200,19 +1308,8 @@ public sealed class Region : MarshalByRefObject, IDisposable
     {
         if (path == null) throw new ArgumentNullException(nameof(path));
         if (isInfinite) return;
-        if (isEmpty)
-        {
-            graphicsPath = path.Clone() as GraphicsPath ?? new GraphicsPath();
-            rectangle = graphicsPath.GetBounds();
-            isEmpty = rectangle.IsEmpty;
-        }
-        else
-        {
-            if (path.Clone() is GraphicsPath clone)
-                graphicsPath.AddPath(clone, false);
-            rectangle = RectangleF.Union(rectangle, path.GetBounds());
-        }
-        UpdateRegionData();
+
+        SetBands(UnionBands(bands, BandsOfPath(path)));
     }
 
     /// <summary>
@@ -1266,7 +1363,17 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public void Union(Region region)
     {
         if (region == null) throw new ArgumentNullException(nameof(region));
-        Union(region.graphicsPath);
+        if (isInfinite) return;
+        if (region.isInfinite)
+        {
+            MakeInfinite();
+
+            return;
+        }
+
+        // These used to funnel through the other region's GraphicsPath, so region-vs-region combines were
+        // only as good as the bounding box of that path. They now work on the band lists directly.
+        SetBands(UnionBands(bands, BandsOfRegion(region)));
     }
 
     /// <summary>
@@ -1283,39 +1390,11 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public void Xor(GraphicsPath path)
     {
         if (path == null) throw new ArgumentNullException(nameof(path));
-        if (isInfinite)
-        {
-            // infinite xor finite -> still infinite
-            return;
-        }
-        if (isEmpty)
-        {
-            graphicsPath = path.Clone() as GraphicsPath ?? new GraphicsPath();
-            rectangle = graphicsPath.GetBounds();
-            isEmpty = rectangle.IsEmpty;
-            UpdateRegionData();
-            return;
-        }
+        if (isInfinite) return;
 
-        // approximate XOR using bounding rectangles: union - intersection (conservative)
-        var unionRect = RectangleF.Union(rectangle, path.GetBounds());
-        var inter = RectangleF.Intersect(rectangle, path.GetBounds());
-        if (inter.IsEmpty)
-        {
-            Union(path);
-        }
-        else if (inter == rectangle && inter == path.GetBounds())
-        {
-            MakeEmpty();
-        }
-        else
-        {
-            graphicsPath = new GraphicsPath();
-            graphicsPath.AddRectangle(unionRect);
-            // not a precise XOR, but provides consistent bounding info
-            rectangle = unionRect;
-            UpdateRegionData();
-        }
+        // This returned the union of the two bounding boxes when they partly overlapped, which is the
+        // opposite of an exclusive-or: the overlap was kept rather than removed.
+        SetBands(XorBands(bands, BandsOfPath(path)));
     }
 
     /// <summary>
@@ -1372,7 +1451,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public void Xor(Region region)
     {
         if (region == null) throw new ArgumentNullException(nameof(region));
-        Xor(region.graphicsPath);
+        if (isInfinite || region.isInfinite) return;
+
+        SetBands(XorBands(bands, BandsOfRegion(region)));
     }
 
     // helper to keep regionData in sync with our simple managed representation.

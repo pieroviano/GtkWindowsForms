@@ -303,7 +303,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// </value>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
-    public Rectangle Bounds => throw new NotImplementedException();
+    /// <remarks>
+    /// This threw, so owner-draw code could not ask an item where it is. The item's position within
+    /// its strip is not tracked here, so the bounds are reported at the origin with the item's size.
+    /// </remarks>
+    public Rectangle Bounds => new(Left, Top, Width, Height);
 
     /// <summary>
     /// Gets or sets a value indicating whether this
@@ -374,7 +378,14 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// </value>
     /// <exception cref="T:System.NotImplementedException">
     /// </exception>
-    public Rectangle DisplayRectangle => throw new NotImplementedException();
+    /// <remarks>
+    /// The area available for content: the bounds less the item's padding.
+    /// </remarks>
+    public Rectangle DisplayRectangle => new(
+        Padding.Left,
+        Padding.Top,
+        Math.Max(0, Width - Padding.Horizontal),
+        Math.Max(0, Height - Padding.Vertical));
 
     /// <summary>
     /// Gets or sets the display style.
@@ -1031,7 +1042,12 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// </exception>
     public Size GetPreferredSize(Size proposedSize)
     {
-        throw new NotImplementedException();
+        // This threw, so any layout code asking an item how big it wants to be failed. Report the
+        // item's own size, bounded by whatever the caller proposed.
+        var width = proposedSize.Width > 0 ? Math.Min(Width, proposedSize.Width) : Width;
+        var height = proposedSize.Height > 0 ? Math.Min(Height, proposedSize.Height) : Height;
+
+        return new Size(width, height);
     }
 
     public Gtk.Widget GetWidget()

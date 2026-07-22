@@ -82,32 +82,31 @@ public class FontTests
         Assert.True(font1.Equals(font2));
     }
 
+    // The GDI interop factories used to return Arial 12 for any input - a silent wrong font. They now
+    // report that the platform has no GDI handles, which is what an integrator can act on.
+
     [Fact]
-    public void FromHdc_ReturnsFont()
+    public void FromHdc_ReportsThatDeviceContextsAreUnavailable()
     {
-        var font = Font.FromHdc(IntPtr.Zero);
-        Assert.NotNull(font);
+        Assert.Throws<PlatformNotSupportedException>(() => Font.FromHdc(IntPtr.Zero));
     }
 
     [Fact]
-    public void FromHfont_ReturnsFont()
+    public void FromHfont_ReportsThatFontHandlesAreUnavailable()
     {
-        var font = Font.FromHfont(IntPtr.Zero);
-        Assert.NotNull(font);
+        Assert.Throws<PlatformNotSupportedException>(() => Font.FromHfont(IntPtr.Zero));
     }
 
     [Fact]
-    public void FromLogFont_ReturnsFont()
+    public void FromLogFont_ReportsThatLogFontsAreUnavailable()
     {
-        var font = Font.FromLogFont(new object());
-        Assert.NotNull(font);
+        Assert.Throws<PlatformNotSupportedException>(() => Font.FromLogFont(new object()));
     }
 
     [Fact]
-    public void FromLogFont_WithHdc_ReturnsFont()
+    public void FromLogFont_WithHdc_ReportsThatLogFontsAreUnavailable()
     {
-        var font = Font.FromLogFont(new object(), IntPtr.Zero);
-        Assert.NotNull(font);
+        Assert.Throws<PlatformNotSupportedException>(() => Font.FromLogFont(new object(), IntPtr.Zero));
     }
 
     [Fact]

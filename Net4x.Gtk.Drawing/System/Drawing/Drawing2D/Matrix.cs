@@ -125,10 +125,9 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// </returns>
     public float[] Elements
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
+        // This threw, so a transform could not be inspected or serialised even though the transform
+        // operations themselves worked.
+        get => new[] { m11, m12, m21, m22, dx, dy };
     }
 
     /// <summary>
@@ -196,10 +195,8 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// </returns>
     public bool IsIdentity
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
+        get => m11 == 1f && m12 == 0f && m21 == 0f && m22 == 1f && dx == 0f && dy == 0f
+               && angle == 0f && (scaleX == 0f || scaleX == 1f) && (scaleY == 0f || scaleY == 1f);
     }
 
     /// <summary>
@@ -214,10 +211,8 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// </returns>
     public bool IsInvertible
     {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
+        // A matrix is invertible exactly when its determinant is non-zero.
+        get => Math.Abs((m11 * m22) - (m12 * m21)) > float.Epsilon;
     }
 
     /// <summary>
