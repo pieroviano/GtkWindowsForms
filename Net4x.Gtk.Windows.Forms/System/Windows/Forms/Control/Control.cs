@@ -107,6 +107,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     private bool WidgetRealized = false;
 
     /// <summary>
+    /// Guards against raising <see cref="E:System.Windows.Forms.Control.HandleDestroyed" /> more than once
+    /// for a widget that GTK destroys in stages.
+    /// </summary>
+    private bool HandleDestroyedRaised = false;
+
+    /// <summary>
     /// Occurs when the Anchor property value changes.
     /// </summary>
     public virtual event EventHandler? AnchorChanged;
@@ -673,6 +679,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             widget.Data["Control"] = this;
             widget.StyleContext.AddClass("DefaultThemeStyle");
             widget.Realized += Widget_Realized;
+            widget.Destroyed += Widget_Destroyed;
             if (ISelf != null)
             {
                 ISelf.Override.PaintGraphics += Override_PaintGraphics;
@@ -691,7 +698,39 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the accessible object for the control.
     /// </summary>
-    public virtual AccessibleObject? AccessibilityObject { get; }
+    /// <remarks>
+    /// This was an auto-property that was never assigned, so it always returned <c>null</c> and the whole
+    /// accessibility surface was inert. It now reflects the GTK widget's ATK peer, which is what AT-SPI
+    /// and the platform accessibility bridges read.
+    /// </remarks>
+    public virtual AccessibleObject? AccessibilityObject =>
+        AtkPeer is { } peer ? _accessibilityObject ??= new AccessibleObject(peer, this.Widget) : null;
+
+    /// <summary>
+    /// Cached wrapper over the widget's ATK peer.
+    /// </summary>
+    private AccessibleObject? _accessibilityObject;
+
+    /// <summary>
+    /// The widget's ATK peer, or <c>null</c> when there is no widget to expose.
+    /// </summary>
+    private Atk.Object? AtkPeer
+    {
+        get
+        {
+            try
+            {
+                return this.Widget?.Accessible;
+            }
+            catch (Exception ex)
+            {
+                // Never let an accessibility lookup take down the caller.
+                GtkLogger.Debug($"Accessible peer unavailable: {ex.Message}");
+
+                return null;
+            }
+        }
+    }
 
     /// <summary>
     /// Gets or sets the default action description for accessibility.
@@ -705,29 +744,60 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets or sets the accessible description for the control.
     /// </summary>
+    /// <remarks>
+    /// These three were inert auto-properties: a value set here reached nothing, so a screen reader had
+    /// no name, description or role to announce. They now push through to the widget's ATK peer.
+    /// </remarks>
     public virtual string? AccessibleDescription
     {
-        get;
-        set;
+        get => _accessibleDescription;
+        set
+        {
+            _accessibleDescription = value;
+            if (AtkPeer is { } peer)
+            {
+                peer.Description = value ?? string.Empty;
+            }
+        }
     }
+
+    private string? _accessibleDescription;
 
     /// <summary>
     /// Gets or sets the accessible name for the control.
     /// </summary>
     public virtual string? AccessibleName
     {
-        get;
-        set;
+        get => _accessibleName;
+        set
+        {
+            _accessibleName = value;
+            if (AtkPeer is { } peer)
+            {
+                peer.Name = value ?? string.Empty;
+            }
+        }
     }
+
+    private string? _accessibleName;
 
     /// <summary>
     /// Gets or sets the accessible role for the control.
     /// </summary>
     public virtual AccessibleRole AccessibleRole
     {
-        get;
-        set;
+        get => _accessibleRole;
+        set
+        {
+            _accessibleRole = value;
+            if (AtkPeer is { } peer)
+            {
+                peer.Role = AccessibleObject.ToAtkRole(value);
+            }
+        }
     }
+
+    private AccessibleRole _accessibleRole = AccessibleRole.Default;
 
     /// <summary>
     /// Gets or sets a value indicating whether the control allows drag-and-drop operations.
@@ -1763,7 +1833,15 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     IArrangedElement IArrangedElement.Container => this.Parent!;
 
-    PropertyStore IArrangedElement.Properties => throw new NotImplementedException();
+    // This threw, so a layout engine could not read or write a single layout property through the
+    // IArrangedElement contract. The store is per-control and created on first use.
+    PropertyStore IArrangedElement.Properties => _properties ??= new PropertyStore();
+
+    /// <summary>
+    /// Backing store for layout properties read and written through
+    /// <see cref="T:System.Windows.Forms.Layout.IArrangedElement" />.
+    /// </summary>
+    private PropertyStore? _properties;
 
     /// <summary>
     /// Gets a value indicating whether the control can enable IME.
@@ -3017,7 +3095,17 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     void IArrangedElement.PerformLayout(IArrangedElement affectedElement, string? propertyName)
     {
-        throw new NotImplementedException();
+        // This threw, so any layout engine walking the IArrangedElement tree failed at the first control.
+        // Forward to the control-typed overload when the affected element is a control, which is the only
+        // case the layout engines produce; otherwise fall back to a plain relayout of this element.
+        if (affectedElement is Control affectedControl)
+        {
+            PerformLayout(affectedControl, propertyName ?? string.Empty);
+        }
+        else
+        {
+            PerformLayout();
+        }
     }
 
     /// <summary>
@@ -4052,9 +4140,36 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <param name="m">
     /// Message to process.
     /// </param>
+    /// <remarks>
+    /// There is no Win32 message pump behind this library, so nothing ever feeds this method. It used to
+    /// have an empty body, which meant an override intended to intercept WM_NCHITTEST, WM_ERASEBKGND,
+    /// drag-move or non-client painting compiled cleanly and then silently did nothing at run time.
+    /// Throwing states the boundary instead of hiding it: message interception is a documented non-goal,
+    /// not an unfinished feature. Use the WinForms event model (OnPaint, OnMouseDown, HitTest and so on),
+    /// which is fully wired.
+    /// </remarks>
     protected virtual void WndProc(ref Message m)
     {
-        //GtkLogger.Info($"HWnd:{m.HWnd},WParam:{m.WParam},LParam:{m.LParam},Msg:{m.Msg}");
+        throw new PlatformNotSupportedException(
+            "Win32 message interception is not supported: this library is implemented on GTK, which has no " +
+            "Windows message pump. Override the corresponding OnXxx event methods instead.");
+    }
+
+    /// <summary>
+    /// Sends the specified message to the default window procedure.
+    /// </summary>
+    /// <param name="m">
+    /// The message to process.
+    /// </param>
+    /// <remarks>
+    /// Not supported for the same reason as
+    /// <see cref="M:System.Windows.Forms.Control.WndProc(System.Windows.Forms.Message@)" />.
+    /// </remarks>
+    protected virtual void DefWndProc(ref Message m)
+    {
+        throw new PlatformNotSupportedException(
+            "Win32 message interception is not supported: this library is implemented on GTK, which has no " +
+            "Windows message pump.");
     }
 
     private void Control_AnchorChanged(object? sender, EventArgs e)
@@ -4274,10 +4389,25 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             WidgetRealized = true;
             InitStyle((Gtk.Widget)sender);
+            // Nothing ever raised HandleCreated/HandleDestroyed, so every consumer of them was dead code -
+            // including ApplicationContext, which detects its main form closing by subscribing to
+            // HandleDestroyed. Realize is the point at which the widget has a real GDK handle.
+            OnHandleCreated(e);
             OnLoad(e);
             OnCursorChanged(EventArgs.Empty);
             InitDockAnchorStyle();
         }
+    }
+
+    private void Widget_Destroyed(object? sender, EventArgs e)
+    {
+        if (HandleDestroyedRaised)
+        {
+            return;
+        }
+
+        HandleDestroyedRaised = true;
+        OnHandleDestroyed(e);
     }
 
     private void Widget_SizeAllocated(object o, SizeAllocatedArgs args)

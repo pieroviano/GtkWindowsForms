@@ -30,8 +30,6 @@ public struct Padding
         Top = all;
         Right = all;
         Bottom = all;
-        All = all;
-        Size = new Size(0, 0);
     }
 
     /// <summary>
@@ -56,9 +54,6 @@ public struct Padding
         Top = top;
         Right = right;
         Bottom = bottom;
-
-        All = left;
-        Size = new Size(right - left, bottom - top);
     }
 
     /// <summary>
@@ -67,11 +62,22 @@ public struct Padding
     /// <returns>
     /// The padding, in pixels, for all edges if the same; otherwise, -1.
     /// </returns>
+    /// <remarks>
+    /// This was a stored auto-property that the four-edge constructor set to <c>left</c>, so a Padding
+    /// with differing edges reported the left edge as if every edge matched it. WinForms computes All,
+    /// returning -1 when the edges differ; setting it applies the value to every edge.
+    /// </remarks>
     [RefreshProperties(RefreshProperties.All)]
     public int All
     {
-        get;
-        set;
+        get => Left == Top && Top == Right && Right == Bottom ? Left : -1;
+        set
+        {
+            Left = value;
+            Top = value;
+            Right = value;
+            Bottom = value;
+        }
     }
 
     /// <summary>
@@ -93,8 +99,13 @@ public struct Padding
     /// <returns>
     /// Gets the sum, in pixels, of the System.Windows.Forms.Padding.Left and System.Windows.Forms.Padding.Right padding values.
     /// </returns>
+    /// <remarks>
+    /// This computed <c>Right - Left</c>, contradicting its own documentation and WinForms, where
+    /// Horizontal is the sum of the two edges. Symmetric padding therefore reported 0, so every
+    /// "client width = Width - Padding.Horizontal" calculation silently used the full width.
+    /// </remarks>
     [Browsable(false)]
-    public int Horizontal { get { return Right - Left; } }
+    public int Horizontal { get { return Left + Right; } }
 
     /// <summary>
     /// Gets or sets the padding value for the left edge.
@@ -128,8 +139,11 @@ public struct Padding
     /// <returns>
     /// A System.Drawing.Size containing the padding information.
     /// </returns>
+    /// <remarks>
+    /// This was an auto-property nothing ever assigned, so it always reported an empty size.
+    /// </remarks>
     [Browsable(false)]
-    public Size Size { get; }
+    public Size Size => new(Horizontal, Vertical);
 
     /// <summary>
     /// Gets or sets the padding value for the top edge.
@@ -150,8 +164,12 @@ public struct Padding
     /// <returns>
     /// Gets the sum, in pixels, of the System.Windows.Forms.Padding.Top and System.Windows.Forms.Padding.Bottom padding values.
     /// </returns>
+    /// <remarks>
+    /// This computed <c>Bottom - Top</c>; see the note on
+    /// <see cref="P:System.Windows.Forms.Padding.Horizontal" />.
+    /// </remarks>
     [Browsable(false)]
-    public int Vertical { get { return Bottom - Top; } }
+    public int Vertical { get { return Top + Bottom; } }
 
     /// <summary>
     /// Computes the sum of the two specified System.Windows.Forms.Padding values.

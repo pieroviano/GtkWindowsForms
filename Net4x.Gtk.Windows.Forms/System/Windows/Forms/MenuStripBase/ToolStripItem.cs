@@ -301,8 +301,6 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The bounds.
     /// </value>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     /// <remarks>
     /// This threw, so owner-draw code could not ask an item where it is. The item's position within
     /// its strip is not tracked here, so the bounds are reported at the origin with the item's size.
@@ -346,9 +344,12 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The children.
     /// </value>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
-    public ArrangedElementCollection Children => throw new NotImplementedException();
+    /// <remarks>
+    /// This threw, so a layout engine walking the element tree failed at the first item. A plain
+    /// <see cref="T:System.Windows.Forms.ToolStripItem" /> is a leaf - items that do host children
+    /// (dropdowns) override this - so report an empty collection.
+    /// </remarks>
+    public virtual ArrangedElementCollection Children => ArrangedElementCollection.Empty;
 
     /// <summary>
     /// Gets or sets a value indicating whether this
@@ -376,8 +377,6 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <value>
     /// The display rectangle.
     /// </value>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     /// <remarks>
     /// The area available for content: the bounds less the item's padding.
     /// </remarks>
@@ -729,9 +728,26 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// false
     /// </c>.
     /// </value>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
-    public bool ParticipatesInLayout => throw new NotImplementedException();
+    /// <remarks>
+    /// This threw, so flow-style layouts could not ask whether to skip an item. An item takes part in
+    /// layout exactly when it is visible.
+    /// </remarks>
+    public bool ParticipatesInLayout
+    {
+        get
+        {
+            try
+            {
+                return Visible;
+            }
+            catch (NullReferenceException)
+            {
+                // Visible dereferences the backing GTK widget, which is null for a bare ToolStripItem
+                // that has not been added to a strip. An item with no widget cannot participate.
+                return false;
+            }
+        }
+    }
 
     /// <summary>
     /// Gets the placement.
@@ -1018,9 +1034,17 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
         set => Size = new Size(value, Size.Height);
     }
 
-    IArrangedElement IArrangedElement.Container => throw new NotImplementedException();
+    // Both threw, so no layout engine could walk upwards from an item or read a layout property off it.
+    // The container is the owning item when there is one, otherwise the owning strip.
+    IArrangedElement? IArrangedElement.Container => (IArrangedElement?)Parent ?? OwnerItem ?? (IArrangedElement?)Owner;
 
-    PropertyStore IArrangedElement.Properties => throw new NotImplementedException();
+    PropertyStore IArrangedElement.Properties => _properties ??= new PropertyStore();
+
+    /// <summary>
+    /// Backing store for layout properties read and written through
+    /// <see cref="T:System.Windows.Forms.Layout.IArrangedElement" />.
+    /// </summary>
+    private PropertyStore? _properties;
 
     /// <summary>
     /// Creates the control.
@@ -1038,8 +1062,6 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <returns>
     /// Size.
     /// </returns>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     public Size GetPreferredSize(Size proposedSize)
     {
         // This threw, so any layout code asking an item how big it wants to be failed. Report the
@@ -1117,8 +1139,6 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// <param name="specified">
     /// The specified.
     /// </param>
-    /// <exception cref="T:System.NotImplementedException">
-    /// </exception>
     public void SetBounds(Rectangle bounds, BoundsSpecified specified)
     {
         // This threw outright; apply the requested parts instead.
@@ -1150,7 +1170,12 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
 
     void IArrangedElement.PerformLayout(IArrangedElement affectedElement, string? propertyName)
     {
-        throw new NotImplementedException();
+        // This threw. An item has no layout of its own to run; the enclosing strip owns arrangement, so
+        // forward the request to it when there is one and otherwise do nothing.
+        if (Owner is IArrangedElement owner && !ReferenceEquals(owner, this))
+        {
+            owner.PerformLayout(affectedElement, propertyName);
+        }
     }
 
     protected override void Dispose(bool disposing)

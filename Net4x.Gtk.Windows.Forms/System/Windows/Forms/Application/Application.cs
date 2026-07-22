@@ -42,6 +42,36 @@ public sealed class Application
     public static bool DontQuit { get; set; }
 
     /// <summary>
+    /// Occurs when the application is about to shut down, after the message loop has terminated.
+    /// </summary>
+    public static event EventHandler? ApplicationExit;
+
+    /// <summary>
+    /// Occurs when the message loop on the current thread is about to terminate.
+    /// </summary>
+    public static event EventHandler? ThreadExit;
+
+    /// <summary>
+    /// Gets a value indicating whether a message loop is running on this thread.
+    /// </summary>
+    public static bool MessageLoop { get; private set; }
+
+    /// <summary>
+    /// The context driving the message loop currently running on this thread, if any.
+    /// </summary>
+    internal static ApplicationContext? CurrentContext { get; private set; }
+
+    /// <summary>
+    /// Raises <see cref="E:System.Windows.Forms.Application.ApplicationExit" />.
+    /// </summary>
+    private static void OnApplicationExit(EventArgs e) => ApplicationExit?.Invoke(null, e);
+
+    /// <summary>
+    /// Raises <see cref="E:System.Windows.Forms.Application.ThreadExit" />.
+    /// </summary>
+    private static void OnThreadExit(EventArgs e) => ThreadExit?.Invoke(null, e);
+
+    /// <summary>
     /// Gets the common application data path.
     /// </summary>
     /// <value>
@@ -541,8 +571,95 @@ tooltip label {padding: 0px 10px; color: #555555;}
     /// </param>
     public static void Run(Form mainForm)
     {
+        Run(new ApplicationContext(mainForm));
+    }
+
+    /// <summary>
+    /// Begins running a standard application message loop on the current thread, without a form.
+    /// </summary>
+    /// <remarks>
+    /// The loop runs until <see cref="M:System.Windows.Forms.Application.Exit" /> or
+    /// <see cref="M:System.Windows.Forms.Application.ExitThread" /> is called. This overload did not exist,
+    /// so an application that creates its windows itself had no way to start a message loop.
+    /// </remarks>
+    public static void Run()
+    {
+        Run(new ApplicationContext());
+    }
+
+    /// <summary>
+    /// Begins running a standard application message loop on the current thread, with the specified
+    /// <see cref="T:System.Windows.Forms.ApplicationContext" />.
+    /// </summary>
+    /// <param name="context">
+    /// The context under which to run the loop. Its
+    /// <see cref="P:System.Windows.Forms.ApplicationContext.MainForm" /> is shown if it has one, and the
+    /// loop exits when the context raises
+    /// <see cref="E:System.Windows.Forms.ApplicationContext.ThreadExit" />.
+    /// </param>
+    /// <remarks>
+    /// <see cref="T:System.Windows.Forms.ApplicationContext" /> existed as a type but nothing consumed it,
+    /// so the multi-form / no-main-form startup pattern had no entry point at all.
+    /// </remarks>
+    public static void Run(ApplicationContext context)
+    {
+        if (context == null)
+        {
+            throw new ArgumentNullException(nameof(context));
+        }
+
+        lock (internalSyncObject)
+        {
+            if (MessageLoop)
+            {
+                // WinForms permits only one message loop per thread.
+                throw new InvalidOperationException(
+                    "Starting a second message loop on a thread that is already running one is not supported.");
+            }
+        }
+
         // The thread that runs the message loop is the UI thread Control.InvokeRequired compares against.
         Control.CaptureUiThread();
+
+        var previousContext = CurrentContext;
+        CurrentContext = context;
+
+        void OnContextThreadExit(object? sender, EventArgs e) => Quit();
+        context.ThreadExit += OnContextThreadExit;
+
+        try
+        {
+            var mainForm = context.MainForm;
+            if (mainForm != null)
+            {
+                ShowMainForm(mainForm);
+            }
+
+            MessageLoop = true;
+            Gtk.Application.Run();
+        }
+        finally
+        {
+            MessageLoop = false;
+            context.ThreadExit -= OnContextThreadExit;
+            CurrentContext = previousContext;
+
+            OnThreadExit(EventArgs.Empty);
+
+            // WinForms disposes the context once the loop it drove has terminated, which in turn disposes
+            // the main form.
+            context.Dispose();
+
+            OnApplicationExit(EventArgs.Empty);
+        }
+    }
+
+    /// <summary>
+    /// Shows the context's main form, applying the same taskbar handling
+    /// <see cref="M:System.Windows.Forms.Application.Run(System.Windows.Forms.Form)" /> has always used.
+    /// </summary>
+    private static void ShowMainForm(Form mainForm)
+    {
         if (mainForm.ShowInTaskbar == false)
         {
             var pw = new Gtk.Window(Gtk.WindowType.Toplevel);
@@ -555,9 +672,8 @@ tooltip label {padding: 0px 10px; color: #555555;}
             pw.Shown += Pw_Shown;
             pw.Show();
         }
-        mainForm.self.Destroyed += Control_Destroyed;
+
         mainForm.Show();
-        Gtk.Application.Run();
     }
 
     /// <summary>
@@ -593,10 +709,8 @@ tooltip label {padding: 0px 10px; color: #555555;}
         Quit();
     }
 
-    private static void Control_Destroyed(object sender, EventArgs e)
-    {
-        ExitThread();
-    }
+    // Control_Destroyed was removed: Run now routes every overload through ApplicationContext, which ends
+    // the loop off the main form's HandleDestroyed event instead.
 
     private static void Pw_Shown(object? sender, EventArgs e)
     {

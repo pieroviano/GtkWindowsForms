@@ -24,9 +24,15 @@ Three classes of gap, ordered by how much damage they do:
 
 ---
 
+> **Update — this pass.** §2.2 (WndProc), §5.2 (Application startup), §5.5 (accessibility) and the
+> `IArrangedElement` half of §4.1 are now addressed; see §6b. Three gaps this document had *not* found
+> were uncovered while fixing them: `HandleCreated`/`HandleDestroyed` were never raised,
+> `AccessibleRole` had one member where WinForms has 65, and `Padding.Horizontal`/`Vertical`/`All`/`Size`
+> were all computed wrongly. §2.1 (`CreateGraphics`) is the only Class C item left open.
+
 ## 2. Class C — still present, still silently wrong
 
-Only two survive, but both are real.
+Only two survive, but both are real. **§2.2 is fixed as of this pass; §2.1 remains open.**
 
 ### 2.1 `Control.CreateGraphics()` returns a deferred off-screen surface
 
@@ -55,6 +61,12 @@ protected virtual void WndProc(ref Message m)
 `Message` and `WndProc` exist so message-pumping code *compiles*, but nothing ever feeds them. Overriding `WndProc` to intercept `WM_NCHITTEST`, `WM_ERASEBKGND`, drag-move, or custom non-client painting builds cleanly and silently does nothing.
 
 This is Class C only because it is silent. See §5.1 — the recommendation is to convert it to a loud, documented non-goal rather than to implement it.
+
+> **Status: fixed.** `WndProc` and `DefWndProc` now throw `PlatformNotSupportedException` naming GTK as
+> the reason and pointing at the event model, following the convention `Net4x.Gtk.Drawing` already uses
+> for its interop surface. Nothing in the library called either method, so this changes no internal
+> behaviour — it only converts a silent no-op into a diagnosable one. Covered by
+> `MessagePumpNonGoalFunctionalTests`.
 
 ---
 
@@ -196,6 +208,66 @@ The `System.Drawing.Printing` model types now behave (see §6), with three delib
 
 ---
 
+## 6b. Closed in this pass
+
+All covered by new functional tests; full solution suite green at 3,431 tests.
+
+**`Application` startup and lifecycle (§5.2).** `Run()` and `Run(ApplicationContext)` now exist. All three
+`Run` overloads route through one `ApplicationContext` path, so `Run(Form)` is now defined as
+`Run(new ApplicationContext(mainForm))` — the WinForms relationship. Added `Application.MessageLoop`,
+`ApplicationExit` and `ThreadExit`. A second loop on one thread throws `InvalidOperationException`, and the
+context is disposed after its loop ends, as WinForms does. Covered by
+`ApplicationLifecycleFunctionalTests`.
+
+**`HandleCreated`/`HandleDestroyed` were never raised — not previously found.** Both events existed and
+nothing ever invoked `OnHandleCreated`/`OnHandleDestroyed`. This mattered beyond the events themselves:
+`ApplicationContext` detects its main form closing *by subscribing to `HandleDestroyed`*, so the context's
+central mechanism was dead code and `Run(ApplicationContext)` could not have worked without fixing it
+first. `Control` now raises `HandleCreated` on widget realize and `HandleDestroyed` on widget destroy.
+
+**Accessibility (§5.5) — the answer was "not wired at all".** `AccessibleObject` was an *empty class*,
+`Control.AccessibilityObject` was an auto-property that always returned `null`, and `AccessibleName`,
+`AccessibleDescription` and `AccessibleRole` were inert auto-properties. Nothing an application set ever
+reached a screen reader on any platform. All three now push through to the GTK widget's ATK peer
+(`Gtk.Widget.Accessible`), which is what AT-SPI and the platform accessibility bridges read, and
+`AccessibilityObject` returns a real object exposing name, description, role, bounds and parent/child
+navigation. Covered by `AccessibilityFunctionalTests`.
+
+*Scope limit:* this delivers announce-ability, not the full modern-WinForms UI Automation pattern surface.
+GtkSharp does not project the `Atk.Component` interface, so `Bounds` derives from the widget allocation
+translated to screen coordinates rather than from ATK extents.
+
+**`AccessibleRole` had 1 member where WinForms has 65 — not previously found.** The enum declared only
+`Default`, so any source naming a real role failed to compile. It now carries the full set with the
+WinForms/MSAA `ROLE_SYSTEM_*` values, plus a bidirectional ATK role mapping.
+
+**`IArrangedElement` contract (§4.1).** `Control.Properties`, `Control.PerformLayout(IArrangedElement,
+string)`, `ToolStripItem.Children`, `ToolStripItem.ParticipatesInLayout`, `ToolStripItem.Container`,
+`ToolStripItem.Properties` and `ToolStripItem.PerformLayout` all threw; all are implemented. Covered by
+`ArrangedElementContractFunctionalTests`.
+
+*Correction to §4.1's count:* `ToolStripItem` had **5** throwing members, not 11. Six of the eleven matches
+were stale `<exception cref="T:System.NotImplementedException">` doc tags left on members that had already
+been fixed in the previous pass. The tags are now removed. The counting method — grepping for the
+exception name — conflated documentation with code; a count of actual `throw` statements would not have
+made that mistake.
+
+**`Padding` arithmetic — not previously found, and the most consequential find of this pass.**
+`Padding.Horizontal` returned `Right - Left` and `Vertical` returned `Bottom - Top`, where WinForms
+defines each as the **sum** of its two edges. Both contradicted their own
+doc comments. The practical effect: **uniform padding reported zero**, so every
+"content area = size − padding" calculation across layout and owner-draw code silently used the full size.
+Also fixed: `Padding.Size` was an auto-property nothing assigned (always empty) and `Padding.All` was
+stored, set to `left` by the four-edge constructor, so a Padding with differing edges reported the left
+edge as though every edge matched. `All` now computes, returning -1 when edges differ. Covered by
+`PaddingArithmeticFunctionalTests`.
+
+This one is worth dwelling on: it was found only because a test asserting `DisplayRectangle` excluded
+padding failed. Reading the source would not have caught it — `Right - Left` looks unremarkable until you
+compare it against the contract.
+
+---
+
 ## 6. Verified closed since the last review
 
 Confirmed against the current tree, not taken on trust from the commit message.
@@ -226,31 +298,28 @@ Confirmed against the current tree, not taken on trust from the commit message.
 
 Ranked by (damage × frequency) ÷ effort.
 
-**P0 — silent wrongness and no-entry-point**
-1. **`Application.Run(ApplicationContext)` and `Run()`** (§5.2) — a standard startup pattern with no entry point at all.
-2. **`WndProc` → `PlatformNotSupportedException`** (§2.2, §5.1) — converts a silent no-op into an honest boundary. Nearly free; follow the convention `Net4x.Gtk.Drawing` already adopted.
-3. **Verify accessibility is wired to ATK** (§5.5) — cheap to check, severe if it is not.
+**P0 — ~~silent wrongness and no-entry-point~~ — all closed, see §6b**
 
 **P1 — compile breaks on designer-generated code**
-4. `ToolStripContainer`, `ToolStripPanel`, `ToolStripContentPanel` (§3.2) — these appear in `.Designer.cs`.
-5. `ToolStripItem`'s `IArrangedElement` members, together with `Control.cs`'s two (§4.1) — one contract, two files.
-6. `ToolStripManager`, `ToolStripRenderer`, `ToolStripProfessionalRenderer`, `ProfessionalColorTable`, `ToolStripControlHost`.
-7. `VisualStyles` namespace as compiling shims over GTK theming (§3.1) — decide shim-vs-non-goal first.
+1. `ToolStripContainer`, `ToolStripPanel`, `ToolStripContentPanel` (§3.2) — these appear in `.Designer.cs`. **Now the top open item.**
+2. `ToolStripManager`, `ToolStripRenderer`, `ToolStripProfessionalRenderer`, `ProfessionalColorTable`, `ToolStripControlHost`.
+3. `VisualStyles` namespace as compiling shims over GTK theming (§3.1) — decide shim-vs-non-goal first.
 
 **P2 — remaining controls and collections**
-8. `ListView` group/converter cluster (§4.1) — 25 sites, design-time as well as runtime.
-9. `UpDownBase`/`DomainUpDown`, `BindingNavigator`, `AutoCompleteStringCollection`.
-10. `PrivateFontCollection`/`InstalledFontCollection` over Pango/fontconfig (§3.5).
-11. `WebBrowser` — or delete the four orphaned event-args types (§3.3).
+4. `ListView` group/converter cluster (§4.1) — 25 sites, design-time as well as runtime.
+5. `UpDownBase`/`DomainUpDown`, `BindingNavigator`, `AutoCompleteStringCollection`.
+6. `PrivateFontCollection`/`InstalledFontCollection` over Pango/fontconfig (§3.5).
+7. `WebBrowser` — or delete the four orphaned event-args types (§3.3).
 
 **P3 — fidelity**
-12. `MeasureCharacterRanges` with true Pango extents (§4.2).
-13. `Graphics.SetClip(Region)` through the region's path rather than its bands (§5.4).
-14. `CreateGraphics` immediate-mode semantics — or document the deviation (§2.1).
-15. `Application` events: `Idle`, `ApplicationExit`, `ThreadException`/`SetUnhandledExceptionMode` (§5.2).
+8. `MeasureCharacterRanges` with true Pango extents (§4.2).
+9. `Graphics.SetClip(Region)` through the region's path rather than its bands (§5.4).
+10. `CreateGraphics` immediate-mode semantics — or document the deviation (§2.1).
+11. `Application.Idle` and `ThreadException`/`SetUnhandledExceptionMode` (§5.2) — `ApplicationExit` and `ThreadExit` landed in this pass.
+12. Deeper accessibility: expose per-control default roles automatically, and `AccessibleObject` state/value (§6b scope limit).
 
 **P4 — declare non-goals**
-16. EMF/WMF metafiles, `NativeWindow`, `SendKeys`, `Control.Handle` semantics — document rather than implement (§5.1, §5.3).
+13. EMF/WMF metafiles, `NativeWindow`, `SendKeys`, `Control.Handle` semantics — document rather than implement (§5.1, §5.3).
 
 ---
 
@@ -259,6 +328,7 @@ Ranked by (damage × frequency) ÷ effort.
 Stated so the gaps in the gap analysis are visible.
 
 - **No runtime behaviour was exercised.** Source reading only. Layout drift, event ordering, and focus/tab-order divergence are likely a large additional category and are invisible to this method.
+  - **This limit was demonstrated, not just asserted.** Of the gaps closed in this pass, four were found by *writing tests*, not by reading: the unraised `HandleCreated`/`HandleDestroyed`, the one-member `AccessibleRole`, the `Padding` arithmetic, and the miscounted `ToolStripItem` throws. Wrong-but-plausible code (`Right - Left`) is invisible to a reading pass in a way that missing code is not. Expect more of this class, and expect tests rather than review to surface it.
 - **Layout engines** — `TableLayoutPanel`, `FlowLayoutPanel`, anchor/dock — were not compared against WinForms measure/arrange semantics. These are fully reimplemented on GTK's allocate cycle; assume pixel-level and edge-case divergence until tested.
 - **Data binding depth** (§5.6) and **accessibility wiring** (§5.5) — flagged as unverified, not assessed.
 - **`Net4x.Gtk.Windows.FormsDesigner`** and the ResX/designer round-trip were out of scope.
