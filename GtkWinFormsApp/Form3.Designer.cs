@@ -10,7 +10,7 @@ namespace GtkWinFormsApp
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        internal System.ComponentModel.IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -31,7 +31,7 @@ namespace GtkWinFormsApp
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        internal void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
@@ -650,67 +650,67 @@ namespace GtkWinFormsApp
         }
 
         #endregion
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStrip toolStrip2;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
-        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
-        private System.Windows.Forms.ToolStripMenuItem memnuToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ddddToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ssssToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fffffffToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ssssToolStripMenuItem1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ToolStripMenuItem bbMenuToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem bbMenu2ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem ddddToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem ffffToolStripMenuItem;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar2;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton2;
-        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton2;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.TrackBar trackBar1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button5;
-        private Panel panel3;
-        private Panel panel5;
-        private Label label2;
-        private ToolStripSeparator toolStripSeparator3;
-        private ToolStripMenuItem cMenuToolStripMenuItem;
-        private ProgressBar progressBar1;
-        private Button button4;
-        private NotifyIcon notifyIcon1;
-        private ContextMenuStrip contextMenuStrip2;
-        private ToolStripMenuItem toolStripMenuItem2;
-        private ToolStripMenuItem toolStripMenuItem7;
-        private ToolStripSeparator toolStripSeparator4;
-        private ToolStripMenuItem toolStripMenuItem8;
-        private ToolStripComboBox toolStripComboBox2;
-        private ToolStripMenuItem submenu1ToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator5;
-        private ToolStripMenuItem rightAlignButtonToolStripMenuItem;
-        private ToolStripButton toolStripButton2;
-        private GroupBox groupBox2;
-        private Panel panel2;
-        private Button button6;
-        private Button button7;
+        internal System.Windows.Forms.MenuStrip menuStrip1;
+        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        internal System.Windows.Forms.ToolStrip toolStrip2;
+        internal System.Windows.Forms.ToolStripButton toolStripButton1;
+        internal System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        internal System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        internal System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
+        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        internal System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
+        internal System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        internal System.Windows.Forms.ToolStripMenuItem memnuToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem ddddToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem ssssToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem fffffffToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem ssssToolStripMenuItem1;
+        internal System.Windows.Forms.Button button1;
+        internal System.Windows.Forms.ToolStripMenuItem bbMenuToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem bbMenu2ToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        internal System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        internal System.Windows.Forms.ToolStripMenuItem ddddToolStripMenuItem1;
+        internal System.Windows.Forms.ToolStripMenuItem ffffToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        internal System.Windows.Forms.ToolStripProgressBar toolStripProgressBar2;
+        internal System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton2;
+        internal System.Windows.Forms.ToolStripSplitButton toolStripSplitButton2;
+        internal System.Windows.Forms.StatusStrip statusStrip1;
+        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+        internal System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
+        internal System.Windows.Forms.Label label1;
+        internal System.Windows.Forms.LinkLabel linkLabel1;
+        internal System.Windows.Forms.TrackBar trackBar1;
+        internal System.Windows.Forms.Panel panel1;
+        internal System.Windows.Forms.Button button3;
+        internal System.Windows.Forms.Button button2;
+        internal System.Windows.Forms.Button button5;
+        internal Panel panel3;
+        internal Panel panel5;
+        internal Label label2;
+        internal ToolStripSeparator toolStripSeparator3;
+        internal ToolStripMenuItem cMenuToolStripMenuItem;
+        internal ProgressBar progressBar1;
+        internal Button button4;
+        internal NotifyIcon notifyIcon1;
+        internal ContextMenuStrip contextMenuStrip2;
+        internal ToolStripMenuItem toolStripMenuItem2;
+        internal ToolStripMenuItem toolStripMenuItem7;
+        internal ToolStripSeparator toolStripSeparator4;
+        internal ToolStripMenuItem toolStripMenuItem8;
+        internal ToolStripComboBox toolStripComboBox2;
+        internal ToolStripMenuItem submenu1ToolStripMenuItem;
+        internal ToolStripSeparator toolStripSeparator5;
+        internal ToolStripMenuItem rightAlignButtonToolStripMenuItem;
+        internal ToolStripButton toolStripButton2;
+        internal GroupBox groupBox2;
+        internal Panel panel2;
+        internal Button button6;
+        internal Button button7;
     }
 }

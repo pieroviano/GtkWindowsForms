@@ -235,5 +235,47 @@ namespace Prepare.Tests
                 SafeDelete(root);
             }
         }
+
+        /// <summary>
+        /// The GtkWinFormsApp sample must stay drivable by GtkWinFormsApp.UITests after every regeneration:
+        /// its Designer fields promoted to <c>internal</c> and an <c>InternalsVisibleTo</c> grant for the
+        /// test assembly. Only the <c>GtkWinFormsApp</c> target gets these (the other sample is untouched).
+        /// </summary>
+        [Fact]
+        public async Task RunSampleTransform_ForGtkWinFormsApp_InternalizesDesignerFieldsAndGrantsInternalsVisibleTo()
+        {
+            var root = BuildFixtureRoot();
+            try
+            {
+                // A generated Designer control field the UI tests reach without reflection.
+                var upstreamDir = Path.Combine(root, "gtksystem-windows-forms", "Samples", UpstreamSample);
+                File.WriteAllText(Path.Combine(upstreamDir, "Form1.Designer.cs"),
+                    """
+                    namespace FixtureSampleApp
+                    {
+                        partial class Form1
+                        {
+                            private System.Windows.Forms.Button button1;
+                        }
+                    }
+                    """);
+
+                // Run fs with the UI-testable target name so the internalize + IVT steps fire.
+                await SampleTransformPipeline.RunSampleTransformAsync(root, UpstreamSample, "GtkWinFormsApp",
+                    new SampleTransformOptions { EnsureLatestGtkSharp = false });
+
+                var designer = File.ReadAllText(Path.Combine(root, "GtkWinFormsApp", "Form1.Designer.cs"));
+                Assert.Contains("internal System.Windows.Forms.Button button1", designer);
+                Assert.DoesNotContain("private System.Windows.Forms.Button", designer);
+
+                var csproj = File.ReadAllText(Path.Combine(root, "GtkWinFormsApp", "GtkWinFormsApp.csproj"));
+                Assert.Contains("InternalsVisibleTo", csproj);
+                Assert.Contains("GtkWinFormsApp.UITests, PublicKey=", csproj);
+            }
+            finally
+            {
+                SafeDelete(root);
+            }
+        }
     }
 }

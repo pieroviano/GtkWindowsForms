@@ -9,7 +9,7 @@ namespace GtkWinFormsApp
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        internal System.ComponentModel.IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -30,7 +30,7 @@ namespace GtkWinFormsApp
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        internal void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
@@ -198,18 +198,18 @@ namespace GtkWinFormsApp
 
         #endregion
 
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ImageList imageList1;
-        private System.Windows.Forms.ListBox listBox1;
-        private ColumnHeader columnHeader1;
-        private ColumnHeader columnHeader2;
-        private ColumnHeader columnHeader3;
-        private RichTextBox richTextBox1;
-        private Label label1;
-        private Button button1;
-        private ColumnHeader columnHeader4;
-        private ColumnHeader columnHeader5;
-        private System.Windows.Forms.Timer timer1;
-        private Label label2;
+        internal System.Windows.Forms.ListView listView1;
+        internal System.Windows.Forms.ImageList imageList1;
+        internal System.Windows.Forms.ListBox listBox1;
+        internal ColumnHeader columnHeader1;
+        internal ColumnHeader columnHeader2;
+        internal ColumnHeader columnHeader3;
+        internal RichTextBox richTextBox1;
+        internal Label label1;
+        internal Button button1;
+        internal ColumnHeader columnHeader4;
+        internal ColumnHeader columnHeader5;
+        internal System.Windows.Forms.Timer timer1;
+        internal Label label2;
     }
 }

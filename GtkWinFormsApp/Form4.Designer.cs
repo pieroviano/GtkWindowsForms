@@ -9,7 +9,7 @@ namespace GtkWinFormsApp
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        internal System.ComponentModel.IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -30,7 +30,7 @@ namespace GtkWinFormsApp
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        internal void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
             TreeNode treeNode6 = new TreeNode(Properties.GtkWinFormsAppResources.Gtk_CommonDialogsForm_Node_1);
@@ -386,34 +386,34 @@ namespace GtkWinFormsApp
 
         #endregion
 
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.TreeView treeView1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem test1ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem test12ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem test21ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem test22ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem test13ToolStripMenuItem;
+        internal System.Windows.Forms.SplitContainer splitContainer1;
+        internal System.Windows.Forms.Button button2;
+        internal System.Windows.Forms.Button button1;
+        internal System.Windows.Forms.Button button5;
+        internal System.Windows.Forms.Panel panel1;
+        internal System.Windows.Forms.Button button4;
+        internal System.Windows.Forms.Button button3;
+        internal System.Windows.Forms.TreeView treeView1;
+        internal System.Windows.Forms.Label label1;
+        internal System.Windows.Forms.Button button6;
+        internal System.Windows.Forms.Button button7;
+        internal System.Windows.Forms.Button button8;
+        internal System.Windows.Forms.Button button9;
+        internal System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        internal System.Windows.Forms.ToolStripMenuItem test1ToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem test12ToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem test21ToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem test22ToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem test13ToolStripMenuItem;
         
-        private System.Windows.Forms.VScrollBar vScrollBar1;
-        private System.Windows.Forms.HScrollBar hScrollBar1;
-        private System.Windows.Forms.ImageList imageList1;
-        private GroupBox groupBox2;
-        private Button button11;
-        private GroupBox groupBox1;
-        private Button button10;
-        private ToolTip toolTip1;
-        private ToolTip toolTip2;
+        internal System.Windows.Forms.VScrollBar vScrollBar1;
+        internal System.Windows.Forms.HScrollBar hScrollBar1;
+        internal System.Windows.Forms.ImageList imageList1;
+        internal GroupBox groupBox2;
+        internal Button button11;
+        internal GroupBox groupBox1;
+        internal Button button10;
+        internal ToolTip toolTip1;
+        internal ToolTip toolTip2;
     }
 }

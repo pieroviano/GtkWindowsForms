@@ -8,7 +8,7 @@ namespace GtkWinFormsApp
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        internal System.ComponentModel.IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -29,7 +29,7 @@ namespace GtkWinFormsApp
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        internal void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
@@ -810,64 +810,64 @@ namespace GtkWinFormsApp
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn project;
-        private System.Windows.Forms.DataGridViewTextBoxColumn state;
-        private System.Windows.Forms.DataGridViewTextBoxColumn testnum;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox pictureBox_chart;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.PictureBox pictureBox_CC1;
-        private System.Windows.Forms.PictureBox pictureBox_PC1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.PictureBox pictureBox_CC2;
-        private System.Windows.Forms.PictureBox pictureBox_PC2;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.PictureBox pictureBox_PC3;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.PictureBox pictureBox_PC4;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.PictureBox pictureBox_CC4;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.Button button12;
-        private System.Windows.Forms.Button button13;
-        private System.Windows.Forms.Button button14;
-        private System.Windows.Forms.Button button15;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Button button16;
-        private System.Windows.Forms.Button button17;
-        private RadioButton radioButton1;
-        private RadioButton radioButton2;
-        private RadioButton radioButton3;
-        private RadioButton radioButton4;
-        private RadioButton radioButton5;
-        private RadioButton radioButton6;
-        private System.Windows.Forms.Timer timer1;
+        internal System.Windows.Forms.DataGridView dataGridView1;
+        internal System.Windows.Forms.DataGridViewTextBoxColumn id;
+        internal System.Windows.Forms.DataGridViewTextBoxColumn project;
+        internal System.Windows.Forms.DataGridViewTextBoxColumn state;
+        internal System.Windows.Forms.DataGridViewTextBoxColumn testnum;
+        internal System.Windows.Forms.Panel panel1;
+        internal System.Windows.Forms.Label label1;
+        internal System.Windows.Forms.PictureBox pictureBox_chart;
+        internal System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        internal System.Windows.Forms.Panel panel2;
+        internal System.Windows.Forms.Label label5;
+        internal System.Windows.Forms.Label label4;
+        internal System.Windows.Forms.PictureBox pictureBox_CC1;
+        internal System.Windows.Forms.PictureBox pictureBox_PC1;
+        internal System.Windows.Forms.Label label3;
+        internal System.Windows.Forms.Label label2;
+        internal System.Windows.Forms.Panel panel3;
+        internal System.Windows.Forms.Label label9;
+        internal System.Windows.Forms.Label label8;
+        internal System.Windows.Forms.Label label7;
+        internal System.Windows.Forms.Label label6;
+        internal System.Windows.Forms.PictureBox pictureBox_CC2;
+        internal System.Windows.Forms.PictureBox pictureBox_PC2;
+        internal System.Windows.Forms.Panel panel4;
+        internal System.Windows.Forms.PictureBox pictureBox_PC3;
+        internal System.Windows.Forms.Label label11;
+        internal System.Windows.Forms.Label label10;
+        internal System.Windows.Forms.Panel panel5;
+        internal System.Windows.Forms.Label label15;
+        internal System.Windows.Forms.PictureBox pictureBox_PC4;
+        internal System.Windows.Forms.Label label14;
+        internal System.Windows.Forms.PictureBox pictureBox_CC4;
+        internal System.Windows.Forms.Label label13;
+        internal System.Windows.Forms.Label label12;
+        internal System.Windows.Forms.Button button1;
+        internal System.Windows.Forms.Button button2;
+        internal System.Windows.Forms.Button button3;
+        internal System.Windows.Forms.Button button4;
+        internal System.Windows.Forms.Button button5;
+        internal System.Windows.Forms.Button button6;
+        internal System.Windows.Forms.Button button7;
+        internal System.Windows.Forms.Button button8;
+        internal System.Windows.Forms.Button button9;
+        internal System.Windows.Forms.Button button10;
+        internal System.Windows.Forms.Button button11;
+        internal System.Windows.Forms.Button button12;
+        internal System.Windows.Forms.Button button13;
+        internal System.Windows.Forms.Button button14;
+        internal System.Windows.Forms.Button button15;
+        internal System.Windows.Forms.Label label16;
+        internal System.Windows.Forms.Button button16;
+        internal System.Windows.Forms.Button button17;
+        internal RadioButton radioButton1;
+        internal RadioButton radioButton2;
+        internal RadioButton radioButton3;
+        internal RadioButton radioButton4;
+        internal RadioButton radioButton5;
+        internal RadioButton radioButton6;
+        internal System.Windows.Forms.Timer timer1;
     }
 }

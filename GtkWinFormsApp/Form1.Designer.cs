@@ -13,7 +13,7 @@ namespace GtkWinFormsApp
         /// <summary>
         ///  Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        internal System.ComponentModel.IContainer components = null;
 
         /// <summary>
         ///  Clean up any resources being used.
@@ -34,7 +34,7 @@ namespace GtkWinFormsApp
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        internal void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
@@ -855,65 +855,65 @@ namespace GtkWinFormsApp
         }
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox1;
+        internal System.Windows.Forms.Button button1;
+        internal System.Windows.Forms.ComboBox comboBox1;
+        internal System.Windows.Forms.TextBox textBox1;
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        internal System.Windows.Forms.DataGridView dataGridView1;
 
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button2;
-        private TabControl tabControl1;
-        private TabPage tabPage1;
-        private TabPage tabPage2;
-        private System.Windows.Forms.Label label2;
-        private CheckBox checkBox1;
-        private MaskedTextBox maskedTextBox1;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private MaskedTextBox maskedTextBox2;
-        private LinkLabel linkLabel1;
-        private ContextMenuStrip contextMenuStrip1;
-        private ToolStripMenuItem toolStripMenuItem1;
-        private ToolStripMenuItem toolStripMenuItem2;
-        private MenuStrip menuStrip1;
-        private ToolStripMenuItem toolStripMenuItem3;
-        private ToolStripMenuItem test1ToolStripMenuItem;
-        private ToolStripMenuItem test2ToolStripMenuItem;
-        private ToolStripMenuItem toolStripMenuItem4;
-        private ToolStripMenuItem menuThreeToolStripMenuItem;
-        private CheckBox checkBox2;
-        private DateTimePicker dateTimePicker1;
-        private NumericUpDown numericUpDown1;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private CheckedListBox checkedListBox1;
-        private System.Windows.Forms.TreeView treeView1;
-        private ToolStripMenuItem threeLevelMenu1ToolStripMenuItem;
-        private ToolStripMenuItem secondaryMenu1ToolStripMenuItem;
-        private SplitContainer splitContainer1;
-        private PictureBox pictureBox2;
-        private ListBox listBox1;
-        private FlowLayoutPanel flowLayoutPanel1;
-        private Button button4;
-        private Button button5;
-        private CheckBox checkBox3;
-        private Label label4;
-        private RichTextBox richTextBox1;
-        private TableLayoutPanel tableLayoutPanel1;
-        private Label label5;
-        private Button button6;
-        private Label label6;
-        private Button button7;
-        private TabPage tabPage3;
-        private SplitContainer splitContainer2;
-        private Button button3;
-        private DataGridViewTextBoxColumn ID;
-        private DataGridViewCheckBoxColumn State;
-        private DataGridViewTextBoxColumn Title;
-        private DataGridViewComboBoxColumn CreateDate;
-        private DataGridViewButtonColumn Operate;
-        private DataGridViewImageColumn PIC;
+        internal System.Windows.Forms.GroupBox groupBox1;
+        internal System.Windows.Forms.Button button2;
+        internal TabControl tabControl1;
+        internal TabPage tabPage1;
+        internal TabPage tabPage2;
+        internal System.Windows.Forms.Label label2;
+        internal CheckBox checkBox1;
+        internal MaskedTextBox maskedTextBox1;
+        internal System.Windows.Forms.PictureBox pictureBox1;
+        internal MaskedTextBox maskedTextBox2;
+        internal LinkLabel linkLabel1;
+        internal ContextMenuStrip contextMenuStrip1;
+        internal ToolStripMenuItem toolStripMenuItem1;
+        internal ToolStripMenuItem toolStripMenuItem2;
+        internal MenuStrip menuStrip1;
+        internal ToolStripMenuItem toolStripMenuItem3;
+        internal ToolStripMenuItem test1ToolStripMenuItem;
+        internal ToolStripMenuItem test2ToolStripMenuItem;
+        internal ToolStripMenuItem toolStripMenuItem4;
+        internal ToolStripMenuItem menuThreeToolStripMenuItem;
+        internal CheckBox checkBox2;
+        internal DateTimePicker dateTimePicker1;
+        internal NumericUpDown numericUpDown1;
+        internal System.Windows.Forms.RadioButton radioButton1;
+        internal System.Windows.Forms.RadioButton radioButton2;
+        internal System.Windows.Forms.RadioButton radioButton3;
+        internal CheckedListBox checkedListBox1;
+        internal System.Windows.Forms.TreeView treeView1;
+        internal ToolStripMenuItem threeLevelMenu1ToolStripMenuItem;
+        internal ToolStripMenuItem secondaryMenu1ToolStripMenuItem;
+        internal SplitContainer splitContainer1;
+        internal PictureBox pictureBox2;
+        internal ListBox listBox1;
+        internal FlowLayoutPanel flowLayoutPanel1;
+        internal Button button4;
+        internal Button button5;
+        internal CheckBox checkBox3;
+        internal Label label4;
+        internal RichTextBox richTextBox1;
+        internal TableLayoutPanel tableLayoutPanel1;
+        internal Label label5;
+        internal Button button6;
+        internal Label label6;
+        internal Button button7;
+        internal TabPage tabPage3;
+        internal SplitContainer splitContainer2;
+        internal Button button3;
+        internal DataGridViewTextBoxColumn ID;
+        internal DataGridViewCheckBoxColumn State;
+        internal DataGridViewTextBoxColumn Title;
+        internal DataGridViewComboBoxColumn CreateDate;
+        internal DataGridViewButtonColumn Operate;
+        internal DataGridViewImageColumn PIC;
     }
 }
 

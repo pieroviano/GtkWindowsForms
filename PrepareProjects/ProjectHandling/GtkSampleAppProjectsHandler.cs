@@ -12,6 +12,20 @@ namespace PrepareProjects.ProjectHandling;
 
 public static class GtkSampleAppProjectsHandler
 {
+    /// <summary>The one sample that <c>GtkWinFormsApp.UITests</c> drives; its Designer members are widened and its assembly grants the test project internal access.</summary>
+    private const string UiTestableSample = "GtkWinFormsApp";
+
+    /// <summary>The UI-test project granted <c>InternalsVisibleTo</c> on <see cref="UiTestableSample"/>.</summary>
+    private const string UiTestProjectName = "GtkWinFormsApp.UITests";
+
+    /// <summary><c>GtkForms.snk</c>'s public key - the sample signs with this key, so the grant must name it.</summary>
+    private const string GtkFormsPublicKey =
+        "0024000004800000940000000602000000240000525341310004000001000100518ef14d1a0c9efc88ac393975" +
+        "09c94a703ec7a674ed0414a18d3bad86b3618863d9d20204b50c28a13c56df0493d2943f2013a9b4f2bd5a82921" +
+        "7698fa2444fbbebd449d6a8942a1278c87fe9ccba10535b9b2b1f47295168308a2b2a85af1fc655f8c736b51fe1" +
+        "d457d1b7be6c807516f58d5d981b112929c5c24f3ff1c0ce";
+
+
     /// <summary>
     /// The sample transform <c>fs</c> for ONE sample: copy <c>Samples/&lt;source&gt;</c> → <c>&lt;target&gt;</c>,
     /// overlay the localization/data resources, rewrite the csproj, and translate + key the Chinese.
@@ -29,6 +43,14 @@ public static class GtkSampleAppProjectsHandler
 
         ProjectUtility.PrepareEmptyDirectory(targetDir);
         ProjectUtility.CopyDirectory(sourceDir, targetDir);
+
+        // Let GtkWinFormsApp.UITests drive the sample's Designer controls without reflection: promote the
+        // generated Designer fields from private to internal and (below) grant the test assembly access.
+        // Applied to both alignment sides equally, so it is delta-neutral for AlignSamples.
+        if (targetProjectName == UiTestableSample)
+        {
+            InternalizeDesignerFields(targetDir);
+        }
 
         // Provenance: every generated file starts as a straight copy of its upstream counterpart; the
         // steps below overwrite the entries they redirect elsewhere (overlays, renames, deletions).
@@ -60,6 +82,11 @@ public static class GtkSampleAppProjectsHandler
         }
 
         EnsureStrongNameSigning(csprojPath);
+        if (targetProjectName == UiTestableSample)
+        {
+            EnsureInternalsVisibleTo(csprojPath);
+        }
+
         EnsureResxEmbeddedResources(csprojPath);
         EnsureResources(csprojPath);
 
@@ -462,6 +489,56 @@ public static class GtkSampleAppProjectsHandler
                     @"..\GtkForms.snk"));
         }
 
+        doc.Save(csprojPath);
+    }
+
+    /// <summary>
+    /// Promotes the generated Designer member declarations from <c>private</c> to <c>internal</c> so
+    /// <c>GtkWinFormsApp.UITests</c> can reach the control fields (via <see cref="EnsureInternalsVisibleTo"/>)
+    /// without reflection. In these generated <c>*.Designer.cs</c> files every <c>private</c> begins a
+    /// member declaration (a control field, the <c>components</c> field, or <c>InitializeComponent</c>) -
+    /// never inside a string literal - so a line-anchored replace is exact.
+    /// </summary>
+    private static void InternalizeDesignerFields(string targetDir)
+    {
+        foreach (var designer in Directory.EnumerateFiles(targetDir, "*.Designer.cs", SearchOption.AllDirectories))
+        {
+            var text = File.ReadAllText(designer);
+            var updated = System.Text.RegularExpressions.Regex.Replace(
+                text, @"(?m)^(\s*)private\b", "$1internal");
+            if (updated != text)
+            {
+                CsFile.WriteAllText(designer, updated);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Grants <c>GtkWinFormsApp.UITests</c> access to the sample's internals via an
+    /// <c>InternalsVisibleTo</c> assembly attribute keyed to <see cref="GtkFormsPublicKey"/> (the sample's
+    /// own strong-name key). Idempotent.
+    /// </summary>
+    private static void EnsureInternalsVisibleTo(string csprojPath)
+    {
+        var doc = XDocument.Load(csprojPath);
+        var ns = doc.Root!.Name.Namespace;
+
+        var already = doc
+            .Descendants(ns + "AssemblyAttribute")
+            .Any(a => (string?)a.Attribute("Include") == "System.Runtime.CompilerServices.InternalsVisibleTo"
+                      && (a.Element(ns + "_Parameter1")?.Value?.StartsWith(UiTestProjectName + ",") ?? false));
+
+        if (already)
+        {
+            return;
+        }
+
+        var itemGroup = new XElement(ns + "ItemGroup",
+            new XElement(ns + "AssemblyAttribute",
+                new XAttribute("Include", "System.Runtime.CompilerServices.InternalsVisibleTo"),
+                new XElement(ns + "_Parameter1", $"{UiTestProjectName}, PublicKey={GtkFormsPublicKey}")));
+
+        doc.Root!.Add(itemGroup);
         doc.Save(csprojPath);
     }
 

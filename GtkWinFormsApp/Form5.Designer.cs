@@ -5,7 +5,7 @@ namespace GtkWinFormsApp
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        internal System.ComponentModel.IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -26,7 +26,7 @@ namespace GtkWinFormsApp
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        internal void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
             button1 = new System.Windows.Forms.Button();
@@ -60,7 +60,7 @@ namespace GtkWinFormsApp
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ToolTip toolTip1;
+        internal System.Windows.Forms.Button button1;
+        internal System.Windows.Forms.ToolTip toolTip1;
     }
 }

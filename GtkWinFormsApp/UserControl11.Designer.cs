@@ -8,7 +8,7 @@ namespace GtkWinFormsApp
         /// <summary> 
         /// 必需的设计器变量。
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        internal System.ComponentModel.IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used。
@@ -29,7 +29,7 @@ namespace GtkWinFormsApp
         /// 设计器支持所需的方法 - 不要修改
         /// 使用代码编辑器修改此方法的内容。
         /// </summary>
-        private void InitializeComponent()
+        internal void InitializeComponent()
         {
             button1 = new Button();
             pictureBox1 = new PictureBox();
@@ -84,7 +84,7 @@ namespace GtkWinFormsApp
 
         #endregion
 
-        private Button button1;
-        private PictureBox pictureBox1;
+        internal Button button1;
+        internal PictureBox pictureBox1;
     }
 }
