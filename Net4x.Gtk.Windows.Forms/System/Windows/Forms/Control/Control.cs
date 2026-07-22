@@ -894,7 +894,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual int Bottom
     {
-        get => this.Widget != null ? this.Widget.MarginBottom : 0;
+        // This reported the widget's bottom margin, which has nothing to do with the control's bottom edge.
+        get => Top + Height;
     }
 
     /// <summary>
@@ -952,15 +953,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         get
         {
-            if (this.Widget != null)
-            {
-                var allocation = this.Widget.Allocation;
-                return new Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height);
-            }
-            else
-            {
-                return Rectangle.Empty;
-            }
+            // The GTK allocation origin was reported as the client origin, so an unrealized control
+            // returned -1,-1. The WinForms client rectangle always starts at the control's own origin.
+            var size = ClientSize;
+
+            return new Rectangle(0, 0, size.Width, size.Height);
         }
     }
 
@@ -1022,7 +1019,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the collection of data bindings for the control.
     /// </summary>
-    public virtual ControlBindingsCollection? DataBindings { get; }
+    // This was an auto-property nothing ever assigned, so control.DataBindings was null on every control
+    // that did not override it and data binding could not be used at all.
+    public virtual ControlBindingsCollection? DataBindings => _dataBindings ??= new ControlBindingsCollection(this);
+
+    private ControlBindingsCollection? _dataBindings;
 
     /// <summary>
     /// Gets the device DPI for the control.
@@ -1128,7 +1129,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets a value indicating whether the control has child controls.
     /// </summary>
-    public virtual bool HasChildren { get; }
+    // This was an auto-property nothing ever assigned, so a control with children still reported false.
+    public virtual bool HasChildren => Controls != null && Controls.Count > 0;
 
     /// <summary>
     /// Gets or sets the height of the control.
@@ -1197,7 +1199,73 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets a value indicating whether calls to the control must be marshaled to the UI thread.
     /// </summary>
-    public virtual bool InvokeRequired { get; }
+    /// <remarks>
+    /// This was an auto-property with no backing logic, so it was permanently <see langword="false" /> and
+    /// the standard <c>if (InvokeRequired) Invoke(...)</c> idiom silently ran UI code on worker threads.
+    /// </remarks>
+    public virtual bool InvokeRequired => Environment.CurrentManagedThreadId != _owningThreadId;
+
+    /// <summary>
+    /// The managed id of the thread this control was created on. WinForms decides whether marshalling is
+    /// needed per control, against the thread that created the control's handle.
+    /// </summary>
+    private readonly int _owningThreadId = Environment.CurrentManagedThreadId;
+
+    /// <summary>
+    /// The managed id of the thread running the message loop, once one has announced itself.
+    /// </summary>
+    internal static int UiThreadId { get; private set; } = Environment.CurrentManagedThreadId;
+
+    /// <summary>
+    /// Records the calling thread as the UI thread.
+    /// </summary>
+    internal static void CaptureUiThread() => UiThreadId = Environment.CurrentManagedThreadId;
+
+    /// <summary>
+    /// Indicates whether a GTK main loop is running, and therefore whether queued work will ever be
+    /// dispatched.
+    /// </summary>
+    private static bool IsMainLoopRunning => Gtk.Main.Level() > 0;
+
+    /// <summary>
+    /// Runs <paramref name="action" /> on the UI thread and blocks until it has finished, rethrowing any
+    /// exception it raised on the calling thread - the contract WinForms Invoke follows.
+    /// </summary>
+    private void MarshalToUiThread(Action action)
+    {
+        // Without a running GTK main loop nothing would ever drain the idle queue, so waiting on it
+        // would deadlock; run inline in that case, as there is no other thread to marshal to.
+        if (!InvokeRequired || !IsMainLoopRunning)
+        {
+            action();
+
+            return;
+        }
+
+        global::System.Runtime.ExceptionServices.ExceptionDispatchInfo? failure = null;
+        using var completed = new global::System.Threading.ManualResetEventSlim(false);
+        GLib.Idle.Add(() =>
+        {
+            try
+            {
+                action();
+            }
+            catch (Exception ex)
+            {
+                failure = global::System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(
+                    ex is Reflection.TargetInvocationException { InnerException: { } inner } ? inner : ex);
+            }
+            finally
+            {
+                completed.Set();
+            }
+
+            return false;
+        });
+
+        completed.Wait();
+        failure?.Throw();
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether the control is accessible.
@@ -1408,7 +1476,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual int Right
     {
-        get => this.Widget?.MarginEnd ?? 0;
+        // This reported the widget's end margin, which has nothing to do with the control's right edge.
+        get => Left + Width;
     }
 
     /// <summary>
@@ -1495,7 +1564,20 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the top-level control that contains this control.
     /// </summary>
-    public virtual Control? TopLevelControl { get; }
+    // This was an auto-property nothing ever assigned, so the top-level control was always null.
+    public virtual Control? TopLevelControl
+    {
+        get
+        {
+            var current = this;
+            while (current.Parent != null)
+            {
+                current = current.Parent;
+            }
+
+            return current == this && current is not Form ? null : current;
+        }
+    }
 
     /// <summary>
     /// Gets a unique key associated with the control (used for styling or resources).
@@ -1762,12 +1844,34 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual IAsyncResult BeginInvoke(Delegate method, params object[]? args)
     {
-        var task = System.Threading.Tasks.Task<object?>.Factory.StartNew(state =>
-        {
-            return method.DynamicInvoke((object[])state!);
-        }, args);
+        // This ran the delegate on a thread-pool thread, which is the one place WinForms guarantees it
+        // will *not* run. Post it to the GTK main loop instead so it executes on the UI thread.
+        return PostToUiThread(() => method.DynamicInvoke(args));
+    }
 
-        return task;
+    /// <summary>
+    /// Queues <paramref name="work" /> onto the GTK main loop and returns a handle that completes once
+    /// it has run on the UI thread.
+    /// </summary>
+    private static IAsyncResult PostToUiThread(Func<object?> work)
+    {
+        var completion = new System.Threading.Tasks.TaskCompletionSource<object?>();
+        GLib.Idle.Add(() =>
+        {
+            try
+            {
+                completion.TrySetResult(work());
+            }
+            catch (Exception ex)
+            {
+                completion.TrySetException(
+                    ex is Reflection.TargetInvocationException { InnerException: { } inner } ? inner : ex);
+            }
+
+            return false;
+        });
+
+        return completion.Task;
     }
 
     /// <summary>
@@ -1795,9 +1899,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual IAsyncResult BeginInvoke(Action method)
     {
-        var task = System.Threading.Tasks.Task.Factory.StartNew(method);
+        return PostToUiThread(() =>
+        {
+            method();
 
-        return task;
+            return null;
+        });
     }
 
     /// <summary>
@@ -1819,6 +1926,20 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual bool Contains(Control ctl)
     {
+        // This always returned false, so no control ever reported containing anything.
+        if (ctl == null)
+        {
+            return false;
+        }
+
+        for (var parent = ctl.Parent; parent != null; parent = parent.Parent)
+        {
+            if (ReferenceEquals(parent, this))
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -2018,7 +2139,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual Control? GetChildAtPoint(Point pt)
     {
-        return null;
+        // This always returned null, so hit-testing a container never found anything.
+        return GetChildAtPoint(pt, GetChildAtPointSkip.None);
     }
 
     /// <summary>
@@ -2035,6 +2157,30 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual Control? GetChildAtPoint(Point pt, GetChildAtPointSkip skipValue)
     {
+        if (Controls == null)
+        {
+            return null;
+        }
+
+        for (var i = 0; i < Controls.Count; i++)
+        {
+            var child = Controls[i];
+            if (skipValue.HasFlag(GetChildAtPointSkip.Invisible) && !child.Visible)
+            {
+                continue;
+            }
+
+            if (skipValue.HasFlag(GetChildAtPointSkip.Disabled) && !child.Enabled)
+            {
+                continue;
+            }
+
+            if (child.Bounds.Contains(pt))
+            {
+                return child;
+            }
+        }
+
         return null;
     }
 
@@ -2046,7 +2192,16 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual IContainerControl? GetContainerControl()
     {
-        return this as IContainerControl;
+        // This only ever looked at the control itself, so a button inside a form found nothing.
+        for (Control? current = this; current != null; current = current.Parent)
+        {
+            if (current is IContainerControl container)
+            {
+                return container;
+            }
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -2224,17 +2379,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual object? Invoke(Delegate method, params object[]? args)
     {
-        lock (this)
-        {
-            object? result = null;
-            GLib.Idle.Add(() =>
-            {
-                result = method?.DynamicInvoke(args);
-                return false;
-            });
+        // This queued the delegate and returned immediately, so the result was always null and Invoke
+        // gave no ordering guarantee at all. WinForms Invoke blocks until the delegate has run.
+        object? result = null;
+        MarshalToUiThread(() => result = method?.DynamicInvoke(args));
 
-            return result;
-        }
+        return result;
     }
 
     /// <summary>
@@ -2245,14 +2395,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </param>
     public virtual void Invoke(Action method)
     {
-        lock (this)
-        {
-            GLib.Idle.Add(() =>
-            {
-                method?.Invoke();
-                return false;
-            });
-        }
+        MarshalToUiThread(() => method?.Invoke());
     }
 
     /// <summary>
@@ -2269,17 +2412,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual TEntry? Invoke<TEntry>(Func<TEntry> method)
     {
-        lock (this)
-        {
-            var result = default(TEntry);
-            GLib.Idle.Add(() =>
-            {
-                result = method.Invoke();
-                return false;
-            });
+        var result = default(TEntry);
+        MarshalToUiThread(() => result = method.Invoke());
 
-            return result;
-        }
+        return result;
     }
 
     /// <summary>
@@ -2466,7 +2602,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual void ResetBackColor()
     {
-
+        // The whole Reset* family was empty, so none of them restored anything. Clearing the
+        // override puts the control back on the unset default the getter falls back to.
+        if (ISelf != null)
+        {
+            ISelf.Override.BackColor = null;
+            UpdateStyle();
+            Refresh();
+        }
     }
 
     /// <summary>
@@ -2474,7 +2617,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual void ResetBindings()
     {
-
+        DataBindings?.Clear();
     }
 
     /// <summary>
@@ -2482,7 +2625,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual void ResetCursor()
     {
-
+        Cursor = Cursors.Default;
     }
 
     /// <summary>
@@ -2490,7 +2633,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual void ResetFont()
     {
-
+        Font = new Drawing.Font(Drawing.FontFamily.GenericSansSerif, 9f);
     }
 
     /// <summary>
@@ -2498,7 +2641,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual void ResetForeColor()
     {
-
+        _ForeColor = Color.Empty;
+        UpdateStyle();
     }
 
     /// <summary>
@@ -2506,7 +2650,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual void ResetImeMode()
     {
-
+        ImeMode = ImeMode.Inherit;
     }
 
     /// <summary>
@@ -2514,7 +2658,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual void ResetRightToLeft()
     {
-
+        RightToLeft = RightToLeft.Inherit;
     }
 
     /// <summary>
@@ -2522,7 +2666,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual void ResetText()
     {
-
+        Text = string.Empty;
     }
 
     /// <summary>
@@ -2552,7 +2696,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </param>
     public virtual void Scale(float ratio)
     {
-
+        // The Scale overloads were empty, so scaling a control did nothing at all.
+        Scale(ratio, ratio);
     }
 
     /// <summary>
@@ -2566,7 +2711,22 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </param>
     public virtual void Scale(float dx, float dy)
     {
+        var bounds = Bounds;
+        SetBounds(
+            (int)Math.Round(bounds.X * dx),
+            (int)Math.Round(bounds.Y * dy),
+            (int)Math.Round(bounds.Width * dx),
+            (int)Math.Round(bounds.Height * dy));
 
+        if (Controls == null)
+        {
+            return;
+        }
+
+        for (var i = 0; i < Controls.Count; i++)
+        {
+            Controls[i].Scale(dx, dy);
+        }
     }
 
     /// <summary>
@@ -2577,7 +2737,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </param>
     public virtual void Scale(SizeF factor)
     {
-
+        Scale(factor.Width, factor.Height);
     }
 
     /// <summary>
@@ -2676,7 +2836,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         if (this.Widget != null)
         {
-            var rect = this.Widget.Allocation;
+            // This started from the GTK allocation, which is meaningless before the control is
+            // realized, so the parts that were meant to be preserved were replaced with garbage.
+            var current = Bounds;
+            var rect = new Gdk.Rectangle(current.X, current.Y, current.Width, current.Height);
             if (specified == BoundsSpecified.X)
                 rect.X = x;
             else if (specified == BoundsSpecified.Y)

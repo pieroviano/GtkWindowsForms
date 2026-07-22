@@ -153,8 +153,11 @@ public partial class ListBox : ListControl
     /// </value>
     public IntegerCollection? CustomTabOffsets
     {
-        get;
+        // This was an always-null auto-property, so custom tab offsets could not be set at all.
+        get => _customTabOffsets ??= new IntegerCollection(this);
     }
+
+    private IntegerCollection? _customTabOffsets;
 
     /// <summary>
     /// Gets the data bindings.
@@ -514,6 +517,8 @@ public partial class ListBox : ListControl
         }
         set
         {
+            // The backing field was never assigned, so the getter always reported the initial mode.
+            _SelectionMode = value;
             if (value == SelectionMode.None)
             {
                 self.ListBox.SelectionMode = Gtk.SelectionMode.None;

@@ -854,16 +854,19 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
     internal void InitListViewItem(string[] items, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font? font, ListViewGroup? group)
     {
         InitListViewItem(items.Length > 0 ? items[0] : "", imageIndex, imageKey, foreColor, backColor, font, group);
-        foreach (var item in items)
-            _subitems?.Add(item);
+        // Setting Text already creates the first sub-item, so re-adding items[0] duplicated it and left
+        // one more sub-item than there were strings.
+        for (var i = 1; i < items.Length; i++)
+            _subitems?.Add(items[i]);
 
     }
 
     internal void InitListViewItem(ListViewSubItem[] subItems, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font? font, ListViewGroup? group)
     {
         InitListViewItem(subItems.Length > 0 ? subItems[0].Text : "", imageIndex, imageKey, foreColor, backColor, font, group);
-        foreach (var item in subItems)
-            _subitems?.Add(item);
+        // The first sub-item already exists as the item text; adding it again duplicated it.
+        for (var i = 1; i < subItems.Length; i++)
+            _subitems?.Add(subItems[i]);
     }
 
     /// <summary>

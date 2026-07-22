@@ -39,6 +39,70 @@ public class TreeNodeCollection : List<TreeNode>
     }
 
     /// <summary>
+    /// Adds a new node carrying the specified text and returns it.
+    /// </summary>
+    /// <param name="text">The label of the new node.</param>
+    /// <returns>The node that was added.</returns>
+    public TreeNode Add(string text)
+    {
+        // The string overloads and key lookups of the WinForms TreeNodeCollection were missing, so
+        // ordinary WinForms code such as tree.Nodes.Add("text") did not compile against this shim.
+        var node = new TreeNode(text);
+        Add(node);
+
+        return node;
+    }
+
+    /// <summary>
+    /// Adds a new node with the specified key and text and returns it.
+    /// </summary>
+    /// <param name="key">The name used to look the node up.</param>
+    /// <param name="text">The label of the new node.</param>
+    /// <returns>The node that was added.</returns>
+    public TreeNode Add(string key, string text)
+    {
+        var node = new TreeNode(text) { Name = key };
+        Add(node);
+
+        return node;
+    }
+
+    /// <summary>
+    /// Gets the first node whose <see cref="P:System.Windows.Forms.TreeNode.Name" /> matches the key,
+    /// or <see langword="null" /> when there is none. Keys are matched case-insensitively.
+    /// </summary>
+    /// <param name="key">The name to look up.</param>
+    public virtual TreeNode? this[string key]
+    {
+        get
+        {
+            var index = IndexOfKey(key);
+
+            return index == -1 ? null : this[index];
+        }
+    }
+
+    /// <summary>
+    /// Returns the index of the first node with the specified key, or -1 when there is none.
+    /// </summary>
+    /// <param name="key">The name to look up.</param>
+    public virtual int IndexOfKey(string? key)
+    {
+        if (string.IsNullOrEmpty(key))
+        {
+            return -1;
+        }
+
+        return FindIndex(n => string.Equals(n.Name, key, StringComparison.OrdinalIgnoreCase));
+    }
+
+    /// <summary>
+    /// Indicates whether a node with the specified key is present.
+    /// </summary>
+    /// <param name="key">The name to look up.</param>
+    public virtual bool ContainsKey(string? key) => IndexOfKey(key) != -1;
+
+    /// <summary>
     /// Adds the range.
     /// </summary>
     /// <param name="nodes">

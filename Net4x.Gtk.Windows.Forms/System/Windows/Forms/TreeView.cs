@@ -317,7 +317,12 @@ public partial class TreeView : ScrollableControl
     public bool ShowLines
     {
         get => self.TreeView.EnableTreeLines;
-        set { self.TreeView.EnableTreeLines = true; self.TreeView.EnableGridLines = Gtk.TreeViewGridLines.Horizontal; }
+        // The setter ignored its argument and always switched lines on, so ShowLines = false did nothing.
+        set
+        {
+            self.TreeView.EnableTreeLines = value;
+            self.TreeView.EnableGridLines = value ? Gtk.TreeViewGridLines.Horizontal : Gtk.TreeViewGridLines.None;
+        }
     }
 
     /// <summary>

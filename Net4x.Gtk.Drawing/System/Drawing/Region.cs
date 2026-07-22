@@ -26,6 +26,10 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// </summary>
     public Region()
     {
+        // A default Region is infinite in GDI+ (it covers the entire coordinate space). Leaving it
+        // non-infinite made IsInfinite report false and skewed the combine operations that branch on it.
+        isInfinite = true;
+        isEmpty = false;
     }
 
     /// <summary>
@@ -68,11 +72,13 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public Region(RegionData rgnData)
     {
         regionData = rgnData ?? throw new ArgumentNullException(nameof(rgnData));
-        // default conservative state - we can't reconstruct the path easily without native calls
         graphicsPath = new GraphicsPath();
         rectangle = RectangleF.Empty;
         isEmpty = false;
         isInfinite = false;
+        // Region data produced by this implementation carries the bounding rectangle and the state flags,
+        // so a Region can be reconstructed from it instead of coming back empty.
+        TryRestoreFromRegionData(regionData);
     }
 
     /// <summary>
@@ -625,6 +631,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public bool IsEmpty(Graphics g)
     {
         if (g == null) throw new ArgumentNullException(nameof(g));
+        // An infinite region clears the backing rectangle, so the fallback test below used to report it
+        // as empty - an infinite region is never empty.
+        if (isInfinite) return false;
         return isEmpty || (rectangle.IsEmpty && graphicsPath.PointCount == 0);
     }
 
@@ -1147,10 +1156,29 @@ public sealed class Region : MarshalByRefObject, IDisposable
     public void Translate(float dx, float dy)
     {
         if (isInfinite || isEmpty) return;
-        var m = new System.Drawing.Drawing2D.Matrix();
-        m.Translate(dx, dy);
-        graphicsPath.Transform(m);
-        rectangle = graphicsPath.GetBounds();
+
+        // Shift the region's extent directly. Recomputing it from graphicsPath.GetBounds() discarded the
+        // extent entirely for rectangle-based regions (whose geometry lives in 'rectangle', not the path),
+        // so Translate silently did nothing useful.
+        if (!rectangle.IsEmpty)
+        {
+            rectangle = new RectangleF(rectangle.X + dx, rectangle.Y + dy, rectangle.Width, rectangle.Height);
+        }
+
+        // Move the backing path as well, so path hit-testing follows the translation. (PointCount cannot
+        // be used to detect an empty path here - it only tracks points supplied at construction time.)
+        using (var m = new System.Drawing.Drawing2D.Matrix())
+        {
+            m.Translate(dx, dy);
+            graphicsPath.Transform(m);
+
+            var pathBounds = graphicsPath.GetBounds();
+            if (rectangle.IsEmpty && !pathBounds.IsEmpty)
+            {
+                rectangle = pathBounds;
+            }
+        }
+
         UpdateRegionData();
     }
 
@@ -1348,10 +1376,52 @@ public sealed class Region : MarshalByRefObject, IDisposable
     }
 
     // helper to keep regionData in sync with our simple managed representation.
+    /// <summary>
+    /// Serialized layout of <see cref="RegionData.Data"/>: four floats for the bounding rectangle followed
+    /// by the empty and infinite flags.
+    /// </summary>
+    private const int RegionDataLength = (4 * sizeof(float)) + 2;
+
     private void UpdateRegionData()
     {
-        // RegionData cannot be filled without native or System.Drawing.Region; create fresh placeholder
-        regionData = new RegionData();
+        // The data used to be an empty placeholder, so a Region could not be round-tripped through its
+        // RegionData. Serialize the bounding rectangle and the state flags instead.
+        var data = new byte[RegionDataLength];
+        Buffer.BlockCopy(BitConverter.GetBytes(rectangle.X), 0, data, 0, sizeof(float));
+        Buffer.BlockCopy(BitConverter.GetBytes(rectangle.Y), 0, data, sizeof(float), sizeof(float));
+        Buffer.BlockCopy(BitConverter.GetBytes(rectangle.Width), 0, data, 2 * sizeof(float), sizeof(float));
+        Buffer.BlockCopy(BitConverter.GetBytes(rectangle.Height), 0, data, 3 * sizeof(float), sizeof(float));
+        data[4 * sizeof(float)] = (byte)(isEmpty ? 1 : 0);
+        data[(4 * sizeof(float)) + 1] = (byte)(isInfinite ? 1 : 0);
+        regionData = new RegionData { Data = data };
+    }
+
+    /// <summary>
+    /// Restores the rectangle and state flags previously written by <see cref="UpdateRegionData"/>.
+    /// Returns false when the data is absent or not in that layout.
+    /// </summary>
+    private bool TryRestoreFromRegionData(RegionData rgnData)
+    {
+        var data = rgnData.Data;
+        if (data == null || data.Length < RegionDataLength)
+        {
+            return false;
+        }
+
+        rectangle = new RectangleF(
+            BitConverter.ToSingle(data, 0),
+            BitConverter.ToSingle(data, sizeof(float)),
+            BitConverter.ToSingle(data, 2 * sizeof(float)),
+            BitConverter.ToSingle(data, 3 * sizeof(float)));
+        isEmpty = data[4 * sizeof(float)] != 0;
+        isInfinite = data[(4 * sizeof(float)) + 1] != 0;
+        graphicsPath = new GraphicsPath();
+        if (!rectangle.IsEmpty)
+        {
+            graphicsPath.AddRectangle(rectangle);
+        }
+
+        return true;
     }
 }
 

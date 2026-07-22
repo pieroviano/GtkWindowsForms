@@ -541,6 +541,8 @@ tooltip label {padding: 0px 10px; color: #555555;}
     /// </param>
     public static void Run(Form mainForm)
     {
+        // The thread that runs the message loop is the UI thread Control.InvokeRequired compares against.
+        Control.CaptureUiThread();
         if (mainForm.ShowInTaskbar == false)
         {
             var pw = new Gtk.Window(Gtk.WindowType.Toplevel);

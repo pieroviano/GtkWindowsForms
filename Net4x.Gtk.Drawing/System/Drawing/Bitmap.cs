@@ -233,6 +233,16 @@ public class Bitmap : Image
         this.Width = width;
         this.Height = height;
         this.PixelFormat = format;
+
+        // Allocate a real, writable pixel buffer (fully transparent) so GetPixel/SetPixel and Save operate
+        // on actual pixels rather than an empty image. Invalid (non-positive) dimensions are left without a
+        // pixbuf so that consumers such as Graphics.FromImage still reject them.
+        if (width > 0 && height > 0)
+        {
+            var pixbuf = new Gdk.Pixbuf(Gdk.Colorspace.Rgb, true, 8, width, height);
+            pixbuf.Fill(0x00000000u);
+            this.Pixbuf = pixbuf;
+        }
     }
 
     /// <summary>
@@ -294,7 +304,16 @@ public class Bitmap : Image
     public Bitmap(Image original, int width, int height)
         : this(width, height, PixelFormat.Format32bppArgb)
     {
-        this.PixbufData = original.PixbufData;
+        // Actually scale the source to the requested size rather than copying its raw data unchanged.
+        var source = original.Pixbuf;
+        if (source != null)
+        {
+            this.Pixbuf = source.ScaleSimple(Math.Max(1, width), Math.Max(1, height), Gdk.InterpType.Bilinear);
+        }
+        else
+        {
+            this.PixbufData = original.PixbufData;
+        }
     }
 
     internal Bitmap(byte[]? pixbuf) : base(pixbuf)
@@ -384,8 +403,29 @@ public class Bitmap : Image
     /// </exception>
     public Bitmap Clone(Rectangle rect, PixelFormat format)
     {
+        // Previously this copied the WHOLE source buffer into the clone, which also reset the clone's
+        // size back to the source's - so the requested sub-rectangle was ignored entirely.
+        var clone = new Bitmap(rect.Width, rect.Height, format);
+        var source = this.Pixbuf;
+        var target = clone.Pixbuf;
 
-        return new Bitmap(rect.Width, rect.Height, format) { PixbufData = (byte[]?)this.PixbufData?.Clone() };
+        if (source == null || target == null || rect.Width <= 0 || rect.Height <= 0)
+        {
+            clone.PixbufData = (byte[]?)this.PixbufData?.Clone();
+            return clone;
+        }
+
+        var x = Math.Max(0, Math.Min(rect.X, source.Width));
+        var y = Math.Max(0, Math.Min(rect.Y, source.Height));
+        var width = Math.Min(rect.Width, source.Width - x);
+        var height = Math.Min(rect.Height, source.Height - y);
+        if (width > 0 && height > 0)
+        {
+            source.CopyArea(x, y, width, height, target, 0, 0);
+            clone.InvalidatePixbufDataCache();
+        }
+
+        return clone;
     }
 
     /// <summary>
@@ -502,8 +542,25 @@ public class Bitmap : Image
     /// </exception>
     public Color GetPixel(int x, int y)
     {
+        var pixbuf = this.Pixbuf;
+        if (pixbuf == null)
+        {
+            return Color.Empty;
+        }
 
-        return Color.FromArgb(x * y);
+        if (x < 0 || y < 0 || x >= pixbuf.Width || y >= pixbuf.Height)
+        {
+            throw new ArgumentOutOfRangeException(x < 0 || x >= pixbuf.Width ? nameof(x) : nameof(y));
+        }
+
+        var channels = pixbuf.NChannels;
+        var offset = (y * pixbuf.Rowstride) + (x * channels);
+        var pixels = pixbuf.Pixels;
+        byte r = Marshal.ReadByte(pixels, offset);
+        byte g = Marshal.ReadByte(pixels, offset + 1);
+        byte b = Marshal.ReadByte(pixels, offset + 2);
+        byte a = channels >= 4 ? Marshal.ReadByte(pixels, offset + 3) : (byte)255;
+        return Color.FromArgb(a, r, g, b);
     }
 
     /// <summary>
@@ -581,7 +638,26 @@ public class Bitmap : Image
     /// </exception>
     public BitmapData LockBits(Rectangle rect, ImageLockMode flags, PixelFormat format, BitmapData bitmapData)
     {
+        // Was returning an unpopulated BitmapData (all zeroes). Describe the real pixel buffer so callers
+        // can read/write it, pointing Scan0 at the requested rectangle's first pixel.
+        bitmapData ??= new BitmapData();
 
+        var pixbuf = this.Pixbuf;
+        if (pixbuf == null)
+        {
+            return bitmapData;
+        }
+
+        var x = Math.Max(0, Math.Min(rect.X, pixbuf.Width));
+        var y = Math.Max(0, Math.Min(rect.Y, pixbuf.Height));
+        var width = rect.Width <= 0 ? pixbuf.Width - x : Math.Min(rect.Width, pixbuf.Width - x);
+        var height = rect.Height <= 0 ? pixbuf.Height - y : Math.Min(rect.Height, pixbuf.Height - y);
+
+        bitmapData.Width = Math.Max(0, width);
+        bitmapData.Height = Math.Max(0, height);
+        bitmapData.Stride = pixbuf.Rowstride;
+        bitmapData.PixelFormat = format;
+        bitmapData.Scan0 = IntPtr.Add(pixbuf.Pixels, (y * pixbuf.Rowstride) + (x * pixbuf.NChannels));
         return bitmapData;
     }
 
@@ -626,7 +702,24 @@ public class Bitmap : Image
     /// </exception>
     public void MakeTransparent(Color transparentColor)
     {
+        // Was a no-op, so the requested colour never became transparent.
+        var pixbuf = this.Pixbuf;
+        if (pixbuf == null)
+        {
+            return;
+        }
 
+        for (var y = 0; y < pixbuf.Height; y++)
+        {
+            for (var x = 0; x < pixbuf.Width; x++)
+            {
+                var c = GetPixel(x, y);
+                if (c.R == transparentColor.R && c.G == transparentColor.G && c.B == transparentColor.B)
+                {
+                    SetPixel(x, y, Color.FromArgb(0, c.R, c.G, c.B));
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -648,7 +741,31 @@ public class Bitmap : Image
     /// </exception>
     public void SetPixel(int x, int y, Color color)
     {
+        var pixbuf = this.Pixbuf;
+        if (pixbuf == null)
+        {
+            return;
+        }
 
+        if (x < 0 || y < 0 || x >= pixbuf.Width || y >= pixbuf.Height)
+        {
+            throw new ArgumentOutOfRangeException(x < 0 || x >= pixbuf.Width ? nameof(x) : nameof(y));
+        }
+
+        var channels = pixbuf.NChannels;
+        var offset = (y * pixbuf.Rowstride) + (x * channels);
+        var pixels = pixbuf.Pixels;
+        Marshal.WriteByte(pixels, offset, color.R);
+        Marshal.WriteByte(pixels, offset + 1, color.G);
+        Marshal.WriteByte(pixels, offset + 2, color.B);
+        if (channels >= 4)
+        {
+            Marshal.WriteByte(pixels, offset + 3, color.A);
+        }
+
+        // Pixels were mutated in place; drop only the cached encoding (not the live pixbuf) so
+        // PixbufData/Save re-encode from the current pixels.
+        InvalidatePixbufDataCache();
     }
 
     /// <summary>
@@ -668,7 +785,8 @@ public class Bitmap : Image
     /// </exception>
     public void SetResolution(float xDpi, float yDpi)
     {
-
+        // Was empty, so HorizontalResolution/VerticalResolution never reflected the requested DPI.
+        SetResolutionCore(xDpi, yDpi);
     }
 
     /// <summary>
@@ -684,7 +802,8 @@ public class Bitmap : Image
     /// </exception>
     public void UnlockBits(BitmapData bitmapdata)
     {
-
+        // The caller may have written through Scan0, so drop the cached encoding.
+        InvalidatePixbufDataCache();
     }
 
     private static Stream GetResourceStream(Type type, string resource)

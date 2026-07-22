@@ -403,7 +403,8 @@ public sealed partial class ImageList
                 return -1;
             }
 
-            return _imageInfoCollection.FindIndex(o => o.Name == key);
+            // WinForms matches image keys case-insensitively.
+            return _imageInfoCollection.FindIndex(o => string.Equals(o.Name, key, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>

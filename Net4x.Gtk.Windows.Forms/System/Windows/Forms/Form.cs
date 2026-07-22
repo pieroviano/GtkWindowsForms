@@ -403,9 +403,17 @@ public partial class Form : ContainerControl, IWin32Window
     /// </summary>
     public double Opacity
     {
-        get { return self.Opacity; }
-        set { self.Opacity = value; }
+        // GTK quantises the window opacity to 8 bits, so reading it back returned 0.502 for 0.5.
+        // Report the value that was asked for, as WinForms does.
+        get { return _opacity; }
+        set
+        {
+            _opacity = value;
+            self.Opacity = value;
+        }
     }
+
+    private double _opacity = 1d;
 
     /// <summary>
     /// Gets or sets the form that owns this form.
@@ -502,9 +510,12 @@ public partial class Form : ContainerControl, IWin32Window
     /// </summary>
     public bool TopMost
     {
-        get { return self.IsActive; }
+        // This reported whether the window was *active*, which has nothing to do with being kept
+        // above other windows, so TopMost never read back what was assigned.
+        get { return _topMost; }
         set
         {
+            _topMost = value;
             self.KeepAbove = value;
             if (self.Window != null)
                 if (self.IsVisible == false || self.IsActive == false || self.Window.State.HasFlag(Gdk.WindowState.Iconified))
@@ -512,6 +523,8 @@ public partial class Form : ContainerControl, IWin32Window
             self.Activate();
         }
     }
+
+    private bool _topMost;
 
     /// <summary>
     /// Gets or sets the state (normal, minimized, maximized) of the form.

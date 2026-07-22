@@ -148,6 +148,20 @@ public partial class Control
             {
                 return;
             }
+
+            // Adding the same control twice used to duplicate it, and adding a control that already had a
+            // parent left it in both collections. WinForms re-parents instead.
+            if (InnerList.Contains(value))
+            {
+                return;
+            }
+
+            var previousParent = value.Parent;
+            if (previousParent != null && !ReferenceEquals(previousParent, _owner))
+            {
+                previousParent.Controls?.Remove(value);
+            }
+
             NativeAdd(value);
             InnerList.Add(value);
         }
@@ -308,6 +322,24 @@ public partial class Control
                 }
             }
 
+            // searchAllChildren was ignored, so a recursive Find never looked past the direct children.
+            if (searchAllChildren)
+            {
+                for (int i = 0; i < InnerList.Count; i++)
+                {
+                    if (InnerList[i] is Control child && child.Controls != null)
+                    {
+                        foreach (var found in child.Controls.Find(key, true))
+                        {
+                            if (found != null)
+                            {
+                                results.Add(found);
+                            }
+                        }
+                    }
+                }
+            }
+
             return results.ToArray();
         }
 
@@ -400,7 +432,26 @@ public partial class Control
 
         internal virtual void SetChildIndexInternal(Control child, int newIndex)
         {
+            // This was empty, so SetChildIndex never reordered anything.
+            if (child is null)
+            {
+                return;
+            }
 
+            var current = InnerList.IndexOf(child);
+            if (current < 0)
+            {
+                return;
+            }
+
+            var target = newIndex < 0 ? InnerList.Count - 1 : Math.Min(newIndex, InnerList.Count - 1);
+            if (target == current)
+            {
+                return;
+            }
+
+            InnerList.RemoveAt(current);
+            InnerList.Insert(target, child);
         }
 
         /// <summary>

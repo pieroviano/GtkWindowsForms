@@ -43,6 +43,32 @@ public class BindingContext : ContextBoundObject
     }
 
     /// <summary>
+    /// Gets the <see cref="T:System.Windows.Forms.BindingManagerBase" /> that manages the specified data
+    /// source, creating it on first use.
+    /// </summary>
+    /// <param name="dataSource">The data source to manage.</param>
+    public BindingManagerBase this[object dataSource] => this[dataSource, string.Empty];
+
+    /// <summary>
+    /// Gets the <see cref="T:System.Windows.Forms.BindingManagerBase" /> that manages the specified data
+    /// member of the specified data source, creating it on first use.
+    /// </summary>
+    /// <param name="dataSource">The data source to manage.</param>
+    /// <param name="dataMember">The member of the data source to manage.</param>
+    public BindingManagerBase this[object dataSource, string? dataMember]
+    {
+        // The WinForms indexers and the single-argument Contains were missing, so the only way to reach a
+        // manager was the internal EnsureListManager.
+        get => EnsureListManager(dataSource, dataMember);
+    }
+
+    /// <summary>
+    /// Indicates whether this context already manages the specified data source.
+    /// </summary>
+    /// <param name="dataSource">The data source to look for.</param>
+    public bool Contains(object? dataSource) => Contains(dataSource, string.Empty);
+
+    /// <summary>
     /// Updates the binding.
     /// </summary>
     /// <param name="newBindingContext">

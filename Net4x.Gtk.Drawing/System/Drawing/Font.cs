@@ -312,7 +312,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// The line spacing, in pixels, of this font.
     /// </returns>
     [Browsable(false)]
-    public int Height { get; }
+    public int Height => (int)Math.Ceiling(GetHeight());
 
     /// <summary>
     /// Gets a value indicating whether the font is a member of System.Drawing.SystemFonts.
@@ -531,7 +531,33 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// <returns>
     /// The height, in pixels, of this System.Drawing.Font.
     /// </returns>
-    public float GetHeight(float dpi) { return Height; }
+    public float GetHeight(float dpi)
+    {
+        // Line spacing in pixels for this font's em-size, converted from the font's unit at the given DPI.
+        // Previously every overload returned the (never assigned) Height field, i.e. always 0.
+        if (dpi <= 0)
+        {
+            dpi = DefaultDpi;
+        }
+
+        var sizeInPixels = Unit switch
+        {
+            GraphicsUnit.Pixel => Size,
+            GraphicsUnit.Inch => Size * dpi,
+            GraphicsUnit.Millimeter => Size * dpi / 25.4f,
+            GraphicsUnit.Document => Size * dpi / 300f,
+            GraphicsUnit.Display => Size * dpi / 75f,
+            _ => Size * dpi / 72f // Point (and World/Default)
+        };
+
+        return sizeInPixels * LineSpacingFactor;
+    }
+
+    /// <summary>Screen DPI assumed when no device context is supplied.</summary>
+    private const float DefaultDpi = 96f;
+
+    /// <summary>Typical ratio of line height to em-size, matching GDI+'s reported font height closely enough.</summary>
+    private const float LineSpacingFactor = 1.2f;
 
     /// <summary>
     /// Returns the line spacing, in the current unit of a specified System.Drawing.Graphics,
@@ -543,7 +569,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// <returns>
     /// The line spacing, in pixels, of this font.
     /// </returns>
-    public float GetHeight(Graphics graphics) { return Height; }
+    public float GetHeight(Graphics graphics) { return GetHeight(graphics != null && graphics.DpiY > 0 ? graphics.DpiY : DefaultDpi); }
 
     /// <summary>
     /// Returns the line spacing, in pixels, of this font.
@@ -551,7 +577,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// <returns>
     /// The line spacing, in pixels, of this font.
     /// </returns>
-    public float GetHeight() { return Height; }
+    public float GetHeight() { return GetHeight(DefaultDpi); }
 
     /// <summary>
     /// Populates a

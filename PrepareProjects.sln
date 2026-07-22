@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.Files.xml = Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.Files.xml
 		Nuget.Config = Nuget.Config
 		Patches.txt = Patches.txt
+		PrepareProjects.md = PrepareProjects.md
 		ReadMe.md = ReadMe.md
 	EndProjectSection
 EndProject
@@ -175,11 +176,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Patches", "Patches", "{4D73
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{85E24FAE-8680-4BCF-A154-F937485FB09F}"
 	ProjectSection(SolutionItems) = preProject
-		gtksystem-windows-forms\ARCHITECTURE.md = gtksystem-windows-forms\ARCHITECTURE.md
 		AlignProjects-Plan.md = AlignProjects-Plan.md
 		AlignProjects.md = AlignProjects.md
 		AlignSamples-Plan.md = AlignSamples-Plan.md
 		AlignSamples.md = AlignSamples.md
+		gtksystem-windows-forms\ARCHITECTURE.md = gtksystem-windows-forms\ARCHITECTURE.md
 		PrepareProjects.md = PrepareProjects.md
 	EndProjectSection
 EndProject

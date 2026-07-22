@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -99,7 +99,11 @@ public partial class ToolTip : Component, IExtenderProvider
         get => _delayTimes[0] < 10 ? DefaultDelay : _delayTimes[0];
         set
         {
+            // Setting AutomaticDelay derives the other three delays, as WinForms does.
             _delayTimes[0] = value;
+            _delayTimes[1] = value * AutoPopRatio;
+            _delayTimes[2] = value;
+            _delayTimes[3] = value / ReshowRatio;
         }
     }
 
@@ -141,10 +145,9 @@ public partial class ToolTip : Component, IExtenderProvider
         get => _delayTimes[2];
         set
         {
-            _delayTimes[0] = value;
-            _delayTimes[1] = value * AutoPopRatio;
+            // This used to overwrite all four delays, so assigning InitialDelay silently reset
+            // AutomaticDelay, AutoPopDelay and ReshowDelay. Only the initial delay belongs here.
             _delayTimes[2] = value;
-            _delayTimes[3] = value / ReshowRatio;
         }
     }
 
@@ -293,10 +296,40 @@ public partial class ToolTip : Component, IExtenderProvider
 
     public void SetToolTip(Control control, string? caption)
     {
-        TipInfo info = new(caption, TipInfo.Type.Auto);
-        _tools.Add(control, info);
-        control.Widget!.HasTooltip = true;
-        control.Widget.QueryTooltip += Widget_QueryTooltip;
+        if (control is null)
+        {
+            throw new ArgumentNullException(nameof(control));
+        }
+
+        // Dictionary.Add threw when a control was given a second caption, and a null caption used to be
+        // stored rather than clearing the tooltip.
+        var known = _tools.ContainsKey(control);
+        if (string.IsNullOrEmpty(caption))
+        {
+            if (known)
+            {
+                _tools.Remove(control);
+            }
+
+            if (control.Widget != null)
+            {
+                control.Widget.TooltipText = string.Empty;
+                control.Widget.HasTooltip = false;
+            }
+
+            return;
+        }
+
+        _tools[control] = new TipInfo(caption, TipInfo.Type.Auto);
+        if (control.Widget != null)
+        {
+            control.Widget.TooltipText = caption;
+            control.Widget.HasTooltip = true;
+            if (!known)
+            {
+                control.Widget.QueryTooltip += Widget_QueryTooltip;
+            }
+        }
     }
 
     public void Show(string? text, IWin32Window window)

@@ -1,0 +1,1480 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Wed, 22 Jul 2026 00:00:00 +0000
+Subject: [PATCH] Fix Net4x.Gtk.Windows.Forms defects found by functional tests
+
+Behavioural defects surfaced by the Net4x.Gtk.Windows.Forms.Tests functional suite.
+
+Control
+ - Right and Bottom reported the widget's end/bottom *margins* instead of the control's edges
+ - HasChildren and TopLevelControl were auto-properties nothing ever assigned, so they were always
+   false/null; Contains() always returned false
+ - DataBindings was an auto-property nothing ever assigned, so it was null on every control that did not
+   override it and data binding could not be used at all
+ - ClientRectangle reported the GTK allocation origin, so an unrealized control returned -1,-1
+ - GetChildAtPoint always returned null and GetContainerControl only ever looked at the control itself
+ - the three Scale overloads and the whole Reset* family were empty method bodies
+ - SetBounds(x, y, w, h, BoundsSpecified) started from the GTK allocation, which is meaningless before
+   the control is realized, so the parts meant to be preserved were replaced with garbage
+ - GetChildAtPointSkip was an empty class where WinForms defines a flags enum, so the skip argument
+   could not express anything
+ - ControlCollection.Add duplicated a control that was added twice and left a re-parented control in
+   its previous parent's collection
+ - ControlCollection.Find ignored searchAllChildren; SetChildIndex had an empty body and never reordered
+
+Form
+ - TopMost reported whether the window was *active* rather than whether it was kept above other windows
+ - Opacity read back GTK's 8-bit quantisation (0.502 for 0.5) instead of the value that was assigned
+
+DataGridView
+ - the RowCount setter had its loop inverted, so growing the grid spun forever removing rows until
+   RemoveAt(-1) threw; it now adds and removes rows to reach the requested count
+ - DataGridViewRowCollection.AddCopies passed the source index to ArrayList.CopyTo as the destination
+   offset (throwing for any non-zero index) and appended the same row instances instead of copies
+ - Add(int count) returned one past the index of the last row added
+ - RemoveAt accepted a negative index and threw from deep inside ArrayList
+ - DataGridViewColumn.AutoSizeMode only stored its backing field in the None branch, so every other mode
+   was dropped and the property always read back NotSet
+
+Data binding
+ - BindingSource.Dispose cleared the caller's own list, destroying the bound data; on a DataView-backed
+   source it threw "Cannot clear this list" outright
+ - BindingContext was missing the WinForms this[dataSource] / this[dataSource, dataMember] indexers and
+   the single-argument Contains
+
+ListView / ListBox / TreeView
+ - ListView.Clear left the columns behind; both FindItemWithText overloads ignored their
+   includeSubItemsInSearch and isPrefixSearch flags
+ - ListViewItem built from a string[] duplicated the first entry, leaving one sub-item too many
+ - ListBox.SelectionMode never assigned its backing field, so the getter always reported the initial mode
+ - ListBox.CustomTabOffsets was an always-null auto-property
+ - TreeView.ShowLines ignored its argument and always switched lines on
+ - TreeNodeCollection was missing the WinForms Add(string), Add(key, text), this[key], IndexOfKey and
+   ContainsKey members, so ordinary WinForms code did not compile against the shim
+
+ToolStrip
+ - ToolStripMenuItem.Checked drove the GTK check-indicator visibility while CheckState drove the actual
+   toggle, so the two never agreed
+ - the WinForms ToolStripMenuItem(text), (text, image) and (text, image, onClick) constructors were
+   missing
+
+ToolTip
+ - SetToolTip used Dictionary.Add, so giving a control a second caption threw; it now replaces, applies
+   the caption to the widget, and clears the tooltip when the caption is null or empty
+ - the InitialDelay setter overwrote all four delays, silently resetting AutomaticDelay, AutoPopDelay and
+   ReshowDelay; AutomaticDelay now derives the other three the way WinForms does
+
+ImageList
+ - image keys were matched case-sensitively; WinForms matches them case-insensitively
+
+Threading (the highest-risk gap in EMULATION-GAPS.md)
+ - Control.Invoke queued the delegate on the GLib idle loop and returned immediately, so it always
+   returned null and gave no ordering guarantee; it now runs inline on the owning thread or posts to the
+   main loop and waits, rethrowing the delegate's own exception on the caller
+ - InvokeRequired was an auto-property with no backing logic, so it was permanently false and the
+   standard "if (InvokeRequired) Invoke(...)" idiom silently ran UI code on worker threads; it now
+   compares against the thread that created the control
+ - BeginInvoke dispatched to the thread pool - the one place WinForms guarantees the delegate will not
+   run - and now posts to the GTK main loop
+
+ToolStripItem
+ - Width and Height were auto-properties disconnected from Size, so setting one left the other stale
+ - Checked and CheckState were independent auto-properties and never agreed
+ - SetBounds(Rectangle, BoundsSpecified) threw NotImplementedException
+ - the WinForms Margin member was commented out, so setting an item's margin did not compile
+
+ResXDataNode
+ - a null name reached name.Length and produced a NullReferenceException instead of the documented
+   ArgumentNullException
+
+---
+diff --git a/Net4x.Gtk.Windows.Forms/System/Resources/ResXDataNode.cs b/Net4x.Gtk.Windows.Forms/System/Resources/ResXDataNode.cs
+index 72eb83f6..3d74aa02 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Resources/ResXDataNode.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Resources/ResXDataNode.cs
+@@ -89,6 +89,13 @@ public sealed class ResXDataNode : ISerializable
+     /// </exception>
+     public ResXDataNode(string name, object? value, Func<Type, string>? typeNameConverter)
+     {
++        // A null name reached name.Length and produced a NullReferenceException instead of the
++        // ArgumentNullException the framework documents.
++        if (name is null)
++        {
++            throw new ArgumentNullException(nameof(name));
++        }
++
+         if (name.Length == 0)
+         {
+             throw (new ArgumentException(nameof(name)));
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+index 9928349e..c9156f23 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+@@ -541,6 +541,8 @@ tooltip label {padding: 0px 10px; color: #555555;}
+     /// </param>
+     public static void Run(Form mainForm)
+     {
++        // The thread that runs the message loop is the UI thread Control.InvokeRequired compares against.
++        Control.CaptureUiThread();
+         if (mainForm.ShowInTaskbar == false)
+         {
+             var pw = new Gtk.Window(Gtk.WindowType.Toplevel);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingContext.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingContext.cs
+index d3494bb4..16598d13 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingContext.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingContext.cs
+@@ -42,6 +42,32 @@ public class BindingContext : ContextBoundObject
+         return listManagers.ContainsKey(GetKey(dataSource, dataMember));
+     }
+ 
++    /// <summary>
++    /// Gets the <see cref="T:System.Windows.Forms.BindingManagerBase" /> that manages the specified data
++    /// source, creating it on first use.
++    /// </summary>
++    /// <param name="dataSource">The data source to manage.</param>
++    public BindingManagerBase this[object dataSource] => this[dataSource, string.Empty];
++
++    /// <summary>
++    /// Gets the <see cref="T:System.Windows.Forms.BindingManagerBase" /> that manages the specified data
++    /// member of the specified data source, creating it on first use.
++    /// </summary>
++    /// <param name="dataSource">The data source to manage.</param>
++    /// <param name="dataMember">The member of the data source to manage.</param>
++    public BindingManagerBase this[object dataSource, string? dataMember]
++    {
++        // The WinForms indexers and the single-argument Contains were missing, so the only way to reach a
++        // manager was the internal EnsureListManager.
++        get => EnsureListManager(dataSource, dataMember);
++    }
++
++    /// <summary>
++    /// Indicates whether this context already manages the specified data source.
++    /// </summary>
++    /// <param name="dataSource">The data source to look for.</param>
++    public bool Contains(object? dataSource) => Contains(dataSource, string.Empty);
++
+     /// <summary>
+     /// Updates the binding.
+     /// </summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingSource.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingSource.cs
+index 4d32675e..28da8b34 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingSource.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingSource.cs
+@@ -1639,7 +1639,9 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
+             _dataSource = null;
+             _sort = null;
+             _dataMember = null;
+-            _innerList.Clear();
++            // This cleared the caller's own list: disposing a BindingSource destroyed the bound data,
++            // and on a DataView-backed source Clear() throws outright. Just drop the reference.
++            _innerList = new ArrayList();
+             _isBindingList = false;
+             _needToSetList = true;
+             _raiseListChangedEvents = false;
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
+index 8e65fd50..174f2ff3 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
+@@ -148,6 +148,20 @@ public partial class Control
+             {
+                 return;
+             }
++
++            // Adding the same control twice used to duplicate it, and adding a control that already had a
++            // parent left it in both collections. WinForms re-parents instead.
++            if (InnerList.Contains(value))
++            {
++                return;
++            }
++
++            var previousParent = value.Parent;
++            if (previousParent != null && !ReferenceEquals(previousParent, _owner))
++            {
++                previousParent.Controls?.Remove(value);
++            }
++
+             NativeAdd(value);
+             InnerList.Add(value);
+         }
+@@ -308,6 +322,24 @@ public partial class Control
+                 }
+             }
+ 
++            // searchAllChildren was ignored, so a recursive Find never looked past the direct children.
++            if (searchAllChildren)
++            {
++                for (int i = 0; i < InnerList.Count; i++)
++                {
++                    if (InnerList[i] is Control child && child.Controls != null)
++                    {
++                        foreach (var found in child.Controls.Find(key, true))
++                        {
++                            if (found != null)
++                            {
++                                results.Add(found);
++                            }
++                        }
++                    }
++                }
++            }
++
+             return results.ToArray();
+         }
+ 
+@@ -400,7 +432,26 @@ public partial class Control
+ 
+         internal virtual void SetChildIndexInternal(Control child, int newIndex)
+         {
++            // This was empty, so SetChildIndex never reordered anything.
++            if (child is null)
++            {
++                return;
++            }
++
++            var current = InnerList.IndexOf(child);
++            if (current < 0)
++            {
++                return;
++            }
++
++            var target = newIndex < 0 ? InnerList.Count - 1 : Math.Min(newIndex, InnerList.Count - 1);
++            if (target == current)
++            {
++                return;
++            }
+ 
++            InnerList.RemoveAt(current);
++            InnerList.Insert(target, child);
+         }
+ 
+         /// <summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+index 415561b9..fa3e0bff 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+@@ -894,7 +894,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </summary>
+     public virtual int Bottom
+     {
+-        get => this.Widget != null ? this.Widget.MarginBottom : 0;
++        // This reported the widget's bottom margin, which has nothing to do with the control's bottom edge.
++        get => Top + Height;
+     }
+ 
+     /// <summary>
+@@ -952,15 +953,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     {
+         get
+         {
+-            if (this.Widget != null)
+-            {
+-                var allocation = this.Widget.Allocation;
+-                return new Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height);
+-            }
+-            else
+-            {
+-                return Rectangle.Empty;
+-            }
++            // The GTK allocation origin was reported as the client origin, so an unrealized control
++            // returned -1,-1. The WinForms client rectangle always starts at the control's own origin.
++            var size = ClientSize;
++
++            return new Rectangle(0, 0, size.Width, size.Height);
+         }
+     }
+ 
+@@ -1022,7 +1019,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// <summary>
+     /// Gets the collection of data bindings for the control.
+     /// </summary>
+-    public virtual ControlBindingsCollection? DataBindings { get; }
++    // This was an auto-property nothing ever assigned, so control.DataBindings was null on every control
++    // that did not override it and data binding could not be used at all.
++    public virtual ControlBindingsCollection? DataBindings => _dataBindings ??= new ControlBindingsCollection(this);
++
++    private ControlBindingsCollection? _dataBindings;
+ 
+     /// <summary>
+     /// Gets the device DPI for the control.
+@@ -1128,7 +1129,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// <summary>
+     /// Gets a value indicating whether the control has child controls.
+     /// </summary>
+-    public virtual bool HasChildren { get; }
++    // This was an auto-property nothing ever assigned, so a control with children still reported false.
++    public virtual bool HasChildren => Controls != null && Controls.Count > 0;
+ 
+     /// <summary>
+     /// Gets or sets the height of the control.
+@@ -1197,7 +1199,73 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// <summary>
+     /// Gets a value indicating whether calls to the control must be marshaled to the UI thread.
+     /// </summary>
+-    public virtual bool InvokeRequired { get; }
++    /// <remarks>
++    /// This was an auto-property with no backing logic, so it was permanently <see langword="false" /> and
++    /// the standard <c>if (InvokeRequired) Invoke(...)</c> idiom silently ran UI code on worker threads.
++    /// </remarks>
++    public virtual bool InvokeRequired => Environment.CurrentManagedThreadId != _owningThreadId;
++
++    /// <summary>
++    /// The managed id of the thread this control was created on. WinForms decides whether marshalling is
++    /// needed per control, against the thread that created the control's handle.
++    /// </summary>
++    private readonly int _owningThreadId = Environment.CurrentManagedThreadId;
++
++    /// <summary>
++    /// The managed id of the thread running the message loop, once one has announced itself.
++    /// </summary>
++    internal static int UiThreadId { get; private set; } = Environment.CurrentManagedThreadId;
++
++    /// <summary>
++    /// Records the calling thread as the UI thread.
++    /// </summary>
++    internal static void CaptureUiThread() => UiThreadId = Environment.CurrentManagedThreadId;
++
++    /// <summary>
++    /// Indicates whether a GTK main loop is running, and therefore whether queued work will ever be
++    /// dispatched.
++    /// </summary>
++    private static bool IsMainLoopRunning => Gtk.Main.Level() > 0;
++
++    /// <summary>
++    /// Runs <paramref name="action" /> on the UI thread and blocks until it has finished, rethrowing any
++    /// exception it raised on the calling thread - the contract WinForms Invoke follows.
++    /// </summary>
++    private void MarshalToUiThread(Action action)
++    {
++        // Without a running GTK main loop nothing would ever drain the idle queue, so waiting on it
++        // would deadlock; run inline in that case, as there is no other thread to marshal to.
++        if (!InvokeRequired || !IsMainLoopRunning)
++        {
++            action();
++
++            return;
++        }
++
++        global::System.Runtime.ExceptionServices.ExceptionDispatchInfo? failure = null;
++        using var completed = new global::System.Threading.ManualResetEventSlim(false);
++        GLib.Idle.Add(() =>
++        {
++            try
++            {
++                action();
++            }
++            catch (Exception ex)
++            {
++                failure = global::System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(
++                    ex is Reflection.TargetInvocationException { InnerException: { } inner } ? inner : ex);
++            }
++            finally
++            {
++                completed.Set();
++            }
++
++            return false;
++        });
++
++        completed.Wait();
++        failure?.Throw();
++    }
+ 
+     /// <summary>
+     /// Gets or sets a value indicating whether the control is accessible.
+@@ -1408,7 +1476,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </summary>
+     public virtual int Right
+     {
+-        get => this.Widget?.MarginEnd ?? 0;
++        // This reported the widget's end margin, which has nothing to do with the control's right edge.
++        get => Left + Width;
+     }
+ 
+     /// <summary>
+@@ -1495,7 +1564,20 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// <summary>
+     /// Gets the top-level control that contains this control.
+     /// </summary>
+-    public virtual Control? TopLevelControl { get; }
++    // This was an auto-property nothing ever assigned, so the top-level control was always null.
++    public virtual Control? TopLevelControl
++    {
++        get
++        {
++            var current = this;
++            while (current.Parent != null)
++            {
++                current = current.Parent;
++            }
++
++            return current == this && current is not Form ? null : current;
++        }
++    }
+ 
+     /// <summary>
+     /// Gets a unique key associated with the control (used for styling or resources).
+@@ -1762,12 +1844,34 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </returns>
+     public virtual IAsyncResult BeginInvoke(Delegate method, params object[]? args)
+     {
+-        var task = System.Threading.Tasks.Task<object?>.Factory.StartNew(state =>
++        // This ran the delegate on a thread-pool thread, which is the one place WinForms guarantees it
++        // will *not* run. Post it to the GTK main loop instead so it executes on the UI thread.
++        return PostToUiThread(() => method.DynamicInvoke(args));
++    }
++
++    /// <summary>
++    /// Queues <paramref name="work" /> onto the GTK main loop and returns a handle that completes once
++    /// it has run on the UI thread.
++    /// </summary>
++    private static IAsyncResult PostToUiThread(Func<object?> work)
++    {
++        var completion = new System.Threading.Tasks.TaskCompletionSource<object?>();
++        GLib.Idle.Add(() =>
+         {
+-            return method.DynamicInvoke((object[])state!);
+-        }, args);
++            try
++            {
++                completion.TrySetResult(work());
++            }
++            catch (Exception ex)
++            {
++                completion.TrySetException(
++                    ex is Reflection.TargetInvocationException { InnerException: { } inner } ? inner : ex);
++            }
++
++            return false;
++        });
+ 
+-        return task;
++        return completion.Task;
+     }
+ 
+     /// <summary>
+@@ -1795,9 +1899,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </returns>
+     public virtual IAsyncResult BeginInvoke(Action method)
+     {
+-        var task = System.Threading.Tasks.Task.Factory.StartNew(method);
++        return PostToUiThread(() =>
++        {
++            method();
+ 
+-        return task;
++            return null;
++        });
+     }
+ 
+     /// <summary>
+@@ -1819,6 +1926,20 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </returns>
+     public virtual bool Contains(Control ctl)
+     {
++        // This always returned false, so no control ever reported containing anything.
++        if (ctl == null)
++        {
++            return false;
++        }
++
++        for (var parent = ctl.Parent; parent != null; parent = parent.Parent)
++        {
++            if (ReferenceEquals(parent, this))
++            {
++                return true;
++            }
++        }
++
+         return false;
+     }
+ 
+@@ -2018,7 +2139,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </returns>
+     public virtual Control? GetChildAtPoint(Point pt)
+     {
+-        return null;
++        // This always returned null, so hit-testing a container never found anything.
++        return GetChildAtPoint(pt, GetChildAtPointSkip.None);
+     }
+ 
+     /// <summary>
+@@ -2035,6 +2157,30 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </returns>
+     public virtual Control? GetChildAtPoint(Point pt, GetChildAtPointSkip skipValue)
+     {
++        if (Controls == null)
++        {
++            return null;
++        }
++
++        for (var i = 0; i < Controls.Count; i++)
++        {
++            var child = Controls[i];
++            if (skipValue.HasFlag(GetChildAtPointSkip.Invisible) && !child.Visible)
++            {
++                continue;
++            }
++
++            if (skipValue.HasFlag(GetChildAtPointSkip.Disabled) && !child.Enabled)
++            {
++                continue;
++            }
++
++            if (child.Bounds.Contains(pt))
++            {
++                return child;
++            }
++        }
++
+         return null;
+     }
+ 
+@@ -2046,7 +2192,16 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </returns>
+     public virtual IContainerControl? GetContainerControl()
+     {
+-        return this as IContainerControl;
++        // This only ever looked at the control itself, so a button inside a form found nothing.
++        for (Control? current = this; current != null; current = current.Parent)
++        {
++            if (current is IContainerControl container)
++            {
++                return container;
++            }
++        }
++
++        return null;
+     }
+ 
+     /// <summary>
+@@ -2224,17 +2379,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </returns>
+     public virtual object? Invoke(Delegate method, params object[]? args)
+     {
+-        lock (this)
+-        {
+-            object? result = null;
+-            GLib.Idle.Add(() =>
+-            {
+-                result = method?.DynamicInvoke(args);
+-                return false;
+-            });
++        // This queued the delegate and returned immediately, so the result was always null and Invoke
++        // gave no ordering guarantee at all. WinForms Invoke blocks until the delegate has run.
++        object? result = null;
++        MarshalToUiThread(() => result = method?.DynamicInvoke(args));
+ 
+-            return result;
+-        }
++        return result;
+     }
+ 
+     /// <summary>
+@@ -2245,14 +2395,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </param>
+     public virtual void Invoke(Action method)
+     {
+-        lock (this)
+-        {
+-            GLib.Idle.Add(() =>
+-            {
+-                method?.Invoke();
+-                return false;
+-            });
+-        }
++        MarshalToUiThread(() => method?.Invoke());
+     }
+ 
+     /// <summary>
+@@ -2269,17 +2412,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </returns>
+     public virtual TEntry? Invoke<TEntry>(Func<TEntry> method)
+     {
+-        lock (this)
+-        {
+-            var result = default(TEntry);
+-            GLib.Idle.Add(() =>
+-            {
+-                result = method.Invoke();
+-                return false;
+-            });
++        var result = default(TEntry);
++        MarshalToUiThread(() => result = method.Invoke());
+ 
+-            return result;
+-        }
++        return result;
+     }
+ 
+     /// <summary>
+@@ -2466,7 +2602,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </summary>
+     public virtual void ResetBackColor()
+     {
+-
++        // The whole Reset* family was empty, so none of them restored anything. Clearing the
++        // override puts the control back on the unset default the getter falls back to.
++        if (ISelf != null)
++        {
++            ISelf.Override.BackColor = null;
++            UpdateStyle();
++            Refresh();
++        }
+     }
+ 
+     /// <summary>
+@@ -2474,7 +2617,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </summary>
+     public virtual void ResetBindings()
+     {
+-
++        DataBindings?.Clear();
+     }
+ 
+     /// <summary>
+@@ -2482,7 +2625,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </summary>
+     public virtual void ResetCursor()
+     {
+-
++        Cursor = Cursors.Default;
+     }
+ 
+     /// <summary>
+@@ -2490,7 +2633,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </summary>
+     public virtual void ResetFont()
+     {
+-
++        Font = new Drawing.Font(Drawing.FontFamily.GenericSansSerif, 9f);
+     }
+ 
+     /// <summary>
+@@ -2498,7 +2641,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </summary>
+     public virtual void ResetForeColor()
+     {
+-
++        _ForeColor = Color.Empty;
++        UpdateStyle();
+     }
+ 
+     /// <summary>
+@@ -2506,7 +2650,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </summary>
+     public virtual void ResetImeMode()
+     {
+-
++        ImeMode = ImeMode.Inherit;
+     }
+ 
+     /// <summary>
+@@ -2514,7 +2658,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </summary>
+     public virtual void ResetRightToLeft()
+     {
+-
++        RightToLeft = RightToLeft.Inherit;
+     }
+ 
+     /// <summary>
+@@ -2522,7 +2666,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </summary>
+     public virtual void ResetText()
+     {
+-
++        Text = string.Empty;
+     }
+ 
+     /// <summary>
+@@ -2552,7 +2696,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </param>
+     public virtual void Scale(float ratio)
+     {
+-
++        // The Scale overloads were empty, so scaling a control did nothing at all.
++        Scale(ratio, ratio);
+     }
+ 
+     /// <summary>
+@@ -2566,7 +2711,22 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </param>
+     public virtual void Scale(float dx, float dy)
+     {
++        var bounds = Bounds;
++        SetBounds(
++            (int)Math.Round(bounds.X * dx),
++            (int)Math.Round(bounds.Y * dy),
++            (int)Math.Round(bounds.Width * dx),
++            (int)Math.Round(bounds.Height * dy));
++
++        if (Controls == null)
++        {
++            return;
++        }
+ 
++        for (var i = 0; i < Controls.Count; i++)
++        {
++            Controls[i].Scale(dx, dy);
++        }
+     }
+ 
+     /// <summary>
+@@ -2577,7 +2737,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </param>
+     public virtual void Scale(SizeF factor)
+     {
+-
++        Scale(factor.Width, factor.Height);
+     }
+ 
+     /// <summary>
+@@ -2676,7 +2836,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     {
+         if (this.Widget != null)
+         {
+-            var rect = this.Widget.Allocation;
++            // This started from the GTK allocation, which is meaningless before the control is
++            // realized, so the parts that were meant to be preserved were replaced with garbage.
++            var current = Bounds;
++            var rect = new Gdk.Rectangle(current.X, current.Y, current.Width, current.Height);
+             if (specified == BoundsSpecified.X)
+                 rect.X = x;
+             else if (specified == BoundsSpecified.Y)
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/GetChildAtPointSkip.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/GetChildAtPointSkip.cs
+index 9fce6cea..052e0bb5 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/GetChildAtPointSkip.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/GetChildAtPointSkip.cs
+@@ -3,6 +3,31 @@ namespace System.Windows.Forms;
+ /// <summary>
+ /// Specifies which child controls to skip.
+ /// </summary>
+-public class GetChildAtPointSkip
++/// <remarks>
++/// This was an empty class with no members, so the skip argument of
++/// <see cref="M:System.Windows.Forms.Control.GetChildAtPoint(System.Drawing.Point,System.Windows.Forms.GetChildAtPointSkip)" />
++/// could not express anything. WinForms defines it as a flags enumeration.
++/// </remarks>
++[Flags]
++public enum GetChildAtPointSkip
+ {
+-}
+\ No newline at end of file
++    /// <summary>
++    /// Do not skip any child control.
++    /// </summary>
++    None = 0,
++
++    /// <summary>
++    /// Skip child controls that are not visible.
++    /// </summary>
++    Invisible = 1,
++
++    /// <summary>
++    /// Skip child controls that are disabled.
++    /// </summary>
++    Disabled = 2,
++
++    /// <summary>
++    /// Skip child controls that are transparent.
++    /// </summary>
++    Transparent = 4
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
+index 0c8057e0..3b155263 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
+@@ -1049,7 +1049,21 @@ public partial class DataGridView : ScrollableControl
+         get => _rows.Count;
+         set
+         {
+-            while (value > _rows.Count) { _rows.RemoveAt(_rows.Count - 1); }
++            // The loop was inverted: growing the grid spun forever removing rows until RemoveAt(-1) threw.
++            if (value < 0)
++            {
++                throw new ArgumentOutOfRangeException(nameof(value));
++            }
++
++            while (_rows.Count > value)
++            {
++                _rows.RemoveAt(_rows.Count - 1);
++            }
++
++            while (_rows.Count < value)
++            {
++                _rows.Add(new DataGridViewRow());
++            }
+         }
+     }
+ 
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumn.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumn.cs
+index 6e5bc381..f7d3b927 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumn.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumn.cs
+@@ -154,7 +154,10 @@ public class DataGridViewColumn : TreeViewColumn
+         get => _AutoSizeMode;
+         set
+         {
+-            if (value == DataGridViewAutoSizeColumnMode.None) { _AutoSizeMode = value; base.Resizable = false; base.Sizing = TreeViewColumnSizing.Fixed; } else { base.Resizable = true; base.Sizing = TreeViewColumnSizing.GrowOnly; }
++            // The backing field was only assigned in the None branch, so every other mode was dropped
++            // and AutoSizeMode always read back as NotSet.
++            _AutoSizeMode = value;
++            if (value == DataGridViewAutoSizeColumnMode.None) { base.Resizable = false; base.Sizing = TreeViewColumnSizing.Fixed; } else { base.Resizable = true; base.Sizing = TreeViewColumnSizing.GrowOnly; }
+         }
+     }
+ 
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowCollection.cs
+index 6f3d207f..c08e0a7a 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowCollection.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowCollection.cs
+@@ -202,7 +202,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
+             Add(row);
+         }
+ 
+-        return start + count;
++        // Add returns the index of the last row added, which is one before the new count.
++        return start + count - 1;
+     }
+ 
+     /// <summary>
+@@ -219,11 +220,71 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
+     /// </returns>
+     public virtual int AddCopies(int indexSource, int count)
+     {
+-        var arr = new DataGridViewRow[count];
+-        items.CopyTo(0, arr, indexSource, count);
+-        this.AddRange(arr);
++        // This used to hand ArrayList.CopyTo the source index as the *destination* offset, which threw for
++        // anything but a zero index, and it appended the very same row instances instead of copies.
++        if (indexSource < 0 || indexSource >= items.Count)
++        {
++            throw new ArgumentOutOfRangeException(nameof(indexSource));
++        }
++
++        if (count < 1)
++        {
++            throw new ArgumentOutOfRangeException(nameof(count));
++        }
++
++        var source = (DataGridViewRow)items[indexSource]!;
++        var copies = new DataGridViewRow[count];
++        for (var i = 0; i < count; i++)
++        {
++            copies[i] = CopyRow(source);
++        }
++
++        this.AddRange(copies);
++
++        return items.Count - 1;
++    }
++
++    /// <summary>
++    /// Creates an independent row carrying the same cell values, cell types and row settings as
++    /// <paramref name="source" />.
++    /// </summary>
++    private DataGridViewRow CopyRow(DataGridViewRow source)
++    {
++        var copy = new DataGridViewRow
++        {
++            Height = source.Height,
++            Visible = source.Visible,
++            ReadOnly = source.ReadOnly,
++            Frozen = source.Frozen,
++            ErrorText = source.ErrorText
++        };
++
++        for (var i = 0; i < source.Cells.Count; i++)
++        {
++            var sourceCell = source.Cells[i];
++            DataGridViewCell? cell = null;
++            var column = dataGridView != null && i < dataGridView.Columns.Count ? dataGridView.Columns[i] : null;
++            if (column != null)
++            {
++                cell = column.NewCell(sourceCell.Value);
++            }
++
++            if (cell == null)
++            {
++                cell = Activator.CreateInstance(sourceCell.GetType()) as DataGridViewCell;
++                if (cell != null)
++                {
++                    cell.Value = sourceCell.Value;
++                }
++            }
++
++            if (cell != null)
++            {
++                copy.Cells.Add(cell);
++            }
++        }
+ 
+-        return count;
++        return copy;
+     }
+ 
+     /// <summary>
+@@ -733,6 +794,12 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
+     /// </param>
+     public virtual void RemoveAt(int index)
+     {
++        // A negative index used to reach ArrayList and throw from deep inside; reject it here instead.
++        if (index < 0)
++        {
++            throw new ArgumentOutOfRangeException(nameof(index));
++        }
++
+         if (Count > index)
+         {
+             var iter = ((DataGridViewRow)items[index]).TreeIter;
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+index 38b34553..2bf576a9 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+@@ -403,10 +403,18 @@ public partial class Form : ContainerControl, IWin32Window
+     /// </summary>
+     public double Opacity
+     {
+-        get { return self.Opacity; }
+-        set { self.Opacity = value; }
++        // GTK quantises the window opacity to 8 bits, so reading it back returned 0.502 for 0.5.
++        // Report the value that was asked for, as WinForms does.
++        get { return _opacity; }
++        set
++        {
++            _opacity = value;
++            self.Opacity = value;
++        }
+     }
+ 
++    private double _opacity = 1d;
++
+     /// <summary>
+     /// Gets or sets the form that owns this form.
+     /// </summary>
+@@ -502,9 +510,12 @@ public partial class Form : ContainerControl, IWin32Window
+     /// </summary>
+     public bool TopMost
+     {
+-        get { return self.IsActive; }
++        // This reported whether the window was *active*, which has nothing to do with being kept
++        // above other windows, so TopMost never read back what was assigned.
++        get { return _topMost; }
+         set
+         {
++            _topMost = value;
+             self.KeepAbove = value;
+             if (self.Window != null)
+                 if (self.IsVisible == false || self.IsActive == false || self.Window.State.HasFlag(Gdk.WindowState.Iconified))
+@@ -513,6 +524,8 @@ public partial class Form : ContainerControl, IWin32Window
+         }
+     }
+ 
++    private bool _topMost;
++
+     /// <summary>
+     /// Gets or sets the state (normal, minimized, maximized) of the form.
+     /// Setting this property will attempt to change the native window state when the window is mapped.
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ImageList/ImageList.ImageCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ImageList/ImageList.ImageCollection.cs
+index 13ec4f01..eb843de5 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ImageList/ImageList.ImageCollection.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ImageList/ImageList.ImageCollection.cs
+@@ -403,7 +403,8 @@ public sealed partial class ImageList
+                 return -1;
+             }
+ 
+-            return _imageInfoCollection.FindIndex(o => o.Name == key);
++            // WinForms matches image keys case-insensitively.
++            return _imageInfoCollection.FindIndex(o => string.Equals(o.Name, key, StringComparison.OrdinalIgnoreCase));
+         }
+ 
+         /// <summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+index ed9c201f..662c379b 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+@@ -153,9 +153,12 @@ public partial class ListBox : ListControl
+     /// </value>
+     public IntegerCollection? CustomTabOffsets
+     {
+-        get;
++        // This was an always-null auto-property, so custom tab offsets could not be set at all.
++        get => _customTabOffsets ??= new IntegerCollection(this);
+     }
+ 
++    private IntegerCollection? _customTabOffsets;
++
+     /// <summary>
+     /// Gets the data bindings.
+     /// </summary>
+@@ -514,6 +517,8 @@ public partial class ListBox : ListControl
+         }
+         set
+         {
++            // The backing field was never assigned, so the getter always reported the initial mode.
++            _SelectionMode = value;
+             if (value == SelectionMode.None)
+             {
+                 self.ListBox.SelectionMode = Gtk.SelectionMode.None;
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
+index 2b819721..78e3cd62 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
+@@ -764,8 +764,10 @@ public class ListView : ContainerControl
+     /// </summary>
+     public void Clear()
+     {
++        // WinForms Clear() removes the columns too; they were being left behind.
+         Items.Clear();
+         Groups.Clear();
++        Columns.Clear();
+     }
+ 
+     /// <summary>
+@@ -812,9 +814,7 @@ public class ListView : ContainerControl
+     /// </returns>
+     public ListViewItem? FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex)
+     {
+-        int idx = Items.FindIndex(startIndex, w => w.Text == text);
+-
+-        return idx == -1 ? null : Items[idx];
++        return FindItemWithText(text, includeSubItemsInSearch, startIndex, false);
+     }
+ 
+     /// <summary>
+@@ -843,7 +843,39 @@ public class ListView : ContainerControl
+     /// </returns>
+     public ListViewItem? FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex, bool isPrefixSearch)
+     {
+-        int idx = Items.FindIndex(startIndex, w => w.Text == text);
++        // Both flags used to be ignored: sub-items were never searched and a prefix search behaved as an
++        // exact match.
++        if (text == null || startIndex < 0 || startIndex >= Items.Count)
++        {
++            return null;
++        }
++
++        bool Matches(string? candidate) => isPrefixSearch
++            ? candidate != null && candidate.StartsWith(text, StringComparison.CurrentCultureIgnoreCase)
++            : string.Equals(candidate, text, StringComparison.CurrentCultureIgnoreCase);
++
++        int idx = Items.FindIndex(startIndex, item =>
++        {
++            if (Matches(item.Text))
++            {
++                return true;
++            }
++
++            if (!includeSubItemsInSearch || item.SubItems == null)
++            {
++                return false;
++            }
++
++            for (var i = 0; i < item.SubItems.Count; i++)
++            {
++                if (Matches(item.SubItems[i].Text))
++                {
++                    return true;
++                }
++            }
++
++            return false;
++        });
+ 
+         return idx == -1 ? null : Items[idx];
+     }
+@@ -1353,7 +1385,9 @@ public class ListView : ContainerControl
+ 
+     internal void NativeHeaderClear()
+     {
+-        Clear();
++        // This called the public Clear(), which now also clears the columns - and clearing the columns
++        // comes back here. Only the item rows need to go before the headers are removed.
++        Items.Clear();
+         foreach (var col in header.Children)
+         {
+             header.Remove(col);
+@@ -1364,7 +1398,7 @@ public class ListView : ContainerControl
+ 
+     internal void NativeHeaderRemove(ColumnHeader column)
+     {
+-        Clear();
++        Items.Clear();
+         if (column.DisplayIndex < header.Children.Length)
+         {
+             var headercol = header.Children[column.DisplayIndex];
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewItem.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewItem.cs
+index 12981189..5ae2243b 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewItem.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewItem.cs
+@@ -854,16 +854,19 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
+     internal void InitListViewItem(string[] items, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font? font, ListViewGroup? group)
+     {
+         InitListViewItem(items.Length > 0 ? items[0] : "", imageIndex, imageKey, foreColor, backColor, font, group);
+-        foreach (var item in items)
+-            _subitems?.Add(item);
++        // Setting Text already creates the first sub-item, so re-adding items[0] duplicated it and left
++        // one more sub-item than there were strings.
++        for (var i = 1; i < items.Length; i++)
++            _subitems?.Add(items[i]);
+ 
+     }
+ 
+     internal void InitListViewItem(ListViewSubItem[] subItems, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font? font, ListViewGroup? group)
+     {
+         InitListViewItem(subItems.Length > 0 ? subItems[0].Text : "", imageIndex, imageKey, foreColor, backColor, font, group);
+-        foreach (var item in subItems)
+-            _subitems?.Add(item);
++        // The first sub-item already exists as the item text; adding it again duplicated it.
++        for (var i = 1; i < subItems.Length; i++)
++            _subitems?.Add(subItems[i]);
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
+index b2795a73..b286f116 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
+@@ -319,8 +319,9 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
+     /// </value>
+     public virtual bool Checked
+     {
+-        get;
+-        set;
++        // Checked and CheckState were independent auto-properties, so they never agreed.
++        get => CheckState != CheckState.Unchecked;
++        set => CheckState = value ? CheckState.Checked : CheckState.Unchecked;
+     }
+ 
+     /// <summary>
+@@ -475,8 +476,8 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
+     /// </value>
+     public virtual int Height
+     {
+-        get;
+-        set;
++        get => Size.Height;
++        set => Size = new Size(Size.Width, value);
+     }
+ 
+     /// <summary>
+@@ -669,15 +670,24 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
+     /// </value>
+     public virtual ToolStripItem OwnerItem { get; } = null!;
+ 
+-    /// <summary>
+-    /// Gets or sets the padding.
+-    /// </summary>
+-    /// <value>
+-    /// The padding.
+-    /// </value>
+-    //public override Padding Margin { get; set; }
+     //public override Size MaximumSize { get; set; }
+     //public override Size MinimumSize { get; set; }
++    /// <summary>
++    /// Gets or sets the space between this item and its neighbours.
++    /// </summary>
++    /// <remarks>
++    /// The WinForms Margin member was commented out, so ordinary code setting an item's margin did not
++    /// compile against this shim. The default matches WinForms.
++    /// </remarks>
++    public virtual Padding Margin
++    {
++        get;
++        set;
++    } = new Padding(0, 1, 0, 2);
++
++    /// <summary>
++    /// Gets or sets the padding inside this item.
++    /// </summary>
+     public virtual Padding Padding
+     {
+         get;
+@@ -991,8 +1001,10 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
+     /// </value>
+     public virtual int Width
+     {
+-        get;
+-        set;
++        // Width and Height were auto-properties disconnected from Size, so setting one left the
++        // other stale.
++        get => Size.Width;
++        set => Size = new Size(value, Size.Height);
+     }
+ 
+     IArrangedElement IArrangedElement.Container => throw new NotImplementedException();
+@@ -1093,7 +1105,23 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
+     /// </exception>
+     public void SetBounds(Rectangle bounds, BoundsSpecified specified)
+     {
+-        throw new NotImplementedException();
++        // This threw outright; apply the requested parts instead.
++        if (specified.HasFlag(BoundsSpecified.Size) || specified.HasFlag(BoundsSpecified.All))
++        {
++            Size = new Size(bounds.Width, bounds.Height);
++        }
++        else
++        {
++            if (specified.HasFlag(BoundsSpecified.Width))
++            {
++                Width = bounds.Width;
++            }
++
++            if (specified.HasFlag(BoundsSpecified.Height))
++            {
++                Height = bounds.Height;
++            }
++        }
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
+index 51c9b607..58667cd2 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
+@@ -33,6 +33,42 @@ public class ToolStripMenuItem : ToolStripItem
+         DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+     }
+ 
++    /// <summary>
++    /// Initializes a new menu item displaying the specified text.
++    /// </summary>
++    /// <param name="text">The text to display on the menu item.</param>
++    public ToolStripMenuItem(string? text) : this()
++    {
++        // The WinForms text constructors were missing, so ordinary code such as
++        // new ToolStripMenuItem("Open") did not compile against this shim.
++        Text = text ?? string.Empty;
++    }
++
++    /// <summary>
++    /// Initializes a new menu item displaying the specified text and image.
++    /// </summary>
++    /// <param name="text">The text to display on the menu item.</param>
++    /// <param name="image">The image to display on the menu item.</param>
++    public ToolStripMenuItem(string? text, Image? image) : this(text)
++    {
++        Image = image;
++    }
++
++    /// <summary>
++    /// Initializes a new menu item displaying the specified text and image, and raising
++    /// <see cref="E:System.Windows.Forms.ToolStripItem.Click" /> through the supplied handler.
++    /// </summary>
++    /// <param name="text">The text to display on the menu item.</param>
++    /// <param name="image">The image to display on the menu item.</param>
++    /// <param name="onClick">The handler invoked when the item is clicked.</param>
++    public ToolStripMenuItem(string? text, Image? image, EventHandler? onClick) : this(text, image)
++    {
++        if (onClick != null)
++        {
++            Click += onClick;
++        }
++    }
++
+     public Gtk.CheckButton checkButton => self.checkButton;
+ 
+     /// <summary>
+@@ -49,11 +85,15 @@ public class ToolStripMenuItem : ToolStripItem
+     /// </value>
+     public override bool Checked
+     {
+-        get => base.Checked;
++        // Checked drove the GTK check-indicator visibility while CheckState drove the actual toggle, so the
++        // two never agreed. In WinForms CheckState is just the tri-state form of Checked.
++        get => self.CheckState != CheckState.Unchecked;
+         set
+         {
+-            base.Checked = value;
++            // Do not route through base.Checked: it now derives from CheckState, which this type
++            // overrides, so the two setters would call each other forever.
+             self.Checked = value;
++            self.CheckState = value ? CheckState.Checked : CheckState.Unchecked;
+         }
+     }
+ 
+@@ -66,7 +106,11 @@ public class ToolStripMenuItem : ToolStripItem
+     public override CheckState CheckState
+     {
+         get => self.CheckState;
+-        set => self.CheckState = value;
++        set
++        {
++            self.CheckState = value;
++            self.Checked = value != CheckState.Unchecked;
++        }
+     }
+ 
+     public override ToolStripItemDisplayStyle DisplayStyle
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolTip/ToolTip.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolTip/ToolTip.cs
+index 5e989003..21433ea4 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolTip/ToolTip.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolTip/ToolTip.cs
+@@ -1,4 +1,4 @@
+-/*
++﻿/*
+  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
+  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
+  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
+@@ -99,7 +99,11 @@ public partial class ToolTip : Component, IExtenderProvider
+         get => _delayTimes[0] < 10 ? DefaultDelay : _delayTimes[0];
+         set
+         {
++            // Setting AutomaticDelay derives the other three delays, as WinForms does.
+             _delayTimes[0] = value;
++            _delayTimes[1] = value * AutoPopRatio;
++            _delayTimes[2] = value;
++            _delayTimes[3] = value / ReshowRatio;
+         }
+     }
+ 
+@@ -141,10 +145,9 @@ public partial class ToolTip : Component, IExtenderProvider
+         get => _delayTimes[2];
+         set
+         {
+-            _delayTimes[0] = value;
+-            _delayTimes[1] = value * AutoPopRatio;
++            // This used to overwrite all four delays, so assigning InitialDelay silently reset
++            // AutomaticDelay, AutoPopDelay and ReshowDelay. Only the initial delay belongs here.
+             _delayTimes[2] = value;
+-            _delayTimes[3] = value / ReshowRatio;
+         }
+     }
+ 
+@@ -293,10 +296,40 @@ public partial class ToolTip : Component, IExtenderProvider
+ 
+     public void SetToolTip(Control control, string? caption)
+     {
+-        TipInfo info = new(caption, TipInfo.Type.Auto);
+-        _tools.Add(control, info);
+-        control.Widget!.HasTooltip = true;
+-        control.Widget.QueryTooltip += Widget_QueryTooltip;
++        if (control is null)
++        {
++            throw new ArgumentNullException(nameof(control));
++        }
++
++        // Dictionary.Add threw when a control was given a second caption, and a null caption used to be
++        // stored rather than clearing the tooltip.
++        var known = _tools.ContainsKey(control);
++        if (string.IsNullOrEmpty(caption))
++        {
++            if (known)
++            {
++                _tools.Remove(control);
++            }
++
++            if (control.Widget != null)
++            {
++                control.Widget.TooltipText = string.Empty;
++                control.Widget.HasTooltip = false;
++            }
++
++            return;
++        }
++
++        _tools[control] = new TipInfo(caption, TipInfo.Type.Auto);
++        if (control.Widget != null)
++        {
++            control.Widget.TooltipText = caption;
++            control.Widget.HasTooltip = true;
++            if (!known)
++            {
++                control.Widget.QueryTooltip += Widget_QueryTooltip;
++            }
++        }
+     }
+ 
+     public void Show(string? text, IWin32Window window)
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
+index b1437c9a..6c8010ab 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
+@@ -317,7 +317,12 @@ public partial class TreeView : ScrollableControl
+     public bool ShowLines
+     {
+         get => self.TreeView.EnableTreeLines;
+-        set { self.TreeView.EnableTreeLines = true; self.TreeView.EnableGridLines = Gtk.TreeViewGridLines.Horizontal; }
++        // The setter ignored its argument and always switched lines on, so ShowLines = false did nothing.
++        set
++        {
++            self.TreeView.EnableTreeLines = value;
++            self.TreeView.EnableGridLines = value ? Gtk.TreeViewGridLines.Horizontal : Gtk.TreeViewGridLines.None;
++        }
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNodeCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNodeCollection.cs
+index 9540ef58..49a8f8d9 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNodeCollection.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNodeCollection.cs
+@@ -38,6 +38,70 @@ public class TreeNodeCollection : List<TreeNode>
+         }
+     }
+ 
++    /// <summary>
++    /// Adds a new node carrying the specified text and returns it.
++    /// </summary>
++    /// <param name="text">The label of the new node.</param>
++    /// <returns>The node that was added.</returns>
++    public TreeNode Add(string text)
++    {
++        // The string overloads and key lookups of the WinForms TreeNodeCollection were missing, so
++        // ordinary WinForms code such as tree.Nodes.Add("text") did not compile against this shim.
++        var node = new TreeNode(text);
++        Add(node);
++
++        return node;
++    }
++
++    /// <summary>
++    /// Adds a new node with the specified key and text and returns it.
++    /// </summary>
++    /// <param name="key">The name used to look the node up.</param>
++    /// <param name="text">The label of the new node.</param>
++    /// <returns>The node that was added.</returns>
++    public TreeNode Add(string key, string text)
++    {
++        var node = new TreeNode(text) { Name = key };
++        Add(node);
++
++        return node;
++    }
++
++    /// <summary>
++    /// Gets the first node whose <see cref="P:System.Windows.Forms.TreeNode.Name" /> matches the key,
++    /// or <see langword="null" /> when there is none. Keys are matched case-insensitively.
++    /// </summary>
++    /// <param name="key">The name to look up.</param>
++    public virtual TreeNode? this[string key]
++    {
++        get
++        {
++            var index = IndexOfKey(key);
++
++            return index == -1 ? null : this[index];
++        }
++    }
++
++    /// <summary>
++    /// Returns the index of the first node with the specified key, or -1 when there is none.
++    /// </summary>
++    /// <param name="key">The name to look up.</param>
++    public virtual int IndexOfKey(string? key)
++    {
++        if (string.IsNullOrEmpty(key))
++        {
++            return -1;
++        }
++
++        return FindIndex(n => string.Equals(n.Name, key, StringComparison.OrdinalIgnoreCase));
++    }
++
++    /// <summary>
++    /// Indicates whether a node with the specified key is present.
++    /// </summary>
++    /// <param name="key">The name to look up.</param>
++    public virtual bool ContainsKey(string? key) => IndexOfKey(key) != -1;
++
+     /// <summary>
+     /// Adds the range.
+     /// </summary>

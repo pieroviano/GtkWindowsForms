@@ -319,8 +319,9 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// </value>
     public virtual bool Checked
     {
-        get;
-        set;
+        // Checked and CheckState were independent auto-properties, so they never agreed.
+        get => CheckState != CheckState.Unchecked;
+        set => CheckState = value ? CheckState.Checked : CheckState.Unchecked;
     }
 
     /// <summary>
@@ -475,8 +476,8 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// </value>
     public virtual int Height
     {
-        get;
-        set;
+        get => Size.Height;
+        set => Size = new Size(Size.Width, value);
     }
 
     /// <summary>
@@ -669,15 +670,24 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// </value>
     public virtual ToolStripItem OwnerItem { get; } = null!;
 
-    /// <summary>
-    /// Gets or sets the padding.
-    /// </summary>
-    /// <value>
-    /// The padding.
-    /// </value>
-    //public override Padding Margin { get; set; }
     //public override Size MaximumSize { get; set; }
     //public override Size MinimumSize { get; set; }
+    /// <summary>
+    /// Gets or sets the space between this item and its neighbours.
+    /// </summary>
+    /// <remarks>
+    /// The WinForms Margin member was commented out, so ordinary code setting an item's margin did not
+    /// compile against this shim. The default matches WinForms.
+    /// </remarks>
+    public virtual Padding Margin
+    {
+        get;
+        set;
+    } = new Padding(0, 1, 0, 2);
+
+    /// <summary>
+    /// Gets or sets the padding inside this item.
+    /// </summary>
     public virtual Padding Padding
     {
         get;
@@ -991,8 +1001,10 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// </value>
     public virtual int Width
     {
-        get;
-        set;
+        // Width and Height were auto-properties disconnected from Size, so setting one left the
+        // other stale.
+        get => Size.Width;
+        set => Size = new Size(value, Size.Height);
     }
 
     IArrangedElement IArrangedElement.Container => throw new NotImplementedException();
@@ -1093,7 +1105,23 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     /// </exception>
     public void SetBounds(Rectangle bounds, BoundsSpecified specified)
     {
-        throw new NotImplementedException();
+        // This threw outright; apply the requested parts instead.
+        if (specified.HasFlag(BoundsSpecified.Size) || specified.HasFlag(BoundsSpecified.All))
+        {
+            Size = new Size(bounds.Width, bounds.Height);
+        }
+        else
+        {
+            if (specified.HasFlag(BoundsSpecified.Width))
+            {
+                Width = bounds.Width;
+            }
+
+            if (specified.HasFlag(BoundsSpecified.Height))
+            {
+                Height = bounds.Height;
+            }
+        }
     }
 
     /// <summary>

@@ -288,12 +288,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// The x translation value of this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </returns>
-    public float OffsetX
-    {
-        get;
-
-        internal set;
-    }
+    /// <remarks>
+    /// Backed by <c>dx</c>: this used to record only the most recent Translate delta, so it disagreed with
+    /// the matrix's actual translation element.
+    /// </remarks>
+    public float OffsetX => dx;
 
     /// <summary>
     /// Gets the y translation value (the dy value, or the element in the third row and second column) of this
@@ -303,12 +302,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// The y translation value of this
     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
     /// </returns>
-    public float OffsetY
-    {
-        get;
-
-        internal set;
-    }
+    /// <remarks>
+    /// Backed by <c>dy</c>: this used to record only the most recent Translate delta, so it disagreed with
+    /// the matrix's actual translation element.
+    /// </remarks>
+    public float OffsetY => dy;
 
     /// <summary>
     /// Gets or sets the order.
@@ -729,6 +727,19 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// </param>
     public void TransformPoints(PointF[] pts)
     {
+        // Previously this only stored the array, so every path/region/point transform was a no-op.
+        if (pts == null)
+        {
+            throw new ArgumentNullException(nameof(pts));
+        }
+
+        for (var i = 0; i < pts.Length; i++)
+        {
+            var x = pts[i].X;
+            var y = pts[i].Y;
+            pts[i] = new PointF((x * m11) + (y * m21) + dx, (x * m12) + (y * m22) + dy);
+        }
+
         this.transformPoints = pts;
     }
 
@@ -742,7 +753,23 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// </param>
     public void TransformPoints(Point[] pts)
     {
-        this.transformPoints = Array.ConvertAll(pts, p => new PointF(p.X, p.Y));
+        if (pts == null)
+        {
+            throw new ArgumentNullException(nameof(pts));
+        }
+
+        var transformed = new PointF[pts.Length];
+        for (var i = 0; i < pts.Length; i++)
+        {
+            float x = pts[i].X;
+            float y = pts[i].Y;
+            var tx = (x * m11) + (y * m21) + dx;
+            var ty = (x * m12) + (y * m22) + dy;
+            transformed[i] = new PointF(tx, ty);
+            pts[i] = new Point((int)Math.Round(tx), (int)Math.Round(ty));
+        }
+
+        this.transformPoints = transformed;
     }
 
     /// <summary>
@@ -754,6 +781,18 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// </param>
     public void TransformVectors(PointF[] pts)
     {
+        // Vectors are transformed without the translation component.
+        if (pts == null)
+        {
+            throw new ArgumentNullException(nameof(pts));
+        }
+
+        for (var i = 0; i < pts.Length; i++)
+        {
+            var x = pts[i].X;
+            var y = pts[i].Y;
+            pts[i] = new PointF((x * m11) + (y * m21), (x * m12) + (y * m22));
+        }
 
         this.transformVectors = pts;
     }
@@ -768,7 +807,23 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// </param>
     public void TransformVectors(Point[] pts)
     {
-        this.transformVectors = Array.ConvertAll(pts, p => new PointF(p.X, p.Y));
+        if (pts == null)
+        {
+            throw new ArgumentNullException(nameof(pts));
+        }
+
+        var transformed = new PointF[pts.Length];
+        for (var i = 0; i < pts.Length; i++)
+        {
+            float x = pts[i].X;
+            float y = pts[i].Y;
+            var tx = (x * m11) + (y * m21);
+            var ty = (x * m12) + (y * m22);
+            transformed[i] = new PointF(tx, ty);
+            pts[i] = new Point((int)Math.Round(tx), (int)Math.Round(ty));
+        }
+
+        this.transformVectors = transformed;
     }
 
     /// <summary>
@@ -787,8 +842,7 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     /// </param>
     public void Translate(float offsetX, float offsetY)
     {
-        this.OffsetX = offsetX;
-        this.OffsetY = offsetY;
+        Translate(offsetX, offsetY, this.order);
     }
 
     /// <summary>
@@ -811,7 +865,19 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
     public void Translate(float offsetX, float offsetY, MatrixOrder order)
     {
         this.order = order;
-        Translate(offsetX, offsetY);
+
+        // Apply the translation to the matrix's translation components. Previously only OffsetX/OffsetY
+        // were recorded, so a translated matrix still transformed points as if untranslated.
+        if (order == MatrixOrder.Append)
+        {
+            dx += offsetX;
+            dy += offsetY;
+        }
+        else
+        {
+            dx += (offsetX * m11) + (offsetY * m21);
+            dy += (offsetX * m12) + (offsetY * m22);
+        }
     }
 
     /// <summary>

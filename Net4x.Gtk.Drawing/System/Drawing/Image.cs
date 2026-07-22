@@ -162,15 +162,7 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
     /// <summary>
     /// Gets the horizontal resolution in pixels per inch.
     /// </summary>
-    public float HorizontalResolution
-    {
-        get
-        {
-            float horzRes = 10;
-
-            return horzRes;
-        }
-    }
+    public float HorizontalResolution => _horizontalResolution;
 
     /// <summary>
     /// Gets the palette for indexed images, if applicable.
@@ -187,16 +179,8 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
     /// Gets the physical dimensions of this image in the units of
     /// <see cref="T:System.Drawing.SizeF"/>.
     /// </summary>
-    public SizeF PhysicalDimension
-    {
-        get
-        {
-            float width=10;
-            float height = 10;
-
-            return new SizeF(width, height);
-        }
-    }
+    // Was hard-coded to 10x10 regardless of the image.
+    public SizeF PhysicalDimension => new SizeF(Width, Height);
 
     /// <summary>
     /// Gets or sets the underlying Gdk
@@ -314,6 +298,17 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
     }
 
     /// <summary>
+    /// Discards only the cached encoded bytes, keeping the live <see cref="Gdk.Pixbuf" />. Callers that
+    /// mutate the pixbuf in place (e.g. <c>Bitmap.SetPixel</c>) use this so the next
+    /// <see cref="PixbufData" />/<c>Save</c> re-encodes from the current pixels rather than serving a stale
+    /// buffer - without destroying the pixbuf the way <c>PixbufData = null</c> does.
+    /// </summary>
+    protected void InvalidatePixbufDataCache()
+    {
+        _PixbufData = null;
+    }
+
+    /// <summary>
     /// Gets the pixel format for the image.
     /// </summary>
     public PixelFormat PixelFormat
@@ -380,13 +375,26 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
     /// <summary>
     /// Gets the vertical resolution in pixels per inch.
     /// </summary>
-    public float VerticalResolution
-    {
-        get
-        {
-            float vertRes = 10;
+    public float VerticalResolution => _verticalResolution;
 
-            return vertRes;
+    private float _horizontalResolution = DefaultResolution;
+
+    private float _verticalResolution = DefaultResolution;
+
+    /// <summary>Default image resolution in DPI (the previous hard-coded 10 was not a real screen DPI).</summary>
+    private const float DefaultResolution = 96f;
+
+    /// <summary>Sets the image resolution; used by <c>Bitmap.SetResolution</c>.</summary>
+    internal void SetResolutionCore(float horizontalDpi, float verticalDpi)
+    {
+        if (horizontalDpi > 0)
+        {
+            _horizontalResolution = horizontalDpi;
+        }
+
+        if (verticalDpi > 0)
+        {
+            _verticalResolution = verticalDpi;
         }
     }
 
@@ -501,7 +509,9 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
     /// </summary>
     public RectangleF GetBounds(ref GraphicsUnit pageUnit)
     {
-        return new RectangleF();
+        // Was returning an empty rectangle regardless of the image.
+        pageUnit = GraphicsUnit.Pixel;
+        return new RectangleF(0f, 0f, Width, Height);
     }
 
     /// <summary>
@@ -542,11 +552,23 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
     }
 
     /// <summary>
-    /// Returns a thumbnail image for this image. Not implemented.
+    /// Returns a thumbnail image of the requested size, scaled from this image.
     /// </summary>
     public Image? GetThumbnailImage(int thumbWidth, int thumbHeight, GetThumbnailImageAbort callback, IntPtr callbackData)
     {
-        return null;
+        // Was hard-coded to return null. Scale the source down to the requested thumbnail size instead.
+        var pixbuf = this.Pixbuf;
+        if (pixbuf == null || thumbWidth <= 0 || thumbHeight <= 0)
+        {
+            return null;
+        }
+
+        var thumbnail = new Bitmap(thumbWidth, thumbHeight)
+        {
+            Pixbuf = pixbuf.ScaleSimple(thumbWidth, thumbHeight, Gdk.InterpType.Bilinear)
+        };
+
+        return thumbnail;
     }
 
     /// <summary>
@@ -586,7 +608,40 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
     /// </summary>
     public void RotateFlip(RotateFlipType rotateFlipType)
     {
+        var pixbuf = this.Pixbuf;
+        if (pixbuf == null)
+        {
+            return;
+        }
 
+        // RotateFlipType packs the rotation in the low two bits (quarter turns clockwise) and the
+        // horizontal flip in bit 2; the FlipY/FlipXY names are aliases of those combinations.
+        var value = (int)rotateFlipType;
+        var quarterTurns = value & 3;
+        var flipHorizontally = (value & 4) != 0;
+
+        var result = pixbuf;
+        if (quarterTurns != 0)
+        {
+            var rotation = quarterTurns switch
+            {
+                1 => Gdk.PixbufRotation.Clockwise,      // 90 degrees clockwise
+                2 => Gdk.PixbufRotation.Upsidedown,     // 180 degrees
+                _ => Gdk.PixbufRotation.Counterclockwise // 270 degrees clockwise
+            };
+            result = result.RotateSimple(rotation);
+        }
+
+        if (flipHorizontally)
+        {
+            result = result.Flip(true);
+        }
+
+        if (result != null)
+        {
+            // Assigning through the property also refreshes Width/Height (a 90/270 turn transposes them).
+            this.Pixbuf = result;
+        }
     }
 
     /// <summary>
@@ -620,7 +675,37 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
     /// </summary>
     public void Save(Stream stream, ImageFormat format)
     {
-        Save(stream, null, null);
+        // Encode in the REQUESTED format. Previously this ignored 'format' and just replayed the cached
+        // bytes, so Save(stream, ImageFormat.Png) on a JPEG source wrote JPEG.
+        if (stream == null)
+        {
+            return;
+        }
+
+        var pixbuf = this.Pixbuf;
+        if (pixbuf == null)
+        {
+            Save(stream, null, null);
+            return;
+        }
+
+        var type = (format?.GetMimeType() ?? ".png").TrimStart('.');
+        // gdk-pixbuf can only encode this set; anything else falls back to png.
+        if (type != "png" && type != "jpeg" && type != "bmp" && type != "tiff" && type != "ico")
+        {
+            type = "png";
+        }
+
+        try
+        {
+            var bytes = pixbuf.SaveToBuffer(type);
+            stream.Write(bytes, 0, bytes.Length);
+        }
+        catch (GLib.GException ex)
+        {
+            System.Diagnostics.GtkLogger.Debug($"Pixbuf.SaveToBuffer('{type}') failed in Image.Save", ex);
+            Save(stream, null, null);
+        }
     }
 
     /// <summary>

@@ -202,7 +202,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
             Add(row);
         }
 
-        return start + count;
+        // Add returns the index of the last row added, which is one before the new count.
+        return start + count - 1;
     }
 
     /// <summary>
@@ -219,11 +220,71 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </returns>
     public virtual int AddCopies(int indexSource, int count)
     {
-        var arr = new DataGridViewRow[count];
-        items.CopyTo(0, arr, indexSource, count);
-        this.AddRange(arr);
+        // This used to hand ArrayList.CopyTo the source index as the *destination* offset, which threw for
+        // anything but a zero index, and it appended the very same row instances instead of copies.
+        if (indexSource < 0 || indexSource >= items.Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(indexSource));
+        }
 
-        return count;
+        if (count < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(count));
+        }
+
+        var source = (DataGridViewRow)items[indexSource]!;
+        var copies = new DataGridViewRow[count];
+        for (var i = 0; i < count; i++)
+        {
+            copies[i] = CopyRow(source);
+        }
+
+        this.AddRange(copies);
+
+        return items.Count - 1;
+    }
+
+    /// <summary>
+    /// Creates an independent row carrying the same cell values, cell types and row settings as
+    /// <paramref name="source" />.
+    /// </summary>
+    private DataGridViewRow CopyRow(DataGridViewRow source)
+    {
+        var copy = new DataGridViewRow
+        {
+            Height = source.Height,
+            Visible = source.Visible,
+            ReadOnly = source.ReadOnly,
+            Frozen = source.Frozen,
+            ErrorText = source.ErrorText
+        };
+
+        for (var i = 0; i < source.Cells.Count; i++)
+        {
+            var sourceCell = source.Cells[i];
+            DataGridViewCell? cell = null;
+            var column = dataGridView != null && i < dataGridView.Columns.Count ? dataGridView.Columns[i] : null;
+            if (column != null)
+            {
+                cell = column.NewCell(sourceCell.Value);
+            }
+
+            if (cell == null)
+            {
+                cell = Activator.CreateInstance(sourceCell.GetType()) as DataGridViewCell;
+                if (cell != null)
+                {
+                    cell.Value = sourceCell.Value;
+                }
+            }
+
+            if (cell != null)
+            {
+                copy.Cells.Add(cell);
+            }
+        }
+
+        return copy;
     }
 
     /// <summary>
@@ -733,6 +794,12 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
     /// </param>
     public virtual void RemoveAt(int index)
     {
+        // A negative index used to reach ArrayList and throw from deep inside; reject it here instead.
+        if (index < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index));
+        }
+
         if (Count > index)
         {
             var iter = ((DataGridViewRow)items[index]).TreeIter;

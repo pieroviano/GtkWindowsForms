@@ -89,6 +89,13 @@ public sealed class ResXDataNode : ISerializable
     /// </exception>
     public ResXDataNode(string name, object? value, Func<Type, string>? typeNameConverter)
     {
+        // A null name reached name.Length and produced a NullReferenceException instead of the
+        // ArgumentNullException the framework documents.
+        if (name is null)
+        {
+            throw new ArgumentNullException(nameof(name));
+        }
+
         if (name.Length == 0)
         {
             throw (new ArgumentException(nameof(name)));

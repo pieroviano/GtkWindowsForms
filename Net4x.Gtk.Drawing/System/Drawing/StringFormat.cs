@@ -25,6 +25,9 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
 
     private CharacterRange[] _ranges = Array.Empty<CharacterRange>();
 
+    /// <summary>The ranges set by <see cref="SetMeasurableCharacterRanges" />, for Graphics.MeasureCharacterRanges.</summary>
+    internal CharacterRange[] MeasurableCharacterRanges => _ranges;
+
     /// <summary>
     /// Initializes a new
     /// <see cref="T:System.Drawing.StringFormat" /> object.

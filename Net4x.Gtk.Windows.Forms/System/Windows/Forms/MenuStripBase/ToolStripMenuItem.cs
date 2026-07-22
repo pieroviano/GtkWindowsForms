@@ -33,6 +33,42 @@ public class ToolStripMenuItem : ToolStripItem
         DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
     }
 
+    /// <summary>
+    /// Initializes a new menu item displaying the specified text.
+    /// </summary>
+    /// <param name="text">The text to display on the menu item.</param>
+    public ToolStripMenuItem(string? text) : this()
+    {
+        // The WinForms text constructors were missing, so ordinary code such as
+        // new ToolStripMenuItem("Open") did not compile against this shim.
+        Text = text ?? string.Empty;
+    }
+
+    /// <summary>
+    /// Initializes a new menu item displaying the specified text and image.
+    /// </summary>
+    /// <param name="text">The text to display on the menu item.</param>
+    /// <param name="image">The image to display on the menu item.</param>
+    public ToolStripMenuItem(string? text, Image? image) : this(text)
+    {
+        Image = image;
+    }
+
+    /// <summary>
+    /// Initializes a new menu item displaying the specified text and image, and raising
+    /// <see cref="E:System.Windows.Forms.ToolStripItem.Click" /> through the supplied handler.
+    /// </summary>
+    /// <param name="text">The text to display on the menu item.</param>
+    /// <param name="image">The image to display on the menu item.</param>
+    /// <param name="onClick">The handler invoked when the item is clicked.</param>
+    public ToolStripMenuItem(string? text, Image? image, EventHandler? onClick) : this(text, image)
+    {
+        if (onClick != null)
+        {
+            Click += onClick;
+        }
+    }
+
     public Gtk.CheckButton checkButton => self.checkButton;
 
     /// <summary>
@@ -49,11 +85,15 @@ public class ToolStripMenuItem : ToolStripItem
     /// </value>
     public override bool Checked
     {
-        get => base.Checked;
+        // Checked drove the GTK check-indicator visibility while CheckState drove the actual toggle, so the
+        // two never agreed. In WinForms CheckState is just the tri-state form of Checked.
+        get => self.CheckState != CheckState.Unchecked;
         set
         {
-            base.Checked = value;
+            // Do not route through base.Checked: it now derives from CheckState, which this type
+            // overrides, so the two setters would call each other forever.
             self.Checked = value;
+            self.CheckState = value ? CheckState.Checked : CheckState.Unchecked;
         }
     }
 
@@ -66,7 +106,11 @@ public class ToolStripMenuItem : ToolStripItem
     public override CheckState CheckState
     {
         get => self.CheckState;
-        set => self.CheckState = value;
+        set
+        {
+            self.CheckState = value;
+            self.Checked = value != CheckState.Unchecked;
+        }
     }
 
     public override ToolStripItemDisplayStyle DisplayStyle

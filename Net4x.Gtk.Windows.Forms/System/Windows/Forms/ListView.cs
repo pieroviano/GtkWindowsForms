@@ -764,8 +764,10 @@ public class ListView : ContainerControl
     /// </summary>
     public void Clear()
     {
+        // WinForms Clear() removes the columns too; they were being left behind.
         Items.Clear();
         Groups.Clear();
+        Columns.Clear();
     }
 
     /// <summary>
@@ -812,9 +814,7 @@ public class ListView : ContainerControl
     /// </returns>
     public ListViewItem? FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex)
     {
-        int idx = Items.FindIndex(startIndex, w => w.Text == text);
-
-        return idx == -1 ? null : Items[idx];
+        return FindItemWithText(text, includeSubItemsInSearch, startIndex, false);
     }
 
     /// <summary>
@@ -843,7 +843,39 @@ public class ListView : ContainerControl
     /// </returns>
     public ListViewItem? FindItemWithText(string text, bool includeSubItemsInSearch, int startIndex, bool isPrefixSearch)
     {
-        int idx = Items.FindIndex(startIndex, w => w.Text == text);
+        // Both flags used to be ignored: sub-items were never searched and a prefix search behaved as an
+        // exact match.
+        if (text == null || startIndex < 0 || startIndex >= Items.Count)
+        {
+            return null;
+        }
+
+        bool Matches(string? candidate) => isPrefixSearch
+            ? candidate != null && candidate.StartsWith(text, StringComparison.CurrentCultureIgnoreCase)
+            : string.Equals(candidate, text, StringComparison.CurrentCultureIgnoreCase);
+
+        int idx = Items.FindIndex(startIndex, item =>
+        {
+            if (Matches(item.Text))
+            {
+                return true;
+            }
+
+            if (!includeSubItemsInSearch || item.SubItems == null)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < item.SubItems.Count; i++)
+            {
+                if (Matches(item.SubItems[i].Text))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        });
 
         return idx == -1 ? null : Items[idx];
     }
@@ -1353,7 +1385,9 @@ public class ListView : ContainerControl
 
     internal void NativeHeaderClear()
     {
-        Clear();
+        // This called the public Clear(), which now also clears the columns - and clearing the columns
+        // comes back here. Only the item rows need to go before the headers are removed.
+        Items.Clear();
         foreach (var col in header.Children)
         {
             header.Remove(col);
@@ -1364,7 +1398,7 @@ public class ListView : ContainerControl
 
     internal void NativeHeaderRemove(ColumnHeader column)
     {
-        Clear();
+        Items.Clear();
         if (column.DisplayIndex < header.Children.Length)
         {
             var headercol = header.Children[column.DisplayIndex];

@@ -154,7 +154,10 @@ public class DataGridViewColumn : TreeViewColumn
         get => _AutoSizeMode;
         set
         {
-            if (value == DataGridViewAutoSizeColumnMode.None) { _AutoSizeMode = value; base.Resizable = false; base.Sizing = TreeViewColumnSizing.Fixed; } else { base.Resizable = true; base.Sizing = TreeViewColumnSizing.GrowOnly; }
+            // The backing field was only assigned in the None branch, so every other mode was dropped
+            // and AutoSizeMode always read back as NotSet.
+            _AutoSizeMode = value;
+            if (value == DataGridViewAutoSizeColumnMode.None) { base.Resizable = false; base.Sizing = TreeViewColumnSizing.Fixed; } else { base.Resizable = true; base.Sizing = TreeViewColumnSizing.GrowOnly; }
         }
     }
 

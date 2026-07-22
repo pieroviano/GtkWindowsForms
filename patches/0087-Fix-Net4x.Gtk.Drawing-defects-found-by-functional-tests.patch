@@ -1,0 +1,1617 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Wed, 22 Jul 2026 00:00:00 +0000
+Subject: [PATCH] Fix Net4x.Gtk.Drawing defects found by functional tests
+
+Behavioural defects surfaced by the Net4x.Gtk.Drawing.Tests functional suite:
+
+Bitmap/Image
+ - the pixel buffer was never allocated, so a new Bitmap had no pixels
+ - GetPixel/SetPixel addressed the wrong bytes and never invalidated the cache
+ - scaling, cloning, MakeTransparent, LockBits/UnlockBits and RotateFlip were stubs
+ - Save(Stream, ImageFormat) ignored the requested format
+ - HorizontalResolution/VerticalResolution, PhysicalDimension and GetBounds were hard-coded
+
+Graphics
+ - Dispose did not flush, so drawing could be lost
+ - SetClip(Region) was missing; SetClip(GraphicsPath), ExcludeClip and IntersectClip(Region) were no-ops
+ - TranslateClip(int, int) called itself and overflowed the stack
+ - ResetTransform only undid rotation; MultiplyTransform mutated a throwaway copy
+ - the Transform property threw on get and ignored set
+ - ConvertToMatrix applied the default zero scale (collapsing every matrix), passed degrees to Cairo as
+   radians, and passed null to Cairo.Matrix.Multiply (a native abort)
+ - clip bounds, DPI, TextRenderingHint, containers, TransformPoints, MeasureCharacterRanges,
+   image blitting and curve drawing were stubs or wrong
+
+GraphicsPath / Matrix / Region / Font / Icon
+ - Reset did not clear the path; Transform ignored the stored primitives
+ - IsOutlineVisible reported the filled interior as being on the outline
+ - Matrix.TransformPoints/TransformVectors did not apply the transform; Translate did not move it;
+   OffsetX/OffsetY did not track dx/dy
+ - Region.Translate did not move the region, IsEmpty called an infinite region empty, and RegionData
+   carried nothing so a Region could not be round-tripped
+ - Font.Height/GetHeight and Icon.Size were stubs
+
+---
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs b/Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs
+index b6ec9d3a..d4cbf94a 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs
+@@ -233,6 +233,16 @@ public class Bitmap : Image
+         this.Width = width;
+         this.Height = height;
+         this.PixelFormat = format;
++
++        // Allocate a real, writable pixel buffer (fully transparent) so GetPixel/SetPixel and Save operate
++        // on actual pixels rather than an empty image. Invalid (non-positive) dimensions are left without a
++        // pixbuf so that consumers such as Graphics.FromImage still reject them.
++        if (width > 0 && height > 0)
++        {
++            var pixbuf = new Gdk.Pixbuf(Gdk.Colorspace.Rgb, true, 8, width, height);
++            pixbuf.Fill(0x00000000u);
++            this.Pixbuf = pixbuf;
++        }
+     }
+ 
+     /// <summary>
+@@ -294,7 +304,16 @@ public class Bitmap : Image
+     public Bitmap(Image original, int width, int height)
+         : this(width, height, PixelFormat.Format32bppArgb)
+     {
+-        this.PixbufData = original.PixbufData;
++        // Actually scale the source to the requested size rather than copying its raw data unchanged.
++        var source = original.Pixbuf;
++        if (source != null)
++        {
++            this.Pixbuf = source.ScaleSimple(Math.Max(1, width), Math.Max(1, height), Gdk.InterpType.Bilinear);
++        }
++        else
++        {
++            this.PixbufData = original.PixbufData;
++        }
+     }
+ 
+     internal Bitmap(byte[]? pixbuf) : base(pixbuf)
+@@ -384,8 +403,29 @@ public class Bitmap : Image
+     /// </exception>
+     public Bitmap Clone(Rectangle rect, PixelFormat format)
+     {
++        // Previously this copied the WHOLE source buffer into the clone, which also reset the clone's
++        // size back to the source's - so the requested sub-rectangle was ignored entirely.
++        var clone = new Bitmap(rect.Width, rect.Height, format);
++        var source = this.Pixbuf;
++        var target = clone.Pixbuf;
++
++        if (source == null || target == null || rect.Width <= 0 || rect.Height <= 0)
++        {
++            clone.PixbufData = (byte[]?)this.PixbufData?.Clone();
++            return clone;
++        }
+ 
+-        return new Bitmap(rect.Width, rect.Height, format) { PixbufData = (byte[]?)this.PixbufData?.Clone() };
++        var x = Math.Max(0, Math.Min(rect.X, source.Width));
++        var y = Math.Max(0, Math.Min(rect.Y, source.Height));
++        var width = Math.Min(rect.Width, source.Width - x);
++        var height = Math.Min(rect.Height, source.Height - y);
++        if (width > 0 && height > 0)
++        {
++            source.CopyArea(x, y, width, height, target, 0, 0);
++            clone.InvalidatePixbufDataCache();
++        }
++
++        return clone;
+     }
+ 
+     /// <summary>
+@@ -502,8 +542,25 @@ public class Bitmap : Image
+     /// </exception>
+     public Color GetPixel(int x, int y)
+     {
++        var pixbuf = this.Pixbuf;
++        if (pixbuf == null)
++        {
++            return Color.Empty;
++        }
+ 
+-        return Color.FromArgb(x * y);
++        if (x < 0 || y < 0 || x >= pixbuf.Width || y >= pixbuf.Height)
++        {
++            throw new ArgumentOutOfRangeException(x < 0 || x >= pixbuf.Width ? nameof(x) : nameof(y));
++        }
++
++        var channels = pixbuf.NChannels;
++        var offset = (y * pixbuf.Rowstride) + (x * channels);
++        var pixels = pixbuf.Pixels;
++        byte r = Marshal.ReadByte(pixels, offset);
++        byte g = Marshal.ReadByte(pixels, offset + 1);
++        byte b = Marshal.ReadByte(pixels, offset + 2);
++        byte a = channels >= 4 ? Marshal.ReadByte(pixels, offset + 3) : (byte)255;
++        return Color.FromArgb(a, r, g, b);
+     }
+ 
+     /// <summary>
+@@ -581,7 +638,26 @@ public class Bitmap : Image
+     /// </exception>
+     public BitmapData LockBits(Rectangle rect, ImageLockMode flags, PixelFormat format, BitmapData bitmapData)
+     {
++        // Was returning an unpopulated BitmapData (all zeroes). Describe the real pixel buffer so callers
++        // can read/write it, pointing Scan0 at the requested rectangle's first pixel.
++        bitmapData ??= new BitmapData();
++
++        var pixbuf = this.Pixbuf;
++        if (pixbuf == null)
++        {
++            return bitmapData;
++        }
++
++        var x = Math.Max(0, Math.Min(rect.X, pixbuf.Width));
++        var y = Math.Max(0, Math.Min(rect.Y, pixbuf.Height));
++        var width = rect.Width <= 0 ? pixbuf.Width - x : Math.Min(rect.Width, pixbuf.Width - x);
++        var height = rect.Height <= 0 ? pixbuf.Height - y : Math.Min(rect.Height, pixbuf.Height - y);
+ 
++        bitmapData.Width = Math.Max(0, width);
++        bitmapData.Height = Math.Max(0, height);
++        bitmapData.Stride = pixbuf.Rowstride;
++        bitmapData.PixelFormat = format;
++        bitmapData.Scan0 = IntPtr.Add(pixbuf.Pixels, (y * pixbuf.Rowstride) + (x * pixbuf.NChannels));
+         return bitmapData;
+     }
+ 
+@@ -626,7 +702,24 @@ public class Bitmap : Image
+     /// </exception>
+     public void MakeTransparent(Color transparentColor)
+     {
++        // Was a no-op, so the requested colour never became transparent.
++        var pixbuf = this.Pixbuf;
++        if (pixbuf == null)
++        {
++            return;
++        }
+ 
++        for (var y = 0; y < pixbuf.Height; y++)
++        {
++            for (var x = 0; x < pixbuf.Width; x++)
++            {
++                var c = GetPixel(x, y);
++                if (c.R == transparentColor.R && c.G == transparentColor.G && c.B == transparentColor.B)
++                {
++                    SetPixel(x, y, Color.FromArgb(0, c.R, c.G, c.B));
++                }
++            }
++        }
+     }
+ 
+     /// <summary>
+@@ -648,7 +741,31 @@ public class Bitmap : Image
+     /// </exception>
+     public void SetPixel(int x, int y, Color color)
+     {
++        var pixbuf = this.Pixbuf;
++        if (pixbuf == null)
++        {
++            return;
++        }
+ 
++        if (x < 0 || y < 0 || x >= pixbuf.Width || y >= pixbuf.Height)
++        {
++            throw new ArgumentOutOfRangeException(x < 0 || x >= pixbuf.Width ? nameof(x) : nameof(y));
++        }
++
++        var channels = pixbuf.NChannels;
++        var offset = (y * pixbuf.Rowstride) + (x * channels);
++        var pixels = pixbuf.Pixels;
++        Marshal.WriteByte(pixels, offset, color.R);
++        Marshal.WriteByte(pixels, offset + 1, color.G);
++        Marshal.WriteByte(pixels, offset + 2, color.B);
++        if (channels >= 4)
++        {
++            Marshal.WriteByte(pixels, offset + 3, color.A);
++        }
++
++        // Pixels were mutated in place; drop only the cached encoding (not the live pixbuf) so
++        // PixbufData/Save re-encode from the current pixels.
++        InvalidatePixbufDataCache();
+     }
+ 
+     /// <summary>
+@@ -668,7 +785,8 @@ public class Bitmap : Image
+     /// </exception>
+     public void SetResolution(float xDpi, float yDpi)
+     {
+-
++        // Was empty, so HorizontalResolution/VerticalResolution never reflected the requested DPI.
++        SetResolutionCore(xDpi, yDpi);
+     }
+ 
+     /// <summary>
+@@ -684,7 +802,8 @@ public class Bitmap : Image
+     /// </exception>
+     public void UnlockBits(BitmapData bitmapdata)
+     {
+-
++        // The caller may have written through Scan0, so drop the cached encoding.
++        InvalidatePixbufDataCache();
+     }
+ 
+     private static Stream GetResourceStream(Type type, string resource)
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
+index 6d68f841..5ed28f50 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
+@@ -1623,12 +1623,17 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
+     /// /// </summary>
+     public bool IsOutlineVisible(PointF point, Pen pen)
+     {
+-        // conservative: check whether point falls inside bounds inflated by pen width
++        // Approximated with the path bounds: the outline is the band of pen width straddling the bounds
++        // edge. Testing only the inflated bounds reported the whole filled interior as "on the outline".
+         if (pen == null) throw new ArgumentNullException(nameof(pen));
+         var b = GetBounds();
+         if (b.IsEmpty) return false;
+-        var inflated = RectangleF.Inflate(b, pen.Width / 2f, pen.Width / 2f);
+-        return inflated.Contains(point);
++        var half = pen.Width / 2f;
++        var inflated = RectangleF.Inflate(b, half, half);
++        if (!inflated.Contains(point)) return false;
++        var deflated = RectangleF.Inflate(b, -half, -half);
++        if (deflated.Width <= 0f || deflated.Height <= 0f) return true;
++        return !deflated.Contains(point);
+     }
+ 
+     /// <summary>
+@@ -1801,6 +1806,11 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
+     {
+         this.PathPoints = null;
+         this.PathTypes = null;
++        this.PointCount = 0;
++        // Also clear the accumulated geometry the figure/bounds/hit-testing use, otherwise a "reset" path
++        // still reports the old bounds and segments.
++        this.SizePoints.Clear();
++        this.list.Clear();
+         this.FillMode = FillMode.Alternate;
+     }
+ 
+@@ -1853,6 +1863,82 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
+             matrix.TransformPoints(arr);
+             SizePoints[i] = arr[0];
+         }
++
++        // Also transform the stored primitives. Without this the shapes kept their original coordinates,
++        // so GetBounds/hit-testing ignored the transform entirely (and Region.Translate appeared to do
++        // nothing). Rect-based shapes are mapped through their corners, i.e. a rotation yields the
++        // bounding box of the rotated shape - exact for translation/scale.
++        foreach (var o in list)
++        {
++            switch (o)
++            {
++                case ArcMode am: am.rect = TransformRectangle(matrix, am.rect); break;
++                case EllipseMode em: em.rect = TransformRectangle(matrix, em.rect); break;
++                case PieMode pm: pm.rect = TransformRectangle(matrix, pm.rect); break;
++                case RectangleMode rm: rm.rect = TransformRectangle(matrix, rm.rect); break;
++                case StringMode sm: sm.layoutRect = TransformRectangle(matrix, sm.layoutRect); break;
++                case RectanglesMode rsm:
++                    if (rsm.rects != null)
++                    {
++                        for (var i = 0; i < rsm.rects.Length; i++)
++                        {
++                            rsm.rects[i] = TransformRectangle(matrix, rsm.rects[i]);
++                        }
++                    }
++
++                    break;
++                case LineMode lm:
++                    {
++                        var pts = new[] { lm.pt1, lm.pt2 };
++                        matrix.TransformPoints(pts);
++                        lm.pt1 = pts[0];
++                        lm.pt2 = pts[1];
++                    }
++
++                    break;
++                case BezierMode bm:
++                    {
++                        var pts = new[] { bm.pt1, bm.pt2, bm.pt3, bm.pt4 };
++                        matrix.TransformPoints(pts);
++                        bm.pt1 = pts[0];
++                        bm.pt2 = pts[1];
++                        bm.pt3 = pts[2];
++                        bm.pt4 = pts[3];
++                    }
++
++                    break;
++                case BeziersMode bzs: if (bzs.points != null) matrix.TransformPoints(bzs.points); break;
++                case LinesMode lsm: if (lsm.points != null) matrix.TransformPoints(lsm.points); break;
++                case PolygonMode pol: if (pol.points != null) matrix.TransformPoints(pol.points); break;
++                case ClosedCurveMode ccm: if (ccm.points != null) matrix.TransformPoints(ccm.points); break;
++                case CurveMode cm: if (cm.points != null) matrix.TransformPoints(cm.points); break;
++            }
++        }
++    }
++
++    /// <summary>Maps a rectangle through <paramref name="matrix"/> and returns the bounding box of the result.</summary>
++    private static RectangleF TransformRectangle(Matrix matrix, RectangleF rect)
++    {
++        var pts = new[]
++        {
++            new PointF(rect.Left, rect.Top),
++            new PointF(rect.Right, rect.Top),
++            new PointF(rect.Right, rect.Bottom),
++            new PointF(rect.Left, rect.Bottom)
++        };
++
++        matrix.TransformPoints(pts);
++
++        float left = pts[0].X, top = pts[0].Y, right = pts[0].X, bottom = pts[0].Y;
++        foreach (var p in pts)
++        {
++            if (p.X < left) left = p.X;
++            if (p.X > right) right = p.X;
++            if (p.Y < top) top = p.Y;
++            if (p.Y > bottom) bottom = p.Y;
++        }
++
++        return new RectangleF(left, top, right - left, bottom - top);
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Matrix.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Matrix.cs
+index 85e27a5d..a37c85d6 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Matrix.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Matrix.cs
+@@ -288,12 +288,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+     /// The x translation value of this
+     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
+     /// </returns>
+-    public float OffsetX
+-    {
+-        get;
+-
+-        internal set;
+-    }
++    /// <remarks>
++    /// Backed by <c>dx</c>: this used to record only the most recent Translate delta, so it disagreed with
++    /// the matrix's actual translation element.
++    /// </remarks>
++    public float OffsetX => dx;
+ 
+     /// <summary>
+     /// Gets the y translation value (the dy value, or the element in the third row and second column) of this
+@@ -303,12 +302,11 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+     /// The y translation value of this
+     /// <see cref="T:System.Drawing.Drawing2D.Matrix" />.
+     /// </returns>
+-    public float OffsetY
+-    {
+-        get;
+-
+-        internal set;
+-    }
++    /// <remarks>
++    /// Backed by <c>dy</c>: this used to record only the most recent Translate delta, so it disagreed with
++    /// the matrix's actual translation element.
++    /// </remarks>
++    public float OffsetY => dy;
+ 
+     /// <summary>
+     /// Gets or sets the order.
+@@ -729,6 +727,19 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+     /// </param>
+     public void TransformPoints(PointF[] pts)
+     {
++        // Previously this only stored the array, so every path/region/point transform was a no-op.
++        if (pts == null)
++        {
++            throw new ArgumentNullException(nameof(pts));
++        }
++
++        for (var i = 0; i < pts.Length; i++)
++        {
++            var x = pts[i].X;
++            var y = pts[i].Y;
++            pts[i] = new PointF((x * m11) + (y * m21) + dx, (x * m12) + (y * m22) + dy);
++        }
++
+         this.transformPoints = pts;
+     }
+ 
+@@ -742,7 +753,23 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+     /// </param>
+     public void TransformPoints(Point[] pts)
+     {
+-        this.transformPoints = Array.ConvertAll(pts, p => new PointF(p.X, p.Y));
++        if (pts == null)
++        {
++            throw new ArgumentNullException(nameof(pts));
++        }
++
++        var transformed = new PointF[pts.Length];
++        for (var i = 0; i < pts.Length; i++)
++        {
++            float x = pts[i].X;
++            float y = pts[i].Y;
++            var tx = (x * m11) + (y * m21) + dx;
++            var ty = (x * m12) + (y * m22) + dy;
++            transformed[i] = new PointF(tx, ty);
++            pts[i] = new Point((int)Math.Round(tx), (int)Math.Round(ty));
++        }
++
++        this.transformPoints = transformed;
+     }
+ 
+     /// <summary>
+@@ -754,6 +781,18 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+     /// </param>
+     public void TransformVectors(PointF[] pts)
+     {
++        // Vectors are transformed without the translation component.
++        if (pts == null)
++        {
++            throw new ArgumentNullException(nameof(pts));
++        }
++
++        for (var i = 0; i < pts.Length; i++)
++        {
++            var x = pts[i].X;
++            var y = pts[i].Y;
++            pts[i] = new PointF((x * m11) + (y * m21), (x * m12) + (y * m22));
++        }
+ 
+         this.transformVectors = pts;
+     }
+@@ -768,7 +807,23 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+     /// </param>
+     public void TransformVectors(Point[] pts)
+     {
+-        this.transformVectors = Array.ConvertAll(pts, p => new PointF(p.X, p.Y));
++        if (pts == null)
++        {
++            throw new ArgumentNullException(nameof(pts));
++        }
++
++        var transformed = new PointF[pts.Length];
++        for (var i = 0; i < pts.Length; i++)
++        {
++            float x = pts[i].X;
++            float y = pts[i].Y;
++            var tx = (x * m11) + (y * m21);
++            var ty = (x * m12) + (y * m22);
++            transformed[i] = new PointF(tx, ty);
++            pts[i] = new Point((int)Math.Round(tx), (int)Math.Round(ty));
++        }
++
++        this.transformVectors = transformed;
+     }
+ 
+     /// <summary>
+@@ -787,8 +842,7 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+     /// </param>
+     public void Translate(float offsetX, float offsetY)
+     {
+-        this.OffsetX = offsetX;
+-        this.OffsetY = offsetY;
++        Translate(offsetX, offsetY, this.order);
+     }
+ 
+     /// <summary>
+@@ -811,7 +865,19 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
+     public void Translate(float offsetX, float offsetY, MatrixOrder order)
+     {
+         this.order = order;
+-        Translate(offsetX, offsetY);
++
++        // Apply the translation to the matrix's translation components. Previously only OffsetX/OffsetY
++        // were recorded, so a translated matrix still transformed points as if untranslated.
++        if (order == MatrixOrder.Append)
++        {
++            dx += offsetX;
++            dy += offsetY;
++        }
++        else
++        {
++            dx += (offsetX * m11) + (offsetY * m21);
++            dy += (offsetX * m12) + (offsetY * m22);
++        }
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Font.cs b/Net4x.Gtk.Drawing/System/Drawing/Font.cs
+index 38814a76..da9c5c83 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Font.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Font.cs
+@@ -312,7 +312,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
+     /// The line spacing, in pixels, of this font.
+     /// </returns>
+     [Browsable(false)]
+-    public int Height { get; }
++    public int Height => (int)Math.Ceiling(GetHeight());
+ 
+     /// <summary>
+     /// Gets a value indicating whether the font is a member of System.Drawing.SystemFonts.
+@@ -531,7 +531,33 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
+     /// <returns>
+     /// The height, in pixels, of this System.Drawing.Font.
+     /// </returns>
+-    public float GetHeight(float dpi) { return Height; }
++    public float GetHeight(float dpi)
++    {
++        // Line spacing in pixels for this font's em-size, converted from the font's unit at the given DPI.
++        // Previously every overload returned the (never assigned) Height field, i.e. always 0.
++        if (dpi <= 0)
++        {
++            dpi = DefaultDpi;
++        }
++
++        var sizeInPixels = Unit switch
++        {
++            GraphicsUnit.Pixel => Size,
++            GraphicsUnit.Inch => Size * dpi,
++            GraphicsUnit.Millimeter => Size * dpi / 25.4f,
++            GraphicsUnit.Document => Size * dpi / 300f,
++            GraphicsUnit.Display => Size * dpi / 75f,
++            _ => Size * dpi / 72f // Point (and World/Default)
++        };
++
++        return sizeInPixels * LineSpacingFactor;
++    }
++
++    /// <summary>Screen DPI assumed when no device context is supplied.</summary>
++    private const float DefaultDpi = 96f;
++
++    /// <summary>Typical ratio of line height to em-size, matching GDI+'s reported font height closely enough.</summary>
++    private const float LineSpacingFactor = 1.2f;
+ 
+     /// <summary>
+     /// Returns the line spacing, in the current unit of a specified System.Drawing.Graphics,
+@@ -543,7 +569,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
+     /// <returns>
+     /// The line spacing, in pixels, of this font.
+     /// </returns>
+-    public float GetHeight(Graphics graphics) { return Height; }
++    public float GetHeight(Graphics graphics) { return GetHeight(graphics != null && graphics.DpiY > 0 ? graphics.DpiY : DefaultDpi); }
+ 
+     /// <summary>
+     /// Returns the line spacing, in pixels, of this font.
+@@ -551,7 +577,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
+     /// <returns>
+     /// The line spacing, in pixels, of this font.
+     /// </returns>
+-    public float GetHeight() { return Height; }
++    public float GetHeight() { return GetHeight(DefaultDpi); }
+ 
+     /// <summary>
+     /// Populates a
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+index 5a5eb883..da24dfc4 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+@@ -34,6 +34,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+ 
+     private readonly Gdk.Rectangle rectangle;
+ 
++    /// <summary>Current clipping bounds; starts as the full surface and follows SetClip/IntersectClip/ResetClip.</summary>
++    private RectangleF _clipBounds;
++
+     private readonly Widget? widget;
+ 
+     internal Graphics(Widget? widget, Cairo.Context context, Gdk.Rectangle rectangle) : this(context, rectangle)
+@@ -50,6 +53,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     {
+         this.context = context;
+         this.rectangle = rectangle;
++        this._clipBounds = new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+         this.Clip = new Region(new Rectangle(this.rectangle.X, this.rectangle.Y, this.rectangle.Width, this.rectangle.Height));
+     }
+ 
+@@ -69,7 +73,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     {
+         get
+         {
+-            return new RectangleF(this.rectangle.X, this.rectangle.Y, this.rectangle.Width, this.rectangle.Height);
++            return this._clipBounds;
+         }
+     }
+ 
+@@ -94,18 +98,15 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// <summary>
+     /// Gets the horizontal resolution, in dots per inch.
+     /// </summary>
+-    public float DpiX
+-    {
+-        get;
+-    }
++    public float DpiX => DefaultDpi;
+ 
+     /// <summary>
+     /// Gets the vertical resolution, in dots per inch.
+     /// </summary>
+-    public float DpiY
+-    {
+-        get;
+-    }
++    public float DpiY => DefaultDpi;
++
++    /// <summary>Screen DPI assumed for this surface (GDI+ reports the device DPI; 96 is the norm).</summary>
++    private const float DefaultDpi = 96f;
+ 
+     /// <summary>
+     /// Gets or sets the interpolation mode used for scaling operations.
+@@ -198,29 +199,33 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// <summary>
+     /// Gets or sets the text rendering hint. Not implemented in this wrapper.
+     /// </summary>
+-    public TextRenderingHint TextRenderingHint
+-    {
+-        get
+-        {
+-            throw new System.NotImplementedException();
+-        }
+-        set
+-        {
+-        }
+-    }
++    public TextRenderingHint TextRenderingHint { get; set; } = TextRenderingHint.SystemDefault;
+ 
+     /// <summary>
+-    /// Gets or sets the transformation matrix for this Graphics object.
+-    /// Not fully implemented in this wrapper.
++    /// Gets or sets the world transformation matrix for this Graphics object.
+     /// </summary>
+     public Drawing2D.Matrix Transform
+     {
+         get
+         {
+-            throw new System.NotImplementedException();
++            // The getter used to throw and the setter was a no-op, so the world transform could not be
++            // read back or assigned at all. Report the live Cairo matrix instead.
++            var m = this.context.Matrix;
++            if (ReferenceEquals(m, null))
++            {
++                return new Drawing2D.Matrix();
++            }
++
++            return new Drawing2D.Matrix((float)m.Xx, (float)m.Yx, (float)m.Xy, (float)m.Yy, (float)m.X0, (float)m.Y0);
+         }
++
+         set
+         {
++            var converted = ConvertToMatrix(value);
++            if (!ReferenceEquals(converted, null))
++            {
++                this.context.Matrix = converted;
++            }
+         }
+     }
+ 
+@@ -263,7 +268,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </returns>
+     public GraphicsContainer BeginContainer()
+     {
+-        throw new System.NotImplementedException();
++        // Cairo's state stack gives exactly the save/restore semantics a container needs.
++        this.context.Save();
++        return new GraphicsContainer();
+     }
+ 
+     /// <summary>
+@@ -272,7 +279,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public GraphicsContainer BeginContainer(Rectangle dstrect, Rectangle srcrect, GraphicsUnit unit)
+     {
+-        throw new System.NotImplementedException();
++        return BeginContainer(new RectangleF(dstrect.X, dstrect.Y, dstrect.Width, dstrect.Height),
++            new RectangleF(srcrect.X, srcrect.Y, srcrect.Width, srcrect.Height), unit);
+     }
+ 
+     /// <summary>
+@@ -280,7 +288,16 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public GraphicsContainer BeginContainer(RectangleF dstrect, RectangleF srcrect, GraphicsUnit unit)
+     {
+-        throw new System.NotImplementedException();
++        this.context.Save();
++        if (srcrect.Width > 0 && srcrect.Height > 0)
++        {
++            // Map the source rectangle onto the destination rectangle for drawing inside the container.
++            this.context.Translate(dstrect.X, dstrect.Y);
++            this.context.Scale(dstrect.Width / srcrect.Width, dstrect.Height / srcrect.Height);
++            this.context.Translate(-srcrect.X, -srcrect.Y);
++        }
++
++        return new GraphicsContainer();
+     }
+ 
+     /// <summary>
+@@ -330,6 +347,10 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void Dispose()
+     {
++        // Flush pending drawing back to the source image (if this Graphics was created via FromImage) and
++        // release the drawing surface. Without this, drawing onto a Bitmap and then disposing the Graphics
++        // never reached the bitmap's pixels.
++        Flush();
+     }
+ 
+     /// <summary>
+@@ -409,7 +430,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void DrawClosedCurve(Pen pen, PointF[] points)
+     {
+-        DrawCurveCore(true, false, pen, points, 0, 0, 0, FillMode.Winding);
++        DrawCurveCore(true, false, pen, points, 0, 0, DefaultCurveTension, FillMode.Winding);
+     }
+ 
+     /// <summary>
+@@ -425,7 +446,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void DrawClosedCurve(Pen pen, Point[] points)
+     {
+-        DrawCurveCore(true, false, pen, Array.ConvertAll(points, p => new PointF(p.X, p.Y)), 0, 0, 0, FillMode.Winding);
++        DrawCurveCore(true, false, pen, Array.ConvertAll(points, p => new PointF(p.X, p.Y)), 0, 0, DefaultCurveTension, FillMode.Winding);
+     }
+ 
+     /// <summary>
+@@ -441,7 +462,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void DrawCurve(Pen pen, PointF[] points)
+     {
+-        DrawCurveCore(false, false, pen, points, 0, 0, 0, FillMode.Winding);
++        DrawCurveCore(false, false, pen, points, 0, 0, DefaultCurveTension, FillMode.Winding);
+     }
+ 
+     /// <summary>
+@@ -449,7 +470,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void DrawCurve(Pen pen, PointF[] points, int offset, int numberOfSegments)
+     {
+-        DrawCurveCore(false, false, pen, points, offset, numberOfSegments, 0, FillMode.Winding);
++        DrawCurveCore(false, false, pen, points, offset, numberOfSegments, DefaultCurveTension, FillMode.Winding);
+     }
+ 
+     /// <summary>
+@@ -473,7 +494,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void DrawCurve(Pen pen, Point[] points)
+     {
+-        DrawCurveCore(false, false, pen, Array.ConvertAll(points, p => new PointF(p.X, p.Y)), 0, 0, 0, FillMode.Winding);
++        DrawCurveCore(false, false, pen, Array.ConvertAll(points, p => new PointF(p.X, p.Y)), 0, 0, DefaultCurveTension, FillMode.Winding);
+     }
+ 
+     /// <summary>
+@@ -1098,6 +1119,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void EndContainer(GraphicsContainer container)
+     {
++        // Was a no-op, so state changed inside a container leaked out of it.
++        this.context.Restore();
+     }
+ 
+     /// <summary>
+@@ -1353,17 +1376,41 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     }
+ 
+     /// <summary>
+-    /// Excludes the specified rectangle from the current clip region. Not implemented.
++    /// Excludes the specified rectangle from the current clip region.
+     /// </summary>
+     public void ExcludeClip(Rectangle rect)
+     {
++        ExcludeClipCore(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height));
+     }
+ 
+     /// <summary>
+-    /// Excludes the specified region from the current clip region. Not implemented.
++    /// Excludes the specified region from the current clip region. The region is approximated by its bounds.
+     /// </summary>
+     public void ExcludeClip(Region region)
+     {
++        if (region == null)
++        {
++            return;
++        }
++
++        ExcludeClipCore(region.GetBounds(this));
++    }
++
++    /// <summary>
++    /// Clips to the current clip bounds minus <paramref name="rect"/> using the even-odd fill rule, so that
++    /// painting inside the excluded rectangle is suppressed. Was a no-op, so exclusions never took effect.
++    /// </summary>
++    private void ExcludeClipCore(RectangleF rect)
++    {
++        var outer = this._clipBounds;
++        var previousRule = this.context.FillRule;
++        this.context.NewPath();
++        this.context.Rectangle(outer.X, outer.Y, outer.Width, outer.Height);
++        this.context.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
++        this.context.FillRule = Cairo.FillRule.EvenOdd;
++        this.context.Clip();
++        this.context.FillRule = previousRule;
++        this.context.NewPath();
+     }
+ 
+     /// <summary>
+@@ -1371,7 +1418,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void FillClosedCurve(Brush brush, PointF[] points)
+     {
+-        DrawCurveCore(true, true, new Pen(brush, 0), points, 0, 0, 0, FillMode.Winding);
++        DrawCurveCore(true, true, new Pen(brush, 0), points, 0, 0, DefaultCurveTension, FillMode.Winding);
+     }
+ 
+     /// <summary>
+@@ -1379,7 +1426,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void FillClosedCurve(Brush brush, PointF[] points, FillMode fillmode)
+     {
+-        DrawCurveCore(true, true, new Pen(brush, 0), points, 0, 0, 0, fillmode);
++        DrawCurveCore(true, true, new Pen(brush, 0), points, 0, 0, DefaultCurveTension, fillmode);
+     }
+ 
+     /// <summary>
+@@ -1395,7 +1442,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void FillClosedCurve(Brush brush, Point[] points)
+     {
+-        DrawCurveCore(true, true, new Pen(brush, 0), Array.ConvertAll(points, p => new PointF(p.X, p.Y)), 0, 0, 0, FillMode.Winding);
++        DrawCurveCore(true, true, new Pen(brush, 0), Array.ConvertAll(points, p => new PointF(p.X, p.Y)), 0, 0, DefaultCurveTension, FillMode.Winding);
+     }
+ 
+     /// <summary>
+@@ -1403,7 +1450,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void FillClosedCurve(Brush brush, Point[] points, FillMode fillmode)
+     {
+-        DrawCurveCore(true, true, new Pen(brush, 0), Array.ConvertAll(points, p => new PointF(p.X, p.Y)), 0, 0, 0, fillmode);
++        DrawCurveCore(true, true, new Pen(brush, 0), Array.ConvertAll(points, p => new PointF(p.X, p.Y)), 0, 0, DefaultCurveTension, fillmode);
+     }
+ 
+     /// <summary>
+@@ -1565,6 +1612,18 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void FillRegion(Brush brush, Region region)
+     {
++        // Was a no-op, so FillRegion painted nothing at all. Fill the region's extent: exact for the
++        // rectangular/path regions this shim models, matching Region's own bounds-based GetRegionScans.
++        if (brush == null || region == null)
++        {
++            return;
++        }
++
++        var bounds = region.GetBounds(this);
++        if (bounds.Width > 0 && bounds.Height > 0)
++        {
++            FillRectangle(brush, bounds);
++        }
+     }
+ 
+     /// <summary>
+@@ -1709,7 +1768,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public Color GetNearestColor(Color color)
+     {
+-        throw new System.NotImplementedException();
++        // Rendering targets here are 32bpp ARGB, so every colour is representable exactly.
++        return color;
+     }
+ 
+     /// <summary>
+@@ -1717,6 +1777,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void IntersectClip(Rectangle rect)
+     {
++        // Was a no-op, so narrowing an existing clip had no effect at all.
++        SetClip(rect, CombineMode.Intersect);
+     }
+ 
+     /// <summary>
+@@ -1724,13 +1786,21 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void IntersectClip(RectangleF rect)
+     {
++        SetClip(rect, CombineMode.Intersect);
+     }
+ 
+     /// <summary>
+-    /// Intersects the clip region with the specified region. Not implemented.
++    /// Intersects the clip region with the specified region.
+     /// </summary>
+     public void IntersectClip(Region region)
+     {
++        // Was a no-op, so narrowing the clip with a region had no effect at all.
++        if (region == null)
++        {
++            return;
++        }
++
++        SetClip(region, CombineMode.Intersect);
+     }
+ 
+     /// <summary>
+@@ -1802,7 +1872,31 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public Region[] MeasureCharacterRanges(string text, Font font, RectangleF layoutRect, StringFormat stringFormat)
+     {
+-        throw new System.NotImplementedException();
++        // Was throwing NotImplementedException. Produce one region per requested range, positioned by
++        // measuring the text that precedes it and sized by measuring the range itself.
++        var ranges = stringFormat?.MeasurableCharacterRanges;
++        if (text == null || font == null || ranges == null || ranges.Length == 0)
++        {
++            return Array.Empty<Region>();
++        }
++
++        var regions = new Region[ranges.Length];
++        for (var i = 0; i < ranges.Length; i++)
++        {
++            var first = Math.Max(0, Math.Min(ranges[i].First, text.Length));
++            var length = Math.Max(0, Math.Min(ranges[i].Length, text.Length - first));
++
++            var before = MeasureString(text.Substring(0, first), font);
++            var measured = MeasureString(text.Substring(first, length), font);
++
++            regions[i] = new Region(new RectangleF(
++                layoutRect.X + before.Width,
++                layoutRect.Y,
++                measured.Width,
++                measured.Height));
++        }
++
++        return regions;
+     }
+ 
+     /// <summary>
+@@ -1906,7 +2000,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void MultiplyTransform(Drawing2D.Matrix matrix)
+     {
+-        this.context.Matrix?.Multiply(ConvertToMatrix(matrix));
++        MultiplyTransform(matrix, MatrixOrder.Prepend);
+     }
+ 
+     /// <summary>
+@@ -1914,7 +2008,31 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void MultiplyTransform(Drawing2D.Matrix matrix, MatrixOrder order)
+     {
+-        this.context.Matrix?.Multiply(ConvertToMatrix(matrix));
++        // context.Matrix returns a copy, so multiplying it in place changed nothing; the product has to be
++        // assigned back for the world transform to actually change.
++        var factor = ConvertToMatrix(matrix);
++        if (ReferenceEquals(factor, null))
++        {
++            return;
++        }
++
++        var current = this.context.Matrix;
++        if (ReferenceEquals(current, null))
++        {
++            this.context.Matrix = factor;
++            return;
++        }
++
++        if (order == MatrixOrder.Prepend)
++        {
++            factor.Multiply(current);
++            this.context.Matrix = factor;
++        }
++        else
++        {
++            current.Multiply(factor);
++            this.context.Matrix = current;
++        }
+     }
+ 
+     /// <summary>
+@@ -1946,6 +2064,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     public void ResetClip()
+     {
+         this.context.ResetClip();
++        this._clipBounds = new RectangleF(this.rectangle.X, this.rectangle.Y, this.rectangle.Width, this.rectangle.Height);
+     }
+ 
+     /// <summary>
+@@ -1953,7 +2072,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void ResetTransform()
+     {
+-        this.context.Rotate(Math.PI / 180 * _angle * -1);
++        // Only the rotation was being undone, so translations and scales survived a ResetTransform.
++        this.context.Matrix = new Cairo.Matrix(1, 0, 0, 1, 0, 0);
++        this._angle = 0;
+     }
+ 
+     /// <summary>
+@@ -2013,17 +2134,26 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     }
+ 
+     /// <summary>
+-    /// Sets the clipping region to the specified path. Not implemented.
++    /// Sets the clipping region to the specified path.
+     /// </summary>
+     public void SetClip(GraphicsPath path)
+     {
++        SetClip(path, CombineMode.Replace);
+     }
+ 
+     /// <summary>
+-    /// Sets the clipping region to the specified path with combine mode. Not implemented.
++    /// Sets the clipping region to the specified path with combine mode. The path is approximated by its
++    /// bounding rectangle, matching how <see cref="SetClip(Region, CombineMode)"/> handles regions.
+     /// </summary>
+     public void SetClip(GraphicsPath path, CombineMode combineMode)
+     {
++        // Was a no-op, so clipping to a path never restricted anything.
++        if (path == null)
++        {
++            return;
++        }
++
++        SetClip(path.GetBounds(), combineMode);
+     }
+ 
+     /// <summary>
+@@ -2072,12 +2202,32 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void SetClip(RectangleF rect, CombineMode combineMode)
+     {
++        // Cairo's Clip() always intersects with the existing clip, so a Replace has to drop the current
++        // clip first; otherwise SetClip could only ever shrink the clipped area.
++        if (combineMode == CombineMode.Replace)
++        {
++            context.ResetClip();
++        }
++
+         context.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
+         context.Clip();
++
++        this._clipBounds = combineMode == CombineMode.Replace
++            ? rect
++            : RectangleF.Intersect(this._clipBounds, rect);
+     }
+ 
+     /// <summary>
+-    /// Sets the clipping region to the specified region with combine mode. Not implemented.
++    /// Sets the clipping region to the specified region.
++    /// </summary>
++    public void SetClip(Region region)
++    {
++        // The Region overload of SetClip was missing entirely, so callers could not clip with a Region.
++        SetClip(region, CombineMode.Replace);
++    }
++
++    /// <summary>
++    /// Sets the clipping region to the specified region with combine mode.
+     /// </summary>
+     public void SetClip(Region region, CombineMode combineMode)
+     {
+@@ -2090,6 +2240,28 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void TransformPoints(CoordinateSpace destSpace, CoordinateSpace srcSpace, PointF[] pts)
+     {
++        if (pts == null || destSpace == srcSpace)
++        {
++            return;
++        }
++
++        // World -> Device applies the current transform; the reverse undoes it.
++        var toDevice = destSpace == CoordinateSpace.Device;
++        for (var i = 0; i < pts.Length; i++)
++        {
++            double x = pts[i].X;
++            double y = pts[i].Y;
++            if (toDevice)
++            {
++                this.context.UserToDevice(ref x, ref y);
++            }
++            else
++            {
++                this.context.DeviceToUser(ref x, ref y);
++            }
++
++            pts[i] = new PointF((float)x, (float)y);
++        }
+     }
+ 
+     /// <summary>
+@@ -2104,17 +2276,21 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+     /// </summary>
+     public void TranslateClip(int dx, int dy)
+     {
+-        TranslateClip(dx, dy);
++        // This called itself instead of the float overload, so any use of it overflowed the stack.
++        TranslateClip((float)dx, (float)dy);
+     }
+ 
+     /// <summary>
+-    /// Translates the clip region by the specified floating point amounts. Not implemented.
++    /// Translates the clip region by the specified floating point amounts.
+     /// </summary>
+     public void TranslateClip(float dx, float dy)
+     {
+-        Cairo.Rectangle rectangle = context.ClipExtents();
+-        context.Rectangle(rectangle.X + dx, rectangle.Y + dy, rectangle.Width, rectangle.Height);
+-        context.Clip();
++        // Cairo's Clip() only ever intersects, so translating onto a disjoint area used to clip everything
++        // away. Replace the clip with the shifted rectangle instead.
++        var extents = context.ClipExtents();
++        SetClip(
++            new RectangleF((float)(extents.X + dx), (float)(extents.Y + dy), (float)extents.Width, (float)extents.Height),
++            CombineMode.Replace);
+     }
+ 
+     /// <summary>
+@@ -2249,10 +2425,27 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+             var cairoMatrix = new Cairo.Matrix(matrix.m11, matrix.m12, matrix.m21, matrix.m22, matrix.dx, matrix.dy);
+             cairoMatrix.Init(matrix.m11, matrix.m12, matrix.m21, matrix.m22, matrix.dx, matrix.dy);
+ 
+-            cairoMatrix.Translate(matrix.OffsetX, matrix.OffsetY);
+-            cairoMatrix.Scale(matrix.scaleX, matrix.scaleY);
+-            cairoMatrix.Rotate(matrix.angle);
+-            cairoMatrix.Multiply(ConvertToMatrix(matrix.multiply));
++            // scaleX/scaleY default to 0 and were applied unconditionally, collapsing every matrix that had
++            // never been scaled to all-zero. Only apply a scale that was actually requested.
++            if (matrix.scaleX != 0f || matrix.scaleY != 0f)
++            {
++                cairoMatrix.Scale(matrix.scaleX, matrix.scaleY);
++            }
++
++            // Matrix.Rotate takes degrees; Cairo takes radians.
++            if (matrix.angle != 0f)
++            {
++                cairoMatrix.Rotate(Math.PI / 180 * matrix.angle);
++            }
++
++            // Cairo.Matrix.Multiply(null) aborts the process natively, so only multiply when there is one.
++            // Cairo.Matrix overloads == and dereferences both sides, so compare by reference instead.
++            var nested = ConvertToMatrix(matrix.multiply);
++            if (!ReferenceEquals(nested, null))
++            {
++                cairoMatrix.Multiply(nested);
++            }
++
+             if (matrix.invert)
+                 cairoMatrix.Invert();
+ 
+@@ -2280,6 +2473,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+         DrawLinesCore(pen, data.ToArray());
+     }
+ 
++    /// <summary>GDI+'s default cardinal-spline tension for the overloads that do not take one.</summary>
++    private const float DefaultCurveTension = 0.5f;
++
+     private void DrawCurveCore(bool isClosePath, bool isfill, Pen pen, PointF[] points, int offset, int numberOfSegments, float tension, FillMode fillmode)
+     {
+         if (points.Length > 1)
+@@ -2288,7 +2484,34 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+             this.SetTranslateWithDifference(offset, offset);
+             this.SetSourcePen(pen, isfill);
+             this.context.NewPath();
+-            this.context.CurveTo(points[0].X, points[0].Y, points[1].X, points[1].Y, points[2].X, points[2].Y);
++
++            // Draw a cardinal spline through EVERY point. The previous code emitted a single Bezier from
++            // points[0..2], so any further points were ignored (and a 2-point curve threw).
++            var count = points.Length;
++            var segments = isClosePath ? count : count - 1;
++            this.context.MoveTo(points[0].X, points[0].Y);
++            for (var i = 0; i < segments; i++)
++            {
++                var p1 = points[i % count];
++                var p2 = points[(i + 1) % count];
++                PointF p0, p3;
++                if (isClosePath)
++                {
++                    p0 = points[((i - 1) + count) % count];
++                    p3 = points[(i + 2) % count];
++                }
++                else
++                {
++                    p0 = points[Math.Max(0, i - 1)];
++                    p3 = points[Math.Min(count - 1, i + 2)];
++                }
++
++                var scale = tension / 3f;
++                var c1 = new PointF(p1.X + ((p2.X - p0.X) * scale), p1.Y + ((p2.Y - p0.Y) * scale));
++                var c2 = new PointF(p2.X - ((p3.X - p1.X) * scale), p2.Y - ((p3.Y - p1.Y) * scale));
++                this.context.CurveTo(c1.X, c1.Y, c2.X, c2.Y, p2.X, p2.Y);
++            }
++
+             if (isClosePath)
+                 this.context.ClosePath();
+             if (isfill)
+@@ -2349,7 +2572,12 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+         {
+             var scaleimg = new Gdk.Pixbuf(surface, 0, 0, destRect.Width, destRect.Height);
+ 
+-            img.Scale(scaleimg, 0, 0, destRect.Width, destRect.Height, srcX, srcY, destRect.Width / srcWidth, destRect.Height / srcHeight, Gdk.InterpType.Tiles);
++            // Gdk's offsetX/offsetY position the SCALED source inside the destination, so selecting the
++            // source sub-rectangle needs -srcX*scale (passing srcX directly ignored the source rectangle
++            // and drew the wrong part of the image).
++            var scaleX = destRect.Width / srcWidth;
++            var scaleY = destRect.Height / srcHeight;
++            img.Scale(scaleimg, 0, 0, destRect.Width, destRect.Height, -srcX * scaleX, -srcY * scaleY, scaleX, scaleY, Gdk.InterpType.Tiles);
+             this.context.Save();
+             this.SetTranslateWithDifference(destRect.X, destRect.Y);
+             Gdk.CairoHelper.SetSourcePixbuf(this.context, scaleimg, 0, 0);
+@@ -2387,7 +2615,12 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+         using (var surface = new Cairo.ImageSurface(Cairo.Format.Argb32, width, height))
+         {
+             var newimg = new Gdk.Pixbuf(surface, 0, 0, width, height);
+-            img.CopyArea(x, y, width, height, newimg, 0, 0);
++            // Copy from the SOURCE origin: (x,y) is the destination position (applied below via
++            // SetTranslateWithDifference), not an offset into the source image. Using it here read a
++            // region outside the source, so nothing was drawn.
++            var copyWidth = Math.Min(width, img.Width);
++            var copyHeight = Math.Min(height, img.Height);
++            img.CopyArea(0, 0, copyWidth, copyHeight, newimg, 0, 0);
+             this.context.Save();
+             using (var p = this.context.GetSource())
+             {
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Icon.cs b/Net4x.Gtk.Drawing/System/Drawing/Icon.cs
+index 0beb4e59..eb9a2cb4 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Icon.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Icon.cs
+@@ -343,12 +343,9 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
+     /// <see cref="T:System.Drawing.Size" /> structure that specifies the width and height of this
+     /// <see cref="T:System.Drawing.Icon" />.
+     /// </returns>
+-    public Size Size
+-    {
+-        get;
+-
+-        private set;
+-    }
++    // Derived from Width/Height: Size was a never-assigned auto-property, so it always reported 0x0 even
++    // though Width/Height were populated from the loaded icon.
++    public Size Size => new Size(Width, Height);
+ 
+     /// <summary>
+     /// Gets the width of this
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Image.cs b/Net4x.Gtk.Drawing/System/Drawing/Image.cs
+index c3c78095..08cd0bda 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Image.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Image.cs
+@@ -162,15 +162,7 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
+     /// <summary>
+     /// Gets the horizontal resolution in pixels per inch.
+     /// </summary>
+-    public float HorizontalResolution
+-    {
+-        get
+-        {
+-            float horzRes = 10;
+-
+-            return horzRes;
+-        }
+-    }
++    public float HorizontalResolution => _horizontalResolution;
+ 
+     /// <summary>
+     /// Gets the palette for indexed images, if applicable.
+@@ -187,16 +179,8 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
+     /// Gets the physical dimensions of this image in the units of
+     /// <see cref="T:System.Drawing.SizeF"/>.
+     /// </summary>
+-    public SizeF PhysicalDimension
+-    {
+-        get
+-        {
+-            float width=10;
+-            float height = 10;
+-
+-            return new SizeF(width, height);
+-        }
+-    }
++    // Was hard-coded to 10x10 regardless of the image.
++    public SizeF PhysicalDimension => new SizeF(Width, Height);
+ 
+     /// <summary>
+     /// Gets or sets the underlying Gdk
+@@ -313,6 +297,17 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
+         }
+     }
+ 
++    /// <summary>
++    /// Discards only the cached encoded bytes, keeping the live <see cref="Gdk.Pixbuf" />. Callers that
++    /// mutate the pixbuf in place (e.g. <c>Bitmap.SetPixel</c>) use this so the next
++    /// <see cref="PixbufData" />/<c>Save</c> re-encodes from the current pixels rather than serving a stale
++    /// buffer - without destroying the pixbuf the way <c>PixbufData = null</c> does.
++    /// </summary>
++    protected void InvalidatePixbufDataCache()
++    {
++        _PixbufData = null;
++    }
++
+     /// <summary>
+     /// Gets the pixel format for the image.
+     /// </summary>
+@@ -380,13 +375,26 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
+     /// <summary>
+     /// Gets the vertical resolution in pixels per inch.
+     /// </summary>
+-    public float VerticalResolution
++    public float VerticalResolution => _verticalResolution;
++
++    private float _horizontalResolution = DefaultResolution;
++
++    private float _verticalResolution = DefaultResolution;
++
++    /// <summary>Default image resolution in DPI (the previous hard-coded 10 was not a real screen DPI).</summary>
++    private const float DefaultResolution = 96f;
++
++    /// <summary>Sets the image resolution; used by <c>Bitmap.SetResolution</c>.</summary>
++    internal void SetResolutionCore(float horizontalDpi, float verticalDpi)
+     {
+-        get
++        if (horizontalDpi > 0)
+         {
+-            float vertRes = 10;
++            _horizontalResolution = horizontalDpi;
++        }
+ 
+-            return vertRes;
++        if (verticalDpi > 0)
++        {
++            _verticalResolution = verticalDpi;
+         }
+     }
+ 
+@@ -501,7 +509,9 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
+     /// </summary>
+     public RectangleF GetBounds(ref GraphicsUnit pageUnit)
+     {
+-        return new RectangleF();
++        // Was returning an empty rectangle regardless of the image.
++        pageUnit = GraphicsUnit.Pixel;
++        return new RectangleF(0f, 0f, Width, Height);
+     }
+ 
+     /// <summary>
+@@ -542,11 +552,23 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
+     }
+ 
+     /// <summary>
+-    /// Returns a thumbnail image for this image. Not implemented.
++    /// Returns a thumbnail image of the requested size, scaled from this image.
+     /// </summary>
+     public Image? GetThumbnailImage(int thumbWidth, int thumbHeight, GetThumbnailImageAbort callback, IntPtr callbackData)
+     {
+-        return null;
++        // Was hard-coded to return null. Scale the source down to the requested thumbnail size instead.
++        var pixbuf = this.Pixbuf;
++        if (pixbuf == null || thumbWidth <= 0 || thumbHeight <= 0)
++        {
++            return null;
++        }
++
++        var thumbnail = new Bitmap(thumbWidth, thumbHeight)
++        {
++            Pixbuf = pixbuf.ScaleSimple(thumbWidth, thumbHeight, Gdk.InterpType.Bilinear)
++        };
++
++        return thumbnail;
+     }
+ 
+     /// <summary>
+@@ -586,7 +608,40 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
+     /// </summary>
+     public void RotateFlip(RotateFlipType rotateFlipType)
+     {
++        var pixbuf = this.Pixbuf;
++        if (pixbuf == null)
++        {
++            return;
++        }
++
++        // RotateFlipType packs the rotation in the low two bits (quarter turns clockwise) and the
++        // horizontal flip in bit 2; the FlipY/FlipXY names are aliases of those combinations.
++        var value = (int)rotateFlipType;
++        var quarterTurns = value & 3;
++        var flipHorizontally = (value & 4) != 0;
++
++        var result = pixbuf;
++        if (quarterTurns != 0)
++        {
++            var rotation = quarterTurns switch
++            {
++                1 => Gdk.PixbufRotation.Clockwise,      // 90 degrees clockwise
++                2 => Gdk.PixbufRotation.Upsidedown,     // 180 degrees
++                _ => Gdk.PixbufRotation.Counterclockwise // 270 degrees clockwise
++            };
++            result = result.RotateSimple(rotation);
++        }
++
++        if (flipHorizontally)
++        {
++            result = result.Flip(true);
++        }
+ 
++        if (result != null)
++        {
++            // Assigning through the property also refreshes Width/Height (a 90/270 turn transposes them).
++            this.Pixbuf = result;
++        }
+     }
+ 
+     /// <summary>
+@@ -620,7 +675,37 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
+     /// </summary>
+     public void Save(Stream stream, ImageFormat format)
+     {
+-        Save(stream, null, null);
++        // Encode in the REQUESTED format. Previously this ignored 'format' and just replayed the cached
++        // bytes, so Save(stream, ImageFormat.Png) on a JPEG source wrote JPEG.
++        if (stream == null)
++        {
++            return;
++        }
++
++        var pixbuf = this.Pixbuf;
++        if (pixbuf == null)
++        {
++            Save(stream, null, null);
++            return;
++        }
++
++        var type = (format?.GetMimeType() ?? ".png").TrimStart('.');
++        // gdk-pixbuf can only encode this set; anything else falls back to png.
++        if (type != "png" && type != "jpeg" && type != "bmp" && type != "tiff" && type != "ico")
++        {
++            type = "png";
++        }
++
++        try
++        {
++            var bytes = pixbuf.SaveToBuffer(type);
++            stream.Write(bytes, 0, bytes.Length);
++        }
++        catch (GLib.GException ex)
++        {
++            System.Diagnostics.GtkLogger.Debug($"Pixbuf.SaveToBuffer('{type}') failed in Image.Save", ex);
++            Save(stream, null, null);
++        }
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Region.cs b/Net4x.Gtk.Drawing/System/Drawing/Region.cs
+index 874c8d04..c9474231 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Region.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Region.cs
+@@ -26,6 +26,10 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     /// </summary>
+     public Region()
+     {
++        // A default Region is infinite in GDI+ (it covers the entire coordinate space). Leaving it
++        // non-infinite made IsInfinite report false and skewed the combine operations that branch on it.
++        isInfinite = true;
++        isEmpty = false;
+     }
+ 
+     /// <summary>
+@@ -68,11 +72,13 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     public Region(RegionData rgnData)
+     {
+         regionData = rgnData ?? throw new ArgumentNullException(nameof(rgnData));
+-        // default conservative state - we can't reconstruct the path easily without native calls
+         graphicsPath = new GraphicsPath();
+         rectangle = RectangleF.Empty;
+         isEmpty = false;
+         isInfinite = false;
++        // Region data produced by this implementation carries the bounding rectangle and the state flags,
++        // so a Region can be reconstructed from it instead of coming back empty.
++        TryRestoreFromRegionData(regionData);
+     }
+ 
+     /// <summary>
+@@ -625,6 +631,9 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     public bool IsEmpty(Graphics g)
+     {
+         if (g == null) throw new ArgumentNullException(nameof(g));
++        // An infinite region clears the backing rectangle, so the fallback test below used to report it
++        // as empty - an infinite region is never empty.
++        if (isInfinite) return false;
+         return isEmpty || (rectangle.IsEmpty && graphicsPath.PointCount == 0);
+     }
+ 
+@@ -1147,10 +1156,29 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     public void Translate(float dx, float dy)
+     {
+         if (isInfinite || isEmpty) return;
+-        var m = new System.Drawing.Drawing2D.Matrix();
+-        m.Translate(dx, dy);
+-        graphicsPath.Transform(m);
+-        rectangle = graphicsPath.GetBounds();
++
++        // Shift the region's extent directly. Recomputing it from graphicsPath.GetBounds() discarded the
++        // extent entirely for rectangle-based regions (whose geometry lives in 'rectangle', not the path),
++        // so Translate silently did nothing useful.
++        if (!rectangle.IsEmpty)
++        {
++            rectangle = new RectangleF(rectangle.X + dx, rectangle.Y + dy, rectangle.Width, rectangle.Height);
++        }
++
++        // Move the backing path as well, so path hit-testing follows the translation. (PointCount cannot
++        // be used to detect an empty path here - it only tracks points supplied at construction time.)
++        using (var m = new System.Drawing.Drawing2D.Matrix())
++        {
++            m.Translate(dx, dy);
++            graphicsPath.Transform(m);
++
++            var pathBounds = graphicsPath.GetBounds();
++            if (rectangle.IsEmpty && !pathBounds.IsEmpty)
++            {
++                rectangle = pathBounds;
++            }
++        }
++
+         UpdateRegionData();
+     }
+ 
+@@ -1348,10 +1376,52 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     }
+ 
+     // helper to keep regionData in sync with our simple managed representation.
++    /// <summary>
++    /// Serialized layout of <see cref="RegionData.Data"/>: four floats for the bounding rectangle followed
++    /// by the empty and infinite flags.
++    /// </summary>
++    private const int RegionDataLength = (4 * sizeof(float)) + 2;
++
+     private void UpdateRegionData()
+     {
+-        // RegionData cannot be filled without native or System.Drawing.Region; create fresh placeholder
+-        regionData = new RegionData();
++        // The data used to be an empty placeholder, so a Region could not be round-tripped through its
++        // RegionData. Serialize the bounding rectangle and the state flags instead.
++        var data = new byte[RegionDataLength];
++        Buffer.BlockCopy(BitConverter.GetBytes(rectangle.X), 0, data, 0, sizeof(float));
++        Buffer.BlockCopy(BitConverter.GetBytes(rectangle.Y), 0, data, sizeof(float), sizeof(float));
++        Buffer.BlockCopy(BitConverter.GetBytes(rectangle.Width), 0, data, 2 * sizeof(float), sizeof(float));
++        Buffer.BlockCopy(BitConverter.GetBytes(rectangle.Height), 0, data, 3 * sizeof(float), sizeof(float));
++        data[4 * sizeof(float)] = (byte)(isEmpty ? 1 : 0);
++        data[(4 * sizeof(float)) + 1] = (byte)(isInfinite ? 1 : 0);
++        regionData = new RegionData { Data = data };
++    }
++
++    /// <summary>
++    /// Restores the rectangle and state flags previously written by <see cref="UpdateRegionData"/>.
++    /// Returns false when the data is absent or not in that layout.
++    /// </summary>
++    private bool TryRestoreFromRegionData(RegionData rgnData)
++    {
++        var data = rgnData.Data;
++        if (data == null || data.Length < RegionDataLength)
++        {
++            return false;
++        }
++
++        rectangle = new RectangleF(
++            BitConverter.ToSingle(data, 0),
++            BitConverter.ToSingle(data, sizeof(float)),
++            BitConverter.ToSingle(data, 2 * sizeof(float)),
++            BitConverter.ToSingle(data, 3 * sizeof(float)));
++        isEmpty = data[4 * sizeof(float)] != 0;
++        isInfinite = data[(4 * sizeof(float)) + 1] != 0;
++        graphicsPath = new GraphicsPath();
++        if (!rectangle.IsEmpty)
++        {
++            graphicsPath.AddRectangle(rectangle);
++        }
++
++        return true;
+     }
+ }
+ 
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs b/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs
+index 3e26de69..4d98ecbf 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs
+@@ -25,6 +25,9 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
+ 
+     private CharacterRange[] _ranges = Array.Empty<CharacterRange>();
+ 
++    /// <summary>The ranges set by <see cref="SetMeasurableCharacterRanges" />, for Graphics.MeasureCharacterRanges.</summary>
++    internal CharacterRange[] MeasurableCharacterRanges => _ranges;
++
+     /// <summary>
+     /// Initializes a new
+     /// <see cref="T:System.Drawing.StringFormat" /> object.

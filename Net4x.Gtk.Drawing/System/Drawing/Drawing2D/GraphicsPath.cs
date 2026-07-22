@@ -1623,12 +1623,17 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     /// /// </summary>
     public bool IsOutlineVisible(PointF point, Pen pen)
     {
-        // conservative: check whether point falls inside bounds inflated by pen width
+        // Approximated with the path bounds: the outline is the band of pen width straddling the bounds
+        // edge. Testing only the inflated bounds reported the whole filled interior as "on the outline".
         if (pen == null) throw new ArgumentNullException(nameof(pen));
         var b = GetBounds();
         if (b.IsEmpty) return false;
-        var inflated = RectangleF.Inflate(b, pen.Width / 2f, pen.Width / 2f);
-        return inflated.Contains(point);
+        var half = pen.Width / 2f;
+        var inflated = RectangleF.Inflate(b, half, half);
+        if (!inflated.Contains(point)) return false;
+        var deflated = RectangleF.Inflate(b, -half, -half);
+        if (deflated.Width <= 0f || deflated.Height <= 0f) return true;
+        return !deflated.Contains(point);
     }
 
     /// <summary>
@@ -1801,6 +1806,11 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
     {
         this.PathPoints = null;
         this.PathTypes = null;
+        this.PointCount = 0;
+        // Also clear the accumulated geometry the figure/bounds/hit-testing use, otherwise a "reset" path
+        // still reports the old bounds and segments.
+        this.SizePoints.Clear();
+        this.list.Clear();
         this.FillMode = FillMode.Alternate;
     }
 
@@ -1853,6 +1863,82 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
             matrix.TransformPoints(arr);
             SizePoints[i] = arr[0];
         }
+
+        // Also transform the stored primitives. Without this the shapes kept their original coordinates,
+        // so GetBounds/hit-testing ignored the transform entirely (and Region.Translate appeared to do
+        // nothing). Rect-based shapes are mapped through their corners, i.e. a rotation yields the
+        // bounding box of the rotated shape - exact for translation/scale.
+        foreach (var o in list)
+        {
+            switch (o)
+            {
+                case ArcMode am: am.rect = TransformRectangle(matrix, am.rect); break;
+                case EllipseMode em: em.rect = TransformRectangle(matrix, em.rect); break;
+                case PieMode pm: pm.rect = TransformRectangle(matrix, pm.rect); break;
+                case RectangleMode rm: rm.rect = TransformRectangle(matrix, rm.rect); break;
+                case StringMode sm: sm.layoutRect = TransformRectangle(matrix, sm.layoutRect); break;
+                case RectanglesMode rsm:
+                    if (rsm.rects != null)
+                    {
+                        for (var i = 0; i < rsm.rects.Length; i++)
+                        {
+                            rsm.rects[i] = TransformRectangle(matrix, rsm.rects[i]);
+                        }
+                    }
+
+                    break;
+                case LineMode lm:
+                    {
+                        var pts = new[] { lm.pt1, lm.pt2 };
+                        matrix.TransformPoints(pts);
+                        lm.pt1 = pts[0];
+                        lm.pt2 = pts[1];
+                    }
+
+                    break;
+                case BezierMode bm:
+                    {
+                        var pts = new[] { bm.pt1, bm.pt2, bm.pt3, bm.pt4 };
+                        matrix.TransformPoints(pts);
+                        bm.pt1 = pts[0];
+                        bm.pt2 = pts[1];
+                        bm.pt3 = pts[2];
+                        bm.pt4 = pts[3];
+                    }
+
+                    break;
+                case BeziersMode bzs: if (bzs.points != null) matrix.TransformPoints(bzs.points); break;
+                case LinesMode lsm: if (lsm.points != null) matrix.TransformPoints(lsm.points); break;
+                case PolygonMode pol: if (pol.points != null) matrix.TransformPoints(pol.points); break;
+                case ClosedCurveMode ccm: if (ccm.points != null) matrix.TransformPoints(ccm.points); break;
+                case CurveMode cm: if (cm.points != null) matrix.TransformPoints(cm.points); break;
+            }
+        }
+    }
+
+    /// <summary>Maps a rectangle through <paramref name="matrix"/> and returns the bounding box of the result.</summary>
+    private static RectangleF TransformRectangle(Matrix matrix, RectangleF rect)
+    {
+        var pts = new[]
+        {
+            new PointF(rect.Left, rect.Top),
+            new PointF(rect.Right, rect.Top),
+            new PointF(rect.Right, rect.Bottom),
+            new PointF(rect.Left, rect.Bottom)
+        };
+
+        matrix.TransformPoints(pts);
+
+        float left = pts[0].X, top = pts[0].Y, right = pts[0].X, bottom = pts[0].Y;
+        foreach (var p in pts)
+        {
+            if (p.X < left) left = p.X;
+            if (p.X > right) right = p.X;
+            if (p.Y < top) top = p.Y;
+            if (p.Y > bottom) bottom = p.Y;
+        }
+
+        return new RectangleF(left, top, right - left, bottom - top);
     }
 
     /// <summary>

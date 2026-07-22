@@ -34,6 +34,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
 
     private readonly Gdk.Rectangle rectangle;
 
+    /// <summary>Current clipping bounds; starts as the full surface and follows SetClip/IntersectClip/ResetClip.</summary>
+    private RectangleF _clipBounds;
+
     private readonly Widget? widget;
 
     internal Graphics(Widget? widget, Cairo.Context context, Gdk.Rectangle rectangle) : this(context, rectangle)
@@ -50,6 +53,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     {
         this.context = context;
         this.rectangle = rectangle;
+        this._clipBounds = new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
         this.Clip = new Region(new Rectangle(this.rectangle.X, this.rectangle.Y, this.rectangle.Width, this.rectangle.Height));
     }
 
@@ -69,7 +73,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     {
         get
         {
-            return new RectangleF(this.rectangle.X, this.rectangle.Y, this.rectangle.Width, this.rectangle.Height);
+            return this._clipBounds;
         }
     }
 
@@ -94,18 +98,15 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// <summary>
     /// Gets the horizontal resolution, in dots per inch.
     /// </summary>
-    public float DpiX
-    {
-        get;
-    }
+    public float DpiX => DefaultDpi;
 
     /// <summary>
     /// Gets the vertical resolution, in dots per inch.
     /// </summary>
-    public float DpiY
-    {
-        get;
-    }
+    public float DpiY => DefaultDpi;
+
+    /// <summary>Screen DPI assumed for this surface (GDI+ reports the device DPI; 96 is the norm).</summary>
+    private const float DefaultDpi = 96f;
 
     /// <summary>
     /// Gets or sets the interpolation mode used for scaling operations.
@@ -198,29 +199,33 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// <summary>
     /// Gets or sets the text rendering hint. Not implemented in this wrapper.
     /// </summary>
-    public TextRenderingHint TextRenderingHint
-    {
-        get
-        {
-            throw new System.NotImplementedException();
-        }
-        set
-        {
-        }
-    }
+    public TextRenderingHint TextRenderingHint { get; set; } = TextRenderingHint.SystemDefault;
 
     /// <summary>
-    /// Gets or sets the transformation matrix for this Graphics object.
-    /// Not fully implemented in this wrapper.
+    /// Gets or sets the world transformation matrix for this Graphics object.
     /// </summary>
     public Drawing2D.Matrix Transform
     {
         get
         {
-            throw new System.NotImplementedException();
+            // The getter used to throw and the setter was a no-op, so the world transform could not be
+            // read back or assigned at all. Report the live Cairo matrix instead.
+            var m = this.context.Matrix;
+            if (ReferenceEquals(m, null))
+            {
+                return new Drawing2D.Matrix();
+            }
+
+            return new Drawing2D.Matrix((float)m.Xx, (float)m.Yx, (float)m.Xy, (float)m.Yy, (float)m.X0, (float)m.Y0);
         }
+
         set
         {
+            var converted = ConvertToMatrix(value);
+            if (!ReferenceEquals(converted, null))
+            {
+                this.context.Matrix = converted;
+            }
         }
     }
 
@@ -263,7 +268,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </returns>
     public GraphicsContainer BeginContainer()
     {
-        throw new System.NotImplementedException();
+        // Cairo's state stack gives exactly the save/restore semantics a container needs.
+        this.context.Save();
+        return new GraphicsContainer();
     }
 
     /// <summary>
@@ -272,7 +279,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public GraphicsContainer BeginContainer(Rectangle dstrect, Rectangle srcrect, GraphicsUnit unit)
     {
-        throw new System.NotImplementedException();
+        return BeginContainer(new RectangleF(dstrect.X, dstrect.Y, dstrect.Width, dstrect.Height),
+            new RectangleF(srcrect.X, srcrect.Y, srcrect.Width, srcrect.Height), unit);
     }
 
     /// <summary>
@@ -280,7 +288,16 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public GraphicsContainer BeginContainer(RectangleF dstrect, RectangleF srcrect, GraphicsUnit unit)
     {
-        throw new System.NotImplementedException();
+        this.context.Save();
+        if (srcrect.Width > 0 && srcrect.Height > 0)
+        {
+            // Map the source rectangle onto the destination rectangle for drawing inside the container.
+            this.context.Translate(dstrect.X, dstrect.Y);
+            this.context.Scale(dstrect.Width / srcrect.Width, dstrect.Height / srcrect.Height);
+            this.context.Translate(-srcrect.X, -srcrect.Y);
+        }
+
+        return new GraphicsContainer();
     }
 
     /// <summary>
@@ -330,6 +347,10 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void Dispose()
     {
+        // Flush pending drawing back to the source image (if this Graphics was created via FromImage) and
+        // release the drawing surface. Without this, drawing onto a Bitmap and then disposing the Graphics
+        // never reached the bitmap's pixels.
+        Flush();
     }
 
     /// <summary>
@@ -409,7 +430,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void DrawClosedCurve(Pen pen, PointF[] points)
     {
-        DrawCurveCore(true, false, pen, points, 0, 0, 0, FillMode.Winding);
+        DrawCurveCore(true, false, pen, points, 0, 0, DefaultCurveTension, FillMode.Winding);
     }
 
     /// <summary>
@@ -425,7 +446,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void DrawClosedCurve(Pen pen, Point[] points)
     {
-        DrawCurveCore(true, false, pen, Array.ConvertAll(points, p => new PointF(p.X, p.Y)), 0, 0, 0, FillMode.Winding);
+        DrawCurveCore(true, false, pen, Array.ConvertAll(points, p => new PointF(p.X, p.Y)), 0, 0, DefaultCurveTension, FillMode.Winding);
     }
 
     /// <summary>
@@ -441,7 +462,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void DrawCurve(Pen pen, PointF[] points)
     {
-        DrawCurveCore(false, false, pen, points, 0, 0, 0, FillMode.Winding);
+        DrawCurveCore(false, false, pen, points, 0, 0, DefaultCurveTension, FillMode.Winding);
     }
 
     /// <summary>
@@ -449,7 +470,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void DrawCurve(Pen pen, PointF[] points, int offset, int numberOfSegments)
     {
-        DrawCurveCore(false, false, pen, points, offset, numberOfSegments, 0, FillMode.Winding);
+        DrawCurveCore(false, false, pen, points, offset, numberOfSegments, DefaultCurveTension, FillMode.Winding);
     }
 
     /// <summary>
@@ -473,7 +494,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void DrawCurve(Pen pen, Point[] points)
     {
-        DrawCurveCore(false, false, pen, Array.ConvertAll(points, p => new PointF(p.X, p.Y)), 0, 0, 0, FillMode.Winding);
+        DrawCurveCore(false, false, pen, Array.ConvertAll(points, p => new PointF(p.X, p.Y)), 0, 0, DefaultCurveTension, FillMode.Winding);
     }
 
     /// <summary>
@@ -1098,6 +1119,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void EndContainer(GraphicsContainer container)
     {
+        // Was a no-op, so state changed inside a container leaked out of it.
+        this.context.Restore();
     }
 
     /// <summary>
@@ -1353,17 +1376,41 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     }
 
     /// <summary>
-    /// Excludes the specified rectangle from the current clip region. Not implemented.
+    /// Excludes the specified rectangle from the current clip region.
     /// </summary>
     public void ExcludeClip(Rectangle rect)
     {
+        ExcludeClipCore(new RectangleF(rect.X, rect.Y, rect.Width, rect.Height));
     }
 
     /// <summary>
-    /// Excludes the specified region from the current clip region. Not implemented.
+    /// Excludes the specified region from the current clip region. The region is approximated by its bounds.
     /// </summary>
     public void ExcludeClip(Region region)
     {
+        if (region == null)
+        {
+            return;
+        }
+
+        ExcludeClipCore(region.GetBounds(this));
+    }
+
+    /// <summary>
+    /// Clips to the current clip bounds minus <paramref name="rect"/> using the even-odd fill rule, so that
+    /// painting inside the excluded rectangle is suppressed. Was a no-op, so exclusions never took effect.
+    /// </summary>
+    private void ExcludeClipCore(RectangleF rect)
+    {
+        var outer = this._clipBounds;
+        var previousRule = this.context.FillRule;
+        this.context.NewPath();
+        this.context.Rectangle(outer.X, outer.Y, outer.Width, outer.Height);
+        this.context.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
+        this.context.FillRule = Cairo.FillRule.EvenOdd;
+        this.context.Clip();
+        this.context.FillRule = previousRule;
+        this.context.NewPath();
     }
 
     /// <summary>
@@ -1371,7 +1418,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void FillClosedCurve(Brush brush, PointF[] points)
     {
-        DrawCurveCore(true, true, new Pen(brush, 0), points, 0, 0, 0, FillMode.Winding);
+        DrawCurveCore(true, true, new Pen(brush, 0), points, 0, 0, DefaultCurveTension, FillMode.Winding);
     }
 
     /// <summary>
@@ -1379,7 +1426,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void FillClosedCurve(Brush brush, PointF[] points, FillMode fillmode)
     {
-        DrawCurveCore(true, true, new Pen(brush, 0), points, 0, 0, 0, fillmode);
+        DrawCurveCore(true, true, new Pen(brush, 0), points, 0, 0, DefaultCurveTension, fillmode);
     }
 
     /// <summary>
@@ -1395,7 +1442,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void FillClosedCurve(Brush brush, Point[] points)
     {
-        DrawCurveCore(true, true, new Pen(brush, 0), Array.ConvertAll(points, p => new PointF(p.X, p.Y)), 0, 0, 0, FillMode.Winding);
+        DrawCurveCore(true, true, new Pen(brush, 0), Array.ConvertAll(points, p => new PointF(p.X, p.Y)), 0, 0, DefaultCurveTension, FillMode.Winding);
     }
 
     /// <summary>
@@ -1403,7 +1450,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void FillClosedCurve(Brush brush, Point[] points, FillMode fillmode)
     {
-        DrawCurveCore(true, true, new Pen(brush, 0), Array.ConvertAll(points, p => new PointF(p.X, p.Y)), 0, 0, 0, fillmode);
+        DrawCurveCore(true, true, new Pen(brush, 0), Array.ConvertAll(points, p => new PointF(p.X, p.Y)), 0, 0, DefaultCurveTension, fillmode);
     }
 
     /// <summary>
@@ -1565,6 +1612,18 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void FillRegion(Brush brush, Region region)
     {
+        // Was a no-op, so FillRegion painted nothing at all. Fill the region's extent: exact for the
+        // rectangular/path regions this shim models, matching Region's own bounds-based GetRegionScans.
+        if (brush == null || region == null)
+        {
+            return;
+        }
+
+        var bounds = region.GetBounds(this);
+        if (bounds.Width > 0 && bounds.Height > 0)
+        {
+            FillRectangle(brush, bounds);
+        }
     }
 
     /// <summary>
@@ -1709,7 +1768,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public Color GetNearestColor(Color color)
     {
-        throw new System.NotImplementedException();
+        // Rendering targets here are 32bpp ARGB, so every colour is representable exactly.
+        return color;
     }
 
     /// <summary>
@@ -1717,6 +1777,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void IntersectClip(Rectangle rect)
     {
+        // Was a no-op, so narrowing an existing clip had no effect at all.
+        SetClip(rect, CombineMode.Intersect);
     }
 
     /// <summary>
@@ -1724,13 +1786,21 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void IntersectClip(RectangleF rect)
     {
+        SetClip(rect, CombineMode.Intersect);
     }
 
     /// <summary>
-    /// Intersects the clip region with the specified region. Not implemented.
+    /// Intersects the clip region with the specified region.
     /// </summary>
     public void IntersectClip(Region region)
     {
+        // Was a no-op, so narrowing the clip with a region had no effect at all.
+        if (region == null)
+        {
+            return;
+        }
+
+        SetClip(region, CombineMode.Intersect);
     }
 
     /// <summary>
@@ -1802,7 +1872,31 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public Region[] MeasureCharacterRanges(string text, Font font, RectangleF layoutRect, StringFormat stringFormat)
     {
-        throw new System.NotImplementedException();
+        // Was throwing NotImplementedException. Produce one region per requested range, positioned by
+        // measuring the text that precedes it and sized by measuring the range itself.
+        var ranges = stringFormat?.MeasurableCharacterRanges;
+        if (text == null || font == null || ranges == null || ranges.Length == 0)
+        {
+            return Array.Empty<Region>();
+        }
+
+        var regions = new Region[ranges.Length];
+        for (var i = 0; i < ranges.Length; i++)
+        {
+            var first = Math.Max(0, Math.Min(ranges[i].First, text.Length));
+            var length = Math.Max(0, Math.Min(ranges[i].Length, text.Length - first));
+
+            var before = MeasureString(text.Substring(0, first), font);
+            var measured = MeasureString(text.Substring(first, length), font);
+
+            regions[i] = new Region(new RectangleF(
+                layoutRect.X + before.Width,
+                layoutRect.Y,
+                measured.Width,
+                measured.Height));
+        }
+
+        return regions;
     }
 
     /// <summary>
@@ -1906,7 +2000,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void MultiplyTransform(Drawing2D.Matrix matrix)
     {
-        this.context.Matrix?.Multiply(ConvertToMatrix(matrix));
+        MultiplyTransform(matrix, MatrixOrder.Prepend);
     }
 
     /// <summary>
@@ -1914,7 +2008,31 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void MultiplyTransform(Drawing2D.Matrix matrix, MatrixOrder order)
     {
-        this.context.Matrix?.Multiply(ConvertToMatrix(matrix));
+        // context.Matrix returns a copy, so multiplying it in place changed nothing; the product has to be
+        // assigned back for the world transform to actually change.
+        var factor = ConvertToMatrix(matrix);
+        if (ReferenceEquals(factor, null))
+        {
+            return;
+        }
+
+        var current = this.context.Matrix;
+        if (ReferenceEquals(current, null))
+        {
+            this.context.Matrix = factor;
+            return;
+        }
+
+        if (order == MatrixOrder.Prepend)
+        {
+            factor.Multiply(current);
+            this.context.Matrix = factor;
+        }
+        else
+        {
+            current.Multiply(factor);
+            this.context.Matrix = current;
+        }
     }
 
     /// <summary>
@@ -1946,6 +2064,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     public void ResetClip()
     {
         this.context.ResetClip();
+        this._clipBounds = new RectangleF(this.rectangle.X, this.rectangle.Y, this.rectangle.Width, this.rectangle.Height);
     }
 
     /// <summary>
@@ -1953,7 +2072,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void ResetTransform()
     {
-        this.context.Rotate(Math.PI / 180 * _angle * -1);
+        // Only the rotation was being undone, so translations and scales survived a ResetTransform.
+        this.context.Matrix = new Cairo.Matrix(1, 0, 0, 1, 0, 0);
+        this._angle = 0;
     }
 
     /// <summary>
@@ -2013,17 +2134,26 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     }
 
     /// <summary>
-    /// Sets the clipping region to the specified path. Not implemented.
+    /// Sets the clipping region to the specified path.
     /// </summary>
     public void SetClip(GraphicsPath path)
     {
+        SetClip(path, CombineMode.Replace);
     }
 
     /// <summary>
-    /// Sets the clipping region to the specified path with combine mode. Not implemented.
+    /// Sets the clipping region to the specified path with combine mode. The path is approximated by its
+    /// bounding rectangle, matching how <see cref="SetClip(Region, CombineMode)"/> handles regions.
     /// </summary>
     public void SetClip(GraphicsPath path, CombineMode combineMode)
     {
+        // Was a no-op, so clipping to a path never restricted anything.
+        if (path == null)
+        {
+            return;
+        }
+
+        SetClip(path.GetBounds(), combineMode);
     }
 
     /// <summary>
@@ -2072,12 +2202,32 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void SetClip(RectangleF rect, CombineMode combineMode)
     {
+        // Cairo's Clip() always intersects with the existing clip, so a Replace has to drop the current
+        // clip first; otherwise SetClip could only ever shrink the clipped area.
+        if (combineMode == CombineMode.Replace)
+        {
+            context.ResetClip();
+        }
+
         context.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
         context.Clip();
+
+        this._clipBounds = combineMode == CombineMode.Replace
+            ? rect
+            : RectangleF.Intersect(this._clipBounds, rect);
     }
 
     /// <summary>
-    /// Sets the clipping region to the specified region with combine mode. Not implemented.
+    /// Sets the clipping region to the specified region.
+    /// </summary>
+    public void SetClip(Region region)
+    {
+        // The Region overload of SetClip was missing entirely, so callers could not clip with a Region.
+        SetClip(region, CombineMode.Replace);
+    }
+
+    /// <summary>
+    /// Sets the clipping region to the specified region with combine mode.
     /// </summary>
     public void SetClip(Region region, CombineMode combineMode)
     {
@@ -2090,6 +2240,28 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void TransformPoints(CoordinateSpace destSpace, CoordinateSpace srcSpace, PointF[] pts)
     {
+        if (pts == null || destSpace == srcSpace)
+        {
+            return;
+        }
+
+        // World -> Device applies the current transform; the reverse undoes it.
+        var toDevice = destSpace == CoordinateSpace.Device;
+        for (var i = 0; i < pts.Length; i++)
+        {
+            double x = pts[i].X;
+            double y = pts[i].Y;
+            if (toDevice)
+            {
+                this.context.UserToDevice(ref x, ref y);
+            }
+            else
+            {
+                this.context.DeviceToUser(ref x, ref y);
+            }
+
+            pts[i] = new PointF((float)x, (float)y);
+        }
     }
 
     /// <summary>
@@ -2104,17 +2276,21 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public void TranslateClip(int dx, int dy)
     {
-        TranslateClip(dx, dy);
+        // This called itself instead of the float overload, so any use of it overflowed the stack.
+        TranslateClip((float)dx, (float)dy);
     }
 
     /// <summary>
-    /// Translates the clip region by the specified floating point amounts. Not implemented.
+    /// Translates the clip region by the specified floating point amounts.
     /// </summary>
     public void TranslateClip(float dx, float dy)
     {
-        Cairo.Rectangle rectangle = context.ClipExtents();
-        context.Rectangle(rectangle.X + dx, rectangle.Y + dy, rectangle.Width, rectangle.Height);
-        context.Clip();
+        // Cairo's Clip() only ever intersects, so translating onto a disjoint area used to clip everything
+        // away. Replace the clip with the shifted rectangle instead.
+        var extents = context.ClipExtents();
+        SetClip(
+            new RectangleF((float)(extents.X + dx), (float)(extents.Y + dy), (float)extents.Width, (float)extents.Height),
+            CombineMode.Replace);
     }
 
     /// <summary>
@@ -2249,10 +2425,27 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             var cairoMatrix = new Cairo.Matrix(matrix.m11, matrix.m12, matrix.m21, matrix.m22, matrix.dx, matrix.dy);
             cairoMatrix.Init(matrix.m11, matrix.m12, matrix.m21, matrix.m22, matrix.dx, matrix.dy);
 
-            cairoMatrix.Translate(matrix.OffsetX, matrix.OffsetY);
-            cairoMatrix.Scale(matrix.scaleX, matrix.scaleY);
-            cairoMatrix.Rotate(matrix.angle);
-            cairoMatrix.Multiply(ConvertToMatrix(matrix.multiply));
+            // scaleX/scaleY default to 0 and were applied unconditionally, collapsing every matrix that had
+            // never been scaled to all-zero. Only apply a scale that was actually requested.
+            if (matrix.scaleX != 0f || matrix.scaleY != 0f)
+            {
+                cairoMatrix.Scale(matrix.scaleX, matrix.scaleY);
+            }
+
+            // Matrix.Rotate takes degrees; Cairo takes radians.
+            if (matrix.angle != 0f)
+            {
+                cairoMatrix.Rotate(Math.PI / 180 * matrix.angle);
+            }
+
+            // Cairo.Matrix.Multiply(null) aborts the process natively, so only multiply when there is one.
+            // Cairo.Matrix overloads == and dereferences both sides, so compare by reference instead.
+            var nested = ConvertToMatrix(matrix.multiply);
+            if (!ReferenceEquals(nested, null))
+            {
+                cairoMatrix.Multiply(nested);
+            }
+
             if (matrix.invert)
                 cairoMatrix.Invert();
 
@@ -2280,6 +2473,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         DrawLinesCore(pen, data.ToArray());
     }
 
+    /// <summary>GDI+'s default cardinal-spline tension for the overloads that do not take one.</summary>
+    private const float DefaultCurveTension = 0.5f;
+
     private void DrawCurveCore(bool isClosePath, bool isfill, Pen pen, PointF[] points, int offset, int numberOfSegments, float tension, FillMode fillmode)
     {
         if (points.Length > 1)
@@ -2288,7 +2484,34 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             this.SetTranslateWithDifference(offset, offset);
             this.SetSourcePen(pen, isfill);
             this.context.NewPath();
-            this.context.CurveTo(points[0].X, points[0].Y, points[1].X, points[1].Y, points[2].X, points[2].Y);
+
+            // Draw a cardinal spline through EVERY point. The previous code emitted a single Bezier from
+            // points[0..2], so any further points were ignored (and a 2-point curve threw).
+            var count = points.Length;
+            var segments = isClosePath ? count : count - 1;
+            this.context.MoveTo(points[0].X, points[0].Y);
+            for (var i = 0; i < segments; i++)
+            {
+                var p1 = points[i % count];
+                var p2 = points[(i + 1) % count];
+                PointF p0, p3;
+                if (isClosePath)
+                {
+                    p0 = points[((i - 1) + count) % count];
+                    p3 = points[(i + 2) % count];
+                }
+                else
+                {
+                    p0 = points[Math.Max(0, i - 1)];
+                    p3 = points[Math.Min(count - 1, i + 2)];
+                }
+
+                var scale = tension / 3f;
+                var c1 = new PointF(p1.X + ((p2.X - p0.X) * scale), p1.Y + ((p2.Y - p0.Y) * scale));
+                var c2 = new PointF(p2.X - ((p3.X - p1.X) * scale), p2.Y - ((p3.Y - p1.Y) * scale));
+                this.context.CurveTo(c1.X, c1.Y, c2.X, c2.Y, p2.X, p2.Y);
+            }
+
             if (isClosePath)
                 this.context.ClosePath();
             if (isfill)
@@ -2349,7 +2572,12 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         {
             var scaleimg = new Gdk.Pixbuf(surface, 0, 0, destRect.Width, destRect.Height);
 
-            img.Scale(scaleimg, 0, 0, destRect.Width, destRect.Height, srcX, srcY, destRect.Width / srcWidth, destRect.Height / srcHeight, Gdk.InterpType.Tiles);
+            // Gdk's offsetX/offsetY position the SCALED source inside the destination, so selecting the
+            // source sub-rectangle needs -srcX*scale (passing srcX directly ignored the source rectangle
+            // and drew the wrong part of the image).
+            var scaleX = destRect.Width / srcWidth;
+            var scaleY = destRect.Height / srcHeight;
+            img.Scale(scaleimg, 0, 0, destRect.Width, destRect.Height, -srcX * scaleX, -srcY * scaleY, scaleX, scaleY, Gdk.InterpType.Tiles);
             this.context.Save();
             this.SetTranslateWithDifference(destRect.X, destRect.Y);
             Gdk.CairoHelper.SetSourcePixbuf(this.context, scaleimg, 0, 0);
@@ -2387,7 +2615,12 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         using (var surface = new Cairo.ImageSurface(Cairo.Format.Argb32, width, height))
         {
             var newimg = new Gdk.Pixbuf(surface, 0, 0, width, height);
-            img.CopyArea(x, y, width, height, newimg, 0, 0);
+            // Copy from the SOURCE origin: (x,y) is the destination position (applied below via
+            // SetTranslateWithDifference), not an offset into the source image. Using it here read a
+            // region outside the source, so nothing was drawn.
+            var copyWidth = Math.Min(width, img.Width);
+            var copyHeight = Math.Min(height, img.Height);
+            img.CopyArea(0, 0, copyWidth, copyHeight, newimg, 0, 0);
             this.context.Save();
             using (var p = this.context.GetSource())
             {

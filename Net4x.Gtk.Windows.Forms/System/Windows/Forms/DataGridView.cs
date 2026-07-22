@@ -1049,7 +1049,21 @@ public partial class DataGridView : ScrollableControl
         get => _rows.Count;
         set
         {
-            while (value > _rows.Count) { _rows.RemoveAt(_rows.Count - 1); }
+            // The loop was inverted: growing the grid spun forever removing rows until RemoveAt(-1) threw.
+            if (value < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value));
+            }
+
+            while (_rows.Count > value)
+            {
+                _rows.RemoveAt(_rows.Count - 1);
+            }
+
+            while (_rows.Count < value)
+            {
+                _rows.Add(new DataGridViewRow());
+            }
         }
     }
 

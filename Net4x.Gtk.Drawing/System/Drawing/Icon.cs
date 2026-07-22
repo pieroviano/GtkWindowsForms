@@ -343,12 +343,9 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
     /// <see cref="T:System.Drawing.Size" /> structure that specifies the width and height of this
     /// <see cref="T:System.Drawing.Icon" />.
     /// </returns>
-    public Size Size
-    {
-        get;
-
-        private set;
-    }
+    // Derived from Width/Height: Size was a never-assigned auto-property, so it always reported 0x0 even
+    // though Width/Height were populated from the loaded icon.
+    public Size Size => new Size(Width, Height);
 
     /// <summary>
     /// Gets the width of this

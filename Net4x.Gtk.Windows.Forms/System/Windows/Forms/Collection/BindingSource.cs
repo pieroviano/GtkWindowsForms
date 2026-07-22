@@ -1639,7 +1639,9 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
             _dataSource = null;
             _sort = null;
             _dataMember = null;
-            _innerList.Clear();
+            // This cleared the caller's own list: disposing a BindingSource destroyed the bound data,
+            // and on a DataView-backed source Clear() throws outright. Just drop the reference.
+            _innerList = new ArrayList();
             _isBindingList = false;
             _needToSetList = true;
             _raiseListChangedEvents = false;
