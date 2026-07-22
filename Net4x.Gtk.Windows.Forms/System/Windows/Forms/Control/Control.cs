@@ -58,6 +58,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     Surface? surface;
 
+    // Off-screen backing surface for CreateGraphics. It must NOT be tied to the live GDK Window:
+    // deriving the draw surface from Widget.Window (as upstream/gitee does) corrupts GTK's own
+    // rendering when CreateGraphics runs inside the realize/Load path of a modal dialog, throwing a
+    // NullReferenceException out of Gtk.Dialog.Run(). See RegionTests.
+    ImageSurface? image;
+
     private AnchorStyles _anchor;
 
     private bool _autoSize;
@@ -1834,11 +1840,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         try
         {
+            if (image == null)
+                image = new Cairo.ImageSurface(Cairo.Format.Argb32, this.Widget?.AllocatedWidth ?? 0, this.Widget?.AllocatedHeight ?? 0);
+
             surface?.Dispose();
-            surface = this.Widget?.Window?.CreateSimilarSurface(Cairo.Content.ColorAlpha, this.Widget?.AllocatedWidth ?? 0, this.Widget?.AllocatedHeight ?? 0);
+            surface = image.CreateSimilar(Cairo.Content.ColorAlpha, this.Widget?.AllocatedWidth ?? 0, this.Widget?.AllocatedHeight ?? 0);
             context?.Dispose();
-            context = surface == null ? null : new Cairo.Context(surface);
-            return new Drawing.Graphics(this.Widget, context!, this.Widget?.Allocation ?? default);
+            context = new Cairo.Context(surface);
+            return new Drawing.Graphics(this.Widget, context, this.Widget?.Allocation ?? default);
         }
         catch (Exception ex)
         {

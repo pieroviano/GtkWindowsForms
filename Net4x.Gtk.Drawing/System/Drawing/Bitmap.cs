@@ -95,9 +95,23 @@ public class Bitmap : Image
         {
             var bytes = reader.ReadBytes((int)stream.Length);
             this.PixbufData = bytes;
-            this.Pixbuf = new Gdk.Pixbuf(bytes);
-            this.Width = this.Pixbuf.Width;
-            this.Height = this.Pixbuf.Height;
+            try
+            {
+                this.Pixbuf = new Gdk.Pixbuf(bytes);
+                this.Width = this.Pixbuf.Width;
+                this.Height = this.Pixbuf.Height;
+            }
+            catch (GLib.GException ex)
+            {
+                // Invalid/unsupported image data must not throw out of the constructor: System.Drawing
+                // still produces a Bitmap, and callers (e.g. ImageConverter.ConvertFrom) rely on that.
+                // Keep the raw bytes in PixbufData and leave the pixbuf empty. See
+                // .github/copilot-instructions.md. (Upstream's eager ctor dropped this tolerance.)
+                System.Diagnostics.GtkLogger.Debug("Failed to create Pixbuf from stream bytes", ex);
+                this.Pixbuf = null;
+                this.Width = 0;
+                this.Height = 0;
+            }
         }
     }
 

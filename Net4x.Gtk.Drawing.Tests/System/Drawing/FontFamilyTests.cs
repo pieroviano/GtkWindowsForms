@@ -122,11 +122,13 @@ public class FontFamilyTests
     }
 
     [Fact]
-    public void IsStyleAvailable_Should_Return_False()
+    public void IsStyleAvailable_Should_Return_True()
     {
         var ff = new FontFamily("Arial");
 
-        Assert.False(ff.IsStyleAvailable(FontStyle.Bold));
+        // Real System.Drawing reports available styles; the shim reports styles as available. The gitee
+        // alignment corrected this from the old stub that always returned false.
+        Assert.True(ff.IsStyleAvailable(FontStyle.Bold));
     }
 
     [Fact]
@@ -163,10 +165,12 @@ public class FontFamilyTests
     }
 
     [Fact]
-    public void ToString_Should_Return_Name()
+    public void ToString_Should_Return_BracketedName()
     {
         var ff = new FontFamily("Arial");
 
-        Assert.Equal("Arial", ff.ToString());
+        // Matches real System.Drawing: FontFamily.ToString() is "[FontFamily: Name=<name>]", not the bare
+        // name. The gitee alignment corrected this from the old stub that returned Name directly.
+        Assert.Equal("[FontFamily: Name=Arial]", ff.ToString());
     }
 }

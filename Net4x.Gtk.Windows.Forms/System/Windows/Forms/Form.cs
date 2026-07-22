@@ -832,9 +832,28 @@ public partial class Form : ContainerControl, IWin32Window
     /// </returns>
     public DialogResult ShowDialog(IWin32Window? owner)
     {
+        if (owner == this)
+        {
+            throw new ArgumentException("OwnsSelfOrOwner", "showDialog");
+        }
+
+        if (base.Visible)
+        {
+            throw new InvalidOperationException("ShowDialogOnVisible");
+        }
+
+        if (!base.Enabled)
+        {
+            throw new InvalidOperationException("ShowDialogOnDisabled");
+        }
         Show(owner);
-        self.TypeHint = Gdk.WindowTypeHint.Dialog;
-        var irun = self.Run();
+        // A handler of the Load event (raised during Show) may Close() the form, which disposes it. Only
+        // enter the modal loop while the native dialog is still alive; otherwise self.Run() dereferences a
+        // disposed/null dialog.
+        if (self != null)
+        {
+            var irun = self.Run();
+        }
 
         return this.DialogResult;
     }
@@ -871,7 +890,9 @@ public partial class Form : ContainerControl, IWin32Window
     protected override void Dispose(bool disposing)
     {
         base.Dispose(disposing);
-        self = null!;
+        // NOTE: upstream (gitee) sets `self = null!;` here. That turns any later access to the form's
+        // window into a NullReferenceException - e.g. ShowDialog closed from its own Load handler, where
+        // Run() then dereferences the nulled field. The fork keeps the (disposed) reference instead.
     }
 
     /// <summary>
