@@ -3,7 +3,7 @@
   <Import Project="Directory.Nuget.Props" Condition="'$(DirectoryNuGet)'==''" />
   <PropertyGroup>
     <VersionPrefix>$(Net4xGtkWindowsFormsVersion)</VersionPrefix>
-    <VersionSuffix>26203</VersionSuffix>
+    <VersionSuffix>26204</VersionSuffix>
     <MinimalDirectoryNuGetProps>true</MinimalDirectoryNuGetProps>
     <SolutionDir Condition="'$(SolutionDir)'==''">$(MSBuildThisFileDirectory)</SolutionDir>
     <IncludeSymbols>true</IncludeSymbols>

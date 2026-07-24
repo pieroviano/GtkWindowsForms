@@ -245,7 +245,7 @@ Adding the package reference to Gtk.Windows.Forms in the .csproj file:
 
 ```
     <ItemGroup>
-		<PackageReference Include="Gtk.Windows.Forms" Version="1.3.24.26085" />
+		<PackageReference Include="Gtk.Windows.Forms" Version="1.3.24.26204" />
 	</ItemGroup>
 ```
 ### 5. Remove `<UseWindowsForms>true</UseWindowsForms>` and replace `netX.0-windows` with `netX.0` in the `<TargetFramework>` element of the .csproj file to make it cross-platform compatible.

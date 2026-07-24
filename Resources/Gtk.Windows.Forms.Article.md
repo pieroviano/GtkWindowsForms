@@ -78,7 +78,7 @@ Edit your `.csproj`:
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Gtk.Windows.Forms" Version="1.3.24.26085" />
+  <PackageReference Include="Gtk.Windows.Forms" Version="1.3.24.26204" />
 </ItemGroup>
 ```
 
