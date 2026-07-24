@@ -966,6 +966,8 @@ public partial class Form : ContainerControl, IWin32Window
     protected virtual void OnFormClosed(System.Windows.Forms.FormClosedEventArgs e)
     {
         FormClosed?.Invoke(this, e);
+        // Also raise the legacy Closed event so pre-2.0 source keeps working.
+        OnClosed(EventArgs.Empty);
     }
 
     /// <summary>
@@ -974,6 +976,13 @@ public partial class Form : ContainerControl, IWin32Window
     protected virtual void OnFormClosing(System.Windows.Forms.FormClosingEventArgs e)
     {
         FormClosing?.Invoke(this, e);
+        // Also raise the legacy Closing event; propagate its cancellation back to the modern args.
+        var closing = new System.ComponentModel.CancelEventArgs(e.Cancel);
+        OnClosing(closing);
+        if (closing.Cancel)
+        {
+            e.Cancel = true;
+        }
     }
 
     /// <summary>
@@ -1016,6 +1025,8 @@ public partial class Form : ContainerControl, IWin32Window
         self.Shown += Control_Shown;
         self.CloseWindowEvent += Self_CloseWindowEvent;
         self.KeyPressEvent += Self_AcceptCancelKeyPressEvent;
+        self.FocusInEvent += (o, a) => OnActivated(EventArgs.Empty);
+        self.FocusOutEvent += (o, a) => OnDeactivate(EventArgs.Empty);
     }
 
     /// <summary>
@@ -1026,6 +1037,19 @@ public partial class Form : ContainerControl, IWin32Window
     /// </summary>
     private void Self_AcceptCancelKeyPressEvent(object o, Gtk.KeyPressEventArgs args)
     {
+        // Give a ProcessCmdKey override the first chance at the key, as WinForms does. The key is mapped to
+        // its WinForms Keys value (with modifiers) and packaged in a WM_KEYDOWN message.
+        var keyData = GdkToKeys(args.Event);
+        if (keyData != Keys.None)
+        {
+            var msg = Message.Create(Handle, 0x0100, (IntPtr)(int)keyData, IntPtr.Zero);
+            if (ProcessCmdKey(ref msg, keyData))
+            {
+                args.RetVal = true;
+                return;
+            }
+        }
+
         var key = args.Event.Key;
         if ((key == Gdk.Key.Return || key == Gdk.Key.KP_Enter) && _acceptButton != null)
         {
@@ -1037,6 +1061,87 @@ public partial class Form : ContainerControl, IWin32Window
             ActivateDialogButton(_cancelButton);
             args.RetVal = true;
         }
+    }
+
+    /// <summary>
+    /// Maps a GTK key event, including its Control/Alt/Shift modifiers, to the equivalent WinForms
+    /// <see cref="T:System.Windows.Forms.Keys" /> value so it can be routed through
+    /// <see cref="M:System.Windows.Forms.Control.ProcessCmdKey(System.Windows.Forms.Message@,System.Windows.Forms.Keys)" />.
+    /// Covers the letters, digits, function keys and the common editing keys; unmapped keys return
+    /// <see cref="F:System.Windows.Forms.Keys.None" />.
+    /// </summary>
+    /// <param name="e">The GTK key event.</param>
+    /// <returns>The WinForms key data, or <see cref="F:System.Windows.Forms.Keys.None" /> when unmapped.</returns>
+    private static Keys GdkToKeys(Gdk.EventKey e)
+    {
+        var val = (uint)e.Key;
+        Keys keys;
+        if (val >= 0x41 && val <= 0x5A)
+        {
+            keys = (Keys)val;                 // A-Z
+        }
+        else if (val >= 0x61 && val <= 0x7A)
+        {
+            keys = (Keys)(val - 0x20);        // a-z -> A-Z
+        }
+        else if (val >= 0x30 && val <= 0x39)
+        {
+            keys = (Keys)val;                 // 0-9 (Keys.D0-D9)
+        }
+        else
+        {
+            keys = e.Key switch
+            {
+                Gdk.Key.Return or Gdk.Key.KP_Enter => Keys.Return,
+                Gdk.Key.Escape => Keys.Escape,
+                Gdk.Key.Tab => Keys.Tab,
+                Gdk.Key.space => Keys.Space,
+                Gdk.Key.BackSpace => Keys.Back,
+                Gdk.Key.Delete => Keys.Delete,
+                Gdk.Key.Insert => Keys.Insert,
+                Gdk.Key.Home => Keys.Home,
+                Gdk.Key.End => Keys.End,
+                Gdk.Key.Left => Keys.Left,
+                Gdk.Key.Right => Keys.Right,
+                Gdk.Key.Up => Keys.Up,
+                Gdk.Key.Down => Keys.Down,
+                Gdk.Key.F1 => Keys.F1,
+                Gdk.Key.F2 => Keys.F2,
+                Gdk.Key.F3 => Keys.F3,
+                Gdk.Key.F4 => Keys.F4,
+                Gdk.Key.F5 => Keys.F5,
+                Gdk.Key.F6 => Keys.F6,
+                Gdk.Key.F7 => Keys.F7,
+                Gdk.Key.F8 => Keys.F8,
+                Gdk.Key.F9 => Keys.F9,
+                Gdk.Key.F10 => Keys.F10,
+                Gdk.Key.F11 => Keys.F11,
+                Gdk.Key.F12 => Keys.F12,
+                _ => Keys.None,
+            };
+        }
+
+        if (keys == Keys.None)
+        {
+            return Keys.None;
+        }
+
+        if (e.State.HasFlag(Gdk.ModifierType.ControlMask))
+        {
+            keys |= Keys.Control;
+        }
+
+        if (e.State.HasFlag(Gdk.ModifierType.Mod1Mask))
+        {
+            keys |= Keys.Alt;
+        }
+
+        if (e.State.HasFlag(Gdk.ModifierType.ShiftMask))
+        {
+            keys |= Keys.Shift;
+        }
+
+        return keys;
     }
 
     /// <summary>
