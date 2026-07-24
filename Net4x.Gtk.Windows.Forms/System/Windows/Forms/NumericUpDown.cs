@@ -13,7 +13,7 @@ namespace System.Windows.Forms;
 /// Represents a Windows spin box (also known as an up-down control) that displays numeric values.
 /// </summary>
 [DesignerCategory("Component")]
-public partial class NumericUpDown : Control
+public partial class NumericUpDown : UpDownBase
 {
     /// <summary>
     /// The self
@@ -101,6 +101,43 @@ public partial class NumericUpDown : Control
     {
         get { return Convert.ToDecimal(self.Value); }
         set { self.Value = Convert.ToDouble(value); }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the numeric value can be edited only with the up and down
+    /// buttons.
+    /// </summary>
+    public override bool ReadOnly
+    {
+        get => self.IsEditable == false;
+        set => self.IsEditable = value == false;
+    }
+
+    /// <summary>
+    /// Gets or sets the text displayed in the spin box.
+    /// </summary>
+    public override string Text
+    {
+        get => self.Text;
+        set => self.Text = value ?? string.Empty;
+    }
+
+    /// <summary>
+    /// Increments the value of the spin box by the amount specified by the
+    /// <see cref="P:System.Windows.Forms.NumericUpDown.Increment" /> property.
+    /// </summary>
+    public override void UpButton()
+    {
+        Value = Math.Min(Maximum, Value + Increment);
+    }
+
+    /// <summary>
+    /// Decrements the value of the spin box by the amount specified by the
+    /// <see cref="P:System.Windows.Forms.NumericUpDown.Increment" /> property.
+    /// </summary>
+    public override void DownButton()
+    {
+        Value = Math.Max(Minimum, Value - Increment);
     }
 
     /// <summary>
