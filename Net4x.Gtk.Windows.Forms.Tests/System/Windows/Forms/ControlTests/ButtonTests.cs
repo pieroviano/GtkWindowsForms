@@ -19,7 +19,7 @@ public class ButtonTests
         var button = new Button();
         form.Controls.Add(button);
         object? buttonGtkControl = null;
-        ButtonBase? buttonSelf = null;
+        GtkSystem.Windows.Forms.GtkControls.ControlBase.ButtonBase? buttonSelf = null;
         form.Load += (s, e) =>
         {
             buttonGtkControl = button.GtkControl;

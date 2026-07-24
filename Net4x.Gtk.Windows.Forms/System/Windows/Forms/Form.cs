@@ -177,6 +177,39 @@ public partial class Form : ContainerControl, IWin32Window
         set;
     }
 
+    private IButtonControl? _acceptButton;
+    private IButtonControl? _cancelButton;
+
+    /// <summary>
+    /// Gets or sets the button on the form that is clicked when the user presses the ENTER key.
+    /// </summary>
+    /// <remarks>
+    /// The button's GTK widget is made the window's default widget, so ENTER activates it natively; the
+    /// form additionally applies the button's dialog result and closes, as WinForms does.
+    /// </remarks>
+    public IButtonControl? AcceptButton
+    {
+        get => _acceptButton;
+        set
+        {
+            _acceptButton = value;
+            if (value is Control control && control.Widget is Gtk.Widget widget)
+            {
+                widget.CanDefault = true;
+                self.Default = widget;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the button control that is clicked when the user presses the ESC key.
+    /// </summary>
+    public IButtonControl? CancelButton
+    {
+        get => _cancelButton;
+        set => _cancelButton = value;
+    }
+
     /// <summary>
     /// Gets or sets the border style of the form.
     /// </summary>
@@ -982,6 +1015,43 @@ public partial class Form : ContainerControl, IWin32Window
         _ObjectCollection = new ControlCollection(this, self.contaner);
         self.Shown += Control_Shown;
         self.CloseWindowEvent += Self_CloseWindowEvent;
+        self.KeyPressEvent += Self_AcceptCancelKeyPressEvent;
+    }
+
+    /// <summary>
+    /// Routes Enter to <see cref="P:System.Windows.Forms.Form.AcceptButton" /> and Escape to
+    /// <see cref="P:System.Windows.Forms.Form.CancelButton" />, mirroring WinForms' default-button behaviour.
+    /// This handles keyboard activation only; mouse clicks flow through the button's own release handler, so
+    /// the two paths do not double-fire.
+    /// </summary>
+    private void Self_AcceptCancelKeyPressEvent(object o, Gtk.KeyPressEventArgs args)
+    {
+        var key = args.Event.Key;
+        if ((key == Gdk.Key.Return || key == Gdk.Key.KP_Enter) && _acceptButton != null)
+        {
+            ActivateDialogButton(_acceptButton);
+            args.RetVal = true;
+        }
+        else if (key == Gdk.Key.Escape && _cancelButton != null)
+        {
+            ActivateDialogButton(_cancelButton);
+            args.RetVal = true;
+        }
+    }
+
+    /// <summary>
+    /// Raises the button's click and, when it carries a dialog result, applies it to the form and closes,
+    /// matching how WinForms' accept/cancel buttons dismiss a dialog.
+    /// </summary>
+    /// <param name="button">The accept or cancel button being activated by the keyboard.</param>
+    private void ActivateDialogButton(IButtonControl button)
+    {
+        (button as Control)?.PerformClick();
+        if (button is Button concrete && concrete.DialogResult != DialogResult.None)
+        {
+            DialogResult = concrete.DialogResult;
+            Close();
+        }
     }
 
     private void OnShownHandler()

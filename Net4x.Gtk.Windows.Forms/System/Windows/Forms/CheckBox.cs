@@ -17,14 +17,12 @@ namespace System.Windows.Forms;
 /// <filterpriority> 1
 /// </filterpriority>
 [DesignerCategory("Component")]
-public partial class CheckBox : Control
+public partial class CheckBox : ButtonBase
 {
     /// <summary>
     /// The self
     /// </summary>
     public readonly CheckBoxBase self = new();
-
-    private System.Drawing.ContentAlignment textAlign;
 
     /// <summary>
     /// Occurs when checked is changed.
@@ -57,23 +55,6 @@ public partial class CheckBox : Control
     {
         get => self.DrawIndicator ? Appearance.Normal : Appearance.Button;
         set { self.DrawIndicator = value == Appearance.Normal; }
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the ellipsis character (...) appears at the right edge of the control, denoting that the text extends beyond the specified length of the control.
-    /// </summary>
-    /// <value>
-    /// <c>
-    /// true
-    /// </c> if the text is truncated with an ellipsis; otherwise,
-    /// <c>
-    /// false
-    /// </c>.
-    /// </value>
-    public bool AutoEllipsis
-    {
-        get;
-        set;
     }
 
     /// <summary>
@@ -127,63 +108,15 @@ public partial class CheckBox : Control
     }
 
     /// <summary>
-    /// Gets or sets the text align.
+    /// Applies the alignment factors produced from
+    /// <see cref="P:System.Windows.Forms.ButtonBase.TextAlign" /> to the GTK check box.
     /// </summary>
-    /// <value>
-    /// The text align.
-    /// </value>
-    public System.Drawing.ContentAlignment TextAlign
+    /// <param name="xAlign">The horizontal alignment factor.</param>
+    /// <param name="yAlign">The vertical alignment factor.</param>
+    protected override void SetContentAlignmentCore(float xAlign, float yAlign)
     {
-        get { return textAlign; }
-        set
-        {
-            textAlign = value;
-            if (value == System.Drawing.ContentAlignment.TopLeft)
-            {
-                self.Xalign = 0.0f;
-                self.Yalign = 0.0f;
-            }
-            else if (value == System.Drawing.ContentAlignment.TopCenter)
-            {
-                self.Xalign = 0.5f;
-                self.Yalign = 0.0f;
-            }
-            else if (value == System.Drawing.ContentAlignment.TopRight)
-            {
-                self.Xalign = 1.0f;
-                self.Yalign = 0.0f;
-            }
-            else if (value == System.Drawing.ContentAlignment.MiddleLeft)
-            {
-                self.Xalign = 0.0f;
-                self.Yalign = 0.5f;
-            }
-            else if (value == System.Drawing.ContentAlignment.MiddleCenter)
-            {
-                self.Xalign = 0.5f;
-                self.Yalign = 0.5f;
-            }
-            else if (value == System.Drawing.ContentAlignment.MiddleRight)
-            {
-                self.Xalign = 1.0f;
-                self.Yalign = 0.5f;
-            }
-            else if (value == System.Drawing.ContentAlignment.BottomLeft)
-            {
-                self.Xalign = 0.0f;
-                self.Yalign = 1.0f;
-            }
-            else if (value == System.Drawing.ContentAlignment.BottomCenter)
-            {
-                self.Xalign = 0.5f;
-                self.Yalign = 1.0f;
-            }
-            else if (value == System.Drawing.ContentAlignment.BottomRight)
-            {
-                self.Xalign = 1.0f;
-                self.Yalign = 1.0f;
-            }
-        }
+        self.Xalign = xAlign;
+        self.Yalign = yAlign;
     }
 
     /// <summary>

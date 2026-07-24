@@ -7,6 +7,7 @@
 
 using System.ComponentModel;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
+using GtkButtonBase = GtkSystem.Windows.Forms.GtkControls.ControlBase.ButtonBase;
 
 namespace System.Windows.Forms;
 
@@ -17,14 +18,12 @@ namespace System.Windows.Forms;
 /// 1
 /// </filterpriority>
 [DesignerCategory("Component")]
-public partial class Button : Control
+public partial class Button : ButtonBase
 {
     /// <summary>
     /// The self
     /// </summary>
-    public readonly ButtonBase self = new();
-
-    private System.Drawing.ContentAlignment textAlign;
+    public readonly GtkButtonBase self = new();
 
     /// <summary>
     /// Initializes a new instance of the
@@ -80,62 +79,14 @@ public partial class Button : Control
     }
 
     /// <summary>
-    /// Gets or sets the text align.
+    /// Applies the alignment factors produced from
+    /// <see cref="P:System.Windows.Forms.ButtonBase.TextAlign" /> to the GTK button.
     /// </summary>
-    /// <value>
-    /// The text align.
-    /// </value>
-    public System.Drawing.ContentAlignment TextAlign
+    /// <param name="xAlign">The horizontal alignment factor.</param>
+    /// <param name="yAlign">The vertical alignment factor.</param>
+    protected override void SetContentAlignmentCore(float xAlign, float yAlign)
     {
-        get { return textAlign; }
-        set
-        {
-            textAlign = value;
-            if (value == System.Drawing.ContentAlignment.TopLeft)
-            {
-                self.Xalign = 0.0f;
-                self.Yalign = 0.0f;
-            }
-            else if (value == System.Drawing.ContentAlignment.TopCenter)
-            {
-                self.Xalign = 0.5f;
-                self.Yalign = 0.0f;
-            }
-            else if (value == System.Drawing.ContentAlignment.TopRight)
-            {
-                self.Xalign = 1.0f;
-                self.Yalign = 0.0f;
-            }
-            else if (value == System.Drawing.ContentAlignment.MiddleLeft)
-            {
-                self.Xalign = 0.0f;
-                self.Yalign = 0.5f;
-            }
-            else if (value == System.Drawing.ContentAlignment.MiddleCenter)
-            {
-                self.Xalign = 0.5f;
-                self.Yalign = 0.5f;
-            }
-            else if (value == System.Drawing.ContentAlignment.MiddleRight)
-            {
-                self.Xalign = 1.0f;
-                self.Yalign = 0.5f;
-            }
-            else if (value == System.Drawing.ContentAlignment.BottomLeft)
-            {
-                self.Xalign = 0.0f;
-                self.Yalign = 1.0f;
-            }
-            else if (value == System.Drawing.ContentAlignment.BottomCenter)
-            {
-                self.Xalign = 0.5f;
-                self.Yalign = 1.0f;
-            }
-            else if (value == System.Drawing.ContentAlignment.BottomRight)
-            {
-                self.Xalign = 1.0f;
-                self.Yalign = 1.0f;
-            }
-        }
+        self.Xalign = xAlign;
+        self.Yalign = yAlign;
     }
 }

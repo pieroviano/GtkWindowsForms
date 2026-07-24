@@ -7,6 +7,7 @@
 using System.ComponentModel;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
+using GtkTextBoxBase = GtkSystem.Windows.Forms.GtkControls.ControlBase.TextBoxBase;
 
 namespace System.Windows.Forms;
 
@@ -14,22 +15,17 @@ namespace System.Windows.Forms;
 /// Represents a Windows text box control.
 /// </summary>
 [DesignerCategory("Component")]
-public partial class TextBox : Control
+public partial class TextBox : TextBoxBase
 {
     /// <summary>
     /// The self
     /// </summary>
-    public readonly TextBoxBase self = new();
+    public readonly GtkTextBoxBase self = new();
 
     /// <summary>
     /// Occurs when a key is pressed while the control has focus.
     /// </summary>
     public override event KeyEventHandler? KeyDown;
-
-    /// <summary>
-    /// Occurs when the Text property value changes.
-    /// </summary>
-    public override event EventHandler? TextChanged;
 
     private HorizontalAlignment textAlign;
 
@@ -63,7 +59,7 @@ public partial class TextBox : Control
     /// <value>
     /// The lines.
     /// </value>
-    public string[] Lines
+    public override string[] Lines
     {
         get
         {
@@ -106,7 +102,7 @@ public partial class TextBox : Control
     /// false
     /// </c>.
     /// </value>
-    public bool Multiline
+    public override bool Multiline
     {
         get;
         set;
@@ -147,10 +143,18 @@ public partial class TextBox : Control
     /// false
     /// </c>.
     /// </value>
-    public virtual bool ReadOnly
+    public override bool ReadOnly
     {
         get { return self.IsEditable == false; }
-        set { self.IsEditable = value == false; }
+        set
+        {
+            var changed = ReadOnly != value;
+            self.IsEditable = value == false;
+            if (changed)
+            {
+                OnReadOnlyChanged(EventArgs.Empty);
+            }
+        }
     }
 
     /// <summary>
@@ -159,7 +163,7 @@ public partial class TextBox : Control
     /// <value>
     /// The selected text.
     /// </value>
-    public string SelectedText
+    public override string SelectedText
     {
         get
         {
@@ -170,11 +174,9 @@ public partial class TextBox : Control
         }
         set
         {
-            if (self.GetSelectionBounds(out var start, out var end))
-            {
-                self.DeleteSelection();
-                self.InsertText(value, ref start);
-            }
+            PushUndo();
+            ReplaceSelectedTextCore(value ?? string.Empty);
+            MarkModified();
         }
     }
 
@@ -184,7 +186,7 @@ public partial class TextBox : Control
     /// <value>
     /// The length of the selection.
     /// </value>
-    public virtual int SelectionLength
+    public override int SelectionLength
     {
         get
         {
@@ -204,7 +206,7 @@ public partial class TextBox : Control
     /// <value>
     /// The selection start.
     /// </value>
-    public int SelectionStart
+    public override int SelectionStart
     {
         get
         {
@@ -224,7 +226,7 @@ public partial class TextBox : Control
     public override string Text
     {
         get { return self.Text; }
-        set { self.Text = value; }
+        set { SetTextCore(() => self.Text = value ?? string.Empty); }
     }
 
     /// <summary>
@@ -257,7 +259,7 @@ public partial class TextBox : Control
     /// <summary>
     /// Clears the current selection.
     /// </summary>
-    public void DeselectAll()
+    public override void DeselectAll()
     {
         SelectionLength = 0;
     }
@@ -265,9 +267,42 @@ public partial class TextBox : Control
     /// <summary>
     /// Selects all the text in the control.
     /// </summary>
-    public void SelectAll()
+    public override void SelectAll()
     {
         Select(0, -1);
+    }
+
+    /// <summary>
+    /// Replaces the current selection (or inserts at the caret when nothing is selected) with
+    /// <paramref name="text" />.
+    /// </summary>
+    /// <param name="text">The replacement text.</param>
+    protected override void ReplaceSelectedTextCore(string text)
+    {
+        int pos;
+        if (self.GetSelectionBounds(out var start, out var end))
+        {
+            self.DeleteText(start, end);
+            pos = start;
+        }
+        else
+        {
+            pos = self.Position;
+        }
+
+        self.InsertText(text ?? string.Empty, ref pos);
+        self.Position = pos;
+    }
+
+    /// <summary>
+    /// Appends <paramref name="text" /> at the end of the entry.
+    /// </summary>
+    /// <param name="text">The text to append.</param>
+    protected override void AppendTextCore(string text)
+    {
+        var pos = self.Text?.Length ?? 0;
+        self.InsertText(text, ref pos);
+        self.Position = pos;
     }
 
     /// <summary>
@@ -292,7 +327,7 @@ public partial class TextBox : Control
     /// <param name="length">
     /// The length.
     /// </param>
-    public void Select(int start, int length)
+    public override void Select(int start, int length)
     {
         self.SelectRegion(start, start + length);
     }
@@ -303,14 +338,6 @@ public partial class TextBox : Control
     protected override void OnKeyDown(System.Windows.Forms.KeyEventArgs e)
     {
         KeyDown?.Invoke(this, e);
-    }
-
-    /// <summary>
-    /// Raises the TextChanged event.
-    /// </summary>
-    protected override void OnTextChanged(System.EventArgs e)
-    {
-        TextChanged?.Invoke(this, e);
     }
 
     private void Self_Changed(object sender, EventArgs e)

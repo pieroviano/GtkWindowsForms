@@ -14,17 +14,12 @@ namespace System.Windows.Forms;
 /// Represents a Windows rich text box control.
 /// </summary>
 [DesignerCategory("Component")]
-public partial class RichTextBox : ScrollableControl
+public partial class RichTextBox : TextBoxBase
 {
     /// <summary>
     /// The self
     /// </summary>
     public readonly RichTextBoxBase self = new();
-
-    /// <summary>
-    /// Occurs when the Text property value changes.
-    /// </summary>
-    public override event EventHandler? TextChanged;
 
     /// <summary>
     /// Initializes a new instance of the
@@ -51,7 +46,7 @@ public partial class RichTextBox : ScrollableControl
     /// <value>
     /// The lines.
     /// </value>
-    public string[] Lines
+    public override string[] Lines
     {
         get
         {
@@ -81,10 +76,18 @@ public partial class RichTextBox : ScrollableControl
     /// false
     /// </c>.
     /// </value>
-    public virtual bool ReadOnly
+    public override bool ReadOnly
     {
         get { return self.TextView.CanFocus; }
-        set { self.TextView.CanFocus = value; }
+        set
+        {
+            var changed = self.TextView.CanFocus != value;
+            self.TextView.CanFocus = value;
+            if (changed)
+            {
+                OnReadOnlyChanged(EventArgs.Empty);
+            }
+        }
     }
 
     /// <summary>
@@ -93,7 +96,7 @@ public partial class RichTextBox : ScrollableControl
     /// <value>
     /// The selected text.
     /// </value>
-    public string SelectedText
+    public override string SelectedText
     {
         get
         {
@@ -104,12 +107,9 @@ public partial class RichTextBox : ScrollableControl
         }
         set
         {
-            if (self.TextView.Buffer.GetSelectionBounds(out TextIter start, out TextIter end))
-            {
-                //self.TextView.Buffer.Insert(ref start, value);
-                self.TextView.Buffer.DeleteSelection(false, false);
-                self.TextView.Buffer.InsertAtCursor(value);
-            }
+            PushUndo();
+            ReplaceSelectedTextCore(value ?? string.Empty);
+            MarkModified();
         }
     }
 
@@ -119,7 +119,7 @@ public partial class RichTextBox : ScrollableControl
     /// <value>
     /// The length of the selection.
     /// </value>
-    public virtual int SelectionLength
+    public override int SelectionLength
     {
         get
         {
@@ -139,7 +139,7 @@ public partial class RichTextBox : ScrollableControl
     /// <value>
     /// The selection start.
     /// </value>
-    public int SelectionStart
+    public override int SelectionStart
     {
         get
         {
@@ -159,25 +159,40 @@ public partial class RichTextBox : ScrollableControl
     public override string Text
     {
         get => self.TextView.Buffer.Text;
-        set => self.TextView.Buffer.Text = value;
+        set => SetTextCore(() => self.TextView.Buffer.Text = value ?? string.Empty);
     }
 
     /// <summary>
-    /// Appends the text.
+    /// Appends <paramref name="text" /> at the end of the buffer.
     /// </summary>
     /// <param name="text">
-    /// The text.
+    /// The text to append.
     /// </param>
-    public void AppendText(string text)
+    protected override void AppendTextCore(string text)
     {
         var enditer = self.TextView.Buffer.EndIter;
         self.TextView.Buffer.Insert(ref enditer, text);
     }
 
     /// <summary>
+    /// Replaces the current selection (or inserts at the caret when nothing is selected) with
+    /// <paramref name="text" />.
+    /// </summary>
+    /// <param name="text">The replacement text.</param>
+    protected override void ReplaceSelectedTextCore(string text)
+    {
+        if (self.TextView.Buffer.GetSelectionBounds(out TextIter start, out TextIter end))
+        {
+            self.TextView.Buffer.DeleteSelection(false, false);
+        }
+
+        self.TextView.Buffer.InsertAtCursor(text ?? string.Empty);
+    }
+
+    /// <summary>
     /// Deselects all text.
     /// </summary>
-    public void DeselectAll()
+    public override void DeselectAll()
     {
         SelectionLength = 0;
     }
@@ -223,7 +238,7 @@ public partial class RichTextBox : ScrollableControl
     /// <param name="length">
     /// The length.
     /// </param>
-    public void Select(int start, int length)
+    public override void Select(int start, int length)
     {
         var startiter = self.TextView.Buffer.GetIterAtOffset(start);
         var enditer = self.TextView.Buffer.GetIterAtOffset(start + length);
@@ -233,17 +248,9 @@ public partial class RichTextBox : ScrollableControl
     /// <summary>
     /// Selects all text.
     /// </summary>
-    public void SelectAll()
+    public override void SelectAll()
     {
         Select(0, Text.Length);
-    }
-
-    /// <summary>
-    /// Raises the TextChanged event.
-    /// </summary>
-    protected override void OnTextChanged(System.EventArgs e)
-    {
-        TextChanged?.Invoke(this, e);
     }
 
     /// <summary>
@@ -262,7 +269,7 @@ public partial class RichTextBox : ScrollableControl
 
     private void Buffer_Changed(object sender, EventArgs e)
     {
-        if (TextChanged != null && self.IsVisible)
+        if (self.IsVisible)
         {
             OnTextChanged(e);
         }
