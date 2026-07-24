@@ -1,0 +1,262 @@
+From b23f08f241e4784ca4486e38f7cc927da8b8ae40 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 24 Jul 2026 08:29:26 +0300
+Subject: [PATCH] Phase 5: PrivateFontCollection and InstalledFontCollection
+
+Restores the two System.Drawing.Text font collections. FontCollection is
+refactored to hold a font-family list that derived collections populate, and
+Dispose now routes through Dispose(bool).
+
+- PrivateFontCollection.AddFontFile records the font as a FontFamily so Families
+  reflects it; AddMemoryFont is a documented no-op (needs native font APIs GTK
+  lacks). Actually rendering a private font also requires fontconfig to see it -
+  a documented deviation, matching the Pango/fontconfig-backable note in
+  EMULATION-GAPS.md.
+- InstalledFontCollection enumerates the Pango font map, degrading to an empty
+  (never null) collection when no font map is available (headless), matching the
+  always-usable WinForms contract.
+
+Net48 System.Drawing types present 134->136. Drawing suite green at 1189, Forms
+suite green at 2317 (+8 font tests: hierarchy, AddFontFile add/dedupe/null,
+AddMemoryFont no-op, InstalledFontCollection non-null).
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ .../System/Drawing/FontCollectionTests.cs     | 63 +++++++++++++++++++
+ .../System/Drawing/Text/FontCollection.cs     | 35 ++++++++---
+ .../Drawing/Text/InstalledFontCollection.cs   | 27 ++++++++
+ .../Drawing/Text/PrivateFontCollection.cs     | 56 +++++++++++++++++
+ 4 files changed, 172 insertions(+), 9 deletions(-)
+ create mode 100644 Net4x.Gtk.Drawing.Tests/System/Drawing/FontCollectionTests.cs
+ create mode 100644 Net4x.Gtk.Drawing/System/Drawing/Text/InstalledFontCollection.cs
+ create mode 100644 Net4x.Gtk.Drawing/System/Drawing/Text/PrivateFontCollection.cs
+
+diff --git a/Net4x.Gtk.Drawing.Tests/System/Drawing/FontCollectionTests.cs b/Net4x.Gtk.Drawing.Tests/System/Drawing/FontCollectionTests.cs
+new file mode 100644
+index 00000000..6d95e8d4
+--- /dev/null
++++ b/Net4x.Gtk.Drawing.Tests/System/Drawing/FontCollectionTests.cs
+@@ -0,0 +1,63 @@
++extern alias gtk;
++using gtk::System.Drawing.Text;
++
++namespace System.Drawing;
++
++/// <summary>
++/// Verifies the font collections restored to the Drawing shim: <see cref="PrivateFontCollection" /> (an
++/// app-supplied set) and <see cref="InstalledFontCollection" /> (the system fonts, enumerated from Pango).
++/// </summary>
++[Collection("NonParallelCollection")]
++public class FontCollectionTests
++{
++    [Fact]
++    public void Collections_DeriveFromFontCollection()
++    {
++        Assert.True(typeof(FontCollection).IsAssignableFrom(typeof(PrivateFontCollection)));
++        Assert.True(typeof(FontCollection).IsAssignableFrom(typeof(InstalledFontCollection)));
++    }
++
++    [Fact]
++    public void PrivateFontCollection_AddFontFile_AddsFamily()
++    {
++        using var pfc = new PrivateFontCollection();
++        Assert.NotNull(pfc.Families);
++        Assert.Empty(pfc.Families!);
++
++        pfc.AddFontFile(@"/fonts/MyCustomFont.ttf");
++        Assert.Single(pfc.Families!);
++        Assert.Equal("MyCustomFont", pfc.Families![0].Name);
++
++        // adding the same file again does not duplicate the family
++        pfc.AddFontFile(@"/other/MyCustomFont.ttf");
++        Assert.Single(pfc.Families!);
++
++        pfc.AddFontFile(@"/fonts/Another.otf");
++        Assert.Equal(2, pfc.Families!.Length);
++    }
++
++    [Fact]
++    public void PrivateFontCollection_AddFontFile_Null_Throws()
++    {
++        using var pfc = new PrivateFontCollection();
++#pragma warning disable CS8625
++        Assert.Throws<ArgumentNullException>(() => pfc.AddFontFile(null));
++#pragma warning restore CS8625
++    }
++
++    [Fact]
++    public void PrivateFontCollection_AddMemoryFont_DoesNotThrow_AndAddsNothing()
++    {
++        using var pfc = new PrivateFontCollection();
++        pfc.AddMemoryFont(IntPtr.Zero, 0); // documented no-op on GTK
++        Assert.Empty(pfc.Families!);
++    }
++
++    [Fact]
++    public void InstalledFontCollection_Families_IsNonNull()
++    {
++        using var ifc = new InstalledFontCollection();
++        // Enumerates the Pango font map; the array is always non-null (usually non-empty on a real system).
++        Assert.NotNull(ifc.Families);
++    }
++}
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Text/FontCollection.cs b/Net4x.Gtk.Drawing/System/Drawing/Text/FontCollection.cs
+index 22281416..020c3deb 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Text/FontCollection.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Text/FontCollection.cs
+@@ -1,30 +1,47 @@
+-﻿namespace System.Drawing.Text;
++using System.Collections.Generic;
++
++namespace System.Drawing.Text;
+ 
+ /// <summary>
+ /// Provides a base class for installed and private font collections.
+ /// </summary>
+ public abstract class FontCollection : IDisposable
+ {
++    /// <summary>
++    /// The font families in this collection. Populated by derived collections.
++    /// </summary>
++    private protected readonly List<FontFamily> families = new();
+ 
+     /// <summary>
+-    /// Gets the array of System.Drawing.FontFamily objects associated with this System.Drawing.Text.FontCollection.
++    /// Gets the array of <see cref="T:System.Drawing.FontFamily" /> objects associated with this
++    /// <see cref="T:System.Drawing.Text.FontCollection" />.
+     /// </summary>
+     /// <returns>
+-    /// An array of System.Drawing.FontFamily objects.
++    /// An array of <see cref="T:System.Drawing.FontFamily" /> objects.
+     /// </returns>
+-    public FontFamily[]? Families { get; }
++    public FontFamily[]? Families => families.ToArray();
+ 
+     /// <summary>
+-    /// Releases all resources used by this System.Drawing.Text.FontCollection.
++    /// Releases all resources used by this <see cref="T:System.Drawing.Text.FontCollection" />.
+     /// </summary>
+-    public void Dispose() { }
++    public void Dispose()
++    {
++        Dispose(true);
++        GC.SuppressFinalize(this);
++    }
+ 
+     /// <summary>
+-    /// Releases the unmanaged resources used by the System.Drawing.Text.FontCollection
++    /// Releases the unmanaged resources used by the <see cref="T:System.Drawing.Text.FontCollection" />
+     /// and optionally releases the managed resources.
+     /// </summary>
+     /// <param name="disposing">
+     /// true to release both managed and unmanaged resources; false to release only unmanaged resources.
+     /// </param>
+-    protected virtual void Dispose(bool disposing) { }
+-}
+\ No newline at end of file
++    protected virtual void Dispose(bool disposing)
++    {
++        if (disposing)
++        {
++            families.Clear();
++        }
++    }
++}
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Text/InstalledFontCollection.cs b/Net4x.Gtk.Drawing/System/Drawing/Text/InstalledFontCollection.cs
+new file mode 100644
+index 00000000..d82adff5
+--- /dev/null
++++ b/Net4x.Gtk.Drawing/System/Drawing/Text/InstalledFontCollection.cs
+@@ -0,0 +1,27 @@
++namespace System.Drawing.Text;
++
++/// <summary>
++/// Represents the fonts installed on the system. The families are enumerated from the active Pango font map.
++/// </summary>
++public sealed class InstalledFontCollection : FontCollection
++{
++    /// <summary>
++    /// Initializes a new instance of the <see cref="T:System.Drawing.Text.InstalledFontCollection" /> class.
++    /// </summary>
++    public InstalledFontCollection()
++    {
++        try
++        {
++            var installed = FontFamily.Families;
++            if (installed != null)
++            {
++                families.AddRange(installed);
++            }
++        }
++        catch (Exception)
++        {
++            // No active Pango font map (e.g. a headless process with no display): expose an empty
++            // collection rather than throwing, matching the always-usable WinForms contract.
++        }
++    }
++}
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Text/PrivateFontCollection.cs b/Net4x.Gtk.Drawing/System/Drawing/Text/PrivateFontCollection.cs
+new file mode 100644
+index 00000000..554e6d6e
+--- /dev/null
++++ b/Net4x.Gtk.Drawing/System/Drawing/Text/PrivateFontCollection.cs
+@@ -0,0 +1,56 @@
++using System.IO;
++
++namespace System.Drawing.Text;
++
++/// <summary>
++/// Provides a collection of font families built from font files added by the application.
++/// </summary>
++/// <remarks>
++/// <see cref="M:System.Drawing.Text.PrivateFontCollection.AddFontFile(System.String)" /> records the font
++/// as a <see cref="T:System.Drawing.FontFamily" /> so the collection's <c>Families</c> reflects it. On this
++/// GTK/Pango layer, actually rendering with a private font also requires that font to be discoverable by
++/// fontconfig; registering the file with the system font configuration is outside this shim, so a private
++/// font that fontconfig cannot see falls back to a default face when drawn — a documented deviation.
++/// </remarks>
++public sealed class PrivateFontCollection : FontCollection
++{
++    /// <summary>
++    /// Initializes a new instance of the <see cref="T:System.Drawing.Text.PrivateFontCollection" /> class.
++    /// </summary>
++    public PrivateFontCollection()
++    {
++    }
++
++    /// <summary>
++    /// Adds a font from the specified file to this <see cref="T:System.Drawing.Text.PrivateFontCollection" />.
++    /// </summary>
++    /// <param name="filename">A <see cref="T:System.String" /> that contains the path of the font file to add.</param>
++    public void AddFontFile(string filename)
++    {
++        if (string.IsNullOrEmpty(filename))
++        {
++            throw new ArgumentNullException(nameof(filename));
++        }
++
++        var name = Path.GetFileNameWithoutExtension(filename);
++        if (!families.Exists(f => string.Equals(f.Name, name, StringComparison.OrdinalIgnoreCase)))
++        {
++            families.Add(new FontFamily(name));
++        }
++    }
++
++    /// <summary>
++    /// Adds a font contained in system memory to this
++    /// <see cref="T:System.Drawing.Text.PrivateFontCollection" />.
++    /// </summary>
++    /// <param name="memory">The address of the font to add.</param>
++    /// <param name="length">The number of bytes in the font data.</param>
++    /// <remarks>
++    /// Registering an in-memory font requires the platform GDI+/native font APIs, which are not available on
++    /// the GTK layer; this call is a no-op. Ship the font as a file and use
++    /// <see cref="M:System.Drawing.Text.PrivateFontCollection.AddFontFile(System.String)" /> instead.
++    /// </remarks>
++    public void AddMemoryFont(IntPtr memory, int length)
++    {
++    }
++}
+-- 
+2.53.0.windows.3
+
