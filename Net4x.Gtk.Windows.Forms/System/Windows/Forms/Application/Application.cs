@@ -13,7 +13,7 @@ namespace System.Windows.Forms;
 /// <filterpriority>
 /// 1
 /// </filterpriority>
-public sealed class Application
+public sealed partial class Application
 {
 
     private static readonly object internalSyncObject = new();

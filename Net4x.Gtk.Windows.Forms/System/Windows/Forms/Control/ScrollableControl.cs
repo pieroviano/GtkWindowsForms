@@ -147,12 +147,22 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
         set;
     }
 
+    private HScrollProperties? _horizontalScroll;
+    private VScrollProperties? _verticalScroll;
+
+    /// <summary>
+    /// Gets the characteristics associated with the horizontal scroll bar.
+    /// </summary>
+    public HScrollProperties HorizontalScroll => _horizontalScroll ??= new HScrollProperties(this);
+
+    /// <summary>
+    /// Gets the characteristics associated with the vertical scroll bar.
+    /// </summary>
+    public VScrollProperties VerticalScroll => _verticalScroll ??= new VScrollProperties(this);
+
     /// <summary>
     /// Gets or sets whether the vertical scrollbar is visible.
     /// </summary>
-    //public VScrollProperties VerticalScroll { get; }
-    //public DockPaddingEdges DockPadding { get; }
-    //public HScrollProperties HorizontalScroll { get; }
     protected bool VScroll
     {
         get => scrollbase?.VScroll ?? false;

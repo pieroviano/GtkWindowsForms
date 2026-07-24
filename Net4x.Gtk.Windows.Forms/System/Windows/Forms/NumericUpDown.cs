@@ -36,6 +36,12 @@ public partial class NumericUpDown : UpDownBase
     }
 
     /// <summary>
+    /// Gets a collection of sorted acceleration objects that determine how the value changes when the up or
+    /// down button is held down.
+    /// </summary>
+    public NumericUpDownAccelerationCollection Accelerations { get; } = new NumericUpDownAccelerationCollection();
+
+    /// <summary>
     /// Gets or sets the decimal places.
     /// </summary>
     /// <value>
