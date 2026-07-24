@@ -4,6 +4,15 @@
 
 **Method and its limits.** Findings come from reading the generated sources in `Net4x.Gtk.Windows.Forms/` and `Net4x.Gtk.Drawing/` at the current working tree (post-`f58a01a8`). Nothing here was produced by running the library. Static reading reliably finds missing types, throwing members and inert auto-properties; it does **not** find layout drift, event-ordering divergence, or focus/tab-order differences. See §7.
 
+> **See also — [API-COMPLETENESS.md](API-COMPLETENESS.md).** The per-member API-surface diff that §8 of
+> this document calls for has since been run against the real .NET 10 reference assemblies. It supersedes
+> this document on *what exists*: 555 of 1081 public WinForms types and 23 % of members on the types that
+> do exist are absent. It found seven gap classes this document missed — most importantly that
+> `TextBoxBase`/`ButtonBase` are absent (taking `TextBox.Clear()`/`Copy()`/`Paste()`/`Undo()` with them),
+> that `Form.AcceptButton`/`CancelButton` do not exist, and that `ToolStripDropDown` derives from
+> `ToolStripItem` rather than `Control`. This document remains authoritative on *behaviour* — silently
+> wrong members, which a metadata diff cannot see.
+
 **Caveat on line numbers.** Both directories are *generated* by the prepare pipeline from the `gtksystem-windows-forms` submodule (see [CLAUDE.md](CLAUDE.md)). Line references are accurate now and will drift after the next pipeline run; type and member names will not.
 
 ---
@@ -333,3 +342,9 @@ Stated so the gaps in the gap analysis are visible.
 - **Data binding depth** (§5.6) and **accessibility wiring** (§5.5) — flagged as unverified, not assessed.
 - **`Net4x.Gtk.Windows.FormsDesigner`** and the ResX/designer round-trip were out of scope.
 - **Per-member API-surface diffing.** A mechanical comparison of the real `System.Windows.Forms` / `System.Drawing` reference assemblies against these two — public members, signatures, attributes — would be strictly more complete than this document at the type level, and would catch further cases of the `VirtualModel` kind: subtly renamed or re-signatured members, which are the most insidious because the designer emits code against the real names. **This remains the highest-value follow-up and it can be automated.** It also replaces recall-based assertion with ground truth, which is the right way to settle the questions §5.6 and §7 currently leave open.
+  - **Done — see [API-COMPLETENESS.md](API-COMPLETENESS.md)** and the re-runnable tool in
+    [api-diff/](api-diff/). It confirmed §3.1–§3.5 and §6b's `Application.Run` fix, and found seven gap
+    classes this document missed; §8 there lists them with the reason each was invisible to source
+    reading. The prediction above held: the misses were partial surfaces (`FormClosing` present,
+    `Closing` absent), wrong shapes (`DataObject` nested inside `Clipboard`), and wrong hierarchies —
+    not obviously-empty files.
