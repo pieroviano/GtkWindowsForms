@@ -1,0 +1,830 @@
+From e609d42f26014b385e8d3490bac29e7b63bf5eb7 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 24 Jul 2026 07:18:43 +0300
+Subject: [PATCH] Phase 2 (cont.): UpDownBase/DomainUpDown and
+ AutoCompleteStringCollection
+
+- UpDownBase : ContainerControl (faithful base), re-parents NumericUpDown onto it.
+  Adds InterceptArrowKeys/ReadOnly/TextAlign/UpDownAlign/PreferredHeight and the
+  abstract UpButton()/DownButton(); NumericUpDown implements them by stepping Value
+  by Increment with Minimum/Maximum clamping, and gains ReadOnly/Text overrides.
+  Re-parenting through ContainerControl/ScrollableControl is safe: the spin button
+  is not IScrollableBoxBase, so scrollbase is simply null and every scroll path
+  no-ops.
+- DomainUpDown : UpDownBase + DomainUpDownItemCollection. Full item/selection model
+  (Items/SelectedIndex/SelectedItem/Wrap/Sorted, UpButton/DownButton cycling,
+  SelectedItemChanged). Backed by a read-only GTK entry showing the selected item;
+  GTK has no composite text+spin widget, so the arrow glyphs are not rendered
+  (documented visual deviation) while the programmatic API is complete.
+- AutoCompleteStringCollection : IList with the typed string members and the
+  CollectionChanged event, values/shape from the net48 reference assembly.
+
+Net48 public types present 568->571 (missing 466->463). Full suite green at 2302
+(+8 functional tests: NumericUpDown value stepping/clamping, DomainUpDown
+selection/wrap/sort, AutoCompleteStringCollection semantics).
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ ...CompleteStringCollectionFunctionalTests.cs |  80 +++++
+ .../Windows/Forms/UpDownFunctionalTests.cs    |  95 ++++++
+ .../Forms/AutoCompleteStringCollection.cs     | 159 ++++++++++
+ .../System/Windows/Forms/DomainUpDown.cs      | 276 ++++++++++++++++++
+ .../System/Windows/Forms/NumericUpDown.cs     |  39 ++-
+ .../System/Windows/Forms/UpDownBase.cs        |  90 ++++++
+ 6 files changed, 738 insertions(+), 1 deletion(-)
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/AutoCompleteStringCollectionFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/UpDownFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/AutoCompleteStringCollection.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DomainUpDown.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/UpDownBase.cs
+
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/AutoCompleteStringCollectionFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/AutoCompleteStringCollectionFunctionalTests.cs
+new file mode 100644
+index 00000000..c7934a12
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/AutoCompleteStringCollectionFunctionalTests.cs
+@@ -0,0 +1,80 @@
++namespace System.Windows.Forms;
++
++using System.ComponentModel;
++
++/// <summary>
++/// Verifies <see cref="AutoCompleteStringCollection" /> — the string list that drives auto-completion on
++/// text controls. It is a pure model type (no GTK), so these assertions need no form.
++/// </summary>
++public class AutoCompleteStringCollectionFunctionalTests
++{
++    [Fact]
++    public void ImplementsIList()
++    {
++        Assert.True(typeof(System.Collections.IList).IsAssignableFrom(typeof(AutoCompleteStringCollection)));
++    }
++
++    [Fact]
++    public void Add_IndexOf_Contains_RoundTrip()
++    {
++        var c = new AutoCompleteStringCollection();
++        Assert.Equal(0, c.Add("one"));
++        Assert.Equal(1, c.Add("two"));
++
++        Assert.Equal(2, c.Count);
++        Assert.True(c.Contains("two"));
++        Assert.Equal(1, c.IndexOf("two"));
++        Assert.Equal("one", c[0]);
++    }
++
++    [Fact]
++    public void AddRange_AddsAll()
++    {
++        var c = new AutoCompleteStringCollection();
++        c.AddRange(new[] { "a", "b", "c" });
++        Assert.Equal(3, c.Count);
++        Assert.Equal("c", c[2]);
++    }
++
++    [Fact]
++    public void Remove_And_Clear()
++    {
++        var c = new AutoCompleteStringCollection();
++        c.AddRange(new[] { "x", "y", "z" });
++        c.Remove("y");
++        Assert.Equal(2, c.Count);
++        Assert.False(c.Contains("y"));
++
++        c.Clear();
++        Assert.Equal(0, c.Count);
++    }
++
++    [Fact]
++    public void CollectionChanged_FiresOnAddAndRemove()
++    {
++        var c = new AutoCompleteStringCollection();
++        var actions = new System.Collections.Generic.List<CollectionChangeAction>();
++        c.CollectionChanged += (s, e) => actions.Add(e.Action);
++
++        c.Add("item");                 // Add
++        c.Remove("item");              // Remove
++
++        Assert.Contains(CollectionChangeAction.Add, actions);
++        Assert.Contains(CollectionChangeAction.Remove, actions);
++    }
++
++    [Fact]
++    public void Enumeration_YieldsItems()
++    {
++        var c = new AutoCompleteStringCollection();
++        c.AddRange(new[] { "p", "q" });
++
++        var seen = new System.Collections.Generic.List<string>();
++        foreach (string s in c)
++        {
++            seen.Add(s);
++        }
++
++        Assert.Equal(new[] { "p", "q" }, seen);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/UpDownFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/UpDownFunctionalTests.cs
+new file mode 100644
+index 00000000..3f2cbd6f
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/UpDownFunctionalTests.cs
+@@ -0,0 +1,95 @@
++namespace System.Windows.Forms;
++
++extern alias gtk;
++
++/// <summary>
++/// Verifies the <see cref="UpDownBase" /> base class, the re-parenting of <see cref="NumericUpDown" /> onto
++/// it, and the new <see cref="DomainUpDown" /> control. Hierarchy claims are checked by reflection; the
++/// value/selection behaviour runs inside a single realized-form lifecycle (form created first so GTK is
++/// initialized), with no clipboard interaction.
++/// </summary>
++[Collection("NonParallelCollection")]
++public class UpDownFunctionalTests
++{
++    [Fact]
++    public void Hierarchy_IsFaithfulToWinForms()
++    {
++        Assert.True(typeof(UpDownBase).IsAssignableFrom(typeof(NumericUpDown)));
++        Assert.True(typeof(UpDownBase).IsAssignableFrom(typeof(DomainUpDown)));
++        // Real WinForms: UpDownBase : ContainerControl.
++        Assert.Equal(typeof(ContainerControl), typeof(UpDownBase).BaseType);
++    }
++
++    [Fact]
++    public void UpDownBehaviour_Behaves()
++    {
++        var form = new Form();
++        var numeric = new NumericUpDown();
++        var domain = new DomainUpDown();
++        form.Controls.Add(numeric);
++        form.Controls.Add(domain);
++
++        form.Load += (s, e) =>
++        {
++            try
++            {
++                // --- NumericUpDown.UpButton/DownButton step by Increment and clamp ---
++                numeric.Minimum = 0;
++                numeric.Maximum = 10;
++                numeric.Increment = 2;
++                numeric.Value = 4;
++                numeric.UpButton();
++                Assert.Equal(6m, numeric.Value);
++                numeric.DownButton();
++                Assert.Equal(4m, numeric.Value);
++                numeric.Value = 10;
++                numeric.UpButton(); // clamps at Maximum
++                Assert.Equal(10m, numeric.Value);
++
++                // --- DomainUpDown item model + selection ---
++                domain.Items.Add("alpha");
++                domain.Items.Add("beta");
++                domain.Items.Add("gamma");
++                Assert.Equal(3, domain.Items.Count);
++
++                domain.SelectedIndex = 0;
++                Assert.Equal("alpha", domain.SelectedItem);
++                Assert.Equal("alpha", domain.Text);
++
++                domain.DownButton();
++                Assert.Equal(1, domain.SelectedIndex);
++                Assert.Equal("beta", domain.SelectedItem);
++
++                domain.UpButton();
++                Assert.Equal(0, domain.SelectedIndex);
++
++                // --- without Wrap, UpButton stays at the first item ---
++                domain.UpButton();
++                Assert.Equal(0, domain.SelectedIndex);
++
++                // --- with Wrap, UpButton from the first item goes to the last ---
++                domain.Wrap = true;
++                domain.UpButton();
++                Assert.Equal(2, domain.SelectedIndex);
++                Assert.Equal("gamma", domain.SelectedItem);
++
++                // --- Sorted reorders the items ---
++                domain.Items.Clear();
++                domain.Items.Add("charlie");
++                domain.Items.Add("alpha");
++                domain.Items.Add("bravo");
++                domain.Sorted = true;
++                Assert.Equal("alpha", domain.Items[0]);
++                Assert.Equal("bravo", domain.Items[1]);
++                Assert.Equal("charlie", domain.Items[2]);
++            }
++            finally
++            {
++                form.Close();
++            }
++        };
++
++        form.ShowDialog();
++        form.Dispose();
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/AutoCompleteStringCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/AutoCompleteStringCollection.cs
+new file mode 100644
+index 00000000..50bcb343
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/AutoCompleteStringCollection.cs
+@@ -0,0 +1,159 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Collections;
++using System.Collections.Generic;
++using System.ComponentModel;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Represents a collection of strings used for the automatic-completion feature on certain Windows Forms
++/// controls (such as <see cref="T:System.Windows.Forms.TextBox" /> and
++/// <see cref="T:System.Windows.Forms.ComboBox" />).
++/// </summary>
++public class AutoCompleteStringCollection : IList, ICollection, IEnumerable
++{
++    private readonly List<string> _items = new();
++
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.AutoCompleteStringCollection" /> class.</summary>
++    public AutoCompleteStringCollection()
++    {
++    }
++
++    /// <summary>Occurs when the collection changes.</summary>
++    public event CollectionChangeEventHandler? CollectionChanged;
++
++    /// <summary>Gets the number of strings in the collection.</summary>
++    public int Count => _items.Count;
++
++    /// <summary>Gets a value indicating whether the collection is read-only. Always <see langword="false" />.</summary>
++    public bool IsReadOnly => false;
++
++    /// <summary>Gets a value indicating whether access to the collection is synchronized. Always <see langword="false" />.</summary>
++    public bool IsSynchronized => false;
++
++    /// <summary>Gets an object that can be used to synchronize access to the collection.</summary>
++    public object SyncRoot => this;
++
++    bool IList.IsFixedSize => false;
++
++    /// <summary>Gets or sets the string at the specified index.</summary>
++    /// <param name="index">The zero-based index of the string.</param>
++    /// <returns>The string at <paramref name="index" />.</returns>
++    public string this[int index]
++    {
++        get => _items[index];
++        set
++        {
++            _items[index] = value;
++            OnCollectionChanged(new CollectionChangeEventArgs(CollectionChangeAction.Refresh, null));
++        }
++    }
++
++    object? IList.this[int index]
++    {
++        get => this[index];
++        set => this[index] = (string)value!;
++    }
++
++    /// <summary>Adds a string to the collection.</summary>
++    /// <param name="value">The string to add.</param>
++    /// <returns>The zero-based index at which the string was added.</returns>
++    public int Add(string value)
++    {
++        _items.Add(value);
++        OnCollectionChanged(new CollectionChangeEventArgs(CollectionChangeAction.Add, value));
++        return _items.Count - 1;
++    }
++
++    /// <summary>Adds an array of strings to the collection.</summary>
++    /// <param name="value">The strings to add.</param>
++    public void AddRange(string[] value)
++    {
++        if (value == null)
++        {
++            throw new ArgumentNullException(nameof(value));
++        }
++
++        _items.AddRange(value);
++        OnCollectionChanged(new CollectionChangeEventArgs(CollectionChangeAction.Refresh, null));
++    }
++
++    /// <summary>Removes all strings from the collection.</summary>
++    public void Clear()
++    {
++        _items.Clear();
++        OnCollectionChanged(new CollectionChangeEventArgs(CollectionChangeAction.Refresh, null));
++    }
++
++    /// <summary>Determines whether the collection contains the specified string.</summary>
++    /// <param name="value">The string to locate.</param>
++    /// <returns><see langword="true" /> if the string is found; otherwise <see langword="false" />.</returns>
++    public bool Contains(string value) => _items.Contains(value);
++
++    /// <summary>Copies the collection to a string array, starting at the specified index.</summary>
++    /// <param name="array">The destination array.</param>
++    /// <param name="index">The zero-based index in the destination at which copying begins.</param>
++    public void CopyTo(string[] array, int index) => _items.CopyTo(array, index);
++
++    /// <summary>Returns the index of the specified string in the collection.</summary>
++    /// <param name="value">The string to locate.</param>
++    /// <returns>The zero-based index, or -1 if not found.</returns>
++    public int IndexOf(string value) => _items.IndexOf(value);
++
++    /// <summary>Inserts a string into the collection at the specified index.</summary>
++    /// <param name="index">The zero-based index at which to insert.</param>
++    /// <param name="value">The string to insert.</param>
++    public void Insert(int index, string value)
++    {
++        _items.Insert(index, value);
++        OnCollectionChanged(new CollectionChangeEventArgs(CollectionChangeAction.Add, value));
++    }
++
++    /// <summary>Removes the specified string from the collection.</summary>
++    /// <param name="value">The string to remove.</param>
++    public void Remove(string value)
++    {
++        if (_items.Remove(value))
++        {
++            OnCollectionChanged(new CollectionChangeEventArgs(CollectionChangeAction.Remove, value));
++        }
++    }
++
++    /// <summary>Removes the string at the specified index.</summary>
++    /// <param name="index">The zero-based index of the string to remove.</param>
++    public void RemoveAt(int index)
++    {
++        var value = _items[index];
++        _items.RemoveAt(index);
++        OnCollectionChanged(new CollectionChangeEventArgs(CollectionChangeAction.Remove, value));
++    }
++
++    /// <summary>Returns an enumerator that iterates through the collection.</summary>
++    /// <returns>An enumerator for the collection.</returns>
++    public IEnumerator GetEnumerator() => _items.GetEnumerator();
++
++    /// <summary>Raises the <see cref="E:System.Windows.Forms.AutoCompleteStringCollection.CollectionChanged" /> event.</summary>
++    /// <param name="e">A <see cref="T:System.ComponentModel.CollectionChangeEventArgs" /> that contains the event data.</param>
++    protected void OnCollectionChanged(CollectionChangeEventArgs e) => CollectionChanged?.Invoke(this, e);
++
++    int IList.Add(object? value) => Add((string)value!);
++
++    bool IList.Contains(object? value) => value is string s && Contains(s);
++
++    int IList.IndexOf(object? value) => value is string s ? IndexOf(s) : -1;
++
++    void IList.Insert(int index, object? value) => Insert(index, (string)value!);
++
++    void IList.Remove(object? value)
++    {
++        if (value is string s)
++        {
++            Remove(s);
++        }
++    }
++
++    void ICollection.CopyTo(Array array, int index) => ((ICollection)_items).CopyTo(array, index);
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DomainUpDown.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DomainUpDown.cs
+new file mode 100644
+index 00000000..67f48db9
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DomainUpDown.cs
+@@ -0,0 +1,276 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Collections;
++using System.ComponentModel;
++using GtkDomainEntry = GtkSystem.Windows.Forms.GtkControls.ControlBase.TextBoxBase;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Represents a Windows spin box (also known as an up-down control) that displays string values from a list.
++/// </summary>
++/// <remarks>
++/// The item model, selection and wrap/sort behaviour follow WinForms exactly. The control is backed by a
++/// read-only GTK entry that shows the selected item; the up and down buttons are driven programmatically
++/// through <see cref="M:System.Windows.Forms.DomainUpDown.UpButton" /> and
++/// <see cref="M:System.Windows.Forms.DomainUpDown.DownButton" /> (GTK does not provide a composite text +
++/// spin-button widget, so the arrows are not rendered as separate glyphs — a documented visual deviation).
++/// </remarks>
++[DesignerCategory("Component")]
++public partial class DomainUpDown : UpDownBase
++{
++    /// <summary>
++    /// The self
++    /// </summary>
++    public readonly GtkDomainEntry self = new();
++
++    private readonly DomainUpDownItemCollection _items;
++    private int _selectedIndex = -1;
++    private bool _sorted;
++    private bool _wrap;
++
++    /// <summary>
++    /// Occurs when the <see cref="P:System.Windows.Forms.DomainUpDown.SelectedItem" /> property has been
++    /// changed.
++    /// </summary>
++    public event EventHandler? SelectedItemChanged;
++
++    /// <summary>
++    /// Initializes a new instance of the <see cref="T:System.Windows.Forms.DomainUpDown" /> class.
++    /// </summary>
++    public DomainUpDown() : base()
++    {
++        self.Override.sender = this;
++        self.IsEditable = false;
++        _items = new DomainUpDownItemCollection(this);
++    }
++
++    /// <summary>
++    /// Gets the GTK control.
++    /// </summary>
++    public override object GtkControl => self;
++
++    /// <summary>
++    /// Gets the object collection assigned to this up-down control.
++    /// </summary>
++    public DomainUpDownItemCollection Items => _items;
++
++    /// <summary>
++    /// Gets or sets the text displayed in the up-down control.
++    /// </summary>
++    public override string Text
++    {
++        get => self.Text;
++        set => self.Text = value ?? string.Empty;
++    }
++
++    /// <summary>
++    /// Gets or sets a value indicating whether the item collection is sorted.
++    /// </summary>
++    public bool Sorted
++    {
++        get => _sorted;
++        set
++        {
++            _sorted = value;
++            if (_sorted)
++            {
++                _items.SortInternal();
++                UpdateDisplay();
++            }
++        }
++    }
++
++    /// <summary>
++    /// Gets or sets a value indicating whether the collection of items continues to the first or last item
++    /// if the user continues past the end of the list.
++    /// </summary>
++    public bool Wrap
++    {
++        get => _wrap;
++        set => _wrap = value;
++    }
++
++    /// <summary>
++    /// Gets or sets the index value of the selected item.
++    /// </summary>
++    public int SelectedIndex
++    {
++        get => _selectedIndex;
++        set
++        {
++            if (value < -1 || value >= _items.Count)
++            {
++                throw new ArgumentOutOfRangeException(nameof(value));
++            }
++
++            if (_selectedIndex != value)
++            {
++                _selectedIndex = value;
++                UpdateDisplay();
++                OnSelectedItemChanged(EventArgs.Empty);
++            }
++        }
++    }
++
++    /// <summary>
++    /// Gets or sets the selected item based on the index value of the selected item in the collection.
++    /// </summary>
++    public object? SelectedItem
++    {
++        get => _selectedIndex >= 0 && _selectedIndex < _items.Count ? _items[_selectedIndex] : null;
++        set
++        {
++            var index = value == null ? -1 : _items.IndexOf(value);
++            SelectedIndex = index;
++        }
++    }
++
++    /// <summary>
++    /// Displays the previous item in the collection.
++    /// </summary>
++    public override void UpButton()
++    {
++        MoveSelection(-1);
++    }
++
++    /// <summary>
++    /// Displays the next item in the collection.
++    /// </summary>
++    public override void DownButton()
++    {
++        MoveSelection(1);
++    }
++
++    /// <summary>
++    /// Returns a string that represents the <see cref="T:System.Windows.Forms.DomainUpDown" /> control.
++    /// </summary>
++    /// <returns>A string that includes the item count and selected index.</returns>
++    public override string ToString()
++    {
++        return $"{base.ToString()}, Items.Count: {_items.Count}, SelectedIndex: {_selectedIndex}";
++    }
++
++    /// <summary>
++    /// Raises the <see cref="E:System.Windows.Forms.DomainUpDown.SelectedItemChanged" /> event.
++    /// </summary>
++    /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
++    protected virtual void OnSelectedItemChanged(EventArgs e) => SelectedItemChanged?.Invoke(this, e);
++
++    internal void OnItemsChanged()
++    {
++        if (_sorted)
++        {
++            _items.SortInternal();
++        }
++
++        if (_selectedIndex >= _items.Count)
++        {
++            _selectedIndex = _items.Count - 1;
++        }
++
++        UpdateDisplay();
++    }
++
++    private void MoveSelection(int delta)
++    {
++        if (_items.Count == 0)
++        {
++            return;
++        }
++
++        var next = _selectedIndex + delta;
++        if (next < 0)
++        {
++            next = _wrap ? _items.Count - 1 : 0;
++        }
++        else if (next >= _items.Count)
++        {
++            next = _wrap ? 0 : _items.Count - 1;
++        }
++
++        SelectedIndex = next;
++    }
++
++    private void UpdateDisplay()
++    {
++        self.Text = SelectedItem?.ToString() ?? string.Empty;
++    }
++}
++
++/// <summary>
++/// Encapsulates a collection of objects for use by the <see cref="T:System.Windows.Forms.DomainUpDown" />
++/// class.
++/// </summary>
++public class DomainUpDownItemCollection : ArrayList
++{
++    private readonly DomainUpDown _owner;
++
++    internal DomainUpDownItemCollection(DomainUpDown owner)
++    {
++        _owner = owner;
++    }
++
++    /// <summary>Gets or sets an item at the specified index in the collection.</summary>
++    /// <param name="index">The zero-based index of the item.</param>
++    /// <returns>The item at <paramref name="index" />.</returns>
++    public override object? this[int index]
++    {
++        get => base[index];
++        set
++        {
++            base[index] = value;
++            _owner.OnItemsChanged();
++        }
++    }
++
++    /// <summary>Adds an item to the end of the collection.</summary>
++    /// <param name="value">The item to add.</param>
++    /// <returns>The index at which the item was added.</returns>
++    public override int Add(object? value)
++    {
++        var result = base.Add(value);
++        _owner.OnItemsChanged();
++        return result;
++    }
++
++    /// <summary>Inserts an item into the collection at the specified index.</summary>
++    /// <param name="index">The zero-based index at which to insert.</param>
++    /// <param name="value">The item to insert.</param>
++    public override void Insert(int index, object? value)
++    {
++        base.Insert(index, value);
++        _owner.OnItemsChanged();
++    }
++
++    /// <summary>Removes the specified item from the collection.</summary>
++    /// <param name="obj">The item to remove.</param>
++    public override void Remove(object? obj)
++    {
++        base.Remove(obj);
++        _owner.OnItemsChanged();
++    }
++
++    /// <summary>Removes the item at the specified index.</summary>
++    /// <param name="index">The zero-based index of the item to remove.</param>
++    public override void RemoveAt(int index)
++    {
++        base.RemoveAt(index);
++        _owner.OnItemsChanged();
++    }
++
++    /// <summary>Removes all items from the collection.</summary>
++    public override void Clear()
++    {
++        base.Clear();
++        _owner.OnItemsChanged();
++    }
++
++    internal void SortInternal()
++    {
++        base.Sort(Comparer<object?>.Create((a, b) =>
++            string.Compare(a?.ToString(), b?.ToString(), StringComparison.CurrentCulture)));
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
+index 25002778..7c17fd33 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
+@@ -13,7 +13,7 @@ namespace System.Windows.Forms;
+ /// Represents a Windows spin box (also known as an up-down control) that displays numeric values.
+ /// </summary>
+ [DesignerCategory("Component")]
+-public partial class NumericUpDown : Control
++public partial class NumericUpDown : UpDownBase
+ {
+     /// <summary>
+     /// The self
+@@ -103,6 +103,43 @@ public partial class NumericUpDown : Control
+         set { self.Value = Convert.ToDouble(value); }
+     }
+ 
++    /// <summary>
++    /// Gets or sets a value indicating whether the numeric value can be edited only with the up and down
++    /// buttons.
++    /// </summary>
++    public override bool ReadOnly
++    {
++        get => self.IsEditable == false;
++        set => self.IsEditable = value == false;
++    }
++
++    /// <summary>
++    /// Gets or sets the text displayed in the spin box.
++    /// </summary>
++    public override string Text
++    {
++        get => self.Text;
++        set => self.Text = value ?? string.Empty;
++    }
++
++    /// <summary>
++    /// Increments the value of the spin box by the amount specified by the
++    /// <see cref="P:System.Windows.Forms.NumericUpDown.Increment" /> property.
++    /// </summary>
++    public override void UpButton()
++    {
++        Value = Math.Min(Maximum, Value + Increment);
++    }
++
++    /// <summary>
++    /// Decrements the value of the spin box by the amount specified by the
++    /// <see cref="P:System.Windows.Forms.NumericUpDown.Increment" /> property.
++    /// </summary>
++    public override void DownButton()
++    {
++        Value = Math.Max(Minimum, Value - Increment);
++    }
++
+     /// <summary>
+     /// Raises the ValueChanged event.
+     /// </summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UpDownBase.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UpDownBase.cs
+new file mode 100644
+index 00000000..e5e771bd
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UpDownBase.cs
+@@ -0,0 +1,90 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.ComponentModel;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Implements the basic functionality required by a spin box (also known as an up-down control), the shared
++/// base of <see cref="T:System.Windows.Forms.NumericUpDown" /> and
++/// <see cref="T:System.Windows.Forms.DomainUpDown" />. This mirrors the real
++/// <c>System.Windows.Forms.UpDownBase</c> so that source written against the shared surface — and type tests
++/// such as <c>control is UpDownBase</c> — compile and behave.
++/// </summary>
++/// <remarks>
++/// The value/text semantics differ per control, so <see cref="M:System.Windows.Forms.UpDownBase.UpButton" />
++/// and <see cref="M:System.Windows.Forms.UpDownBase.DownButton" /> are abstract and supplied by the derived
++/// control. Alignment and interception properties are carried here for source compatibility.
++/// </remarks>
++[DesignerCategory("Component")]
++public abstract class UpDownBase : ContainerControl
++{
++    private bool _interceptArrowKeys = true;
++    private HorizontalAlignment _textAlign = HorizontalAlignment.Left;
++    private LeftRightAlignment _upDownAlign = LeftRightAlignment.Right;
++
++    /// <summary>
++    /// Gets or sets a value indicating whether the user can use the UP ARROW and DOWN ARROW keys to select
++    /// values.
++    /// </summary>
++    public bool InterceptArrowKeys
++    {
++        get => _interceptArrowKeys;
++        set => _interceptArrowKeys = value;
++    }
++
++    /// <summary>
++    /// Gets or sets a value indicating whether the text can be changed by the use of the up or down buttons
++    /// only.
++    /// </summary>
++    public virtual bool ReadOnly { get; set; }
++
++    /// <summary>
++    /// Gets or sets the alignment of the text in the up-down control.
++    /// </summary>
++    public HorizontalAlignment TextAlign
++    {
++        get => _textAlign;
++        set => _textAlign = value;
++    }
++
++    /// <summary>
++    /// Gets or sets the alignment of the up and down buttons on the up-down control.
++    /// </summary>
++    public LeftRightAlignment UpDownAlign
++    {
++        get => _upDownAlign;
++        set => _upDownAlign = value;
++    }
++
++    /// <summary>
++    /// Gets the height of the up-down control, in pixels.
++    /// </summary>
++    public int PreferredHeight => Height > 0 ? Height : 23;
++
++    /// <summary>
++    /// When overridden in a derived class, increments the value of the up-down control.
++    /// </summary>
++    public abstract void UpButton();
++
++    /// <summary>
++    /// When overridden in a derived class, decrements the value of the up-down control.
++    /// </summary>
++    public abstract void DownButton();
++
++    /// <summary>
++    /// Selects a range of text in the up-down control specifying the starting position and number of
++    /// characters to select.
++    /// </summary>
++    /// <param name="start">The position of the first character to select.</param>
++    /// <param name="length">The number of characters to select.</param>
++    public virtual void Select(int start, int length)
++    {
++        if (GtkControl is Gtk.Entry entry)
++        {
++            entry.SelectRegion(start, start + length);
++        }
++    }
++}
+-- 
+2.53.0.windows.3
+
