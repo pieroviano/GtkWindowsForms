@@ -1,0 +1,2277 @@
+From c443bb5939f52e28f0ca93b6b2dd0777bc0d7464 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 24 Jul 2026 06:18:25 +0300
+Subject: [PATCH] Phase 1.2/1.3/2: base classes, AcceptButton/CancelButton,
+ compat enums
+
+Implements the first tranche of GAP-CLOSURE-PLAN.md against the net48 baseline.
+
+Phase 1.2 - structural base classes (restores members lost to a flattened hierarchy):
+- TextBoxBase : Control; re-parents TextBox, RichTextBox, MaskedTextBox onto it.
+  Restores Clear/Copy/Cut/Paste/Undo/ClearUndo/AppendText/TextLength/Modified/
+  CanUndo and the ModifiedChanged/ReadOnlyChanged/... events to the text family;
+  consolidates the duplicated selection surface. Undo covers content-edit ops.
+- ButtonBase : Control, IButtonControl; re-parents Button, CheckBox, RadioButton.
+  Consolidates the 3x-duplicated TextAlign->GTK-alignment logic into one wired
+  template; adds FlatStyle/FlatAppearance/AutoEllipsis/UseMnemonic/
+  UseCompatibleTextRendering/TextImageRelation (appearance surface stored for
+  source compatibility, deferring rendering to the GTK theme).
+- New type FlatButtonAppearance.
+- GTK-wrapper name clash (GtkSystem...ButtonBase/TextBoxBase) resolved with a
+  using-alias in the two affected files, as the plan predicted.
+
+Phase 1.3 - Form.AcceptButton / CancelButton (designer-emitted for most dialogs):
+- AcceptButton wires the GTK window default widget so ENTER activates it natively;
+  a form-level Enter/Escape handler also applies the button's DialogResult and
+  closes, keyboard-only so it does not double-fire with the mouse release path.
+
+Phase 2 - 13 compatibility enums with values read from the real net48 reference
+assembly (several non-sequential: ArrowDirection, SearchDirectionHint, ScrollButton):
+CharacterCasing, ScrollBars, TabAppearance, FrameStyle, LinkBehavior, InsertKeyMode,
+ItemBoundsPortion, ColumnHeaderAutoResizeStyle, ScrollButton, ArrowDirection,
+SearchDirectionHint, MenuMerge, DockingBehavior.
+
+Net48 public types present 522->538 (missing 512->496). Full suite green at 2261
+(+19 new functional tests). Clipboard round-trip is intentionally not asserted:
+taking/reading the GTK clipboard destabilizes the shared single-threaded test host.
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ .../Forms/ButtonBaseFunctionalTests.cs        |  82 ++++
+ .../Windows/Forms/ControlTests/ButtonTests.cs |   2 +-
+ .../FormAcceptCancelButtonFunctionalTests.cs  |  60 +++
+ .../Forms/MissingEnumValueFunctionalTests.cs  | 125 +++++
+ .../TextBoxBaseEditingFunctionalTests.cs      |  94 ++++
+ .../System/Windows/Forms/Button.cs            |  69 +--
+ .../System/Windows/Forms/ButtonBase.cs        | 145 ++++++
+ .../Forms/Buttons/FlatButtonAppearance.cs     |  39 ++
+ .../System/Windows/Forms/CheckBox.cs          |  83 +---
+ .../Windows/Forms/Enum/ArrowDirection.cs      |  21 +
+ .../Windows/Forms/Enum/CharacterCasing.cs     |  18 +
+ .../Forms/Enum/ColumnHeaderAutoResizeStyle.cs |  18 +
+ .../Windows/Forms/Enum/DockingBehavior.cs     |  18 +
+ .../System/Windows/Forms/Enum/FrameStyle.cs   |  15 +
+ .../Windows/Forms/Enum/InsertKeyMode.cs       |  18 +
+ .../Windows/Forms/Enum/ItemBoundsPortion.cs   |  21 +
+ .../System/Windows/Forms/Enum/LinkBehavior.cs |  21 +
+ .../System/Windows/Forms/Enum/MenuMerge.cs    |  21 +
+ .../System/Windows/Forms/Enum/ScrollBars.cs   |  21 +
+ .../System/Windows/Forms/Enum/ScrollButton.cs |  27 ++
+ .../Windows/Forms/Enum/SearchDirectionHint.cs |  21 +
+ .../Windows/Forms/Enum/TabAppearance.cs       |  18 +
+ .../System/Windows/Forms/Form.cs              |  70 +++
+ .../System/Windows/Forms/RadioButton.cs       |  83 +---
+ .../System/Windows/Forms/RichTextBox.cs       |  75 +--
+ .../System/Windows/Forms/TextBox.cs           |  89 ++--
+ .../System/Windows/Forms/TextBoxBase.cs       | 440 ++++++++++++++++++
+ 27 files changed, 1439 insertions(+), 275 deletions(-)
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ButtonBaseFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormAcceptCancelButtonFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/MissingEnumValueFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/TextBoxBaseEditingFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/ButtonBase.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Buttons/FlatButtonAppearance.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrowDirection.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/CharacterCasing.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ColumnHeaderAutoResizeStyle.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/DockingBehavior.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/FrameStyle.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/InsertKeyMode.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ItemBoundsPortion.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/LinkBehavior.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuMerge.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollBars.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollButton.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/SearchDirectionHint.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TabAppearance.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBoxBase.cs
+
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ButtonBaseFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ButtonBaseFunctionalTests.cs
+new file mode 100644
+index 00000000..f5f9959b
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ButtonBaseFunctionalTests.cs
+@@ -0,0 +1,82 @@
++namespace System.Windows.Forms;
++
++extern alias gtk;
++
++/// <summary>
++/// Verifies the <see cref="ButtonBase" /> base class shared by <see cref="Button" />,
++/// <see cref="CheckBox" /> and <see cref="RadioButton" />: the hierarchy relationships, the consolidated
++/// <see cref="ButtonBase.TextAlign" /> wiring, and the appearance surface carried for source compatibility.
++/// </summary>
++/// <remarks>
++/// GTK-dependent assertions are batched into a single realized-form lifecycle to keep the number of
++/// <see cref="Form.ShowDialog" /> cycles low, since this single-threaded GTK host accumulates global state
++/// per shown dialog.
++/// </remarks>
++[Collection("NonParallelCollection")]
++public class ButtonBaseFunctionalTests
++{
++    [Fact]
++    public void ButtonControls_DeriveFromButtonBase()
++    {
++        Assert.True(typeof(ButtonBase).IsAssignableFrom(typeof(Button)));
++        Assert.True(typeof(ButtonBase).IsAssignableFrom(typeof(CheckBox)));
++        Assert.True(typeof(ButtonBase).IsAssignableFrom(typeof(RadioButton)));
++        Assert.Equal(typeof(Control), typeof(ButtonBase).BaseType);
++    }
++
++    [Fact]
++    public void TextAlignWiring_And_AppearanceSurface_Behave()
++    {
++        var form = new Form();
++        var button = new Button();
++        var checkBox = new CheckBox();
++        var radio = new RadioButton();
++        form.Controls.Add(button);
++        form.Controls.Add(checkBox);
++        form.Controls.Add(radio);
++
++        form.Load += (s, e) =>
++        {
++            try
++            {
++                // --- TextAlign round-trips and drives the GTK alignment factors per control ---
++                button.TextAlign = gtk::System.Drawing.ContentAlignment.BottomRight;
++                Assert.Equal(gtk::System.Drawing.ContentAlignment.BottomRight, button.TextAlign);
++                Assert.Equal(1.0f, button.self.Xalign);
++                Assert.Equal(1.0f, button.self.Yalign);
++
++                checkBox.TextAlign = gtk::System.Drawing.ContentAlignment.MiddleCenter;
++                Assert.Equal(0.5f, checkBox.self.Xalign);
++                Assert.Equal(0.5f, checkBox.self.Yalign);
++
++                radio.TextAlign = gtk::System.Drawing.ContentAlignment.MiddleLeft;
++                Assert.Equal(0.0f, radio.self.Xalign);
++                Assert.Equal(0.5f, radio.self.Yalign);
++
++                // --- FlatAppearance is a stable backing instance with WinForms defaults ---
++                var appearance = button.FlatAppearance;
++                Assert.NotNull(appearance);
++                Assert.Same(appearance, button.FlatAppearance);
++                Assert.Equal(1, appearance.BorderSize);
++                button.FlatAppearance.BorderSize = 3;
++                Assert.Equal(3, button.FlatAppearance.BorderSize);
++
++                // --- appearance-surface defaults match WinForms ---
++                Assert.Equal(FlatStyle.Standard, button.FlatStyle);
++                button.FlatStyle = FlatStyle.Flat;
++                Assert.Equal(FlatStyle.Flat, button.FlatStyle);
++                Assert.True(button.UseMnemonic);
++                Assert.False(button.UseCompatibleTextRendering);
++                Assert.Equal(TextImageRelation.Overlay, button.TextImageRelation);
++                Assert.False(button.AutoEllipsis);
++            }
++            finally
++            {
++                form.Close();
++            }
++        };
++
++        form.ShowDialog();
++        form.Dispose();
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlTests/ButtonTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlTests/ButtonTests.cs
+index 33d76cfb..72a93b50 100644
+--- a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlTests/ButtonTests.cs
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlTests/ButtonTests.cs
+@@ -19,7 +19,7 @@ public class ButtonTests
+         var button = new Button();
+         form.Controls.Add(button);
+         object? buttonGtkControl = null;
+-        ButtonBase? buttonSelf = null;
++        GtkSystem.Windows.Forms.GtkControls.ControlBase.ButtonBase? buttonSelf = null;
+         form.Load += (s, e) =>
+         {
+             buttonGtkControl = button.GtkControl;
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormAcceptCancelButtonFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormAcceptCancelButtonFunctionalTests.cs
+new file mode 100644
+index 00000000..e5ba3f80
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormAcceptCancelButtonFunctionalTests.cs
+@@ -0,0 +1,60 @@
++namespace System.Windows.Forms;
++
++extern alias gtk;
++
++/// <summary>
++/// Verifies <see cref="Form.AcceptButton" /> and <see cref="Form.CancelButton" /> — designer-emitted for
++/// essentially every dialog. Covers the property round-trip, that both accept a <see cref="Button" /> as an
++/// <see cref="IButtonControl" />, and that assigning <see cref="Form.AcceptButton" /> makes the button the
++/// GTK window's default widget so ENTER activates it natively.
++/// </summary>
++/// <remarks>
++/// The ENTER/ESC key-activation-and-close path is wired on the form but is not asserted here: this GTK test
++/// host cannot synthesize the key-press events that would drive it. The default-widget wiring that ENTER
++/// relies on is asserted instead.
++/// </remarks>
++[Collection("NonParallelCollection")]
++public class FormAcceptCancelButtonFunctionalTests
++{
++    [Fact]
++    public void ButtonImplementsIButtonControl()
++    {
++        // Compile/hierarchy claim: a Button can be assigned to the IButtonControl-typed accept/cancel slots.
++        Assert.True(typeof(IButtonControl).IsAssignableFrom(typeof(Button)));
++    }
++
++    [Fact]
++    public void AcceptAndCancel_RoundTrip_And_WireGtkDefault()
++    {
++        var form = new Form();
++        var okButton = new Button { Text = "OK" };
++        var cancelButton = new Button { Text = "Cancel" };
++        form.Controls.Add(okButton);
++        form.Controls.Add(cancelButton);
++
++        form.Load += (s, e) =>
++        {
++            try
++            {
++                form.AcceptButton = okButton;
++                form.CancelButton = cancelButton;
++
++                // --- properties round-trip ---
++                Assert.Same(okButton, form.AcceptButton);
++                Assert.Same(cancelButton, form.CancelButton);
++
++                // --- AcceptButton makes the button default-capable and sets it as the window default so
++                //     ENTER activates it natively. (Gtk.Window.Default is set-only, so the default-capable
++                //     flag our setter enables is what we can observe.) ---
++                Assert.True(okButton.self.CanDefault);
++            }
++            finally
++            {
++                form.Close();
++            }
++        };
++
++        form.ShowDialog();
++        form.Dispose();
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/MissingEnumValueFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/MissingEnumValueFunctionalTests.cs
+new file mode 100644
+index 00000000..7d2ddab8
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/MissingEnumValueFunctionalTests.cs
+@@ -0,0 +1,125 @@
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Pins the underlying integer values of the compatibility enums added for source compatibility. Enum
++/// values are API — code compares them against Win32 constants and persists them in resources — so these
++/// assert the exact values from the real <c>System.Windows.Forms</c> reference assembly, several of which
++/// are non-sequential (<see cref="ArrowDirection" />, <see cref="SearchDirectionHint" />). No GTK widgets
++/// are created, so this runs without a realized form.
++/// </summary>
++public class MissingEnumValueFunctionalTests
++{
++    [Fact]
++    public void CharacterCasing_Values()
++    {
++        Assert.Equal(0, (int)CharacterCasing.Normal);
++        Assert.Equal(1, (int)CharacterCasing.Upper);
++        Assert.Equal(2, (int)CharacterCasing.Lower);
++    }
++
++    [Fact]
++    public void ScrollBars_Values()
++    {
++        Assert.Equal(0, (int)ScrollBars.None);
++        Assert.Equal(1, (int)ScrollBars.Horizontal);
++        Assert.Equal(2, (int)ScrollBars.Vertical);
++        Assert.Equal(3, (int)ScrollBars.Both);
++    }
++
++    [Fact]
++    public void TabAppearance_Values()
++    {
++        Assert.Equal(0, (int)TabAppearance.Normal);
++        Assert.Equal(1, (int)TabAppearance.Buttons);
++        Assert.Equal(2, (int)TabAppearance.FlatButtons);
++    }
++
++    [Fact]
++    public void FrameStyle_Values()
++    {
++        Assert.Equal(0, (int)FrameStyle.Dashed);
++        Assert.Equal(1, (int)FrameStyle.Thick);
++    }
++
++    [Fact]
++    public void LinkBehavior_Values()
++    {
++        Assert.Equal(0, (int)LinkBehavior.SystemDefault);
++        Assert.Equal(1, (int)LinkBehavior.AlwaysUnderline);
++        Assert.Equal(2, (int)LinkBehavior.HoverUnderline);
++        Assert.Equal(3, (int)LinkBehavior.NeverUnderline);
++    }
++
++    [Fact]
++    public void InsertKeyMode_Values()
++    {
++        Assert.Equal(0, (int)InsertKeyMode.Default);
++        Assert.Equal(1, (int)InsertKeyMode.Insert);
++        Assert.Equal(2, (int)InsertKeyMode.Overwrite);
++    }
++
++    [Fact]
++    public void ItemBoundsPortion_Values()
++    {
++        Assert.Equal(0, (int)ItemBoundsPortion.Entire);
++        Assert.Equal(1, (int)ItemBoundsPortion.Icon);
++        Assert.Equal(2, (int)ItemBoundsPortion.Label);
++        Assert.Equal(3, (int)ItemBoundsPortion.ItemOnly);
++    }
++
++    [Fact]
++    public void ColumnHeaderAutoResizeStyle_Values()
++    {
++        Assert.Equal(0, (int)ColumnHeaderAutoResizeStyle.None);
++        Assert.Equal(1, (int)ColumnHeaderAutoResizeStyle.HeaderSize);
++        Assert.Equal(2, (int)ColumnHeaderAutoResizeStyle.ColumnContent);
++    }
++
++    [Fact]
++    public void ScrollButton_Values()
++    {
++        Assert.Equal(0, (int)ScrollButton.Up);
++        Assert.Equal(1, (int)ScrollButton.Down);
++        Assert.Equal(2, (int)ScrollButton.Left);
++        Assert.Equal(3, (int)ScrollButton.Right);
++        Assert.Equal(0, (int)ScrollButton.Min);
++        Assert.Equal(3, (int)ScrollButton.Max);
++    }
++
++    [Fact]
++    public void ArrowDirection_Values()
++    {
++        // Non-sequential in real WinForms.
++        Assert.Equal(0, (int)ArrowDirection.Left);
++        Assert.Equal(1, (int)ArrowDirection.Up);
++        Assert.Equal(16, (int)ArrowDirection.Right);
++        Assert.Equal(17, (int)ArrowDirection.Down);
++    }
++
++    [Fact]
++    public void SearchDirectionHint_Values()
++    {
++        // Virtual-key values in real WinForms, not 1..4.
++        Assert.Equal(37, (int)SearchDirectionHint.Left);
++        Assert.Equal(38, (int)SearchDirectionHint.Up);
++        Assert.Equal(39, (int)SearchDirectionHint.Right);
++        Assert.Equal(40, (int)SearchDirectionHint.Down);
++    }
++
++    [Fact]
++    public void MenuMerge_Values()
++    {
++        Assert.Equal(0, (int)MenuMerge.Add);
++        Assert.Equal(1, (int)MenuMerge.Replace);
++        Assert.Equal(2, (int)MenuMerge.MergeItems);
++        Assert.Equal(3, (int)MenuMerge.Remove);
++    }
++
++    [Fact]
++    public void DockingBehavior_Values()
++    {
++        Assert.Equal(0, (int)DockingBehavior.Never);
++        Assert.Equal(1, (int)DockingBehavior.Ask);
++        Assert.Equal(2, (int)DockingBehavior.AutoDock);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/TextBoxBaseEditingFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/TextBoxBaseEditingFunctionalTests.cs
+new file mode 100644
+index 00000000..9e385ced
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/TextBoxBaseEditingFunctionalTests.cs
+@@ -0,0 +1,94 @@
++namespace System.Windows.Forms;
++
++extern alias gtk;
++
++/// <summary>
++/// Verifies the shared editing surface introduced on <see cref="TextBoxBase" /> — the clipboard, undo and
++/// modified-state behaviour restored to <see cref="TextBox" /> and <see cref="RichTextBox" /> — plus the
++/// control-hierarchy relationships that source ported from real WinForms depends on.
++/// </summary>
++/// <remarks>
++/// Behaviour is asserted inside one realized-form lifecycle. The clipboard operations
++/// (<see cref="TextBoxBase.Copy" />/<see cref="TextBoxBase.Cut" />/<see cref="TextBoxBase.Paste" />) are not
++/// exercised here: taking GTK clipboard (X selection) ownership, or reading it back with <c>WaitForText</c>,
++/// destabilizes this shared single-threaded GTK test host and crashes a later test. Their substantive edit
++/// logic — the shared <c>ReplaceSelectedTextCore</c> that inserts/removes text — is instead covered through
++/// the <see cref="TextBoxBase.SelectedText" />, <see cref="TextBoxBase.AppendText(System.String)" /> and
++/// <see cref="TextBoxBase.Undo" /> assertions; only the thin <c>Gtk.Clipboard</c> bridge is left unasserted.
++/// </remarks>
++[Collection("NonParallelCollection")]
++public class TextBoxBaseEditingFunctionalTests
++{
++    [Fact]
++    public void TextControls_DeriveFromTextBoxBase()
++    {
++        // Verified by type metadata rather than by instantiating GTK widgets: this is a compile/hierarchy
++        // claim ("control is TextBoxBase") and must hold without a realized form.
++        Assert.True(typeof(TextBoxBase).IsAssignableFrom(typeof(TextBox)));
++        Assert.True(typeof(TextBoxBase).IsAssignableFrom(typeof(RichTextBox)));
++        Assert.True(typeof(TextBoxBase).IsAssignableFrom(typeof(MaskedTextBox)));
++        // TextBoxBase itself sits directly on Control, as in real WinForms.
++        Assert.Equal(typeof(Control), typeof(TextBoxBase).BaseType);
++    }
++
++    [Fact]
++    public void EditingSurface_Behaves()
++    {
++        var form = new Form();
++        var textBox = new TextBox();
++        var richTextBox = new RichTextBox();
++        form.Controls.Add(textBox);
++        form.Controls.Add(richTextBox);
++
++        var modifiedChangedRaised = 0;
++
++        form.Load += (s, e) =>
++        {
++            try
++            {
++                // --- assigning Text clears Modified; editing sets it ---
++                textBox.ModifiedChanged += (s2, e2) => modifiedChangedRaised++;
++                textBox.Text = "Hello";
++                Assert.False(textBox.Modified);          // programmatic assignment does not modify
++                Assert.False(textBox.CanUndo);           // nothing captured after a plain assignment
++
++                textBox.AppendText(" World");
++                Assert.Equal("Hello World", textBox.Text);
++                Assert.True(textBox.Modified);           // edit sets Modified
++                Assert.True(textBox.CanUndo);
++                Assert.Equal(1, modifiedChangedRaised);  // one false→true transition
++
++                // --- TextLength ---
++                Assert.Equal("Hello World".Length, textBox.TextLength);
++
++                // --- Undo restores the pre-append text ---
++                textBox.Undo();
++                Assert.Equal("Hello", textBox.Text);
++
++                // --- SelectedText replaces the selection ---
++                textBox.Text = "Hello World";
++                textBox.Select(0, 5);
++                textBox.SelectedText = "Goodbye";
++                Assert.Equal("Goodbye World", textBox.Text);
++
++                // --- Clear empties the control ---
++                textBox.Clear();
++                Assert.Equal(string.Empty, textBox.Text);
++
++                // --- RichTextBox shares the same base behaviour ---
++                richTextBox.Text = "Hello";
++                richTextBox.AppendText(" World");
++                Assert.Equal("Hello World", richTextBox.Text);
++                richTextBox.Undo();
++                Assert.Equal("Hello", richTextBox.Text);
++            }
++            finally
++            {
++                form.Close();
++            }
++        };
++
++        form.ShowDialog();
++        form.Dispose();
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Button.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Button.cs
+index 2384cfee..55c1c503 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Button.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Button.cs
+@@ -7,6 +7,7 @@
+ 
+ using System.ComponentModel;
+ using GtkSystem.Windows.Forms.GtkControls.ControlBase;
++using GtkButtonBase = GtkSystem.Windows.Forms.GtkControls.ControlBase.ButtonBase;
+ 
+ namespace System.Windows.Forms;
+ 
+@@ -17,14 +18,12 @@ namespace System.Windows.Forms;
+ /// 1
+ /// </filterpriority>
+ [DesignerCategory("Component")]
+-public partial class Button : Control
++public partial class Button : ButtonBase
+ {
+     /// <summary>
+     /// The self
+     /// </summary>
+-    public readonly ButtonBase self = new();
+-
+-    private System.Drawing.ContentAlignment textAlign;
++    public readonly GtkButtonBase self = new();
+ 
+     /// <summary>
+     /// Initializes a new instance of the
+@@ -80,62 +79,14 @@ public partial class Button : Control
+     }
+ 
+     /// <summary>
+-    /// Gets or sets the text align.
++    /// Applies the alignment factors produced from
++    /// <see cref="P:System.Windows.Forms.ButtonBase.TextAlign" /> to the GTK button.
+     /// </summary>
+-    /// <value>
+-    /// The text align.
+-    /// </value>
+-    public System.Drawing.ContentAlignment TextAlign
++    /// <param name="xAlign">The horizontal alignment factor.</param>
++    /// <param name="yAlign">The vertical alignment factor.</param>
++    protected override void SetContentAlignmentCore(float xAlign, float yAlign)
+     {
+-        get { return textAlign; }
+-        set
+-        {
+-            textAlign = value;
+-            if (value == System.Drawing.ContentAlignment.TopLeft)
+-            {
+-                self.Xalign = 0.0f;
+-                self.Yalign = 0.0f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.TopCenter)
+-            {
+-                self.Xalign = 0.5f;
+-                self.Yalign = 0.0f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.TopRight)
+-            {
+-                self.Xalign = 1.0f;
+-                self.Yalign = 0.0f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.MiddleLeft)
+-            {
+-                self.Xalign = 0.0f;
+-                self.Yalign = 0.5f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.MiddleCenter)
+-            {
+-                self.Xalign = 0.5f;
+-                self.Yalign = 0.5f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.MiddleRight)
+-            {
+-                self.Xalign = 1.0f;
+-                self.Yalign = 0.5f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.BottomLeft)
+-            {
+-                self.Xalign = 0.0f;
+-                self.Yalign = 1.0f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.BottomCenter)
+-            {
+-                self.Xalign = 0.5f;
+-                self.Yalign = 1.0f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.BottomRight)
+-            {
+-                self.Xalign = 1.0f;
+-                self.Yalign = 1.0f;
+-            }
+-        }
++        self.Xalign = xAlign;
++        self.Yalign = yAlign;
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ButtonBase.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ButtonBase.cs
+new file mode 100644
+index 00000000..cb8f2a9c
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ButtonBase.cs
+@@ -0,0 +1,145 @@
++/*
++ * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
++ * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
++ */
++
++using System.ComponentModel;
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Implements the basic functionality common to button controls
++/// (<see cref="T:System.Windows.Forms.Button" />, <see cref="T:System.Windows.Forms.CheckBox" /> and
++/// <see cref="T:System.Windows.Forms.RadioButton" />). This mirrors the real
++/// <c>System.Windows.Forms.ButtonBase</c> so that source written against the shared surface — and type
++/// tests such as <c>control is ButtonBase</c> — compile and behave.
++/// </summary>
++/// <remarks>
++/// <see cref="P:System.Windows.Forms.ButtonBase.TextAlign" /> is wired to the underlying widget through
++/// <see cref="M:System.Windows.Forms.ButtonBase.SetContentAlignmentCore(System.Single,System.Single)" />.
++/// The remaining appearance properties (<see cref="P:System.Windows.Forms.ButtonBase.FlatStyle" />,
++/// <see cref="P:System.Windows.Forms.ButtonBase.FlatAppearance" />,
++/// <see cref="P:System.Windows.Forms.ButtonBase.UseVisualStyleBackColor" /> and the others) are stored for
++/// source compatibility; rendering defers to the active GTK theme rather than emulating Windows visual
++/// styles, so their visual effect is a documented deviation from desktop WinForms.
++/// </remarks>
++[DesignerCategory("Component")]
++public abstract class ButtonBase : Control, IButtonControl
++{
++    private ContentAlignment _textAlign = ContentAlignment.MiddleCenter;
++    private FlatButtonAppearance? _flatAppearance;
++    private bool _isDefault;
++
++    /// <summary>
++    /// Gets or sets the alignment of the text on the button control.
++    /// </summary>
++    public virtual ContentAlignment TextAlign
++    {
++        get => _textAlign;
++        set
++        {
++            _textAlign = value;
++            SetContentAlignmentCore(HorizontalFactor(value), VerticalFactor(value));
++        }
++    }
++
++    /// <summary>
++    /// Gets the appearance of the border and the colors used to indicate check state and mouse state when
++    /// <see cref="P:System.Windows.Forms.ButtonBase.FlatStyle" /> is
++    /// <see cref="F:System.Windows.Forms.FlatStyle.Flat" />.
++    /// </summary>
++    public FlatButtonAppearance FlatAppearance => _flatAppearance ??= new FlatButtonAppearance();
++
++    /// <summary>
++    /// Gets or sets the flat style appearance of the button control.
++    /// </summary>
++    public FlatStyle FlatStyle { get; set; } = FlatStyle.Standard;
++
++    /// <summary>
++    /// Gets or sets a value indicating whether the ellipsis character (...) appears at the right edge of the
++    /// control, denoting that the text extends beyond the specified length of the control.
++    /// </summary>
++    public bool AutoEllipsis { get; set; }
++
++    /// <summary>
++    /// Gets or sets the position of text and image relative to each other.
++    /// </summary>
++    public TextImageRelation TextImageRelation { get; set; } = TextImageRelation.Overlay;
++
++    /// <summary>
++    /// Gets or sets a value indicating whether the button uses the mnemonic (access key) contained in its
++    /// text.
++    /// </summary>
++    public bool UseMnemonic { get; set; } = true;
++
++    /// <summary>
++    /// Gets or sets a value indicating whether to use the classic (GDI+) or the compatibility text renderer.
++    /// Stored for compatibility only.
++    /// </summary>
++    public bool UseCompatibleTextRendering { get; set; }
++
++    /// <summary>
++    /// Gets or sets a value indicating whether the button control is the default button. In WinForms this is
++    /// set by a hosting form through its accept button.
++    /// </summary>
++    protected virtual bool IsDefault
++    {
++        get => _isDefault;
++        set => _isDefault = value;
++    }
++
++    /// <summary>
++    /// Applies a horizontal and vertical alignment factor (each 0.0, 0.5 or 1.0) to the underlying widget.
++    /// Implemented per control against its GTK alignment properties.
++    /// </summary>
++    /// <param name="xAlign">The horizontal alignment factor.</param>
++    /// <param name="yAlign">The vertical alignment factor.</param>
++    protected abstract void SetContentAlignmentCore(float xAlign, float yAlign);
++
++    /// <summary>
++    /// Maps the horizontal component of a <see cref="T:System.Drawing.ContentAlignment" /> to a 0.0–1.0
++    /// factor (left, center, right).
++    /// </summary>
++    /// <param name="alignment">The content alignment.</param>
++    /// <returns>The horizontal alignment factor.</returns>
++    protected static float HorizontalFactor(ContentAlignment alignment)
++    {
++        const ContentAlignment right = ContentAlignment.TopRight | ContentAlignment.MiddleRight | ContentAlignment.BottomRight;
++        const ContentAlignment center = ContentAlignment.TopCenter | ContentAlignment.MiddleCenter | ContentAlignment.BottomCenter;
++        if ((alignment & right) != 0)
++        {
++            return 1.0f;
++        }
++
++        if ((alignment & center) != 0)
++        {
++            return 0.5f;
++        }
++
++        return 0.0f;
++    }
++
++    /// <summary>
++    /// Maps the vertical component of a <see cref="T:System.Drawing.ContentAlignment" /> to a 0.0–1.0 factor
++    /// (top, middle, bottom).
++    /// </summary>
++    /// <param name="alignment">The content alignment.</param>
++    /// <returns>The vertical alignment factor.</returns>
++    protected static float VerticalFactor(ContentAlignment alignment)
++    {
++        const ContentAlignment bottom = ContentAlignment.BottomLeft | ContentAlignment.BottomCenter | ContentAlignment.BottomRight;
++        const ContentAlignment middle = ContentAlignment.MiddleLeft | ContentAlignment.MiddleCenter | ContentAlignment.MiddleRight;
++        if ((alignment & bottom) != 0)
++        {
++            return 1.0f;
++        }
++
++        if ((alignment & middle) != 0)
++        {
++            return 0.5f;
++        }
++
++        return 0.0f;
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Buttons/FlatButtonAppearance.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Buttons/FlatButtonAppearance.cs
+new file mode 100644
+index 00000000..beda58c1
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Buttons/FlatButtonAppearance.cs
+@@ -0,0 +1,39 @@
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Provides properties that specify the appearance of
++/// <see cref="T:System.Windows.Forms.ButtonBase" /> controls whose
++/// <see cref="P:System.Windows.Forms.ButtonBase.FlatStyle" /> is
++/// <see cref="F:System.Windows.Forms.FlatStyle.Flat" />. Exposed through
++/// <see cref="P:System.Windows.Forms.ButtonBase.FlatAppearance" />.
++/// </summary>
++public class FlatButtonAppearance
++{
++    /// <summary>
++    /// Gets or sets the color of the border around the button.
++    /// </summary>
++    public System.Drawing.Color BorderColor { get; set; } = System.Drawing.Color.Empty;
++
++    /// <summary>
++    /// Gets or sets the size, in pixels, of the border around the button.
++    /// </summary>
++    public int BorderSize { get; set; } = 1;
++
++    /// <summary>
++    /// Gets or sets the color of the client area of the button when the button is checked and the mouse
++    /// pointer is outside the bounds of the control.
++    /// </summary>
++    public System.Drawing.Color CheckedBackColor { get; set; } = System.Drawing.Color.Empty;
++
++    /// <summary>
++    /// Gets or sets the color of the client area of the button when the mouse is pressed within the bounds
++    /// of the control.
++    /// </summary>
++    public System.Drawing.Color MouseDownBackColor { get; set; } = System.Drawing.Color.Empty;
++
++    /// <summary>
++    /// Gets or sets the color of the client area of the button when the mouse pointer is within the bounds
++    /// of the control.
++    /// </summary>
++    public System.Drawing.Color MouseOverBackColor { get; set; } = System.Drawing.Color.Empty;
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
+index 1113d9fb..ceb788cb 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
+@@ -17,15 +17,13 @@ namespace System.Windows.Forms;
+ /// <filterpriority> 1
+ /// </filterpriority>
+ [DesignerCategory("Component")]
+-public partial class CheckBox : Control
++public partial class CheckBox : ButtonBase
+ {
+     /// <summary>
+     /// The self
+     /// </summary>
+     public readonly CheckBoxBase self = new();
+ 
+-    private System.Drawing.ContentAlignment textAlign;
+-
+     /// <summary>
+     /// Occurs when checked is changed.
+     /// </summary>
+@@ -59,23 +57,6 @@ public partial class CheckBox : Control
+         set { self.DrawIndicator = value == Appearance.Normal; }
+     }
+ 
+-    /// <summary>
+-    /// Gets or sets a value indicating whether the ellipsis character (...) appears at the right edge of the control, denoting that the text extends beyond the specified length of the control.
+-    /// </summary>
+-    /// <value>
+-    /// <c>
+-    /// true
+-    /// </c> if the text is truncated with an ellipsis; otherwise,
+-    /// <c>
+-    /// false
+-    /// </c>.
+-    /// </value>
+-    public bool AutoEllipsis
+-    {
+-        get;
+-        set;
+-    }
+-
+     /// <summary>
+     /// Gets or sets a value indicating whether this
+     /// <see cref="T:System.Windows.Forms.CheckBox" /> is checked.
+@@ -127,63 +108,15 @@ public partial class CheckBox : Control
+     }
+ 
+     /// <summary>
+-    /// Gets or sets the text align.
++    /// Applies the alignment factors produced from
++    /// <see cref="P:System.Windows.Forms.ButtonBase.TextAlign" /> to the GTK check box.
+     /// </summary>
+-    /// <value>
+-    /// The text align.
+-    /// </value>
+-    public System.Drawing.ContentAlignment TextAlign
++    /// <param name="xAlign">The horizontal alignment factor.</param>
++    /// <param name="yAlign">The vertical alignment factor.</param>
++    protected override void SetContentAlignmentCore(float xAlign, float yAlign)
+     {
+-        get { return textAlign; }
+-        set
+-        {
+-            textAlign = value;
+-            if (value == System.Drawing.ContentAlignment.TopLeft)
+-            {
+-                self.Xalign = 0.0f;
+-                self.Yalign = 0.0f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.TopCenter)
+-            {
+-                self.Xalign = 0.5f;
+-                self.Yalign = 0.0f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.TopRight)
+-            {
+-                self.Xalign = 1.0f;
+-                self.Yalign = 0.0f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.MiddleLeft)
+-            {
+-                self.Xalign = 0.0f;
+-                self.Yalign = 0.5f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.MiddleCenter)
+-            {
+-                self.Xalign = 0.5f;
+-                self.Yalign = 0.5f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.MiddleRight)
+-            {
+-                self.Xalign = 1.0f;
+-                self.Yalign = 0.5f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.BottomLeft)
+-            {
+-                self.Xalign = 0.0f;
+-                self.Yalign = 1.0f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.BottomCenter)
+-            {
+-                self.Xalign = 0.5f;
+-                self.Yalign = 1.0f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.BottomRight)
+-            {
+-                self.Xalign = 1.0f;
+-                self.Yalign = 1.0f;
+-            }
+-        }
++        self.Xalign = xAlign;
++        self.Yalign = yAlign;
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrowDirection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrowDirection.cs
+new file mode 100644
+index 00000000..783b461c
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrowDirection.cs
+@@ -0,0 +1,21 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;/// <summary>
++/// Defines constants that specify the direction in which to move within a list of items.
++/// </summary>
++public enum ArrowDirection
++{
++    /// <summary>The left direction.</summary>
++    Left = 0,
++
++    /// <summary>The up direction.</summary>
++    Up = 1,
++
++    /// <summary>The right direction.</summary>
++    Right = 16,
++
++    /// <summary>The down direction.</summary>
++    Down = 17,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/CharacterCasing.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/CharacterCasing.cs
+new file mode 100644
+index 00000000..1794e16f
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/CharacterCasing.cs
+@@ -0,0 +1,18 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;/// <summary>
++/// Specifies the case of characters in a <see cref="T:System.Windows.Forms.TextBox" /> control as they are typed.
++/// </summary>
++public enum CharacterCasing
++{
++    /// <summary>The case of characters is left unchanged.</summary>
++    Normal = 0,
++
++    /// <summary>Converts all characters to uppercase.</summary>
++    Upper = 1,
++
++    /// <summary>Converts all characters to lowercase.</summary>
++    Lower = 2,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ColumnHeaderAutoResizeStyle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ColumnHeaderAutoResizeStyle.cs
+new file mode 100644
+index 00000000..4c292205
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ColumnHeaderAutoResizeStyle.cs
+@@ -0,0 +1,18 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;/// <summary>
++/// Specifies how a <see cref="T:System.Windows.Forms.ColumnHeader" /> should be resized.
++/// </summary>
++public enum ColumnHeaderAutoResizeStyle
++{
++    /// <summary>Does not automatically resize the column widths.</summary>
++    None = 0,
++
++    /// <summary>Resizes the column width to fit the length of the column heading text.</summary>
++    HeaderSize = 1,
++
++    /// <summary>Resizes the column width to fit the width of the column contents.</summary>
++    ColumnContent = 2,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/DockingBehavior.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/DockingBehavior.cs
+new file mode 100644
+index 00000000..8ca34166
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/DockingBehavior.cs
+@@ -0,0 +1,18 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;/// <summary>
++/// Specifies whether a control, when added to a container, should extend its edges to fill the empty space of the container.
++/// </summary>
++public enum DockingBehavior
++{
++    /// <summary>The control does not automatically dock when added to a container.</summary>
++    Never = 0,
++
++    /// <summary>The control's docking behavior is determined by the developer.</summary>
++    Ask = 1,
++
++    /// <summary>The control docks to the parent container's edges automatically.</summary>
++    AutoDock = 2,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/FrameStyle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/FrameStyle.cs
+new file mode 100644
+index 00000000..c470e117
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/FrameStyle.cs
+@@ -0,0 +1,15 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;/// <summary>
++/// Specifies the style of the frame drawn around a selected control.
++/// </summary>
++public enum FrameStyle
++{
++    /// <summary>A thin, dashed border.</summary>
++    Dashed = 0,
++
++    /// <summary>A thick, solid border.</summary>
++    Thick = 1,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/InsertKeyMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/InsertKeyMode.cs
+new file mode 100644
+index 00000000..48525fc7
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/InsertKeyMode.cs
+@@ -0,0 +1,18 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;/// <summary>
++/// Represents the mode characters are entered into a <see cref="T:System.Windows.Forms.MaskedTextBox" /> control.
++/// </summary>
++public enum InsertKeyMode
++{
++    /// <summary>Uses the current INSERT key mode of the keyboard.</summary>
++    Default = 0,
++
++    /// <summary>Uses insert mode.</summary>
++    Insert = 1,
++
++    /// <summary>Uses overwrite mode.</summary>
++    Overwrite = 2,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ItemBoundsPortion.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ItemBoundsPortion.cs
+new file mode 100644
+index 00000000..29889d1e
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ItemBoundsPortion.cs
+@@ -0,0 +1,21 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;/// <summary>
++/// Specifies a portion of the <see cref="T:System.Windows.Forms.ListViewItem" /> from which to retrieve the bounding rectangle.
++/// </summary>
++public enum ItemBoundsPortion
++{
++    /// <summary>The bounding rectangle of the entire item, including the icon, the item text, and the subitem text (in details view), should be retrieved.</summary>
++    Entire = 0,
++
++    /// <summary>The bounding rectangle of the icon or small icon should be retrieved.</summary>
++    Icon = 1,
++
++    /// <summary>The bounding rectangle of the item text should be retrieved.</summary>
++    Label = 2,
++
++    /// <summary>The bounding rectangle of the icon or small icon and the item text should be retrieved.</summary>
++    ItemOnly = 3,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/LinkBehavior.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/LinkBehavior.cs
+new file mode 100644
+index 00000000..9f0c6933
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/LinkBehavior.cs
+@@ -0,0 +1,21 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;/// <summary>
++/// Specifies the behaviors of a link in a <see cref="T:System.Windows.Forms.LinkLabel" />.
++/// </summary>
++public enum LinkBehavior
++{
++    /// <summary>The behavior of this setting depends on the options set using the Internet Options dialog box.</summary>
++    SystemDefault = 0,
++
++    /// <summary>The link is displayed with underlined text.</summary>
++    AlwaysUnderline = 1,
++
++    /// <summary>The link text is underlined only when the mouse pointer hovers over the link text.</summary>
++    HoverUnderline = 2,
++
++    /// <summary>The link text is never underlined.</summary>
++    NeverUnderline = 3,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuMerge.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuMerge.cs
+new file mode 100644
+index 00000000..f67b9ee5
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuMerge.cs
+@@ -0,0 +1,21 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;/// <summary>
++/// Specifies the behavior of a <see cref="T:System.Windows.Forms.ToolStripMenuItem" /> when it is merged with another menu.
++/// </summary>
++public enum MenuMerge
++{
++    /// <summary>Adds the item to the collection of existing items.</summary>
++    Add = 0,
++
++    /// <summary>Replaces the existing item with this item, at the same position.</summary>
++    Replace = 1,
++
++    /// <summary>Merges the subitems of this item with those of existing items at the corresponding position.</summary>
++    MergeItems = 2,
++
++    /// <summary>Removes the item from the collection.</summary>
++    Remove = 3,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollBars.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollBars.cs
+new file mode 100644
+index 00000000..4fd4892d
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollBars.cs
+@@ -0,0 +1,21 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;/// <summary>
++/// Specifies which scroll bars are displayed on a multiline <see cref="T:System.Windows.Forms.TextBox" /> control.
++/// </summary>
++public enum ScrollBars
++{
++    /// <summary>No scroll bars are shown.</summary>
++    None = 0,
++
++    /// <summary>Only horizontal scroll bars are shown.</summary>
++    Horizontal = 1,
++
++    /// <summary>Only vertical scroll bars are shown.</summary>
++    Vertical = 2,
++
++    /// <summary>Both horizontal and vertical scroll bars are shown.</summary>
++    Both = 3,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollButton.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollButton.cs
+new file mode 100644
+index 00000000..85367f0c
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollButton.cs
+@@ -0,0 +1,27 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;/// <summary>
++/// Specifies the type of scroll arrow to draw on a scroll bar.
++/// </summary>
++public enum ScrollButton
++{
++    /// <summary>An up-scroll arrow.</summary>
++    Up = 0,
++
++    /// <summary>A down-scroll arrow.</summary>
++    Down = 1,
++
++    /// <summary>A left-scroll arrow.</summary>
++    Left = 2,
++
++    /// <summary>A right-scroll arrow.</summary>
++    Right = 3,
++
++    /// <summary>The minimum-scroll arrow (equivalent to <see cref="F:System.Windows.Forms.ScrollButton.Up" />).</summary>
++    Min = 0,
++
++    /// <summary>The maximum-scroll arrow (equivalent to <see cref="F:System.Windows.Forms.ScrollButton.Right" />).</summary>
++    Max = 3,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/SearchDirectionHint.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/SearchDirectionHint.cs
+new file mode 100644
+index 00000000..7720356c
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/SearchDirectionHint.cs
+@@ -0,0 +1,21 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;/// <summary>
++/// Specifies the direction in which to search when performing a search.
++/// </summary>
++public enum SearchDirectionHint
++{
++    /// <summary>Search up.</summary>
++    Up = 38,
++
++    /// <summary>Search to the left.</summary>
++    Left = 37,
++
++    /// <summary>Search to the right.</summary>
++    Right = 39,
++
++    /// <summary>Search down.</summary>
++    Down = 40,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TabAppearance.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TabAppearance.cs
+new file mode 100644
+index 00000000..f7fda7bf
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TabAppearance.cs
+@@ -0,0 +1,18 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;/// <summary>
++/// Specifies the visual appearance of the tabs in a <see cref="T:System.Windows.Forms.TabControl" />.
++/// </summary>
++public enum TabAppearance
++{
++    /// <summary>The tabs have the standard appearance of tabs.</summary>
++    Normal = 0,
++
++    /// <summary>The tabs have the appearance of three-dimensional buttons.</summary>
++    Buttons = 1,
++
++    /// <summary>The tabs have the appearance of flat buttons.</summary>
++    FlatButtons = 2,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+index 26d3191e..b2e72b4a 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+@@ -177,6 +177,39 @@ public partial class Form : ContainerControl, IWin32Window
+         set;
+     }
+ 
++    private IButtonControl? _acceptButton;
++    private IButtonControl? _cancelButton;
++
++    /// <summary>
++    /// Gets or sets the button on the form that is clicked when the user presses the ENTER key.
++    /// </summary>
++    /// <remarks>
++    /// The button's GTK widget is made the window's default widget, so ENTER activates it natively; the
++    /// form additionally applies the button's dialog result and closes, as WinForms does.
++    /// </remarks>
++    public IButtonControl? AcceptButton
++    {
++        get => _acceptButton;
++        set
++        {
++            _acceptButton = value;
++            if (value is Control control && control.Widget is Gtk.Widget widget)
++            {
++                widget.CanDefault = true;
++                self.Default = widget;
++            }
++        }
++    }
++
++    /// <summary>
++    /// Gets or sets the button control that is clicked when the user presses the ESC key.
++    /// </summary>
++    public IButtonControl? CancelButton
++    {
++        get => _cancelButton;
++        set => _cancelButton = value;
++    }
++
+     /// <summary>
+     /// Gets or sets the border style of the form.
+     /// </summary>
+@@ -982,6 +1015,43 @@ public partial class Form : ContainerControl, IWin32Window
+         _ObjectCollection = new ControlCollection(this, self.contaner);
+         self.Shown += Control_Shown;
+         self.CloseWindowEvent += Self_CloseWindowEvent;
++        self.KeyPressEvent += Self_AcceptCancelKeyPressEvent;
++    }
++
++    /// <summary>
++    /// Routes Enter to <see cref="P:System.Windows.Forms.Form.AcceptButton" /> and Escape to
++    /// <see cref="P:System.Windows.Forms.Form.CancelButton" />, mirroring WinForms' default-button behaviour.
++    /// This handles keyboard activation only; mouse clicks flow through the button's own release handler, so
++    /// the two paths do not double-fire.
++    /// </summary>
++    private void Self_AcceptCancelKeyPressEvent(object o, Gtk.KeyPressEventArgs args)
++    {
++        var key = args.Event.Key;
++        if ((key == Gdk.Key.Return || key == Gdk.Key.KP_Enter) && _acceptButton != null)
++        {
++            ActivateDialogButton(_acceptButton);
++            args.RetVal = true;
++        }
++        else if (key == Gdk.Key.Escape && _cancelButton != null)
++        {
++            ActivateDialogButton(_cancelButton);
++            args.RetVal = true;
++        }
++    }
++
++    /// <summary>
++    /// Raises the button's click and, when it carries a dialog result, applies it to the form and closes,
++    /// matching how WinForms' accept/cancel buttons dismiss a dialog.
++    /// </summary>
++    /// <param name="button">The accept or cancel button being activated by the keyboard.</param>
++    private void ActivateDialogButton(IButtonControl button)
++    {
++        (button as Control)?.PerformClick();
++        if (button is Button concrete && concrete.DialogResult != DialogResult.None)
++        {
++            DialogResult = concrete.DialogResult;
++            Close();
++        }
+     }
+ 
+     private void OnShownHandler()
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
+index e4fb518b..d552c33a 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
+@@ -15,7 +15,7 @@ namespace System.Windows.Forms;
+ /// <see cref="T:System.Windows.Forms.RadioButton" /> controls.
+ /// </summary>
+ [DesignerCategory("Component")]
+-public partial class RadioButton : Control
++public partial class RadioButton : ButtonBase
+ {
+     /// <summary>
+     /// The self
+@@ -24,8 +24,6 @@ public partial class RadioButton : Control
+ 
+     private bool _Checked;
+ 
+-    private System.Drawing.ContentAlignment textAlign;
+-
+     /// <summary>
+     /// Occurs when checked changed.
+     /// </summary>
+@@ -53,23 +51,6 @@ public partial class RadioButton : Control
+         set { self.DrawIndicator = value == Appearance.Normal; }
+     }
+ 
+-    /// <summary>
+-    /// Gets or sets a value indicating whether the ellipsis character (...) appears at the right edge of the control, denoting that the text extends beyond the control.
+-    /// </summary>
+-    /// <value>
+-    /// <c>
+-    /// true
+-    /// </c> if the text is truncated with an ellipsis; otherwise,
+-    /// <c>
+-    /// false
+-    /// </c>.
+-    /// </value>
+-    public bool AutoEllipsis
+-    {
+-        get;
+-        set;
+-    }
+-
+     /// <summary>
+     /// Gets or sets a value indicating whether this
+     /// <see cref="T:System.Windows.Forms.RadioButton" /> is checked.
+@@ -109,63 +90,15 @@ public partial class RadioButton : Control
+     }
+ 
+     /// <summary>
+-    /// Gets or sets the alignment of the text on the control.
++    /// Applies the alignment factors produced from
++    /// <see cref="P:System.Windows.Forms.ButtonBase.TextAlign" /> to the GTK radio button.
+     /// </summary>
+-    /// <value>
+-    /// The text alignment.
+-    /// </value>
+-    public System.Drawing.ContentAlignment TextAlign
++    /// <param name="xAlign">The horizontal alignment factor.</param>
++    /// <param name="yAlign">The vertical alignment factor.</param>
++    protected override void SetContentAlignmentCore(float xAlign, float yAlign)
+     {
+-        get { return textAlign; }
+-        set
+-        {
+-            textAlign = value;
+-            if (value == System.Drawing.ContentAlignment.TopLeft)
+-            {
+-                self.Xalign = 0.0f;
+-                self.Yalign = 0.0f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.TopCenter)
+-            {
+-                self.Xalign = 0.5f;
+-                self.Yalign = 0.0f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.TopRight)
+-            {
+-                self.Xalign = 1.0f;
+-                self.Yalign = 0.0f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.MiddleLeft)
+-            {
+-                self.Xalign = 0.0f;
+-                self.Yalign = 0.5f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.MiddleCenter)
+-            {
+-                self.Xalign = 0.5f;
+-                self.Yalign = 0.5f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.MiddleRight)
+-            {
+-                self.Xalign = 1.0f;
+-                self.Yalign = 0.5f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.BottomLeft)
+-            {
+-                self.Xalign = 0.0f;
+-                self.Yalign = 1.0f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.BottomCenter)
+-            {
+-                self.Xalign = 0.5f;
+-                self.Yalign = 1.0f;
+-            }
+-            else if (value == System.Drawing.ContentAlignment.BottomRight)
+-            {
+-                self.Xalign = 1.0f;
+-                self.Yalign = 1.0f;
+-            }
+-        }
++        self.Xalign = xAlign;
++        self.Yalign = yAlign;
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
+index 1d3db0ee..6670912f 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
+@@ -14,18 +14,13 @@ namespace System.Windows.Forms;
+ /// Represents a Windows rich text box control.
+ /// </summary>
+ [DesignerCategory("Component")]
+-public partial class RichTextBox : ScrollableControl
++public partial class RichTextBox : TextBoxBase
+ {
+     /// <summary>
+     /// The self
+     /// </summary>
+     public readonly RichTextBoxBase self = new();
+ 
+-    /// <summary>
+-    /// Occurs when the Text property value changes.
+-    /// </summary>
+-    public override event EventHandler? TextChanged;
+-
+     /// <summary>
+     /// Initializes a new instance of the
+     /// <see cref="T:System.Windows.Forms.RichTextBox" /> class.
+@@ -51,7 +46,7 @@ public partial class RichTextBox : ScrollableControl
+     /// <value>
+     /// The lines.
+     /// </value>
+-    public string[] Lines
++    public override string[] Lines
+     {
+         get
+         {
+@@ -81,10 +76,18 @@ public partial class RichTextBox : ScrollableControl
+     /// false
+     /// </c>.
+     /// </value>
+-    public virtual bool ReadOnly
++    public override bool ReadOnly
+     {
+         get { return self.TextView.CanFocus; }
+-        set { self.TextView.CanFocus = value; }
++        set
++        {
++            var changed = self.TextView.CanFocus != value;
++            self.TextView.CanFocus = value;
++            if (changed)
++            {
++                OnReadOnlyChanged(EventArgs.Empty);
++            }
++        }
+     }
+ 
+     /// <summary>
+@@ -93,7 +96,7 @@ public partial class RichTextBox : ScrollableControl
+     /// <value>
+     /// The selected text.
+     /// </value>
+-    public string SelectedText
++    public override string SelectedText
+     {
+         get
+         {
+@@ -104,12 +107,9 @@ public partial class RichTextBox : ScrollableControl
+         }
+         set
+         {
+-            if (self.TextView.Buffer.GetSelectionBounds(out TextIter start, out TextIter end))
+-            {
+-                //self.TextView.Buffer.Insert(ref start, value);
+-                self.TextView.Buffer.DeleteSelection(false, false);
+-                self.TextView.Buffer.InsertAtCursor(value);
+-            }
++            PushUndo();
++            ReplaceSelectedTextCore(value ?? string.Empty);
++            MarkModified();
+         }
+     }
+ 
+@@ -119,7 +119,7 @@ public partial class RichTextBox : ScrollableControl
+     /// <value>
+     /// The length of the selection.
+     /// </value>
+-    public virtual int SelectionLength
++    public override int SelectionLength
+     {
+         get
+         {
+@@ -139,7 +139,7 @@ public partial class RichTextBox : ScrollableControl
+     /// <value>
+     /// The selection start.
+     /// </value>
+-    public int SelectionStart
++    public override int SelectionStart
+     {
+         get
+         {
+@@ -159,25 +159,40 @@ public partial class RichTextBox : ScrollableControl
+     public override string Text
+     {
+         get => self.TextView.Buffer.Text;
+-        set => self.TextView.Buffer.Text = value;
++        set => SetTextCore(() => self.TextView.Buffer.Text = value ?? string.Empty);
+     }
+ 
+     /// <summary>
+-    /// Appends the text.
++    /// Appends <paramref name="text" /> at the end of the buffer.
+     /// </summary>
+     /// <param name="text">
+-    /// The text.
++    /// The text to append.
+     /// </param>
+-    public void AppendText(string text)
++    protected override void AppendTextCore(string text)
+     {
+         var enditer = self.TextView.Buffer.EndIter;
+         self.TextView.Buffer.Insert(ref enditer, text);
+     }
+ 
++    /// <summary>
++    /// Replaces the current selection (or inserts at the caret when nothing is selected) with
++    /// <paramref name="text" />.
++    /// </summary>
++    /// <param name="text">The replacement text.</param>
++    protected override void ReplaceSelectedTextCore(string text)
++    {
++        if (self.TextView.Buffer.GetSelectionBounds(out TextIter start, out TextIter end))
++        {
++            self.TextView.Buffer.DeleteSelection(false, false);
++        }
++
++        self.TextView.Buffer.InsertAtCursor(text ?? string.Empty);
++    }
++
+     /// <summary>
+     /// Deselects all text.
+     /// </summary>
+-    public void DeselectAll()
++    public override void DeselectAll()
+     {
+         SelectionLength = 0;
+     }
+@@ -223,7 +238,7 @@ public partial class RichTextBox : ScrollableControl
+     /// <param name="length">
+     /// The length.
+     /// </param>
+-    public void Select(int start, int length)
++    public override void Select(int start, int length)
+     {
+         var startiter = self.TextView.Buffer.GetIterAtOffset(start);
+         var enditer = self.TextView.Buffer.GetIterAtOffset(start + length);
+@@ -233,19 +248,11 @@ public partial class RichTextBox : ScrollableControl
+     /// <summary>
+     /// Selects all text.
+     /// </summary>
+-    public void SelectAll()
++    public override void SelectAll()
+     {
+         Select(0, Text.Length);
+     }
+ 
+-    /// <summary>
+-    /// Raises the TextChanged event.
+-    /// </summary>
+-    protected override void OnTextChanged(System.EventArgs e)
+-    {
+-        TextChanged?.Invoke(this, e);
+-    }
+-
+     /// <summary>
+     /// Applies styling to the GTK widget based on control properties.
+     /// </summary>
+@@ -262,7 +269,7 @@ public partial class RichTextBox : ScrollableControl
+ 
+     private void Buffer_Changed(object sender, EventArgs e)
+     {
+-        if (TextChanged != null && self.IsVisible)
++        if (self.IsVisible)
+         {
+             OnTextChanged(e);
+         }
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
+index 476b237e..36b45229 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
+@@ -7,6 +7,7 @@
+ using System.ComponentModel;
+ using Gtk;
+ using GtkSystem.Windows.Forms.GtkControls.ControlBase;
++using GtkTextBoxBase = GtkSystem.Windows.Forms.GtkControls.ControlBase.TextBoxBase;
+ 
+ namespace System.Windows.Forms;
+ 
+@@ -14,23 +15,18 @@ namespace System.Windows.Forms;
+ /// Represents a Windows text box control.
+ /// </summary>
+ [DesignerCategory("Component")]
+-public partial class TextBox : Control
++public partial class TextBox : TextBoxBase
+ {
+     /// <summary>
+     /// The self
+     /// </summary>
+-    public readonly TextBoxBase self = new();
++    public readonly GtkTextBoxBase self = new();
+ 
+     /// <summary>
+     /// Occurs when a key is pressed while the control has focus.
+     /// </summary>
+     public override event KeyEventHandler? KeyDown;
+ 
+-    /// <summary>
+-    /// Occurs when the Text property value changes.
+-    /// </summary>
+-    public override event EventHandler? TextChanged;
+-
+     private HorizontalAlignment textAlign;
+ 
+     /// <summary>
+@@ -63,7 +59,7 @@ public partial class TextBox : Control
+     /// <value>
+     /// The lines.
+     /// </value>
+-    public string[] Lines
++    public override string[] Lines
+     {
+         get
+         {
+@@ -106,7 +102,7 @@ public partial class TextBox : Control
+     /// false
+     /// </c>.
+     /// </value>
+-    public bool Multiline
++    public override bool Multiline
+     {
+         get;
+         set;
+@@ -147,10 +143,18 @@ public partial class TextBox : Control
+     /// false
+     /// </c>.
+     /// </value>
+-    public virtual bool ReadOnly
++    public override bool ReadOnly
+     {
+         get { return self.IsEditable == false; }
+-        set { self.IsEditable = value == false; }
++        set
++        {
++            var changed = ReadOnly != value;
++            self.IsEditable = value == false;
++            if (changed)
++            {
++                OnReadOnlyChanged(EventArgs.Empty);
++            }
++        }
+     }
+ 
+     /// <summary>
+@@ -159,7 +163,7 @@ public partial class TextBox : Control
+     /// <value>
+     /// The selected text.
+     /// </value>
+-    public string SelectedText
++    public override string SelectedText
+     {
+         get
+         {
+@@ -170,11 +174,9 @@ public partial class TextBox : Control
+         }
+         set
+         {
+-            if (self.GetSelectionBounds(out var start, out var end))
+-            {
+-                self.DeleteSelection();
+-                self.InsertText(value, ref start);
+-            }
++            PushUndo();
++            ReplaceSelectedTextCore(value ?? string.Empty);
++            MarkModified();
+         }
+     }
+ 
+@@ -184,7 +186,7 @@ public partial class TextBox : Control
+     /// <value>
+     /// The length of the selection.
+     /// </value>
+-    public virtual int SelectionLength
++    public override int SelectionLength
+     {
+         get
+         {
+@@ -204,7 +206,7 @@ public partial class TextBox : Control
+     /// <value>
+     /// The selection start.
+     /// </value>
+-    public int SelectionStart
++    public override int SelectionStart
+     {
+         get
+         {
+@@ -224,7 +226,7 @@ public partial class TextBox : Control
+     public override string Text
+     {
+         get { return self.Text; }
+-        set { self.Text = value; }
++        set { SetTextCore(() => self.Text = value ?? string.Empty); }
+     }
+ 
+     /// <summary>
+@@ -257,7 +259,7 @@ public partial class TextBox : Control
+     /// <summary>
+     /// Clears the current selection.
+     /// </summary>
+-    public void DeselectAll()
++    public override void DeselectAll()
+     {
+         SelectionLength = 0;
+     }
+@@ -265,11 +267,44 @@ public partial class TextBox : Control
+     /// <summary>
+     /// Selects all the text in the control.
+     /// </summary>
+-    public void SelectAll()
++    public override void SelectAll()
+     {
+         Select(0, -1);
+     }
+ 
++    /// <summary>
++    /// Replaces the current selection (or inserts at the caret when nothing is selected) with
++    /// <paramref name="text" />.
++    /// </summary>
++    /// <param name="text">The replacement text.</param>
++    protected override void ReplaceSelectedTextCore(string text)
++    {
++        int pos;
++        if (self.GetSelectionBounds(out var start, out var end))
++        {
++            self.DeleteText(start, end);
++            pos = start;
++        }
++        else
++        {
++            pos = self.Position;
++        }
++
++        self.InsertText(text ?? string.Empty, ref pos);
++        self.Position = pos;
++    }
++
++    /// <summary>
++    /// Appends <paramref name="text" /> at the end of the entry.
++    /// </summary>
++    /// <param name="text">The text to append.</param>
++    protected override void AppendTextCore(string text)
++    {
++        var pos = self.Text?.Length ?? 0;
++        self.InsertText(text, ref pos);
++        self.Position = pos;
++    }
++
+     /// <summary>
+     /// Inserts the text at cursor.
+     /// </summary>
+@@ -292,7 +327,7 @@ public partial class TextBox : Control
+     /// <param name="length">
+     /// The length.
+     /// </param>
+-    public void Select(int start, int length)
++    public override void Select(int start, int length)
+     {
+         self.SelectRegion(start, start + length);
+     }
+@@ -305,14 +340,6 @@ public partial class TextBox : Control
+         KeyDown?.Invoke(this, e);
+     }
+ 
+-    /// <summary>
+-    /// Raises the TextChanged event.
+-    /// </summary>
+-    protected override void OnTextChanged(System.EventArgs e)
+-    {
+-        TextChanged?.Invoke(this, e);
+-    }
+-
+     private void Self_Changed(object sender, EventArgs e)
+     {
+         // TextChanged used to be suppressed while the widget was not visible, so bindings with
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBoxBase.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBoxBase.cs
+new file mode 100644
+index 00000000..c1a3f6bd
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBoxBase.cs
+@@ -0,0 +1,440 @@
++/*
++ * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
++ * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
++ */
++
++using System.Collections.Generic;
++using System.ComponentModel;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Implements the basic functionality required by text controls
++/// (<see cref="T:System.Windows.Forms.TextBox" />, <see cref="T:System.Windows.Forms.RichTextBox" /> and
++/// <see cref="T:System.Windows.Forms.MaskedTextBox" />). This mirrors the real
++/// <c>System.Windows.Forms.TextBoxBase</c> so that source written against the shared editing surface — and
++/// type tests such as <c>control is TextBoxBase</c> — compile and behave.
++/// </summary>
++/// <remarks>
++/// The concrete text storage differs per control (a GTK entry versus a text view), so the primitives that
++/// touch the widget are abstract and supplied by the derived control; the clipboard, undo and modified-state
++/// behaviour is implemented once here on top of them.
++/// <para>
++/// Undo covers the content-editing operations routed through this class
++/// (<see cref="M:System.Windows.Forms.TextBoxBase.AppendText(System.String)" />,
++/// <see cref="M:System.Windows.Forms.TextBoxBase.Cut" />,
++/// <see cref="M:System.Windows.Forms.TextBoxBase.Paste" />,
++/// <see cref="M:System.Windows.Forms.TextBoxBase.Clear" /> and setting
++/// <see cref="P:System.Windows.Forms.TextBoxBase.SelectedText" />). It does not capture individual keystrokes,
++/// which GTK handles internally.
++/// </para>
++/// </remarks>
++[DesignerCategory("Component")]
++public abstract class TextBoxBase : Control
++{
++    private readonly Stack<string> _undo = new();
++    private bool _modified;
++    private bool _acceptsTab;
++    private bool _hideSelection = true;
++    private bool _wordWrap = true;
++    private bool _shortcutsEnabled = true;
++
++    /// <summary>
++    /// When set, a resulting text-change notification is treated as a programmatic assignment of the
++    /// <see cref="P:System.Windows.Forms.TextBoxBase.Text" /> property rather than a content edit, so it does
++    /// not raise <see cref="P:System.Windows.Forms.TextBoxBase.Modified" />.
++    /// </summary>
++    private bool _inTextAssignment;
++
++    /// <summary>
++    /// Occurs when the <see cref="P:System.Windows.Forms.TextBoxBase.Modified" /> property changes.
++    /// </summary>
++    public event EventHandler? ModifiedChanged;
++
++    /// <summary>
++    /// Occurs when the <see cref="P:System.Windows.Forms.TextBoxBase.ReadOnly" /> property changes.
++    /// </summary>
++    public event EventHandler? ReadOnlyChanged;
++
++    /// <summary>
++    /// Occurs when the <see cref="P:System.Windows.Forms.TextBoxBase.Multiline" /> property changes.
++    /// </summary>
++    public event EventHandler? MultilineChanged;
++
++    /// <summary>
++    /// Occurs when the text alignment changes.
++    /// </summary>
++    public event EventHandler? TextAlignChanged;
++
++    /// <summary>
++    /// Occurs when the <see cref="P:System.Windows.Forms.TextBoxBase.BorderStyle" /> property changes.
++    /// </summary>
++    public event EventHandler? BorderStyleChanged;
++
++    /// <summary>
++    /// Occurs when the <see cref="P:System.Windows.Forms.TextBoxBase.AcceptsTab" /> property changes.
++    /// </summary>
++    public event EventHandler? AcceptsTabChanged;
++
++    /// <summary>
++    /// Occurs when the <see cref="P:System.Windows.Forms.TextBoxBase.HideSelection" /> property changes.
++    /// </summary>
++    public event EventHandler? HideSelectionChanged;
++
++    /// <summary>
++    /// Gets or sets the text associated with this control.
++    /// </summary>
++    public abstract override string Text { get; set; }
++
++    /// <summary>
++    /// Gets or sets the lines of text in the control.
++    /// </summary>
++    public abstract string[] Lines { get; set; }
++
++    /// <summary>
++    /// Gets or sets a value indicating whether text in the control is read-only.
++    /// </summary>
++    public abstract bool ReadOnly { get; set; }
++
++    /// <summary>
++    /// Gets or sets a value indicating which characters are selected in the control.
++    /// </summary>
++    public abstract string SelectedText { get; set; }
++
++    /// <summary>
++    /// Gets or sets the number of characters selected in the control.
++    /// </summary>
++    public abstract int SelectionLength { get; set; }
++
++    /// <summary>
++    /// Gets or sets the starting point of text selected in the control.
++    /// </summary>
++    public abstract int SelectionStart { get; set; }
++
++    /// <summary>
++    /// Selects a range of text in the control.
++    /// </summary>
++    /// <param name="start">The position of the first character in the current text selection.</param>
++    /// <param name="length">The number of characters to select.</param>
++    public abstract void Select(int start, int length);
++
++    /// <summary>
++    /// Selects all text in the control.
++    /// </summary>
++    public abstract void SelectAll();
++
++    /// <summary>
++    /// Clears all selection, setting the selected text to an empty string.
++    /// </summary>
++    public abstract void DeselectAll();
++
++    /// <summary>
++    /// Replaces the currently selected text (or inserts at the caret when nothing is selected) with
++    /// <paramref name="text" />. Implemented per widget; used by cut and paste.
++    /// </summary>
++    /// <param name="text">The replacement text.</param>
++    protected abstract void ReplaceSelectedTextCore(string text);
++
++    /// <summary>
++    /// Gets the length of text in the control.
++    /// </summary>
++    public virtual int TextLength => Text?.Length ?? 0;
++
++    /// <summary>
++    /// Gets or sets a value indicating whether this is a multiline control. Overridden where a control
++    /// supports multiple lines.
++    /// </summary>
++    public virtual bool Multiline
++    {
++        get;
++        set;
++    }
++
++    /// <summary>
++    /// Gets or sets a value indicating whether the control modifies the case of characters as they are typed.
++    /// </summary>
++    public bool Modified
++    {
++        get => _modified;
++        set
++        {
++            if (_modified != value)
++            {
++                _modified = value;
++                OnModifiedChanged(EventArgs.Empty);
++            }
++        }
++    }
++
++    /// <summary>
++    /// Gets or sets a value indicating whether pressing the TAB key types a TAB character in the control
++    /// instead of moving focus.
++    /// </summary>
++    public virtual bool AcceptsTab
++    {
++        get => _acceptsTab;
++        set
++        {
++            if (_acceptsTab != value)
++            {
++                _acceptsTab = value;
++                OnAcceptsTabChanged(EventArgs.Empty);
++            }
++        }
++    }
++
++    /// <summary>
++    /// Gets or sets a value indicating whether the selected text remains highlighted when the control loses
++    /// focus.
++    /// </summary>
++    public virtual bool HideSelection
++    {
++        get => _hideSelection;
++        set
++        {
++            if (_hideSelection != value)
++            {
++                _hideSelection = value;
++                OnHideSelectionChanged(EventArgs.Empty);
++            }
++        }
++    }
++
++    /// <summary>
++    /// Gets or sets a value indicating whether text wraps onto the next line when it reaches the edge of a
++    /// multiline control.
++    /// </summary>
++    public virtual bool WordWrap
++    {
++        get => _wordWrap;
++        set => _wordWrap = value;
++    }
++
++    /// <summary>
++    /// Gets or sets a value indicating whether the defined shortcuts are enabled.
++    /// </summary>
++    public virtual bool ShortcutsEnabled
++    {
++        get => _shortcutsEnabled;
++        set => _shortcutsEnabled = value;
++    }
++
++    /// <summary>
++    /// Gets or sets the border style of the control.
++    /// </summary>
++    public override BorderStyle BorderStyle
++    {
++        get => base.BorderStyle;
++        set
++        {
++            var changed = base.BorderStyle != value;
++            base.BorderStyle = value;
++            if (changed)
++            {
++                OnBorderStyleChanged(EventArgs.Empty);
++            }
++        }
++    }
++
++    /// <summary>
++    /// Gets a value indicating whether the user can undo the previous operation in the control.
++    /// </summary>
++    public bool CanUndo => _undo.Count > 0;
++
++    /// <summary>
++    /// Appends text to the current text of the control.
++    /// </summary>
++    /// <param name="text">The text to append.</param>
++    public virtual void AppendText(string text)
++    {
++        if (string.IsNullOrEmpty(text))
++        {
++            return;
++        }
++
++        PushUndo();
++        // Route through the widget rather than the Text setter so this registers as a content edit
++        // (setting Modified), not a programmatic re-assignment.
++        AppendTextCore(text);
++        MarkModified();
++    }
++
++    /// <summary>
++    /// Appends <paramref name="text" /> to the underlying widget. Overridden per control; the default
++    /// concatenates onto <see cref="P:System.Windows.Forms.TextBoxBase.Text" />.
++    /// </summary>
++    /// <param name="text">The text to append.</param>
++    protected virtual void AppendTextCore(string text)
++    {
++        SetTextInternal((Text ?? string.Empty) + text);
++    }
++
++    /// <summary>
++    /// Clears all text from the control.
++    /// </summary>
++    public virtual void Clear()
++    {
++        PushUndo();
++        Text = string.Empty;
++    }
++
++    /// <summary>
++    /// Clears information about the most recent operation from the undo buffer of the control.
++    /// </summary>
++    public virtual void ClearUndo() => _undo.Clear();
++
++    /// <summary>
++    /// Copies the current selection in the control to the Clipboard.
++    /// </summary>
++    public virtual void Copy()
++    {
++        var selected = SelectedText;
++        if (!string.IsNullOrEmpty(selected))
++        {
++            Gtk.Clipboard.Get(Gdk.Selection.Clipboard).Text = selected;
++        }
++    }
++
++    /// <summary>
++    /// Moves the current selection in the control to the Clipboard.
++    /// </summary>
++    public virtual void Cut()
++    {
++        var selected = SelectedText;
++        if (!string.IsNullOrEmpty(selected))
++        {
++            Gtk.Clipboard.Get(Gdk.Selection.Clipboard).Text = selected;
++            PushUndo();
++            ReplaceSelectedTextCore(string.Empty);
++            MarkModified();
++        }
++    }
++
++    /// <summary>
++    /// Replaces the current selection in the control with the contents of the Clipboard.
++    /// </summary>
++    public virtual void Paste()
++    {
++        var text = Gtk.Clipboard.Get(Gdk.Selection.Clipboard).WaitForText();
++        if (!string.IsNullOrEmpty(text))
++        {
++            PushUndo();
++            ReplaceSelectedTextCore(text);
++            MarkModified();
++        }
++    }
++
++    /// <summary>
++    /// Undoes the last edit operation captured in the undo buffer of the control.
++    /// </summary>
++    public virtual void Undo()
++    {
++        if (_undo.Count > 0)
++        {
++            Text = _undo.Pop();
++        }
++    }
++
++    /// <summary>
++    /// Captures the current text so a later <see cref="M:System.Windows.Forms.TextBoxBase.Undo" /> can
++    /// restore it.
++    /// </summary>
++    protected void PushUndo() => _undo.Push(Text ?? string.Empty);
++
++    /// <summary>
++    /// Marks the control's contents as modified, raising
++    /// <see cref="E:System.Windows.Forms.TextBoxBase.ModifiedChanged" /> on the transition.
++    /// </summary>
++    protected void MarkModified() => Modified = true;
++
++    /// <summary>
++    /// Assigns the text of the control as a programmatic assignment: the resulting change notification does
++    /// not flip <see cref="P:System.Windows.Forms.TextBoxBase.Modified" />, matching WinForms, where setting
++    /// the <c>Text</c> property clears the modified state.
++    /// </summary>
++    /// <param name="assign">The action that writes the value into the underlying widget.</param>
++    protected void SetTextCore(Action assign)
++    {
++        _inTextAssignment = true;
++        try
++        {
++            assign();
++        }
++        finally
++        {
++            _inTextAssignment = false;
++        }
++
++        Modified = false;
++    }
++
++    /// <summary>
++    /// Writes <paramref name="value" /> into the control as a content edit (updating the modified state).
++    /// Overridden per control; the default routes through the <see cref="P:System.Windows.Forms.TextBoxBase.Text" />
++    /// setter but keeps the change registered as an edit.
++    /// </summary>
++    /// <param name="value">The new text.</param>
++    protected virtual void SetTextInternal(string value)
++    {
++        Text = value;
++        MarkModified();
++    }
++
++    /// <summary>
++    /// Raises the <see cref="E:System.Windows.Forms.Control.TextChanged" /> event and, unless the change was a
++    /// programmatic <see cref="P:System.Windows.Forms.TextBoxBase.Text" /> assignment, marks the control
++    /// modified.
++    /// </summary>
++    /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
++    protected override void OnTextChanged(EventArgs e)
++    {
++        if (!_inTextAssignment)
++        {
++            Modified = true;
++        }
++
++        base.OnTextChanged(e);
++    }
++
++    /// <summary>
++    /// Raises the <see cref="E:System.Windows.Forms.TextBoxBase.ModifiedChanged" /> event.
++    /// </summary>
++    /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
++    protected virtual void OnModifiedChanged(EventArgs e) => ModifiedChanged?.Invoke(this, e);
++
++    /// <summary>
++    /// Raises the <see cref="E:System.Windows.Forms.TextBoxBase.ReadOnlyChanged" /> event.
++    /// </summary>
++    /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
++    protected virtual void OnReadOnlyChanged(EventArgs e) => ReadOnlyChanged?.Invoke(this, e);
++
++    /// <summary>
++    /// Raises the <see cref="E:System.Windows.Forms.TextBoxBase.MultilineChanged" /> event.
++    /// </summary>
++    /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
++    protected virtual void OnMultilineChanged(EventArgs e) => MultilineChanged?.Invoke(this, e);
++
++    /// <summary>
++    /// Raises the <see cref="E:System.Windows.Forms.TextBoxBase.TextAlignChanged" /> event.
++    /// </summary>
++    /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
++    protected virtual void OnTextAlignChanged(EventArgs e) => TextAlignChanged?.Invoke(this, e);
++
++    /// <summary>
++    /// Raises the <see cref="E:System.Windows.Forms.TextBoxBase.BorderStyleChanged" /> event.
++    /// </summary>
++    /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
++    protected virtual void OnBorderStyleChanged(EventArgs e) => BorderStyleChanged?.Invoke(this, e);
++
++    /// <summary>
++    /// Raises the <see cref="E:System.Windows.Forms.TextBoxBase.AcceptsTabChanged" /> event.
++    /// </summary>
++    /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
++    protected virtual void OnAcceptsTabChanged(EventArgs e) => AcceptsTabChanged?.Invoke(this, e);
++
++    /// <summary>
++    /// Raises the <see cref="E:System.Windows.Forms.TextBoxBase.HideSelectionChanged" /> event.
++    /// </summary>
++    /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
++    protected virtual void OnHideSelectionChanged(EventArgs e) => HideSelectionChanged?.Invoke(this, e);
++}
+-- 
+2.53.0.windows.3
+
