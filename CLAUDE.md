@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 `Net4x.Gtk.Windows.Forms` is a WinForms-compatibility layer implemented on top of GTK (via GtkSharp), letting existing C# WinForms apps compile once and run cross-platform (Windows, Linux, macOS) with the native Visual Studio WinForms designer. It ships as the NuGet packages **`Gtk.Windows.Forms`** (`Net4x.Gtk.Windows.Forms.csproj`) and **`Net4x.Gtk.Drawing`** (a `System.Drawing` shim split out of the main library).
 
-This is a **maintained fork** of [GTKSystem.Windows.Forms](https://github.com/easywebfactory/gtksystem-windows-forms) (originally EasyWebFactory, MIT). Instead of a git fork (which produced too many merge conflicts), upstream is vendored as the **`gtksystem-windows-forms` git submodule** and the shippable library is *regenerated* from it by a build pipeline (see below). The `mono` submodule supplies reference implementations for unimplemented `System.Drawing` types.
+This is a **maintained fork** of [GTKSystem.Windows.Forms](https://github.com/easywebfactory/gtksystem-windows-forms) (originally EasyWebFactory). The vendored submodule's own `LICENSE` — and the `Source/licenses/LICENSE.txt` that all five NuGet packages pack — is the **GNU LGPL v3**; this line previously said "MIT", which nothing in the tree supports. Confirm with upstream before relying on either. Instead of a git fork (which produced too many merge conflicts), upstream is vendored as the **`gtksystem-windows-forms` git submodule** and the shippable library is *regenerated* from it by a build pipeline (see below). The `mono` submodule supplies reference implementations for unimplemented `System.Drawing` types.
 
 ## The two solutions — this is the key mental model
 

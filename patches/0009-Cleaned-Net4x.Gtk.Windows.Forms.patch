@@ -68,7 +68,6 @@ Subject: [PATCH] Cleaned Net4x.Gtk.Windows.Forms
  .../Forms/Application/InitAppliction.cs       |  10 -
  .../Forms/Application/InputLanguage.cs        |   6 +-
  .../Windows/Forms/Atrribute/KeysConverter.cs  |  21 +-
- .../Windows/Forms/AutoClosingMessageBox.cs    |   4 -
  .../System/Windows/Forms/Button.cs            |   4 +-
  .../System/Windows/Forms/CheckBox.cs          |   4 +-
  .../System/Windows/Forms/CheckedListBox.cs    |  12 +-
@@ -3828,22 +3827,6 @@ index 1e99c11e..ef9eb6c8 100644
              {
                  list.Add(o);
              }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/AutoClosingMessageBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/AutoClosingMessageBox.cs
-index f505d391..7931d0e3 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/AutoClosingMessageBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/AutoClosingMessageBox.cs
-@@ -1,11 +1,7 @@
--using System.Threading.Tasks;
- using Gtk;
- 
- namespace System.Windows.Forms;
- 
--using static System.Net.Mime.MediaTypeNames;
--using FormsMessageBoxButtons = MessageBoxButtons;
--
- /// <summary>
- /// An IMessageBox implementation that wraps a platform message box and automatically disposes it after a timeout.
- /// This class delegates actual presentation to a non-static MessageBox implementation and starts a background
 diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Button.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Button.cs
 index 211a9731..d16eb111 100644
 --- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Button.cs

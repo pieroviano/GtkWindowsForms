@@ -19,7 +19,7 @@ index 135a2318..009e0fa1 100644
  /// </summary>
 @@ -12,7 +12,7 @@ public class MessageBox
      /// <see cref="NonStaticMessageBox" />; callers may replace it using
-     /// <see cref="ReplaceInstance(int)" />.
+     /// <see cref="ReplaceInstance(IMessageBox)" />.
      /// </summary>
 -    internal static IMessageBox Instance
 +    internal static IMessageBox? Instance

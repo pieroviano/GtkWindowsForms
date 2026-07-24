@@ -77,7 +77,7 @@ Each stage prints a colored banner via `ConsoleColor.*.Write`. Stages 2–26 are
 6. **Compute & stage version** — `VersionPrepare.PrepareSolutionVersion()` reads the upstream `Version`, returns the text plus a deferred `updatePropsFiles` action that later writes `VersionSuffix` into `Directory.Build.Props` and `Net4xGtkWindowsFormsVersion` into `Directory.Nuget.Props`.
 7. **Prepare PoC sample apps** — `GtkSampleAppProjectsHandler.PrepareAsync` for `GtkWinFormsApp` and `GtkSystemWinFormsApp11`.
 8. **Regenerate `*.Designer.cs`** — `ResGenService.RegenerateDesignersFromResources(...)` for the sample apps.
-9. **Overlay source from `Resources/`** — `ResourcesCopyService.CopyCodeFromResources(...)` copies maintained `.cs` files (e.g. `AutoClosingMessageBox.cs`, `ControlExtension.cs`) into the generated tree.
+9. **Overlay source from `Resources/`** — `ResourcesCopyService.CopyCodeFromResources(...)` copies maintained `.cs` files (e.g. `ControlExtension.cs`, `NonStaticMessageBox.cs`) into the generated tree.
 10. **First post-processing + translations** — `PostProcessing.ApplyPostProcessing(...)` using `Resources/PostProcessing.xml` (submodules `gtksystem-windows-forms`, `mono` excluded from processing).
 11. **Normalize comments** — `SummaryCommentTransformer` + `MemberSpacingFormatter`.
 12. **Remove stale upstream XML comments** — `PrepareWorker.RemoveOldXmlComments(csprojPath)`.

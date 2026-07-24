@@ -5,16 +5,15 @@ namespace System.Windows.Forms;
 /// <summary>
 /// An IMessageBox implementation that wraps a platform message box and automatically disposes it after a timeout.
 /// This class delegates actual presentation to a non-static MessageBox implementation and starts a background
-/// task to auto-close/cleanup the underlying GTK
-/// <see cref="Gtk.Dialog" /> after
-/// <see cref="T:System.Windows.Forms.AutoClosingMessageBox.MessageBoxTimeout" /> milliseconds.
+/// task to auto-close/cleanup the underlying GTK <see cref="Gtk.Dialog" /> after
+/// <see cref="MessageBoxTimeout" /> milliseconds.
 /// </summary>
 public class AutoClosingMessageBox : IMessageBox
 {
     /// <summary>
     /// The underlying IMessageBox implementation used to show dialogs. Set by the constructor.
     /// </summary>
-    internal static IMessageBox? MessageBox;
+    internal static IMessageBox? InnerMessageBox;
 
     /// <summary>
     /// The currently visible GTK dialog instance (if any).
@@ -34,9 +33,9 @@ public class AutoClosingMessageBox : IMessageBox
     private AutoClosingMessageBox()
     {
         instance = this;
-        MessageBox = new NonStaticMessageBox();
+        InnerMessageBox = new NonStaticMessageBox();
         Instance.Initialize();
-        MessageBox.DialogAvailable += FormsMessageBox_DialogAvailable;
+        InnerMessageBox.DialogAvailable += FormsMessageBox_DialogAvailable;
     }
 
     /// <summary>
@@ -50,8 +49,7 @@ public class AutoClosingMessageBox : IMessageBox
     }
 
     /// <summary>
-    /// Gets the thread-local singleton instance of
-    /// <see cref="T:System.Windows.Forms.AutoClosingMessageBox" />.
+    /// Gets the thread-local singleton instance of <see cref="AutoClosingMessageBox" />.
     /// Accessing this property creates the instance on first use in the current thread.
     /// </summary>
     public static AutoClosingMessageBox Instance
@@ -61,8 +59,7 @@ public class AutoClosingMessageBox : IMessageBox
 
     /// <summary>
     /// Gets or sets the timeout in milliseconds after which the shown message box (GTK dialog) will be disposed.
-    /// Default value is configured via
-    /// <see cref="T:System.Windows.Forms.AutoClosingMessageBox.Init(System.Int32)" />.
+    /// Default value is configured via <see cref="Init(int)" />.
     /// </summary>
     public int MessageBoxTimeout
     {
@@ -83,13 +80,31 @@ public class AutoClosingMessageBox : IMessageBox
     }
 
     /// <summary>
+    /// Installs this auto-closing implementation behind the static
+    /// <see cref="MessageBox" /> helpers, so that every subsequent
+    /// <c>MessageBox.Show(...)</c> auto-closes after <paramref name="interval" /> milliseconds.
+    /// </summary>
+    /// <param name="interval">
+    /// Timeout in milliseconds for auto-disposal. Default is 5000 ms.
+    /// </param>
+    /// <returns>
+    /// The installed <see cref="AutoClosingMessageBox" /> instance.
+    /// </returns>
+    public static AutoClosingMessageBox Install(int interval = 5000)
+    {
+        Init(interval);
+        MessageBox.ReplaceInstance(Instance);
+        return Instance;
+    }
+
+    /// <summary>
     /// Shows a message box and ensures it will be auto-closed after the configured timeout.
     /// This overload forwards all parameters to the underlying message box implementation.
     /// </summary>
     public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, bool displayHelpButton)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(text, caption, buttons, icon, defaultButton, options, displayHelpButton));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(text, caption, buttons, icon, defaultButton, options, displayHelpButton));
     }
 
     /// <summary>
@@ -98,7 +113,7 @@ public class AutoClosingMessageBox : IMessageBox
     public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(text, caption, buttons, icon, defaultButton, options, helpFilePath));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(text, caption, buttons, icon, defaultButton, options, helpFilePath));
     }
 
     /// <summary>
@@ -107,7 +122,7 @@ public class AutoClosingMessageBox : IMessageBox
     public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(owner, text, caption, buttons, icon, defaultButton, options, helpFilePath));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(owner, text, caption, buttons, icon, defaultButton, options, helpFilePath));
     }
 
     /// <summary>
@@ -116,7 +131,7 @@ public class AutoClosingMessageBox : IMessageBox
     public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(text, caption, buttons, icon, defaultButton, options, helpFilePath, keyword));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(text, caption, buttons, icon, defaultButton, options, helpFilePath, keyword));
     }
 
     /// <summary>
@@ -125,7 +140,7 @@ public class AutoClosingMessageBox : IMessageBox
     public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, string keyword)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(owner, text, caption, buttons, icon, defaultButton, options, helpFilePath, keyword));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(owner, text, caption, buttons, icon, defaultButton, options, helpFilePath, keyword));
     }
 
     /// <summary>
@@ -134,7 +149,7 @@ public class AutoClosingMessageBox : IMessageBox
     public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(text, caption, buttons, icon, defaultButton, options, helpFilePath, navigator));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(text, caption, buttons, icon, defaultButton, options, helpFilePath, navigator));
     }
 
     /// <summary>
@@ -143,7 +158,7 @@ public class AutoClosingMessageBox : IMessageBox
     public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(owner, text, caption, buttons, icon, defaultButton, options, helpFilePath, navigator));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(owner, text, caption, buttons, icon, defaultButton, options, helpFilePath, navigator));
     }
 
     /// <summary>
@@ -152,7 +167,7 @@ public class AutoClosingMessageBox : IMessageBox
     public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(text, caption, buttons, icon, defaultButton, options, helpFilePath, navigator, param));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(text, caption, buttons, icon, defaultButton, options, helpFilePath, navigator, param));
     }
 
     /// <summary>
@@ -161,7 +176,7 @@ public class AutoClosingMessageBox : IMessageBox
     public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
         MessageBoxDefaultButton defaultButton, MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(owner, text, caption, buttons, icon, defaultButton, options, helpFilePath, navigator, param));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(owner, text, caption, buttons, icon, defaultButton, options, helpFilePath, navigator, param));
     }
 
     /// <summary>
@@ -170,7 +185,7 @@ public class AutoClosingMessageBox : IMessageBox
     public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
         MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(text, caption, buttons, icon, defaultButton, options));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(text, caption, buttons, icon, defaultButton, options));
     }
 
     /// <summary>
@@ -179,7 +194,7 @@ public class AutoClosingMessageBox : IMessageBox
     public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
         MessageBoxDefaultButton defaultButton)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(text, caption, buttons, icon, defaultButton));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(text, caption, buttons, icon, defaultButton));
     }
 
     /// <summary>
@@ -187,7 +202,7 @@ public class AutoClosingMessageBox : IMessageBox
     /// </summary>
     public DialogResult Show(string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(text, caption, buttons, icon));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(text, caption, buttons, icon));
     }
 
     /// <summary>
@@ -195,7 +210,7 @@ public class AutoClosingMessageBox : IMessageBox
     /// </summary>
     public DialogResult Show(string? text, string caption, MessageBoxButtons buttons)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(text, caption, buttons));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(text, caption, buttons));
     }
 
     /// <summary>
@@ -203,7 +218,7 @@ public class AutoClosingMessageBox : IMessageBox
     /// </summary>
     public DialogResult Show(string? text, string caption)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(text, caption));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(text, caption));
     }
 
     /// <summary>
@@ -211,7 +226,7 @@ public class AutoClosingMessageBox : IMessageBox
     /// </summary>
     public DialogResult Show(string? text)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(text));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(text));
     }
 
     /// <summary>
@@ -220,7 +235,7 @@ public class AutoClosingMessageBox : IMessageBox
     public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
         MessageBoxDefaultButton defaultButton, MessageBoxOptions options)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(owner, text, caption, buttons, icon, defaultButton, options));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(owner, text, caption, buttons, icon, defaultButton, options));
     }
 
     /// <summary>
@@ -229,7 +244,7 @@ public class AutoClosingMessageBox : IMessageBox
     public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon,
         MessageBoxDefaultButton defaultButton)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(owner, text, caption, buttons, icon, defaultButton));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(owner, text, caption, buttons, icon, defaultButton));
     }
 
     /// <summary>
@@ -239,7 +254,7 @@ public class AutoClosingMessageBox : IMessageBox
     {
         return InvokeAndAutoClose(() =>
         {
-            return MessageBox!.Show(owner, text, caption, buttons, icon);
+            return InnerMessageBox!.Show(owner, text, caption, buttons, icon);
         });
     }
 
@@ -248,7 +263,7 @@ public class AutoClosingMessageBox : IMessageBox
     /// </summary>
     public DialogResult Show(IWin32Window? owner, string? text, string caption, MessageBoxButtons buttons)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(owner, text, caption, buttons));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(owner, text, caption, buttons));
     }
 
     /// <summary>
@@ -256,7 +271,7 @@ public class AutoClosingMessageBox : IMessageBox
     /// </summary>
     public DialogResult Show(IWin32Window? owner, string? text, string caption)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(owner, text, caption));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(owner, text, caption));
     }
 
     /// <summary>
@@ -264,13 +279,13 @@ public class AutoClosingMessageBox : IMessageBox
     /// </summary>
     public DialogResult Show(IWin32Window? owner, string? text)
     {
-        return InvokeAndAutoClose(() => MessageBox!.Show(owner, text));
+        return InvokeAndAutoClose(() => InnerMessageBox!.Show(owner, text));
     }
 
     /// <summary>
     /// Raises the DialogAvailable event.
     /// </summary>
-    protected virtual void OnDialogAvailable(System.Windows.Forms.DialogEventArgs e)
+    protected virtual void OnDialogAvailable(DialogEventArgs e)
     {
         DialogAvailable?.Invoke(this, e);
     }
@@ -282,7 +297,7 @@ public class AutoClosingMessageBox : IMessageBox
     {
         _ = Task.Run(async () =>
         {
-            await Task.Delay(System.TimeSpan.FromMilliseconds(MessageBoxTimeout));
+            await Task.Delay(TimeSpan.FromMilliseconds(MessageBoxTimeout));
             if (_dialog != null)
             {
                 try
@@ -291,7 +306,7 @@ public class AutoClosingMessageBox : IMessageBox
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.GtkLogger.Debug($"Unexpected exception in AutoDisposeAfterTimeout", ex);
+                    Diagnostics.GtkLogger.Debug($"Unexpected exception in AutoDisposeAfterTimeout", ex);
                 }
                 try
                 {
@@ -299,7 +314,7 @@ public class AutoClosingMessageBox : IMessageBox
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.GtkLogger.Debug($"Unexpected exception in AutoDisposeAfterTimeout", ex);
+                    Diagnostics.GtkLogger.Debug($"Unexpected exception in AutoDisposeAfterTimeout", ex);
                 }
                 GC.SuppressFinalize(_dialog);
                 _dialog = null;
@@ -308,7 +323,8 @@ public class AutoClosingMessageBox : IMessageBox
     }
 
     /// <summary>
-    /// Handles the DialogAvailable event from the underlying message box implementation and stores the GTK dialog instance.
+    /// Handles the DialogAvailable event from the underlying message box implementation, stores the GTK
+    /// dialog instance, and forwards the notification to this instance's own subscribers.
     /// </summary>
     /// <param name="sender">Event sender.
     /// </param>
@@ -317,6 +333,7 @@ public class AutoClosingMessageBox : IMessageBox
     private void FormsMessageBox_DialogAvailable(object? sender, DialogEventArgs e)
     {
         _dialog = e.Dialog;
+        OnDialogAvailable(e);
     }
 
     /// <summary>

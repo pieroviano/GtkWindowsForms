@@ -90,6 +90,53 @@ public class AutoClosingMessageBoxBehaviourTests : IDisposable
         // It is installed *as* the message box implementation, so the interface is load-bearing.
         Assert.IsAssignableFrom<IMessageBox>(global::System.Windows.Forms.AutoClosingMessageBox.Instance);
     }
+
+    /// <summary>
+    /// <c>DialogAvailable</c> is the documented hook for inspecting or restyling the dialog before it is
+    /// dismissed, and it could never fire: the class subscribed to the inner message box's event, stored
+    /// the dialog in a field, and stopped - nothing called <c>OnDialogAvailable</c>, so a subscriber was
+    /// never called back. Raising it needs no display, because the notification originates from the inner
+    /// implementation rather than from GTK.
+    /// </summary>
+    [Fact]
+    public void DialogAvailable_ForwardsTheInnerMessageBoxNotificationToSubscribers()
+    {
+        var instance = global::System.Windows.Forms.AutoClosingMessageBox.Instance;
+
+        // InnerMessageBox is internal to the Extensions assembly, which is signed and grants
+        // InternalsVisibleTo only to the strong-named test assemblies; reflection keeps this test
+        // exercising the real wiring without widening that grant.
+        var inner = (IMessageBox?)typeof(global::System.Windows.Forms.AutoClosingMessageBox)
+            .GetField("InnerMessageBox", global::System.Reflection.BindingFlags.Static |
+                                         global::System.Reflection.BindingFlags.NonPublic)!
+            .GetValue(null);
+        Assert.NotNull(inner);
+
+        DialogEventArgs? received = null;
+        object? sender = null;
+        void Handler(object? s, DialogEventArgs e)
+        {
+            sender = s;
+            received = e;
+        }
+
+        instance.DialogAvailable += Handler;
+        try
+        {
+            var args = new DialogEventArgs(new global::Gtk.Dialog());
+            inner!.GetType()
+                .GetMethod("OnDialogAvailable", global::System.Reflection.BindingFlags.Instance |
+                                                global::System.Reflection.BindingFlags.NonPublic)!
+                .Invoke(inner, new object[] { args });
+
+            Assert.Same(args, received);
+            Assert.Same(instance, sender);
+        }
+        finally
+        {
+            instance.DialogAvailable -= Handler;
+        }
+    }
 }
 
 /// <summary>

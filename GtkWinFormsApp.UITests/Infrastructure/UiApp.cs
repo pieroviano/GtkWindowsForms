@@ -41,7 +41,7 @@ internal static class UiApp
             // boxes the manual tester dismisses by hand (e.g. Form2's FormClosing/FormClosed); with a
             // positive timeout every MessageBox auto-dismisses, which is the automated equivalent of that
             // click and stops teardown from deadlocking on a dialog with no user.
-            MessageBox.ReplaceInstance(AutoCloseMessageBoxMs);
+            AutoClosingMessageBox.Install(AutoCloseMessageBoxMs);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

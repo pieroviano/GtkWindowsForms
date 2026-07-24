@@ -10,7 +10,7 @@ public class MessageBox
     /// <see cref="MessageBox" /> helpers.
     /// By default this is a
     /// <see cref="NonStaticMessageBox" />; callers may replace it using
-    /// <see cref="ReplaceInstance(int)" />.
+    /// <see cref="ReplaceInstance(IMessageBox)" />.
     /// </summary>
     internal static IMessageBox? Instance
     {
@@ -22,25 +22,37 @@ public class MessageBox
     /// Replaces the current
     /// <see cref="T:System.Windows.Forms.IMessageBox" /> implementation used by the static API.
     /// </summary>
-    /// <param name="timeout">
-    /// When greater than zero, switch to the
-    /// <see cref="T:System.Windows.Forms.AutoClosingMessageBox" /> instance and set its
-    /// <see cref="T:System.Windows.Forms.AutoClosingMessageBox.MessageBoxTimeout" />; when less than or equal to zero, use a
+    /// <param name="instance">
+    /// The implementation to install, or
+    /// <see langword="null" /> to restore the default
     /// <see cref="T:System.Windows.Forms.NonStaticMessageBox" />.
     /// </param>
     /// <returns>
     /// The newly installed
     /// <see cref="T:System.Windows.Forms.IMessageBox" /> instance.
     /// </returns>
-    public static IMessageBox ReplaceInstance(int timeout = -1)
+    public static IMessageBox ReplaceInstance(IMessageBox? instance = null)
     {
-        Instance = timeout <= 0 ? new NonStaticMessageBox() : AutoClosingMessageBox.Instance;
-        if (timeout > 0)
-        {
-            AutoClosingMessageBox.Instance.MessageBoxTimeout = timeout;
-        }
+        return Instance = instance ?? new NonStaticMessageBox();
+    }
 
-        return Instance;
+    /// <summary>
+    /// Replaces the current
+    /// <see cref="T:System.Windows.Forms.IMessageBox" /> implementation used by the static API.
+    /// </summary>
+    /// <param name="timeout">
+    /// Ignored. The auto-closing implementation moved to the
+    /// <c>Gtk.Windows.Extensions</c> package; call
+    /// <c>AutoClosingMessageBox.Install(timeout)</c> there instead.
+    /// </param>
+    /// <returns>
+    /// The newly installed
+    /// <see cref="T:System.Windows.Forms.IMessageBox" /> instance.
+    /// </returns>
+    [Obsolete("The auto-closing implementation moved to the Gtk.Windows.Extensions package. " + "Call AutoClosingMessageBox.Install(timeout) to auto-close, or ReplaceInstance() for the default message box.")]
+    public static IMessageBox ReplaceInstance(int timeout)
+    {
+        return ReplaceInstance(null);
     }
 
     /// <summary>

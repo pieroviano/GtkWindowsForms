@@ -292,6 +292,7 @@ obfuscar.xml
 /Net4x.Gtk.Windows.Forms/GTKSystem.Windows.Forms.xml
 /Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.xml
 /Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml
+/Net4x.Gtk.Windows.Extensions/Net4x.Gtk.Windows.Extensions.xml
 
 # AlignProjects transformed BASE/THEIRS trees (regenerated each run)
 /AlignProjects/build/

@@ -8,6 +8,8 @@
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <RootNamespace>Gtk.Windows.FormsDesigner</RootNamespace>
         <DontConvert>False</DontConvert>
+        <!-- Without Authors the SDK packs the project name as the package author. -->
+        <Authors>Piero Viano</Authors>
         <Company>Piero Viano</Company>
         <Product>Net4x.Gtk.Windows.FormsDesigner</Product>
         <Description>
@@ -20,7 +22,6 @@
         <TargetFrameworks>netstandard2.0</TargetFrameworks>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
-        <PackegeId>Net4x.Gtk.Windows.FormsDesigner</PackegeId>
         <NoWarn>$(NoWarn);CS3021</NoWarn>
     </PropertyGroup>
     <ItemGroup>
@@ -40,10 +41,15 @@
     <PropertyGroup>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageId>Gtk.Windows.FormsDesigner</PackageId>
+        <PackageProjectUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</PackageProjectUrl>
+        <!-- Same licence file the other packages ship: the one the vendored upstream submodule
+             carries. Declaring none let Net4x.NuGetUtility's Apache-2.0 default decide by accident. -->
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     </PropertyGroup>
     <ItemGroup>
         <Content Include="README.md" Link="README.md" Pack="true" PackagePath="\README.md" />
-        <Content Include="$(SolutionDir)License.txt" Link="License.txt" Pack="true" PackagePath="\License.txt" Condition="Exists('$(SolutionDir)License.txt')" />
+        <None Include="..\gtksystem-windows-forms\Source\licenses\LICENSE.txt" Pack="true" PackagePath="\" />
     </ItemGroup>
     <ItemGroup>
         <Compile Update="Properties\Resources.Designer.cs">

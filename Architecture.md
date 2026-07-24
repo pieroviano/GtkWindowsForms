@@ -47,17 +47,21 @@ Supporting assemblies around that core:
   application's output folder. It carries no code and is not meant to: the working implementation lives
   in the Forms library under `GTKSystem/Resources/Extensions/`, in namespace
   `GtkSystem.Resources.Extensions`, so nothing needs the displaced types. The sample apps reference the
-  project for that reason. (See the comment in its `.csproj`. Note that displacement only takes effect
-  if this assembly wins MSBuild's conflict resolution against the `System.Resources.Extensions` NuGet
-  package — see [Solution-Review.md](Solution-Review.md) §5.1.)
+  project for that reason. (See the comment in its `.csproj`, or
+  [README.md](Net4x.System.Resources.Extensions/README.md) — which is packed into the NuGet package — for
+  the consumer-facing version. Note that displacement only takes effect if this assembly wins MSBuild's
+  conflict resolution against the `System.Resources.Extensions` NuGet package — see
+  [Solution-Review.md](Solution-Review.md) §5.1.)
 - **`Net4x.Gtk.Windows.FormsDesigner`** — MSBuild-integrated design-time support
   (`Microsoft.Build.*` tasks plus `build/` props+targets) so the **native Visual Studio WinForms
   designer** can open forms that target this framework.
 - **`Net4x.ResxProcessor`** — a `net8.0` tool bundled inside the `Gtk.Windows.Forms` NuGet package
   under `tools/`; regenerates `.Designer.cs` from `.resx` during builds.
-- **`Net4x.Gtk.Windows.Extensions`** — an **intentionally empty** project, published as
-  `Gtk.Windows.Extensions`: the place for a consumer's own extension classes over the Forms library
-  (see the comment in its `.csproj`). It has no code of its own by design.
+- **`Net4x.Gtk.Windows.Extensions`** — published as `Gtk.Windows.Extensions`: additions to the
+  `System.Windows.Forms` surface that are **not** part of the real WinForms API, kept out of the core
+  library so it stays a faithful compatibility layer. Ships `AutoClosingMessageBox`; it is also the
+  place for a consumer's own extension classes over the Forms library. Unlike the two libraries above,
+  it is **hand-maintained**, not produced by the prepare pipeline.
 
 ## The core pattern: public WinForms facade + GTK "base" widget
 

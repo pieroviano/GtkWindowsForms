@@ -1861,12 +1861,26 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     }
 
     /// <summary>
-    /// Returns the underlying context info object. Exposed for advanced uses.
+    /// Returns the cumulative clip region and the cumulative transform offset, as GDI+ does:
+    /// an <see cref="object" /> array of <c>{ Region, PointF }</c>.
     /// </summary>
+    /// <remarks>
+    /// This returned <see cref="Cairo.Context" />: a raw, unsynchronised substrate handle, handed out
+    /// through a public method on a type whose whole job is to own that handle's lifetime. A caller
+    /// holding it could draw, dispose or reconfigure behind the <c>ownsContext</c>/<c>ownedSurface</c>
+    /// bookkeeping beside it, and keeping the field <c>internal</c> bought nothing while this method
+    /// published it anyway. It now answers the question GDI+ callers actually ask this API - what is
+    /// currently clipped, and by how much is drawing offset.
+    /// </remarks>
+    /// <returns>
+    /// <c>object[] { Region clip, PointF transformOffset }</c>.
+    /// </returns>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public object GetContextInfo()
     {
-        return this.context;
+        var transform = Transform;
+
+        return new object[] { Clip, new PointF(transform.OffsetX, transform.OffsetY) };
     }
 
     /// <summary>

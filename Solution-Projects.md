@@ -48,15 +48,19 @@ Design-time support that lets the Visual Studio WinForms designer open forms bui
 ### Net4x.System.Resources.Extensions → package `Gtk.System.Resources.Extensions`
 [Net4x.System.Resources.Extensions/Net4x.System.Resources.Extensions.csproj](Net4x.System.Resources.Extensions/Net4x.System.Resources.Extensions.csproj)
 
-A reimplementation of `System.Resources.Extensions` (note `AssemblyName` is literally `System.Resources.Extensions`), providing ResX reading/serialization compatible with the framework. Consumed by the Forms and Drawing libraries via the `System.Resources.Extensions` package reference. Minimal csproj — source and packaging metadata are supplied by the prepare pipeline.
+An **intentionally empty** assembly whose `AssemblyName` is literally `System.Resources.Extensions`, so it displaces Microsoft's assembly of that name in an application's output folder — the working ResX reader lives in the Forms library under `GtkSystem/Resources/Extensions/`. [README.md](Net4x.System.Resources.Extensions/README.md) explains this to package consumers and is packed at the package root. Minimal csproj — source and packaging metadata are supplied by the prepare pipeline (`SystemResourcesExtensionsProjectHandler`), which wipes and re-emits the whole project directory on every run.
+
+- Packs on build into `Packages/` like its siblings. It did not until the packaging metadata was moved into the pipeline handler, so `Gtk.System.Resources.Extensions` was never actually published.
 
 ### Net4x.Gtk.Windows.Extensions → package `Gtk.Windows.Extensions`
 [Net4x.Gtk.Windows.Extensions/Net4x.Gtk.Windows.Extensions.csproj](Net4x.Gtk.Windows.Extensions/Net4x.Gtk.Windows.Extensions.csproj)
 
-Add-on extension helpers layered on the Forms library (excludes its own `Resources/` and `System.Windows.Forms/` folders from compilation). `Nullable=annotations`.
+Additions to the `System.Windows.Forms` surface that are not part of the real WinForms API, layered on the Forms library and kept out of it (excludes its own `Resources/` and `System.Windows.Forms/` folders from compilation). `Nullable=annotations`. Hand-maintained — the prepare pipeline does not generate it.
 
+- **Ships:** `AutoClosingMessageBox` ([System/Windows/Forms/AutoClosingMessageBox.cs](Net4x.Gtk.Windows.Extensions/System/Windows/Forms/AutoClosingMessageBox.cs)) — install it with `AutoClosingMessageBox.Install(timeout)`, which calls `MessageBox.ReplaceInstance(IMessageBox)` in the Forms library.
 - **Project reference:** `Net4x.Gtk.Windows.Forms`.
 - `InternalsVisibleTo` → `Net4x.Gtk.Windows.Forms.Tests`.
+- Consumes `Net4x.Gtk.Windows.Forms`' `internal` types (`NonStaticMessageBox`) via that library's matching `InternalsVisibleTo` grant.
 
 ## Tools
 

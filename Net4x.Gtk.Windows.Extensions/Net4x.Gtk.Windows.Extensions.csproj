@@ -2,6 +2,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.props" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.props')" />
     <PropertyGroup>
+        <DocumentationFile>$(MSBuildProjectDirectory)\$(MSBuildProjectName).xml</DocumentationFile>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Version>$(VersionPrefix).$(VersionSuffix)</Version>
         <TargetFramework>netstandard2.0</TargetFramework>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -10,7 +12,19 @@
         <SignAssembly>true</SignAssembly>
         <LangVersion>latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>annotations</Nullable>
+        <!-- 'enable', like the sibling libraries: 'annotations' published nullable annotations to
+             consumers without null-checking the source that produces them. -->
+        <Nullable>enable</Nullable>
+        <Authors>Piero Viano</Authors>
+        <Company>Piero Viano</Company>
+        <Copyright>Copyright (c) Piero Viano. All right reserved.</Copyright>
+        <Title>Extensions to the Gtk.Windows.Forms API that real WinForms does not have</Title>
+        <Description>Companion package of Gtk.Windows.Forms. Additions to the System.Windows.Forms surface that are deliberately not part of the real WinForms API, kept out of the core library so it stays a faithful compatibility layer. Ships AutoClosingMessageBox, a message box that dismisses itself after a timeout - install it with AutoClosingMessageBox.Install(timeout). Also the place to add your own extension classes over the Forms library.</Description>
+        <PackageProjectUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</PackageProjectUrl>
+        <!-- Same licence file the other packages ship: the one the vendored upstream submodule
+             carries. Declaring none let Net4x.NuGetUtility's Apache-2.0 default decide by accident. -->
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <RootNamespace />
         <PackageOutputPath>$(SolutionDir)Packages/</PackageOutputPath>
         <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
@@ -18,7 +32,8 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <NoWarn>$(NoWarn);NU5118</NoWarn>
         <PackageId>Gtk.Windows.Extensions</PackageId>
-        <!-- The assembly is intentionally left empty. It is a project where every developer can add its extension classes -->
+        <!-- Additions to the System.Windows.Forms surface that are not part of the real WinForms API
+             (e.g. AutoClosingMessageBox). Every developer can add further extension classes here. -->
     </PropertyGroup>
     <ItemGroup>
         <Compile Remove="Resources\**" />
@@ -41,7 +56,7 @@
     </ItemGroup>
     <ItemGroup>
         <Content Include="README.md" Link="README.md" Pack="true" PackagePath="\README.md" />
-        <Content Include="$(SolutionDir)License.txt" Link="License.txt" Pack="true" PackagePath="\License.txt" Condition="Exists('$(SolutionDir)License.txt')" />
+        <None Include="..\gtksystem-windows-forms\Source\licenses\LICENSE.txt" Pack="true" PackagePath="\" />
     </ItemGroup>
     <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets')" />
 </Project>

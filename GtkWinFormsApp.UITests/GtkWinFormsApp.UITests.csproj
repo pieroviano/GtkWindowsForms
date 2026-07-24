@@ -24,6 +24,8 @@
   <ItemGroup>
     <!-- Drives the real sample forms end-to-end. net10 test consumes the net8 sample assembly. -->
     <ProjectReference Include="..\GtkWinFormsApp\GtkWinFormsApp.csproj" />
+    <!-- AutoClosingMessageBox: the harness installs it so modal dialogs self-dismiss (see UiApp). -->
+    <ProjectReference Include="..\Net4x.Gtk.Windows.Extensions\Net4x.Gtk.Windows.Extensions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

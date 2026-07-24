@@ -296,7 +296,8 @@ See §10 on version sensitivity — this effect is much stronger on the Drawing 
 
 255 public types exist in `System.Windows.Forms*` namespaces in the shim but not in real WinForms — GTK
 plumbing (`GtkRender.CellRenderer*`, `IControl`, `IControlBase`, `IToolMenuItem`, `GtkMenuItem`,
-`Column`), plus additions (`AutoClosingMessageBox`, `DataGridViewRadioColumn`, `SwitchBox`).
+`Column`), plus additions (`DataGridViewRadioColumn`, `SwitchBox`). `AutoClosingMessageBox` was one of
+these until it moved out to the separate `Gtk.Windows.Extensions` package.
 
 Two consequences worth deciding on deliberately:
 

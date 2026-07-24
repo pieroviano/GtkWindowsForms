@@ -23,7 +23,8 @@ public static class ResourcesCopyService
             LogUtility.FileCopyAndLog(sourceFileName, destFileName);
         }
 
-        LogUtility.FileCopyAndLog(RepoPaths.At(@"Resources\AutoClosingMessageBox.cs"), Path.Combine(targetDir, @"GTKControls\AutoClosingMessageBox.cs"));
+        // AutoClosingMessageBox is not overlaid here: it ships from the hand-maintained
+        // Net4x.Gtk.Windows.Extensions project, which references this library.
         LogUtility.FileCopyAndLog(RepoPaths.At(@"Resources\DialogEventArgs.cs"), Path.Combine(targetDir, @"GTKControls\DialogEventArgs.cs"));
         LogUtility.FileCopyAndLog(RepoPaths.At(@"Resources\ExtensionsMessageBox.Static.cs"), Path.Combine(targetDir, @"GTKControls\ExtensionsMessageBox.Static.cs"));
         LogUtility.FileCopyAndLog(RepoPaths.At(@"Resources\IMessageBox.cs"), Path.Combine(targetDir, @"GTKControls\IMessageBox.cs"));
