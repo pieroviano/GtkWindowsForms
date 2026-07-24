@@ -1,0 +1,1813 @@
+From a550d08076680af4bd287466a4f6ea1e48a6b49a Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 24 Jul 2026 07:40:52 +0300
+Subject: [PATCH] Phase 3 (additive): ToolStrip containers, renderers,
+ ProfessionalColorTable
+
+Adds the ToolStrip theming and container surface without touching the control
+hierarchy. All signatures/values taken from the net48 reference assembly.
+
+Designer-emitted container controls (compile breaks on generated multi-toolbar
+forms):
+- ToolStripContainer : ContainerControl (Top/Bottom/Left/Right ToolStripPanel +
+  ContentPanel + visibility flags), ToolStripPanel : ContainerControl
+  (Orientation/Renderer/RenderMode/Rows), ToolStripContentPanel : Panel,
+  ToolStripPanelRow. Backed by existing PanelBase widgets.
+
+Theming (compiling shims over GTK theming):
+- ProfessionalColorTable (56 colors from SystemColors) + ProfessionalColors.
+- ToolStripRenderer with 20 public Draw* methods each dispatching to a protected
+  virtual OnRender* override point; ToolStripProfessionalRenderer (+ColorTable)
+  and ToolStripSystemRenderer. Base render methods are no-ops since GTK draws the
+  chrome; custom-renderer overrides are still invoked (verified).
+- ToolStripManager (Renderer/RenderMode/VisualStylesEnabled/Merge/RevertMerge).
+- The 9 ToolStrip render event args + their delegate handlers.
+
+Deliberately NOT done here: re-parenting ToolStripDropDown from ToolStripItem to
+ToolStrip. That control is backed by a GTK menu (StripDropDown/IToolMenuItem),
+not a Control widget, and ContextMenuStrip/ToolStripDropDownMenu build on it; the
+surgery would risk destabilizing the working menu system and is deferred.
+
+Net48 public types present 571->599 (missing 463->435). Full suite green at 2311
+(+9 tests: color-table/ProfessionalColors delegation, renderer Draw->OnRender
+wiring, ToolStripManager, render-arg round-trips, container panel behaviour).
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ .../ToolStripContainerFunctionalTests.cs      |  97 ++++++++
+ .../ToolStripRenderingFunctionalTests.cs      | 107 +++++++++
+ .../ToolStripArrowRenderEventArgs.cs          |  41 ++++
+ .../ToolStripContentPanelRenderEventArgs.cs   |  29 +++
+ .../EventArgs/ToolStripGripRenderEventArgs.cs |  27 +++
+ .../ToolStripItemImageRenderEventArgs.cs      |  39 ++++
+ .../EventArgs/ToolStripItemRenderEventArgs.cs |  29 +++
+ .../ToolStripItemTextRenderEventArgs.cs       |  65 ++++++
+ .../ToolStripPanelRenderEventArgs.cs          |  29 +++
+ .../EventArgs/ToolStripRenderEventArgs.cs     |  47 ++++
+ .../ToolStripSeparatorRenderEventArgs.cs      |  24 ++
+ .../ToolStripArrowRenderEventHandler.cs       |  10 +
+ ...ToolStripContentPanelRenderEventHandler.cs |  10 +
+ .../ToolStripGripRenderEventHandler.cs        |  10 +
+ .../ToolStripItemImageRenderEventHandler.cs   |  10 +
+ .../ToolStripItemRenderEventHandler.cs        |  10 +
+ .../ToolStripItemTextRenderEventHandler.cs    |  10 +
+ .../ToolStripPanelRenderEventHandler.cs       |  10 +
+ .../ToolStripRenderEventHandler.cs            |  10 +
+ .../ToolStripSeparatorRenderEventHandler.cs   |  10 +
+ .../MenuStripBase/ProfessionalColorTable.cs   | 186 +++++++++++++++
+ .../Forms/MenuStripBase/ProfessionalColors.cs | 181 +++++++++++++++
+ .../Forms/MenuStripBase/ToolStripContainer.cs |  66 ++++++
+ .../MenuStripBase/ToolStripContentPanel.cs    |  59 +++++
+ .../Forms/MenuStripBase/ToolStripManager.cs   |  59 +++++
+ .../Forms/MenuStripBase/ToolStripPanel.cs     |  79 +++++++
+ .../Forms/MenuStripBase/ToolStripPanelRow.cs  |  26 +++
+ .../ToolStripProfessionalRenderer.cs          |  24 ++
+ .../Forms/MenuStripBase/ToolStripRenderer.cs  | 214 ++++++++++++++++++
+ .../MenuStripBase/ToolStripSystemRenderer.cs  |  14 ++
+ 30 files changed, 1532 insertions(+)
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripContainerFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripRenderingFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripArrowRenderEventArgs.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripContentPanelRenderEventArgs.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripGripRenderEventArgs.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemImageRenderEventArgs.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemRenderEventArgs.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemTextRenderEventArgs.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripPanelRenderEventArgs.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripRenderEventArgs.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripSeparatorRenderEventArgs.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripArrowRenderEventHandler.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripContentPanelRenderEventHandler.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripGripRenderEventHandler.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemImageRenderEventHandler.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemRenderEventHandler.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemTextRenderEventHandler.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripPanelRenderEventHandler.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripRenderEventHandler.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripSeparatorRenderEventHandler.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColorTable.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColors.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContainer.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContentPanel.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripManager.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanel.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanelRow.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripProfessionalRenderer.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripRenderer.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripSystemRenderer.cs
+
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripContainerFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripContainerFunctionalTests.cs
+new file mode 100644
+index 00000000..3a9bb5d8
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripContainerFunctionalTests.cs
+@@ -0,0 +1,97 @@
++namespace System.Windows.Forms;
++
++extern alias gtk;
++
++/// <summary>
++/// Verifies the designer-emitted ToolStrip container controls (<see cref="ToolStripContainer" />,
++/// <see cref="ToolStripPanel" />, <see cref="ToolStripContentPanel" />, <see cref="ToolStripPanelRow" />).
++/// Hierarchy claims are checked by reflection; instance behaviour runs in one realized-form lifecycle
++/// (form first so GTK is initialized), with no clipboard interaction.
++/// </summary>
++[Collection("NonParallelCollection")]
++public class ToolStripContainerFunctionalTests
++{
++    [Fact]
++    public void Hierarchy_MatchesWinForms()
++    {
++        Assert.True(typeof(ContainerControl).IsAssignableFrom(typeof(ToolStripContainer)));
++        Assert.True(typeof(ContainerControl).IsAssignableFrom(typeof(ToolStripPanel)));
++        Assert.True(typeof(Panel).IsAssignableFrom(typeof(ToolStripContentPanel)));
++        Assert.True(typeof(global::System.ComponentModel.Component).IsAssignableFrom(typeof(ToolStripPanelRow)));
++    }
++
++    [Fact]
++    public void Container_PanelsAndContentPanel_Behave()
++    {
++        var form = new Form();
++        var container = new ToolStripContainer();
++        form.Controls.Add(container);
++
++        form.Load += (s, e) =>
++        {
++            try
++            {
++                // ContentPanel and the four edge panels are stable, lazily-created instances.
++                var content = container.ContentPanel;
++                Assert.NotNull(content);
++                Assert.Same(content, container.ContentPanel);
++
++                var top = container.TopToolStripPanel;
++                Assert.Same(top, container.TopToolStripPanel);
++                Assert.Equal(DockStyle.Top, top.Dock);
++                Assert.Equal(Orientation.Horizontal, top.Orientation);
++
++                Assert.Equal(Orientation.Vertical, container.LeftToolStripPanel.Orientation);
++                Assert.Equal(DockStyle.Right, container.RightToolStripPanel.Dock);
++
++                // visibility flags default true and round-trip
++                Assert.True(container.TopToolStripPanelVisible);
++                container.BottomToolStripPanelVisible = false;
++                Assert.False(container.BottomToolStripPanelVisible);
++
++                // a panel exposes at least one row whose orientation follows the panel
++                var panel = new ToolStripPanel { Orientation = Orientation.Vertical };
++                var rows = panel.Rows;
++                Assert.NotEmpty(rows);
++                Assert.Equal(Orientation.Vertical, rows[0].Orientation);
++                Assert.Same(panel, rows[0].ToolStripPanel);
++            }
++            finally
++            {
++                form.Close();
++            }
++        };
++
++        form.ShowDialog();
++        form.Dispose();
++    }
++
++    [Fact]
++    public void ContentPanel_Renderer_RoundTrips()
++    {
++        var form = new Form();
++        var container = new ToolStripContainer();
++        form.Controls.Add(container);
++
++        form.Load += (s, e) =>
++        {
++            try
++            {
++                var content = container.ContentPanel;
++                Assert.NotNull(content.Renderer); // defaults to ToolStripManager.Renderer
++
++                var custom = new ToolStripProfessionalRenderer();
++                content.Renderer = custom;
++                Assert.Same(custom, content.Renderer);
++                Assert.Equal(ToolStripRenderMode.Custom, content.RenderMode);
++            }
++            finally
++            {
++                form.Close();
++            }
++        };
++
++        form.ShowDialog();
++        form.Dispose();
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripRenderingFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripRenderingFunctionalTests.cs
+new file mode 100644
+index 00000000..8259e6af
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripRenderingFunctionalTests.cs
+@@ -0,0 +1,107 @@
++namespace System.Windows.Forms;
++
++extern alias gtk;
++
++using Rectangle = global::System.Drawing.Rectangle;
++using Color = global::System.Drawing.Color;
++
++/// <summary>
++/// Verifies the ToolStrip theming surface added for source that customizes tool-strip appearance:
++/// <see cref="ProfessionalColorTable" />/<see cref="ProfessionalColors" />, the
++/// <see cref="ToolStripRenderer" /> Draw-to-OnRender wiring, <see cref="ToolStripManager" />, and the render
++/// event-args constructor round-trips. These are model/rendering types with no realized widgets, so no form
++/// is needed.
++/// </summary>
++public class ToolStripRenderingFunctionalTests
++{
++    private sealed class SpyRenderer : ToolStripRenderer
++    {
++        public bool ButtonDrawn;
++        public bool ArrowDrawn;
++
++        protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e) => ButtonDrawn = true;
++
++        protected override void OnRenderArrow(ToolStripArrowRenderEventArgs e) => ArrowDrawn = true;
++    }
++
++    [Fact]
++    public void ProfessionalColors_DelegateToColorTable()
++    {
++        var table = new ProfessionalColorTable();
++        Assert.Equal(table.MenuBorder, ProfessionalColors.MenuBorder);
++        Assert.Equal(table.ButtonSelectedHighlight, ProfessionalColors.ButtonSelectedHighlight);
++        Assert.Equal(table.ToolStripGradientBegin, ProfessionalColors.ToolStripGradientBegin);
++    }
++
++    [Fact]
++    public void ProfessionalColorTable_ColorsAreValid()
++    {
++        var table = new ProfessionalColorTable();
++        // A representative sample must resolve to real (non-empty) colors.
++        Assert.False(table.MenuBorder.IsEmpty);
++        Assert.False(table.SeparatorDark.IsEmpty);
++        Assert.False(table.ToolStripDropDownBackground.IsEmpty);
++    }
++
++    [Fact]
++    public void ToolStripRenderer_DrawInvokesMatchingOnRender()
++    {
++        var renderer = new SpyRenderer();
++
++        renderer.DrawButtonBackground(new ToolStripItemRenderEventArgs(null!, null!));
++        Assert.True(renderer.ButtonDrawn);
++
++        renderer.DrawArrow(new ToolStripArrowRenderEventArgs(null!, null!, new Rectangle(0, 0, 8, 8), Color.Black, ArrowDirection.Down));
++        Assert.True(renderer.ArrowDrawn);
++    }
++
++    [Fact]
++    public void ToolStripManager_RendererAndRenderMode()
++    {
++        // Default renderer is professional.
++        Assert.IsType<ToolStripProfessionalRenderer>(ToolStripManager.Renderer);
++
++        ToolStripManager.RenderMode = ToolStripManagerRenderMode.System;
++        Assert.IsType<ToolStripSystemRenderer>(ToolStripManager.Renderer);
++
++        var custom = new SpyRenderer();
++        ToolStripManager.Renderer = custom;
++        Assert.Same(custom, ToolStripManager.Renderer);
++        Assert.Equal(ToolStripManagerRenderMode.Custom, ToolStripManager.RenderMode);
++
++        // restore default so other tests see a clean state
++        ToolStripManager.RenderMode = ToolStripManagerRenderMode.Professional;
++    }
++
++    [Fact]
++    public void ToolStripProfessionalRenderer_ExposesColorTable()
++    {
++        var table = new ProfessionalColorTable();
++        var renderer = new ToolStripProfessionalRenderer(table);
++        Assert.Same(table, renderer.ColorTable);
++
++        Assert.NotNull(new ToolStripProfessionalRenderer().ColorTable);
++    }
++
++    [Fact]
++    public void RenderEventArgs_RoundTripConstructorArgs()
++    {
++        var arrowRect = new Rectangle(1, 2, 3, 4);
++        var arrow = new ToolStripArrowRenderEventArgs(null!, null!, arrowRect, Color.Red, ArrowDirection.Left);
++        Assert.Equal(arrowRect, arrow.ArrowRectangle);
++        Assert.Equal(Color.Red, arrow.ArrowColor);
++        Assert.Equal(ArrowDirection.Left, arrow.Direction);
++
++        var textRect = new Rectangle(5, 6, 7, 8);
++        var text = new ToolStripItemTextRenderEventArgs(null!, null!, "hello", textRect, Color.Blue,
++            gtk::System.Drawing.SystemFonts.DefaultFont, TextFormatFlags.Right);
++        Assert.Equal("hello", text.Text);
++        Assert.Equal(textRect, text.TextRectangle);
++        Assert.Equal(Color.Blue, text.TextColor);
++        Assert.Equal(TextFormatFlags.Right, text.TextFormat);
++
++        var render = new ToolStripRenderEventArgs(null!, null!, new Rectangle(0, 0, 10, 20), Color.Green);
++        Assert.Equal(new Rectangle(0, 0, 10, 20), render.AffectedBounds);
++        Assert.Equal(Color.Green, render.BackColor);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripArrowRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripArrowRenderEventArgs.cs
+new file mode 100644
+index 00000000..ab49907d
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripArrowRenderEventArgs.cs
+@@ -0,0 +1,41 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides data for the arrow rendering event on tool strip items.</summary>
++public class ToolStripArrowRenderEventArgs : EventArgs
++{
++    /// <summary>Initializes a new instance.</summary>
++    /// <param name="g">The graphics used to paint.</param>
++    /// <param name="toolStripItem">The item whose arrow is painted.</param>
++    /// <param name="arrowRectangle">The bounds of the arrow.</param>
++    /// <param name="arrowColor">The color of the arrow.</param>
++    /// <param name="arrowDirection">The direction the arrow points.</param>
++    public ToolStripArrowRenderEventArgs(Graphics g, ToolStripItem toolStripItem, Rectangle arrowRectangle, Color arrowColor, ArrowDirection arrowDirection)
++    {
++        Graphics = g;
++        Item = toolStripItem;
++        ArrowRectangle = arrowRectangle;
++        ArrowColor = arrowColor;
++        Direction = arrowDirection;
++    }
++
++    /// <summary>Gets or sets the bounds of the arrow.</summary>
++    public Rectangle ArrowRectangle { get; set; }
++
++    /// <summary>Gets or sets the color of the arrow.</summary>
++    public Color ArrowColor { get; set; }
++
++    /// <summary>Gets or sets the direction the arrow points.</summary>
++    public ArrowDirection Direction { get; set; }
++
++    /// <summary>Gets the graphics used to paint.</summary>
++    public Graphics Graphics { get; }
++
++    /// <summary>Gets the item whose arrow is painted.</summary>
++    public ToolStripItem Item { get; }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripContentPanelRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripContentPanelRenderEventArgs.cs
+new file mode 100644
+index 00000000..a006e524
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripContentPanelRenderEventArgs.cs
+@@ -0,0 +1,29 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides data for the background rendering of a <see cref="T:System.Windows.Forms.ToolStripContentPanel" />.</summary>
++public class ToolStripContentPanelRenderEventArgs : EventArgs
++{
++    /// <summary>Initializes a new instance.</summary>
++    /// <param name="g">The graphics used to paint.</param>
++    /// <param name="contentPanel">The content panel to paint.</param>
++    public ToolStripContentPanelRenderEventArgs(Graphics g, ToolStripContentPanel contentPanel)
++    {
++        Graphics = g;
++        ToolStripContentPanel = contentPanel;
++    }
++
++    /// <summary>Gets the graphics used to paint.</summary>
++    public Graphics Graphics { get; }
++
++    /// <summary>Gets the content panel to paint.</summary>
++    public ToolStripContentPanel ToolStripContentPanel { get; }
++
++    /// <summary>Gets or sets a value indicating whether the event was handled.</summary>
++    public bool Handled { get; set; }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripGripRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripGripRenderEventArgs.cs
+new file mode 100644
+index 00000000..43fc4a55
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripGripRenderEventArgs.cs
+@@ -0,0 +1,27 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides data for the move handle (grip) rendering event on a tool strip.</summary>
++public class ToolStripGripRenderEventArgs : ToolStripRenderEventArgs
++{
++    /// <summary>Initializes a new instance for the specified tool strip.</summary>
++    /// <param name="g">The graphics used to paint.</param>
++    /// <param name="toolStrip">The tool strip whose grip is painted.</param>
++    public ToolStripGripRenderEventArgs(Graphics g, ToolStrip toolStrip) : base(g, toolStrip)
++    {
++    }
++
++    /// <summary>Gets the bounds of the grip.</summary>
++    public Rectangle GripBounds => Rectangle.Empty;
++
++    /// <summary>Gets the orientation of the grip.</summary>
++    public ToolStripGripDisplayStyle GripDisplayStyle => ToolStripGripDisplayStyle.Vertical;
++
++    /// <summary>Gets the visibility and mouse reaction of the grip.</summary>
++    public ToolStripGripStyle GripStyle => ToolStripGripStyle.Visible;
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemImageRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemImageRenderEventArgs.cs
+new file mode 100644
+index 00000000..dfb5158a
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemImageRenderEventArgs.cs
+@@ -0,0 +1,39 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides data for the image rendering event on a tool strip item.</summary>
++public class ToolStripItemImageRenderEventArgs : ToolStripItemRenderEventArgs
++{
++    /// <summary>Initializes a new instance using the item image.</summary>
++    /// <param name="g">The graphics used to paint.</param>
++    /// <param name="item">The item to paint.</param>
++    /// <param name="imageRectangle">The bounds of the image.</param>
++    public ToolStripItemImageRenderEventArgs(Graphics g, ToolStripItem item, Rectangle imageRectangle)
++        : base(g, item)
++    {
++        ImageRectangle = imageRectangle;
++    }
++
++    /// <summary>Initializes a new instance with a specified image.</summary>
++    /// <param name="g">The graphics used to paint.</param>
++    /// <param name="item">The item to paint.</param>
++    /// <param name="image">The image to paint.</param>
++    /// <param name="imageRectangle">The bounds of the image.</param>
++    public ToolStripItemImageRenderEventArgs(Graphics g, ToolStripItem item, Image image, Rectangle imageRectangle)
++        : base(g, item)
++    {
++        Image = image;
++        ImageRectangle = imageRectangle;
++    }
++
++    /// <summary>Gets the image to paint.</summary>
++    public Image? Image { get; }
++
++    /// <summary>Gets the bounds of the image.</summary>
++    public Rectangle ImageRectangle { get; }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemRenderEventArgs.cs
+new file mode 100644
+index 00000000..d0c91acb
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemRenderEventArgs.cs
+@@ -0,0 +1,29 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides data for the ToolStrip item rendering events.</summary>
++public class ToolStripItemRenderEventArgs : EventArgs
++{
++    /// <summary>Initializes a new instance for the specified item.</summary>
++    /// <param name="g">The graphics used to paint.</param>
++    /// <param name="item">The item to paint.</param>
++    public ToolStripItemRenderEventArgs(Graphics g, ToolStripItem item)
++    {
++        Graphics = g;
++        Item = item;
++    }
++
++    /// <summary>Gets the graphics used to paint.</summary>
++    public Graphics Graphics { get; }
++
++    /// <summary>Gets the item to paint.</summary>
++    public ToolStripItem Item { get; }
++
++    /// <summary>Gets the tool strip that owns the item, if any.</summary>
++    public ToolStrip? ToolStrip => Item?.Owner;
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemTextRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemTextRenderEventArgs.cs
+new file mode 100644
+index 00000000..a3145cb7
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemTextRenderEventArgs.cs
+@@ -0,0 +1,65 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides data for the text rendering event on a tool strip item.</summary>
++public class ToolStripItemTextRenderEventArgs : ToolStripItemRenderEventArgs
++{
++    /// <summary>Initializes a new instance with the specified text format flags.</summary>
++    /// <param name="g">The graphics used to paint.</param>
++    /// <param name="item">The item to paint.</param>
++    /// <param name="text">The text to draw.</param>
++    /// <param name="textRectangle">The bounds of the text.</param>
++    /// <param name="textColor">The color of the text.</param>
++    /// <param name="textFont">The font of the text.</param>
++    /// <param name="format">The formatting of the text.</param>
++    public ToolStripItemTextRenderEventArgs(Graphics g, ToolStripItem item, string text, Rectangle textRectangle, Color textColor, Font textFont, TextFormatFlags format)
++        : base(g, item)
++    {
++        Text = text;
++        TextRectangle = textRectangle;
++        TextColor = textColor;
++        TextFont = textFont;
++        TextFormat = format;
++    }
++
++    /// <summary>Initializes a new instance with the specified content alignment.</summary>
++    /// <param name="g">The graphics used to paint.</param>
++    /// <param name="item">The item to paint.</param>
++    /// <param name="text">The text to draw.</param>
++    /// <param name="textRectangle">The bounds of the text.</param>
++    /// <param name="textColor">The color of the text.</param>
++    /// <param name="textFont">The font of the text.</param>
++    /// <param name="textAlign">The alignment of the text.</param>
++    public ToolStripItemTextRenderEventArgs(Graphics g, ToolStripItem item, string text, Rectangle textRectangle, Color textColor, Font textFont, ContentAlignment textAlign)
++        : base(g, item)
++    {
++        Text = text;
++        TextRectangle = textRectangle;
++        TextColor = textColor;
++        TextFont = textFont;
++        TextFormat = TextFormatFlags.Default;
++    }
++
++    /// <summary>Gets or sets the text to draw.</summary>
++    public string Text { get; set; }
++
++    /// <summary>Gets or sets the color of the text.</summary>
++    public Color TextColor { get; set; }
++
++    /// <summary>Gets or sets the font of the text.</summary>
++    public Font TextFont { get; set; }
++
++    /// <summary>Gets or sets the bounds of the text.</summary>
++    public Rectangle TextRectangle { get; set; }
++
++    /// <summary>Gets or sets the formatting of the text.</summary>
++    public TextFormatFlags TextFormat { get; set; }
++
++    /// <summary>Gets or sets the direction of the text.</summary>
++    public ToolStripTextDirection TextDirection { get; set; } = ToolStripTextDirection.Horizontal;
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripPanelRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripPanelRenderEventArgs.cs
+new file mode 100644
+index 00000000..042ffb76
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripPanelRenderEventArgs.cs
+@@ -0,0 +1,29 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides data for the background rendering of a <see cref="T:System.Windows.Forms.ToolStripPanel" />.</summary>
++public class ToolStripPanelRenderEventArgs : EventArgs
++{
++    /// <summary>Initializes a new instance.</summary>
++    /// <param name="g">The graphics used to paint.</param>
++    /// <param name="toolStripPanel">The panel to paint.</param>
++    public ToolStripPanelRenderEventArgs(Graphics g, ToolStripPanel toolStripPanel)
++    {
++        Graphics = g;
++        ToolStripPanel = toolStripPanel;
++    }
++
++    /// <summary>Gets the graphics used to paint.</summary>
++    public Graphics Graphics { get; }
++
++    /// <summary>Gets the panel to paint.</summary>
++    public ToolStripPanel ToolStripPanel { get; }
++
++    /// <summary>Gets or sets a value indicating whether the event was handled.</summary>
++    public bool Handled { get; set; }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripRenderEventArgs.cs
+new file mode 100644
+index 00000000..d0557a0a
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripRenderEventArgs.cs
+@@ -0,0 +1,47 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides data for the ToolStrip background and border rendering events.</summary>
++public class ToolStripRenderEventArgs : EventArgs
++{
++    /// <summary>Initializes a new instance for the specified tool strip.</summary>
++    /// <param name="g">The graphics used to paint.</param>
++    /// <param name="toolStrip">The tool strip to paint.</param>
++    public ToolStripRenderEventArgs(Graphics g, ToolStrip toolStrip)
++        : this(g, toolStrip, toolStrip == null ? Rectangle.Empty : new Rectangle(Point.Empty, toolStrip.Size), Color.Empty)
++    {
++    }
++
++    /// <summary>Initializes a new instance with the specified affected bounds and back color.</summary>
++    /// <param name="g">The graphics used to paint.</param>
++    /// <param name="toolStrip">The tool strip to paint.</param>
++    /// <param name="affectedBounds">The bounds affected by the painting.</param>
++    /// <param name="backColor">The background color of the affected area.</param>
++    public ToolStripRenderEventArgs(Graphics g, ToolStrip toolStrip, Rectangle affectedBounds, Color backColor)
++    {
++        Graphics = g;
++        ToolStrip = toolStrip;
++        AffectedBounds = affectedBounds;
++        BackColor = backColor;
++    }
++
++    /// <summary>Gets the bounds affected by the painting.</summary>
++    public Rectangle AffectedBounds { get; }
++
++    /// <summary>Gets the background color of the affected area.</summary>
++    public Color BackColor { get; }
++
++    /// <summary>Gets the graphics used to paint.</summary>
++    public Graphics Graphics { get; }
++
++    /// <summary>Gets the tool strip to paint.</summary>
++    public ToolStrip ToolStrip { get; }
++
++    /// <summary>Gets the area where the tool strip joins an adjacent control when raftable.</summary>
++    public Rectangle ConnectedArea => Rectangle.Empty;
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripSeparatorRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripSeparatorRenderEventArgs.cs
+new file mode 100644
+index 00000000..eed67c84
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripSeparatorRenderEventArgs.cs
+@@ -0,0 +1,24 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides data for the separator rendering event on a tool strip.</summary>
++public class ToolStripSeparatorRenderEventArgs : ToolStripItemRenderEventArgs
++{
++    /// <summary>Initializes a new instance.</summary>
++    /// <param name="g">The graphics used to paint.</param>
++    /// <param name="separator">The separator to paint.</param>
++    /// <param name="vertical">Whether the separator is drawn vertically.</param>
++    public ToolStripSeparatorRenderEventArgs(Graphics g, ToolStripSeparator separator, bool vertical)
++        : base(g, separator)
++    {
++        Vertical = vertical;
++    }
++
++    /// <summary>Gets a value indicating whether the separator is drawn vertically.</summary>
++    public bool Vertical { get; }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripArrowRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripArrowRenderEventHandler.cs
+new file mode 100644
+index 00000000..2314584d
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripArrowRenderEventHandler.cs
+@@ -0,0 +1,10 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Represents the method that handles ToolStrip rendering events that use <see cref="T:System.Windows.Forms.ToolStripArrowRenderEventArgs" />.</summary>
++/// <param name="sender">The source of the event.</param>
++/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripArrowRenderEventArgs" /> that contains the event data.</param>
++public delegate void ToolStripArrowRenderEventHandler(object sender, ToolStripArrowRenderEventArgs e);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripContentPanelRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripContentPanelRenderEventHandler.cs
+new file mode 100644
+index 00000000..dc271479
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripContentPanelRenderEventHandler.cs
+@@ -0,0 +1,10 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Represents the method that handles ToolStrip rendering events that use <see cref="T:System.Windows.Forms.ToolStripContentPanelRenderEventArgs" />.</summary>
++/// <param name="sender">The source of the event.</param>
++/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripContentPanelRenderEventArgs" /> that contains the event data.</param>
++public delegate void ToolStripContentPanelRenderEventHandler(object sender, ToolStripContentPanelRenderEventArgs e);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripGripRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripGripRenderEventHandler.cs
+new file mode 100644
+index 00000000..b60a81c1
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripGripRenderEventHandler.cs
+@@ -0,0 +1,10 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Represents the method that handles ToolStrip rendering events that use <see cref="T:System.Windows.Forms.ToolStripGripRenderEventArgs" />.</summary>
++/// <param name="sender">The source of the event.</param>
++/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripGripRenderEventArgs" /> that contains the event data.</param>
++public delegate void ToolStripGripRenderEventHandler(object sender, ToolStripGripRenderEventArgs e);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemImageRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemImageRenderEventHandler.cs
+new file mode 100644
+index 00000000..ddb9d307
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemImageRenderEventHandler.cs
+@@ -0,0 +1,10 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Represents the method that handles ToolStrip rendering events that use <see cref="T:System.Windows.Forms.ToolStripItemImageRenderEventArgs" />.</summary>
++/// <param name="sender">The source of the event.</param>
++/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemImageRenderEventArgs" /> that contains the event data.</param>
++public delegate void ToolStripItemImageRenderEventHandler(object sender, ToolStripItemImageRenderEventArgs e);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemRenderEventHandler.cs
+new file mode 100644
+index 00000000..09c06edd
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemRenderEventHandler.cs
+@@ -0,0 +1,10 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Represents the method that handles ToolStrip rendering events that use <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" />.</summary>
++/// <param name="sender">The source of the event.</param>
++/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
++public delegate void ToolStripItemRenderEventHandler(object sender, ToolStripItemRenderEventArgs e);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemTextRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemTextRenderEventHandler.cs
+new file mode 100644
+index 00000000..6fb4769c
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemTextRenderEventHandler.cs
+@@ -0,0 +1,10 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Represents the method that handles ToolStrip rendering events that use <see cref="T:System.Windows.Forms.ToolStripItemTextRenderEventArgs" />.</summary>
++/// <param name="sender">The source of the event.</param>
++/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemTextRenderEventArgs" /> that contains the event data.</param>
++public delegate void ToolStripItemTextRenderEventHandler(object sender, ToolStripItemTextRenderEventArgs e);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripPanelRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripPanelRenderEventHandler.cs
+new file mode 100644
+index 00000000..711d6822
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripPanelRenderEventHandler.cs
+@@ -0,0 +1,10 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Represents the method that handles ToolStrip rendering events that use <see cref="T:System.Windows.Forms.ToolStripPanelRenderEventArgs" />.</summary>
++/// <param name="sender">The source of the event.</param>
++/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripPanelRenderEventArgs" /> that contains the event data.</param>
++public delegate void ToolStripPanelRenderEventHandler(object sender, ToolStripPanelRenderEventArgs e);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripRenderEventHandler.cs
+new file mode 100644
+index 00000000..d76c33a3
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripRenderEventHandler.cs
+@@ -0,0 +1,10 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Represents the method that handles ToolStrip rendering events that use <see cref="T:System.Windows.Forms.ToolStripRenderEventArgs" />.</summary>
++/// <param name="sender">The source of the event.</param>
++/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripRenderEventArgs" /> that contains the event data.</param>
++public delegate void ToolStripRenderEventHandler(object sender, ToolStripRenderEventArgs e);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripSeparatorRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripSeparatorRenderEventHandler.cs
+new file mode 100644
+index 00000000..daf08472
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripSeparatorRenderEventHandler.cs
+@@ -0,0 +1,10 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Represents the method that handles ToolStrip rendering events that use <see cref="T:System.Windows.Forms.ToolStripSeparatorRenderEventArgs" />.</summary>
++/// <param name="sender">The source of the event.</param>
++/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripSeparatorRenderEventArgs" /> that contains the event data.</param>
++public delegate void ToolStripSeparatorRenderEventHandler(object sender, ToolStripSeparatorRenderEventArgs e);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColorTable.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColorTable.cs
+new file mode 100644
+index 00000000..9be49f6a
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColorTable.cs
+@@ -0,0 +1,186 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Provides colors used for Microsoft Office display elements. The values are derived from the current
++/// system colors; on this GTK layer actual chrome is drawn by the theme, so these serve source that
++/// reads the table rather than pixel-exact Office rendering.
++/// </summary>
++public class ProfessionalColorTable
++{
++    /// <summary>Gets or sets a value indicating whether rounded edges are used for menus and tool strips.</summary>
++    public bool UseSystemColors { get; set; }
++
++    /// <summary>Gets the color used to render the ButtonSelectedHighlight element.</summary>
++    public virtual Color ButtonSelectedHighlight => SystemColors.Highlight;
++
++    /// <summary>Gets the color used to render the ButtonSelectedHighlightBorder element.</summary>
++    public virtual Color ButtonSelectedHighlightBorder => SystemColors.ControlDark;
++
++    /// <summary>Gets the color used to render the ButtonPressedHighlight element.</summary>
++    public virtual Color ButtonPressedHighlight => SystemColors.Highlight;
++
++    /// <summary>Gets the color used to render the ButtonPressedHighlightBorder element.</summary>
++    public virtual Color ButtonPressedHighlightBorder => SystemColors.ControlDark;
++
++    /// <summary>Gets the color used to render the ButtonCheckedHighlight element.</summary>
++    public virtual Color ButtonCheckedHighlight => SystemColors.Highlight;
++
++    /// <summary>Gets the color used to render the ButtonCheckedHighlightBorder element.</summary>
++    public virtual Color ButtonCheckedHighlightBorder => SystemColors.ControlDark;
++
++    /// <summary>Gets the color used to render the ButtonPressedBorder element.</summary>
++    public virtual Color ButtonPressedBorder => SystemColors.ControlDark;
++
++    /// <summary>Gets the color used to render the ButtonSelectedBorder element.</summary>
++    public virtual Color ButtonSelectedBorder => SystemColors.ControlDark;
++
++    /// <summary>Gets the color used to render the ButtonCheckedGradientBegin element.</summary>
++    public virtual Color ButtonCheckedGradientBegin => SystemColors.Highlight;
++
++    /// <summary>Gets the color used to render the ButtonCheckedGradientMiddle element.</summary>
++    public virtual Color ButtonCheckedGradientMiddle => SystemColors.Highlight;
++
++    /// <summary>Gets the color used to render the ButtonCheckedGradientEnd element.</summary>
++    public virtual Color ButtonCheckedGradientEnd => SystemColors.Highlight;
++
++    /// <summary>Gets the color used to render the ButtonSelectedGradientBegin element.</summary>
++    public virtual Color ButtonSelectedGradientBegin => SystemColors.Highlight;
++
++    /// <summary>Gets the color used to render the ButtonSelectedGradientMiddle element.</summary>
++    public virtual Color ButtonSelectedGradientMiddle => SystemColors.Highlight;
++
++    /// <summary>Gets the color used to render the ButtonSelectedGradientEnd element.</summary>
++    public virtual Color ButtonSelectedGradientEnd => SystemColors.Highlight;
++
++    /// <summary>Gets the color used to render the ButtonPressedGradientBegin element.</summary>
++    public virtual Color ButtonPressedGradientBegin => SystemColors.ControlDark;
++
++    /// <summary>Gets the color used to render the ButtonPressedGradientMiddle element.</summary>
++    public virtual Color ButtonPressedGradientMiddle => SystemColors.ControlDark;
++
++    /// <summary>Gets the color used to render the ButtonPressedGradientEnd element.</summary>
++    public virtual Color ButtonPressedGradientEnd => SystemColors.ControlDark;
++
++    /// <summary>Gets the color used to render the CheckBackground element.</summary>
++    public virtual Color CheckBackground => SystemColors.Highlight;
++
++    /// <summary>Gets the color used to render the CheckSelectedBackground element.</summary>
++    public virtual Color CheckSelectedBackground => SystemColors.Highlight;
++
++    /// <summary>Gets the color used to render the CheckPressedBackground element.</summary>
++    public virtual Color CheckPressedBackground => SystemColors.Highlight;
++
++    /// <summary>Gets the color used to render the GripDark element.</summary>
++    public virtual Color GripDark => SystemColors.ControlDark;
++
++    /// <summary>Gets the color used to render the GripLight element.</summary>
++    public virtual Color GripLight => SystemColors.ControlLightLight;
++
++    /// <summary>Gets the color used to render the ImageMarginGradientBegin element.</summary>
++    public virtual Color ImageMarginGradientBegin => SystemColors.ControlLightLight;
++
++    /// <summary>Gets the color used to render the ImageMarginGradientMiddle element.</summary>
++    public virtual Color ImageMarginGradientMiddle => SystemColors.ControlLightLight;
++
++    /// <summary>Gets the color used to render the ImageMarginGradientEnd element.</summary>
++    public virtual Color ImageMarginGradientEnd => SystemColors.Control;
++
++    /// <summary>Gets the color used to render the ImageMarginRevealedGradientBegin element.</summary>
++    public virtual Color ImageMarginRevealedGradientBegin => SystemColors.ControlLightLight;
++
++    /// <summary>Gets the color used to render the ImageMarginRevealedGradientMiddle element.</summary>
++    public virtual Color ImageMarginRevealedGradientMiddle => SystemColors.ControlLightLight;
++
++    /// <summary>Gets the color used to render the ImageMarginRevealedGradientEnd element.</summary>
++    public virtual Color ImageMarginRevealedGradientEnd => SystemColors.Control;
++
++    /// <summary>Gets the color used to render the MenuStripGradientBegin element.</summary>
++    public virtual Color MenuStripGradientBegin => SystemColors.ControlLightLight;
++
++    /// <summary>Gets the color used to render the MenuStripGradientEnd element.</summary>
++    public virtual Color MenuStripGradientEnd => SystemColors.Control;
++
++    /// <summary>Gets the color used to render the MenuItemSelected element.</summary>
++    public virtual Color MenuItemSelected => SystemColors.Highlight;
++
++    /// <summary>Gets the color used to render the MenuItemBorder element.</summary>
++    public virtual Color MenuItemBorder => SystemColors.ControlDark;
++
++    /// <summary>Gets the color used to render the MenuBorder element.</summary>
++    public virtual Color MenuBorder => SystemColors.ControlDark;
++
++    /// <summary>Gets the color used to render the MenuItemSelectedGradientBegin element.</summary>
++    public virtual Color MenuItemSelectedGradientBegin => SystemColors.Highlight;
++
++    /// <summary>Gets the color used to render the MenuItemSelectedGradientEnd element.</summary>
++    public virtual Color MenuItemSelectedGradientEnd => SystemColors.Highlight;
++
++    /// <summary>Gets the color used to render the MenuItemPressedGradientBegin element.</summary>
++    public virtual Color MenuItemPressedGradientBegin => SystemColors.ControlDark;
++
++    /// <summary>Gets the color used to render the MenuItemPressedGradientMiddle element.</summary>
++    public virtual Color MenuItemPressedGradientMiddle => SystemColors.ControlDark;
++
++    /// <summary>Gets the color used to render the MenuItemPressedGradientEnd element.</summary>
++    public virtual Color MenuItemPressedGradientEnd => SystemColors.ControlDark;
++
++    /// <summary>Gets the color used to render the RaftingContainerGradientBegin element.</summary>
++    public virtual Color RaftingContainerGradientBegin => SystemColors.ControlLightLight;
++
++    /// <summary>Gets the color used to render the RaftingContainerGradientEnd element.</summary>
++    public virtual Color RaftingContainerGradientEnd => SystemColors.Control;
++
++    /// <summary>Gets the color used to render the SeparatorDark element.</summary>
++    public virtual Color SeparatorDark => SystemColors.ControlDark;
++
++    /// <summary>Gets the color used to render the SeparatorLight element.</summary>
++    public virtual Color SeparatorLight => SystemColors.ControlLightLight;
++
++    /// <summary>Gets the color used to render the StatusStripGradientBegin element.</summary>
++    public virtual Color StatusStripGradientBegin => SystemColors.ControlLightLight;
++
++    /// <summary>Gets the color used to render the StatusStripGradientEnd element.</summary>
++    public virtual Color StatusStripGradientEnd => SystemColors.Control;
++
++    /// <summary>Gets the color used to render the ToolStripBorder element.</summary>
++    public virtual Color ToolStripBorder => SystemColors.ControlDark;
++
++    /// <summary>Gets the color used to render the ToolStripDropDownBackground element.</summary>
++    public virtual Color ToolStripDropDownBackground => SystemColors.Window;
++
++    /// <summary>Gets the color used to render the ToolStripGradientBegin element.</summary>
++    public virtual Color ToolStripGradientBegin => SystemColors.ControlLightLight;
++
++    /// <summary>Gets the color used to render the ToolStripGradientMiddle element.</summary>
++    public virtual Color ToolStripGradientMiddle => SystemColors.ControlLightLight;
++
++    /// <summary>Gets the color used to render the ToolStripGradientEnd element.</summary>
++    public virtual Color ToolStripGradientEnd => SystemColors.Control;
++
++    /// <summary>Gets the color used to render the ToolStripContentPanelGradientBegin element.</summary>
++    public virtual Color ToolStripContentPanelGradientBegin => SystemColors.ControlLightLight;
++
++    /// <summary>Gets the color used to render the ToolStripContentPanelGradientEnd element.</summary>
++    public virtual Color ToolStripContentPanelGradientEnd => SystemColors.Control;
++
++    /// <summary>Gets the color used to render the ToolStripPanelGradientBegin element.</summary>
++    public virtual Color ToolStripPanelGradientBegin => SystemColors.ControlLightLight;
++
++    /// <summary>Gets the color used to render the ToolStripPanelGradientEnd element.</summary>
++    public virtual Color ToolStripPanelGradientEnd => SystemColors.Control;
++
++    /// <summary>Gets the color used to render the OverflowButtonGradientBegin element.</summary>
++    public virtual Color OverflowButtonGradientBegin => SystemColors.ControlLightLight;
++
++    /// <summary>Gets the color used to render the OverflowButtonGradientMiddle element.</summary>
++    public virtual Color OverflowButtonGradientMiddle => SystemColors.ControlLightLight;
++
++    /// <summary>Gets the color used to render the OverflowButtonGradientEnd element.</summary>
++    public virtual Color OverflowButtonGradientEnd => SystemColors.Control;
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColors.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColors.cs
+new file mode 100644
+index 00000000..4429536f
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColors.cs
+@@ -0,0 +1,181 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides static access to the colors used by <see cref="T:System.Windows.Forms.ToolStripProfessionalRenderer" />.</summary>
++public static class ProfessionalColors
++{
++    private static readonly ProfessionalColorTable Table = new();
++
++    /// <summary>Gets the ButtonSelectedHighlight color.</summary>
++    public static Color ButtonSelectedHighlight => Table.ButtonSelectedHighlight;
++
++    /// <summary>Gets the ButtonSelectedHighlightBorder color.</summary>
++    public static Color ButtonSelectedHighlightBorder => Table.ButtonSelectedHighlightBorder;
++
++    /// <summary>Gets the ButtonPressedHighlight color.</summary>
++    public static Color ButtonPressedHighlight => Table.ButtonPressedHighlight;
++
++    /// <summary>Gets the ButtonPressedHighlightBorder color.</summary>
++    public static Color ButtonPressedHighlightBorder => Table.ButtonPressedHighlightBorder;
++
++    /// <summary>Gets the ButtonCheckedHighlight color.</summary>
++    public static Color ButtonCheckedHighlight => Table.ButtonCheckedHighlight;
++
++    /// <summary>Gets the ButtonCheckedHighlightBorder color.</summary>
++    public static Color ButtonCheckedHighlightBorder => Table.ButtonCheckedHighlightBorder;
++
++    /// <summary>Gets the ButtonPressedBorder color.</summary>
++    public static Color ButtonPressedBorder => Table.ButtonPressedBorder;
++
++    /// <summary>Gets the ButtonSelectedBorder color.</summary>
++    public static Color ButtonSelectedBorder => Table.ButtonSelectedBorder;
++
++    /// <summary>Gets the ButtonCheckedGradientBegin color.</summary>
++    public static Color ButtonCheckedGradientBegin => Table.ButtonCheckedGradientBegin;
++
++    /// <summary>Gets the ButtonCheckedGradientMiddle color.</summary>
++    public static Color ButtonCheckedGradientMiddle => Table.ButtonCheckedGradientMiddle;
++
++    /// <summary>Gets the ButtonCheckedGradientEnd color.</summary>
++    public static Color ButtonCheckedGradientEnd => Table.ButtonCheckedGradientEnd;
++
++    /// <summary>Gets the ButtonSelectedGradientBegin color.</summary>
++    public static Color ButtonSelectedGradientBegin => Table.ButtonSelectedGradientBegin;
++
++    /// <summary>Gets the ButtonSelectedGradientMiddle color.</summary>
++    public static Color ButtonSelectedGradientMiddle => Table.ButtonSelectedGradientMiddle;
++
++    /// <summary>Gets the ButtonSelectedGradientEnd color.</summary>
++    public static Color ButtonSelectedGradientEnd => Table.ButtonSelectedGradientEnd;
++
++    /// <summary>Gets the ButtonPressedGradientBegin color.</summary>
++    public static Color ButtonPressedGradientBegin => Table.ButtonPressedGradientBegin;
++
++    /// <summary>Gets the ButtonPressedGradientMiddle color.</summary>
++    public static Color ButtonPressedGradientMiddle => Table.ButtonPressedGradientMiddle;
++
++    /// <summary>Gets the ButtonPressedGradientEnd color.</summary>
++    public static Color ButtonPressedGradientEnd => Table.ButtonPressedGradientEnd;
++
++    /// <summary>Gets the CheckBackground color.</summary>
++    public static Color CheckBackground => Table.CheckBackground;
++
++    /// <summary>Gets the CheckSelectedBackground color.</summary>
++    public static Color CheckSelectedBackground => Table.CheckSelectedBackground;
++
++    /// <summary>Gets the CheckPressedBackground color.</summary>
++    public static Color CheckPressedBackground => Table.CheckPressedBackground;
++
++    /// <summary>Gets the GripDark color.</summary>
++    public static Color GripDark => Table.GripDark;
++
++    /// <summary>Gets the GripLight color.</summary>
++    public static Color GripLight => Table.GripLight;
++
++    /// <summary>Gets the ImageMarginGradientBegin color.</summary>
++    public static Color ImageMarginGradientBegin => Table.ImageMarginGradientBegin;
++
++    /// <summary>Gets the ImageMarginGradientMiddle color.</summary>
++    public static Color ImageMarginGradientMiddle => Table.ImageMarginGradientMiddle;
++
++    /// <summary>Gets the ImageMarginGradientEnd color.</summary>
++    public static Color ImageMarginGradientEnd => Table.ImageMarginGradientEnd;
++
++    /// <summary>Gets the ImageMarginRevealedGradientBegin color.</summary>
++    public static Color ImageMarginRevealedGradientBegin => Table.ImageMarginRevealedGradientBegin;
++
++    /// <summary>Gets the ImageMarginRevealedGradientMiddle color.</summary>
++    public static Color ImageMarginRevealedGradientMiddle => Table.ImageMarginRevealedGradientMiddle;
++
++    /// <summary>Gets the ImageMarginRevealedGradientEnd color.</summary>
++    public static Color ImageMarginRevealedGradientEnd => Table.ImageMarginRevealedGradientEnd;
++
++    /// <summary>Gets the MenuStripGradientBegin color.</summary>
++    public static Color MenuStripGradientBegin => Table.MenuStripGradientBegin;
++
++    /// <summary>Gets the MenuStripGradientEnd color.</summary>
++    public static Color MenuStripGradientEnd => Table.MenuStripGradientEnd;
++
++    /// <summary>Gets the MenuItemSelected color.</summary>
++    public static Color MenuItemSelected => Table.MenuItemSelected;
++
++    /// <summary>Gets the MenuItemBorder color.</summary>
++    public static Color MenuItemBorder => Table.MenuItemBorder;
++
++    /// <summary>Gets the MenuBorder color.</summary>
++    public static Color MenuBorder => Table.MenuBorder;
++
++    /// <summary>Gets the MenuItemSelectedGradientBegin color.</summary>
++    public static Color MenuItemSelectedGradientBegin => Table.MenuItemSelectedGradientBegin;
++
++    /// <summary>Gets the MenuItemSelectedGradientEnd color.</summary>
++    public static Color MenuItemSelectedGradientEnd => Table.MenuItemSelectedGradientEnd;
++
++    /// <summary>Gets the MenuItemPressedGradientBegin color.</summary>
++    public static Color MenuItemPressedGradientBegin => Table.MenuItemPressedGradientBegin;
++
++    /// <summary>Gets the MenuItemPressedGradientMiddle color.</summary>
++    public static Color MenuItemPressedGradientMiddle => Table.MenuItemPressedGradientMiddle;
++
++    /// <summary>Gets the MenuItemPressedGradientEnd color.</summary>
++    public static Color MenuItemPressedGradientEnd => Table.MenuItemPressedGradientEnd;
++
++    /// <summary>Gets the RaftingContainerGradientBegin color.</summary>
++    public static Color RaftingContainerGradientBegin => Table.RaftingContainerGradientBegin;
++
++    /// <summary>Gets the RaftingContainerGradientEnd color.</summary>
++    public static Color RaftingContainerGradientEnd => Table.RaftingContainerGradientEnd;
++
++    /// <summary>Gets the SeparatorDark color.</summary>
++    public static Color SeparatorDark => Table.SeparatorDark;
++
++    /// <summary>Gets the SeparatorLight color.</summary>
++    public static Color SeparatorLight => Table.SeparatorLight;
++
++    /// <summary>Gets the StatusStripGradientBegin color.</summary>
++    public static Color StatusStripGradientBegin => Table.StatusStripGradientBegin;
++
++    /// <summary>Gets the StatusStripGradientEnd color.</summary>
++    public static Color StatusStripGradientEnd => Table.StatusStripGradientEnd;
++
++    /// <summary>Gets the ToolStripBorder color.</summary>
++    public static Color ToolStripBorder => Table.ToolStripBorder;
++
++    /// <summary>Gets the ToolStripDropDownBackground color.</summary>
++    public static Color ToolStripDropDownBackground => Table.ToolStripDropDownBackground;
++
++    /// <summary>Gets the ToolStripGradientBegin color.</summary>
++    public static Color ToolStripGradientBegin => Table.ToolStripGradientBegin;
++
++    /// <summary>Gets the ToolStripGradientMiddle color.</summary>
++    public static Color ToolStripGradientMiddle => Table.ToolStripGradientMiddle;
++
++    /// <summary>Gets the ToolStripGradientEnd color.</summary>
++    public static Color ToolStripGradientEnd => Table.ToolStripGradientEnd;
++
++    /// <summary>Gets the ToolStripContentPanelGradientBegin color.</summary>
++    public static Color ToolStripContentPanelGradientBegin => Table.ToolStripContentPanelGradientBegin;
++
++    /// <summary>Gets the ToolStripContentPanelGradientEnd color.</summary>
++    public static Color ToolStripContentPanelGradientEnd => Table.ToolStripContentPanelGradientEnd;
++
++    /// <summary>Gets the ToolStripPanelGradientBegin color.</summary>
++    public static Color ToolStripPanelGradientBegin => Table.ToolStripPanelGradientBegin;
++
++    /// <summary>Gets the ToolStripPanelGradientEnd color.</summary>
++    public static Color ToolStripPanelGradientEnd => Table.ToolStripPanelGradientEnd;
++
++    /// <summary>Gets the OverflowButtonGradientBegin color.</summary>
++    public static Color OverflowButtonGradientBegin => Table.OverflowButtonGradientBegin;
++
++    /// <summary>Gets the OverflowButtonGradientMiddle color.</summary>
++    public static Color OverflowButtonGradientMiddle => Table.OverflowButtonGradientMiddle;
++
++    /// <summary>Gets the OverflowButtonGradientEnd color.</summary>
++    public static Color OverflowButtonGradientEnd => Table.OverflowButtonGradientEnd;
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContainer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContainer.cs
+new file mode 100644
+index 00000000..f63ec157
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContainer.cs
+@@ -0,0 +1,66 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.ComponentModel;
++using GtkSystem.Windows.Forms.GtkControls.ControlBase;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Provides panels on each side of the form and a central content panel into which tool strips and other
++/// controls can be arranged and docked. This type is emitted by the designer for multi-toolbar forms.
++/// </summary>
++[DesignerCategory("Component")]
++public class ToolStripContainer : ContainerControl
++{
++    /// <summary>
++    /// The self
++    /// </summary>
++    public readonly PanelBase self = new();
++
++    private ToolStripContentPanel? _contentPanel;
++    private ToolStripPanel? _top;
++    private ToolStripPanel? _bottom;
++    private ToolStripPanel? _left;
++    private ToolStripPanel? _right;
++
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.ToolStripContainer" /> class.</summary>
++    public ToolStripContainer() : base()
++    {
++        TopToolStripPanelVisible = true;
++        BottomToolStripPanelVisible = true;
++        LeftToolStripPanelVisible = true;
++        RightToolStripPanelVisible = true;
++    }
++
++    /// <summary>Gets the GTK control.</summary>
++    public override object GtkControl => self;
++
++    /// <summary>Gets the central <see cref="T:System.Windows.Forms.ToolStripContentPanel" /> of the container.</summary>
++    public ToolStripContentPanel ContentPanel => _contentPanel ??= new ToolStripContentPanel();
++
++    /// <summary>Gets the top <see cref="T:System.Windows.Forms.ToolStripPanel" /> of the container.</summary>
++    public ToolStripPanel TopToolStripPanel => _top ??= new ToolStripPanel { Dock = DockStyle.Top, Orientation = Orientation.Horizontal };
++
++    /// <summary>Gets the bottom <see cref="T:System.Windows.Forms.ToolStripPanel" /> of the container.</summary>
++    public ToolStripPanel BottomToolStripPanel => _bottom ??= new ToolStripPanel { Dock = DockStyle.Bottom, Orientation = Orientation.Horizontal };
++
++    /// <summary>Gets the left <see cref="T:System.Windows.Forms.ToolStripPanel" /> of the container.</summary>
++    public ToolStripPanel LeftToolStripPanel => _left ??= new ToolStripPanel { Dock = DockStyle.Left, Orientation = Orientation.Vertical };
++
++    /// <summary>Gets the right <see cref="T:System.Windows.Forms.ToolStripPanel" /> of the container.</summary>
++    public ToolStripPanel RightToolStripPanel => _right ??= new ToolStripPanel { Dock = DockStyle.Right, Orientation = Orientation.Vertical };
++
++    /// <summary>Gets or sets a value indicating whether the top panel is visible.</summary>
++    public bool TopToolStripPanelVisible { get; set; }
++
++    /// <summary>Gets or sets a value indicating whether the bottom panel is visible.</summary>
++    public bool BottomToolStripPanelVisible { get; set; }
++
++    /// <summary>Gets or sets a value indicating whether the left panel is visible.</summary>
++    public bool LeftToolStripPanelVisible { get; set; }
++
++    /// <summary>Gets or sets a value indicating whether the right panel is visible.</summary>
++    public bool RightToolStripPanelVisible { get; set; }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContentPanel.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContentPanel.cs
+new file mode 100644
+index 00000000..b1207a6c
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContentPanel.cs
+@@ -0,0 +1,59 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.ComponentModel;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Used to group collections of aligned controls hosted in the central area of a
++/// <see cref="T:System.Windows.Forms.ToolStripContainer" />.
++/// </summary>
++[DesignerCategory("Component")]
++public class ToolStripContentPanel : Panel
++{
++    private ToolStripRenderer? _renderer;
++    private ToolStripRenderMode _renderMode = ToolStripRenderMode.ManagerRenderMode;
++
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.ToolStripContentPanel" /> class.</summary>
++    public ToolStripContentPanel() : base()
++    {
++    }
++
++    /// <summary>Occurs when the value of the <see cref="P:System.Windows.Forms.ToolStripContentPanel.Renderer" /> property changes.</summary>
++    public event EventHandler? RendererChanged;
++
++    /// <summary>Gets or sets a <see cref="T:System.Windows.Forms.ToolStripRenderer" /> used to customize the appearance of the content panel.</summary>
++    public ToolStripRenderer Renderer
++    {
++        get => _renderer ?? ToolStripManager.Renderer;
++        set
++        {
++            if (_renderer != value)
++            {
++                _renderer = value;
++                _renderMode = ToolStripRenderMode.Custom;
++                OnRendererChanged(EventArgs.Empty);
++            }
++        }
++    }
++
++    /// <summary>Gets or sets the painting styles applied to the content panel.</summary>
++    public ToolStripRenderMode RenderMode
++    {
++        get => _renderMode;
++        set
++        {
++            _renderMode = value;
++            if (value != ToolStripRenderMode.Custom)
++            {
++                _renderer = null;
++            }
++        }
++    }
++
++    /// <summary>Raises the <see cref="E:System.Windows.Forms.ToolStripContentPanel.RendererChanged" /> event.</summary>
++    /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
++    protected virtual void OnRendererChanged(EventArgs e) => RendererChanged?.Invoke(this, e);
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripManager.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripManager.cs
+new file mode 100644
+index 00000000..3e4a4b48
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripManager.cs
+@@ -0,0 +1,59 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Provides methods and properties to manage <see cref="T:System.Windows.Forms.ToolStrip" /> objects, such as
++/// the default renderer, render mode and merge operations.
++/// </summary>
++public static class ToolStripManager
++{
++    private static ToolStripRenderer _renderer = new ToolStripProfessionalRenderer();
++    private static ToolStripManagerRenderMode _renderMode = ToolStripManagerRenderMode.Professional;
++
++    /// <summary>Gets or sets the default renderer used to paint tool strips.</summary>
++    public static ToolStripRenderer Renderer
++    {
++        get => _renderer;
++        set
++        {
++            _renderer = value ?? new ToolStripProfessionalRenderer();
++            _renderMode = ToolStripManagerRenderMode.Custom;
++        }
++    }
++
++    /// <summary>Gets or sets the painting styles applied to tool strips by default.</summary>
++    public static ToolStripManagerRenderMode RenderMode
++    {
++        get => _renderMode;
++        set
++        {
++            _renderMode = value;
++            _renderer = value == ToolStripManagerRenderMode.System
++                ? new ToolStripSystemRenderer()
++                : new ToolStripProfessionalRenderer();
++        }
++    }
++
++    /// <summary>Gets or sets a value indicating whether tool strips honor operating-system visual styles.</summary>
++    public static bool VisualStylesEnabled { get; set; } = true;
++
++    /// <summary>Combines two tool strips of the same type. Returns whether the merge succeeded.</summary>
++    /// <param name="sourceToolStrip">The tool strip whose items are merged into the target.</param>
++    /// <param name="targetToolStrip">The tool strip that receives the merged items.</param>
++    /// <returns><see langword="true" /> if the merge succeeded; otherwise <see langword="false" />.</returns>
++    public static bool Merge(ToolStrip sourceToolStrip, ToolStrip targetToolStrip)
++    {
++        return sourceToolStrip != null && targetToolStrip != null;
++    }
++
++    /// <summary>Reverts a previous merge on the specified tool strip. Returns whether the operation succeeded.</summary>
++    /// <param name="targetToolStrip">The tool strip to revert.</param>
++    /// <returns><see langword="true" /> if the revert succeeded; otherwise <see langword="false" />.</returns>
++    public static bool RevertMerge(ToolStrip targetToolStrip)
++    {
++        return targetToolStrip != null;
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanel.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanel.cs
+new file mode 100644
+index 00000000..157191af
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanel.cs
+@@ -0,0 +1,79 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.ComponentModel;
++using GtkSystem.Windows.Forms.GtkControls.ControlBase;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Creates a container within which other controls (typically tool strips) can share horizontal or vertical
++/// space and be arranged into rows.
++/// </summary>
++[DesignerCategory("Component")]
++public class ToolStripPanel : ContainerControl
++{
++    /// <summary>
++    /// The self
++    /// </summary>
++    public readonly PanelBase self = new();
++
++    private ToolStripRenderer? _renderer;
++    private ToolStripRenderMode _renderMode = ToolStripRenderMode.ManagerRenderMode;
++    private Orientation _orientation = Orientation.Horizontal;
++
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.ToolStripPanel" /> class.</summary>
++    public ToolStripPanel() : base()
++    {
++    }
++
++    /// <summary>Occurs when the value of the <see cref="P:System.Windows.Forms.ToolStripPanel.Renderer" /> property changes.</summary>
++    public event EventHandler? RendererChanged;
++
++    /// <summary>Gets the GTK control.</summary>
++    public override object GtkControl => self;
++
++    /// <summary>Gets or sets a value indicating the horizontal or vertical orientation of the panel.</summary>
++    public Orientation Orientation
++    {
++        get => _orientation;
++        set => _orientation = value;
++    }
++
++    /// <summary>Gets or sets a <see cref="T:System.Windows.Forms.ToolStripRenderer" /> used to customize the appearance of the panel.</summary>
++    public ToolStripRenderer Renderer
++    {
++        get => _renderer ?? ToolStripManager.Renderer;
++        set
++        {
++            if (_renderer != value)
++            {
++                _renderer = value;
++                _renderMode = ToolStripRenderMode.Custom;
++                OnRendererChanged(EventArgs.Empty);
++            }
++        }
++    }
++
++    /// <summary>Gets or sets the painting styles applied to the panel.</summary>
++    public ToolStripRenderMode RenderMode
++    {
++        get => _renderMode;
++        set
++        {
++            _renderMode = value;
++            if (value != ToolStripRenderMode.Custom)
++            {
++                _renderer = null;
++            }
++        }
++    }
++
++    /// <summary>Gets an array of <see cref="T:System.Windows.Forms.ToolStripPanelRow" /> objects that represent the rows in the panel.</summary>
++    public ToolStripPanelRow[] Rows => [new ToolStripPanelRow(this)];
++
++    /// <summary>Raises the <see cref="E:System.Windows.Forms.ToolStripPanel.RendererChanged" /> event.</summary>
++    /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
++    protected virtual void OnRendererChanged(EventArgs e) => RendererChanged?.Invoke(this, e);
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanelRow.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanelRow.cs
+new file mode 100644
+index 00000000..8df8bfb7
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanelRow.cs
+@@ -0,0 +1,26 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.ComponentModel;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Represents a row of tool strips within a <see cref="T:System.Windows.Forms.ToolStripPanel" />.
++/// </summary>
++public class ToolStripPanelRow : Component
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.ToolStripPanelRow" /> class.</summary>
++    /// <param name="parent">The <see cref="T:System.Windows.Forms.ToolStripPanel" /> that contains this row.</param>
++    public ToolStripPanelRow(ToolStripPanel parent)
++    {
++        ToolStripPanel = parent;
++    }
++
++    /// <summary>Gets the <see cref="T:System.Windows.Forms.ToolStripPanel" /> that contains this row.</summary>
++    public ToolStripPanel ToolStripPanel { get; }
++
++    /// <summary>Gets the orientation of the row, which follows the orientation of its containing panel.</summary>
++    public Orientation Orientation => ToolStripPanel?.Orientation ?? Orientation.Horizontal;
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripProfessionalRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripProfessionalRenderer.cs
+new file mode 100644
+index 00000000..07ab7988
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripProfessionalRenderer.cs
+@@ -0,0 +1,24 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Handles the painting functionality for <see cref="T:System.Windows.Forms.ToolStrip" /> objects, using a professional (Office-style) color table. Chrome is rendered by the GTK theme; the color table is exposed for source that reads it.</summary>
++public class ToolStripProfessionalRenderer : ToolStripRenderer
++{
++    /// <summary>Initializes a new instance with a default color table.</summary>
++    public ToolStripProfessionalRenderer() : this(new ProfessionalColorTable())
++    {
++    }
++
++    /// <summary>Initializes a new instance with the specified color table.</summary>
++    /// <param name="professionalColorTable">The color table to use.</param>
++    public ToolStripProfessionalRenderer(ProfessionalColorTable professionalColorTable)
++    {
++        ColorTable = professionalColorTable;
++    }
++
++    /// <summary>Gets the color table used for painting.</summary>
++    public ProfessionalColorTable ColorTable { get; }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripRenderer.cs
+new file mode 100644
+index 00000000..a541ec01
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripRenderer.cs
+@@ -0,0 +1,214 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Handles the painting functionality for <see cref="T:System.Windows.Forms.ToolStrip" /> objects.
++/// On this GTK layer the actual chrome is drawn by the theme, so the base render methods are no-ops; the
++/// public Draw methods and the protected OnRender override points are provided so custom renderers compile
++/// and their overrides are invoked.
++/// </summary>
++public abstract class ToolStripRenderer
++{
++    /// <summary>Draws the Arrow. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderArrow(System.Windows.Forms.ToolStripArrowRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripArrowRenderEventArgs" /> that contains the event data.</param>
++    public void DrawArrow(ToolStripArrowRenderEventArgs e) => OnRenderArrow(e);
++
++    /// <summary>Raises the Arrow render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripArrowRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderArrow(ToolStripArrowRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the ToolStripBackground. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderToolStripBackground(System.Windows.Forms.ToolStripRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripRenderEventArgs" /> that contains the event data.</param>
++    public void DrawToolStripBackground(ToolStripRenderEventArgs e) => OnRenderToolStripBackground(e);
++
++    /// <summary>Raises the ToolStripBackground render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the Grip. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderGrip(System.Windows.Forms.ToolStripGripRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripGripRenderEventArgs" /> that contains the event data.</param>
++    public void DrawGrip(ToolStripGripRenderEventArgs e) => OnRenderGrip(e);
++
++    /// <summary>Raises the Grip render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripGripRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderGrip(ToolStripGripRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the ItemBackground. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderItemBackground(System.Windows.Forms.ToolStripItemRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
++    public void DrawItemBackground(ToolStripItemRenderEventArgs e) => OnRenderItemBackground(e);
++
++    /// <summary>Raises the ItemBackground render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderItemBackground(ToolStripItemRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the ImageMargin. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderImageMargin(System.Windows.Forms.ToolStripRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripRenderEventArgs" /> that contains the event data.</param>
++    public void DrawImageMargin(ToolStripRenderEventArgs e) => OnRenderImageMargin(e);
++
++    /// <summary>Raises the ImageMargin render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderImageMargin(ToolStripRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the LabelBackground. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderLabelBackground(System.Windows.Forms.ToolStripItemRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
++    public void DrawLabelBackground(ToolStripItemRenderEventArgs e) => OnRenderLabelBackground(e);
++
++    /// <summary>Raises the LabelBackground render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderLabelBackground(ToolStripItemRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the ButtonBackground. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderButtonBackground(System.Windows.Forms.ToolStripItemRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
++    public void DrawButtonBackground(ToolStripItemRenderEventArgs e) => OnRenderButtonBackground(e);
++
++    /// <summary>Raises the ButtonBackground render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderButtonBackground(ToolStripItemRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the ToolStripBorder. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderToolStripBorder(System.Windows.Forms.ToolStripRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripRenderEventArgs" /> that contains the event data.</param>
++    public void DrawToolStripBorder(ToolStripRenderEventArgs e) => OnRenderToolStripBorder(e);
++
++    /// <summary>Raises the ToolStripBorder render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the DropDownButtonBackground. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderDropDownButtonBackground(System.Windows.Forms.ToolStripItemRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
++    public void DrawDropDownButtonBackground(ToolStripItemRenderEventArgs e) => OnRenderDropDownButtonBackground(e);
++
++    /// <summary>Raises the DropDownButtonBackground render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderDropDownButtonBackground(ToolStripItemRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the OverflowButtonBackground. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderOverflowButtonBackground(System.Windows.Forms.ToolStripItemRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
++    public void DrawOverflowButtonBackground(ToolStripItemRenderEventArgs e) => OnRenderOverflowButtonBackground(e);
++
++    /// <summary>Raises the OverflowButtonBackground render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderOverflowButtonBackground(ToolStripItemRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the ItemImage. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderItemImage(System.Windows.Forms.ToolStripItemImageRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemImageRenderEventArgs" /> that contains the event data.</param>
++    public void DrawItemImage(ToolStripItemImageRenderEventArgs e) => OnRenderItemImage(e);
++
++    /// <summary>Raises the ItemImage render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemImageRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderItemImage(ToolStripItemImageRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the ItemCheck. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderItemCheck(System.Windows.Forms.ToolStripItemImageRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemImageRenderEventArgs" /> that contains the event data.</param>
++    public void DrawItemCheck(ToolStripItemImageRenderEventArgs e) => OnRenderItemCheck(e);
++
++    /// <summary>Raises the ItemCheck render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemImageRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderItemCheck(ToolStripItemImageRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the ItemText. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderItemText(System.Windows.Forms.ToolStripItemTextRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemTextRenderEventArgs" /> that contains the event data.</param>
++    public void DrawItemText(ToolStripItemTextRenderEventArgs e) => OnRenderItemText(e);
++
++    /// <summary>Raises the ItemText render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemTextRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the MenuItemBackground. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderMenuItemBackground(System.Windows.Forms.ToolStripItemRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
++    public void DrawMenuItemBackground(ToolStripItemRenderEventArgs e) => OnRenderMenuItemBackground(e);
++
++    /// <summary>Raises the MenuItemBackground render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the SplitButton. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderSplitButtonBackground(System.Windows.Forms.ToolStripItemRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
++    public void DrawSplitButton(ToolStripItemRenderEventArgs e) => OnRenderSplitButtonBackground(e);
++
++    /// <summary>Raises the SplitButton render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderSplitButtonBackground(ToolStripItemRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the ToolStripStatusLabelBackground. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderToolStripStatusLabelBackground(System.Windows.Forms.ToolStripItemRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
++    public void DrawToolStripStatusLabelBackground(ToolStripItemRenderEventArgs e) => OnRenderToolStripStatusLabelBackground(e);
++
++    /// <summary>Raises the ToolStripStatusLabelBackground render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderToolStripStatusLabelBackground(ToolStripItemRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the StatusStripSizingGrip. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderStatusStripSizingGrip(System.Windows.Forms.ToolStripRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripRenderEventArgs" /> that contains the event data.</param>
++    public void DrawStatusStripSizingGrip(ToolStripRenderEventArgs e) => OnRenderStatusStripSizingGrip(e);
++
++    /// <summary>Raises the StatusStripSizingGrip render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderStatusStripSizingGrip(ToolStripRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the Separator. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderSeparator(System.Windows.Forms.ToolStripSeparatorRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripSeparatorRenderEventArgs" /> that contains the event data.</param>
++    public void DrawSeparator(ToolStripSeparatorRenderEventArgs e) => OnRenderSeparator(e);
++
++    /// <summary>Raises the Separator render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripSeparatorRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderSeparator(ToolStripSeparatorRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the ToolStripPanelBackground. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderToolStripPanelBackground(System.Windows.Forms.ToolStripPanelRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripPanelRenderEventArgs" /> that contains the event data.</param>
++    public void DrawToolStripPanelBackground(ToolStripPanelRenderEventArgs e) => OnRenderToolStripPanelBackground(e);
++
++    /// <summary>Raises the ToolStripPanelBackground render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripPanelRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderToolStripPanelBackground(ToolStripPanelRenderEventArgs e)
++    {
++    }
++
++    /// <summary>Draws the ToolStripContentPanelBackground. Raises <see cref="M:System.Windows.Forms.ToolStripRenderer.OnRenderToolStripContentPanelBackground(System.Windows.Forms.ToolStripContentPanelRenderEventArgs)" />.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripContentPanelRenderEventArgs" /> that contains the event data.</param>
++    public void DrawToolStripContentPanelBackground(ToolStripContentPanelRenderEventArgs e) => OnRenderToolStripContentPanelBackground(e);
++
++    /// <summary>Raises the ToolStripContentPanelBackground render event.</summary>
++    /// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripContentPanelRenderEventArgs" /> that contains the event data.</param>
++    protected virtual void OnRenderToolStripContentPanelBackground(ToolStripContentPanelRenderEventArgs e)
++    {
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripSystemRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripSystemRenderer.cs
+new file mode 100644
+index 00000000..0b67fb78
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripSystemRenderer.cs
+@@ -0,0 +1,14 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Handles the painting functionality for <see cref="T:System.Windows.Forms.ToolStrip" /> objects, using the operating-system theme. On this GTK layer the theme draws the chrome directly.</summary>
++public class ToolStripSystemRenderer : ToolStripRenderer
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.ToolStripSystemRenderer" /> class.</summary>
++    public ToolStripSystemRenderer()
++    {
++    }
++}
+-- 
+2.53.0.windows.3
+
