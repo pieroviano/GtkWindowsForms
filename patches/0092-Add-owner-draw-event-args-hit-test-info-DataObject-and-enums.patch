@@ -1,0 +1,1778 @@
+From 7e92ec650ec2492e0922880f424dd9e752c9a402 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 24 Jul 2026 06:56:25 +0300
+Subject: [PATCH] Phase 2 (cont.): owner-draw event args, hit-test info,
+ DataObject, more enums
+
+Continues GAP-CLOSURE-PLAN.md Phase 2 with additive, compile-compat types
+(no re-parenting), all verified against the net48 reference assembly.
+
+Owner-draw + hit-testing (unblocks custom-drawn ListView/TreeView):
+- DrawListViewItemEventArgs, DrawListViewSubItemEventArgs,
+  DrawListViewColumnHeaderEventArgs, DrawTreeNodeEventArgs and their handlers.
+  Constructor signatures/parameter order taken from the reference assembly; the
+  Draw* helpers use the existing TextRenderer/ControlPaint/Graphics.
+- ListViewHitTestInfo, TreeViewHitTestInfo.
+
+Top-level DataObject:
+- System.Windows.Forms.DataObject : IDataObject, an in-memory format->object store
+  (SetData/GetData/GetDataPresent/GetFormats + Text/Image/FileDropList helpers).
+  Coexists with the clipboard-backed Clipboard.DataObject; internal Clipboard use
+  is unaffected (nested type wins in that scope).
+
+19 more compatibility enums with values from the reference assembly (several
+[Flags] or non-sequential/negative): RichTextBox{StreamType,ScrollBars,Finds,
+SelectionAttribute,SelectionTypes,WordPunctuations,LanguageOptions},
+TreeViewDrawMode, ToolStrip{DropDownCloseReason,GripDisplayStyle,ManagerRenderMode},
+DataGridViewAutoSizeColumnsMode, AutoCompleteSource, ArrangeDirection,
+ArrangeStartingPosition, CaptionButton, MenuGlyph,
+{ListView,TreeView}HitTestLocations.
+
+Net48 public types present 522->568 (missing 512->466 across both patches). Full
+suite green at 2294 (+33 new GTK-free functional tests: enum values, event-arg
+constructor round-trips, DataObject store semantics).
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ .../Forms/DataObjectFunctionalTests.cs        |  94 +++++++
+ .../OwnerDrawAndHitTestFunctionalTests.cs     |  92 +++++++
+ .../Forms/Phase2EnumValueFunctionalTests.cs   | 158 ++++++++++++
+ .../Windows/Forms/Enum/ArrangeDirection.cs    |  22 ++
+ .../Forms/Enum/ArrangeStartingPosition.cs     |  25 ++
+ .../Windows/Forms/Enum/AutoCompleteSource.cs  |  36 +++
+ .../Windows/Forms/Enum/CaptionButton.cs       |  24 ++
+ .../Enum/DataGridViewAutoSizeColumnsMode.cs   |  30 +++
+ .../Forms/Enum/ListViewHitTestLocations.cs    |  34 +++
+ .../System/Windows/Forms/Enum/MenuGlyph.cs    |  24 ++
+ .../Windows/Forms/Enum/RichTextBoxFinds.cs    |  25 ++
+ .../Forms/Enum/RichTextBoxLanguageOptions.cs  |  31 +++
+ .../Forms/Enum/RichTextBoxScrollBars.cs       |  30 +++
+ .../Enum/RichTextBoxSelectionAttribute.cs     |  18 ++
+ .../Forms/Enum/RichTextBoxSelectionTypes.cs   |  25 ++
+ .../Forms/Enum/RichTextBoxStreamType.cs       |  24 ++
+ .../Forms/Enum/RichTextBoxWordPunctuations.cs |  21 ++
+ .../Enum/ToolStripDropDownCloseReason.cs      |  24 ++
+ .../Forms/Enum/ToolStripGripDisplayStyle.cs   |  15 ++
+ .../Forms/Enum/ToolStripManagerRenderMode.cs  |  18 ++
+ .../Windows/Forms/Enum/TreeViewDrawMode.cs    |  18 ++
+ .../Forms/Enum/TreeViewHitTestLocations.cs    |  43 ++++
+ .../DrawListViewColumnHeaderEventArgs.cs      |  81 ++++++
+ .../EventArgs/DrawListViewItemEventArgs.cs    |  74 ++++++
+ .../EventArgs/DrawListViewSubItemEventArgs.cs |  90 +++++++
+ .../Forms/EventArgs/DrawTreeNodeEventArgs.cs  |  43 ++++
+ .../DrawListViewColumnHeaderEventHandler.cs   |  12 +
+ .../DrawListViewItemEventHandler.cs           |  12 +
+ .../DrawListViewSubItemEventHandler.cs        |  12 +
+ .../EventHandlers/DrawTreeNodeEventHandler.cs |  12 +
+ .../Forms/ListViewBase/ListViewHitTestInfo.cs |  34 +++
+ .../System/Windows/Forms/OLE/DataObject.cs    | 243 ++++++++++++++++++
+ .../Forms/TreeViewBase/TreeViewHitTestInfo.cs |  29 +++
+ 33 files changed, 1473 insertions(+)
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataObjectFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/OwnerDrawAndHitTestFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/Phase2EnumValueFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeDirection.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeStartingPosition.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/AutoCompleteSource.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/CaptionButton.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/DataGridViewAutoSizeColumnsMode.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ListViewHitTestLocations.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuGlyph.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxFinds.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxLanguageOptions.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxScrollBars.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionAttribute.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionTypes.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxStreamType.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxWordPunctuations.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripDropDownCloseReason.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripGripDisplayStyle.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripManagerRenderMode.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewDrawMode.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewHitTestLocations.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewColumnHeaderEventArgs.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewItemEventArgs.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewSubItemEventArgs.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawTreeNodeEventArgs.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewColumnHeaderEventHandler.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewItemEventHandler.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewSubItemEventHandler.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawTreeNodeEventHandler.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewHitTestInfo.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/OLE/DataObject.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeViewHitTestInfo.cs
+
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataObjectFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataObjectFunctionalTests.cs
+new file mode 100644
+index 00000000..01c8ac05
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataObjectFunctionalTests.cs
+@@ -0,0 +1,94 @@
++namespace System.Windows.Forms;
++
++extern alias gtk;
++
++/// <summary>
++/// Verifies the top-level <see cref="DataObject" /> — the in-memory, format-keyed store that
++/// <c>new DataObject(...)</c> and drag-and-drop code use. It is independent of the clipboard-backed
++/// <see cref="Clipboard.DataObject" />, so these assertions touch no GTK clipboard and need no form.
++/// </summary>
++public class DataObjectFunctionalTests
++{
++    [Fact]
++    public void IsTopLevel_AndImplementsIDataObject()
++    {
++        Assert.Equal("System.Windows.Forms", typeof(DataObject).Namespace);
++        Assert.False(typeof(DataObject).IsNested);
++        Assert.True(typeof(IDataObject).IsAssignableFrom(typeof(DataObject)));
++    }
++
++    [Fact]
++    public void SetData_GetData_ByStringFormat_RoundTrips()
++    {
++        var data = new DataObject();
++        data.SetData("MyFormat", "payload");
++
++        Assert.True(data.GetDataPresent("MyFormat"));
++        Assert.Equal("payload", data.GetData("MyFormat"));
++        Assert.Contains("MyFormat", data.GetFormats());
++    }
++
++    [Fact]
++    public void SetData_ByType_UsesTypeName()
++    {
++        var data = new DataObject();
++        data.SetData(typeof(int), 42);
++
++        Assert.True(data.GetDataPresent(typeof(int)));
++        Assert.Equal(42, data.GetData(typeof(int)));
++    }
++
++    [Fact]
++    public void SetData_ObjectOnly_KeysByRuntimeType()
++    {
++        var data = new DataObject(new int[] { 1, 2, 3 });
++
++        Assert.True(data.GetDataPresent(typeof(int[])));
++        Assert.Equal(new[] { 1, 2, 3 }, (int[])data.GetData(typeof(int[]))!);
++    }
++
++    [Fact]
++    public void Text_SetGetContains_RoundTrips()
++    {
++        var data = new DataObject();
++        Assert.False(data.ContainsText());
++        Assert.Equal(string.Empty, data.GetText());
++
++        data.SetText("hello world");
++        Assert.True(data.ContainsText());
++        Assert.Equal("hello world", data.GetText());
++    }
++
++    [Fact]
++    public void GetData_MissingFormat_ReturnsNull()
++    {
++        var data = new DataObject();
++        Assert.Null(data.GetData("absent"));
++        Assert.False(data.GetDataPresent("absent"));
++    }
++
++    [Fact]
++    public void FileDropList_RoundTrips()
++    {
++        var data = new DataObject();
++        var paths = new System.Collections.Specialized.StringCollection();
++        paths.Add(@"C:\a.txt");
++        paths.Add(@"C:\b.txt");
++        data.SetFileDropList(paths);
++
++        Assert.True(data.ContainsFileDropList());
++        var back = data.GetFileDropList();
++        Assert.Equal(2, back.Count);
++        Assert.Equal(@"C:\a.txt", back[0]);
++    }
++
++    [Fact]
++    public void Text_UnicodeAutoConvertsFromText()
++    {
++        var data = new DataObject();
++        data.SetData(DataFormats.Text, "ascii");
++        // UnicodeText is auto-convertible from Text in WinForms' conversion set.
++        Assert.True(data.GetDataPresent(DataFormats.UnicodeText, true));
++        Assert.Equal("ascii", data.GetData(DataFormats.UnicodeText, true));
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/OwnerDrawAndHitTestFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/OwnerDrawAndHitTestFunctionalTests.cs
+new file mode 100644
+index 00000000..fa74da88
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/OwnerDrawAndHitTestFunctionalTests.cs
+@@ -0,0 +1,92 @@
++namespace System.Windows.Forms;
++
++extern alias gtk;
++
++using Rectangle = global::System.Drawing.Rectangle;
++using Color = global::System.Drawing.Color;
++
++/// <summary>
++/// Verifies the owner-draw event-args and hit-test-info types added for custom-drawn ListView/TreeView code.
++/// The focus is constructor parameter ordering (the error-prone part) and the property round-trip; the model
++/// objects involved are not GTK controls, so no realized form is needed. The <c>Draw*</c> helper methods
++/// require a live <c>Graphics</c> and are exercised at runtime by owner-draw handlers, not here.
++/// </summary>
++public class OwnerDrawAndHitTestFunctionalTests
++{
++    [Fact]
++    public void DrawListViewItemEventArgs_RoundTripsConstructorArgs()
++    {
++        var item = new ListViewItem("hello");
++        var bounds = new Rectangle(1, 2, 30, 40);
++        var args = new DrawListViewItemEventArgs(null!, item, bounds, 7, ListViewItemStates.Selected | ListViewItemStates.Focused);
++
++        Assert.Same(item, args.Item);
++        Assert.Equal(bounds, args.Bounds);
++        Assert.Equal(7, args.ItemIndex);
++        Assert.Equal(ListViewItemStates.Selected | ListViewItemStates.Focused, args.State);
++        Assert.False(args.DrawDefault);
++        args.DrawDefault = true;
++        Assert.True(args.DrawDefault);
++    }
++
++    [Fact]
++    public void DrawListViewColumnHeaderEventArgs_RoundTripsConstructorArgs()
++    {
++        var header = new ColumnHeader { Text = "Name" };
++        var bounds = new Rectangle(0, 0, 100, 20);
++        var fore = Color.Red;
++        var back = Color.Blue;
++        var font = gtk::System.Drawing.SystemFonts.DefaultFont;
++        var args = new DrawListViewColumnHeaderEventArgs(null!, bounds, 3, header, ListViewItemStates.Default, fore, back, font);
++
++        Assert.Equal(bounds, args.Bounds);
++        Assert.Equal(3, args.ColumnIndex);
++        Assert.Same(header, args.Header);
++        Assert.Equal(fore, args.ForeColor);
++        Assert.Equal(back, args.BackColor);
++        Assert.Same(font, args.Font);
++    }
++
++    [Fact]
++    public void DrawTreeNodeEventArgs_RoundTripsConstructorArgs()
++    {
++        var node = new TreeNode("node");
++        var bounds = new Rectangle(5, 6, 70, 18);
++        var args = new DrawTreeNodeEventArgs(null!, node, bounds, TreeNodeStates.Selected);
++
++        Assert.Same(node, args.Node);
++        Assert.Equal(bounds, args.Bounds);
++        Assert.Equal(TreeNodeStates.Selected, args.State);
++    }
++
++    [Fact]
++    public void ListViewHitTestInfo_RoundTripsConstructorArgs()
++    {
++        var item = new ListViewItem("row");
++        var info = new ListViewHitTestInfo(item, null, ListViewHitTestLocations.Label);
++
++        Assert.Same(item, info.Item);
++        Assert.Null(info.SubItem);
++        Assert.Equal(ListViewHitTestLocations.Label, info.Location);
++    }
++
++    [Fact]
++    public void TreeViewHitTestInfo_RoundTripsConstructorArgs()
++    {
++        var node = new TreeNode("branch");
++        var info = new TreeViewHitTestInfo(node, TreeViewHitTestLocations.PlusMinus);
++
++        Assert.Same(node, info.Node);
++        Assert.Equal(TreeViewHitTestLocations.PlusMinus, info.Location);
++    }
++
++    [Fact]
++    public void OwnerDrawDelegates_HaveExpectedShape()
++    {
++        // sender + typed EventArgs, matching WinForms.
++        DrawListViewItemEventHandler h1 = (s, e) => { _ = e.ItemIndex; };
++        DrawTreeNodeEventHandler h2 = (s, e) => { _ = e.Node; };
++        Assert.NotNull(h1);
++        Assert.NotNull(h2);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/Phase2EnumValueFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/Phase2EnumValueFunctionalTests.cs
+new file mode 100644
+index 00000000..216e40eb
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/Phase2EnumValueFunctionalTests.cs
+@@ -0,0 +1,158 @@
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Pins the underlying values of the second batch of compatibility enums against the real net48 reference
++/// assembly. Includes the <c>[Flags]</c> sets and the non-sequential / negative values that are easy to get
++/// wrong (<see cref="RichTextBoxSelectionAttribute.Mixed" /> = -1, <see cref="AutoCompleteSource" />,
++/// <see cref="ArrangeDirection" /> where Left == Right == 0). No GTK widgets are created.
++/// </summary>
++public class Phase2EnumValueFunctionalTests
++{
++    [Fact]
++    public void RichTextBoxStreamType_Values()
++    {
++        Assert.Equal(0, (int)RichTextBoxStreamType.RichText);
++        Assert.Equal(4, (int)RichTextBoxStreamType.UnicodePlainText);
++    }
++
++    [Fact]
++    public void RichTextBoxScrollBars_Values()
++    {
++        Assert.Equal(3, (int)RichTextBoxScrollBars.Both);
++        Assert.Equal(17, (int)RichTextBoxScrollBars.ForcedHorizontal);
++        Assert.Equal(19, (int)RichTextBoxScrollBars.ForcedBoth);
++    }
++
++    [Fact]
++    public void RichTextBoxFinds_IsFlags()
++    {
++        Assert.True(typeof(RichTextBoxFinds).IsDefined(typeof(FlagsAttribute), false));
++        Assert.Equal(16, (int)RichTextBoxFinds.Reverse);
++        Assert.Equal(RichTextBoxFinds.WholeWord | RichTextBoxFinds.MatchCase, (RichTextBoxFinds)6);
++    }
++
++    [Fact]
++    public void RichTextBoxSelectionAttribute_HasNegativeMixed()
++    {
++        Assert.Equal(-1, (int)RichTextBoxSelectionAttribute.Mixed);
++        Assert.Equal(0, (int)RichTextBoxSelectionAttribute.None);
++        Assert.Equal(1, (int)RichTextBoxSelectionAttribute.All);
++    }
++
++    [Fact]
++    public void RichTextBoxSelectionTypes_IsFlags()
++    {
++        Assert.True(typeof(RichTextBoxSelectionTypes).IsDefined(typeof(FlagsAttribute), false));
++        Assert.Equal(8, (int)RichTextBoxSelectionTypes.MultiObject);
++    }
++
++    [Fact]
++    public void RichTextBoxWordPunctuations_Values()
++    {
++        Assert.Equal(128, (int)RichTextBoxWordPunctuations.Level1);
++        Assert.Equal(896, (int)RichTextBoxWordPunctuations.All);
++    }
++
++    [Fact]
++    public void RichTextBoxLanguageOptions_IsFlags()
++    {
++        Assert.True(typeof(RichTextBoxLanguageOptions).IsDefined(typeof(FlagsAttribute), false));
++        Assert.Equal(1, (int)RichTextBoxLanguageOptions.AutoKeyboard);
++        Assert.Equal(32, (int)RichTextBoxLanguageOptions.UIFonts);
++    }
++
++    [Fact]
++    public void TreeViewDrawMode_Values()
++    {
++        Assert.Equal(0, (int)TreeViewDrawMode.Normal);
++        Assert.Equal(2, (int)TreeViewDrawMode.OwnerDrawAll);
++    }
++
++    [Fact]
++    public void ToolStripDropDownCloseReason_Values()
++    {
++        Assert.Equal(0, (int)ToolStripDropDownCloseReason.AppFocusChange);
++        Assert.Equal(4, (int)ToolStripDropDownCloseReason.CloseCalled);
++    }
++
++    [Fact]
++    public void ToolStripGripDisplayStyle_Values()
++    {
++        Assert.Equal(0, (int)ToolStripGripDisplayStyle.Horizontal);
++        Assert.Equal(1, (int)ToolStripGripDisplayStyle.Vertical);
++    }
++
++    [Fact]
++    public void ToolStripManagerRenderMode_Values()
++    {
++        Assert.Equal(0, (int)ToolStripManagerRenderMode.Custom);
++        Assert.Equal(2, (int)ToolStripManagerRenderMode.Professional);
++    }
++
++    [Fact]
++    public void DataGridViewAutoSizeColumnsMode_NonSequentialValues()
++    {
++        Assert.Equal(1, (int)DataGridViewAutoSizeColumnsMode.None);
++        Assert.Equal(6, (int)DataGridViewAutoSizeColumnsMode.AllCells);
++        Assert.Equal(10, (int)DataGridViewAutoSizeColumnsMode.DisplayedCells);
++        Assert.Equal(16, (int)DataGridViewAutoSizeColumnsMode.Fill);
++    }
++
++    [Fact]
++    public void AutoCompleteSource_NonSequentialValues()
++    {
++        Assert.Equal(1, (int)AutoCompleteSource.FileSystem);
++        Assert.Equal(6, (int)AutoCompleteSource.AllUrl);
++        Assert.Equal(7, (int)AutoCompleteSource.AllSystemSources);
++        Assert.Equal(64, (int)AutoCompleteSource.CustomSource);
++        Assert.Equal(256, (int)AutoCompleteSource.ListItems);
++    }
++
++    [Fact]
++    public void ArrangeDirection_LeftAndRightAreZero()
++    {
++        Assert.Equal(0, (int)ArrangeDirection.Left);
++        Assert.Equal(0, (int)ArrangeDirection.Right);
++        Assert.Equal(4, (int)ArrangeDirection.Up);
++        Assert.Equal(4, (int)ArrangeDirection.Down);
++    }
++
++    [Fact]
++    public void ArrangeStartingPosition_Values()
++    {
++        Assert.Equal(0, (int)ArrangeStartingPosition.BottomLeft);
++        Assert.Equal(8, (int)ArrangeStartingPosition.Hide);
++    }
++
++    [Fact]
++    public void CaptionButton_Values()
++    {
++        Assert.Equal(0, (int)CaptionButton.Close);
++        Assert.Equal(4, (int)CaptionButton.Help);
++    }
++
++    [Fact]
++    public void MenuGlyph_Values()
++    {
++        Assert.Equal(0, (int)MenuGlyph.Arrow);
++        Assert.Equal(2, (int)MenuGlyph.Bullet);
++        Assert.Equal(0, (int)MenuGlyph.Min);
++        Assert.Equal(2, (int)MenuGlyph.Max);
++    }
++
++    [Fact]
++    public void ListViewHitTestLocations_IsFlags_WithExpectedValues()
++    {
++        Assert.True(typeof(ListViewHitTestLocations).IsDefined(typeof(FlagsAttribute), false));
++        Assert.Equal(1, (int)ListViewHitTestLocations.None);
++        Assert.Equal(512, (int)ListViewHitTestLocations.StateImage);
++    }
++
++    [Fact]
++    public void TreeViewHitTestLocations_IsFlags_WithExpectedValues()
++    {
++        Assert.True(typeof(TreeViewHitTestLocations).IsDefined(typeof(FlagsAttribute), false));
++        Assert.Equal(16, (int)TreeViewHitTestLocations.PlusMinus);
++        Assert.Equal(2048, (int)TreeViewHitTestLocations.LeftOfClientArea);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeDirection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeDirection.cs
+new file mode 100644
+index 00000000..87b68363
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeDirection.cs
+@@ -0,0 +1,22 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies the direction the system uses to arrange minimized windows.</summary>
++[Flags]
++public enum ArrangeDirection
++{
++    /// <summary>Arranges horizontally, from left to right.</summary>
++    Left = 0,
++
++    /// <summary>Arranges horizontally, from right to left.</summary>
++    Right = 0,
++
++    /// <summary>Arranges vertically, from top to bottom.</summary>
++    Down = 4,
++
++    /// <summary>Arranges vertically, from bottom to top.</summary>
++    Up = 4,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeStartingPosition.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeStartingPosition.cs
+new file mode 100644
+index 00000000..e36ce389
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeStartingPosition.cs
+@@ -0,0 +1,25 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies the starting position that the system uses to arrange minimized windows.</summary>
++[Flags]
++public enum ArrangeStartingPosition
++{
++    /// <summary>Starts at the lower-left corner of the screen, which is the default position.</summary>
++    BottomLeft = 0,
++
++    /// <summary>Starts at the lower-right corner of the screen.</summary>
++    BottomRight = 1,
++
++    /// <summary>Starts at the upper-left corner of the screen.</summary>
++    TopLeft = 2,
++
++    /// <summary>Starts at the upper-right corner of the screen.</summary>
++    TopRight = 3,
++
++    /// <summary>Hides minimized windows by moving them off the visible area of the screen.</summary>
++    Hide = 8,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/AutoCompleteSource.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/AutoCompleteSource.cs
+new file mode 100644
+index 00000000..0ead4e8d
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/AutoCompleteSource.cs
+@@ -0,0 +1,36 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies the source for automatic completion functionality.</summary>
++public enum AutoCompleteSource
++{
++    /// <summary>Specifies the file system as the source.</summary>
++    FileSystem = 1,
++
++    /// <summary>Includes the Uniform Resource Locators (URLs) in the history list.</summary>
++    HistoryList = 2,
++
++    /// <summary>Includes the Uniform Resource Locators (URLs) in the list of those most recently used.</summary>
++    RecentlyUsedList = 4,
++
++    /// <summary>Specifies the equivalent of HistoryList and RecentlyUsedList as the source.</summary>
++    AllUrl = 6,
++
++    /// <summary>Specifies the equivalent of FileSystem and AllUrl as the source.</summary>
++    AllSystemSources = 7,
++
++    /// <summary>Specifies the file system directories as the source.</summary>
++    FileSystemDirectories = 32,
++
++    /// <summary>Specifies strings from a built-in AutoCompleteStringCollection as the source.</summary>
++    CustomSource = 64,
++
++    /// <summary>Automatic completion is disabled.</summary>
++    None = 128,
++
++    /// <summary>Specifies that the items of the ComboBox represent the source.</summary>
++    ListItems = 256,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/CaptionButton.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/CaptionButton.cs
+new file mode 100644
+index 00000000..a0d53cd9
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/CaptionButton.cs
+@@ -0,0 +1,24 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies the type of caption button to display.</summary>
++public enum CaptionButton
++{
++    /// <summary>A Close button.</summary>
++    Close = 0,
++
++    /// <summary>A Minimize button.</summary>
++    Minimize = 1,
++
++    /// <summary>A Maximize button.</summary>
++    Maximize = 2,
++
++    /// <summary>A Restore button.</summary>
++    Restore = 3,
++
++    /// <summary>A Help button.</summary>
++    Help = 4,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/DataGridViewAutoSizeColumnsMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/DataGridViewAutoSizeColumnsMode.cs
+new file mode 100644
+index 00000000..49f17f38
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/DataGridViewAutoSizeColumnsMode.cs
+@@ -0,0 +1,30 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Defines values for setting the automatic sizing behavior of the columns in a <see cref="T:System.Windows.Forms.DataGridView" />.</summary>
++public enum DataGridViewAutoSizeColumnsMode
++{
++    /// <summary>The column widths do not automatically adjust.</summary>
++    None = 1,
++
++    /// <summary>The column widths adjust to fit the column header cell content.</summary>
++    ColumnHeader = 2,
++
++    /// <summary>The column widths adjust to fit the content of all cells excluding header cells.</summary>
++    AllCellsExceptHeader = 4,
++
++    /// <summary>The column widths adjust to fit the content of all cells including header cells.</summary>
++    AllCells = 6,
++
++    /// <summary>The column widths adjust to fit the content of displayed cells excluding header cells.</summary>
++    DisplayedCellsExceptHeader = 8,
++
++    /// <summary>The column widths adjust to fit the content of displayed cells including header cells.</summary>
++    DisplayedCells = 10,
++
++    /// <summary>The column widths adjust so the total widths fill the display area of the control.</summary>
++    Fill = 16,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ListViewHitTestLocations.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ListViewHitTestLocations.cs
+new file mode 100644
+index 00000000..e6da6b38
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ListViewHitTestLocations.cs
+@@ -0,0 +1,34 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Defines constants that represent areas in a <see cref="T:System.Windows.Forms.ListView" /> or <see cref="T:System.Windows.Forms.ListViewItem" />.</summary>
++[Flags]
++public enum ListViewHitTestLocations
++{
++    /// <summary>A position in the client area of the control, but not on an item.</summary>
++    None = 1,
++
++    /// <summary>A position within the bounds of an image contained in a ListView or ListViewItem.</summary>
++    Image = 2,
++
++    /// <summary>A position within the bounds of a label contained in a ListView or ListViewItem.</summary>
++    Label = 4,
++
++    /// <summary>A position below the client portion of a ListView control.</summary>
++    BelowClientArea = 16,
++
++    /// <summary>A position to the right of the client portion of a ListView control.</summary>
++    RightOfClientArea = 32,
++
++    /// <summary>A position to the left of the client portion of a ListView control.</summary>
++    LeftOfClientArea = 64,
++
++    /// <summary>A position above the client portion of a ListView control.</summary>
++    AboveClientArea = 256,
++
++    /// <summary>A position within the bounds of a state image contained in a ListView or ListViewItem.</summary>
++    StateImage = 512,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuGlyph.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuGlyph.cs
+new file mode 100644
+index 00000000..5c40aa47
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuGlyph.cs
+@@ -0,0 +1,24 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies a glyph, such as a check mark, that is drawn on a menu item.</summary>
++public enum MenuGlyph
++{
++    /// <summary>A submenu arrow.</summary>
++    Arrow = 0,
++
++    /// <summary>A menu item check mark.</summary>
++    Checkmark = 1,
++
++    /// <summary>A menu item bullet.</summary>
++    Bullet = 2,
++
++    /// <summary>The minimum glyph value.</summary>
++    Min = 0,
++
++    /// <summary>The maximum glyph value.</summary>
++    Max = 2,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxFinds.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxFinds.cs
+new file mode 100644
+index 00000000..d93349ec
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxFinds.cs
+@@ -0,0 +1,25 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies how a text search is conducted in a <see cref="T:System.Windows.Forms.RichTextBox" />.</summary>
++[Flags]
++public enum RichTextBoxFinds
++{
++    /// <summary>Locates all instances of the search text whether or not it is part of a larger word.</summary>
++    None = 0,
++
++    /// <summary>Locates only instances of the search text that are whole words.</summary>
++    WholeWord = 2,
++
++    /// <summary>Locates instances of the search text matching the specified letter casing.</summary>
++    MatchCase = 4,
++
++    /// <summary>Prevents the located search text from being highlighted.</summary>
++    NoHighlight = 8,
++
++    /// <summary>Searches from the end of the control to the beginning.</summary>
++    Reverse = 16,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxLanguageOptions.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxLanguageOptions.cs
+new file mode 100644
+index 00000000..9527cc37
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxLanguageOptions.cs
+@@ -0,0 +1,31 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies the Input Method Editor (IME) and Asian language options of a <see cref="T:System.Windows.Forms.RichTextBox" />.</summary>
++[Flags]
++public enum RichTextBoxLanguageOptions
++{
++    /// <summary>The control automatically changes fonts when the user changes to a different keyboard layout.</summary>
++    AutoFont = 2,
++
++    /// <summary>Adjusts font sizes by scaling the East Asian font size.</summary>
++    AutoFontSizeAdjust = 16,
++
++    /// <summary>The control automatically changes the keyboard layout when the user changes to a different font.</summary>
++    AutoKeyboard = 1,
++
++    /// <summary>The control associates an East Asian font with an accompanying non-East Asian font.</summary>
++    DualFont = 128,
++
++    /// <summary>Always gives the application notification of IME conversion.</summary>
++    ImeAlwaysSendNotify = 8,
++
++    /// <summary>Determines how the control uses the IME conversion window.</summary>
++    ImeCancelComplete = 4,
++
++    /// <summary>Uses UI default fonts.</summary>
++    UIFonts = 32,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxScrollBars.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxScrollBars.cs
+new file mode 100644
+index 00000000..a77e2d4b
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxScrollBars.cs
+@@ -0,0 +1,30 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies the type of scroll bars to display in a <see cref="T:System.Windows.Forms.RichTextBox" /> control.</summary>
++public enum RichTextBoxScrollBars
++{
++    /// <summary>No scroll bars are shown.</summary>
++    None = 0,
++
++    /// <summary>Displays a horizontal scroll bar when needed.</summary>
++    Horizontal = 1,
++
++    /// <summary>Displays a vertical scroll bar when needed.</summary>
++    Vertical = 2,
++
++    /// <summary>Displays both a horizontal and vertical scroll bar when needed.</summary>
++    Both = 3,
++
++    /// <summary>Always displays a horizontal scroll bar.</summary>
++    ForcedHorizontal = 17,
++
++    /// <summary>Always displays a vertical scroll bar.</summary>
++    ForcedVertical = 18,
++
++    /// <summary>Always displays both a horizontal and a vertical scroll bar.</summary>
++    ForcedBoth = 19,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionAttribute.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionAttribute.cs
+new file mode 100644
+index 00000000..2b7b9752
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionAttribute.cs
+@@ -0,0 +1,18 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies whether any characters in the current selection have the specified attribute.</summary>
++public enum RichTextBoxSelectionAttribute
++{
++    /// <summary>Some but not all characters have the attribute.</summary>
++    Mixed = -1,
++
++    /// <summary>No characters have the attribute.</summary>
++    None = 0,
++
++    /// <summary>All characters have the attribute.</summary>
++    All = 1,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionTypes.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionTypes.cs
+new file mode 100644
+index 00000000..036140e9
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionTypes.cs
+@@ -0,0 +1,25 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies the type of selection in a <see cref="T:System.Windows.Forms.RichTextBox" />.</summary>
++[Flags]
++public enum RichTextBoxSelectionTypes
++{
++    /// <summary>The selection is empty.</summary>
++    Empty = 0,
++
++    /// <summary>The selection contains text.</summary>
++    Text = 1,
++
++    /// <summary>The selection contains at least one OLE object.</summary>
++    Object = 2,
++
++    /// <summary>The selection contains more than one character.</summary>
++    MultiChar = 4,
++
++    /// <summary>The selection contains more than one OLE object.</summary>
++    MultiObject = 8,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxStreamType.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxStreamType.cs
+new file mode 100644
+index 00000000..491aacd3
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxStreamType.cs
+@@ -0,0 +1,24 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies the type of input and output stream used to load and save data in a <see cref="T:System.Windows.Forms.RichTextBox" />.</summary>
++public enum RichTextBoxStreamType
++{
++    /// <summary>Rich Text Format (RTF) stream.</summary>
++    RichText = 0,
++
++    /// <summary>Plain text stream with a space in place of each OLE object.</summary>
++    PlainText = 1,
++
++    /// <summary>RTF stream with spaces in place of OLE objects.</summary>
++    RichNoOleObjs = 2,
++
++    /// <summary>Text stream containing spaces in place of OLE objects.</summary>
++    TextTextOleObjs = 3,
++
++    /// <summary>Text stream in the Unicode character encoding.</summary>
++    UnicodePlainText = 4,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxWordPunctuations.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxWordPunctuations.cs
+new file mode 100644
+index 00000000..21489661
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxWordPunctuations.cs
+@@ -0,0 +1,21 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies the type of punctuation table to use in a <see cref="T:System.Windows.Forms.RichTextBox" />.</summary>
++public enum RichTextBoxWordPunctuations
++{
++    /// <summary>Uses a level-1 punctuation table for word wrapping in East Asian versions of the control.</summary>
++    Level1 = 128,
++
++    /// <summary>Uses a level-2 punctuation table for word wrapping in East Asian versions of the control.</summary>
++    Level2 = 256,
++
++    /// <summary>Uses a custom punctuation table.</summary>
++    Custom = 512,
++
++    /// <summary>The combination of the punctuation flags.</summary>
++    All = 896,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripDropDownCloseReason.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripDropDownCloseReason.cs
+new file mode 100644
+index 00000000..7387f9d8
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripDropDownCloseReason.cs
+@@ -0,0 +1,24 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies the reason that a <see cref="T:System.Windows.Forms.ToolStripDropDown" /> was closed.</summary>
++public enum ToolStripDropDownCloseReason
++{
++    /// <summary>Closed because another application received the focus.</summary>
++    AppFocusChange = 0,
++
++    /// <summary>Closed because the user clicked within another application.</summary>
++    AppClicked = 1,
++
++    /// <summary>Closed because the user clicked an item.</summary>
++    ItemClicked = 2,
++
++    /// <summary>Closed by keyboard activity.</summary>
++    Keyboard = 3,
++
++    /// <summary>Closed programmatically by a call to the Close method.</summary>
++    CloseCalled = 4,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripGripDisplayStyle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripGripDisplayStyle.cs
+new file mode 100644
+index 00000000..ed71fd01
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripGripDisplayStyle.cs
+@@ -0,0 +1,15 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies the orientation of the move handle (grip) on a <see cref="T:System.Windows.Forms.ToolStrip" />.</summary>
++public enum ToolStripGripDisplayStyle
++{
++    /// <summary>The move handle is displayed horizontally.</summary>
++    Horizontal = 0,
++
++    /// <summary>The move handle is displayed vertically.</summary>
++    Vertical = 1,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripManagerRenderMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripManagerRenderMode.cs
+new file mode 100644
+index 00000000..56e425c9
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripManagerRenderMode.cs
+@@ -0,0 +1,18 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies which paint styles are applied to <see cref="T:System.Windows.Forms.ToolStrip" /> elements.</summary>
++public enum ToolStripManagerRenderMode
++{
++    /// <summary>Custom rendering is applied.</summary>
++    Custom = 0,
++
++    /// <summary>The operating system renders the elements.</summary>
++    System = 1,
++
++    /// <summary>The elements are rendered with a professional (Office-style) appearance.</summary>
++    Professional = 2,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewDrawMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewDrawMode.cs
+new file mode 100644
+index 00000000..c223fddf
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewDrawMode.cs
+@@ -0,0 +1,18 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Defines the way a <see cref="T:System.Windows.Forms.TreeView" /> is drawn.</summary>
++public enum TreeViewDrawMode
++{
++    /// <summary>The TreeView is drawn by the operating system.</summary>
++    Normal = 0,
++
++    /// <summary>The label portion of the tree nodes are drawn manually.</summary>
++    OwnerDrawText = 1,
++
++    /// <summary>All elements of a tree node are drawn manually.</summary>
++    OwnerDrawAll = 2,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewHitTestLocations.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewHitTestLocations.cs
+new file mode 100644
+index 00000000..1870281e
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewHitTestLocations.cs
+@@ -0,0 +1,43 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Defines constants that represent areas in a <see cref="T:System.Windows.Forms.TreeView" /> or <see cref="T:System.Windows.Forms.TreeNode" />.</summary>
++[Flags]
++public enum TreeViewHitTestLocations
++{
++    /// <summary>A position in the client area of the TreeView control, but not on a node.</summary>
++    None = 1,
++
++    /// <summary>A position within the bounds of an image contained in a TreeView or TreeNode.</summary>
++    Image = 2,
++
++    /// <summary>A position within the bounds of a label contained in a TreeView or TreeNode.</summary>
++    Label = 4,
++
++    /// <summary>A position within the indentation for a TreeNode.</summary>
++    Indent = 8,
++
++    /// <summary>A position within the bounds of the plus or minus indicator of a TreeNode.</summary>
++    PlusMinus = 16,
++
++    /// <summary>A position to the right of the text area of a TreeNode.</summary>
++    RightOfLabel = 32,
++
++    /// <summary>A position within the bounds of a state image for a TreeNode.</summary>
++    StateImage = 64,
++
++    /// <summary>A position above the client portion of a TreeView control.</summary>
++    AboveClientArea = 256,
++
++    /// <summary>A position below the client portion of a TreeView control.</summary>
++    BelowClientArea = 512,
++
++    /// <summary>A position to the right of the client area of a TreeView control.</summary>
++    RightOfClientArea = 1024,
++
++    /// <summary>A position to the left of the client area of a TreeView control.</summary>
++    LeftOfClientArea = 2048,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewColumnHeaderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewColumnHeaderEventArgs.cs
+new file mode 100644
+index 00000000..63efe674
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewColumnHeaderEventArgs.cs
+@@ -0,0 +1,81 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Provides data for the <see cref="!:ListView.DrawColumnHeader" /> event.
++/// </summary>
++public class DrawListViewColumnHeaderEventArgs : EventArgs
++{
++    /// <summary>
++    /// Initializes a new instance of the <see cref="T:System.Windows.Forms.DrawListViewColumnHeaderEventArgs" /> class.
++    /// </summary>
++    /// <param name="graphics">The <see cref="T:System.Drawing.Graphics" /> used to draw the column header.</param>
++    /// <param name="bounds">The bounds of the column header to draw.</param>
++    /// <param name="columnIndex">The index of the column header to draw.</param>
++    /// <param name="header">The <see cref="T:System.Windows.Forms.ColumnHeader" /> to draw.</param>
++    /// <param name="state">The current state of the column header to draw.</param>
++    /// <param name="foreColor">The foreground color of the column header.</param>
++    /// <param name="backColor">The background color of the column header.</param>
++    /// <param name="font">The font used to draw the column header text.</param>
++    public DrawListViewColumnHeaderEventArgs(Graphics graphics, Rectangle bounds, int columnIndex, ColumnHeader header, ListViewItemStates state, Color foreColor, Color backColor, Font font)
++    {
++        Graphics = graphics;
++        Bounds = bounds;
++        ColumnIndex = columnIndex;
++        Header = header;
++        State = state;
++        ForeColor = foreColor;
++        BackColor = backColor;
++        Font = font;
++    }
++
++    /// <summary>Gets or sets a value indicating whether the system draws the column header rather than the owner.</summary>
++    public bool DrawDefault { get; set; }
++
++    /// <summary>Gets the <see cref="T:System.Drawing.Graphics" /> used to draw the column header.</summary>
++    public Graphics Graphics { get; }
++
++    /// <summary>Gets the size and location of the column header to draw.</summary>
++    public Rectangle Bounds { get; }
++
++    /// <summary>Gets the index of the column header to draw.</summary>
++    public int ColumnIndex { get; }
++
++    /// <summary>Gets the <see cref="T:System.Windows.Forms.ColumnHeader" /> to draw.</summary>
++    public ColumnHeader Header { get; }
++
++    /// <summary>Gets the current state of the column header to draw.</summary>
++    public ListViewItemStates State { get; }
++
++    /// <summary>Gets the foreground color of the column header.</summary>
++    public Color ForeColor { get; }
++
++    /// <summary>Gets the background color of the column header.</summary>
++    public Color BackColor { get; }
++
++    /// <summary>Gets the font applied to the text of the column header.</summary>
++    public Font Font { get; }
++
++    /// <summary>Draws the background of the column header using its current background color.</summary>
++    public void DrawBackground()
++    {
++        using var brush = new SolidBrush(BackColor.IsEmpty ? SystemColors.Control : BackColor);
++        Graphics.FillRectangle(brush, Bounds);
++    }
++
++    /// <summary>Draws the text of the column header using its current font and colors.</summary>
++    public void DrawText() => DrawText(TextFormatFlags.Default);
++
++    /// <summary>Draws the text of the column header using its current font and colors and the specified formatting.</summary>
++    /// <param name="flags">A bitwise combination of <see cref="T:System.Windows.Forms.TextFormatFlags" /> values.</param>
++    public void DrawText(TextFormatFlags flags)
++    {
++        TextRenderer.DrawText(Graphics, Header?.Text, Font ?? SystemFonts.DefaultFont, Bounds,
++            ForeColor.IsEmpty ? SystemColors.ControlText : ForeColor, flags);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewItemEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewItemEventArgs.cs
+new file mode 100644
+index 00000000..23b68877
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewItemEventArgs.cs
+@@ -0,0 +1,74 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Provides data for the <see cref="!:ListView.DrawItem" /> event.
++/// </summary>
++public class DrawListViewItemEventArgs : EventArgs
++{
++    /// <summary>
++    /// Initializes a new instance of the <see cref="T:System.Windows.Forms.DrawListViewItemEventArgs" /> class.
++    /// </summary>
++    /// <param name="graphics">The <see cref="T:System.Drawing.Graphics" /> used to draw the item.</param>
++    /// <param name="item">The <see cref="T:System.Windows.Forms.ListViewItem" /> to draw.</param>
++    /// <param name="bounds">The bounds of the item to draw.</param>
++    /// <param name="itemIndex">The index of the item to draw.</param>
++    /// <param name="state">The current state of the item to draw.</param>
++    public DrawListViewItemEventArgs(Graphics graphics, ListViewItem item, Rectangle bounds, int itemIndex, ListViewItemStates state)
++    {
++        Graphics = graphics;
++        Item = item;
++        Bounds = bounds;
++        ItemIndex = itemIndex;
++        State = state;
++    }
++
++    /// <summary>Gets or sets a value indicating whether the system draws the item rather than the owner.</summary>
++    public bool DrawDefault { get; set; }
++
++    /// <summary>Gets the <see cref="T:System.Drawing.Graphics" /> used to draw the item.</summary>
++    public Graphics Graphics { get; }
++
++    /// <summary>Gets the <see cref="T:System.Windows.Forms.ListViewItem" /> to draw.</summary>
++    public ListViewItem Item { get; }
++
++    /// <summary>Gets the size and location of the item to draw.</summary>
++    public Rectangle Bounds { get; }
++
++    /// <summary>Gets the index of the item to draw.</summary>
++    public int ItemIndex { get; }
++
++    /// <summary>Gets the current state of the item to draw.</summary>
++    public ListViewItemStates State { get; }
++
++    /// <summary>Draws the background of the item using its current background color.</summary>
++    public void DrawBackground()
++    {
++        using var brush = new SolidBrush(SystemColors.Window);
++        Graphics.FillRectangle(brush, Bounds);
++    }
++
++    /// <summary>Draws a focus rectangle around the item if it currently has focus.</summary>
++    public void DrawFocusRectangle()
++    {
++        if ((State & ListViewItemStates.Focused) != 0)
++        {
++            ControlPaint.DrawFocusRectangle(Graphics, Bounds);
++        }
++    }
++
++    /// <summary>Draws the text of the item using its current font and colors.</summary>
++    public void DrawText() => DrawText(TextFormatFlags.Default);
++
++    /// <summary>Draws the text of the item using its current font and colors and the specified formatting.</summary>
++    /// <param name="flags">A bitwise combination of <see cref="T:System.Windows.Forms.TextFormatFlags" /> values.</param>
++    public void DrawText(TextFormatFlags flags)
++    {
++        TextRenderer.DrawText(Graphics, Item?.Text, SystemFonts.DefaultFont, Bounds, SystemColors.WindowText, flags);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewSubItemEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewSubItemEventArgs.cs
+new file mode 100644
+index 00000000..9ac60579
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewSubItemEventArgs.cs
+@@ -0,0 +1,90 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Provides data for the <see cref="!:ListView.DrawSubItem" /> event.
++/// </summary>
++public class DrawListViewSubItemEventArgs : EventArgs
++{
++    /// <summary>
++    /// Initializes a new instance of the <see cref="T:System.Windows.Forms.DrawListViewSubItemEventArgs" /> class.
++    /// </summary>
++    /// <param name="graphics">The <see cref="T:System.Drawing.Graphics" /> used to draw the subitem.</param>
++    /// <param name="bounds">The bounds of the subitem to draw.</param>
++    /// <param name="item">The parent <see cref="T:System.Windows.Forms.ListViewItem" /> of the subitem.</param>
++    /// <param name="subItem">The <see cref="T:System.Windows.Forms.ListViewItem.ListViewSubItem" /> to draw.</param>
++    /// <param name="itemIndex">The index of the parent item.</param>
++    /// <param name="columnIndex">The index of the column containing the subitem.</param>
++    /// <param name="header">The <see cref="T:System.Windows.Forms.ColumnHeader" /> of the column containing the subitem.</param>
++    /// <param name="itemState">The current state of the parent item.</param>
++    public DrawListViewSubItemEventArgs(Graphics graphics, Rectangle bounds, ListViewItem item, ListViewItem.ListViewSubItem subItem, int itemIndex, int columnIndex, ColumnHeader header, ListViewItemStates itemState)
++    {
++        Graphics = graphics;
++        Bounds = bounds;
++        Item = item;
++        SubItem = subItem;
++        ItemIndex = itemIndex;
++        ColumnIndex = columnIndex;
++        Header = header;
++        ItemState = itemState;
++    }
++
++    /// <summary>Gets or sets a value indicating whether the system draws the subitem rather than the owner.</summary>
++    public bool DrawDefault { get; set; }
++
++    /// <summary>Gets the <see cref="T:System.Drawing.Graphics" /> used to draw the subitem.</summary>
++    public Graphics Graphics { get; }
++
++    /// <summary>Gets the size and location of the subitem to draw.</summary>
++    public Rectangle Bounds { get; }
++
++    /// <summary>Gets the parent <see cref="T:System.Windows.Forms.ListViewItem" /> of the subitem to draw.</summary>
++    public ListViewItem Item { get; }
++
++    /// <summary>Gets the <see cref="T:System.Windows.Forms.ListViewItem.ListViewSubItem" /> to draw.</summary>
++    public ListViewItem.ListViewSubItem SubItem { get; }
++
++    /// <summary>Gets the index of the parent <see cref="T:System.Windows.Forms.ListViewItem" /> of the subitem.</summary>
++    public int ItemIndex { get; }
++
++    /// <summary>Gets the index of the column that contains the subitem.</summary>
++    public int ColumnIndex { get; }
++
++    /// <summary>Gets the <see cref="T:System.Windows.Forms.ColumnHeader" /> that represents the column containing the subitem.</summary>
++    public ColumnHeader Header { get; }
++
++    /// <summary>Gets the current state of the parent <see cref="T:System.Windows.Forms.ListViewItem" /> of the subitem.</summary>
++    public ListViewItemStates ItemState { get; }
++
++    /// <summary>Draws the background of the subitem using its current background color.</summary>
++    public void DrawBackground()
++    {
++        using var brush = new SolidBrush(SystemColors.Window);
++        Graphics.FillRectangle(brush, Bounds);
++    }
++
++    /// <summary>Draws a focus rectangle within the specified bounds.</summary>
++    /// <param name="bounds">The bounds within which to draw the focus rectangle.</param>
++    public void DrawFocusRectangle(Rectangle bounds)
++    {
++        if ((ItemState & ListViewItemStates.Focused) != 0)
++        {
++            ControlPaint.DrawFocusRectangle(Graphics, bounds);
++        }
++    }
++
++    /// <summary>Draws the text of the subitem using its current font and colors.</summary>
++    public void DrawText() => DrawText(TextFormatFlags.Default);
++
++    /// <summary>Draws the text of the subitem using its current font and colors and the specified formatting.</summary>
++    /// <param name="flags">A bitwise combination of <see cref="T:System.Windows.Forms.TextFormatFlags" /> values.</param>
++    public void DrawText(TextFormatFlags flags)
++    {
++        TextRenderer.DrawText(Graphics, SubItem?.Text, SystemFonts.DefaultFont, Bounds, SystemColors.WindowText, flags);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawTreeNodeEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawTreeNodeEventArgs.cs
+new file mode 100644
+index 00000000..e701efc1
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawTreeNodeEventArgs.cs
+@@ -0,0 +1,43 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Provides data for the <see cref="!:TreeView.DrawNode" /> event.
++/// </summary>
++public class DrawTreeNodeEventArgs : EventArgs
++{
++    /// <summary>
++    /// Initializes a new instance of the <see cref="T:System.Windows.Forms.DrawTreeNodeEventArgs" /> class.
++    /// </summary>
++    /// <param name="graphics">The <see cref="T:System.Drawing.Graphics" /> used to draw the node.</param>
++    /// <param name="node">The <see cref="T:System.Windows.Forms.TreeNode" /> to draw.</param>
++    /// <param name="bounds">The bounds of the node to draw.</param>
++    /// <param name="state">The current state of the node to draw.</param>
++    public DrawTreeNodeEventArgs(Graphics graphics, TreeNode node, Rectangle bounds, TreeNodeStates state)
++    {
++        Graphics = graphics;
++        Node = node;
++        Bounds = bounds;
++        State = state;
++    }
++
++    /// <summary>Gets or sets a value indicating whether the system draws the node rather than the owner.</summary>
++    public bool DrawDefault { get; set; }
++
++    /// <summary>Gets the <see cref="T:System.Drawing.Graphics" /> used to draw the node.</summary>
++    public Graphics Graphics { get; }
++
++    /// <summary>Gets the <see cref="T:System.Windows.Forms.TreeNode" /> to draw.</summary>
++    public TreeNode Node { get; }
++
++    /// <summary>Gets the size and location of the node to draw.</summary>
++    public Rectangle Bounds { get; }
++
++    /// <summary>Gets the current state of the node to draw.</summary>
++    public TreeNodeStates State { get; }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewColumnHeaderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewColumnHeaderEventHandler.cs
+new file mode 100644
+index 00000000..40ea535a
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewColumnHeaderEventHandler.cs
+@@ -0,0 +1,12 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Represents the method that handles the <see cref="!:ListView.DrawColumnHeader" /> event.
++/// </summary>
++/// <param name="sender">The source of the event.</param>
++/// <param name="e">A <see cref="T:System.Windows.Forms.DrawListViewColumnHeaderEventArgs" /> that contains the event data.</param>
++public delegate void DrawListViewColumnHeaderEventHandler(object sender, DrawListViewColumnHeaderEventArgs e);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewItemEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewItemEventHandler.cs
+new file mode 100644
+index 00000000..4d4be2e1
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewItemEventHandler.cs
+@@ -0,0 +1,12 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Represents the method that handles the <see cref="!:ListView.DrawItem" /> event.
++/// </summary>
++/// <param name="sender">The source of the event.</param>
++/// <param name="e">A <see cref="T:System.Windows.Forms.DrawListViewItemEventArgs" /> that contains the event data.</param>
++public delegate void DrawListViewItemEventHandler(object sender, DrawListViewItemEventArgs e);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewSubItemEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewSubItemEventHandler.cs
+new file mode 100644
+index 00000000..e473b55a
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewSubItemEventHandler.cs
+@@ -0,0 +1,12 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Represents the method that handles the <see cref="!:ListView.DrawSubItem" /> event.
++/// </summary>
++/// <param name="sender">The source of the event.</param>
++/// <param name="e">A <see cref="T:System.Windows.Forms.DrawListViewSubItemEventArgs" /> that contains the event data.</param>
++public delegate void DrawListViewSubItemEventHandler(object sender, DrawListViewSubItemEventArgs e);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawTreeNodeEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawTreeNodeEventHandler.cs
+new file mode 100644
+index 00000000..454170b1
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawTreeNodeEventHandler.cs
+@@ -0,0 +1,12 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Represents the method that handles the <see cref="!:TreeView.DrawNode" /> event.
++/// </summary>
++/// <param name="sender">The source of the event.</param>
++/// <param name="e">A <see cref="T:System.Windows.Forms.DrawTreeNodeEventArgs" /> that contains the event data.</param>
++public delegate void DrawTreeNodeEventHandler(object sender, DrawTreeNodeEventArgs e);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewHitTestInfo.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewHitTestInfo.cs
+new file mode 100644
+index 00000000..51b423ce
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewHitTestInfo.cs
+@@ -0,0 +1,34 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Contains information about an area of a <see cref="T:System.Windows.Forms.ListView" /> control or a
++/// <see cref="T:System.Windows.Forms.ListViewItem" />, returned by the <c>HitTest</c> methods.
++/// </summary>
++public class ListViewHitTestInfo
++{
++    /// <summary>
++    /// Initializes a new instance of the <see cref="T:System.Windows.Forms.ListViewHitTestInfo" /> class.
++    /// </summary>
++    /// <param name="hitItem">The <see cref="T:System.Windows.Forms.ListViewItem" /> located at the hit-tested point.</param>
++    /// <param name="hitSubItem">The <see cref="T:System.Windows.Forms.ListViewItem.ListViewSubItem" /> located at the hit-tested point.</param>
++    /// <param name="hitLocation">One of the <see cref="T:System.Windows.Forms.ListViewHitTestLocations" /> values.</param>
++    public ListViewHitTestInfo(ListViewItem? hitItem, ListViewItem.ListViewSubItem? hitSubItem, ListViewHitTestLocations hitLocation)
++    {
++        Item = hitItem;
++        SubItem = hitSubItem;
++        Location = hitLocation;
++    }
++
++    /// <summary>Gets the location of the hit test on the <see cref="T:System.Windows.Forms.ListView" /> control, in relation to the control and its contents.</summary>
++    public ListViewHitTestLocations Location { get; }
++
++    /// <summary>Gets the <see cref="T:System.Windows.Forms.ListViewItem" /> located at the hit-tested point.</summary>
++    public ListViewItem? Item { get; }
++
++    /// <summary>Gets the <see cref="T:System.Windows.Forms.ListViewItem.ListViewSubItem" /> located at the hit-tested point.</summary>
++    public ListViewItem.ListViewSubItem? SubItem { get; }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OLE/DataObject.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OLE/DataObject.cs
+new file mode 100644
+index 00000000..958be2b0
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OLE/DataObject.cs
+@@ -0,0 +1,243 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Collections.Generic;
++using System.Collections.Specialized;
++using System.Linq;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Implements a format-independent, in-memory mechanism for transferring data. This is the top-level
++/// <c>System.Windows.Forms.DataObject</c> — the type designer code and drag-and-drop operations construct
++/// directly (<c>new DataObject(...)</c>) — as distinct from the clipboard-backed
++/// <see cref="T:System.Windows.Forms.Clipboard.DataObject" /> used internally by
++/// <see cref="T:System.Windows.Forms.Clipboard" />.
++/// </summary>
++public class DataObject : IDataObject
++{
++    private readonly Dictionary<string, object?> _store = new(StringComparer.OrdinalIgnoreCase);
++
++    /// <summary>Initializes a new, empty instance of the <see cref="T:System.Windows.Forms.DataObject" /> class.</summary>
++    public DataObject()
++    {
++    }
++
++    /// <summary>Initializes a new instance storing <paramref name="data" /> under its own type name.</summary>
++    /// <param name="data">The data to store.</param>
++    public DataObject(object data)
++    {
++        SetData(data);
++    }
++
++    /// <summary>Initializes a new instance storing <paramref name="data" /> under <paramref name="format" />.</summary>
++    /// <param name="format">The format under which to store the data.</param>
++    /// <param name="data">The data to store.</param>
++    public DataObject(string format, object data)
++    {
++        SetData(format, data);
++    }
++
++    /// <inheritdoc />
++    public object? GetData(string format, bool autoConvert)
++    {
++        if (format == null)
++        {
++            return null;
++        }
++
++        if (_store.TryGetValue(format, out var value))
++        {
++            return value;
++        }
++
++        if (autoConvert)
++        {
++            // Text and UnicodeText are interchangeable in WinForms' conversion set.
++            if (format == DataFormats.Text && _store.TryGetValue(DataFormats.UnicodeText, out var u))
++            {
++                return u;
++            }
++
++            if (format == DataFormats.UnicodeText && _store.TryGetValue(DataFormats.Text, out var t))
++            {
++                return t;
++            }
++        }
++
++        return null;
++    }
++
++    /// <inheritdoc />
++    public object? GetData(string format) => GetData(format, true);
++
++    /// <inheritdoc />
++    public object? GetData(Type format) => format == null ? null : GetData(format.FullName!, true);
++
++    /// <inheritdoc />
++    public bool GetDataPresent(string format, bool autoConvert)
++    {
++        if (format == null)
++        {
++            return false;
++        }
++
++        if (_store.ContainsKey(format))
++        {
++            return true;
++        }
++
++        if (autoConvert)
++        {
++            if (format == DataFormats.Text && _store.ContainsKey(DataFormats.UnicodeText))
++            {
++                return true;
++            }
++
++            if (format == DataFormats.UnicodeText && _store.ContainsKey(DataFormats.Text))
++            {
++                return true;
++            }
++        }
++
++        return false;
++    }
++
++    /// <inheritdoc />
++    public bool GetDataPresent(string format) => GetDataPresent(format, true);
++
++    /// <inheritdoc />
++    public bool GetDataPresent(Type format) => format != null && GetDataPresent(format.FullName!, true);
++
++    /// <inheritdoc />
++    public string[] GetFormats(bool autoConvert) => _store.Keys.ToArray();
++
++    /// <inheritdoc />
++    public string[] GetFormats() => GetFormats(true);
++
++    /// <inheritdoc />
++    public void SetData(string format, bool autoConvert, object data)
++    {
++        if (format != null)
++        {
++            _store[format] = data;
++        }
++    }
++
++    /// <inheritdoc />
++    public void SetData(string format, object data) => SetData(format, true, data);
++
++    /// <inheritdoc />
++    public void SetData(Type format, object data)
++    {
++        if (format != null)
++        {
++            _store[format.FullName!] = data;
++        }
++    }
++
++    /// <inheritdoc />
++    public void SetData(object data)
++    {
++        if (data != null)
++        {
++            _store[data.GetType().FullName!] = data;
++        }
++    }
++
++    /// <summary>Indicates whether the data object contains data in the <see cref="F:System.Windows.Forms.DataFormats.Text" /> or <see cref="F:System.Windows.Forms.DataFormats.UnicodeText" /> format.</summary>
++    /// <returns><see langword="true" /> if text data is present; otherwise <see langword="false" />.</returns>
++    public virtual bool ContainsText() => GetDataPresent(DataFormats.UnicodeText, true);
++
++    /// <summary>Indicates whether the data object contains text data in the specified format.</summary>
++    /// <param name="format">One of the <see cref="T:System.Windows.Forms.TextDataFormat" /> values.</param>
++    /// <returns><see langword="true" /> if text in <paramref name="format" /> is present; otherwise <see langword="false" />.</returns>
++    public virtual bool ContainsText(TextDataFormat format) => GetDataPresent(ToFormat(format), false);
++
++    /// <summary>Returns the <see cref="F:System.Windows.Forms.DataFormats.UnicodeText" /> data, or the empty string if none is present.</summary>
++    /// <returns>The stored text, or <see cref="F:System.String.Empty" />.</returns>
++    public virtual string GetText() => GetText(TextDataFormat.UnicodeText);
++
++    /// <summary>Returns the text data in the specified format, or the empty string if none is present.</summary>
++    /// <param name="format">One of the <see cref="T:System.Windows.Forms.TextDataFormat" /> values.</param>
++    /// <returns>The stored text, or <see cref="F:System.String.Empty" />.</returns>
++    public virtual string GetText(TextDataFormat format) => GetData(ToFormat(format), false) as string ?? string.Empty;
++
++    /// <summary>Stores <paramref name="textData" /> in the <see cref="F:System.Windows.Forms.DataFormats.UnicodeText" /> format.</summary>
++    /// <param name="textData">The text to store.</param>
++    public virtual void SetText(string textData) => SetText(textData, TextDataFormat.UnicodeText);
++
++    /// <summary>Stores <paramref name="textData" /> in the specified text format.</summary>
++    /// <param name="textData">The text to store.</param>
++    /// <param name="format">One of the <see cref="T:System.Windows.Forms.TextDataFormat" /> values.</param>
++    public virtual void SetText(string textData, TextDataFormat format)
++    {
++        if (string.IsNullOrEmpty(textData))
++        {
++            throw new ArgumentNullException(nameof(textData));
++        }
++
++        SetData(ToFormat(format), false, textData);
++    }
++
++    /// <summary>Indicates whether the data object contains data in the <see cref="F:System.Windows.Forms.DataFormats.Bitmap" /> format.</summary>
++    /// <returns><see langword="true" /> if image data is present; otherwise <see langword="false" />.</returns>
++    public virtual bool ContainsImage() => GetDataPresent(DataFormats.Bitmap, false);
++
++    /// <summary>Returns the <see cref="F:System.Windows.Forms.DataFormats.Bitmap" /> data, or <see langword="null" /> if none is present.</summary>
++    /// <returns>The stored image, or <see langword="null" />.</returns>
++    public virtual System.Drawing.Image? GetImage() => GetData(DataFormats.Bitmap, false) as System.Drawing.Image;
++
++    /// <summary>Stores <paramref name="image" /> in the <see cref="F:System.Windows.Forms.DataFormats.Bitmap" /> format.</summary>
++    /// <param name="image">The image to store.</param>
++    public virtual void SetImage(System.Drawing.Image image)
++    {
++        if (image == null)
++        {
++            throw new ArgumentNullException(nameof(image));
++        }
++
++        SetData(DataFormats.Bitmap, true, image);
++    }
++
++    /// <summary>Indicates whether the data object contains a file-drop list.</summary>
++    /// <returns><see langword="true" /> if a file-drop list is present; otherwise <see langword="false" />.</returns>
++    public virtual bool ContainsFileDropList() => GetDataPresent(DataFormats.FileDrop, true);
++
++    /// <summary>Returns the file-drop list, or an empty collection if none is present.</summary>
++    /// <returns>A <see cref="T:System.Collections.Specialized.StringCollection" /> of file names.</returns>
++    public virtual StringCollection GetFileDropList()
++    {
++        var result = new StringCollection();
++        if (GetData(DataFormats.FileDrop, true) is string[] files)
++        {
++            result.AddRange(files);
++        }
++
++        return result;
++    }
++
++    /// <summary>Stores a file-drop list.</summary>
++    /// <param name="filePaths">The file names to store.</param>
++    public virtual void SetFileDropList(StringCollection filePaths)
++    {
++        if (filePaths == null)
++        {
++            throw new ArgumentNullException(nameof(filePaths));
++        }
++
++        var files = new string[filePaths.Count];
++        filePaths.CopyTo(files, 0);
++        SetData(DataFormats.FileDrop, true, files);
++    }
++
++    private static string ToFormat(TextDataFormat format) => format switch
++    {
++        TextDataFormat.UnicodeText => DataFormats.UnicodeText,
++        TextDataFormat.Rtf => DataFormats.Rtf,
++        TextDataFormat.Html => DataFormats.Html,
++        TextDataFormat.CommaSeparatedValue => DataFormats.CommaSeparatedValue,
++        _ => DataFormats.Text,
++    };
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeViewHitTestInfo.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeViewHitTestInfo.cs
+new file mode 100644
+index 00000000..ac9f5640
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeViewHitTestInfo.cs
+@@ -0,0 +1,29 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Contains information about an area of a <see cref="T:System.Windows.Forms.TreeView" /> control or a
++/// <see cref="T:System.Windows.Forms.TreeNode" />, returned by the <c>HitTest</c> methods.
++/// </summary>
++public class TreeViewHitTestInfo
++{
++    /// <summary>
++    /// Initializes a new instance of the <see cref="T:System.Windows.Forms.TreeViewHitTestInfo" /> class.
++    /// </summary>
++    /// <param name="hitNode">The <see cref="T:System.Windows.Forms.TreeNode" /> located at the hit-tested point.</param>
++    /// <param name="hitLocation">One of the <see cref="T:System.Windows.Forms.TreeViewHitTestLocations" /> values.</param>
++    public TreeViewHitTestInfo(TreeNode? hitNode, TreeViewHitTestLocations hitLocation)
++    {
++        Node = hitNode;
++        Location = hitLocation;
++    }
++
++    /// <summary>Gets the location of the hit test on the <see cref="T:System.Windows.Forms.TreeView" /> control, in relation to the control and its nodes.</summary>
++    public TreeViewHitTestLocations Location { get; }
++
++    /// <summary>Gets the <see cref="T:System.Windows.Forms.TreeNode" /> located at the hit-tested point.</summary>
++    public TreeNode? Node { get; }
++}
+-- 
+2.53.0.windows.3
+
