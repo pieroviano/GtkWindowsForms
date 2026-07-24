@@ -1,0 +1,1260 @@
+From d0c0f0db3596ffaa4894fad4cdf7b3ed12c49881 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 24 Jul 2026 08:21:07 +0300
+Subject: [PATCH] Phase 5: control *Renderer classes + VisualStyles state enums
+
+Adds the eleven visual-style control renderers and the twelve VisualStyles state
+enums they consume. Signatures and enum values taken from the net48 reference.
+
+VisualStyles state enums (System.Windows.Forms.VisualStyles): PushButtonState,
+CheckBoxState, RadioButtonState, ComboBoxState, GroupBoxState,
+ScrollBarArrowButtonState, ScrollBarSizeBoxState, ScrollBarState, TabItemState,
+TextBoxState, TrackBarThumbState, EdgeStyle.
+
+Renderers (System.Windows.Forms): ButtonRenderer, CheckBoxRenderer,
+RadioButtonRenderer, GroupBoxRenderer, ComboBoxRenderer, TextBoxRenderer,
+TabRenderer, ProgressBarRenderer, ScrollBarRenderer, TrackBarRenderer. Unlike the
+ToolStripRenderer chrome (which GTK draws for live controls), these are called by
+owner-draw code to draw INTO a caller-supplied Graphics, so they render real
+(classic, non-themed) output via ControlPaint/TextRenderer rather than being
+no-ops - a documented visual deviation from Windows visual styles.
+
+Full suite green at 2317 (+2 tests: size/support constants, and a smoke test that
+draws with every renderer into an off-screen bitmap without throwing).
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ .../Forms/ControlRenderersFunctionalTests.cs  | 80 +++++++++++++++++
+ .../Forms/VisualStyles/ButtonRenderer.cs      | 81 +++++++++++++++++
+ .../Forms/VisualStyles/CheckBoxRenderer.cs    | 77 ++++++++++++++++
+ .../Forms/VisualStyles/CheckBoxState.cs       | 45 ++++++++++
+ .../Forms/VisualStyles/ComboBoxRenderer.cs    | 51 +++++++++++
+ .../Forms/VisualStyles/ComboBoxState.cs       | 21 +++++
+ .../Windows/Forms/VisualStyles/EdgeStyle.cs   | 21 +++++
+ .../Forms/VisualStyles/GroupBoxRenderer.cs    | 53 +++++++++++
+ .../Forms/VisualStyles/GroupBoxState.cs       | 15 ++++
+ .../Forms/VisualStyles/ProgressBarRenderer.cs | 43 +++++++++
+ .../Forms/VisualStyles/PushButtonState.cs     | 24 +++++
+ .../Forms/VisualStyles/RadioButtonRenderer.cs | 68 ++++++++++++++
+ .../Forms/VisualStyles/RadioButtonState.cs    | 33 +++++++
+ .../VisualStyles/ScrollBarArrowButtonState.cs | 57 ++++++++++++
+ .../Forms/VisualStyles/ScrollBarRenderer.cs   | 70 +++++++++++++++
+ .../VisualStyles/ScrollBarSizeBoxState.cs     | 15 ++++
+ .../Forms/VisualStyles/ScrollBarState.cs      | 21 +++++
+ .../Forms/VisualStyles/TabItemState.cs        | 21 +++++
+ .../Windows/Forms/VisualStyles/TabRenderer.cs | 64 +++++++++++++
+ .../Forms/VisualStyles/TextBoxRenderer.cs     | 47 ++++++++++
+ .../Forms/VisualStyles/TextBoxState.cs        | 27 ++++++
+ .../Forms/VisualStyles/TrackBarRenderer.cs    | 90 +++++++++++++++++++
+ .../Forms/VisualStyles/TrackBarThumbState.cs  | 21 +++++
+ 23 files changed, 1045 insertions(+)
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlRenderersFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ButtonRenderer.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxRenderer.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxState.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxRenderer.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxState.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeStyle.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxRenderer.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxState.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ProgressBarRenderer.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PushButtonState.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonRenderer.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonState.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarArrowButtonState.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarRenderer.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarSizeBoxState.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarState.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabItemState.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabRenderer.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxRenderer.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxState.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarRenderer.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarThumbState.cs
+
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlRenderersFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlRenderersFunctionalTests.cs
+new file mode 100644
+index 00000000..c9016220
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlRenderersFunctionalTests.cs
+@@ -0,0 +1,80 @@
++namespace System.Windows.Forms;
++
++extern alias gtk;
++
++using System.Windows.Forms.VisualStyles;
++using Size = global::System.Drawing.Size;
++using Point = global::System.Drawing.Point;
++using Rectangle = global::System.Drawing.Rectangle;
++
++/// <summary>
++/// Verifies the visual-style control renderers (<see cref="ButtonRenderer" />, <see cref="CheckBoxRenderer" />
++/// and the rest). The size/support constants are pure values (no GTK); a smoke test then draws with each
++/// renderer into an off-screen bitmap inside a realized form to confirm the rendering paths execute.
++/// </summary>
++[Collection("NonParallelCollection")]
++public class ControlRenderersFunctionalTests
++{
++    [Fact]
++    public void SupportAndSizeConstants()
++    {
++        Assert.True(ComboBoxRenderer.IsSupported);
++        Assert.True(TextBoxRenderer.IsSupported);
++        Assert.True(TabRenderer.IsSupported);
++        Assert.True(ScrollBarRenderer.IsSupported);
++        Assert.True(TrackBarRenderer.IsSupported);
++        Assert.True(ProgressBarRenderer.IsSupported);
++        Assert.True(ButtonRenderer.RenderMatchingApplicationState);
++
++        Assert.Equal(new Size(13, 13), CheckBoxRenderer.GetGlyphSize(null!, CheckBoxState.CheckedNormal));
++        Assert.Equal(new Size(13, 13), RadioButtonRenderer.GetGlyphSize(null!, RadioButtonState.CheckedNormal));
++        Assert.Equal(6, ProgressBarRenderer.ChunkThickness);
++        Assert.Equal(2, ProgressBarRenderer.ChunkSpaceThickness);
++        Assert.Equal(new Size(16, 16), ScrollBarRenderer.GetThumbGripSize(null!, ScrollBarState.Normal));
++        Assert.Equal(new Size(21, 11), TrackBarRenderer.GetTopPointingThumbSize(null!, TrackBarThumbState.Normal));
++
++        Assert.False(ButtonRenderer.IsBackgroundPartiallyTransparent(PushButtonState.Normal));
++        Assert.False(CheckBoxRenderer.IsBackgroundPartiallyTransparent(CheckBoxState.CheckedNormal));
++    }
++
++    [Fact]
++    public void Renderers_DrawWithoutThrowing()
++    {
++        var form = new Form();
++
++        form.Load += (s, e) =>
++        {
++            try
++            {
++                using var bmp = new gtk::System.Drawing.Bitmap(64, 64);
++                using var g = gtk::System.Drawing.Graphics.FromImage(bmp);
++                var font = gtk::System.Drawing.SystemFonts.DefaultFont;
++                var r = new Rectangle(2, 2, 60, 24);
++
++                // A representative call on each renderer must execute against a real Graphics.
++                ButtonRenderer.DrawButton(g, r, "OK", font, false, PushButtonState.Normal);
++                CheckBoxRenderer.DrawCheckBox(g, new Point(2, 2), CheckBoxState.CheckedNormal);
++                RadioButtonRenderer.DrawRadioButton(g, new Point(2, 30), RadioButtonState.CheckedNormal);
++                GroupBoxRenderer.DrawGroupBox(g, r, "Group", font, GroupBoxState.Normal);
++                ComboBoxRenderer.DrawTextBox(g, r, ComboBoxState.Normal);
++                ComboBoxRenderer.DrawDropDownButton(g, new Rectangle(40, 2, 16, 16), ComboBoxState.Normal);
++                TextBoxRenderer.DrawTextBox(g, r, TextBoxState.Normal);
++                TabRenderer.DrawTabItem(g, r, "Tab", font, TabItemState.Selected);
++                ProgressBarRenderer.DrawHorizontalBar(g, r);
++                ProgressBarRenderer.DrawHorizontalChunks(g, new Rectangle(2, 2, 30, 20));
++                ScrollBarRenderer.DrawArrowButton(g, new Rectangle(0, 0, 16, 16), ScrollBarArrowButtonState.UpNormal);
++                ScrollBarRenderer.DrawVerticalThumb(g, new Rectangle(0, 16, 16, 30), ScrollBarState.Normal);
++                TrackBarRenderer.DrawHorizontalTrack(g, r);
++                TrackBarRenderer.DrawHorizontalThumb(g, new Rectangle(20, 2, 11, 21), TrackBarThumbState.Normal);
++                TrackBarRenderer.DrawHorizontalTicks(g, r, 5, EdgeStyle.Etched);
++            }
++            finally
++            {
++                form.Close();
++            }
++        };
++
++        form.ShowDialog();
++        form.Dispose();
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ButtonRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ButtonRenderer.cs
+new file mode 100644
+index 00000000..fde39456
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ButtonRenderer.cs
+@@ -0,0 +1,81 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++using System.Windows.Forms.VisualStyles;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides methods used to render a button control with visual styles. Rendering falls back to classic (non-themed) drawing; GTK draws real chrome for live controls.</summary>
++public static class ButtonRenderer
++{
++    /// <summary>Gets or sets a value indicating whether the renderer follows the application render mode.</summary>
++    public static bool RenderMatchingApplicationState { get; set; } = true;
++
++    /// <summary>Indicates whether the background of the button has semitransparent or alpha-blended pieces.</summary>
++    /// <param name="state">The visual state of the button.</param>
++    /// <returns><see langword="false" />.</returns>
++    public static bool IsBackgroundPartiallyTransparent(PushButtonState state) => false;
++
++    /// <summary>Draws the background of a control's parent in the specified area.</summary>
++    /// <param name="g">The graphics used to draw.</param>
++    /// <param name="bounds">The area to draw.</param>
++    /// <param name="childControl">The control whose parent background is drawn.</param>
++    public static void DrawParentBackground(Graphics g, Rectangle bounds, Control childControl)
++    {
++        using var brush = new SolidBrush(childControl?.BackColor ?? SystemColors.Control);
++        g.FillRectangle(brush, bounds);
++    }
++
++    private static ButtonState Map(PushButtonState state) => state switch
++    {
++        PushButtonState.Pressed => ButtonState.Pushed,
++        PushButtonState.Disabled => ButtonState.Inactive,
++        _ => ButtonState.Normal,
++    };
++
++    /// <summary>Draws a button control.</summary>
++    /// <param name="g">The graphics used to draw.</param>
++    /// <param name="bounds">The bounds of the button.</param>
++    /// <param name="state">The visual state of the button.</param>
++    public static void DrawButton(Graphics g, Rectangle bounds, PushButtonState state)
++        => ControlPaint.DrawButton(g, bounds, Map(state));
++
++    /// <summary>Draws a button control, optionally with a focus rectangle.</summary>
++    public static void DrawButton(Graphics g, Rectangle bounds, bool focused, PushButtonState state)
++    {
++        DrawButton(g, bounds, state);
++        if (focused) { ControlPaint.DrawFocusRectangle(g, Rectangle.Inflate(bounds, -3, -3)); }
++    }
++
++    /// <summary>Draws a button control with text.</summary>
++    public static void DrawButton(Graphics g, Rectangle bounds, string buttonText, Font font, bool focused, PushButtonState state)
++        => DrawButton(g, bounds, buttonText, font, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter, focused, state);
++
++    /// <summary>Draws a button control with text and format flags.</summary>
++    public static void DrawButton(Graphics g, Rectangle bounds, string buttonText, Font font, TextFormatFlags flags, bool focused, PushButtonState state)
++    {
++        DrawButton(g, bounds, focused, state);
++        TextRenderer.DrawText(g, buttonText, font, bounds, SystemColors.ControlText, flags);
++    }
++
++    /// <summary>Draws a button control with an image.</summary>
++    public static void DrawButton(Graphics g, Rectangle bounds, Image image, Rectangle imageBounds, bool focused, PushButtonState state)
++    {
++        DrawButton(g, bounds, focused, state);
++        if (image != null) { g.DrawImage(image, imageBounds); }
++    }
++
++    /// <summary>Draws a button control with text and an image.</summary>
++    public static void DrawButton(Graphics g, Rectangle bounds, string buttonText, Font font, Image image, Rectangle imageBounds, bool focused, PushButtonState state)
++        => DrawButton(g, bounds, buttonText, font, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter, image, imageBounds, focused, state);
++
++    /// <summary>Draws a button control with text, an image and format flags.</summary>
++    public static void DrawButton(Graphics g, Rectangle bounds, string buttonText, Font font, TextFormatFlags flags, Image image, Rectangle imageBounds, bool focused, PushButtonState state)
++    {
++        DrawButton(g, bounds, focused, state);
++        if (image != null) { g.DrawImage(image, imageBounds); }
++        TextRenderer.DrawText(g, buttonText, font, bounds, SystemColors.ControlText, flags);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxRenderer.cs
+new file mode 100644
+index 00000000..18d97cbb
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxRenderer.cs
+@@ -0,0 +1,77 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++using System.Windows.Forms.VisualStyles;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides methods used to render a check box control with visual styles. Rendering falls back to classic (non-themed) drawing; GTK draws real chrome for live controls.</summary>
++public static class CheckBoxRenderer
++{
++    /// <summary>Gets or sets a value indicating whether the renderer follows the application render mode.</summary>
++    public static bool RenderMatchingApplicationState { get; set; } = true;
++
++    /// <summary>Indicates whether the background is semitransparent. Returns <see langword="false" />.</summary>
++    /// <param name="state">The visual state.</param>
++    /// <returns><see langword="false" />.</returns>
++    public static bool IsBackgroundPartiallyTransparent(CheckBoxState state) => false;
++
++    /// <summary>Draws the background of a control's parent.</summary>
++    /// <param name="g">The graphics used to draw.</param>
++    /// <param name="bounds">The area to draw.</param>
++    /// <param name="childControl">The control whose parent background is drawn.</param>
++    public static void DrawParentBackground(Graphics g, Rectangle bounds, Control childControl)
++    {
++        using var brush = new SolidBrush(childControl?.BackColor ?? SystemColors.Control);
++        g.FillRectangle(brush, bounds);
++    }
++
++    /// <summary>Gets the size of the glyph.</summary>
++    /// <param name="g">The graphics used to measure.</param>
++    /// <param name="state">The visual state.</param>
++    /// <returns>The glyph size.</returns>
++    public static Size GetGlyphSize(Graphics g, CheckBoxState state) => new Size(13, 13);
++
++    private static ButtonState MapGlyph(CheckBoxState state)
++    {
++        var b = ButtonState.Normal;
++        var n = state.ToString();
++        if (n.StartsWith("Checked") || n.StartsWith("Mixed")) { b |= ButtonState.Checked; }
++        if (n.EndsWith("Pressed")) { b |= ButtonState.Pushed; }
++        if (n.EndsWith("Disabled")) { b |= ButtonState.Inactive; }
++        return b;
++    }
++
++    /// <summary>Draws a DrawCheckBox glyph.</summary>
++    public static void DrawCheckBox(Graphics g, Point glyphLocation, CheckBoxState state)
++    {
++        ControlPaint.DrawCheckBox(g, new Rectangle(glyphLocation, GetGlyphSize(g, state)), MapGlyph(state));
++    }
++
++    /// <summary>Draws a DrawCheckBox glyph with text.</summary>
++    public static void DrawCheckBox(Graphics g, Point glyphLocation, Rectangle textBounds, string text, Font font, bool focused, CheckBoxState state)
++        => DrawCheckBox(g, glyphLocation, textBounds, text, font, TextFormatFlags.Default, focused, state);
++
++    /// <summary>Draws a DrawCheckBox glyph with text and format flags.</summary>
++    public static void DrawCheckBox(Graphics g, Point glyphLocation, Rectangle textBounds, string text, Font font, TextFormatFlags flags, bool focused, CheckBoxState state)
++    {
++        DrawCheckBox(g, glyphLocation, state);
++        TextRenderer.DrawText(g, text, font, textBounds, SystemColors.ControlText, flags);
++        if (focused) { ControlPaint.DrawFocusRectangle(g, textBounds); }
++    }
++
++    /// <summary>Draws a DrawCheckBox glyph with text and an image.</summary>
++    public static void DrawCheckBox(Graphics g, Point glyphLocation, Rectangle textBounds, string text, Font font, Image image, Rectangle imageBounds, bool focused, CheckBoxState state)
++        => DrawCheckBox(g, glyphLocation, textBounds, text, font, TextFormatFlags.Default, image, imageBounds, focused, state);
++
++    /// <summary>Draws a DrawCheckBox glyph with text, an image and format flags.</summary>
++    public static void DrawCheckBox(Graphics g, Point glyphLocation, Rectangle textBounds, string text, Font font, TextFormatFlags flags, Image image, Rectangle imageBounds, bool focused, CheckBoxState state)
++    {
++        DrawCheckBox(g, glyphLocation, state);
++        if (image != null) { g.DrawImage(image, imageBounds); }
++        TextRenderer.DrawText(g, text, font, textBounds, SystemColors.ControlText, flags);
++        if (focused) { ControlPaint.DrawFocusRectangle(g, textBounds); }
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxState.cs
+new file mode 100644
+index 00000000..8f6ca7ab
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxState.cs
+@@ -0,0 +1,45 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms.VisualStyles;
++
++/// <summary>Specifies the visual state of a CheckBox drawn with visual styles.</summary>
++public enum CheckBoxState
++{
++    /// <summary>The UncheckedNormal state.</summary>
++    UncheckedNormal = 1,
++
++    /// <summary>The UncheckedHot state.</summary>
++    UncheckedHot = 2,
++
++    /// <summary>The UncheckedPressed state.</summary>
++    UncheckedPressed = 3,
++
++    /// <summary>The UncheckedDisabled state.</summary>
++    UncheckedDisabled = 4,
++
++    /// <summary>The CheckedNormal state.</summary>
++    CheckedNormal = 5,
++
++    /// <summary>The CheckedHot state.</summary>
++    CheckedHot = 6,
++
++    /// <summary>The CheckedPressed state.</summary>
++    CheckedPressed = 7,
++
++    /// <summary>The CheckedDisabled state.</summary>
++    CheckedDisabled = 8,
++
++    /// <summary>The MixedNormal state.</summary>
++    MixedNormal = 9,
++
++    /// <summary>The MixedHot state.</summary>
++    MixedHot = 10,
++
++    /// <summary>The MixedPressed state.</summary>
++    MixedPressed = 11,
++
++    /// <summary>The MixedDisabled state.</summary>
++    MixedDisabled = 12,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxRenderer.cs
+new file mode 100644
+index 00000000..01fa30a0
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxRenderer.cs
+@@ -0,0 +1,51 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++using System.Windows.Forms.VisualStyles;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides methods used to render a combo box control with visual styles. Rendering falls back to classic (non-themed) drawing; GTK draws real chrome for live controls.</summary>
++public static class ComboBoxRenderer
++{
++    /// <summary>Gets a value indicating whether the renderer is supported. Always <see langword="true" />.</summary>
++    public static bool IsSupported => true;
++
++    /// <summary>Draws a box using the specified state.</summary>
++    public static void DrawTextBox(Graphics g, Rectangle bounds, ComboBoxState state)
++        => ControlPaint.DrawBorder3D(g, bounds, Border3DStyle.Sunken);
++
++    /// <summary>Draws a box with text.</summary>
++    public static void DrawTextBox(Graphics g, Rectangle bounds, string text, Font font, ComboBoxState state)
++    {
++        DrawTextBox(g, bounds, state);
++        TextRenderer.DrawText(g, text, font, bounds, SystemColors.ControlText, TextFormatFlags.Default);
++    }
++
++    /// <summary>Draws a box with text within a text bounds.</summary>
++    public static void DrawTextBox(Graphics g, Rectangle bounds, string text, Font font, Rectangle textBounds, ComboBoxState state)
++    {
++        DrawTextBox(g, bounds, state);
++        TextRenderer.DrawText(g, text, font, textBounds, SystemColors.ControlText, TextFormatFlags.Default);
++    }
++
++    /// <summary>Draws a box with text and format flags.</summary>
++    public static void DrawTextBox(Graphics g, Rectangle bounds, string text, Font font, TextFormatFlags flags, ComboBoxState state)
++    {
++        DrawTextBox(g, bounds, state);
++        TextRenderer.DrawText(g, text, font, bounds, SystemColors.ControlText, flags);
++    }
++
++    /// <summary>Draws a box with text, a text bounds and format flags.</summary>
++    public static void DrawTextBox(Graphics g, Rectangle bounds, string text, Font font, Rectangle textBounds, TextFormatFlags flags, ComboBoxState state)
++    {
++        DrawTextBox(g, bounds, state);
++        TextRenderer.DrawText(g, text, font, textBounds, SystemColors.ControlText, flags);
++    }
++
++    /// <summary>Draws a combo box drop-down button.</summary>
++    public static void DrawDropDownButton(Graphics g, Rectangle bounds, ComboBoxState state)
++        => ControlPaint.DrawButton(g, bounds, state == ComboBoxState.Pressed ? ButtonState.Pushed : ButtonState.Normal);
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxState.cs
+new file mode 100644
+index 00000000..6e75f2cb
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxState.cs
+@@ -0,0 +1,21 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms.VisualStyles;
++
++/// <summary>Specifies the visual state of a ComboBox drawn with visual styles.</summary>
++public enum ComboBoxState
++{
++    /// <summary>The Normal state.</summary>
++    Normal = 1,
++
++    /// <summary>The Hot state.</summary>
++    Hot = 2,
++
++    /// <summary>The Pressed state.</summary>
++    Pressed = 3,
++
++    /// <summary>The Disabled state.</summary>
++    Disabled = 4,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeStyle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeStyle.cs
+new file mode 100644
+index 00000000..4e065699
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeStyle.cs
+@@ -0,0 +1,21 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms.VisualStyles;
++
++/// <summary>Specifies the style of an edge drawn with visual styles.</summary>
++public enum EdgeStyle
++{
++    /// <summary>A raised outer edge and a raised inner edge.</summary>
++    Raised = 5,
++
++    /// <summary>A sunken outer edge and a sunken inner edge.</summary>
++    Sunken = 10,
++
++    /// <summary>A raised outer edge and a sunken inner edge.</summary>
++    Etched = 6,
++
++    /// <summary>A sunken outer edge and a raised inner edge.</summary>
++    Bump = 9,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxRenderer.cs
+new file mode 100644
+index 00000000..fcda5984
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxRenderer.cs
+@@ -0,0 +1,53 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++using System.Windows.Forms.VisualStyles;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides methods used to render a group box control with visual styles. Rendering falls back to classic (non-themed) drawing; GTK draws real chrome for live controls.</summary>
++public static class GroupBoxRenderer
++{
++    /// <summary>Gets or sets a value indicating whether the renderer follows the application render mode.</summary>
++    public static bool RenderMatchingApplicationState { get; set; } = true;
++
++    /// <summary>Indicates whether the background is semitransparent. Returns <see langword="false" />.</summary>
++    /// <param name="state">The visual state.</param>
++    /// <returns><see langword="false" />.</returns>
++    public static bool IsBackgroundPartiallyTransparent(GroupBoxState state) => false;
++
++    /// <summary>Draws the background of a control's parent.</summary>
++    /// <param name="g">The graphics used to draw.</param>
++    /// <param name="bounds">The area to draw.</param>
++    /// <param name="childControl">The control whose parent background is drawn.</param>
++    public static void DrawParentBackground(Graphics g, Rectangle bounds, Control childControl)
++    {
++        using var brush = new SolidBrush(childControl?.BackColor ?? SystemColors.Control);
++        g.FillRectangle(brush, bounds);
++    }
++
++    /// <summary>Draws a group box.</summary>
++    public static void DrawGroupBox(Graphics g, Rectangle bounds, GroupBoxState state)
++        => ControlPaint.DrawBorder3D(g, bounds, Border3DStyle.Etched);
++
++    /// <summary>Draws a group box with text.</summary>
++    public static void DrawGroupBox(Graphics g, Rectangle bounds, string groupBoxText, Font font, GroupBoxState state)
++        => DrawGroupBox(g, bounds, groupBoxText, font, SystemColors.ControlText, TextFormatFlags.Default, state);
++
++    /// <summary>Draws a group box with colored text.</summary>
++    public static void DrawGroupBox(Graphics g, Rectangle bounds, string groupBoxText, Font font, Color textColor, GroupBoxState state)
++        => DrawGroupBox(g, bounds, groupBoxText, font, textColor, TextFormatFlags.Default, state);
++
++    /// <summary>Draws a group box with text and format flags.</summary>
++    public static void DrawGroupBox(Graphics g, Rectangle bounds, string groupBoxText, Font font, TextFormatFlags flags, GroupBoxState state)
++        => DrawGroupBox(g, bounds, groupBoxText, font, SystemColors.ControlText, flags, state);
++
++    /// <summary>Draws a group box with colored text and format flags.</summary>
++    public static void DrawGroupBox(Graphics g, Rectangle bounds, string groupBoxText, Font font, Color textColor, TextFormatFlags flags, GroupBoxState state)
++    {
++        DrawGroupBox(g, bounds, state);
++        TextRenderer.DrawText(g, groupBoxText, font, bounds, textColor, flags);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxState.cs
+new file mode 100644
+index 00000000..a978735e
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxState.cs
+@@ -0,0 +1,15 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms.VisualStyles;
++
++/// <summary>Specifies the visual state of a GroupBox drawn with visual styles.</summary>
++public enum GroupBoxState
++{
++    /// <summary>The Normal state.</summary>
++    Normal = 1,
++
++    /// <summary>The Disabled state.</summary>
++    Disabled = 2,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ProgressBarRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ProgressBarRenderer.cs
+new file mode 100644
+index 00000000..7b8a8013
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ProgressBarRenderer.cs
+@@ -0,0 +1,43 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++using System.Windows.Forms.VisualStyles;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides methods used to render a progress bar control with visual styles. Rendering falls back to classic (non-themed) drawing; GTK draws real chrome for live controls.</summary>
++public static class ProgressBarRenderer
++{
++    /// <summary>Gets a value indicating whether the renderer is supported. Always <see langword="true" />.</summary>
++    public static bool IsSupported => true;
++
++    /// <summary>Gets the thickness, in pixels, of a single progress bar chunk.</summary>
++    public static int ChunkThickness => 6;
++
++    /// <summary>Gets the thickness, in pixels, of the space between progress bar chunks.</summary>
++    public static int ChunkSpaceThickness => 2;
++
++    /// <summary>Draws the frame of a horizontal progress bar.</summary>
++    public static void DrawHorizontalBar(Graphics g, Rectangle bounds)
++        => ControlPaint.DrawBorder3D(g, bounds, Border3DStyle.SunkenOuter);
++
++    /// <summary>Draws the frame of a vertical progress bar.</summary>
++    public static void DrawVerticalBar(Graphics g, Rectangle bounds)
++        => ControlPaint.DrawBorder3D(g, bounds, Border3DStyle.SunkenOuter);
++
++    /// <summary>Draws the filled chunks of a horizontal progress bar.</summary>
++    public static void DrawHorizontalChunks(Graphics g, Rectangle bounds)
++    {
++        using var brush = new SolidBrush(SystemColors.Highlight);
++        g.FillRectangle(brush, bounds);
++    }
++
++    /// <summary>Draws the filled chunks of a vertical progress bar.</summary>
++    public static void DrawVerticalChunks(Graphics g, Rectangle bounds)
++    {
++        using var brush = new SolidBrush(SystemColors.Highlight);
++        g.FillRectangle(brush, bounds);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PushButtonState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PushButtonState.cs
+new file mode 100644
+index 00000000..61f97333
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PushButtonState.cs
+@@ -0,0 +1,24 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms.VisualStyles;
++
++/// <summary>Specifies the visual state of a PushButton drawn with visual styles.</summary>
++public enum PushButtonState
++{
++    /// <summary>The Normal state.</summary>
++    Normal = 1,
++
++    /// <summary>The Hot state.</summary>
++    Hot = 2,
++
++    /// <summary>The Pressed state.</summary>
++    Pressed = 3,
++
++    /// <summary>The Disabled state.</summary>
++    Disabled = 4,
++
++    /// <summary>The Default state.</summary>
++    Default = 5,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonRenderer.cs
+new file mode 100644
+index 00000000..d960c44f
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonRenderer.cs
+@@ -0,0 +1,68 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++using System.Windows.Forms.VisualStyles;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides methods used to render an option (radio) button control with visual styles. Rendering falls back to classic (non-themed) drawing; GTK draws real chrome for live controls.</summary>
++public static class RadioButtonRenderer
++{
++    /// <summary>Gets or sets a value indicating whether the renderer follows the application render mode.</summary>
++    public static bool RenderMatchingApplicationState { get; set; } = true;
++
++    /// <summary>Indicates whether the background is semitransparent. Returns <see langword="false" />.</summary>
++    /// <param name="state">The visual state.</param>
++    /// <returns><see langword="false" />.</returns>
++    public static bool IsBackgroundPartiallyTransparent(RadioButtonState state) => false;
++
++    /// <summary>Draws the background of a control's parent.</summary>
++    /// <param name="g">The graphics used to draw.</param>
++    /// <param name="bounds">The area to draw.</param>
++    /// <param name="childControl">The control whose parent background is drawn.</param>
++    public static void DrawParentBackground(Graphics g, Rectangle bounds, Control childControl)
++    {
++        using var brush = new SolidBrush(childControl?.BackColor ?? SystemColors.Control);
++        g.FillRectangle(brush, bounds);
++    }
++
++    /// <summary>Gets the size of the glyph.</summary>
++    /// <param name="g">The graphics used to measure.</param>
++    /// <param name="state">The visual state.</param>
++    /// <returns>The glyph size.</returns>
++    public static Size GetGlyphSize(Graphics g, RadioButtonState state) => new Size(13, 13);
++
++    /// <summary>Draws a DrawRadioButton glyph.</summary>
++    public static void DrawRadioButton(Graphics g, Point glyphLocation, RadioButtonState state)
++    {
++        using var pen = new Pen(SystemColors.ControlDarkDark);
++        g.DrawEllipse(pen, new Rectangle(glyphLocation, GetGlyphSize(g, state)));
++    }
++
++    /// <summary>Draws a DrawRadioButton glyph with text.</summary>
++    public static void DrawRadioButton(Graphics g, Point glyphLocation, Rectangle textBounds, string text, Font font, bool focused, RadioButtonState state)
++        => DrawRadioButton(g, glyphLocation, textBounds, text, font, TextFormatFlags.Default, focused, state);
++
++    /// <summary>Draws a DrawRadioButton glyph with text and format flags.</summary>
++    public static void DrawRadioButton(Graphics g, Point glyphLocation, Rectangle textBounds, string text, Font font, TextFormatFlags flags, bool focused, RadioButtonState state)
++    {
++        DrawRadioButton(g, glyphLocation, state);
++        TextRenderer.DrawText(g, text, font, textBounds, SystemColors.ControlText, flags);
++        if (focused) { ControlPaint.DrawFocusRectangle(g, textBounds); }
++    }
++
++    /// <summary>Draws a DrawRadioButton glyph with text and an image.</summary>
++    public static void DrawRadioButton(Graphics g, Point glyphLocation, Rectangle textBounds, string text, Font font, Image image, Rectangle imageBounds, bool focused, RadioButtonState state)
++        => DrawRadioButton(g, glyphLocation, textBounds, text, font, TextFormatFlags.Default, image, imageBounds, focused, state);
++
++    /// <summary>Draws a DrawRadioButton glyph with text, an image and format flags.</summary>
++    public static void DrawRadioButton(Graphics g, Point glyphLocation, Rectangle textBounds, string text, Font font, TextFormatFlags flags, Image image, Rectangle imageBounds, bool focused, RadioButtonState state)
++    {
++        DrawRadioButton(g, glyphLocation, state);
++        if (image != null) { g.DrawImage(image, imageBounds); }
++        TextRenderer.DrawText(g, text, font, textBounds, SystemColors.ControlText, flags);
++        if (focused) { ControlPaint.DrawFocusRectangle(g, textBounds); }
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonState.cs
+new file mode 100644
+index 00000000..ab98b91a
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonState.cs
+@@ -0,0 +1,33 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms.VisualStyles;
++
++/// <summary>Specifies the visual state of a RadioButton drawn with visual styles.</summary>
++public enum RadioButtonState
++{
++    /// <summary>The UncheckedNormal state.</summary>
++    UncheckedNormal = 1,
++
++    /// <summary>The UncheckedHot state.</summary>
++    UncheckedHot = 2,
++
++    /// <summary>The UncheckedPressed state.</summary>
++    UncheckedPressed = 3,
++
++    /// <summary>The UncheckedDisabled state.</summary>
++    UncheckedDisabled = 4,
++
++    /// <summary>The CheckedNormal state.</summary>
++    CheckedNormal = 5,
++
++    /// <summary>The CheckedHot state.</summary>
++    CheckedHot = 6,
++
++    /// <summary>The CheckedPressed state.</summary>
++    CheckedPressed = 7,
++
++    /// <summary>The CheckedDisabled state.</summary>
++    CheckedDisabled = 8,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarArrowButtonState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarArrowButtonState.cs
+new file mode 100644
+index 00000000..4ba3b6f8
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarArrowButtonState.cs
+@@ -0,0 +1,57 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms.VisualStyles;
++
++/// <summary>Specifies the visual state of a ScrollBarArrowButton drawn with visual styles.</summary>
++public enum ScrollBarArrowButtonState
++{
++    /// <summary>The UpNormal state.</summary>
++    UpNormal = 1,
++
++    /// <summary>The UpHot state.</summary>
++    UpHot = 2,
++
++    /// <summary>The UpPressed state.</summary>
++    UpPressed = 3,
++
++    /// <summary>The UpDisabled state.</summary>
++    UpDisabled = 4,
++
++    /// <summary>The DownNormal state.</summary>
++    DownNormal = 5,
++
++    /// <summary>The DownHot state.</summary>
++    DownHot = 6,
++
++    /// <summary>The DownPressed state.</summary>
++    DownPressed = 7,
++
++    /// <summary>The DownDisabled state.</summary>
++    DownDisabled = 8,
++
++    /// <summary>The LeftNormal state.</summary>
++    LeftNormal = 9,
++
++    /// <summary>The LeftHot state.</summary>
++    LeftHot = 10,
++
++    /// <summary>The LeftPressed state.</summary>
++    LeftPressed = 11,
++
++    /// <summary>The LeftDisabled state.</summary>
++    LeftDisabled = 12,
++
++    /// <summary>The RightNormal state.</summary>
++    RightNormal = 13,
++
++    /// <summary>The RightHot state.</summary>
++    RightHot = 14,
++
++    /// <summary>The RightPressed state.</summary>
++    RightPressed = 15,
++
++    /// <summary>The RightDisabled state.</summary>
++    RightDisabled = 16,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarRenderer.cs
+new file mode 100644
+index 00000000..3bfea117
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarRenderer.cs
+@@ -0,0 +1,70 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++using System.Windows.Forms.VisualStyles;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides methods used to render a scroll bar control with visual styles. Rendering falls back to classic (non-themed) drawing; GTK draws real chrome for live controls.</summary>
++public static class ScrollBarRenderer
++{
++    /// <summary>Gets a value indicating whether the renderer is supported. Always <see langword="true" />.</summary>
++    public static bool IsSupported => true;
++
++    private static ButtonState Map(ScrollBarState state)
++        => state == ScrollBarState.Pressed ? ButtonState.Pushed
++         : state == ScrollBarState.Disabled ? ButtonState.Inactive : ButtonState.Normal;
++
++    /// <summary>Draws a scroll arrow button.</summary>
++    public static void DrawArrowButton(Graphics g, Rectangle bounds, ScrollBarArrowButtonState state)
++    {
++        var n = state.ToString();
++        var pushed = n.EndsWith("Pressed") ? ButtonState.Pushed
++                   : n.EndsWith("Disabled") ? ButtonState.Inactive : ButtonState.Normal;
++        ControlPaint.DrawButton(g, bounds, pushed);
++    }
++
++    /// <summary>Draws a horizontal scroll thumb.</summary>
++    public static void DrawHorizontalThumb(Graphics g, Rectangle bounds, ScrollBarState state)
++        => ControlPaint.DrawButton(g, bounds, Map(state));
++
++    /// <summary>Draws a vertical scroll thumb.</summary>
++    public static void DrawVerticalThumb(Graphics g, Rectangle bounds, ScrollBarState state)
++        => ControlPaint.DrawButton(g, bounds, Map(state));
++
++    /// <summary>Draws the grip of a horizontal scroll thumb.</summary>
++    public static void DrawHorizontalThumbGrip(Graphics g, Rectangle bounds, ScrollBarState state) { }
++
++    /// <summary>Draws the grip of a vertical scroll thumb.</summary>
++    public static void DrawVerticalThumbGrip(Graphics g, Rectangle bounds, ScrollBarState state) { }
++
++    private static void Track(Graphics g, Rectangle bounds)
++    {
++        using var brush = new SolidBrush(SystemColors.ScrollBar);
++        g.FillRectangle(brush, bounds);
++    }
++
++    /// <summary>Draws the right part of a horizontal scroll track.</summary>
++    public static void DrawRightHorizontalTrack(Graphics g, Rectangle bounds, ScrollBarState state) => Track(g, bounds);
++
++    /// <summary>Draws the left part of a horizontal scroll track.</summary>
++    public static void DrawLeftHorizontalTrack(Graphics g, Rectangle bounds, ScrollBarState state) => Track(g, bounds);
++
++    /// <summary>Draws the upper part of a vertical scroll track.</summary>
++    public static void DrawUpperVerticalTrack(Graphics g, Rectangle bounds, ScrollBarState state) => Track(g, bounds);
++
++    /// <summary>Draws the lower part of a vertical scroll track.</summary>
++    public static void DrawLowerVerticalTrack(Graphics g, Rectangle bounds, ScrollBarState state) => Track(g, bounds);
++
++    /// <summary>Draws a scroll bar size box.</summary>
++    public static void DrawSizeBox(Graphics g, Rectangle bounds, ScrollBarSizeBoxState state)
++        => ControlPaint.DrawButton(g, bounds, ButtonState.Normal);
++
++    /// <summary>Gets the size of a scroll thumb grip.</summary>
++    public static Size GetThumbGripSize(Graphics g, ScrollBarState state) => new Size(16, 16);
++
++    /// <summary>Gets the size of a scroll size box.</summary>
++    public static Size GetSizeBoxSize(Graphics g, ScrollBarState state) => new Size(17, 17);
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarSizeBoxState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarSizeBoxState.cs
+new file mode 100644
+index 00000000..4b68f5b3
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarSizeBoxState.cs
+@@ -0,0 +1,15 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms.VisualStyles;
++
++/// <summary>Specifies the visual state of a ScrollBarSizeBox drawn with visual styles.</summary>
++public enum ScrollBarSizeBoxState
++{
++    /// <summary>The RightAlign state.</summary>
++    RightAlign = 1,
++
++    /// <summary>The LeftAlign state.</summary>
++    LeftAlign = 2,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarState.cs
+new file mode 100644
+index 00000000..fcde1674
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarState.cs
+@@ -0,0 +1,21 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms.VisualStyles;
++
++/// <summary>Specifies the visual state of a ScrollBar drawn with visual styles.</summary>
++public enum ScrollBarState
++{
++    /// <summary>The Normal state.</summary>
++    Normal = 1,
++
++    /// <summary>The Hot state.</summary>
++    Hot = 2,
++
++    /// <summary>The Pressed state.</summary>
++    Pressed = 3,
++
++    /// <summary>The Disabled state.</summary>
++    Disabled = 4,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabItemState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabItemState.cs
+new file mode 100644
+index 00000000..8443064b
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabItemState.cs
+@@ -0,0 +1,21 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms.VisualStyles;
++
++/// <summary>Specifies the visual state of a TabItem drawn with visual styles.</summary>
++public enum TabItemState
++{
++    /// <summary>The Normal state.</summary>
++    Normal = 1,
++
++    /// <summary>The Hot state.</summary>
++    Hot = 2,
++
++    /// <summary>The Selected state.</summary>
++    Selected = 3,
++
++    /// <summary>The Disabled state.</summary>
++    Disabled = 4,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabRenderer.cs
+new file mode 100644
+index 00000000..914d8985
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabRenderer.cs
+@@ -0,0 +1,64 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++using System.Windows.Forms.VisualStyles;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides methods used to render a tab control with visual styles. Rendering falls back to classic (non-themed) drawing; GTK draws real chrome for live controls.</summary>
++public static class TabRenderer
++{
++    /// <summary>Gets a value indicating whether the renderer is supported. Always <see langword="true" />.</summary>
++    public static bool IsSupported => true;
++
++    /// <summary>Draws a tab item.</summary>
++    public static void DrawTabItem(Graphics g, Rectangle bounds, TabItemState state)
++        => ControlPaint.DrawBorder3D(g, bounds, Border3DStyle.Raised);
++
++    /// <summary>Draws a tab item, optionally focused.</summary>
++    public static void DrawTabItem(Graphics g, Rectangle bounds, bool focused, TabItemState state)
++    {
++        DrawTabItem(g, bounds, state);
++        if (focused) { ControlPaint.DrawFocusRectangle(g, Rectangle.Inflate(bounds, -3, -3)); }
++    }
++
++    /// <summary>Draws a tab item with text.</summary>
++    public static void DrawTabItem(Graphics g, Rectangle bounds, string tabItemText, Font font, TabItemState state)
++        => DrawTabItem(g, bounds, tabItemText, font, TextFormatFlags.Default, false, state);
++
++    /// <summary>Draws a tab item with text, optionally focused.</summary>
++    public static void DrawTabItem(Graphics g, Rectangle bounds, string tabItemText, Font font, bool focused, TabItemState state)
++        => DrawTabItem(g, bounds, tabItemText, font, TextFormatFlags.Default, focused, state);
++
++    /// <summary>Draws a tab item with text, format flags and focus.</summary>
++    public static void DrawTabItem(Graphics g, Rectangle bounds, string tabItemText, Font font, TextFormatFlags flags, bool focused, TabItemState state)
++    {
++        DrawTabItem(g, bounds, focused, state);
++        TextRenderer.DrawText(g, tabItemText, font, bounds, SystemColors.ControlText, flags);
++    }
++
++    /// <summary>Draws a tab item with an image.</summary>
++    public static void DrawTabItem(Graphics g, Rectangle bounds, Image image, Rectangle imageRectangle, bool focused, TabItemState state)
++    {
++        DrawTabItem(g, bounds, focused, state);
++        if (image != null) { g.DrawImage(image, imageRectangle); }
++    }
++
++    /// <summary>Draws a tab item with text and an image.</summary>
++    public static void DrawTabItem(Graphics g, Rectangle bounds, string tabItemText, Font font, Image image, Rectangle imageRectangle, bool focused, TabItemState state)
++        => DrawTabItem(g, bounds, tabItemText, font, TextFormatFlags.Default, image, imageRectangle, focused, state);
++
++    /// <summary>Draws a tab item with text, an image and format flags.</summary>
++    public static void DrawTabItem(Graphics g, Rectangle bounds, string tabItemText, Font font, TextFormatFlags flags, Image image, Rectangle imageRectangle, bool focused, TabItemState state)
++    {
++        DrawTabItem(g, bounds, focused, state);
++        if (image != null) { g.DrawImage(image, imageRectangle); }
++        TextRenderer.DrawText(g, tabItemText, font, bounds, SystemColors.ControlText, flags);
++    }
++
++    /// <summary>Draws a tab page.</summary>
++    public static void DrawTabPage(Graphics g, Rectangle bounds)
++        => ControlPaint.DrawBorder3D(g, bounds, Border3DStyle.Raised);
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxRenderer.cs
+new file mode 100644
+index 00000000..a5b19d12
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxRenderer.cs
+@@ -0,0 +1,47 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++using System.Windows.Forms.VisualStyles;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides methods used to render a text box control with visual styles. Rendering falls back to classic (non-themed) drawing; GTK draws real chrome for live controls.</summary>
++public static class TextBoxRenderer
++{
++    /// <summary>Gets a value indicating whether the renderer is supported. Always <see langword="true" />.</summary>
++    public static bool IsSupported => true;
++
++    /// <summary>Draws a box using the specified state.</summary>
++    public static void DrawTextBox(Graphics g, Rectangle bounds, TextBoxState state)
++        => ControlPaint.DrawBorder3D(g, bounds, Border3DStyle.Sunken);
++
++    /// <summary>Draws a box with text.</summary>
++    public static void DrawTextBox(Graphics g, Rectangle bounds, string text, Font font, TextBoxState state)
++    {
++        DrawTextBox(g, bounds, state);
++        TextRenderer.DrawText(g, text, font, bounds, SystemColors.ControlText, TextFormatFlags.Default);
++    }
++
++    /// <summary>Draws a box with text within a text bounds.</summary>
++    public static void DrawTextBox(Graphics g, Rectangle bounds, string text, Font font, Rectangle textBounds, TextBoxState state)
++    {
++        DrawTextBox(g, bounds, state);
++        TextRenderer.DrawText(g, text, font, textBounds, SystemColors.ControlText, TextFormatFlags.Default);
++    }
++
++    /// <summary>Draws a box with text and format flags.</summary>
++    public static void DrawTextBox(Graphics g, Rectangle bounds, string text, Font font, TextFormatFlags flags, TextBoxState state)
++    {
++        DrawTextBox(g, bounds, state);
++        TextRenderer.DrawText(g, text, font, bounds, SystemColors.ControlText, flags);
++    }
++
++    /// <summary>Draws a box with text, a text bounds and format flags.</summary>
++    public static void DrawTextBox(Graphics g, Rectangle bounds, string text, Font font, Rectangle textBounds, TextFormatFlags flags, TextBoxState state)
++    {
++        DrawTextBox(g, bounds, state);
++        TextRenderer.DrawText(g, text, font, textBounds, SystemColors.ControlText, flags);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxState.cs
+new file mode 100644
+index 00000000..79591e8e
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxState.cs
+@@ -0,0 +1,27 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms.VisualStyles;
++
++/// <summary>Specifies the visual state of a TextBox drawn with visual styles.</summary>
++public enum TextBoxState
++{
++    /// <summary>The Normal state.</summary>
++    Normal = 1,
++
++    /// <summary>The Hot state.</summary>
++    Hot = 2,
++
++    /// <summary>The Selected state.</summary>
++    Selected = 3,
++
++    /// <summary>The Disabled state.</summary>
++    Disabled = 4,
++
++    /// <summary>The Readonly state.</summary>
++    Readonly = 6,
++
++    /// <summary>The Assist state.</summary>
++    Assist = 7,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarRenderer.cs
+new file mode 100644
+index 00000000..5a844aa1
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarRenderer.cs
+@@ -0,0 +1,90 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++using System.Windows.Forms.VisualStyles;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides methods used to render a track bar control with visual styles. Rendering falls back to classic (non-themed) drawing; GTK draws real chrome for live controls.</summary>
++public static class TrackBarRenderer
++{
++    /// <summary>Gets a value indicating whether the renderer is supported. Always <see langword="true" />.</summary>
++    public static bool IsSupported => true;
++
++    private static ButtonState Map(TrackBarThumbState state)
++        => state == TrackBarThumbState.Pressed ? ButtonState.Pushed
++         : state == TrackBarThumbState.Disabled ? ButtonState.Inactive : ButtonState.Normal;
++
++    /// <summary>Draws a horizontal track.</summary>
++    public static void DrawHorizontalTrack(Graphics g, Rectangle bounds)
++        => ControlPaint.DrawBorder3D(g, bounds, Border3DStyle.SunkenOuter);
++
++    /// <summary>Draws a vertical track.</summary>
++    public static void DrawVerticalTrack(Graphics g, Rectangle bounds)
++        => ControlPaint.DrawBorder3D(g, bounds, Border3DStyle.SunkenOuter);
++
++    /// <summary>Draws a horizontal thumb.</summary>
++    public static void DrawHorizontalThumb(Graphics g, Rectangle bounds, TrackBarThumbState state)
++        => ControlPaint.DrawButton(g, bounds, Map(state));
++
++    /// <summary>Draws a vertical thumb.</summary>
++    public static void DrawVerticalThumb(Graphics g, Rectangle bounds, TrackBarThumbState state)
++        => ControlPaint.DrawButton(g, bounds, Map(state));
++
++    /// <summary>Draws a left-pointing thumb.</summary>
++    public static void DrawLeftPointingThumb(Graphics g, Rectangle bounds, TrackBarThumbState state)
++        => ControlPaint.DrawButton(g, bounds, Map(state));
++
++    /// <summary>Draws a right-pointing thumb.</summary>
++    public static void DrawRightPointingThumb(Graphics g, Rectangle bounds, TrackBarThumbState state)
++        => ControlPaint.DrawButton(g, bounds, Map(state));
++
++    /// <summary>Draws a top-pointing thumb.</summary>
++    public static void DrawTopPointingThumb(Graphics g, Rectangle bounds, TrackBarThumbState state)
++        => ControlPaint.DrawButton(g, bounds, Map(state));
++
++    /// <summary>Draws a bottom-pointing thumb.</summary>
++    public static void DrawBottomPointingThumb(Graphics g, Rectangle bounds, TrackBarThumbState state)
++        => ControlPaint.DrawButton(g, bounds, Map(state));
++
++    /// <summary>Draws horizontal ticks.</summary>
++    public static void DrawHorizontalTicks(Graphics g, Rectangle bounds, int numTicks, EdgeStyle edgeStyle)
++        => DrawTicks(g, bounds, numTicks, true);
++
++    /// <summary>Draws vertical ticks.</summary>
++    public static void DrawVerticalTicks(Graphics g, Rectangle bounds, int numTicks, EdgeStyle edgeStyle)
++        => DrawTicks(g, bounds, numTicks, false);
++
++    private static void DrawTicks(Graphics g, Rectangle bounds, int numTicks, bool horizontal)
++    {
++        if (numTicks <= 1) { return; }
++        using var pen = new Pen(SystemColors.ControlDark);
++        for (var i = 0; i < numTicks; i++)
++        {
++            if (horizontal)
++            {
++                var x = bounds.Left + (bounds.Width * i / (numTicks - 1));
++                g.DrawLine(pen, x, bounds.Top, x, bounds.Bottom);
++            }
++            else
++            {
++                var y = bounds.Top + (bounds.Height * i / (numTicks - 1));
++                g.DrawLine(pen, bounds.Left, y, bounds.Right, y);
++            }
++        }
++    }
++
++    /// <summary>Gets the size of a left-pointing thumb.</summary>
++    public static Size GetLeftPointingThumbSize(Graphics g, TrackBarThumbState state) => new Size(11, 21);
++
++    /// <summary>Gets the size of a right-pointing thumb.</summary>
++    public static Size GetRightPointingThumbSize(Graphics g, TrackBarThumbState state) => new Size(11, 21);
++
++    /// <summary>Gets the size of a top-pointing thumb.</summary>
++    public static Size GetTopPointingThumbSize(Graphics g, TrackBarThumbState state) => new Size(21, 11);
++
++    /// <summary>Gets the size of a bottom-pointing thumb.</summary>
++    public static Size GetBottomPointingThumbSize(Graphics g, TrackBarThumbState state) => new Size(21, 11);
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarThumbState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarThumbState.cs
+new file mode 100644
+index 00000000..5aa6893d
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarThumbState.cs
+@@ -0,0 +1,21 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms.VisualStyles;
++
++/// <summary>Specifies the visual state of a TrackBarThumb drawn with visual styles.</summary>
++public enum TrackBarThumbState
++{
++    /// <summary>The Normal state.</summary>
++    Normal = 1,
++
++    /// <summary>The Hot state.</summary>
++    Hot = 2,
++
++    /// <summary>The Pressed state.</summary>
++    Pressed = 3,
++
++    /// <summary>The Disabled state.</summary>
++    Disabled = 5,
++}
+-- 
+2.53.0.windows.3
+
