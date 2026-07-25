@@ -68,13 +68,16 @@ GTK has no "message queue drained" notification, so `Idle` is sampled: while som
 
 Dock and anchor reproduce WinForms arithmetic (pinned in `LayoutArrangementFunctionalTests` against real `System.Windows.Forms` oracle values). One deviation remains: exact rectangles occasionally leave a filled child a hair larger than its GTK viewport, which can raise a scrollbar WinForms would not show — a one-to-two-pixel artifact, cosmetic, recorded rather than chased. (Separately, the resize *rule* is pinned against oracle values rather than a live resize, because the headless GTK host does not propagate a runtime resize to a modal dialog's allocation; the *wiring* is covered by the dock tests, which run through a real allocation. A display-backed run would close that coverage gap.)
 
+### 2.7 `TableLayoutPanel`/`FlowLayoutPanel` — arranged on screen, positions not surfaced
+
+Measured against real WinForms (oracles: a 2×2 table with `Absolute 60`/`Percent 100` columns and `Absolute 30`/`Percent 100` rows gives `c00=(3,3,54,24) c10=(63,3,134,24) c01=(3,33,54,64) c11=(63,33,134,64)`; a 100-wide `LeftToRight`+`WrapContents` flow of three 40×20 panels gives `a=(3,3) b=(49,3) c=(3,29)`). Both **diverge**, and unlike dock/anchor the divergence is not in the arithmetic but in what reaches the WinForms API. These panels lay out with the native `Gtk.Grid`/`Gtk.FlowBox`, which position children by allocation rather than the `MarginStart`/`MarginTop` that `Control.Left`/`Top` read. So a child is arranged correctly on screen but reports the origin: every table cell reports the same border-offset position with unset size, and flow children report `(0,0)` while keeping their explicit size. Code that reads a child's `Left`/`Top`/`Width` after adding it to one of these panels gets the wrong value. Pinned as the known state by `TableFlowLayoutFunctionalTests`. Closing it means reproducing the table/flow measure-arrange in managed code and pushing margins, as the dock/anchor work did (§2.6) — a dedicated effort, not a patch.
+
 ---
 
 ## 3. Open — not yet measured against WinForms
 
 Genuinely unfinished, distinct from the deliberate deviations above.
 
-- **`TableLayoutPanel` and `FlowLayoutPanel` are not yet compared.** Their oracles are captured and waiting: for a 200×100 two-column table (Absolute 60 / Percent 100, Absolute 30 / Percent 100) real WinForms gives `c00=(3,3,54,24) c10=(63,3,134,24) c01=(3,33,54,64) c11=(63,33,134,64)`; for a 100-wide `FlowLayoutPanel` holding three 40×20 panels, `a=(3,3) b=(49,3) c=(3,29)` — the default `Margin` of 3 drives both.
 - **Event ordering is not pinned.** The common lifecycles (show, resize, click, focus change, close) have a defined WinForms order that is invisible to the API diff and to a reading pass; it has not been asserted here.
 - **The property browser beyond its contract.** Its throw sites and three value-flow defects are closed, but category grouping, sorting, expansion and value-editor selection are only lightly exercised. Treat as under-tested rather than verified.
 
@@ -86,7 +89,7 @@ Ranked by (damage × frequency) ÷ effort.
 
 **P1 — measurement, not code.** Behavioural divergence is the largest remaining unknown, but it is now partly charted (anchor/dock measured and fixed).
 
-1. `TableLayoutPanel`/`FlowLayoutPanel` against WinForms measure-arrange — oracle values already recorded in §3, so this is comparison, not discovery.
+1. Reproduce `TableLayoutPanel`/`FlowLayoutPanel` measure-arrange in managed code so child positions reach the WinForms API — the divergence is now measured (§2.7); this is the fix, and it is the same shape of work as the dock/anchor arithmetic.
 2. Pin event *order* for the common lifecycles (§3).
 3. Exercise the property browser past its contract — grouping, sorting, expansion, editor selection (§3).
 4. Re-run the layout suite on a display-backed host where a live resize propagates (§2.6).
@@ -108,7 +111,6 @@ Ranked by (damage × frequency) ÷ effort.
 Stated so the gaps in the gap analysis are visible.
 
 - **Behavioural divergence is the dominant unmeasured risk.** Layout drift, event ordering and focus/tab-order are invisible to source reading. This limit was demonstrated, not asserted: several past fixes (unraised `HandleCreated`/`HandleDestroyed`, one-member `AccessibleRole`, `Padding.Horizontal` = `Right − Left`, the three property-browser defects, the dock/anchor collapse) were found only by *writing tests*. Wrong-but-plausible code is invisible to a reading pass in a way that missing code is not.
-- **`TableLayoutPanel`/`FlowLayoutPanel`** have not been compared against real WinForms (§3); assume pixel-level and edge-case divergence there until they are.
 - **The property browser beyond its contract** (§3) is under-tested.
 - **`Net4x.Gtk.Windows.FormsDesigner`** and the ResX/designer round-trip are out of scope here.
 - **Per-member API-surface diffing** is handled by [API-COMPLETENESS.md](API-COMPLETENESS.md) and the re-runnable tool in [api-diff/](api-diff/), strictly more complete than this document at the type/member level.
