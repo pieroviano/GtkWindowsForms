@@ -1,0 +1,586 @@
+From 48dc9256bf4a43f22dbfb0be09f0964537fa6597 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Sat, 25 Jul 2026 05:08:15 +0300
+Subject: [PATCH] Public IDropTarget + nine DataGridView enums
+
+Close ten net48 type gaps. IDropTarget existed only as an empty internal marker,
+so a custom drop target (class X : IDropTarget) would not compile; make it public
+with the four WinForms notification methods and implement them on ToolStripItem
+(which declares the interface) - adding its DragEnter/DragOver/DragDrop/DragLeave
+events and the protected OnXxx raisers, with explicit interface members routing
+to them.
+
+Add the nine absent DataGridView enums (RowHeadersWidthSizeMode, AutoSizeRowMode,
+CellBorderStyle, ClipboardCopyMode, ComboBoxDisplayStyle, EditMode,
+HeaderBorderStyle, HitTestType, ImageCellLayout) with the exact underlying values
+dumped from the net48 reference assembly - AutoSizeRowMode and EditMode do not
+follow declaration order, so the values were verified, not guessed.
+
+Covered by DataGridViewEnumValuesTests (every member value pinned to the
+reference) and DropTargetFunctionalTests (interface polymorphism and
+ToolStripItem routing interface calls to its drag events). net48 present types
+914 -> 924.
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ .../Forms/DataGridViewEnumValuesTests.cs      | 107 ++++++++++++++++++
+ .../Forms/DropTargetFunctionalTests.cs        |  64 +++++++++++
+ .../Windows/Forms/Control/IDropTarget.cs      |  27 ++++-
+ .../DataGridViewAutoSizeRowMode.cs            |  17 +++
+ .../DataGridViewCellBorderStyle.cs            |  33 ++++++
+ .../DataGridViewClipboardCopyMode.cs          |  19 ++++
+ .../DataGridViewComboBoxDisplayStyle.cs       |  17 +++
+ .../DataGridViewBase/DataGridViewEditMode.cs  |  21 ++++
+ .../DataGridViewHeaderBorderStyle.cs          |  21 ++++
+ .../DataGridViewHitTestType.cs                |  25 ++++
+ .../DataGridViewImageCellLayout.cs            |  19 ++++
+ .../DataGridViewRowHeadersWidthSizeMode.cs    |  21 ++++
+ .../Forms/MenuStripBase/ToolStripItem.cs      |  48 ++++++++
+ 13 files changed, 437 insertions(+), 2 deletions(-)
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEnumValuesTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DropTargetFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewAutoSizeRowMode.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellBorderStyle.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewClipboardCopyMode.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxDisplayStyle.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewEditMode.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHeaderBorderStyle.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHitTestType.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewImageCellLayout.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowHeadersWidthSizeMode.cs
+
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEnumValuesTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEnumValuesTests.cs
+new file mode 100644
+index 00000000..1b3b7fe0
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEnumValuesTests.cs
+@@ -0,0 +1,107 @@
++using System.Windows.Forms;
++
++namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++
++/// <summary>
++/// Value tests for the nine <c>DataGridView*</c> enums that were absent. The underlying integer values must
++/// match real WinForms exactly — designer serialization, resx round-trips and interop compare against them,
++/// so a wrong number is a silent data-corruption bug, not just a cosmetic mismatch. The expected values are
++/// the ground truth dumped from the net48 reference assembly (two of them, AutoSizeRowMode and EditMode, do
++/// not follow the "declaration order" intuition).
++/// </summary>
++public class DataGridViewEnumValuesTests
++{
++    [Fact]
++    public void RowHeadersWidthSizeMode_HasReferenceValues()
++    {
++        Assert.Equal(0, (int)DataGridViewRowHeadersWidthSizeMode.EnableResizing);
++        Assert.Equal(1, (int)DataGridViewRowHeadersWidthSizeMode.DisableResizing);
++        Assert.Equal(2, (int)DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
++        Assert.Equal(3, (int)DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders);
++        Assert.Equal(4, (int)DataGridViewRowHeadersWidthSizeMode.AutoSizeToFirstHeader);
++    }
++
++    [Fact]
++    public void AutoSizeRowMode_HasReferenceValues()
++    {
++        // Note the non-obvious numbering: these are bit-derived, not declaration order.
++        Assert.Equal(3, (int)DataGridViewAutoSizeRowMode.AllCells);
++        Assert.Equal(2, (int)DataGridViewAutoSizeRowMode.AllCellsExceptHeader);
++        Assert.Equal(1, (int)DataGridViewAutoSizeRowMode.RowHeader);
++    }
++
++    [Fact]
++    public void CellBorderStyle_HasReferenceValues()
++    {
++        Assert.Equal(0, (int)DataGridViewCellBorderStyle.Custom);
++        Assert.Equal(1, (int)DataGridViewCellBorderStyle.Single);
++        Assert.Equal(2, (int)DataGridViewCellBorderStyle.Raised);
++        Assert.Equal(3, (int)DataGridViewCellBorderStyle.Sunken);
++        Assert.Equal(4, (int)DataGridViewCellBorderStyle.None);
++        Assert.Equal(5, (int)DataGridViewCellBorderStyle.SingleVertical);
++        Assert.Equal(6, (int)DataGridViewCellBorderStyle.RaisedVertical);
++        Assert.Equal(7, (int)DataGridViewCellBorderStyle.SunkenVertical);
++        Assert.Equal(8, (int)DataGridViewCellBorderStyle.SingleHorizontal);
++        Assert.Equal(9, (int)DataGridViewCellBorderStyle.RaisedHorizontal);
++        Assert.Equal(10, (int)DataGridViewCellBorderStyle.SunkenHorizontal);
++    }
++
++    [Fact]
++    public void ClipboardCopyMode_HasReferenceValues()
++    {
++        Assert.Equal(0, (int)DataGridViewClipboardCopyMode.Disable);
++        Assert.Equal(1, (int)DataGridViewClipboardCopyMode.EnableWithAutoHeaderText);
++        Assert.Equal(2, (int)DataGridViewClipboardCopyMode.EnableWithoutHeaderText);
++        Assert.Equal(3, (int)DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText);
++    }
++
++    [Fact]
++    public void ComboBoxDisplayStyle_HasReferenceValues()
++    {
++        Assert.Equal(0, (int)DataGridViewComboBoxDisplayStyle.ComboBox);
++        Assert.Equal(1, (int)DataGridViewComboBoxDisplayStyle.DropDownButton);
++        Assert.Equal(2, (int)DataGridViewComboBoxDisplayStyle.Nothing);
++    }
++
++    [Fact]
++    public void EditMode_HasReferenceValues()
++    {
++        // EditOnEnter is 0 here, not EditOnKeystrokeOrF2 — worth pinning.
++        Assert.Equal(0, (int)DataGridViewEditMode.EditOnEnter);
++        Assert.Equal(1, (int)DataGridViewEditMode.EditOnKeystroke);
++        Assert.Equal(2, (int)DataGridViewEditMode.EditOnKeystrokeOrF2);
++        Assert.Equal(3, (int)DataGridViewEditMode.EditOnF2);
++        Assert.Equal(4, (int)DataGridViewEditMode.EditProgrammatically);
++    }
++
++    [Fact]
++    public void HeaderBorderStyle_HasReferenceValues()
++    {
++        Assert.Equal(0, (int)DataGridViewHeaderBorderStyle.Custom);
++        Assert.Equal(1, (int)DataGridViewHeaderBorderStyle.Single);
++        Assert.Equal(2, (int)DataGridViewHeaderBorderStyle.Raised);
++        Assert.Equal(3, (int)DataGridViewHeaderBorderStyle.Sunken);
++        Assert.Equal(4, (int)DataGridViewHeaderBorderStyle.None);
++    }
++
++    [Fact]
++    public void HitTestType_HasReferenceValues()
++    {
++        Assert.Equal(0, (int)DataGridViewHitTestType.None);
++        Assert.Equal(1, (int)DataGridViewHitTestType.Cell);
++        Assert.Equal(2, (int)DataGridViewHitTestType.ColumnHeader);
++        Assert.Equal(3, (int)DataGridViewHitTestType.RowHeader);
++        Assert.Equal(4, (int)DataGridViewHitTestType.TopLeftHeader);
++        Assert.Equal(5, (int)DataGridViewHitTestType.HorizontalScrollBar);
++        Assert.Equal(6, (int)DataGridViewHitTestType.VerticalScrollBar);
++    }
++
++    [Fact]
++    public void ImageCellLayout_HasReferenceValues()
++    {
++        Assert.Equal(0, (int)DataGridViewImageCellLayout.NotSet);
++        Assert.Equal(1, (int)DataGridViewImageCellLayout.Normal);
++        Assert.Equal(2, (int)DataGridViewImageCellLayout.Stretch);
++        Assert.Equal(3, (int)DataGridViewImageCellLayout.Zoom);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DropTargetFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DropTargetFunctionalTests.cs
+new file mode 100644
+index 00000000..5a71c5c7
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DropTargetFunctionalTests.cs
+@@ -0,0 +1,64 @@
++using System.Windows.Forms;
++
++namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++
++/// <summary>
++/// Tests for the public <see cref="IDropTarget"/> interface. It existed only as an empty internal marker,
++/// so <c>class MyTarget : IDropTarget</c> (the documented way to write a custom drop target) did not
++/// compile. It is now public with the four WinForms notification methods; this verifies a type can
++/// implement it and be driven polymorphically, and that <see cref="ToolStripItem"/> (which declares it)
++/// routes the interface calls to its overridable On* methods and Drag* events.
++/// </summary>
++[Collection("NonParallelCollection")]
++public class DropTargetFunctionalTests
++{
++    static DropTargetFunctionalTests()
++    {
++        using var _ = new Form();
++    }
++
++    private sealed class RecordingTarget : IDropTarget
++    {
++        public string Log { get; private set; } = "";
++
++        public void OnDragEnter(DragEventArgs e) => Log += "enter;";
++        public void OnDragOver(DragEventArgs e) => Log += "over;";
++        public void OnDragDrop(DragEventArgs e) => Log += "drop;";
++        public void OnDragLeave(EventArgs e) => Log += "leave;";
++    }
++
++    private static DragEventArgs Drag() =>
++        new DragEventArgs(null, 0, 0, 0, DragDropEffects.Copy, DragDropEffects.Copy);
++
++    [Fact]
++    public void ACustomTypeCanImplementAndBeDrivenThroughTheInterface()
++    {
++        IDropTarget target = new RecordingTarget();
++
++        target.OnDragEnter(Drag());
++        target.OnDragOver(Drag());
++        target.OnDragDrop(Drag());
++        target.OnDragLeave(EventArgs.Empty);
++
++        Assert.Equal("enter;over;drop;leave;", ((RecordingTarget)target).Log);
++    }
++
++    [Fact]
++    public void ToolStripItem_RoutesInterfaceCallsToItsDragEvents()
++    {
++        using var button = new ToolStripButton("x");
++        var log = "";
++        button.DragEnter += (_, _) => log += "enter;";
++        button.DragOver += (_, _) => log += "over;";
++        button.DragDrop += (_, _) => log += "drop;";
++        button.DragLeave += (_, _) => log += "leave;";
++
++        var target = (IDropTarget)button;
++        target.OnDragEnter(Drag());
++        target.OnDragOver(Drag());
++        target.OnDragDrop(Drag());
++        target.OnDragLeave(EventArgs.Empty);
++
++        Assert.Equal("enter;over;drop;leave;", log);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IDropTarget.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IDropTarget.cs
+index 1b05e68e..8cdad7d7 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IDropTarget.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IDropTarget.cs
+@@ -1,5 +1,28 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
+ namespace System.Windows.Forms;
+ 
+-internal interface IDropTarget
++/// <summary>
++/// Defines the drag-and-drop notification methods a drop target receives. A control or object that accepts
++/// dropped data implements this interface so the drag pipeline can route <c>DragEnter</c>, <c>DragOver</c>,
++/// <c>DragDrop</c> and <c>DragLeave</c> notifications to it with WinForms-compatible signatures.
++/// </summary>
++public interface IDropTarget
+ {
+-}
+\ No newline at end of file
++    /// <summary>Raises the <c>DragEnter</c> event as the pointer enters the target during a drag.</summary>
++    /// <param name="e">The drag event data.</param>
++    void OnDragEnter(DragEventArgs e);
++
++    /// <summary>Raises the <c>DragLeave</c> event as the pointer leaves the target during a drag.</summary>
++    /// <param name="e">The event data.</param>
++    void OnDragLeave(EventArgs e);
++
++    /// <summary>Raises the <c>DragDrop</c> event when data is dropped on the target.</summary>
++    /// <param name="e">The drag event data.</param>
++    void OnDragDrop(DragEventArgs e);
++
++    /// <summary>Raises the <c>DragOver</c> event as the pointer moves over the target during a drag.</summary>
++    /// <param name="e">The drag event data.</param>
++    void OnDragOver(DragEventArgs e);
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewAutoSizeRowMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewAutoSizeRowMode.cs
+new file mode 100644
+index 00000000..94a3380f
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewAutoSizeRowMode.cs
+@@ -0,0 +1,17 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Defines values for specifying how the height of a row is adjusted.
++/// </summary>
++public enum DataGridViewAutoSizeRowMode
++{
++    /// <summary>The row height adjusts to fit the content of all cells including headers.</summary>
++    AllCells = 3,
++    /// <summary>The row height adjusts to fit the content of all cells excluding the header.</summary>
++    AllCellsExceptHeader = 2,
++    /// <summary>The row height adjusts to fit the content of the row header cell.</summary>
++    RowHeader = 1
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellBorderStyle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellBorderStyle.cs
+new file mode 100644
+index 00000000..baafa918
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellBorderStyle.cs
+@@ -0,0 +1,33 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Defines values for specifying the border styles of the cells in a DataGridView.
++/// </summary>
++public enum DataGridViewCellBorderStyle
++{
++    /// <summary>A border defined by the AdvancedCellBorderStyle property.</summary>
++    Custom = 0,
++    /// <summary>A single-line border.</summary>
++    Single = 1,
++    /// <summary>A three-dimensional raised border.</summary>
++    Raised = 2,
++    /// <summary>A three-dimensional sunken border.</summary>
++    Sunken = 3,
++    /// <summary>No borders.</summary>
++    None = 4,
++    /// <summary>A single-line vertical border.</summary>
++    SingleVertical = 5,
++    /// <summary>A three-dimensional raised vertical border.</summary>
++    RaisedVertical = 6,
++    /// <summary>A three-dimensional sunken vertical border.</summary>
++    SunkenVertical = 7,
++    /// <summary>A single-line horizontal border.</summary>
++    SingleHorizontal = 8,
++    /// <summary>A three-dimensional raised horizontal border.</summary>
++    RaisedHorizontal = 9,
++    /// <summary>A three-dimensional sunken horizontal border.</summary>
++    SunkenHorizontal = 10
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewClipboardCopyMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewClipboardCopyMode.cs
+new file mode 100644
+index 00000000..65c1f0fe
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewClipboardCopyMode.cs
+@@ -0,0 +1,19 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Defines values for specifying whether and how content is copied to the Clipboard.
++/// </summary>
++public enum DataGridViewClipboardCopyMode
++{
++    /// <summary>Copying to the Clipboard is disabled.</summary>
++    Disable = 0,
++    /// <summary>Header text is included when copying if headers are shown.</summary>
++    EnableWithAutoHeaderText = 1,
++    /// <summary>Header text is not included when copying.</summary>
++    EnableWithoutHeaderText = 2,
++    /// <summary>Header text is always included when copying.</summary>
++    EnableAlwaysIncludeHeaderText = 3
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxDisplayStyle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxDisplayStyle.cs
+new file mode 100644
+index 00000000..f8f8f631
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxDisplayStyle.cs
+@@ -0,0 +1,17 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Defines values for specifying the appearance of a DataGridViewComboBoxCell.
++/// </summary>
++public enum DataGridViewComboBoxDisplayStyle
++{
++    /// <summary>The cell appears as a combo box.</summary>
++    ComboBox = 0,
++    /// <summary>The cell appears with a drop-down button when in editing mode.</summary>
++    DropDownButton = 1,
++    /// <summary>The cell appears as a static text cell.</summary>
++    Nothing = 2
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewEditMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewEditMode.cs
+new file mode 100644
+index 00000000..19c19d37
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewEditMode.cs
+@@ -0,0 +1,21 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Defines values for specifying how a cell begins edit mode.
++/// </summary>
++public enum DataGridViewEditMode
++{
++    /// <summary>Editing begins when the cell receives focus.</summary>
++    EditOnEnter = 0,
++    /// <summary>Editing begins when a text-entry key is pressed.</summary>
++    EditOnKeystroke = 1,
++    /// <summary>Editing begins when a text-entry key or F2 is pressed.</summary>
++    EditOnKeystrokeOrF2 = 2,
++    /// <summary>Editing begins when F2 is pressed with the cell selected.</summary>
++    EditOnF2 = 3,
++    /// <summary>Editing begins only in response to BeginEdit.</summary>
++    EditProgrammatically = 4
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHeaderBorderStyle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHeaderBorderStyle.cs
+new file mode 100644
+index 00000000..c8417659
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHeaderBorderStyle.cs
+@@ -0,0 +1,21 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Defines values for specifying the border styles of a DataGridView header cell.
++/// </summary>
++public enum DataGridViewHeaderBorderStyle
++{
++    /// <summary>A border defined by the AdvancedCellBorderStyle property.</summary>
++    Custom = 0,
++    /// <summary>A single-line border.</summary>
++    Single = 1,
++    /// <summary>A three-dimensional raised border.</summary>
++    Raised = 2,
++    /// <summary>A three-dimensional sunken border.</summary>
++    Sunken = 3,
++    /// <summary>No borders.</summary>
++    None = 4
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHitTestType.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHitTestType.cs
+new file mode 100644
+index 00000000..18b7c3b2
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHitTestType.cs
+@@ -0,0 +1,25 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Defines values for specifying the DataGridView area a point is over.
++/// </summary>
++public enum DataGridViewHitTestType
++{
++    /// <summary>A part of the DataGridView with no functionality.</summary>
++    None = 0,
++    /// <summary>A cell in the DataGridView.</summary>
++    Cell = 1,
++    /// <summary>A column header.</summary>
++    ColumnHeader = 2,
++    /// <summary>A row header.</summary>
++    RowHeader = 3,
++    /// <summary>The top-left header cell.</summary>
++    TopLeftHeader = 4,
++    /// <summary>The horizontal scroll bar.</summary>
++    HorizontalScrollBar = 5,
++    /// <summary>The vertical scroll bar.</summary>
++    VerticalScrollBar = 6
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewImageCellLayout.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewImageCellLayout.cs
+new file mode 100644
+index 00000000..a3dc7d3d
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewImageCellLayout.cs
+@@ -0,0 +1,19 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Defines values for specifying how an image is positioned within a DataGridViewImageCell.
++/// </summary>
++public enum DataGridViewImageCellLayout
++{
++    /// <summary>No layout is specified.</summary>
++    NotSet = 0,
++    /// <summary>The image is centered in the cell without scaling.</summary>
++    Normal = 1,
++    /// <summary>The image is stretched to fill the cell.</summary>
++    Stretch = 2,
++    /// <summary>The image is scaled to fit while preserving its aspect ratio.</summary>
++    Zoom = 3
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowHeadersWidthSizeMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowHeadersWidthSizeMode.cs
+new file mode 100644
+index 00000000..7121ea9d
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowHeadersWidthSizeMode.cs
+@@ -0,0 +1,21 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Defines values for specifying how the width of the row headers is adjusted.
++/// </summary>
++public enum DataGridViewRowHeadersWidthSizeMode
++{
++    /// <summary>The row headers can be resized by the user and do not automatically size.</summary>
++    EnableResizing = 0,
++    /// <summary>The row headers cannot be resized by the user and do not automatically size.</summary>
++    DisableResizing = 1,
++    /// <summary>The row headers size to fit the content of all row headers.</summary>
++    AutoSizeToAllHeaders = 2,
++    /// <summary>The row headers size to fit the content of the displayed row headers.</summary>
++    AutoSizeToDisplayedHeaders = 3,
++    /// <summary>The row headers size to fit the content of the first row header.</summary>
++    AutoSizeToFirstHeader = 4
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
+index 9d51e044..49dfc7c1 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
+@@ -78,6 +78,18 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
+ 
+     public virtual event EventHandler? EnabledChanged;
+ 
++    /// <summary>Occurs when the user drops data on the item during a drag-and-drop operation.</summary>
++    public virtual event DragEventHandler? DragDrop;
++
++    /// <summary>Occurs when the pointer enters the item during a drag-and-drop operation.</summary>
++    public virtual event DragEventHandler? DragEnter;
++
++    /// <summary>Occurs when the pointer moves over the item during a drag-and-drop operation.</summary>
++    public virtual event DragEventHandler? DragOver;
++
++    /// <summary>Occurs when the pointer leaves the item during a drag-and-drop operation.</summary>
++    public virtual event EventHandler? DragLeave;
++
+     public virtual event EventHandler? Enter;
+ 
+     public virtual event KeyEventHandler? KeyDown;
+@@ -1248,6 +1260,42 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
+         Click?.Invoke(this, e);
+     }
+ 
++    /// <summary>Raises the <see cref="DragEnter" /> event.</summary>
++    /// <param name="e">The drag event data.</param>
++    protected virtual void OnDragEnter(DragEventArgs e)
++    {
++        DragEnter?.Invoke(this, e);
++    }
++
++    /// <summary>Raises the <see cref="DragOver" /> event.</summary>
++    /// <param name="e">The drag event data.</param>
++    protected virtual void OnDragOver(DragEventArgs e)
++    {
++        DragOver?.Invoke(this, e);
++    }
++
++    /// <summary>Raises the <see cref="DragDrop" /> event.</summary>
++    /// <param name="e">The drag event data.</param>
++    protected virtual void OnDragDrop(DragEventArgs e)
++    {
++        DragDrop?.Invoke(this, e);
++    }
++
++    /// <summary>Raises the <see cref="DragLeave" /> event.</summary>
++    /// <param name="e">The event data.</param>
++    protected virtual void OnDragLeave(EventArgs e)
++    {
++        DragLeave?.Invoke(this, e);
++    }
++
++    void IDropTarget.OnDragEnter(DragEventArgs e) => OnDragEnter(e);
++
++    void IDropTarget.OnDragOver(DragEventArgs e) => OnDragOver(e);
++
++    void IDropTarget.OnDragDrop(DragEventArgs e) => OnDragDrop(e);
++
++    void IDropTarget.OnDragLeave(EventArgs e) => OnDragLeave(e);
++
+     /// <summary>
+     /// Raises the ContextMenuStripChanged event.
+     /// </summary>
+-- 
+2.53.0.windows.3
+
