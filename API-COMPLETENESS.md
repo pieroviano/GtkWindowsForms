@@ -34,9 +34,9 @@ checkable against those files.
 | | Forms (net48) | Forms (net10) | Drawing (net48) | Drawing (net10) |
 |---|---|---|---|---|
 | Public types in reference | 1034 | 1081 | 189 | 183 |
-| Present | **930 (89.9 %)** | **934 (86.4 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
-| Missing types | 104 | 147 | 44 | 41 |
-| Members on present types | 53 662 | 59 435 | 5 543 | 6 604 |
+| Present | **930 (89.9 %)** | **935 (86.5 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
+| Missing types | 104 | 146 | 44 | 41 |
+| Members on present types | 53 662 | 59 460 | 5 543 | 6 604 |
 | …missing | **8 481 (15.8 %)** | **9 460 (15.9 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
 | Types member-incomplete | 168 | 172 | 25 | 15 |
 
@@ -86,7 +86,7 @@ system — one change, but a deep one, needing heavy menu testing.
 | Legacy `ToolBar`/`ToolBarButton` | 7 | Superseded by `ToolStrip`; low priority |
 | ToolStrip residue (`ToolStripOverflow`, `ToolStripOverflowButton`, `ToolStripDropDownItemAccessibleObject`) | 3 | Real but narrow |
 | Modern .NET (`FormCornerPreference`, `ScreenCaptureMode`, `SystemColorMode`, dark-mode, `IAsyncDropTarget`/`ITypedDataObject`/`DataObjectExtensions`/`DropImageType`) | ~9 | Never needed by a net4x app; absent from the net48 baseline |
-| Misc (`BindableComponent`, `NativeWindow`, `SendKeys`, stray converters) | rest | Mixed — `BindableComponent` is a net10-only base; `NativeWindow`/`SendKeys` non-goals (§4). `MdiClient` landed in patch 0116 |
+| Misc (`NativeWindow`, `SendKeys`, stray converters) | rest | `NativeWindow`/`SendKeys` are non-goals (§4). `MdiClient` (0116) and `BindableComponent` (0118) landed |
 
 ---
 
@@ -94,8 +94,6 @@ system — one change, but a deep one, needing heavy menu testing.
 
 The subset a mainstream line-of-business app is most likely to hit:
 
-- **`BindableComponent`** — the base that carries `DataBindings`/`BindingContext` for non-control bindable
-  components; a net10-only gap (absent from the net48 baseline).
 - **`DataGridViewBand`/`DataGridViewElement`** — the base classes of `Row`/`Column`/`Cell`. Deferred: in
   the shim those leaf types do not derive from them, so adding the bases is a re-parenting change with the
   same risk profile as the §2 finding. The editing controls and `TopLeftHeaderCell` that sit *above* the
@@ -199,7 +197,13 @@ Ranked by (breadth of impact ÷ effort), taking the structural finding into acco
 2. `DataGridViewBand`/`DataGridViewElement` (§4) — the last of the DataGridView cluster; base classes of
    `Row`/`Column`/`Cell`, so this carries re-parenting risk like the §2 finding. The editing controls and
    `TopLeftHeaderCell` are done (patch 0117).
-3. `BindableComponent` (§4) — a small net10-only base class.
+
+Both remaining P0/P1 items are base-class re-parenting against types the shim already carries directly
+(`ToolStripDropDown`'s native `Gtk.Menu`; `Row`/`Column`/`Cell`'s own member copies), so each is a focused,
+heavily-tested refactor rather than an additive patch. Every additive gap in the order of work is closed:
+`ToolStripControlHost`, `BindingNavigator`, the drag-drop interface, the nine DataGridView enums, the
+Control override surface, the Form placement surface, the PrinterSettings collections, `MdiClient`, the
+DataGridView editing controls, and `BindableComponent` (patches 0107–0118).
 
 **P2 — declare non-goals in the package README** — *done*
 The package `README.md` now carries a "Platform notes and non-goals" section covering `AxHost`/COM/ActiveX,
