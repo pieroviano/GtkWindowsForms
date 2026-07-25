@@ -34,11 +34,11 @@ checkable against those files.
 | | Forms (net48) | Forms (net10) | Drawing (net48) | Drawing (net10) |
 |---|---|---|---|---|
 | Public types in reference | 1034 | 1081 | 189 | 183 |
-| Present | **926 (89.6 %)** | **930 (86.0 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
-| Missing types | 108 | 151 | 44 | 41 |
-| Members on present types | 52 594 | 58 339 | 5 543 | 6 604 |
-| …missing | **8 223 (15.6 %)** | **9 181 (15.7 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
-| Types member-incomplete | 165 | 169 | 25 | 15 |
+| Present | **930 (89.9 %)** | **934 (86.4 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
+| Missing types | 104 | 147 | 44 | 41 |
+| Members on present types | 53 662 | 59 435 | 5 543 | 6 604 |
+| …missing | **8 481 (15.8 %)** | **9 460 (15.9 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
+| Types member-incomplete | 168 | 172 | 25 | 15 |
 
 `Net4x.Gtk.Drawing` is essentially done as an API surface (98.6 % of members present on net48).
 `Net4x.Gtk.Windows.Forms` is ~89 % of the type surface but still ~17 % short on members — and, as §2 shows,
@@ -79,7 +79,7 @@ system — one change, but a deep one, needing heavy menu testing.
 | Family | ~Count | Verdict |
 |---|---|---|
 | Legacy `DataGrid` (pre-2.0 `DataGrid`, `DataGridColumnStyle`, `GridTableStylesCollection`…) | 15 | Low priority — superseded by `DataGridView`, deprecated in WinForms itself |
-| `DataGridView` completeness (`DataGridViewBand`/`DataGridViewElement`, editing controls, converters) | 8 | Real gaps in an otherwise-present control (§5) |
+| `DataGridView` base classes + converters (`DataGridViewBand`/`DataGridViewElement`, a couple converters) | 4 | Re-parenting risk (§4); editing controls landed in patch 0117 |
 | `Html*` / `WebBrowser` | 17 | Needs a browser engine — **likely non-goal** |
 | `TaskDialog` family | 16 | Modern (Core-era) Win32 dialog; mappable to GTK dialogs; absent from the net48 baseline |
 | `AxHost` / COM / ActiveX (`AxHost`, `WindowsFormsSection`, `IComponentEditorPageSite`) | 3 | **Non-goal** — COM/ActiveX is Windows-only |
@@ -96,10 +96,11 @@ The subset a mainstream line-of-business app is most likely to hit:
 
 - **`BindableComponent`** — the base that carries `DataBindings`/`BindingContext` for non-control bindable
   components; a net10-only gap (absent from the net48 baseline).
-- **`DataGridView` editing/support types** — the editing-control classes and their base: `DataGridViewBand`,
-  `DataGridViewElement`, `DataGridViewComboBoxEditingControl`, `DataGridViewTextBoxEditingControl`,
-  `IDataGridViewEditingControl`, `DataGridViewTopLeftHeaderCell` and a couple of converters. A custom
-  `DataGridView` editing control cannot be written against the real names. (The nine enums are present.)
+- **`DataGridViewBand`/`DataGridViewElement`** — the base classes of `Row`/`Column`/`Cell`. Deferred: in
+  the shim those leaf types do not derive from them, so adding the bases is a re-parenting change with the
+  same risk profile as the §2 finding. The editing controls and `TopLeftHeaderCell` that sit *above* the
+  hierarchy landed in patch 0117 (`IDataGridViewEditingControl`, `DataGridViewTextBoxEditingControl`,
+  `DataGridViewComboBoxEditingControl`, `DataGridViewTopLeftHeaderCell`); the nine enums are present.
 - **`ToolStripOverflow`/`ToolStripOverflowButton`** — the overflow chevron surface; a strip that overflows
   cannot expose it by name.
 
@@ -111,7 +112,7 @@ The subset a mainstream line-of-business app is most likely to hit:
 
 ## 5. Member gaps on types that *do* exist
 
-169 of 930 present types are member-incomplete (net10). Excluding the §2 hierarchy artefacts, the largest:
+172 of 934 present types are member-incomplete (net10). Excluding the §2 hierarchy artefacts, the largest:
 
 | Type | Missing / total (net10) |
 |---|---|
@@ -195,9 +196,9 @@ Ranked by (breadth of impact ÷ effort), taking the structural finding into acco
    backing, so it needs careful staging and heavy menu testing.
 
 **P1 — compile breaks on idiomatic code**
-2. `DataGridView` editing-control cluster — `DataGridViewBand`/`DataGridViewElement`/the editing controls
-   (§4/§5). `DataGridViewBand`/`DataGridViewElement` are base classes, so this carries re-parenting risk
-   for `Row`/`Column`/`Cell`, like the §2 finding.
+2. `DataGridViewBand`/`DataGridViewElement` (§4) — the last of the DataGridView cluster; base classes of
+   `Row`/`Column`/`Cell`, so this carries re-parenting risk like the §2 finding. The editing controls and
+   `TopLeftHeaderCell` are done (patch 0117).
 3. `BindableComponent` (§4) — a small net10-only base class.
 
 **P2 — declare non-goals in the package README** — *done*
