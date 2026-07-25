@@ -1,0 +1,157 @@
+From b611238952752f9985a2c5a3588a745cb2134e30 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Sat, 25 Jul 2026 18:49:41 +0300
+Subject: [PATCH] Add BindableComponent (bindable non-control base)
+
+Closes API-COMPLETENESS.md P1 item 3. BindableComponent is the base for a
+non-control component that supports data binding - it carries DataBindings and a
+BindingContext exactly as a Control does. It was absent, so
+class MyComponent : BindableComponent did not compile (a net10 gap; the type is
+absent from the net48 baseline).
+
+Implemented as an abstract Component : IBindableComponent with a lazily-created
+DataBindings (ControlBindingsCollection over itself) and BindingContext, and a
+BindingContextChanged event raised on assignment.
+
+Covered by BindableComponentFunctionalTests (is-a Component/IBindableComponent,
+non-null DataBindings, BindingContext round-trip + event, interface reach). Full
+Forms suite green at 2491.
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ .../Forms/BindableComponentFunctionalTests.cs | 68 +++++++++++++++++++
+ .../System/Windows/Forms/BindableComponent.cs | 47 +++++++++++++
+ 2 files changed, 115 insertions(+)
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/BindableComponentFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/BindableComponent.cs
+
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/BindableComponentFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/BindableComponentFunctionalTests.cs
+new file mode 100644
+index 00000000..4ac2f928
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/BindableComponentFunctionalTests.cs
+@@ -0,0 +1,68 @@
++using System.ComponentModel;
++using System.Windows.Forms;
++
++namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++
++/// <summary>
++/// Tests for <see cref="BindableComponent"/> (§4 of API-COMPLETENESS): the base for a non-control component
++/// that supports data binding. It was absent, so a bindable non-control component could not be written
++/// against the real base. The tests pin that it is a Component and IBindableComponent, exposes a non-null
++/// DataBindings/BindingContext, and raises BindingContextChanged on assignment.
++/// </summary>
++[Collection("NonParallelCollection")]
++public class BindableComponentFunctionalTests
++{
++    static BindableComponentFunctionalTests()
++    {
++        using var _ = new Form();
++    }
++
++    private sealed class Probe : BindableComponent
++    {
++    }
++
++    [Fact]
++    public void BindableComponent_IsAComponentAndBindableComponent()
++    {
++        using var probe = new Probe();
++
++        Assert.IsAssignableFrom<Component>(probe);
++        Assert.IsAssignableFrom<IBindableComponent>(probe);
++    }
++
++    [Fact]
++    public void DataBindings_IsNeverNull()
++    {
++        using var probe = new Probe();
++
++        Assert.NotNull(probe.DataBindings);
++        // Same instance each access.
++        Assert.Same(probe.DataBindings, probe.DataBindings);
++    }
++
++    [Fact]
++    public void BindingContext_RoundTripsAndRaisesItsEvent()
++    {
++        using var probe = new Probe();
++        var raised = 0;
++        probe.BindingContextChanged += (_, _) => raised++;
++
++        Assert.NotNull(probe.BindingContext);
++
++        var context = new BindingContext();
++        probe.BindingContext = context;
++
++        Assert.Same(context, probe.BindingContext);
++        Assert.True(raised >= 1);
++    }
++
++    [Fact]
++    public void BindingContext_ReachableThroughTheInterface()
++    {
++        using var probe = new Probe();
++        IBindableComponent bindable = probe;
++
++        Assert.NotNull(bindable.DataBindings);
++        Assert.NotNull(bindable.BindingContext);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/BindableComponent.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/BindableComponent.cs
+new file mode 100644
+index 00000000..5e1bc7f6
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/BindableComponent.cs
+@@ -0,0 +1,47 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
++using System.ComponentModel;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Base class for a non-control component that supports data binding — it carries the
++/// <see cref="DataBindings" /> collection and a <see cref="BindingContext" />, exactly as a
++/// <see cref="Control" /> does, so a component can participate in binding without being a control. The type
++/// was absent, so <c>class MyComponent : BindableComponent</c> did not compile.
++/// </summary>
++public abstract class BindableComponent : Component, IBindableComponent
++{
++    private BindingContext? _bindingContext;
++    private ControlBindingsCollection? _dataBindings;
++
++    /// <summary>Initializes a new instance of the <see cref="BindableComponent" /> class.</summary>
++    protected BindableComponent()
++    {
++    }
++
++    /// <summary>Occurs when the <see cref="BindingContext" /> changes.</summary>
++    public event EventHandler? BindingContextChanged;
++
++    /// <summary>Gets or sets the collection of currency managers for this component.</summary>
++    public BindingContext? BindingContext
++    {
++        get => _bindingContext ??= new BindingContext();
++        set
++        {
++            if (!Equals(_bindingContext, value))
++            {
++                _bindingContext = value;
++                OnBindingContextChanged(EventArgs.Empty);
++            }
++        }
++    }
++
++    /// <summary>Gets the data bindings for this component.</summary>
++    public ControlBindingsCollection? DataBindings => _dataBindings ??= new ControlBindingsCollection(this);
++
++    /// <summary>Raises the <see cref="BindingContextChanged" /> event.</summary>
++    /// <param name="e">The event data.</param>
++    protected virtual void OnBindingContextChanged(EventArgs e) => BindingContextChanged?.Invoke(this, e);
++}
+-- 
+2.53.0.windows.3
+
