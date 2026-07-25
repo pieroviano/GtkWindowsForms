@@ -15,12 +15,12 @@ assemblies. **These files are generated** — regenerate rather than hand-edit.
 The `*48` pair is the baseline [GAP-CLOSURE-PLAN.md](../GAP-CLOSURE-PLAN.md) targets — it excludes modern
 additions no ported application can already be using. The unsuffixed pair is the full .NET 10 surface.
 
-| Baseline | Types present | Members present |
+| Baseline | Types present | Members present (on present types) |
 |---|---|---|
-| net48 Forms | 522 / 1034 | 30 268 / 39 398 |
-| net10 Forms | 526 / 1081 | 33 143 / 43 073 |
-| net48 Drawing | 134 / 189 | 5 313 / 5 385 |
-| net10 Drawing | 131 / 183 | 6 345 / 6 446 |
+| net48 Forms | 914 / 1034 | 42 988 / 51 813 |
+| net10 Forms | 918 / 1081 | 47 601 / 57 374 |
+| net48 Drawing | 141 / 189 | 5 416 / 5 487 |
+| net10 Drawing | 138 / 183 | 6 448 / 6 548 |
 
 | Suffix | Contents |
 |---|---|
