@@ -36,4 +36,7 @@ public class ToolStripDropDown : ToolStrip
     /// plumbing targets it rather than the toolbar box.
     /// </summary>
     public override object GtkControl => self;
+
+    /// <summary>Gets a value indicating whether this strip is a drop-down. Always <see langword="true" />.</summary>
+    public override bool IsDropDown => true;
 }
