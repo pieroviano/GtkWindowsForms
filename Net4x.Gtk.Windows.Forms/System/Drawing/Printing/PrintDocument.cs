@@ -14,7 +14,7 @@ namespace System.Drawing.Printing;
 /// </summary>
 /// <seealso cref="T:System.ComponentModel.Component" />
 [DefaultProperty("DocumentName"), DefaultEvent("PrintPage")]
-public class PrintDocument : Component
+public partial class PrintDocument : Component
 {
 
     private PrintEventHandler _beginPrintHandler = delegate { };
