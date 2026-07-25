@@ -34,11 +34,11 @@ checkable against those files.
 | | Forms (net48) | Forms (net10) | Drawing (net48) | Drawing (net10) |
 |---|---|---|---|---|
 | Public types in reference | 1034 | 1081 | 189 | 183 |
-| Present | **930 (89.9 %)** | **935 (86.5 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
-| Missing types | 104 | 146 | 44 | 41 |
-| Members on present types | 53 662 | 59 460 | 5 543 | 6 604 |
-| …missing | **7 813 (14.6 %)** | **8 783 (14.8 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
-| Types member-incomplete | 168 | 172 | 25 | 15 |
+| Present | **932 (90.1 %)** | **937 (86.7 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
+| Missing types | 102 | 144 | 44 | 41 |
+| Members on present types | 54 343 | 60 171 | 5 543 | 6 604 |
+| …missing | **8 026 (14.8 %)** | **9 023 (15.0 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
+| Types member-incomplete | 170 | 174 | 25 | 15 |
 
 `Net4x.Gtk.Drawing` is essentially done as an API surface (98.6 % of members present on net48).
 `Net4x.Gtk.Windows.Forms` is ~90 % of the type surface and ~15 % short on members — the member gap is now a
@@ -62,7 +62,7 @@ overloads) a .NET Framework-era application never uses; the net48 column is the 
 | `TaskDialog` family | 16 | Modern (Core-era) Win32 dialog; mappable to GTK dialogs; absent from the net48 baseline |
 | `AxHost` / COM / ActiveX (`AxHost`, `WindowsFormsSection`, `IComponentEditorPageSite`) | 3 | **Non-goal** — COM/ActiveX is Windows-only |
 | Legacy `ToolBar`/`ToolBarButton` | 7 | Superseded by `ToolStrip`; low priority |
-| ToolStrip residue (`ToolStripOverflow`, `ToolStripOverflowButton`, `ToolStripDropDownItemAccessibleObject`) | 3 | Additive now that `ToolStripDropDown` is a `Control` (§3) |
+| ToolStrip residue (`ToolStripDropDownItemAccessibleObject`) | 1 | Narrow accessibility helper; `ToolStripOverflow`/`ToolStripOverflowButton` landed |
 | Modern .NET (`FormCornerPreference`, `ScreenCaptureMode`, `SystemColorMode`, dark-mode, `IAsyncDropTarget`/`ITypedDataObject`/`DataObjectExtensions`/`DropImageType`) | ~9 | Never needed by a net4x app; absent from the net48 baseline |
 | Misc (`NativeWindow`, `SendKeys`, stray converters) | rest | `NativeWindow`/`SendKeys` are non-goals (§3) |
 
@@ -72,11 +72,8 @@ overloads) a .NET Framework-era application never uses; the net48 column is the 
 
 The subset a mainstream line-of-business app is most likely to hit:
 
-- **`ToolStripOverflow`/`ToolStripOverflowButton`** — the overflow chevron surface; a strip that overflows
-  cannot expose it by name. `ToolStripOverflow : ToolStripDropDown`, which is now a `Control`, so these are
-  **additive** (no longer blocked) — the next clean win.
 - **`DataGridViewBand`/`DataGridViewElement`** — the base classes of `Row`/`Column`/`Cell`, which in the
-  shim do not derive from them. A re-parenting refactor, not an addition (§7).
+  shim do not derive from them. A re-parenting refactor, not an addition (§7) — the last substantive gap.
 
 **Candidate non-goals** (document rather than implement): `WebBrowser`/`Html*` (browser engine),
 `AxHost`/COM/ActiveX, `NativeWindow`/`SendKeys` (Win32 message model, EMULATION-GAPS.md §1), legacy
@@ -87,7 +84,7 @@ documented in the package README's "Platform notes and non-goals".
 
 ## 4. Member gaps on types that *do* exist
 
-172 of 935 present types are member-incomplete (net10). The largest:
+174 of 937 present types are member-incomplete (net10). The largest:
 
 | Type | Missing / total (net10) |
 |---|---|
@@ -161,12 +158,11 @@ clash was one).
 ## 7. Remaining work
 
 The single biggest structural lever — re-parenting `ToolStripDropDown` onto `ToolStrip`/`Control` — is
-**done** (patch 0119, ~670 member gaps across the three worst types). What is left:
+**done** (patch 0119, ~670 member gaps across the three worst types), and the `ToolStripOverflow` types it
+unblocked landed with it (patch 0120). One substantive item is left:
 
-1. **`ToolStripOverflow`/`ToolStripOverflowButton`** (§3) — now additive, since `ToolStripDropDown` is a
-   `Control`. The next clean patch.
-2. **`DataGridViewBand`/`DataGridViewElement`** (§3) — the base classes of `Row`/`Column`/`Cell`. This is
-   the one remaining *refactor*, not an addition: three structural conflicts block a clean re-parent —
+1. **`DataGridViewBand`/`DataGridViewElement`** (§3) — the base classes of `Row`/`Column`/`Cell`. This is
+   a *refactor*, not an addition: three structural conflicts block a clean re-parent —
    `DataGridViewColumn : TreeViewColumn` (a GTK base) cannot also inherit `Band`; `Cell.DataGridView` is
    *computed* while `Element.DataGridView` is *stored* (inheriting it breaks cell→grid resolution); and the
    shim *inverts* WinForms' state model (`Row.State` is derived from the flags, where `Element.State` is
