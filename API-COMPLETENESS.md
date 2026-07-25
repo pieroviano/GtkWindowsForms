@@ -74,19 +74,19 @@ system — one change, but a deep one, needing heavy menu testing.
 
 ## 3. Missing types, triaged by family
 
-153 missing (net10) / 110 (net48), grouped so the number is actionable.
+146 missing (net10) / 104 (net48), grouped so the number is actionable.
 
 | Family | ~Count | Verdict |
 |---|---|---|
 | Legacy `DataGrid` (pre-2.0 `DataGrid`, `DataGridColumnStyle`, `GridTableStylesCollection`…) | 15 | Low priority — superseded by `DataGridView`, deprecated in WinForms itself |
-| `DataGridView` base classes + converters (`DataGridViewBand`/`DataGridViewElement`, a couple converters) | 4 | Re-parenting risk (§4); editing controls landed in patch 0117 |
+| `DataGridView` base classes + converters (`DataGridViewBand`/`DataGridViewElement`, a couple converters) | 4 | Re-parenting refactor (§4/§8) |
 | `Html*` / `WebBrowser` | 17 | Needs a browser engine — **likely non-goal** |
 | `TaskDialog` family | 16 | Modern (Core-era) Win32 dialog; mappable to GTK dialogs; absent from the net48 baseline |
 | `AxHost` / COM / ActiveX (`AxHost`, `WindowsFormsSection`, `IComponentEditorPageSite`) | 3 | **Non-goal** — COM/ActiveX is Windows-only |
 | Legacy `ToolBar`/`ToolBarButton` | 7 | Superseded by `ToolStrip`; low priority |
 | ToolStrip residue (`ToolStripOverflow`, `ToolStripOverflowButton`, `ToolStripDropDownItemAccessibleObject`) | 3 | Real but narrow |
 | Modern .NET (`FormCornerPreference`, `ScreenCaptureMode`, `SystemColorMode`, dark-mode, `IAsyncDropTarget`/`ITypedDataObject`/`DataObjectExtensions`/`DropImageType`) | ~9 | Never needed by a net4x app; absent from the net48 baseline |
-| Misc (`NativeWindow`, `SendKeys`, stray converters) | rest | `NativeWindow`/`SendKeys` are non-goals (§4). `MdiClient` (0116) and `BindableComponent` (0118) landed |
+| Misc (`NativeWindow`, `SendKeys`, stray converters) | rest | `NativeWindow`/`SendKeys` are non-goals (§4) |
 
 ---
 
@@ -94,13 +94,10 @@ system — one change, but a deep one, needing heavy menu testing.
 
 The subset a mainstream line-of-business app is most likely to hit:
 
-- **`DataGridViewBand`/`DataGridViewElement`** — the base classes of `Row`/`Column`/`Cell`. Deferred: in
-  the shim those leaf types do not derive from them, so adding the bases is a re-parenting change with the
-  same risk profile as the §2 finding. The editing controls and `TopLeftHeaderCell` that sit *above* the
-  hierarchy landed in patch 0117 (`IDataGridViewEditingControl`, `DataGridViewTextBoxEditingControl`,
-  `DataGridViewComboBoxEditingControl`, `DataGridViewTopLeftHeaderCell`); the nine enums are present.
+- **`DataGridViewBand`/`DataGridViewElement`** — the base classes of `Row`/`Column`/`Cell`, which in the
+  shim do not derive from them. A re-parenting refactor, not an addition (§8).
 - **`ToolStripOverflow`/`ToolStripOverflowButton`** — the overflow chevron surface; a strip that overflows
-  cannot expose it by name.
+  cannot expose it by name. `ToolStripOverflow : ToolStripDropDown`, so it is blocked behind the §2 refactor.
 
 **Candidate non-goals** (document rather than implement): `WebBrowser`/`Html*` (browser engine),
 `AxHost`/COM/ActiveX, `NativeWindow`/`SendKeys` (Win32 message model, EMULATION-GAPS.md §1), legacy
@@ -177,39 +174,30 @@ plumbing (`GtkRender.CellRenderer*`, `IControl`, `IControlBase`, `IToolMenuItem`
 additions (`DataGridViewRadioColumn`, `SwitchBox`). Full list:
 [api-diff/wf.extra-types.txt](api-diff/wf.extra-types.txt).
 
-`LayoutEngine` is now correctly under `System.Windows.Forms.Layout` (neither missing nor extra in the
-diff). The remaining consideration is broader: moving the GTK plumbing types out of the
-`System.Windows.Forms` namespace into a `GtkSystem.*` one would remove a class of future name collisions
-(the `ButtonBase`/`TextBoxBase` wrapper clash was one).
+One open consideration: moving the GTK plumbing types out of the `System.Windows.Forms` namespace into a
+`GtkSystem.*` one would remove a class of future name collisions (the `ButtonBase`/`TextBoxBase` wrapper
+clash was one).
 
 ---
 
-## 8. Suggested order of work
+## 8. Remaining work — two base-class re-parenting refactors
 
-Ranked by (breadth of impact ÷ effort), taking the structural finding into account.
+The additive surface is done; what is left are two **base-class re-parenting** changes, each against a
+type the shim already carries directly, so neither is a drop-in patch. Both have an irreconcilable base
+conflict at their core and need heavy subsystem testing:
 
-**P0 — one change, disproportionate reach**
-1. **Re-parent `ToolStripDropDown` onto `ToolStrip`/`Control`** (§2). ~1 130 member gaps across the three
-   worst types, including `ContextMenuStrip` — but a deep, risky change against a native-`Gtk.Menu`
-   backing, so it needs careful staging and heavy menu testing.
+1. **`ToolStripDropDown` onto `ToolStrip`/`Control`** (§2). ~1 130 member gaps across the three worst types
+   in the diff, including `ContextMenuStrip`. Blocked on the native `Gtk.Menu` backing — the drop-down is a
+   popup-menu widget, not a container control, so the collection, `Widget`/`GtkControl` and a two-`self`
+   conflict all cascade.
+2. **`DataGridViewBand`/`DataGridViewElement`** (§4) — the base classes of `Row`/`Column`/`Cell`.
+   `DataGridViewRow` already declares ~13 of `Band`'s members directly (backing-field `Index`, `Frozen`,
+   `Visible`, `ReadOnly`, `Selected`, `State`, `DefaultCellStyle`, `HeaderCell`, …), so the fix is member
+   migration, not addition; and `DataGridViewColumn : TreeViewColumn` (a GTK base) cannot also inherit
+   `Band`. Adding the bases standalone has no value — they are abstract, so nothing could derive from them
+   without the same migration.
 
-**P1 — compile breaks on idiomatic code**
-2. `DataGridViewBand`/`DataGridViewElement` (§4) — the last of the DataGridView cluster; base classes of
-   `Row`/`Column`/`Cell`, so this carries re-parenting risk like the §2 finding. The editing controls and
-   `TopLeftHeaderCell` are done (patch 0117).
-
-Both remaining P0/P1 items are base-class re-parenting against types the shim already carries directly
-(`ToolStripDropDown`'s native `Gtk.Menu`; `Row`/`Column`/`Cell`'s own member copies), so each is a focused,
-heavily-tested refactor rather than an additive patch. Every additive gap in the order of work is closed:
-`ToolStripControlHost`, `BindingNavigator`, the drag-drop interface, the nine DataGridView enums, the
-Control override surface, the Form placement surface, the PrinterSettings collections, `MdiClient`, the
-DataGridView editing controls, and `BindableComponent` (patches 0107–0118).
-
-**P2 — declare non-goals in the package README** — *done*
-The package `README.md` now carries a "Platform notes and non-goals" section covering `AxHost`/COM/ActiveX,
-`WebBrowser`/`Html*`, `TaskDialog`, EMF/WMF metafiles, `NativeWindow`, `SendKeys`, legacy
-`DataGrid`/`ToolBar`, `Imaging.Effects`, the .NET 9+ dark-mode surface, and `Control.Handle`'s
-GTK-not-HWND semantics.
+Each is best taken as a dedicated, staged effort rather than an incremental patch.
 
 ---
 
