@@ -9,7 +9,7 @@ namespace System.Windows.Forms;
 /// <filterpriority>
 /// 2
 /// </filterpriority>
-public abstract class DataGridViewCell
+public abstract class DataGridViewCell : DataGridViewElement
 {
 
     private bool _Selected;
@@ -68,7 +68,7 @@ public abstract class DataGridViewCell
     /// <value>
     /// The data grid view.
     /// </value>
-    public DataGridView? DataGridView { get => OwningRow?.DataGridView; }
+    public override DataGridView? DataGridView { get => OwningRow?.DataGridView; internal set { } }
 
     /// <summary>
     /// Gets the default new row value.

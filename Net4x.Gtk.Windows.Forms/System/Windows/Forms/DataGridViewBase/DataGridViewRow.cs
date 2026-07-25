@@ -9,7 +9,7 @@ namespace System.Windows.Forms;
 /// <filterpriority>
 /// 2
 /// </filterpriority>
-public class DataGridViewRow
+public class DataGridViewRow : DataGridViewBand
 {
 
     private readonly DataGridViewCellCollection _cell;
@@ -77,7 +77,7 @@ public class DataGridViewRow
     /// <value>
     /// The context menu strip.
     /// </value>
-    public ContextMenuStrip? ContextMenuStrip
+    public override ContextMenuStrip? ContextMenuStrip
     {
         get;
         set;
@@ -97,7 +97,7 @@ public class DataGridViewRow
     /// <value>
     /// The data grid view.
     /// </value>
-    public DataGridView? DataGridView
+    public override DataGridView? DataGridView
     {
         get;
         internal set;
@@ -109,7 +109,7 @@ public class DataGridViewRow
     /// <value>
     /// The default cell style.
     /// </value>
-    public DataGridViewCellStyle? DefaultCellStyle
+    public override DataGridViewCellStyle? DefaultCellStyle
     {
         get;
         set;
@@ -127,7 +127,7 @@ public class DataGridViewRow
     /// false
     /// </c>.
     /// </value>
-    public bool Displayed { get; }
+    public override bool Displayed { get; }
 
     /// <summary>
     /// Gets or sets the height of the divider.
@@ -165,7 +165,7 @@ public class DataGridViewRow
     /// false
     /// </c>.
     /// </value>
-    public bool Frozen
+    public override bool Frozen
     {
         get;
         set;
@@ -201,7 +201,7 @@ public class DataGridViewRow
     /// <value>
     /// The index.
     /// </value>
-    public int Index
+    public override int Index
     {
         get
         {
@@ -222,7 +222,7 @@ public class DataGridViewRow
     /// <value>
     /// The inherited style.
     /// </value>
-    public DataGridViewCellStyle? InheritedStyle { get; }
+    public override DataGridViewCellStyle? InheritedStyle { get; }
 
     /// <summary>
     /// Gets a value indicating whether this instance is new row.
@@ -275,7 +275,7 @@ public class DataGridViewRow
     /// false
     /// </c>.
     /// </value>
-    public bool ReadOnly
+    public override bool ReadOnly
     {
         get;
         set;
@@ -287,7 +287,7 @@ public class DataGridViewRow
     /// <value>
     /// The resizable.
     /// </value>
-    public DataGridViewTriState Resizable
+    public override DataGridViewTriState Resizable
     {
         get;
         set;
@@ -305,7 +305,7 @@ public class DataGridViewRow
     /// false
     /// </c>.
     /// </value>
-    public bool Selected
+    public override bool Selected
     {
         get => DataGridView?.NativeRowGetSelected(TreeIter) ?? false;
         set => DataGridView?.NativeRowSetSelected(TreeIter, value);
@@ -317,7 +317,7 @@ public class DataGridViewRow
     /// <value>
     /// The state.
     /// </value>
-    public DataGridViewElementStates State
+    public override DataGridViewElementStates State
     {
         // This always returned None, so every state-filtered operation on the row collection
         // (GetFirstRow, GetRowCount, GetRowsHeight, ...) matched nothing.
@@ -356,6 +356,8 @@ public class DataGridViewRow
 
             return state;
         }
+
+        internal set { }
     }
 
     /// <summary>
@@ -382,7 +384,7 @@ public class DataGridViewRow
     /// false
     /// </c>.
     /// </value>
-    public bool Visible
+    public override bool Visible
     {
         get => _visible;
         set
