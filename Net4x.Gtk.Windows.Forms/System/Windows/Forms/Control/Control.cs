@@ -3089,41 +3089,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </param>
     public virtual void SetBounds(int x, int y, int width, int height, BoundsSpecified specified)
     {
-        if (this.Widget != null)
-        {
-            // This started from the GTK allocation, which is meaningless before the control is
-            // realized, so the parts that were meant to be preserved were replaced with garbage.
-            var current = Bounds;
-            var rect = new Gdk.Rectangle(current.X, current.Y, current.Width, current.Height);
-            if (specified == BoundsSpecified.X)
-                rect.X = x;
-            else if (specified == BoundsSpecified.Y)
-                rect.Y = y;
-            else if (specified == BoundsSpecified.Width)
-                rect.Width = width;
-            else if (specified == BoundsSpecified.Height)
-                rect.Height = height;
-            else if (specified == BoundsSpecified.Size)
-            {
-                rect.Width = width;
-                rect.Height = height;
-            }
-            else if (specified == BoundsSpecified.Location)
-            {
-                rect.X = x;
-                rect.Y = y;
-            }
-            else
-            {
-                rect.X = x;
-                rect.Y = y;
-                rect.Width = width;
-                rect.Height = height;
-            }
-            this.Left = rect.X;
-            this.Top = rect.Y;
-            this.Size = new Size(rect.Width, rect.Height);
-        }
+        // Routes through SetBoundsCore so a subclass overriding that single method intercepts every
+        // bounds change, as WinForms does.
+        SetBoundsCore(x, y, width, height, specified);
     }
 
     /// <summary>
