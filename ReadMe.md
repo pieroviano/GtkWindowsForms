@@ -10,3 +10,27 @@ It makes cross-platform WinForms application development easy and enables existi
 
 Details:
 [Details](https://bitbucket.org/piero-viano/net4x.gtk.windows.forms/src/main/Resources/README.md)
+
+### Platform notes and non-goals
+
+The library targets *compile-once, behave-the-same* for mainstream WinForms code. A few areas are Windows-
+or Win32-bound by nature and are **deliberately not implemented** — an application that depends on them is
+not portable to the GTK substrate. They are listed here so the boundary is known up front rather than
+discovered in production:
+
+- **Win32 message pump and native windows.** `Control.WndProc`/`DefWndProc` throw `PlatformNotSupportedException`;
+  `NativeWindow`, `SendKeys` and `IMessageFilter`-driven pumping are not supported. `Control.Handle` returns
+  a **GTK** widget handle, not an `HWND`.
+- **COM / ActiveX.** `AxHost` and the COM interop surface are Windows-only by definition.
+- **Web / HTML hosting.** `WebBrowser`, `HtmlDocument`, `HtmlElement` have no cross-platform engine behind
+  them.
+- **EMF/WMF metafiles.** The types exist but the Windows record format has no cross-platform playback.
+- **Legacy controls.** The pre-2.0 `DataGrid` family and `ToolBar`/`ToolBarButton` are superseded by
+  `DataGridView` and `ToolStrip`.
+- **GDI+ `Imaging.Effects` (.NET 8+)** and the **.NET 9+ dark-mode** surface are not implemented.
+
+A small number of members exist but deviate from Windows behaviour by necessity — for example
+`Control.CreateGraphics()` returns a deferred (next-paint) surface rather than an immediate-mode DC, and
+`Form.TransparencyKey` emulates only the whole-form-background case, not per-pixel keying. These and other
+substrate-bound deviations are catalogued in the project's `EMULATION-GAPS.md`; the measured API surface is
+tracked in `API-COMPLETENESS.md`.
