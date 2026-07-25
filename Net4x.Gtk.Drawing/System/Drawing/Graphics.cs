@@ -2009,13 +2009,34 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
     /// </summary>
     public Region[] MeasureCharacterRanges(string text, Font font, RectangleF layoutRect, StringFormat stringFormat)
     {
-        // Was throwing NotImplementedException. Produce one region per requested range, positioned by
-        // measuring the text that precedes it and sized by measuring the range itself.
+        // Was throwing NotImplementedException. Produce one region per requested range. Positions come from
+        // the *cumulative* Cairo advance of the text preceding each boundary, so kerning and side-bearings
+        // between the preceding run and the range are counted once (measuring each substring in isolation
+        // double-counts them). Regions are one line tall, matching WinForms' single-line hit-test regions.
         var ranges = stringFormat?.MeasurableCharacterRanges;
         if (text == null || font == null || ranges == null || ranges.Length == 0)
         {
             return Array.Empty<Region>();
         }
+
+        this.context.Save();
+        double textSize = 14;
+        if (font != null)
+        {
+            textSize = font.Size;
+            if (font.Unit == GraphicsUnit.Point)
+                textSize = font.Size * 1 / 72 * 96;
+            else if (font.Unit == GraphicsUnit.Inch)
+                textSize = font.Size * 96;
+            this.context.SetFontSize(textSize);
+            this.context.SelectFontFace(font.Name, font.Style.HasFlag(FontStyle.Italic) ? Cairo.FontSlant.Italic : Cairo.FontSlant.Normal, font.Style.HasFlag(FontStyle.Bold) ? Cairo.FontWeight.Bold : Cairo.FontWeight.Normal);
+        }
+
+        var lineHeight = (float)this.context.FontExtents.Height;
+
+        // Cumulative advance up to (but not including) character index n, including the trailing advance of
+        // the run — this is where the next glyph starts, so it is the true left edge of a range at n.
+        float AdvanceTo(int n) => n <= 0 ? 0f : (float)this.context.TextExtents(text.Substring(0, n)).XAdvance;
 
         var regions = new Region[ranges.Length];
         for (var i = 0; i < ranges.Length; i++)
@@ -2023,16 +2044,17 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             var first = Math.Max(0, Math.Min(ranges[i].First, text.Length));
             var length = Math.Max(0, Math.Min(ranges[i].Length, text.Length - first));
 
-            var before = MeasureString(text.Substring(0, first), font);
-            var measured = MeasureString(text.Substring(first, length), font);
+            var startX = AdvanceTo(first);
+            var endX = AdvanceTo(first + length);
 
             regions[i] = new Region(new RectangleF(
-                layoutRect.X + before.Width,
+                layoutRect.X + startX,
                 layoutRect.Y,
-                measured.Width,
-                measured.Height));
+                Math.Max(0f, endX - startX),
+                lineHeight));
         }
 
+        this.context.Restore();
         return regions;
     }
 
