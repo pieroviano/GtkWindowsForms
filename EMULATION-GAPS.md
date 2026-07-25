@@ -2,204 +2,117 @@
 
 **Bar being measured against.** The stated intent: *an existing WinForms application should compile unchanged against these two assemblies and behave the same on Windows, Linux and macOS.* Everything below is scored against that.
 
-**This document lists only what is still open.** Earlier revisions carried a large record of already-closed findings (three threading defects, `SetStyle`/`GetStyle`, `Graphics.Transform`, `Region` banding, data-binding value flow, `Padding` arithmetic, the `IArrangedElement` contract, `Application.Run(ApplicationContext)`, accessibility wiring, the `VisualStyles` namespace, the ToolStrip container/panel/renderer family, `PrivateFontCollection`/`InstalledFontCollection`, `MeasureCharacterRanges`, the full data-binding depth surface, and — as of patches 0110 and 0111 — the entire `NotImplementedException` set, `Application`'s residual lifecycle members, shaped controls, colour-keyed transparency and exact curved-region combination). Those sections were pruned once verified — the history is in git and the surviving evidence is the functional-test suite that pins each one. What remains here is the open frontier.
+**This document lists only what is still open** — non-goals, deviations, and unmeasured behaviour. Closed findings are pruned once verified: their record is in git and their guarantee is the functional-test suite that pins each one. As of the current tree there is **no `NotImplementedException` throw site** left in either project (Class B is empty) and **no absent type that is merely not-done-yet** (every remaining absent type is a declared non-goal below). What is left is deliberate deviations and behaviour that has not been measured against real WinForms.
 
-> **See also — [API-COMPLETENESS.md](API-COMPLETENESS.md).** The per-member API-surface diff run against the
-> real .NET reference assemblies supersedes this document on *what exists* (type and member counts, renamed
-> or re-signatured members). This document is authoritative on *behaviour* — members that exist and compile
+> **See also — [API-COMPLETENESS.md](API-COMPLETENESS.md).** The per-member API-surface diff supersedes this
+> document on *what exists*. This document is authoritative on *behaviour* — members that exist and compile
 > but do something other than what WinForms does, which a metadata diff cannot see.
 
-**Method and its limits.** Findings come from reading the generated sources in `Net4x.Gtk.Windows.Forms/` and `Net4x.Gtk.Drawing/` and from the functional-test suite. Static reading reliably finds missing types, throwing members and inert auto-properties; it does **not** find layout drift, event-ordering divergence, or focus/tab-order differences — those need tests. See §6.
+**Method and its limits.** Findings come from reading the generated sources and from the functional-test suite. Static reading reliably finds missing types, throwing members and inert auto-properties; it does **not** find layout drift, event-ordering divergence, or focus/tab-order differences — those need tests. See §4.
 
 **Caveat on line numbers.** Both directories are *generated* by the prepare pipeline from the `gtksystem-windows-forms` submodule (see [CLAUDE.md](CLAUDE.md)). Line references drift after the next pipeline run; type and member names will not.
 
 ---
 
-## 1. Executive summary
+## 1. Non-goals — absent by decision, not backlog
 
-Three classes of gap, ordered by how much damage they do:
+These will not be implemented; an application that needs them is not portable to this substrate. Named so the boundary is explicit rather than discovered in production.
 
-| Class | Meaning | Why it matters |
-|---|---|---|
-| **A — Missing type** | Does not exist. | *Compile-time* break. "Compile once" fails immediately. |
-| **B — Present but throwing** | Exists, throws `NotImplementedException`. | *Runtime* failure — but loud and diagnosable. |
-| **C — Present but silently wrong** | Exists, does something plausible but not WinForms-equivalent. | Worst: builds, runs, quietly misbehaves. |
+- **Win32 message pump.** `Message`/`WndProc` compile, but `WndProc`/`DefWndProc` throw `PlatformNotSupportedException` naming GTK as the reason (`MessagePumpNonGoalFunctionalTests`). `NativeWindow` and `SendKeys` do not exist. `IMessageFilter` with `Application.AddMessageFilter`/`RemoveMessageFilter` exists, but no internal pump invokes the filters — they run only when the application calls `Application.FilterMessage` itself, as stated on the members. Anything reaching below the event model is unportable by construction.
+- **`Control.Handle` is a GTK handle, not an `HWND`.** Returns `Widget.Handle`. Correct by necessity; stated so integrators do not assume Win32 semantics.
+- **`WebBrowser`, `HtmlDocument`/`HtmlElement`.** No cross-platform browser substrate. `WebBrowser`'s four `*EventArgs` types are present while the control is not — **kept deliberately**: they exist in the reference assembly, so deleting them would open four new surface holes for nothing; an application that names one still compiles. They are inert, not wrong.
+- **EMF/WMF metafiles.** `Metafile`, `MetafileHeader`, `MetaHeader`, `WmfPlaceableFileHeader`, `EmfPlusRecordType`, `PlayRecordCallback` exist as types, but the record format has no cross-platform playback.
 
-**State of play.** **Class B is empty** — no `NotImplementedException` throw site remains in either project (§3). **Class A is closed too**: every remaining absent type is a declared non-goal (§2). Class C is where the work now is, and it is only found by testing: patch 0111 closed `Control.Region`, and patch 0112 closed the largest one yet — dock and anchor were expressed as GTK alignments, so docked siblings *overlapped* instead of stacking and anchors never followed a resize (§4.8). `Control.CreateGraphics()` remains an accepted, substrate-bound deviation (§4.6). The dominant risk is still behavioural, but it is no longer undifferentiated: anchor/dock is now measured against real WinForms, and what remains unmeasured is named in §6.
-
----
-
-## 2. Class A — types that still do not exist
-
-Verified absent by type-declaration search over both projects. Everything in this class is now a declared
-non-goal; there is no absent type or member left that is merely *not done yet*.
-
-### 2.1 Non-goals (documented in §4.1 and §4.3)
-
-`WebBrowser`, `HtmlDocument`/`HtmlElement`, `NativeWindow` and `SendKeys` do not exist and are not planned: the first three have no cross-platform substrate, the last two are Win32-message-model constructs. They are non-goals, not to-dos.
-
-`WebBrowser`'s four `*EventArgs` types (`WebBrowserDocumentCompletedEventArgs`, `WebBrowserNavigatedEventArgs`, `WebBrowserNavigatingEventArgs`, `WebBrowserProgressChangedEventArgs`) are present while the control is not, so nothing can raise them. **Decision: keep them.** They exist in the reference assembly, so deleting them would open four new holes in the surface [API-COMPLETENESS.md](API-COMPLETENESS.md) measures, in exchange for nothing — an application that names one still compiles, which is the bar. They are inert, not wrong.
-
-The ToolStrip family is complete: the container/panel/renderer types, the standard hosted items (`ToolStripComboBox`/`ToolStripTextBox`/`ToolStripProgressBar`), and `ToolStripControlHost` (patch 0108) all exist; `BindingNavigator` exists (patch 0107). `Help`, `HelpProvider`, `AmbientProperties`, `IWindowsFormsEditorService` and `AutoCompleteStringCollection` exist.
-
-### 2.2 Closed since the last revision
-
-- **`Control.Region`** was recorded here as absent. That was wrong: it existed as an inert auto-property, which is a Class C defect, not a Class A one — assigning a region compiled, ran and shaped nothing. It now shapes the widget (§4.7).
-- **`Form.TransparencyKey`** genuinely was absent, along with `AllowTransparency`; both now exist (§4.7).
-
-### 2.3 `Net4x.Gtk.Drawing`
-
-No missing types remain.
-
-**Correctly delegated, not a gap:** `Color`, `Point`, `PointF`, `Size`, `SizeF`, `Rectangle`, `RectangleF` are deliberately absent — `netstandard2.0` supplies them from `System.Drawing.Primitives`, so they are the genuine BCL types. Preserve this.
+**Correctly delegated, not a gap — preserve this.** `Color`, `Point`, `PointF`, `Size`, `SizeF`, `Rectangle`, `RectangleF` are deliberately absent from `Net4x.Gtk.Drawing`; `netstandard2.0` supplies them from `System.Drawing.Primitives`, so they are the genuine BCL types. `Net4x.Gtk.Drawing`'s interop entry points (`Graphics.FromHdc`/`FromHwnd`/`GetHdc`/`GetHalftonePalette`, `Font.FromHdc`/`FromHfont`/`FromLogFont`, `Icon.FromHandle`) throw `PlatformNotSupportedException` by design — "never", not "not yet".
 
 ---
 
-## 3. Class B — closed
+## 2. Recorded deviations — present and running, but not WinForms-identical
 
-There is no `NotImplementedException` throw site left in `Net4x.Gtk.Windows.Forms` or `Net4x.Gtk.Drawing`. The last fifteen were closed by patch 0110:
+Each of these works; each differs from WinForms in a way a caller could observe. Documented so the difference is a known quantity, not a surprise.
 
-- **`PropertyGrid`/`GridEntry` (11 sites)** — the property browser's editing machinery. `GridEntry` now honours the `ITypeDescriptorContext` contract it declares (`Container`, `Instance`, `GetService`, `OnComponentChanged`, `OnComponentChanging`, and a `PropertyDescriptor` resolved from the owning object rather than a permanently null auto-property), and the six `IComPropertyBrowser` members commit the open cell editor, close it, focus the grid, and load/save the view state.
-- **`ArrangedElement.Handle`** — a layout participant is not a window; it reports `IntPtr.Zero`.
-- **`DataGridViewCellCollection`'s `IList` indexer**, **`DataGridViewCellStyle`'s `ICloneable.Clone`**, and **`DataGridViewCellLinkedList.GetEnumerator`** — the last of which was a stub with no storage at all and is now a working list.
+### 2.1 `Control.CreateGraphics()` is deferred, not immediate
 
-Three Class C defects in the same subsystem were found while testing those and fixed with them: `PropertyGrid.InPropertySet` returned a constant `true`; assigning `SelectedObject` (as opposed to `SelectedObjects`) never populated the grid and never raised `SelectedObjectsChanged`; and the view treated a *missing* `BrowsableAttribute` as "not browsable", so an ordinary object — one carrying no design-time attributes — displayed no properties whatsoever.
+Allocates a fresh Cairo `ImageSurface`/`Context` per call and blits it during the next paint cycle (drawing to the live GDK window during realize throws). Two consequences: the effect is **deferred, not immediate** (WinForms gives an immediate-mode DC), and only a **single live surface** exists (each call disposes the previous). This breaks the classic rubber-band (`CreateGraphics()` in `MouseMove` to XOR a rectangle): it compiles, runs, and does the wrong thing.
 
-`Net4x.Gtk.Drawing`'s interop entry points (`Graphics.FromHdc`/`FromHwnd`/`GetHdc`/`GetHalftonePalette`, `Font.FromHdc`/`FromHfont`/`FromLogFont`, `Icon.FromHandle`) throw `PlatformNotSupportedException` by design — "never", not "not yet".
+**Accepted.** GTK's retained paint cycle has no immediate-mode DC on an unrealized widget; a faithful fix means compositing through an overlay the paint cycle owns — out of proportion to the pattern's frequency, and still no second live surface. The portable idiom is to draw in `OnPaint` and call `Invalidate()`. Reopen only if overlay compositing is undertaken for other reasons.
 
-Stale `<exception cref="T:System.NotImplementedException">` doc tags still sit on members that no longer throw; they are documentation noise, not behaviour.
+### 2.2 `Application.Idle` is sampled
 
----
+GTK has no "message queue drained" notification, so `Idle` is sampled: while something is subscribed, a 50 ms GLib source watches the main context and raises the event once each time it finds the queue empty, re-arming when events reappear. The once-per-lull contract matches WinForms; the latency (up to 50 ms) and the sampling cost do not exist in WinForms. Nothing is installed when nobody is subscribed.
 
-## 4. Structural gaps — design decisions and documented deviations
+### 2.3 `Region` — exact for curves, quantised to pixels
 
-### 4.1 No Win32 message pump (non-goal)
+`Region(GraphicsPath)` keeps the path, and `Graphics.SetClip`/`Clip` clip through it via Cairo's native path clip, so an ellipse or rounded rectangle clips on its true curve. Combining is exact too: a curve's interior is scan-converted the way GDI+ obtains it (fill to a coverage bitmap, covered runs become bands). Residual limits, recorded:
 
-`Message`/`WndProc` compile but `WndProc`/`DefWndProc` throw `PlatformNotSupportedException` naming GTK as the reason (covered by `MessagePumpNonGoalFunctionalTests`). `NativeWindow` and `SendKeys` remain absent. `IMessageFilter` with `Application.AddMessageFilter`/`RemoveMessageFilter` exists, but no internal pump invokes the filters — they run only when the application calls `Application.FilterMessage` itself, which is stated on the members. Any application reaching below the event model is unportable by construction — this is a non-goal, not a to-do.
+- **Pixel resolution.** Scan conversion quantises a curve to whole pixels (half-coverage = centre-in). GDI+ scan-converts too, but the two rasterizers will not agree on every edge pixel, so `IsVisible` on a boundary pixel can differ by one.
+- **Rectangles skip it.** A path of only rectangles keeps exact floating-point edges and never reaches the rasterizer — deliberately (pinned by `CombiningRectangles_KeepsExactFloatingPointEdges`).
+- **Very large regions.** Past 16 megapixels the rasterizer is skipped and the bounding rectangle used — a pathological input, but a silent widening when it happens.
 
-Related and inherent: `Control.Handle` returns `Widget.Handle`, a GTK handle, not an `HWND`. Correct-by-necessity; it is stated so integrators do not discover it in production.
+### 2.4 Shaped controls and colour-keyed transparency — what the substrate allows
 
-### 4.2 `Application` — closed
+`Control.Region` drives GTK's shape-combine and `Form.TransparencyKey`/`AllowTransparency` work, within two substrate limits:
 
-Present and tested: `Run(Form)`, `Run()`, `Run(ApplicationContext)` (all routed through one `ApplicationContext` path), `MessageLoop`, `ApplicationExit`, `ThreadExit`, `ThreadException`, `SetUnhandledExceptionMode`, `Exit`, `ExitThread`, `DoEvents`, `EnableVisualStyles`, `SetCompatibleTextRenderingDefault`, `SetHighDpiMode`, `OpenForms`, the path properties, and — since patch 0110 — `Idle`, `Restart`, `ProductName`/`ProductVersion`/`CompanyName`, `RenderWithVisualStyles` and `VisualStyleState`.
+- **A shape needs a GDK window.** Lightweight widgets (buttons, labels — anything drawing onto its parent) cannot be shaped; on those `Region` is stored and reported but changes nothing (logged at debug level, not thrown). Forms and container controls own a window and are shaped for real.
+- **`TransparencyKey` is not per-pixel.** Emulated case: a form whose `BackColor` *is* the key, so the window background is punched out and only controls remain. A key matching a colour inside a child or a background image leaves those pixels opaque, and keyed areas are not click-through — both would need an input shape recomputed from rendered pixels each paint. `Form.IsTransparencySupported` (no WinForms equivalent) reports whether the screen composites, so an opaque form on a compositor-less X11 session is diagnosable rather than mysterious.
 
-One deviation to record. GTK has no "the message queue just drained" notification, so `Idle` is *sampled*: while something is subscribed, a 50 ms GLib source watches the main context and raises the event once each time it finds the queue empty, re-arming as soon as events reappear. The once-per-lull contract matches WinForms; the latency (up to 50 ms) and the sampling cost do not exist in WinForms. Nothing is installed when nobody is subscribed.
+### 2.5 Printing model and `Image.RawFormat`
 
-### 4.3 Metafiles are declared, not implemented (non-goal)
+- **Enum numbering differs** — `PaperKind` (`Custom = 0`, not 256), `PaperSourceKind` (0-based, `Custom = 13`) and `PrinterResolutionKind` (`High = 1`…) do not use the DEVMODE values. Code comparing `RawKind` against Win32 `DMPAPER_*`/`DMBIN_*` constants misreads them.
+- **Virtual-device defaults** — with no print system, `PageSettings` defaults to Letter (850×1100), `PaperSourceKind.FormSource`, a 200×200 custom resolution, and a `PrintableArea` of the whole page (no hard margins). Real WinForms reads these from the default printer.
+- **`Image.RawFormat` on fresh bitmaps reports `Bmp`, not `MemoryBmp`** — the shim keeps an encoded buffer and defaults `RawFormat` to `Bmp` when there is no source format. Stream-loaded images report their detected format correctly.
 
-`Metafile`, `MetafileHeader`, `MetaHeader`, `WmfPlaceableFileHeader`, `EmfPlusRecordType`, `PlayRecordCallback` exist as types, but EMF/WMF is a Windows record format with no cross-platform playback. A permanent non-goal.
+`PrintDocument.Print()` runs through the GTK print dialog machinery and stays untested (needs a live print loop).
 
-### 4.4 `Region` fidelity — exact for curves, quantised to pixels
+### 2.6 Dock/anchor — measured and fixed, with a residual
 
-`Region` is backed by a band list, and `Region(GraphicsPath)` decomposes the path into rectangles. `SetClip` honours the full `CombineMode` family (Replace/Intersect/Union/Exclude/Xor/Complement), each pixel-verified in `GraphicsClipFunctionalTests`.
+Dock and anchor now reproduce WinForms arithmetic (pinned in `LayoutArrangementFunctionalTests` against real `System.Windows.Forms` oracle values). Two residuals remain:
 
-Curved boundaries no longer clip as their bounding box: a region built from a `GraphicsPath` keeps that path, and `Graphics.SetClip`/`Graphics.Clip` now clip through it via Cairo's native path clip, so an ellipse or a rounded rectangle clips on its true curve (`GraphicsRegionPathClipFunctionalTests` pins this on the corner pixel). The path-replay loop was extracted out of `DrawPathCore` for this, with text contributing glyph outlines instead of painted glyphs when the target is a clip.
-
-Combining is exact too, as of patch 0111. A combine works on band lists, and a path used to contribute only its bounding rectangle to one — so `region.Intersect(circle)` intersected with the circle's *square*. The interior of a curve is now obtained the way GDI+ obtains it: the path is scan-converted (filled into a coverage bitmap, runs of covered pixels become bands, identical adjacent scanlines merge into one taller band). Pinned by `RegionCurvedCombineFunctionalTests`, whose oracle is a point inside the bounding box and outside the shape.
-
-**Residual limits**, both recorded rather than open:
-
-- **Pixel resolution.** Scan conversion quantises a curve to whole pixels, using half-coverage as the centre-in rule. GDI+ scan-converts too, so this is the same *kind* of approximation, but the two rasterizers will not agree on every edge pixel. A region combined and then queried with `IsVisible` can therefore differ from GDI+ by a pixel on the boundary.
-- **Rectangles skip it.** A path made only of rectangles keeps its exact floating-point edges and never reaches the rasterizer — deliberately, since rounding those would be a regression. Pinned by `CombiningRectangles_KeepsExactFloatingPointEdges`.
-- **Very large regions.** Past 16 megapixels the rasterizer is skipped and the bounding rectangle is used, as before. That is a pathological input, not a normal one, but it is a silent widening when it happens.
-
-### 4.5 Printing model and `Image.RawFormat` — recorded deviations
-
-The `System.Drawing.Printing` model types behave, with three deliberate deviations from real WinForms:
-
-- **Enum numbering differs** — `PaperKind` (`Custom = 0`, not 256), `PaperSourceKind` (0-based, `Custom = 13`, not 257) and `PrinterResolutionKind` (`High = 1`…, not −4…) do not use the DEVMODE values. Code comparing `RawKind` against Win32 `DMPAPER_*`/`DMBIN_*` constants will misread them.
-- **Virtual-device defaults** — with no print system, `PageSettings` defaults to Letter (850×1100), `PaperSourceKind.FormSource` and a 200×200 custom resolution, and `PrintableArea` is the whole page (no hard margins). Real WinForms reads these from the default printer.
-- **`Image.RawFormat` on fresh bitmaps reports `Bmp`, not `MemoryBmp`** — the shim keeps an encoded buffer per image and `RawFormat` defaults to `Bmp` when the image has no source format. Stream-loaded images report their detected format correctly.
-
-The print-controller family (`PrintController`/`StandardPrintController`/`PreviewPrintController`, `PrintControllerWithStatusDialog`) exists (patch 0105). `PrintDocument.Print()` runs through the GTK print dialog machinery and stays untested (needs a live print loop).
-
-### 4.6 `Control.CreateGraphics()` is deferred, not immediate — accepted deviation
-
-[Control.cs](Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs) allocates a fresh Cairo `ImageSurface`/`Context` per call and returns a `Graphics` over it; `Override_PaintGraphics` blits that surface during the next paint cycle. The comment near the top of `Control.cs` explains the constraint — drawing to the live GDK window during realize throws.
-
-Two deviations from WinForms:
-
-- **Deferred, not immediate.** In WinForms `CreateGraphics()` yields an immediate-mode DC: you draw, it appears now, outside any paint event. Here the effect waits for the next expose.
-- **Single live surface.** Each call disposes the previous surface, so two `Graphics` objects on one control cannot coexist.
-
-The pattern this breaks is the classic rubber-band: `CreateGraphics()` in `MouseMove` to XOR a selection rectangle. That code compiles and runs and does the wrong thing.
-
-**Decision: accept and document.** GTK's retained paint cycle does not offer an immediate-mode DC on an unrealized widget, so a faithful fix would mean compositing such drawing through an overlay the paint cycle owns — a redesign of the paint path whose cost is out of proportion to the pattern's frequency, and which would still not give callers a second live surface. Applications that need immediate feedback should draw in `OnPaint` and call `Invalidate()`, which is the portable idiom. This item is closed as a deviation, not as a fix; reopen it if overlay compositing is undertaken for other reasons.
-
-### 4.7 Shaped controls and colour-keyed transparency — what the substrate allows
-
-`Control.Region` and `Form.TransparencyKey`/`AllowTransparency` work as of patch 0111. `Region` was an inert auto-property; it now drives GTK's shape-combine, is applied at handle creation for a region assigned before the control was realized, and clears back to the full rectangle when set to `null`. `TransparencyKey` did not exist at all, so the standard shaped-window idiom (`BackColor = X; TransparencyKey = X;`) did not compile.
-
-Two substrate limits come with them:
-
-- **A shape needs a GDK window.** Lightweight GTK widgets — buttons, labels, anything that draws onto its parent instead of owning a window — cannot be shaped. On those, `Region` is stored and reported but changes nothing; it is logged at debug level rather than throwing. Forms and container controls do own a window and are shaped for real, which covers the shaped-window and custom-drawn-container cases the property exists for.
-- **`TransparencyKey` is not per-pixel.** What is emulated is the case the member exists for: a form whose `BackColor` *is* the key, so the window background is punched out (RGBA visual, background painted with zero alpha) and only the controls remain. A key matching a colour inside a child control or a background image leaves those pixels opaque, and keyed areas are not click-through — WinForms lets the mouse pass through them. Both would need an input shape recomputed from the rendered pixels on every paint. `Form.IsTransparencySupported` (no WinForms equivalent) reports whether the screen composites at all, so a form that stays opaque on an X11 session without a compositor is diagnosable rather than mysterious.
-
-### 4.8 Dock and anchor — measured against real WinForms, and fixed
-
-Until patch 0112 dock and anchor were expressed by giving each child a GTK alignment: a top-docked child got `Halign=Fill, Valign=Start`, and that was the whole implementation. Alignments do not compose, so:
-
-- **two top-docked panels both sat at the top edge**, overlapping, instead of stacking;
-- **`DockStyle.Fill` covered the whole container** rather than what the other docked children had left;
-- **anchoring was computed once at realize and never again**, so resizing the container moved nothing;
-- `Control.DisplayRectangle` was an auto-property nothing assigned — `Rectangle.Empty` for every control, and overridden by a *second* inert auto-property on `ScrollableControl`, so `Form` reported Empty too.
-
-The arithmetic WinForms uses is now reproduced in managed code and pushed to GTK as absolute margins with `Align.Start`. **The expected values were not reasoned about — they were taken from real `System.Windows.Forms`** (net10.0-windows, `CreateControl()` + `PerformLayout()`), and the cases are pinned in `LayoutArrangementFunctionalTests`:
-
-```
-DOCK-ORDER   client 300x200, added fill -> top2 -> top1
-             top1=(0,0,300,30) top2=(0,30,300,40) fill=(0,70,300,130)
-             -> docking runs from the END of the collection towards the start
-DOCK-ALL     top=(0,0,300,30) bottom=(0,180,300,20) left=(0,30,50,150)
-             right=(240,30,60,150) fill=(50,30,190,150)
-DOCK-PADDING padding=(10,5,15,7): top=(10,5,275,30) fill=(10,35,275,158)
-ANCHOR       300x200 -> 400x300: T|L unchanged; T|R moves +100; T|L|R widens +100;
-             all four widens and heightens; B|R moves +100,+100;
-             None moves +50,+50  (half the delta - the rule nobody expects)
-```
-
-**What is still open here**
-
-- **`TableLayoutPanel` and `FlowLayoutPanel` are not yet compared.** Their oracles are captured and waiting: for a 200x100 two-column table (Absolute 60 / Percent 100, Absolute 30 / Percent 100) real WinForms gives `c00=(3,3,54,24) c10=(63,3,134,24) c01=(3,33,54,64) c11=(63,33,134,64)`; for a 100-wide `FlowLayoutPanel` holding three 40x20 panels, `a=(3,3) b=(49,3) c=(3,29)` — the default `Margin` of 3 is what drives both.
-- **Resize response is verified as arithmetic, not end-to-end.** This GTK test host does not propagate a runtime resize to a modal dialog's allocation, so the anchor *rule* is pinned directly against the oracle values while the *wiring* is covered by the dock tests, which do run through a real allocation. A display-backed run would close the gap.
-- **A one-to-two-pixel artifact.** Exact rectangles occasionally leave a filled child a hair larger than its GTK viewport, which can raise a scrollbar that WinForms would not show. Visible in the sample-app baselines; cosmetic, and recorded rather than chased.
+- **Resize response is verified as arithmetic, not end-to-end.** This GTK test host does not propagate a runtime resize to a modal dialog's allocation, so the anchor *rule* is pinned directly against oracle values while the *wiring* is covered by the dock tests (which do run through a real allocation). A display-backed run would close the gap.
+- **A one-to-two-pixel artifact.** Exact rectangles occasionally leave a filled child a hair larger than its GTK viewport, which can raise a scrollbar WinForms would not show. Cosmetic; recorded rather than chased.
 
 ---
 
-## 5. Priority order
+## 3. Open — not yet measured against WinForms
+
+Genuinely unfinished, distinct from the deliberate deviations above.
+
+- **`TableLayoutPanel` and `FlowLayoutPanel` are not yet compared.** Their oracles are captured and waiting: for a 200×100 two-column table (Absolute 60 / Percent 100, Absolute 30 / Percent 100) real WinForms gives `c00=(3,3,54,24) c10=(63,3,134,24) c01=(3,33,54,64) c11=(63,33,134,64)`; for a 100-wide `FlowLayoutPanel` holding three 40×20 panels, `a=(3,3) b=(49,3) c=(3,29)` — the default `Margin` of 3 drives both.
+- **Event ordering is not pinned.** The common lifecycles (show, resize, click, focus change, close) have a defined WinForms order that is invisible to the API diff and to a reading pass; it has not been asserted here.
+- **The property browser beyond its contract.** Its throw sites and three value-flow defects are closed, but category grouping, sorting, expansion and value-editor selection are only lightly exercised. Treat as under-tested rather than verified.
+
+---
+
+## 4. Priority order
 
 Ranked by (damage × frequency) ÷ effort.
 
-**P1 — measurement, not code.** Behavioural divergence is still the largest unknown, but it is now
-partly charted: anchor/dock has been measured against real WinForms and fixed (§4.8). What is left is
-named rather than vague.
+**P1 — measurement, not code.** Behavioural divergence is the largest remaining unknown, but it is now partly charted (anchor/dock measured and fixed).
 
-1. `TableLayoutPanel` and `FlowLayoutPanel` against WinForms measure-arrange. The oracle values are
-   already recorded in §4.8, so this is comparison work, not discovery work.
-2. Pin event *order* for the common lifecycles (show, resize, click, focus change, close) — ordering is
-   invisible to the API diff and to a reading pass alike.
-3. Exercise the property browser past its contract: category grouping, sorting, expansion, editor
-   selection (§3 closed its throw sites, not its behaviour).
-4. Re-run the layout suite on a display-backed host, where a live resize actually propagates (§4.8).
+1. `TableLayoutPanel`/`FlowLayoutPanel` against WinForms measure-arrange — oracle values already recorded in §3, so this is comparison, not discovery.
+2. Pin event *order* for the common lifecycles (§3).
+3. Exercise the property browser past its contract — grouping, sorting, expansion, editor selection (§3).
+4. Re-run the layout suite on a display-backed host where a live resize propagates (§2.6).
 
 **P2 — recorded deviations worth revisiting if they bite**
 
-4. Per-pixel `TransparencyKey` and click-through on keyed areas (§4.7).
-5. `Control.Region` on windowless widgets (§4.7) — would mean hosting them in a windowed GTK container.
-6. Scan-conversion edge agreement with GDI+ (§4.4).
+5. Per-pixel `TransparencyKey` and click-through on keyed areas (§2.4).
+6. `Control.Region` on windowless widgets (§2.4) — would mean hosting them in a windowed GTK container.
+7. Scan-conversion edge agreement with GDI+ (§2.3).
 
 **P3 — accepted, reopen only with a reason**
 
-7. `CreateGraphics` immediate-mode semantics (§4.6), EMF/WMF metafiles (§4.3), the Win32 message pump and
-   what depends on it (§4.1), the printing enum numbering and virtual-device defaults (§4.5).
+8. `CreateGraphics` immediate-mode semantics (§2.1), EMF/WMF metafiles (§1), the Win32 message pump and what depends on it (§1), the printing enum numbering and virtual-device defaults (§2.5).
 
-## 6. What this review does not cover
+---
+
+## 5. What this review does not cover
 
 Stated so the gaps in the gap analysis are visible.
 
-- **Behavioural divergence is the dominant unmeasured risk.** Layout drift, event ordering, and focus/tab-order differences are invisible to source reading. This limit was demonstrated, not asserted: several past fixes (unraised `HandleCreated`/`HandleDestroyed`, one-member `AccessibleRole`, `Padding.Horizontal` = `Right − Left`) were found only by *writing tests* — as were the three property-browser defects in §3 and the dock/anchor collapse in §4.8, none of which a reading pass had flagged. Wrong-but-plausible code is invisible to a reading pass in a way that missing code is not.
-- **Layout engines.** Anchor and dock *have* now been compared against real WinForms and corrected (§4.8) — and the comparison found the biggest single behavioural defect in the library, which no amount of source reading had surfaced. `TableLayoutPanel` and `FlowLayoutPanel` have **not** been compared; assume pixel-level and edge-case divergence there until they are.
-- **The property browser beyond its contract.** §3 closed the throw sites and the three defects the tests reached, but the grid's category grouping, sorting, expansion and value-editor selection are still only lightly exercised. Treat the subsystem as under-tested rather than verified.
-- **Data-binding depth** is now covered (nested/dotted members, source-side `INotifyPropertyChanged`, `IEditableObject` transactions — see the binding functional tests), leaving no open depth question there.
+- **Behavioural divergence is the dominant unmeasured risk.** Layout drift, event ordering and focus/tab-order are invisible to source reading. This limit was demonstrated, not asserted: several past fixes (unraised `HandleCreated`/`HandleDestroyed`, one-member `AccessibleRole`, `Padding.Horizontal` = `Right − Left`, the three property-browser defects, the dock/anchor collapse) were found only by *writing tests*. Wrong-but-plausible code is invisible to a reading pass in a way that missing code is not.
+- **`TableLayoutPanel`/`FlowLayoutPanel`** have not been compared against real WinForms (§3); assume pixel-level and edge-case divergence there until they are.
+- **The property browser beyond its contract** (§3) is under-tested.
+- **Data-binding depth** *is* covered (nested/dotted members, source-side `INotifyPropertyChanged`, `IEditableObject` transactions — see the binding functional tests), leaving no open depth question there.
 - **`Net4x.Gtk.Windows.FormsDesigner`** and the ResX/designer round-trip are out of scope here.
-- **Per-member API-surface diffing** is handled by [API-COMPLETENESS.md](API-COMPLETENESS.md) and the re-runnable tool in [api-diff/](api-diff/), which is strictly more complete than this document at the type/member level.
+- **Per-member API-surface diffing** is handled by [API-COMPLETENESS.md](API-COMPLETENESS.md) and the re-runnable tool in [api-diff/](api-diff/), strictly more complete than this document at the type/member level.
