@@ -1,0 +1,457 @@
+From 568b5071cf6e3e10f2bac7149e62c53be6bddfd8 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Sat, 25 Jul 2026 08:30:00 +0300
+Subject: [PATCH] Add DataGridView editing-control cluster (clean subset)
+
+Closes the self-contained part of API-COMPLETENESS.md P1 item 2:
+IDataGridViewEditingControl (the interface a custom editing control implements),
+DataGridViewTextBoxEditingControl (: TextBox) and DataGridViewComboBoxEditingControl
+(: ComboBox) implementing it, and DataGridViewTopLeftHeaderCell
+(: DataGridViewColumnHeaderCell). These derive from existing controls, so no
+re-parenting was needed - a custom DataGridView editing control can now be
+written against the real names.
+
+The editing controls round-trip the formatted value through the control's Text,
+track row index / value-changed, route the caret/drop-down input keys, and apply
+a cell style's font/colours. DataGridViewBand and DataGridViewElement remain
+deferred: they are base classes of Row/Column/Cell (which do not currently derive
+from them), so adding them is the same re-parenting risk as the section-2 finding.
+
+Covered by DataGridViewEditingControlFunctionalTests. Full Forms suite green at
+2487.
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ ...taGridViewEditingControlFunctionalTests.cs | 105 ++++++++++++++++++
+ .../DataGridViewComboBoxEditingControl.cs     |  94 ++++++++++++++++
+ .../DataGridViewTextBoxEditingControl.cs      | 100 +++++++++++++++++
+ .../DataGridViewTopLeftHeaderCell.cs          |  37 ++++++
+ .../IDataGridViewEditingControl.cs            |  52 +++++++++
+ 5 files changed, 388 insertions(+)
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEditingControlFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxEditingControl.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTextBoxEditingControl.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTopLeftHeaderCell.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingControl.cs
+
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEditingControlFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEditingControlFunctionalTests.cs
+new file mode 100644
+index 00000000..e1b62a9e
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEditingControlFunctionalTests.cs
+@@ -0,0 +1,105 @@
++using System.Windows.Forms;
++
++namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++
++/// <summary>
++/// Tests for the DataGridView editing-control cluster (§4 of API-COMPLETENESS): the
++/// IDataGridViewEditingControl interface, its two concrete controls (text box and combo box) and
++/// DataGridViewTopLeftHeaderCell. These were absent, so a custom editing control could not be written
++/// against the real names. The tests pin the editing-control contract — formatted-value round-trip through
++/// the control's text, row-index/value-changed state, and input-key routing — and the header-cell type.
++/// </summary>
++[Collection("NonParallelCollection")]
++public class DataGridViewEditingControlFunctionalTests
++{
++    static DataGridViewEditingControlFunctionalTests()
++    {
++        using var _ = new Form();
++    }
++
++    [Fact]
++    public void TextBoxEditingControl_ImplementsTheInterface()
++    {
++        using var control = new DataGridViewTextBoxEditingControl();
++        Assert.IsAssignableFrom<IDataGridViewEditingControl>(control);
++        Assert.IsAssignableFrom<TextBox>(control);
++    }
++
++    [Fact]
++    public void TextBoxEditingControl_FormattedValueRoundTripsThroughText()
++    {
++        using var control = new DataGridViewTextBoxEditingControl();
++        IDataGridViewEditingControl editing = control;
++
++        editing.EditingControlFormattedValue = "hello";
++
++        Assert.Equal("hello", control.Text);
++        Assert.Equal("hello", editing.EditingControlFormattedValue);
++        Assert.Equal("hello", editing.GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting));
++    }
++
++    [Fact]
++    public void TextBoxEditingControl_TracksRowIndexAndValueChanged()
++    {
++        using var control = new DataGridViewTextBoxEditingControl();
++        IDataGridViewEditingControl editing = control;
++
++        editing.EditingControlRowIndex = 7;
++        editing.EditingControlValueChanged = true;
++
++        Assert.Equal(7, editing.EditingControlRowIndex);
++        Assert.True(editing.EditingControlValueChanged);
++        Assert.False(editing.RepositionEditingControlOnValueChange);
++        Assert.NotNull(editing.EditingPanelCursor);
++    }
++
++    [Fact]
++    public void TextBoxEditingControl_WantsTheCaretKeys()
++    {
++        using var control = new DataGridViewTextBoxEditingControl();
++        IDataGridViewEditingControl editing = control;
++
++        Assert.True(editing.EditingControlWantsInputKey(Keys.Left, dataGridViewWantsInputKey: true));
++        Assert.True(editing.EditingControlWantsInputKey(Keys.Right, dataGridViewWantsInputKey: true));
++        // A key the grid wants and the text box does not claim defers to the grid.
++        Assert.False(editing.EditingControlWantsInputKey(Keys.Tab, dataGridViewWantsInputKey: true));
++    }
++
++    [Fact]
++    public void TextBoxEditingControl_ApplyCellStyleDoesNotThrow()
++    {
++        using var control = new DataGridViewTextBoxEditingControl();
++        IDataGridViewEditingControl editing = control;
++        var style = new DataGridViewCellStyle();
++
++        var ex = Record.Exception(() => editing.ApplyCellStyleToEditingControl(style));
++
++        Assert.Null(ex);
++    }
++
++    [Fact]
++    public void ComboBoxEditingControl_ImplementsTheInterfaceAndRoundTripsValue()
++    {
++        using var control = new DataGridViewComboBoxEditingControl();
++        IDataGridViewEditingControl editing = control;
++
++        Assert.IsAssignableFrom<ComboBox>(control);
++
++        editing.EditingControlFormattedValue = "pick";
++        Assert.Equal("pick", editing.EditingControlFormattedValue);
++    }
++
++    [Fact]
++    public void TopLeftHeaderCell_IsAColumnHeaderCell_AndAdjustsBorderToPlaceholder()
++    {
++        var cell = new DataGridViewTopLeftHeaderCell();
++        Assert.IsAssignableFrom<DataGridViewColumnHeaderCell>(cell);
++
++        var input = new DataGridViewAdvancedBorderStyle();
++        var placeholder = new DataGridViewAdvancedBorderStyle();
++
++        var result = cell.AdjustCellBorderStyle(input, placeholder, false, false, true, true);
++
++        Assert.Same(placeholder, result);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxEditingControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxEditingControl.cs
+new file mode 100644
+index 00000000..267b17c0
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxEditingControl.cs
+@@ -0,0 +1,94 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// The <see cref="ComboBox" /> that a <see cref="DataGridViewComboBoxCell" /> hosts while editing. Absent
++/// before, so a combo-box cell had no editing-control type to name.
++/// </summary>
++public class DataGridViewComboBoxEditingControl : ComboBox, IDataGridViewEditingControl
++{
++    private DataGridView? _dataGridView;
++    private int _rowIndex;
++    private bool _valueChanged;
++
++    /// <inheritdoc />
++    public DataGridView? EditingControlDataGridView
++    {
++        get => _dataGridView;
++        set => _dataGridView = value;
++    }
++
++    /// <inheritdoc />
++    public object? EditingControlFormattedValue
++    {
++        get => Text;
++        set => Text = value?.ToString() ?? string.Empty;
++    }
++
++    /// <inheritdoc />
++    public int EditingControlRowIndex
++    {
++        get => _rowIndex;
++        set => _rowIndex = value;
++    }
++
++    /// <inheritdoc />
++    public bool EditingControlValueChanged
++    {
++        get => _valueChanged;
++        set => _valueChanged = value;
++    }
++
++    /// <inheritdoc />
++    public Cursor EditingPanelCursor => Cursors.Default;
++
++    /// <inheritdoc />
++    public bool RepositionEditingControlOnValueChange => false;
++
++    /// <inheritdoc />
++    public void ApplyCellStyleToEditingControl(DataGridViewCellStyle dataGridViewCellStyle)
++    {
++        if (dataGridViewCellStyle == null)
++        {
++            return;
++        }
++
++        if (dataGridViewCellStyle.Font != null)
++        {
++            Font = dataGridViewCellStyle.Font;
++        }
++
++        BackColor = dataGridViewCellStyle.BackColor;
++        ForeColor = dataGridViewCellStyle.ForeColor;
++    }
++
++    /// <inheritdoc />
++    public virtual bool EditingControlWantsInputKey(Keys keyData, bool dataGridViewWantsInputKey)
++    {
++        // The combo box claims the keys that open or move within the drop-down.
++        switch (keyData & Keys.KeyCode)
++        {
++            case Keys.Down:
++            case Keys.Up:
++            case Keys.Home:
++            case Keys.End:
++                return true;
++            default:
++                return !dataGridViewWantsInputKey;
++        }
++    }
++
++    /// <inheritdoc />
++    public object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context) =>
++        EditingControlFormattedValue ?? string.Empty;
++
++    /// <inheritdoc />
++    public void PrepareEditingControlForEdit(bool selectAll)
++    {
++        // The combo editing control has no separate selection step; nothing to prepare here.
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTextBoxEditingControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTextBoxEditingControl.cs
+new file mode 100644
+index 00000000..aba2aa95
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTextBoxEditingControl.cs
+@@ -0,0 +1,100 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// The <see cref="TextBox" /> that a <see cref="DataGridViewTextBoxCell" /> hosts while editing. Absent
++/// before, so a text cell had no editing-control type to name.
++/// </summary>
++public class DataGridViewTextBoxEditingControl : TextBox, IDataGridViewEditingControl
++{
++    private DataGridView? _dataGridView;
++    private int _rowIndex;
++    private bool _valueChanged;
++
++    /// <inheritdoc />
++    public DataGridView? EditingControlDataGridView
++    {
++        get => _dataGridView;
++        set => _dataGridView = value;
++    }
++
++    /// <inheritdoc />
++    public object? EditingControlFormattedValue
++    {
++        get => Text;
++        set => Text = value?.ToString() ?? string.Empty;
++    }
++
++    /// <inheritdoc />
++    public int EditingControlRowIndex
++    {
++        get => _rowIndex;
++        set => _rowIndex = value;
++    }
++
++    /// <inheritdoc />
++    public bool EditingControlValueChanged
++    {
++        get => _valueChanged;
++        set => _valueChanged = value;
++    }
++
++    /// <inheritdoc />
++    public Cursor EditingPanelCursor => Cursors.Default;
++
++    /// <inheritdoc />
++    public bool RepositionEditingControlOnValueChange => false;
++
++    /// <inheritdoc />
++    public void ApplyCellStyleToEditingControl(DataGridViewCellStyle dataGridViewCellStyle)
++    {
++        if (dataGridViewCellStyle == null)
++        {
++            return;
++        }
++
++        if (dataGridViewCellStyle.Font != null)
++        {
++            Font = dataGridViewCellStyle.Font;
++        }
++
++        BackColor = dataGridViewCellStyle.BackColor;
++        ForeColor = dataGridViewCellStyle.ForeColor;
++    }
++
++    /// <inheritdoc />
++    public virtual bool EditingControlWantsInputKey(Keys keyData, bool dataGridViewWantsInputKey)
++    {
++        // The text box claims the caret-movement and editing keys; everything else defers to the grid.
++        switch (keyData & Keys.KeyCode)
++        {
++            case Keys.Right:
++            case Keys.Left:
++            case Keys.Up:
++            case Keys.Down:
++            case Keys.Home:
++            case Keys.End:
++            case Keys.Delete:
++                return true;
++            default:
++                return !dataGridViewWantsInputKey;
++        }
++    }
++
++    /// <inheritdoc />
++    public object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context) =>
++        EditingControlFormattedValue ?? string.Empty;
++
++    /// <inheritdoc />
++    public void PrepareEditingControlForEdit(bool selectAll)
++    {
++        if (selectAll)
++        {
++            SelectAll();
++        }
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTopLeftHeaderCell.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTopLeftHeaderCell.cs
+new file mode 100644
+index 00000000..94c60a4a
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTopLeftHeaderCell.cs
+@@ -0,0 +1,37 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Represents the top-left corner cell of a <see cref="DataGridView" /> (where the row and column headers
++/// meet). The type was absent, so code referencing <c>DataGridView.TopLeftHeaderCell</c>'s concrete type
++/// could not compile.
++/// </summary>
++public class DataGridViewTopLeftHeaderCell : DataGridViewColumnHeaderCell
++{
++    /// <summary>Initializes a new instance of the <see cref="DataGridViewTopLeftHeaderCell" /> class.</summary>
++    public DataGridViewTopLeftHeaderCell()
++    {
++    }
++
++    /// <summary>
++    /// Adjusts the border style for the top-left header cell. On this layer the placeholder is returned
++    /// unchanged (falling back to the input), matching the "no extra border adjustment" behaviour.
++    /// </summary>
++    /// <param name="dataGridViewAdvancedBorderStyleInput">The proposed border style.</param>
++    /// <param name="dataGridViewAdvancedBorderStylePlaceholder">The style to populate and return.</param>
++    /// <param name="singleVerticalBorderAdded">Whether a single vertical border was added.</param>
++    /// <param name="singleHorizontalBorderAdded">Whether a single horizontal border was added.</param>
++    /// <param name="isFirstDisplayedColumn">Whether this is the first displayed column.</param>
++    /// <param name="isFirstDisplayedRow">Whether this is the first displayed row.</param>
++    /// <returns>The adjusted border style.</returns>
++    public virtual DataGridViewAdvancedBorderStyle AdjustCellBorderStyle(
++        DataGridViewAdvancedBorderStyle dataGridViewAdvancedBorderStyleInput,
++        DataGridViewAdvancedBorderStyle dataGridViewAdvancedBorderStylePlaceholder,
++        bool singleVerticalBorderAdded,
++        bool singleHorizontalBorderAdded,
++        bool isFirstDisplayedColumn,
++        bool isFirstDisplayedRow) =>
++        dataGridViewAdvancedBorderStylePlaceholder ?? dataGridViewAdvancedBorderStyleInput;
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingControl.cs
+new file mode 100644
+index 00000000..f0402a4d
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingControl.cs
+@@ -0,0 +1,52 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Implemented by a control hosted in the editing cell of a <see cref="DataGridView" />. Custom editing
++/// controls implement this interface so the grid can bind them to a cell, push and pull the formatted
++/// value, and route input keys. It was absent, so a custom <c>DataGridView</c> editing control could not
++/// be written against the real name.
++/// </summary>
++public interface IDataGridViewEditingControl
++{
++    /// <summary>Gets or sets the <see cref="DataGridView" /> that contains the cell being edited.</summary>
++    DataGridView? EditingControlDataGridView { get; set; }
++
++    /// <summary>Gets or sets the formatted value of the cell being edited.</summary>
++    object? EditingControlFormattedValue { get; set; }
++
++    /// <summary>Gets or sets the index of the hosting cell's row.</summary>
++    int EditingControlRowIndex { get; set; }
++
++    /// <summary>Gets or sets a value indicating whether the value of the editing control has changed.</summary>
++    bool EditingControlValueChanged { get; set; }
++
++    /// <summary>Gets the cursor used over the editing panel when it is larger than the editing control.</summary>
++    Cursor EditingPanelCursor { get; }
++
++    /// <summary>Gets a value indicating whether the editing control should be repositioned when its value changes.</summary>
++    bool RepositionEditingControlOnValueChange { get; }
++
++    /// <summary>Applies the given cell style to the editing control.</summary>
++    /// <param name="dataGridViewCellStyle">The cell style to apply.</param>
++    void ApplyCellStyleToEditingControl(DataGridViewCellStyle dataGridViewCellStyle);
++
++    /// <summary>Determines whether the editing control wants the given input key.</summary>
++    /// <param name="keyData">The key to check.</param>
++    /// <param name="dataGridViewWantsInputKey">Whether the grid itself wants the key.</param>
++    /// <returns><see langword="true" /> if the editing control wants the key.</returns>
++    bool EditingControlWantsInputKey(Keys keyData, bool dataGridViewWantsInputKey);
++
++    /// <summary>Returns the formatted value of the editing control for the given context.</summary>
++    /// <param name="context">The context in which the value is needed.</param>
++    /// <returns>The formatted value.</returns>
++    object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context);
++
++    /// <summary>Prepares the editing control for editing.</summary>
++    /// <param name="selectAll">Whether to select all of the control's content.</param>
++    void PrepareEditingControlForEdit(bool selectAll);
++}
+-- 
+2.53.0.windows.3
+
