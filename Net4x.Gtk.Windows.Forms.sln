@@ -48,6 +48,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net4x.ResxProcessor.Tests",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{4FBFCFBF-5424-496A-8117-470F7DBE2D2D}"
 	ProjectSection(SolutionItems) = preProject
+		API-COMPLETENESS.md = API-COMPLETENESS.md
+		EMULATION-GAPS.md = EMULATION-GAPS.md
 		ReadMe.md = ReadMe.md
 		Solution-Projects.md = Solution-Projects.md
 	EndProjectSection

@@ -9,6 +9,13 @@ class Program
 {
     static int Main(string[] argv)
     {
+        // --enumdump <refDll> <TypeSimpleName...> : print each enum's members and underlying values, so
+        // enum shims can be authored against ground truth instead of recall.
+        if (argv.Length >= 3 && argv[0] == "--enumdump")
+        {
+            return EnumDump(argv);
+        }
+
         string refAsmPath = argv[0];
         string implAsmPath = argv[1];
         string implDir = argv[2];
@@ -215,5 +222,40 @@ class Program
             return n;
         }
         catch { return "?"; }
+    }
+
+    // --enumdump <refDll> <TypeSimpleName...> : dump each named enum's members and underlying values.
+    static int EnumDump(string[] argv)
+    {
+        string refAsmPath = argv[1];
+        var wanted = new HashSet<string>(argv.Skip(2), StringComparer.Ordinal);
+
+        var paths = new List<string> { refAsmPath };
+        var dir = Path.GetDirectoryName(refAsmPath);
+        if (Directory.Exists(dir)) paths.AddRange(Directory.GetFiles(dir, "*.dll"));
+        bool netFx = refAsmPath.IndexOf(".NETFramework", StringComparison.OrdinalIgnoreCase) >= 0;
+        string coreAssemblyName = netFx ? "mscorlib" : "System.Runtime";
+        var coreRef = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+            "dotnet", "packs", "Microsoft.NETCore.App.Ref", "10.0.10", "ref", "net10.0");
+        if (Directory.Exists(coreRef)) paths.AddRange(Directory.GetFiles(coreRef, "*.dll"));
+
+        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var resolved = paths.Where(p => seen.Add(Path.GetFileName(p))).ToArray();
+        using var mlc = new MetadataLoadContext(new PathAssemblyResolver(resolved), coreAssemblyName);
+        var asm = mlc.LoadFromAssemblyPath(refAsmPath);
+
+        foreach (var t in asm.GetTypes())
+        {
+            if (!t.IsEnum || !wanted.Contains(t.Name)) continue;
+            var underlying = t.GetEnumUnderlyingType().Name;
+            Console.WriteLine($"{t.FullName} : {underlying}");
+            foreach (var f in t.GetFields(BindingFlags.Public | BindingFlags.Static))
+            {
+                var raw = f.GetRawConstantValue();
+                Console.WriteLine($"    {f.Name} = {raw}");
+            }
+            Console.WriteLine();
+        }
+        return 0;
     }
 }
