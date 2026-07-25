@@ -1,0 +1,2360 @@
+From 4ea7552160a40bc8b8128c5d6e819bb49496af6c Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Sat, 25 Jul 2026 05:49:55 +0300
+Subject: [PATCH] Close every NotImplementedException site and Application's
+ lifecycle tail
+
+Class B is now empty: no NotImplementedException throw site remains in either
+shipped project.
+
+PropertyGrid/GridEntry (11 of the 15 sites). GridEntry declares
+ITypeDescriptorContext - what a type converter or UI type editor is handed while
+a property is edited - but every member of that contract threw, so any conversion
+that consulted its context failed at runtime. Container now comes from the edited
+component's site (walking up parents, then the owning grid's site), Instance is
+the value owner, GetService answers for itself and defers to the sites, and
+OnComponentChanging/OnComponentChanged drive IComponentChangeService, returning
+false on a cancelled checkout. PropertyDescriptor was an override that could only
+ever be null; it now resolves through TypeDescriptor, which is what the change
+notifications report. SetValue brackets the write with those notifications, so a
+refused change leaves the property untouched. The six IComPropertyBrowser members
+commit the open GTK cell editor, close it, focus the grid, and load/save the view
+state - the state pair takes WinForms' null-key path always, because the shim's
+RegistryKey holds no values off Windows.
+
+Four isolated sites: ArrangedElement.Handle is IntPtr.Zero (a layout participant
+is not a window), DataGridViewCellCollection's IList indexer routes to the typed
+one, DataGridViewCellStyle's ICloneable.Clone routes to Clone, and
+DataGridViewCellLinkedList - a stub with no storage, whose GetEnumerator threw -
+is a working head-insertion list.
+
+Three Class C defects found while testing the above are fixed with them:
+InPropertySet returned a constant true; assigning SelectedObject (not
+SelectedObjects) never populated the grid nor raised SelectedObjectsChanged; and
+a *missing* BrowsableAttribute was read as "not browsable", so an object carrying
+no design-time attributes displayed no properties at all.
+
+Graphics.SetClip(Region) through the region's path. A region built from a
+GraphicsPath kept only the path's bounding rectangle in its band list, so
+clipping to an ellipse clipped to its box. The region now tracks whether the path
+is still its exact description, and ApplyClip replays that path into Cairo -
+the replay loop pulled out of DrawPathCore, with text contributing glyph outlines
+rather than painted glyphs when the target is a clip. Combining still falls back
+to bands; that limit is recorded.
+
+Application gains Idle, Restart, ProductName/ProductVersion/CompanyName,
+RenderWithVisualStyles and VisualStyleState. GTK has no queue-drained
+notification, so Idle is sampled by a 50 ms GLib source installed only while
+something is subscribed: raised once per lull, re-armed when events reappear.
+
+Covered by PropertyGridBrowserFunctionalTests, ApplicationResidualSurfaceFunctional-
+Tests, DataGridViewCollectionMembersFunctionalTests and
+GraphicsRegionPathClipFunctionalTests (the corner pixel of an inscribed ellipse is
+the oracle - no reported state distinguishes the two clip behaviours). Two tests
+that pinned the old throwing behaviour were rewritten to pin the new one.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+---
+ .../GraphicsRegionPathClipFunctionalTests.cs  | 146 +++++++
+ Net4x.Gtk.Drawing/System/Drawing/Graphics.cs  |  78 +++-
+ Net4x.Gtk.Drawing/System/Drawing/Region.cs    |  20 +
+ ...plicationResidualSurfaceFunctionalTests.cs | 170 ++++++++
+ .../ArrangedElementContractFunctionalTests.cs |   1 +
+ .../CollectionTests/ArrangedElementTests.cs   |   9 +-
+ ...ridViewCollectionMembersFunctionalTests.cs | 150 +++++++
+ .../PropertyGridBrowserFunctionalTests.cs     | 383 ++++++++++++++++++
+ .../System/Windows/Forms/PropertyGridTests.cs |  12 +-
+ .../Application/Application.Lifecycle.cs      | 282 +++++++++++++
+ .../Windows/Forms/Application/Application.cs  |   9 +-
+ .../Forms/Collection/ArrangedElement.cs       |   7 +-
+ .../DataGridViewCellCollection.cs             |  15 +-
+ .../DataGridViewCellLinkedList.cs             |  85 +++-
+ .../DataGridViewBase/DataGridViewCellStyle.cs |   5 +-
+ .../System/Windows/Forms/PropertyGrid.cs      |  69 ++--
+ .../PropertyGridBase/GridEntry.cs             | 150 ++++++-
+ .../PropertyGridBase/PropertyGridView.cs      | 163 ++++++--
+ 18 files changed, 1655 insertions(+), 99 deletions(-)
+ create mode 100644 Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ApplicationResidualSurfaceFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewCollectionMembersFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridBrowserFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.Lifecycle.cs
+
+diff --git a/Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs b/Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
+new file mode 100644
+index 00000000..247792ae
+--- /dev/null
++++ b/Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
+@@ -0,0 +1,146 @@
++extern alias gtk;
++using Graphics = gtk::System.Drawing.Graphics;
++using Bitmap = gtk::System.Drawing.Bitmap;
++using Region = gtk::System.Drawing.Region;
++using SolidBrush = gtk::System.Drawing.SolidBrush;
++using GraphicsPath = gtk::System.Drawing.Drawing2D.GraphicsPath;
++using CombineMode = gtk::System.Drawing.Drawing2D.CombineMode;
++
++namespace System.Drawing;
++
++/// <summary>
++/// Behavioural tests for clipping with a <see cref="Region" /> built from a
++/// <see cref="GraphicsPath" />.
++/// <para>
++/// The region's interior is stored as a band list - disjoint rectangles - and a path contributes only its
++/// bounding rectangle to that list. Clipping through the bands therefore squared off every curve: clipping
++/// to an ellipse clipped to its bounding box, so the corners outside the curve were painted. The region now
++/// keeps the real path while it is still the exact description of the interior, and the clip is applied
++/// through that path.
++/// </para>
++/// The oracle is the corner pixel: it lies inside the bounding box and outside the ellipse, so it
++/// distinguishes the two behaviours - no reported state can.
++/// </summary>
++[Collection("NonParallelCollection")]
++public class GraphicsRegionPathClipFunctionalTests
++{
++    private const int Size = 40;
++
++    private static Bitmap Paint(Action<Graphics> paint)
++    {
++        var bmp = new Bitmap(Size, Size);
++        using (var g = Graphics.FromImage(bmp))
++        {
++            g.Clear(Color.White);
++            paint(g);
++        }
++
++        return bmp;
++    }
++
++    private static void FillEverything(Graphics g) =>
++        g.FillRectangle(new SolidBrush(Color.Red), 0, 0, Size, Size);
++
++    private static bool IsRed(Color c) => c.R > 200 && c.G < 80 && c.B < 80;
++
++    private static bool IsWhite(Color c) => c.R > 200 && c.G > 200 && c.B > 200;
++
++    private static GraphicsPath Ellipse()
++    {
++        var path = new GraphicsPath();
++        path.AddEllipse(0, 0, Size, Size);
++
++        return path;
++    }
++
++    [Fact]
++    public void SetClip_WithEllipticalRegion_ClipsOnTheCurveNotTheBoundingBox()
++    {
++        using var bmp = Paint(g =>
++        {
++            g.SetClip(new Region(Ellipse()));
++            FillEverything(g);
++        });
++
++        // Centre of the ellipse: inside under either behaviour.
++        Assert.True(IsRed(bmp.GetPixel(Size / 2, Size / 2)), "the interior of the ellipse must be painted");
++
++        // Top-left corner: inside the bounding box, well outside the inscribed ellipse.
++        Assert.True(
++            IsWhite(bmp.GetPixel(1, 1)),
++            "the corner lies outside the ellipse and must not be painted - clipping used the bounding box");
++    }
++
++    [Fact]
++    public void Clip_Setter_WithEllipticalRegion_ClipsOnTheCurve()
++    {
++        using var bmp = Paint(g =>
++        {
++            g.Clip = new Region(Ellipse());
++            FillEverything(g);
++        });
++
++        Assert.True(IsRed(bmp.GetPixel(Size / 2, Size / 2)));
++        Assert.True(IsWhite(bmp.GetPixel(1, 1)), "assigning an elliptical Clip must clip on the curve");
++    }
++
++    [Fact]
++    public void SetClip_WithPath_ClipsOnTheCurve()
++    {
++        using var bmp = Paint(g =>
++        {
++            // The GraphicsPath overload funnels through the Region one, so it gains the same exactness.
++            g.SetClip(Ellipse());
++            FillEverything(g);
++        });
++
++        Assert.True(IsRed(bmp.GetPixel(Size / 2, Size / 2)));
++        Assert.True(IsWhite(bmp.GetPixel(1, 1)));
++    }
++
++    [Fact]
++    public void SetClip_WithRectangularRegion_StillClipsToTheRectangle()
++    {
++        // The band path is what a rectangular region uses, and it must be untouched by the path route.
++        using var bmp = Paint(g =>
++        {
++            g.SetClip(new Region(new Rectangle(0, 0, 20, 20)));
++            FillEverything(g);
++        });
++
++        Assert.True(IsRed(bmp.GetPixel(10, 10)));
++        Assert.True(IsWhite(bmp.GetPixel(30, 30)));
++    }
++
++    [Fact]
++    public void CombinedEllipticalRegion_FallsBackToBands()
++    {
++        // Once a path region is combined with something else, only the band list survives - the region is
++        // its bounding box from then on. Pinned so the fallback is a decision, not a surprise.
++        using var bmp = Paint(g =>
++        {
++            var region = new Region(Ellipse());
++            region.Intersect(new Rectangle(0, 0, Size, Size));
++            g.SetClip(region, CombineMode.Replace);
++            FillEverything(g);
++        });
++
++        Assert.True(IsRed(bmp.GetPixel(Size / 2, Size / 2)));
++        Assert.True(IsRed(bmp.GetPixel(1, 1)), "after a combine the region is its bounding box");
++    }
++
++    [Fact]
++    public void EllipticalClip_ReportsTheBoundsOfThePath()
++    {
++        using var bmp = new Bitmap(Size, Size);
++        using var g = Graphics.FromImage(bmp);
++
++        g.SetClip(new Region(Ellipse()));
++
++        var bounds = g.ClipBounds;
++        Assert.Equal(0f, bounds.X, 3);
++        Assert.Equal(0f, bounds.Y, 3);
++        Assert.Equal((float)Size, bounds.Width, 3);
++        Assert.Equal((float)Size, bounds.Height, 3);
++    }
++}
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+index f34ea168..4587582a 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+@@ -2483,6 +2483,25 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+             return;
+         }
+ 
++        // A region that still knows its own path is clipped through that path, so an ellipse or a
++        // rounded rectangle clips on its true curve instead of on the rectangles the band list
++        // decomposes it into. Bands remain the fallback - and the only representation left once the
++        // region has been combined with another.
++        var exactPath = clip.ExactPath;
++        if (exactPath != null && exactPath.list.Count > 0)
++        {
++            context.FillRule = exactPath.FillMode == FillMode.Winding
++                ? Cairo.FillRule.Winding
++                : Cairo.FillRule.EvenOdd;
++            ReplayPath(exactPath, null, forClip: true);
++            context.ClosePath();
++            context.Clip();
++            context.NewPath();
++            _clipBounds = exactPath.GetBounds();
++
++            return;
++        }
++
+         var bands = clip.Bands;
+         if (bands.Count == 0)
+         {
+@@ -2950,15 +2969,24 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+         }
+     }
+ 
+-    private void DrawPathCore(Pen pen, GraphicsPath? path, bool isfill)
++    /// <summary>
++    /// Walks a <see cref="GraphicsPath" />'s recorded figures into the current Cairo path.
++    /// </summary>
++    /// <param name="path">The path to replay.</param>
++    /// <param name="pen">The pen nested sub-paths are drawn with; unused when <paramref name="forClip" /> is true.</param>
++    /// <param name="forClip">
++    /// True when the caller is going to <c>Clip()</c> on the result rather than fill or stroke it. Two
++    /// figure kinds have to behave differently in that case: text contributes its glyph outlines
++    /// (<c>TextPath</c>) instead of being painted (<c>ShowText</c>), and a nested path contributes its
++    /// geometry instead of being drawn as a side effect.
++    /// </param>
++    /// <remarks>
++    /// Pulled out of <see cref="DrawPathCore" /> so that <see cref="SetClip(Region, Drawing2D.CombineMode)" />
++    /// can clip to a region's true shape - curves included - rather than to the rectangles its band list
++    /// decomposes that shape into.
++    /// </remarks>
++    private void ReplayPath(GraphicsPath path, Pen? pen, bool forClip)
+     {
+-        if (path == null)
+-            return;
+-        this.context.Save();
+-        path.Context = this.context;
+-        this.SetTranslateWithDifference(0, 0);
+-        this.SetSourcePen(pen, isfill);
+-        this.context.NewPath();
+         foreach (var o in path.list)
+         {
+             if (o is GraphicsPath.FigureMode start && start.start == true)
+@@ -3131,12 +3159,30 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+                     }
+                 }
+ 
+-                this.context.ShowText(text);
++                if (forClip)
++                {
++                    // Painting the glyphs would draw, not clip; their outlines are what the clip needs.
++                    this.context.TextPath(text);
++                }
++                else
++                {
++                    this.context.ShowText(text);
++                }
+             }
+ 
+             else if (o is GraphicsPath.PathMode addpath)
+             {
+-                DrawPath(pen, addpath.path);
++                if (forClip)
++                {
++                    if (addpath.path != null)
++                    {
++                        ReplayPath(addpath.path, pen, forClip);
++                    }
++                }
++                else
++                {
++                    DrawPath(pen, addpath.path);
++                }
+             }
+ 
+             if (path.IsCloseAllFigures == true || (o is GraphicsPath.FigureMode close && close.close == true))
+@@ -3144,6 +3190,18 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+                 this.context.ClosePath();
+             }
+         }
++    }
++
++    private void DrawPathCore(Pen pen, GraphicsPath? path, bool isfill)
++    {
++        if (path == null)
++            return;
++        this.context.Save();
++        path.Context = this.context;
++        this.SetTranslateWithDifference(0, 0);
++        this.SetSourcePen(pen, isfill);
++        this.context.NewPath();
++        ReplayPath(path, pen, forClip: false);
+ 
+         if (isfill == true)
+             this.context.Fill();
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Region.cs b/Net4x.Gtk.Drawing/System/Drawing/Region.cs
+index 8e4cd118..389c32e9 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Region.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Region.cs
+@@ -38,12 +38,28 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     /// <summary>The disjoint rectangles whose union is this region.</summary>
+     internal IReadOnlyList<RectangleF> Bands => bands;
+ 
++    /// <summary>
++    /// True while the interior is still described exactly by <see cref="graphicsPath" /> - that is, the
++    /// region came straight from a <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> and has not been
++    /// combined with anything since. The band list only approximates such a region by its bounding
++    /// rectangle, so a consumer that can honour the real shape (clipping) should ask for
++    /// <see cref="ExactPath" /> first.
++    /// </summary>
++    private bool isPathExact;
++
++    /// <summary>
++    /// The path that describes this region exactly, or <see langword="null" /> when only the band list
++    /// does - after any combine operation, and for regions built from rectangles.
++    /// </summary>
++    internal GraphicsPath? ExactPath => isPathExact ? graphicsPath : null;
++
+     /// <summary>Replaces the interior with the given rectangles and refreshes the derived state.</summary>
+     private void SetBands(List<RectangleF> value)
+     {
+         bands = Compact(value);
+         isInfinite = false;
+         isEmpty = bands.Count == 0;
++        isPathExact = false;
+         rectangle = BoundsOf(bands);
+         graphicsPath = new GraphicsPath();
+         foreach (var band in bands)
+@@ -218,6 +234,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
+         SetBands(BandsOfPath(clone));
+         // Keep the real path so that clipping can use the true shape rather than the bounding box.
+         graphicsPath = clone;
++        isPathExact = true;
+     }
+ 
+     /// <summary>
+@@ -292,6 +309,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
+             regionData = regionData,
+             isEmpty = isEmpty,
+             isInfinite = isInfinite,
++            isPathExact = isPathExact,
+             // The band list has to be copied, not shared: without this, emptying the original emptied
+             // the clone as well.
+             bands = new List<RectangleF>(bands)
+@@ -413,6 +431,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
+         regionData = new RegionData();
+         isEmpty = true;
+         isInfinite = false;
++        isPathExact = false;
+     }
+ 
+     /// <summary>
+@@ -1203,6 +1222,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
+         bands = new List<RectangleF>();
+         isInfinite = true;
+         isEmpty = false;
++        isPathExact = false;
+         graphicsPath = new GraphicsPath();
+         rectangle = RectangleF.Empty;
+         UpdateRegionData();
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ApplicationResidualSurfaceFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ApplicationResidualSurfaceFunctionalTests.cs
+new file mode 100644
+index 00000000..2b8847e8
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ApplicationResidualSurfaceFunctionalTests.cs
+@@ -0,0 +1,170 @@
++using System.ComponentModel;
++using System.Reflection;
++using System.Windows.Forms;
++using System.Windows.Forms.VisualStyles;
++
++namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++
++/// <summary>
++/// Behavioural tests for the lifecycle members <see cref="Application" /> was still missing:
++/// <see cref="Application.Idle" />, <see cref="Application.Restart" />, the product/company metadata and
++/// the visual-style state. Code that touched any of them did not compile at all, so the bar here is that
++/// each one exists and reports what WinForms reports.
++/// </summary>
++[Collection("NonParallelCollection")]
++public class ApplicationResidualSurfaceFunctionalTests
++{
++    [Fact]
++    public void Idle_IsRaisedOnceTheEventQueueDrains()
++    {
++        var raised = 0;
++        void OnIdle(object? sender, EventArgs e) => raised++;
++
++        Application.Idle += OnIdle;
++        try
++        {
++            // The sampling source lives on the GLib main context, so the loop has to be pumped for it to
++            // fire at all. Idleness is sampled on a 50 ms tick; pump for longer than that.
++            var deadline = DateTime.UtcNow.AddSeconds(3);
++            while (raised == 0 && DateTime.UtcNow < deadline)
++            {
++                Application.DoEvents();
++                Thread.Sleep(10);
++            }
++
++            Assert.True(raised > 0, "Idle must be raised once the application has nothing left to process");
++        }
++        finally
++        {
++            Application.Idle -= OnIdle;
++        }
++    }
++
++    [Fact]
++    public void Idle_IsNotRaisedAfterTheHandlerIsRemoved()
++    {
++        var raised = 0;
++        void OnIdle(object? sender, EventArgs e) => raised++;
++
++        Application.Idle += OnIdle;
++        var deadline = DateTime.UtcNow.AddSeconds(3);
++        while (raised == 0 && DateTime.UtcNow < deadline)
++        {
++            Application.DoEvents();
++            Thread.Sleep(10);
++        }
++
++        Application.Idle -= OnIdle;
++        var afterRemoval = raised;
++
++        for (var i = 0; i < 30; i++)
++        {
++            Application.DoEvents();
++            Thread.Sleep(10);
++        }
++
++        Assert.Equal(afterRemoval, raised);
++    }
++
++    [Fact]
++    public void ProductAndCompanyMetadata_ComeFromTheEntryAssembly()
++    {
++        var entry = Assembly.GetEntryAssembly();
++        Assert.NotNull(entry);
++
++        var expectedCompany = entry!.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company;
++        var expectedProduct = entry.GetCustomAttribute<AssemblyProductAttribute>()?.Product;
++        var expectedVersion = entry.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
++            ?? entry.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version
++            ?? entry.GetName().Version?.ToString();
++
++        Assert.Equal(
++            string.IsNullOrWhiteSpace(expectedCompany) ? entry.GetName().Name : expectedCompany,
++            Application.CompanyName);
++        Assert.Equal(
++            string.IsNullOrWhiteSpace(expectedProduct) ? entry.GetName().Name : expectedProduct,
++            Application.ProductName);
++        Assert.Equal(
++            string.IsNullOrWhiteSpace(expectedVersion) ? entry.GetName().Name : expectedVersion,
++            Application.ProductVersion);
++    }
++
++    [Fact]
++    public void ProductAndCompanyMetadata_AreNeverNull()
++    {
++        // WinForms guarantees a string; callers concatenate these into title bars without checking.
++        Assert.NotNull(Application.CompanyName);
++        Assert.NotNull(Application.ProductName);
++        Assert.NotNull(Application.ProductVersion);
++    }
++
++    [Fact]
++    public void VisualStyleState_DefaultsToBothAreasEnabled()
++    {
++        Assert.Equal(VisualStyleState.ClientAndNonClientAreasEnabled, Application.VisualStyleState);
++    }
++
++    [Fact]
++    public void VisualStyleState_RoundTripsAndRejectsUndefinedValues()
++    {
++        var original = Application.VisualStyleState;
++        try
++        {
++            Application.VisualStyleState = VisualStyleState.NoneEnabled;
++            Assert.Equal(VisualStyleState.NoneEnabled, Application.VisualStyleState);
++
++            Assert.Throws<InvalidEnumArgumentException>(
++                () => Application.VisualStyleState = (VisualStyleState)42);
++        }
++        finally
++        {
++            Application.VisualStyleState = original;
++        }
++    }
++
++    [Fact]
++    public void RenderWithVisualStyles_FollowsEnableVisualStylesAndTheState()
++    {
++        var originalState = Application.VisualStyleState;
++        try
++        {
++            // EnableVisualStyles is what turns rendering on; the test suite's process has already called
++            // it or not, so assert the relationship rather than an absolute.
++            Application.EnableVisualStyles();
++
++            Application.VisualStyleState = VisualStyleState.ClientAndNonClientAreasEnabled;
++            Assert.True(Application.RenderWithVisualStyles);
++
++            Application.VisualStyleState = VisualStyleState.NoneEnabled;
++            Assert.False(
++                Application.RenderWithVisualStyles,
++                "with the client area unstyled nothing renders with visual styles");
++
++            Application.VisualStyleState = VisualStyleState.NonClientAreaEnabled;
++            Assert.False(Application.RenderWithVisualStyles);
++
++            Application.VisualStyleState = VisualStyleState.ClientAreaEnabled;
++            Assert.True(Application.RenderWithVisualStyles);
++        }
++        finally
++        {
++            Application.VisualStyleState = originalState;
++        }
++    }
++
++    [Fact]
++    public void Restart_Exists_AndIsNotAThrowingStub()
++    {
++        // Restart cannot be executed in a test - it would replace this process - so what is pinned is that
++        // the member exists with the WinForms signature and is reachable.
++        var restart = typeof(Application).GetMethod(
++            nameof(Application.Restart),
++            BindingFlags.Public | BindingFlags.Static,
++            binder: null,
++            types: Type.EmptyTypes,
++            modifiers: null);
++
++        Assert.NotNull(restart);
++        Assert.Equal(typeof(void), restart!.ReturnType);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ArrangedElementContractFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ArrangedElementContractFunctionalTests.cs
+index e4c52e93..7377df95 100644
+--- a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ArrangedElementContractFunctionalTests.cs
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ArrangedElementContractFunctionalTests.cs
+@@ -93,4 +93,5 @@ public class ArrangedElementContractFunctionalTests
+ 
+         Assert.Null(exception);
+     }
++
+ }
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/CollectionTests/ArrangedElementTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/CollectionTests/ArrangedElementTests.cs
+index 1b00573d..aef7855c 100644
+--- a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/CollectionTests/ArrangedElementTests.cs
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/CollectionTests/ArrangedElementTests.cs
+@@ -78,14 +78,13 @@ public class ArrangedElementTests
+     }
+ 
+     [Fact]
+-    public void Handle_ThrowsNotImplemented()
++    public void Handle_IsZeroForANonWindowedElement()
+     {
+         var sut = new TestArrangedElement();
+ 
+-        Assert.Throws<NotImplementedException>(() =>
+-        {
+-            var _ = sut.Handle;
+-        });
++        // An arranged element is a layout participant, not a window, so it owns no native handle. This
++        // used to throw NotImplementedException, which took down any code that probed elements for one.
++        Assert.Equal(IntPtr.Zero, sut.Handle);
+     }
+ 
+     [Fact]
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewCollectionMembersFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewCollectionMembersFunctionalTests.cs
+new file mode 100644
+index 00000000..caba6fb5
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewCollectionMembersFunctionalTests.cs
+@@ -0,0 +1,150 @@
++using System.Collections;
++using System.Drawing;
++using System.Windows.Forms;
++
++namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++
++/// <summary>
++/// Behavioural tests for the collection and style members that still threw
++/// <see cref="NotImplementedException" />: the <see cref="IList" /> indexer of
++/// <see cref="DataGridViewCellCollection" />, <see cref="ICloneable" /> on
++/// <see cref="DataGridViewCellStyle" />, and the enumerator of the internal cell linked list. Each is
++/// reached only on a specific operation - binding a grid through the non-generic list interface, cloning a
++/// style through <see cref="ICloneable" /> - which is exactly why they survived so long.
++/// </summary>
++[Collection("NonParallelCollection")]
++public class DataGridViewCollectionMembersFunctionalTests
++{
++    private static DataGridViewCellCollection CellsOfARow()
++    {
++        var row = new DataGridViewRow();
++        row.Cells.Add(new DataGridViewTextBoxCell());
++        row.Cells.Add(new DataGridViewTextBoxCell());
++
++        return row.Cells;
++    }
++
++    [Fact]
++    public void IListIndexer_ReadsTheSameCellAsTheTypedIndexer()
++    {
++        var cells = CellsOfARow();
++
++        Assert.Same(cells[0], ((IList)cells)[0]);
++        Assert.Same(cells[1], ((IList)cells)[1]);
++    }
++
++    [Fact]
++    public void IListIndexer_WritesThroughToTheTypedIndexer()
++    {
++        var cells = CellsOfARow();
++        var replacement = new DataGridViewTextBoxCell();
++
++        ((IList)cells)[0] = replacement;
++
++        Assert.Same(replacement, cells[0]);
++    }
++
++    [Fact]
++    public void IListIndexer_RejectsAValueThatIsNotACell()
++    {
++        var cells = CellsOfARow();
++
++        Assert.Throws<ArgumentException>(() => ((IList)cells)[0] = "not a cell");
++    }
++
++    [Fact]
++    public void IListIndexer_RejectsNullTheWayTheTypedIndexerDoes()
++    {
++        var cells = CellsOfARow();
++
++        Assert.Throws<ArgumentNullException>(() => ((IList)cells)[0] = null!);
++    }
++
++    [Fact]
++    public void ICloneable_Clone_ProducesAnIndependentCopyOfTheStyle()
++    {
++        var style = new DataGridViewCellStyle
++        {
++            BackColor = Color.Red,
++            ForeColor = Color.Blue,
++            Format = "N2",
++            Padding = new Padding(1, 2, 3, 4),
++            WrapMode = DataGridViewTriState.True
++        };
++
++        var clone = Assert.IsType<DataGridViewCellStyle>(((ICloneable)style).Clone());
++
++        Assert.NotSame(style, clone);
++        Assert.Equal(style.BackColor, clone.BackColor);
++        Assert.Equal(style.ForeColor, clone.ForeColor);
++        Assert.Equal(style.Format, clone.Format);
++        Assert.Equal(style.Padding, clone.Padding);
++        Assert.Equal(style.WrapMode, clone.WrapMode);
++
++        clone.Format = "N4";
++        Assert.Equal("N2", style.Format);
++    }
++
++    [Fact]
++    public void CellLinkedList_EnumeratesFromTheHead()
++    {
++        var list = new DataGridViewCellLinkedList();
++        var first = new DataGridViewTextBoxCell();
++        var second = new DataGridViewTextBoxCell();
++
++        list.Add(first);
++        list.Add(second);
++
++        Assert.Equal(2, list.Count);
++        // Insertion is at the head, so the most recent addition comes out first.
++        Assert.Same(second, list.HeadCell);
++        Assert.Equal(new object[] { second, first }, list.Cast<object>().ToArray());
++    }
++
++    [Fact]
++    public void CellLinkedList_ContainsAndRemoveTrackTheContents()
++    {
++        var list = new DataGridViewCellLinkedList();
++        var cell = new DataGridViewTextBoxCell();
++        var other = new DataGridViewTextBoxCell();
++        list.Add(cell);
++
++        Assert.True(list.Contains(cell));
++        Assert.False(list.Contains(other));
++
++        Assert.True(list.Remove(cell));
++        Assert.False(list.Remove(cell));
++        Assert.Equal(0, list.Count);
++        Assert.Null(list.HeadCell);
++        Assert.Empty(list.Cast<object>());
++    }
++
++    [Fact]
++    public void CellLinkedList_RemoveAllCellsAtBand_DropsOnlyThatColumn()
++    {
++        var list = new DataGridViewCellLinkedList();
++        var onColumnZero = new DataGridViewTextBoxCell { ColumnIndex = 0 };
++        var onColumnOne = new DataGridViewTextBoxCell { ColumnIndex = 1 };
++        list.Add(onColumnZero);
++        list.Add(onColumnOne);
++
++        var removed = list.RemoveAllCellsAtBand(column: true, bandIndex: 1);
++
++        Assert.Equal(1, removed);
++        Assert.Equal(1, list.Count);
++        Assert.Same(onColumnZero, list.HeadCell);
++    }
++
++    [Fact]
++    public void CellLinkedList_Clear_EmptiesIt()
++    {
++        var list = new DataGridViewCellLinkedList();
++        list.Add(new DataGridViewTextBoxCell());
++        list.Add(new DataGridViewTextBoxCell());
++
++        list.Clear();
++
++        Assert.Equal(0, list.Count);
++        Assert.Empty(list.Cast<object>());
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridBrowserFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridBrowserFunctionalTests.cs
+new file mode 100644
+index 00000000..45a403ec
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridBrowserFunctionalTests.cs
+@@ -0,0 +1,383 @@
++using System.ComponentModel;
++using System.ComponentModel.Design;
++using System.Reflection;
++using System.Runtime.ExceptionServices;
++using System.Windows.Forms;
++using System.Windows.Forms.ComponentModel.Com2Interop;
++using System.Windows.Forms.PropertyGridInternal;
++
++namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++
++/// <summary>
++/// Behavioural tests for the property browser's editing machinery.
++/// <para>
++/// <see cref="GridEntry" /> claims to be an <see cref="ITypeDescriptorContext" /> - that is what a type
++/// converter or UI type editor is handed while a property is being edited - but every member of that
++/// contract threw <see cref="NotImplementedException" />, so any conversion that consulted its context
++/// failed at runtime. The six <see cref="IComPropertyBrowser" /> members threw as well, and
++/// <c>PropertyGrid.InPropertySet</c> answered a constant <see langword="true" />.
++/// </para>
++/// </summary>
++[Collection("NonParallelCollection")]
++public class PropertyGridBrowserFunctionalTests
++{
++    /// <summary>A sited component, so the entry has a container and a service provider to defer to.</summary>
++    private sealed class Widget : Component
++    {
++        public string Caption { get; set; } = "before";
++
++        public int Count { get; set; }
++    }
++
++    private sealed class StubContainer : Container
++    {
++    }
++
++    private sealed class StubSite : ISite
++    {
++        private readonly Dictionary<Type, object> _services = new();
++
++        public StubSite(IComponent component, IContainer container)
++        {
++            Component = component;
++            Container = container;
++        }
++
++        public IComponent Component { get; }
++
++        public IContainer Container { get; }
++
++        public bool DesignMode => true;
++
++        public string? Name { get; set; }
++
++        public void AddService(Type serviceType, object service) => _services[serviceType] = service;
++
++        public object? GetService(Type serviceType) =>
++            _services.TryGetValue(serviceType, out var service) ? service : null;
++    }
++
++    /// <summary>Records what the entry reports, and can refuse a change the way a designer checkout does.</summary>
++    private sealed class RecordingChangeService : IComponentChangeService
++    {
++        public List<(object Component, MemberDescriptor? Member)> Changing { get; } = new();
++
++        public List<(object Component, MemberDescriptor? Member)> Changed { get; } = new();
++
++        public bool RefuseChanges { get; set; }
++
++#pragma warning disable CS0067 // the interface requires these events; nothing here raises them
++        public event ComponentEventHandler? ComponentAdded;
++
++        public event ComponentEventHandler? ComponentAdding;
++
++        public event ComponentChangedEventHandler? ComponentChanged;
++
++        public event ComponentChangingEventHandler? ComponentChanging;
++
++        public event ComponentEventHandler? ComponentRemoved;
++
++        public event ComponentEventHandler? ComponentRemoving;
++
++        public event ComponentRenameEventHandler? ComponentRename;
++#pragma warning restore CS0067
++
++        public void OnComponentChanged(object component, MemberDescriptor? member, object? oldValue, object? newValue) =>
++            Changed.Add((component, member));
++
++        public void OnComponentChanging(object component, MemberDescriptor? member)
++        {
++            if (RefuseChanges)
++            {
++                throw CheckoutException.Canceled;
++            }
++
++            Changing.Add((component, member));
++        }
++    }
++
++    private static GridEntry EntryFor(Widget widget, string property, PropertyGrid? ownerGrid = null) =>
++        new(null, GridItemType.Property, 1, property, widget, "description")
++        {
++            Editable = true,
++            ValueType = typeof(Widget).GetProperty(property)!.PropertyType,
++            PropertyInfo = typeof(Widget).GetProperty(property),
++            OwnerGrid = ownerGrid
++        };
++
++    private static (Widget Widget, StubSite Site, RecordingChangeService Changes) SitedWidget()
++    {
++        var widget = new Widget();
++        var site = new StubSite(widget, new StubContainer());
++        var changes = new RecordingChangeService();
++        site.AddService(typeof(IComponentChangeService), changes);
++        widget.Site = site;
++
++        return (widget, site, changes);
++    }
++
++    [Fact]
++    public void Instance_IsTheObjectWhosePropertyIsBeingEdited()
++    {
++        var widget = new Widget();
++        var entry = EntryFor(widget, nameof(Widget.Caption));
++
++        Assert.Same(widget, ((ITypeDescriptorContext)entry).Instance);
++    }
++
++    [Fact]
++    public void Container_IsTheContainerOfTheEditedComponent()
++    {
++        var (widget, site, _) = SitedWidget();
++        var entry = EntryFor(widget, nameof(Widget.Caption));
++
++        Assert.Same(site.Container, ((ITypeDescriptorContext)entry).Container);
++    }
++
++    [Fact]
++    public void Container_IsNullWhenNothingIsSited()
++    {
++        var entry = EntryFor(new Widget(), nameof(Widget.Caption));
++
++        Assert.Null(((ITypeDescriptorContext)entry).Container);
++    }
++
++    [Fact]
++    public void PropertyDescriptor_DescribesThePropertyTheEntryWrites()
++    {
++        var entry = EntryFor(new Widget(), nameof(Widget.Caption));
++
++        var descriptor = entry.PropertyDescriptor;
++
++        Assert.NotNull(descriptor);
++        Assert.Equal(nameof(Widget.Caption), descriptor!.Name);
++        Assert.Equal(typeof(string), descriptor.PropertyType);
++    }
++
++    [Fact]
++    public void GetService_AnswersForItselfAndDefersToTheSite()
++    {
++        var (widget, _, changes) = SitedWidget();
++        var entry = EntryFor(widget, nameof(Widget.Caption));
++
++        Assert.Same(entry, entry.GetService(typeof(ITypeDescriptorContext)));
++        Assert.Same(changes, entry.GetService(typeof(IComponentChangeService)));
++        Assert.Null(entry.GetService(typeof(IServiceProvider)));
++    }
++
++    [Fact]
++    public void GetService_RejectsNull()
++    {
++        var entry = EntryFor(new Widget(), nameof(Widget.Caption));
++
++        Assert.Throws<ArgumentNullException>(() => entry.GetService(null!));
++    }
++
++    [Fact]
++    public void OnComponentChanged_ReportsTheEditedComponentAndProperty()
++    {
++        var (widget, _, changes) = SitedWidget();
++        var entry = EntryFor(widget, nameof(Widget.Caption));
++
++        entry.OnComponentChanged();
++
++        var reported = Assert.Single(changes.Changed);
++        Assert.Same(widget, reported.Component);
++        Assert.Equal(nameof(Widget.Caption), reported.Member?.Name);
++    }
++
++    [Fact]
++    public void OnComponentChanging_IsTrueWhenTheDesignerAgrees()
++    {
++        var (widget, _, changes) = SitedWidget();
++        var entry = EntryFor(widget, nameof(Widget.Caption));
++
++        Assert.True(entry.OnComponentChanging());
++        Assert.Single(changes.Changing);
++    }
++
++    [Fact]
++    public void OnComponentChanging_IsFalseWhenTheDesignerRefuses()
++    {
++        var (widget, _, changes) = SitedWidget();
++        changes.RefuseChanges = true;
++        var entry = EntryFor(widget, nameof(Widget.Caption));
++
++        Assert.False(entry.OnComponentChanging());
++    }
++
++    [Fact]
++    public void OnComponentChanging_IsTrueWithNoDesignSurface()
++    {
++        var entry = EntryFor(new Widget(), nameof(Widget.Caption));
++
++        Assert.True(entry.OnComponentChanging(), "at run time there is nobody to refuse the change");
++    }
++
++    [Fact]
++    public void SetValue_WritesThePropertyAndNotifiesTheDesigner()
++    {
++        var (widget, _, changes) = SitedWidget();
++        var entry = EntryFor(widget, nameof(Widget.Caption));
++
++        entry.SetValue("after");
++
++        Assert.Equal("after", widget.Caption);
++        Assert.Single(changes.Changing);
++        Assert.Single(changes.Changed);
++    }
++
++    [Fact]
++    public void SetValue_LeavesThePropertyAloneWhenTheChangeIsRefused()
++    {
++        var (widget, _, changes) = SitedWidget();
++        changes.RefuseChanges = true;
++        var entry = EntryFor(widget, nameof(Widget.Caption));
++
++        entry.SetValue("after");
++
++        Assert.Equal("before", widget.Caption);
++        Assert.Empty(changes.Changed);
++    }
++
++    [Fact]
++    public void Value_ReadsThroughTheProperty()
++    {
++        var widget = new Widget { Count = 7 };
++        var entry = EntryFor(widget, nameof(Widget.Count));
++
++        Assert.Equal(7, entry.Value);
++    }
++
++    /// <summary>
++    /// Runs <paramref name="body" /> against a live <see cref="PropertyGrid" />. The grid is a GTK widget
++    /// that only survives inside a realized form, so - as the other property-grid tests do - it is hosted
++    /// on a form and exercised from its Load handler; a failure inside the handler is re-thrown on the
++    /// test's own thread so xUnit reports it.
++    /// </summary>
++    private static void OnAGrid(Action<PropertyGrid> body)
++    {
++        var form = new Form();
++        var grid = new PropertyGrid();
++        form.Controls.Add(grid);
++        ExceptionDispatchInfo? failure = null;
++
++        form.Load += (_, _) =>
++        {
++            try
++            {
++                body(grid);
++            }
++            catch (Exception ex)
++            {
++                failure = ExceptionDispatchInfo.Capture(ex);
++            }
++            finally
++            {
++                form.Close();
++            }
++        };
++
++        form.ShowDialog();
++        failure?.Throw();
++    }
++
++    [Fact]
++    public void ComPropertyBrowser_MembersDoNotThrow()
++    {
++        OnAGrid(grid =>
++        {
++            var browser = (IComPropertyBrowser)grid;
++
++            // Nothing is being edited, so committing has nothing to do and must report success.
++            Assert.True(browser.EnsurePendingChangesCommitted());
++            browser.DropDownDone();
++            browser.HandleF4();
++            browser.SaveState(null);
++            browser.LoadState(null);
++        });
++    }
++
++    [Fact]
++    public void LoadState_RestoresTheDocumentedDefaults()
++    {
++        OnAGrid(grid =>
++        {
++            grid.PropertySort = PropertySort.NoSort;
++            grid.HelpVisible = false;
++            grid.CommandsVisibleIfAvailable = true;
++
++            ((IComPropertyBrowser)grid).LoadState(null);
++
++            Assert.Equal(PropertySort.CategorizedAlphabetical, grid.PropertySort);
++            Assert.True(grid.HelpVisible);
++            Assert.False(grid.CommandsVisibleIfAvailable);
++        });
++    }
++
++    [Fact]
++    public void InPropertySet_IsFalseWhileNothingIsBeingSet()
++    {
++        OnAGrid(grid =>
++            Assert.False(grid.InPropertySet, "the grid is not setting a property just by existing"));
++    }
++
++    [Fact]
++    public void SelectedObject_PopulatesTheGridAndRaisesSelectedObjectsChanged()
++    {
++        OnAGrid(grid =>
++        {
++            var raised = 0;
++            grid.SelectedObjectsChanged += (_, _) => raised++;
++
++            grid.SelectedObject = new Widget();
++
++            Assert.Equal(1, raised);
++            Assert.True(RowCount(grid) > 0, "assigning SelectedObject must load the object's properties");
++        });
++    }
++
++    [Fact]
++    public void SelectedObject_RoundTripsThroughSelectedObjects()
++    {
++        OnAGrid(grid =>
++        {
++            var widget = new Widget();
++
++            grid.SelectedObject = widget;
++
++            Assert.Same(widget, grid.SelectedObject);
++            Assert.Same(widget, Assert.Single(grid.SelectedObjects));
++        });
++    }
++
++    [Fact]
++    public void SelectedObject_Null_ClearsTheGrid()
++    {
++        OnAGrid(grid =>
++        {
++            grid.SelectedObject = new Widget();
++
++            grid.SelectedObject = null!;
++
++            Assert.Empty(grid.SelectedObjects);
++            Assert.Equal(0, RowCount(grid));
++        });
++    }
++
++    /// <summary>
++    /// How many rows the view is actually showing. The view is private, so this reaches for it directly -
++    /// the point of the test is that the rows exist at all, which no public member reports.
++    /// </summary>
++    private static int RowCount(PropertyGrid grid)
++    {
++        var view = typeof(PropertyGrid)
++            .GetField("_propertyView", BindingFlags.Instance | BindingFlags.NonPublic)!
++            .GetValue(grid)!;
++        var store = (global::Gtk.TreeStore)view.GetType()
++            .GetField("store", BindingFlags.Instance | BindingFlags.Public)!
++            .GetValue(view)!;
++
++        return store.IterNChildren();
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridTests.cs
+index bbdde1eb..44cccb74 100644
+--- a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridTests.cs
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridTests.cs
+@@ -249,28 +249,32 @@ public class PropertyGridTests
+     }
+ 
+     [Fact]
+-    public void IComPropertyBrowser_Methods_ShouldThrow()
++    public void IComPropertyBrowser_Methods_ShouldWork()
+     {
++        // These used to throw NotImplementedException; they now close the open editor and commit the
++        // pending edit. See PropertyGridBrowserFunctionalTests for the behaviour they were given.
+         var form = new Form();
+         var grid = new PropertyGrid();
+         form.Controls.Add(grid);
+ 
+         Exception? ex1 = null;
+         Exception? ex2 = null;
++        var committed = false;
+ 
+         form.Load += (s, e) =>
+         {
+             var browser = (ComponentModel.Com2Interop.IComPropertyBrowser)grid;
+ 
+             try { browser.DropDownDone(); } catch (Exception e1) { ex1 = e1; }
+-            try { browser.EnsurePendingChangesCommitted(); } catch (Exception e2) { ex2 = e2; }
++            try { committed = browser.EnsurePendingChangesCommitted(); } catch (Exception e2) { ex2 = e2; }
+ 
+             form.Close();
+         };
+ 
+         form.ShowDialog();
+ 
+-        Assert.IsType<NotImplementedException>(ex1);
+-        Assert.IsType<NotImplementedException>(ex2);
++        Assert.Null(ex1);
++        Assert.Null(ex2);
++        Assert.True(committed, "with no edit open there is nothing to commit and the call succeeds");
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.Lifecycle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.Lifecycle.cs
+new file mode 100644
+index 00000000..8f5f60c0
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.Lifecycle.cs
+@@ -0,0 +1,282 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Reflection;
++using System.Windows.Forms.VisualStyles;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// The residual lifecycle surface of <c>System.Windows.Forms.Application</c>: the idle notification,
++/// restart, the product/company metadata and the visual-style state.
++/// </summary>
++public sealed partial class Application
++{
++    /// <summary>How often idleness is sampled, in milliseconds.</summary>
++    private const uint IdlePollInterval = 50;
++
++    private static EventHandler? _idle;
++
++    /// <summary>Whether the idle poll source is installed on the GLib main context.</summary>
++    private static bool _idlePolling;
++
++    /// <summary>Whether <see cref="E:System.Windows.Forms.Application.Idle" /> has already been raised for the current lull.</summary>
++    private static bool _idleRaised;
++
++    private static bool _useVisualStyles;
++
++    private static VisualStyleState _visualStyleState = VisualStyleState.ClientAndNonClientAreasEnabled;
++
++    /// <summary>
++    /// Occurs when the application finishes processing and is about to enter the idle state.
++    /// </summary>
++    /// <remarks>
++    /// GTK has no "the queue just drained" notification, so idleness is sampled from the GLib main
++    /// context: the event is raised once each time the event queue is found empty and is re-armed as soon
++    /// as events appear again - the same once-per-lull contract WinForms offers. The sampling source only
++    /// exists while something is subscribed, so an application that never uses <c>Idle</c> pays nothing.
++    /// </remarks>
++    public static event EventHandler? Idle
++    {
++        add
++        {
++            lock (internalSyncObject)
++            {
++                _idle = (EventHandler?)Delegate.Combine(_idle, value);
++                StartIdlePolling();
++            }
++        }
++        remove
++        {
++            lock (internalSyncObject)
++            {
++                _idle = (EventHandler?)Delegate.Remove(_idle, value);
++            }
++        }
++    }
++
++    /// <summary>
++    /// Installs the idle sampling source, unless it is already running.
++    /// </summary>
++    private static void StartIdlePolling()
++    {
++        if (_idlePolling || _idle == null)
++        {
++            return;
++        }
++
++        _idlePolling = true;
++        _idleRaised = false;
++        GLib.Timeout.Add(IdlePollInterval, PollIdle);
++    }
++
++    /// <summary>
++    /// One sample: work still queued re-arms the notification, a drained queue raises it once.
++    /// </summary>
++    /// <returns><see langword="false" /> once nobody is listening any more, which removes the source.</returns>
++    private static bool PollIdle()
++    {
++        if (_idle == null)
++        {
++            _idlePolling = false;
++
++            return false;
++        }
++
++        if (Gtk.Application.EventsPending() || GLib.MainContext.Default.HasPendingEvents)
++        {
++            _idleRaised = false;
++        }
++        else if (!_idleRaised)
++        {
++            _idleRaised = true;
++            OnIdle(EventArgs.Empty);
++        }
++
++        return true;
++    }
++
++    /// <summary>
++    /// Raises <see cref="E:System.Windows.Forms.Application.Idle" />, applying the configured
++    /// unhandled-exception policy to anything a handler throws - an exception escaping here would
++    /// otherwise unwind through GLib's callback marshalling.
++    /// </summary>
++    /// <param name="e">The event data.</param>
++    private static void OnIdle(EventArgs e)
++    {
++        try
++        {
++            _idle?.Invoke(null, e);
++        }
++        catch (Exception ex)
++        {
++            OnThreadException(ex);
++        }
++    }
++
++    /// <summary>
++    /// Gets the company name associated with the application.
++    /// </summary>
++    /// <remarks>
++    /// Read from the entry assembly's <see cref="T:System.Reflection.AssemblyCompanyAttribute" />, falling
++    /// back to the assembly's own name - the same order WinForms uses.
++    /// </remarks>
++    public static string CompanyName =>
++        EntryAssemblyMetadata(a => a.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company);
++
++    /// <summary>
++    /// Gets the product name associated with the application.
++    /// </summary>
++    /// <remarks>
++    /// Read from the entry assembly's <see cref="T:System.Reflection.AssemblyProductAttribute" />, falling
++    /// back to the assembly's own name.
++    /// </remarks>
++    public static string ProductName =>
++        EntryAssemblyMetadata(a => a.GetCustomAttribute<AssemblyProductAttribute>()?.Product);
++
++    /// <summary>
++    /// Gets the product version associated with the application.
++    /// </summary>
++    /// <remarks>
++    /// <see cref="T:System.Reflection.AssemblyInformationalVersionAttribute" /> wins, as in WinForms, then
++    /// <see cref="T:System.Reflection.AssemblyFileVersionAttribute" />, then the assembly version.
++    /// </remarks>
++    public static string ProductVersion =>
++        EntryAssemblyMetadata(a =>
++            a.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
++            ?? a.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version
++            ?? a.GetName().Version?.ToString());
++
++    /// <summary>
++    /// Reads a piece of entry-assembly metadata, falling back to the assembly's simple name and finally to
++    /// the empty string, so these properties never return <see langword="null" />.
++    /// </summary>
++    /// <param name="read">Reads the attribute value from the entry assembly.</param>
++    private static string EntryAssemblyMetadata(Func<Assembly, string?> read)
++    {
++        var entry = Assembly.GetEntryAssembly();
++        if (entry == null)
++        {
++            return string.Empty;
++        }
++
++        var value = read(entry);
++
++        return string.IsNullOrWhiteSpace(value) ? entry.GetName().Name ?? string.Empty : value!;
++    }
++
++    /// <summary>
++    /// Gets a value indicating whether the application is drawing with visual styles.
++    /// </summary>
++    /// <remarks>
++    /// True once <see cref="M:System.Windows.Forms.Application.EnableVisualStyles" /> has been called,
++    /// provided <see cref="P:System.Windows.Forms.Application.VisualStyleState" /> still enables the client
++    /// area and the theme is available.
++    /// </remarks>
++    public static bool RenderWithVisualStyles =>
++        _useVisualStyles
++        && VisualStyleInformation.IsEnabledByUser
++        && VisualStyleInformation.IsSupportedByOS
++        && (VisualStyleState == VisualStyleState.ClientAreaEnabled
++            || VisualStyleState == VisualStyleState.ClientAndNonClientAreasEnabled);
++
++    /// <summary>
++    /// Gets or sets which areas of the application windows are drawn with visual styles.
++    /// </summary>
++    /// <exception cref="T:System.ComponentModel.InvalidEnumArgumentException">
++    /// The value is not one of the <see cref="T:System.Windows.Forms.VisualStyles.VisualStyleState" /> members.
++    /// </exception>
++    public static VisualStyleState VisualStyleState
++    {
++        get => _visualStyleState;
++        set
++        {
++            if (value < VisualStyleState.NoneEnabled || value > VisualStyleState.ClientAndNonClientAreasEnabled)
++            {
++                throw new global::System.ComponentModel.InvalidEnumArgumentException(
++                    nameof(value), (int)value, typeof(VisualStyleState));
++            }
++
++            _visualStyleState = value;
++        }
++    }
++
++    /// <summary>
++    /// Shuts the application down and starts a new instance of it immediately.
++    /// </summary>
++    /// <exception cref="T:System.NotSupportedException">
++    /// The application has no entry assembly - it is hosted rather than launched - so there is nothing to
++    /// restart.
++    /// </exception>
++    /// <remarks>
++    /// As in WinForms, the message loop is ended first and the replacement process is started afterwards,
++    /// with the same command line. A framework-dependent .NET application is relaunched through its host,
++    /// since its entry point is a library.
++    /// </remarks>
++    public static void Restart()
++    {
++        if (Assembly.GetEntryAssembly() == null)
++        {
++            throw new NotSupportedException("Application.Restart is only supported for executable applications.");
++        }
++
++        var startInfo = BuildRestartStartInfo();
++
++        Exit();
++
++        try
++        {
++            Diagnostics.Process.Start(startInfo);
++        }
++        catch (Exception ex)
++        {
++            Diagnostics.GtkLogger.Debug("Unexpected exception restarting the application", ex);
++
++            throw;
++        }
++    }
++
++    /// <summary>
++    /// Works out how to launch this application again: the executable to run and the arguments to repeat.
++    /// </summary>
++    private static Diagnostics.ProcessStartInfo BuildRestartStartInfo()
++    {
++        var commandLine = Environment.GetCommandLineArgs();
++        var arguments = new List<string>();
++        var fileName = ExecutablePath;
++
++        if (fileName.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
++        {
++            // A framework-dependent application's entry assembly is a library: it has to go back through
++            // the host that is running this process.
++            var host = Diagnostics.Process.GetCurrentProcess().MainModule?.FileName;
++            arguments.Add(fileName);
++            fileName = string.IsNullOrWhiteSpace(host) ? "dotnet" : host!;
++        }
++
++        for (var i = 1; i < commandLine.Length; i++)
++        {
++            arguments.Add(commandLine[i]);
++        }
++
++        var startInfo = new Diagnostics.ProcessStartInfo
++        {
++            FileName = fileName,
++            Arguments = string.Join(" ", arguments.Select(Quote)),
++            UseShellExecute = false,
++            WorkingDirectory = StartupPath
++        };
++
++        return startInfo;
++    }
++
++    /// <summary>
++    /// Quotes an argument that contains whitespace so the relaunched process receives it whole.
++    /// </summary>
++    /// <param name="argument">The argument to quote.</param>
++    private static string Quote(string argument) =>
++        argument.IndexOf(' ') < 0 || argument.StartsWith("\"", StringComparison.Ordinal)
++            ? argument
++            : "\"" + argument.Replace("\"", "\\\"") + "\"";
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+index bc2c2e08..0a762016 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+@@ -441,11 +441,16 @@ public sealed partial class Application
+     }
+ 
+     /// <summary>
+-    /// Enables the visual styles.
++    /// Enables visual styles for the application.
+     /// </summary>
++    /// <remarks>
++    /// GTK themes the widgets itself, so there is no per-process theming switch to flip; what this does
++    /// record is the answer <see cref="P:System.Windows.Forms.Application.RenderWithVisualStyles" /> gives,
++    /// which owner-drawing code branches on.
++    /// </remarks>
+     public static void EnableVisualStyles()
+     {
+-
++        _useVisualStyles = true;
+     }
+ 
+     /// <summary>
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ArrangedElement.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ArrangedElement.cs
+index 8cf6081e..3ab16b4e 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ArrangedElement.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ArrangedElement.cs
+@@ -48,7 +48,12 @@ internal abstract class ArrangedElement : Component, IArrangedElement
+         }
+     }
+ 
+-    public IntPtr Handle => throw new NotImplementedException();
++    /// <summary>
++    /// An arranged element is a layout participant, not a window: it owns no native handle, so this is
++    /// always <see cref="F:System.IntPtr.Zero" />. Windowed participants override it - see
++    /// <see cref="P:System.Windows.Forms.Control.Handle" />.
++    /// </summary>
++    public IntPtr Handle => IntPtr.Zero;
+ 
+     public abstract LayoutEngine LayoutEngine
+     {
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellCollection.cs
+index 78b6abad..338dd15a 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellCollection.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellCollection.cs
+@@ -201,7 +201,20 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
+         }
+     }
+ 
+-    object IList.this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
++    object IList.this[int index]
++    {
++        get => this[index];
++        set
++        {
++            if (value != null && value is not DataGridViewCell)
++            {
++                throw new ArgumentException("Value must be a DataGridViewCell.", nameof(value));
++            }
++
++            // A null goes to the typed indexer so it reports the ArgumentNullException WinForms reports.
++            this[index] = (DataGridViewCell)value!;
++        }
++    }
+ 
+     /// <summary>
+     /// Adds the specified data grid view cell.
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellLinkedList.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellLinkedList.cs
+index e5143b69..66bfeae1 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellLinkedList.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellLinkedList.cs
+@@ -1,7 +1,8 @@
+-﻿// Licensed to the .NET Foundation under one or more agreements.
++// Licensed to the .NET Foundation under one or more agreements.
+ // The .NET Foundation licenses this file to you under the MIT license.
+ 
+ using System.Collections;
++using System.Collections.Generic;
+ 
+ namespace System.Windows.Forms;
+ 
+@@ -9,70 +10,126 @@ namespace System.Windows.Forms;
+ /// Represents a linked list of
+ /// <see cref="DataGridViewCell" /> objects
+ /// </summary>
++/// <remarks>
++/// Insertion is at the head, as in WinForms: the most recently added cell is
++/// <see cref="HeadCell" /> and is at index 0, and enumeration walks from the head towards the tail.
++/// </remarks>
+ internal class DataGridViewCellLinkedList : IEnumerable
+ {
+ 
+-    private readonly int _count;
++    private readonly List<DataGridViewCell> _cells = new();
+ 
+     /// <summary>
+     /// Initializes a new instance of the
+-    /// <see cref="T:System.Windows.Forms.DataGridView" /> class.
+-    /// Configures the underlying GTK TreeView and prepares columns/rows collections.
++    /// <see cref="T:System.Windows.Forms.DataGridViewCellLinkedList" /> class.
+     /// </summary>
+     public DataGridViewCellLinkedList()
+     {
+ 
+     }
+ 
+-    public int Count => _count;
++    /// <summary>
++    /// Gets the number of cells in the list.
++    /// </summary>
++    public int Count => _cells.Count;
+ 
++    /// <summary>
++    /// Gets the cell at the head of the list - the one added last - or <see langword="null" /> when the
++    /// list is empty.
++    /// </summary>
+     public DataGridViewCell? HeadCell
+     {
+         get
+         {
+-            return null;
++            return _cells.Count == 0 ? null : _cells[0];
+         }
+     }
+ 
++    /// <summary>
++    /// Gets the cell at <paramref name="index" />, counting from the head.
++    /// </summary>
++    /// <param name="index">The zero-based index.</param>
+     public DataGridViewCell? this[int index]
+     {
+         get
+         {
+-            return null;
++            return index >= 0 && index < _cells.Count ? _cells[index] : null;
+         }
+     }
+ 
++    /// <summary>
++    /// Adds a cell at the head of the list.
++    /// </summary>
++    /// <param name="dataGridViewCell">The cell to add.</param>
+     public void Add(DataGridViewCell dataGridViewCell)
+     {
++        if (dataGridViewCell == null)
++        {
++            throw new ArgumentNullException(nameof(dataGridViewCell));
++        }
+ 
++        _cells.Insert(0, dataGridViewCell);
+     }
+ 
++    /// <summary>
++    /// Removes every cell from the list.
++    /// </summary>
+     public void Clear()
+     {
+-
++        _cells.Clear();
+     }
+ 
++    /// <summary>
++    /// Determines whether the list contains <paramref name="dataGridViewCell" />.
++    /// </summary>
++    /// <param name="dataGridViewCell">The cell to look for.</param>
++    /// <returns><see langword="true" /> when the cell is in the list.</returns>
+     public bool Contains(DataGridViewCell dataGridViewCell)
+     {
+-
+-        return false;
++        return dataGridViewCell != null && _cells.Contains(dataGridViewCell);
+     }
+ 
++    /// <summary>
++    /// Returns an enumerator that walks the list from the head towards the tail.
++    /// </summary>
++    /// <returns>An enumerator over the cells.</returns>
+     public IEnumerator GetEnumerator()
+     {
+-        throw new NotImplementedException();
++        return _cells.GetEnumerator();
+     }
+ 
++    /// <summary>
++    /// Removes the first occurrence of <paramref name="dataGridViewCell" />.
++    /// </summary>
++    /// <param name="dataGridViewCell">The cell to remove.</param>
++    /// <returns><see langword="true" /> when a cell was removed.</returns>
+     public bool Remove(DataGridViewCell dataGridViewCell)
+     {
+-
+-        return false;
++        return dataGridViewCell != null && _cells.Remove(dataGridViewCell);
+     }
+ 
++    /// <summary>
++    /// Removes every cell that sits on the given band.
++    /// </summary>
++    /// <param name="column">
++    /// <see langword="true" /> to match on <see cref="P:System.Windows.Forms.DataGridViewCell.ColumnIndex" />,
++    /// <see langword="false" /> to match on <see cref="P:System.Windows.Forms.DataGridViewCell.RowIndex" />.
++    /// </param>
++    /// <param name="bandIndex">The index of the band being removed.</param>
++    /// <returns>How many cells were removed.</returns>
+     public int RemoveAllCellsAtBand(bool column, int bandIndex)
+     {
+         var removedCount = 0;
++        for (var i = _cells.Count - 1; i >= 0; i--)
++        {
++            var cell = _cells[i];
++            if ((column && cell.ColumnIndex == bandIndex) || (!column && cell.RowIndex == bandIndex))
++            {
++                _cells.RemoveAt(i);
++                removedCount++;
++            }
++        }
+ 
+         return removedCount;
+     }
+-}
+\ No newline at end of file
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyle.cs
+index 9cb48aba..038f08d8 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyle.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyle.cs
+@@ -322,8 +322,5 @@ public class DataGridViewCellStyle : ICloneable
+         return "DataGridViewCellStyle";
+     }
+ 
+-    object ICloneable.Clone()
+-    {
+-        throw new NotImplementedException();
+-    }
++    object ICloneable.Clone() => Clone();
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
+index 7d30c254..656eb17d 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
+@@ -527,7 +527,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
+     /// false
+     /// </c>.
+     /// </value>
+-    public bool InPropertySet => true;
++    public bool InPropertySet => _propertyView.InPropertySet;
+ 
+     /// <summary>
+     /// Gets or sets a value indicating whether large buttons.
+@@ -639,11 +639,10 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
+     public object SelectedObject
+     {
+         get => _selectedObjects is null || _selectedObjects.Length == 0 ? null : _selectedObjects[0];
+-        set
+-        {
+-            var selectedObjects = value is null ? Array.Empty<object>() : (new object[] { value });
+-            _selectedObjects = selectedObjects;
+-        }
++        // Routed through SelectedObjects rather than writing the field: assigning SelectedObject has to
++        // populate the grid and raise SelectedObjectsChanged, exactly as assigning a one-element
++        // SelectedObjects does.
++        set => SelectedObjects = value is null ? Array.Empty<object>() : new[] { value };
+     }
+ 
+     /// <summary>
+@@ -665,6 +664,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
+                 _propertyView.LoadPropertyInfo(null);
+             else
+                 _propertyView.LoadPropertyInfo(_selectedObjects[0]);
++
++            OnSelectedObjectsChanged(EventArgs.Empty);
+         }
+     }
+ 
+@@ -914,36 +915,49 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
+     {
+     }
+ 
+-    void IComPropertyBrowser.DropDownDone()
+-    {
+-        throw new NotImplementedException();
+-    }
++    void IComPropertyBrowser.DropDownDone() => _propertyView.DropDownDone();
+ 
+-    bool IComPropertyBrowser.EnsurePendingChangesCommitted()
+-    {
+-        throw new NotImplementedException();
+-    }
++    bool IComPropertyBrowser.EnsurePendingChangesCommitted() => _propertyView.EnsurePendingChangesCommitted();
+ 
+     void IComPropertyBrowser.HandleF4()
+     {
+-        throw new NotImplementedException();
++        Select();
++        _propertyView.FocusGrid();
+     }
+ 
+-    void IComPropertyBrowser.LoadState(RegistryKey key)
+-    {
+-        throw new NotImplementedException();
+-    }
++    void IComPropertyBrowser.LoadState(RegistryKey key) => LoadState(key);
+ 
+-    void SaveState(RegistryKey key)
++    /// <summary>
++    /// Applies the persisted view state.
++    /// </summary>
++    /// <param name="key">
++    /// The key the state was saved under. There is no registry outside Windows, so the shim's
++    /// <see cref="T:Microsoft.Win32.RegistryKey" /> carries no values and the WinForms
++    /// <see langword="null" />-key path - restore the defaults - is taken whatever is passed. Documented
++    /// deviation.
++    /// </param>
++    private void LoadState(RegistryKey key)
+     {
+-        throw new NotImplementedException();
++        PropertySort = PropertySort.CategorizedAlphabetical;
++        HelpVisible = true;
++        CommandsVisibleIfAvailable = false;
+     }
+ 
+-    void IComPropertyBrowser.SaveState(RegistryKey key)
++    /// <summary>
++    /// Persists the view state.
++    /// </summary>
++    /// <param name="key">
++    /// The key to save under. No registry exists outside Windows and the shim's
++    /// <see cref="T:Microsoft.Win32.RegistryKey" /> holds no values, so nothing is written. Documented
++    /// deviation; the state is re-derived from the defaults on the next
++    /// <see cref="M:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser.LoadState(Microsoft.Win32.RegistryKey)" />.
++    /// </param>
++    private void SaveState(RegistryKey key)
+     {
+-        throw new NotImplementedException();
+     }
+ 
++    void IComPropertyBrowser.SaveState(RegistryKey key) => SaveState(key);
++
+     /// <summary>
+     /// Raises the ComComponentNameChanged event.
+     /// </summary>
+@@ -960,6 +974,15 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
+         GridItemActivated?.Invoke(this, e);
+     }
+ 
++    /// <summary>
++    /// Raises the SelectedObjectsChanged event.
++    /// </summary>
++    /// <param name="e">The event data.</param>
++    protected virtual void OnSelectedObjectsChanged(System.EventArgs e)
++    {
++        ((EventHandler)Events[s_selectedObjectsChangedEvent])?.Invoke(this, e);
++    }
++
+     private void _propertyView_RowActivated(object o, Gtk.RowActivatedArgs args)
+     {
+         if (_propertyView.store.GetIter(out var iter, args.Path))
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/GridEntry.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/GridEntry.cs
+index 623feef6..9a6fbe58 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/GridEntry.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/GridEntry.cs
+@@ -2,6 +2,7 @@
+ // The .NET Foundation licenses this file to you under the MIT license.
+ 
+ using System.ComponentModel;
++using System.ComponentModel.Design;
+ using System.Reflection;
+ 
+ namespace System.Windows.Forms.PropertyGridInternal;
+@@ -11,6 +12,10 @@ public partial class GridEntry : GridItem, ITypeDescriptorContext
+ 
+     public GridEntry? _parent;
+ 
++    private PropertyDescriptor? _descriptor;
++
++    private bool _descriptorResolved;
++
+     public GridEntry(GridEntry? parent, GridItemType itemtype, int level, string? label, object? entryobj, string? description)
+     {
+         _parent = parent;
+@@ -28,7 +33,27 @@ public partial class GridEntry : GridItem, ITypeDescriptorContext
+         OwnerGrid = ownerGrid;
+     }
+ 
+-    public IContainer Container => throw new NotImplementedException();
++    /// <summary>
++    /// Gets the container the object being edited belongs to, or <see langword="null" /> when it belongs
++    /// to none. This is the <see cref="T:System.ComponentModel.ITypeDescriptorContext" /> contract: the
++    /// container is taken from the edited object's site, falling back to the owning
++    /// <see cref="T:System.Windows.Forms.PropertyGrid" />'s site.
++    /// </summary>
++    public IContainer? Container
++    {
++        get
++        {
++            for (var entry = this; entry != null; entry = entry._parent)
++            {
++                if ((entry.OwnerObj as IComponent)?.Site is { } site)
++                {
++                    return site.Container;
++                }
++            }
++
++            return OwnerGrid?.Site?.Container;
++        }
++    }
+ 
+     public string? Description
+     {
+@@ -62,7 +87,7 @@ public partial class GridEntry : GridItem, ITypeDescriptorContext
+                             var attribute = (DescriptionAttribute?)attri3.FirstOrDefault();
+                             description = attribute?.Description;
+                         }
+-                        items.Add(new GridEntry(this, GridItemType.Property, 2, property.Name, obj, description) { Editable = property.CanWrite, ValueType = property.PropertyType, PropertyInfo = property });
++                        items.Add(new GridEntry(this, GridItemType.Property, 2, property.Name, obj, description) { Editable = property.CanWrite, ValueType = property.PropertyType, PropertyInfo = property, OwnerGrid = OwnerGrid });
+                     }
+                 }
+             }
+@@ -73,7 +98,12 @@ public partial class GridEntry : GridItem, ITypeDescriptorContext
+ 
+     public override GridItemType GridItemType { get; }
+ 
+-    public object Instance => throw new NotImplementedException();
++    /// <summary>
++    /// Gets the object whose property this entry describes - the value owner, which is what
++    /// <see cref="T:System.ComponentModel.ITypeDescriptorContext" /> consumers (type converters and UI
++    /// type editors) expect to receive.
++    /// </summary>
++    public object? Instance => OwnerObj;
+ 
+     public override string? Label { get; }
+ 
+@@ -91,7 +121,36 @@ public partial class GridEntry : GridItem, ITypeDescriptorContext
+ 
+     public override GridItem? Parent { get; }
+ 
+-    public override PropertyDescriptor? PropertyDescriptor { get; }
++    /// <summary>
++    /// Gets the descriptor of the property this entry edits, resolved from the owning object through
++    /// <see cref="T:System.ComponentModel.TypeDescriptor" />. Category rows - which describe no property -
++    /// return <see langword="null" />.
++    /// </summary>
++    /// <remarks>
++    /// This is the descriptor <see cref="M:System.Windows.Forms.PropertyGridInternal.GridEntry.OnComponentChanged" />
++    /// and <see cref="M:System.Windows.Forms.PropertyGridInternal.GridEntry.OnComponentChanging" /> report to
++    /// an <see cref="T:System.ComponentModel.Design.IComponentChangeService" />, so it has to describe the
++    /// same property the entry writes through <see cref="P:System.Windows.Forms.PropertyGridInternal.GridEntry.PropertyInfo" />.
++    /// </remarks>
++    public override PropertyDescriptor? PropertyDescriptor
++    {
++        get
++        {
++            if (_descriptorResolved)
++            {
++                return _descriptor;
++            }
++
++            _descriptorResolved = true;
++            var name = PropertyInfo?.Name ?? Label;
++            if (OwnerObj != null && !string.IsNullOrEmpty(name) && GridItemType != GridItemType.Category)
++            {
++                _descriptor = TypeDescriptor.GetProperties(OwnerObj)[name];
++            }
++
++            return _descriptor;
++        }
++    }
+ 
+     public object? OwnerObj
+     {
+@@ -126,19 +185,74 @@ public partial class GridEntry : GridItem, ITypeDescriptorContext
+         set;
+     }
+ 
+-    public object GetService(Type serviceType)
++    /// <summary>
++    /// Gets the service object of the specified type, as
++    /// <see cref="T:System.ComponentModel.ITypeDescriptorContext" /> requires. The entry answers for itself,
++    /// then defers to the owning <see cref="T:System.Windows.Forms.PropertyGrid" />'s site and finally to the
++    /// site of the object being edited.
++    /// </summary>
++    /// <param name="serviceType">The type of service to retrieve.</param>
++    /// <returns>The service, or <see langword="null" /> when no provider supplies it.</returns>
++    /// <exception cref="T:System.ArgumentNullException"><paramref name="serviceType" /> is <see langword="null" />.</exception>
++    public object? GetService(Type serviceType)
+     {
+-        throw new NotImplementedException();
++        if (serviceType == null)
++        {
++            throw new ArgumentNullException(nameof(serviceType));
++        }
++
++        if (serviceType == typeof(ITypeDescriptorContext) || serviceType == typeof(GridEntry))
++        {
++            return this;
++        }
++
++        if (serviceType == typeof(PropertyGrid) && OwnerGrid != null)
++        {
++            return OwnerGrid;
++        }
++
++        return OwnerGrid?.Site?.GetService(serviceType)
++            ?? (OwnerObj as IComponent)?.Site?.GetService(serviceType);
+     }
+ 
++    /// <summary>
++    /// Notifies the design surface that the property this entry edits has changed, by raising
++    /// <see cref="M:System.ComponentModel.Design.IComponentChangeService.OnComponentChanged(System.Object,System.ComponentModel.MemberDescriptor,System.Object,System.Object)" />
++    /// when such a service is available. With no design surface attached this is a no-op, which is what
++    /// WinForms does at run time.
++    /// </summary>
+     public void OnComponentChanged()
+     {
+-        throw new NotImplementedException();
++        if (GetService(typeof(IComponentChangeService)) is IComponentChangeService changeService)
++        {
++            changeService.OnComponentChanged(Instance!, PropertyDescriptor, null, null);
++        }
+     }
+ 
++    /// <summary>
++    /// Asks the design surface for permission to change the property this entry edits, by raising
++    /// <see cref="M:System.ComponentModel.Design.IComponentChangeService.OnComponentChanging(System.Object,System.ComponentModel.MemberDescriptor)" />
++    /// when such a service is available.
++    /// </summary>
++    /// <returns>
++    /// <see langword="false" /> when the change was refused - the designer cancelled the checkout -
++    /// otherwise <see langword="true" />, including when no design surface is attached.
++    /// </returns>
+     public bool OnComponentChanging()
+     {
+-        throw new NotImplementedException();
++        if (GetService(typeof(IComponentChangeService)) is IComponentChangeService changeService)
++        {
++            try
++            {
++                changeService.OnComponentChanging(Instance!, PropertyDescriptor);
++            }
++            catch (CheckoutException checkout) when (checkout == CheckoutException.Canceled)
++            {
++                return false;
++            }
++        }
++
++        return true;
+     }
+ 
+     public override bool Select()
+@@ -146,8 +260,26 @@ public partial class GridEntry : GridItem, ITypeDescriptorContext
+         return false;
+     }
+ 
++    /// <summary>
++    /// Writes <paramref name="value" /> to the property this entry describes, bracketed by the
++    /// component-change notifications a design surface expects. A refused change (see
++    /// <see cref="M:System.Windows.Forms.PropertyGridInternal.GridEntry.OnComponentChanging" />) leaves the
++    /// property untouched.
++    /// </summary>
++    /// <param name="value">The value to write.</param>
+     public override void SetValue(object value)
+     {
+-        PropertyInfo?.SetValue(OwnerObj, value);
++        if (PropertyInfo == null)
++        {
++            return;
++        }
++
++        if (!OnComponentChanging())
++        {
++            return;
++        }
++
++        PropertyInfo.SetValue(OwnerObj, value);
++        OnComponentChanged();
+     }
+ }
+\ No newline at end of file
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/PropertyGridView.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/PropertyGridView.cs
+index 0b45e5c2..483b208a 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/PropertyGridView.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/PropertyGridView.cs
+@@ -25,6 +25,13 @@ internal sealed partial class PropertyGridView
+ 
+     private GridEntry? oldSelectedPropertyItem;
+ 
++    /// <summary>
++    /// The cell editor currently open on the value column, if any. GTK hands it to us on
++    /// <c>editing-started</c> and takes it away again on <c>edited</c> / <c>editing-canceled</c>; it is what
++    /// <see cref="EnsurePendingChangesCommitted" /> and <see cref="DropDownDone" /> act on.
++    /// </summary>
++    private Gtk.ICellEditable? _activeEditable;
++
+     public event PropertyValueChangedEventHandler? PropertyValueChanged;
+ 
+     public event SelectedGridItemChangedEventHandler? SelectedGridItemChanged;
+@@ -139,6 +146,106 @@ internal sealed partial class PropertyGridView
+         private set;
+     }
+ 
++    /// <summary>
++    /// Whether the view is currently writing a value back to the selected object. Backs
++    /// <see cref="P:System.Windows.Forms.PropertyGrid.InPropertySet" />.
++    /// </summary>
++    internal bool InPropertySet
++    {
++        get;
++        private set;
++    }
++
++    /// <summary>
++    /// Whether a cell editor is open on the value column.
++    /// </summary>
++    internal bool IsEditing => _activeEditable != null;
++
++    /// <summary>
++    /// Records the editor GTK has just opened on the value column.
++    /// </summary>
++    private void OnEditingStarted(Gtk.ICellEditable? editable) => _activeEditable = editable;
++
++    /// <summary>
++    /// Forgets the editor GTK has just closed.
++    /// </summary>
++    private void OnEditingFinished() => _activeEditable = null;
++
++    /// <summary>
++    /// Commits the edit in progress, if there is one. Mirrors
++    /// <c>IComPropertyBrowser.EnsurePendingChangesCommitted</c>: with nothing being edited there is nothing
++    /// to commit and the call succeeds.
++    /// </summary>
++    /// <returns>
++    /// <see langword="false" /> only when an edit was open and committing it failed.
++    /// </returns>
++    internal bool EnsurePendingChangesCommitted()
++    {
++        var editable = _activeEditable;
++        if (editable == null)
++        {
++            return true;
++        }
++
++        try
++        {
++            // Ends the edit the way GTK itself does when the entry loses focus: the editor raises
++            // "editing-done", which drives the renderer's "edited" signal and so the value write.
++            editable.FinishEditing();
++
++            return true;
++        }
++        catch (Exception ex)
++        {
++            System.Diagnostics.GtkLogger.Debug("Unexpected exception committing a pending property edit", ex);
++
++            return false;
++        }
++        finally
++        {
++            _activeEditable = null;
++        }
++    }
++
++    /// <summary>
++    /// Closes the open cell editor - GTK's equivalent of the drop-down the WinForms property browser hosts -
++    /// committing whatever it holds, and returns focus to the grid.
++    /// </summary>
++    internal void DropDownDone()
++    {
++        var editable = _activeEditable;
++        if (editable != null)
++        {
++            try
++            {
++                editable.FinishEditing();
++                editable.RemoveWidget();
++            }
++            catch (Exception ex)
++            {
++                System.Diagnostics.GtkLogger.Debug("Unexpected exception closing the property editor", ex);
++            }
++            finally
++            {
++                _activeEditable = null;
++            }
++        }
++
++        FocusGrid();
++    }
++
++    /// <summary>
++    /// Moves keyboard focus to the property list, which is what the property browser does when the shell
++    /// asks it to activate (F4).
++    /// </summary>
++    internal void FocusGrid()
++    {
++        if (tree.IsRealized)
++        {
++            tree.GrabFocus();
++        }
++    }
++
+     public void LoadPropertyInfo(object? entryobj)
+     {
+         tree.Selection.UnselectAll();
+@@ -152,20 +259,15 @@ internal sealed partial class PropertyGridView
+         var propertyInfos = entryobj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
+         foreach (var propertyInfo in propertyInfos)
+         {
++            // A property is browsable unless it says otherwise: BrowsableAttribute defaults to true, and an
++            // undecorated property is the common case. Requiring the attribute meant an ordinary object -
++            // one that carries no design-time attributes at all - showed no properties whatsoever.
+             var attri = propertyInfo.GetCustomAttributes(typeof(BrowsableAttribute));
+-            if (attri != null && attri.Count() > 0)
+-            {
+-                //BrowsableAttribute
+-                var attribute = (BrowsableAttribute)attri.FirstOrDefault();
+-                if (attribute.Browsable == false)
+-                {
+-                    continue;
+-                }
+-            }
+-            else
++            if (((BrowsableAttribute?)attri?.FirstOrDefault())?.Browsable == false)
+             {
+                 continue;
+             }
++
+             var category = "【 uncategorized group】";
+             var description = "";
+ 
+@@ -186,7 +288,8 @@ internal sealed partial class PropertyGridView
+             {
+                 Level = 0,
+                 Editable = false,
+-                PropertyInfo = propertyInfo
++                PropertyInfo = propertyInfo,
++                OwnerGrid = OwnerGrid
+             };
+             categorys.Add(propertyItem);
+         }
+@@ -199,7 +302,7 @@ internal sealed partial class PropertyGridView
+         {
+             foreach (var g in gs)
+             {
+-                var value0 = new GridEntry(null, GridItemType.Category, 0, g.Key, g.Key, g.Key) { Level = 0, Editable = false };
++                var value0 = new GridEntry(null, GridItemType.Category, 0, g.Key, g.Key, g.Key) { Level = 0, Editable = false, OwnerGrid = OwnerGrid };
+                 var category1 = store.AppendValues(value0);
+                 foreach (var m in g)
+                 {
+@@ -214,20 +317,13 @@ internal sealed partial class PropertyGridView
+     {
+         if (property?.CanRead == true)
+         {
++            // As in LoadPropertyInfo: no BrowsableAttribute means browsable, not hidden.
+             var attri = property.GetCustomAttributes(typeof(BrowsableAttribute));
+-            if (attri != null && attri.Count() > 0)
+-            {
+-                //BrowsableAttribute
+-                var attribute = (BrowsableAttribute)attri.FirstOrDefault();
+-                if (attribute.Browsable == false)
+-                {
+-                    return null;
+-                }
+-            }
+-            else if (parent == null)
++            if (((BrowsableAttribute?)attri?.FirstOrDefault())?.Browsable == false)
+             {
+                 return null;
+             }
++
+             if (parent != null && property.CanWrite == false)
+             {
+                 return null;
+@@ -241,7 +337,7 @@ internal sealed partial class PropertyGridView
+             }
+             if (property.PropertyType.IsEnum || property.PropertyType.Name == "String")
+             {
+-                var value1 = new GridEntry(parentitem, GridItemType.Property, 1, property.Name, obj, description) { Editable = property.CanWrite, ValueType = property.PropertyType, PropertyInfo = property };
++                var value1 = new GridEntry(parentitem, GridItemType.Property, 1, property.Name, obj, description) { Editable = property.CanWrite, ValueType = property.PropertyType, PropertyInfo = property, OwnerGrid = OwnerGrid };
+                 StoreValue(parent, value1);
+                 return value1;
+             }
+@@ -249,7 +345,7 @@ internal sealed partial class PropertyGridView
+             {
+                 if (property.PropertyType.IsPrimitive == false)
+                 { // only primitive types can be edited
+-                    var value1 = new GridEntry(parentitem, GridItemType.Property, 1, property.Name, obj, description) { ValueType = property.PropertyType, PropertyInfo = property };
++                    var value1 = new GridEntry(parentitem, GridItemType.Property, 1, property.Name, obj, description) { ValueType = property.PropertyType, PropertyInfo = property, OwnerGrid = OwnerGrid };
+                     var node1 = StoreValue(parent, value1);
+                     var val = property.GetValue(obj);
+                     if (property.CanWrite)
+@@ -258,14 +354,14 @@ internal sealed partial class PropertyGridView
+                 }
+                 else
+                 {
+-                    var value1 = new GridEntry(parentitem, GridItemType.Property, 1, property.Name, obj, description) { Editable = property.CanWrite, ValueType = property.PropertyType, PropertyInfo = property };
++                    var value1 = new GridEntry(parentitem, GridItemType.Property, 1, property.Name, obj, description) { Editable = property.CanWrite, ValueType = property.PropertyType, PropertyInfo = property, OwnerGrid = OwnerGrid };
+                     var node1 = StoreValue(parent, value1);
+                     return value1;
+                 }
+             }
+             else
+             {
+-                var value1 = new GridEntry(parentitem, GridItemType.Property, 1, property.Name, obj, description) { Editable = false, ValueType = property.PropertyType, PropertyInfo = property };
++                var value1 = new GridEntry(parentitem, GridItemType.Property, 1, property.Name, obj, description) { Editable = false, ValueType = property.PropertyType, PropertyInfo = property, OwnerGrid = OwnerGrid };
+                 var node1 = StoreValue(parent, value1);
+                 return value1;
+             }
+@@ -382,6 +478,7 @@ internal sealed partial class PropertyGridView
+             this.Model = model;
+             this.EditingStarted += CellRendererText_EditingStarted;
+             this.Edited += CellRendererText_Edited;
++            this.EditingCanceled += CellRendererText_EditingCanceled;
+         }
+ 
+         [Property("otext")]
+@@ -436,8 +533,14 @@ internal sealed partial class PropertyGridView
+             base.OnRender(cr, widget, background_area, cell_area, flags);
+         }
+ 
++        private void CellRendererText_EditingCanceled(object? o, EventArgs args)
++        {
++            owner.OnEditingFinished();
++        }
++
+         private void CellRendererText_Edited(object o, EditedArgs args)
+         {
++            owner.OnEditingFinished();
+             var path = new TreePath(args.Path);
+             var model = ((Gtk.TreeView)owner.tree).Model;
+             model.GetIter(out var iter, path);
+@@ -445,6 +548,7 @@ internal sealed partial class PropertyGridView
+             if (cell is GridEntry val)
+             {
+                 var oldvalue = val.Value;
++                owner.InPropertySet = true;
+                 try
+                 {
+                     if (path.Depth == 1)
+@@ -498,12 +602,19 @@ internal sealed partial class PropertyGridView
+                 {
+                     System.Diagnostics.GtkLogger.Debug($"Unexpected exception in CellRendererText_Edited", ex);
+                 }
++                finally
++                {
++                    // The set is over before anyone is told about it, so a PropertyValueChanged handler that
++                    // asks PropertyGrid.InPropertySet sees false - the same order WinForms reports.
++                    owner.InPropertySet = false;
++                }
+                 owner.PropertyValueChanged?.Invoke(o, new PropertyValueChangedEventArgs(val, oldvalue));
+             }
+         }
+ 
+         private void CellRendererText_EditingStarted(object o, EditingStartedArgs args)
+         {
++            owner.OnEditingStarted(args.Editable);
+             model.Clear();
+             if (_value?.ValueType != null)
+             {
+-- 
+2.53.0.windows.3
+
