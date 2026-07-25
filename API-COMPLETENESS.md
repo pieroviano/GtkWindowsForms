@@ -10,7 +10,7 @@ gaps are dropped, not catalogued.
 
 **State of the surface.** Every structural finding and every additive gap is closed. What remains missing
 is **declared non-goals** (§2) plus a member tail spread across many present types (§3); no missing type
-breaks ordinary line-of-business code. The net48 surface is at **90.6 % of types** with an **~15 % member
+breaks ordinary line-of-business code. The net48 surface is at **90.6 % of types** with a **~14 % member
 tail** that is mostly modern-.NET or rarely-hand-written.
 
 ## Method
@@ -42,7 +42,7 @@ checkable against those files.
 | Present | **937 (90.6 %)** | **942 (87.1 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
 | Missing types | 97 | 139 | 44 | 41 |
 | Members on present types | 54 529 | 60 356 | 5 543 | 6 604 |
-| …missing | **7 760 (14.2 %)** | **8 756 (14.5 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
+| …missing | **7 537 (13.8 %)** | **8 533 (14.1 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
 | Types member-incomplete | 172 | 176 | 25 | 15 |
 
 `Net4x.Gtk.Drawing` is essentially done as an API surface (98.6 % of members present on net48). Every
@@ -83,12 +83,11 @@ structural mistake. The largest:
 |---|---|
 | `PrintPreviewDialog` | 177 / 565 |
 | `DataGridView` | 177 / 796 |
-| `ToolStripTextBox` / `ToolStripComboBox` | 154 / 135 |
+| `ToolStripTextBox` | 138 / 265 |
 | `TreeView` | 127 / 477 |
-| `ToolStripDropDown` / `ContextMenuStrip` / `ToolStripDropDownMenu` | 126 / 123 / 123 |
-| `RichTextBox` | 124 / 509 |
+| `ToolStripDropDown` / `ToolStripDropDownMenu` / `ContextMenuStrip` | 126 / 123 / 123 |
+| `RichTextBox` / `CheckedListBox` | 124 / 123 |
 | `Form` / `ThreadExceptionDialog` | 122 / 122 |
-| `CheckedListBox` | 123 / 494 |
 | `MenuStrip` / `StatusStrip` / `ToolStrip` | 107 / 104 / 103 |
 | `Control` | 59 / 409 |
 | `Application` | 19 / 62 |
