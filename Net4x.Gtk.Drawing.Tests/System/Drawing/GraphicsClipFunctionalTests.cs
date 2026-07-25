@@ -159,6 +159,41 @@ public class GraphicsClipFunctionalTests
     }
 
     [Fact]
+    public void SetClip_Xor_KeepsOnlyWhatIsInExactlyOneRegion()
+    {
+        // Xor used to fall through to Intersect, which would have kept only the overlap - the exact
+        // opposite of the symmetric difference. A = [0,20)^2, B = [10,30)^2, overlap = [10,20)^2.
+        using var bmp = Paint(g =>
+        {
+            g.SetClip(new Rectangle(0, 0, 20, 20));
+            g.SetClip(new Region(new Rectangle(10, 10, 20, 20)), CombineMode.Xor);
+            FillEverything(g);
+        });
+
+        Assert.True(IsRed(bmp.GetPixel(5, 5)), "in A only - must paint");
+        Assert.True(IsRed(bmp.GetPixel(25, 25)), "in B only - must paint");
+        Assert.True(IsWhite(bmp.GetPixel(15, 15)), "in both regions - the overlap must be excluded");
+        Assert.True(IsWhite(bmp.GetPixel(37, 5)), "in neither region - must stay unpainted");
+    }
+
+    [Fact]
+    public void SetClip_Complement_KeepsTheNewRegionMinusTheOldOne()
+    {
+        // Complement replaces the clip with the specified region minus the current one (B \ A). It used to
+        // collapse to Intersect. A = [0,20)^2, B = [10,30)^2, so the result is B without the [10,20)^2 corner.
+        using var bmp = Paint(g =>
+        {
+            g.SetClip(new Rectangle(0, 0, 20, 20));
+            g.SetClip(new Region(new Rectangle(10, 10, 20, 20)), CombineMode.Complement);
+            FillEverything(g);
+        });
+
+        Assert.True(IsRed(bmp.GetPixel(25, 25)), "in B but not A - must paint");
+        Assert.True(IsWhite(bmp.GetPixel(15, 15)), "in the A/B overlap - complement removes it");
+        Assert.True(IsWhite(bmp.GetPixel(5, 5)), "in A only - complement keeps nothing of the old clip");
+    }
+
+    [Fact]
     public void Clip_SurvivesAsRegionState_AcrossCombines()
     {
         using var bmp = new Bitmap(Size, Size);
