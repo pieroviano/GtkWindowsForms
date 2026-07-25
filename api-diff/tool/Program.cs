@@ -16,6 +16,13 @@ class Program
             return EnumDump(argv);
         }
 
+        // --membersof <refDll> <TypeFullName...> : print each type's public/protected member signatures
+        // (nested types addressed with '+'), so a shim can be authored against the reference surface.
+        if (argv.Length >= 3 && argv[0] == "--membersof")
+        {
+            return MembersOf(argv);
+        }
+
         string refAsmPath = argv[0];
         string implAsmPath = argv[1];
         string implDir = argv[2];
@@ -254,6 +261,35 @@ class Program
                 var raw = f.GetRawConstantValue();
                 Console.WriteLine($"    {f.Name} = {raw}");
             }
+            Console.WriteLine();
+        }
+        return 0;
+    }
+
+    // --membersof <refDll> <TypeFullName...> : dump each named type's public/protected member signatures.
+    static int MembersOf(string[] argv)
+    {
+        string refAsmPath = argv[1];
+        var paths = new List<string> { refAsmPath };
+        var dir = Path.GetDirectoryName(refAsmPath);
+        if (Directory.Exists(dir)) paths.AddRange(Directory.GetFiles(dir, "*.dll"));
+        bool netFx = refAsmPath.IndexOf(".NETFramework", StringComparison.OrdinalIgnoreCase) >= 0;
+        string coreAssemblyName = netFx ? "mscorlib" : "System.Runtime";
+        var coreRef = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+            "dotnet", "packs", "Microsoft.NETCore.App.Ref", "10.0.10", "ref", "net10.0");
+        if (Directory.Exists(coreRef)) paths.AddRange(Directory.GetFiles(coreRef, "*.dll"));
+        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var resolved = paths.Where(p => seen.Add(Path.GetFileName(p))).ToArray();
+        using var mlc = new MetadataLoadContext(new PathAssemblyResolver(resolved), coreAssemblyName);
+        var asm = mlc.LoadFromAssemblyPath(refAsmPath);
+
+        for (int i = 2; i < argv.Length; i++)
+        {
+            var t = asm.GetType(argv[i]);
+            if (t == null) { Console.WriteLine($"{argv[i]}: NOT FOUND"); continue; }
+            Console.WriteLine($"{t.FullName} : {t.BaseType?.Name} [{string.Join(", ", SafeInterfaces(t).Select(x => x.Name))}]");
+            foreach (var sig in MemberSigs(t).OrderBy(s => s, StringComparer.Ordinal))
+                Console.WriteLine($"    {sig}");
             Console.WriteLine();
         }
         return 0;
