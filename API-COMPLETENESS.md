@@ -42,10 +42,10 @@ checkable against those files.
 | | Forms (net48) | Forms (net10) | Drawing (net48) | Drawing (net10) |
 |---|---|---|---|---|
 | Public types in reference | 1034 | 1081 | 189 | 183 |
-| Present | **914 (88.4 %)** | **918 (84.9 %)** | **141 (74.6 %)** | **138 (75.4 %)** |
-| Missing types | 120 | 163 | 48 | 45 |
-| Members on present types | 51 813 | 57 374 | 5 487 | 6 548 |
-| …missing | **8 825 (17.0 %)** | **9 773 (17.0 %)** | **71 (1.3 %)** | **100 (1.5 %)** |
+| Present | **924 (89.4 %)** | **928 (85.8 %)** | **141 (74.6 %)** | **138 (75.4 %)** |
+| Missing types | 110 | 153 | 48 | 45 |
+| Members on present types | 52 170 | 57 902 | 5 487 | 6 548 |
+| …missing | **8 697 (16.7 %)** | **9 645 (16.7 %)** | **71 (1.3 %)** | **100 (1.5 %)** |
 | Types member-incomplete | 164 | 168 | 25 | 15 |
 
 **The two libraries are in very different states.** `Net4x.Gtk.Drawing` is essentially done as an API
@@ -92,7 +92,7 @@ three types at once. It is deep menu-model surgery (hence deferred so far), but 
 | Family | ~Count | Verdict |
 |---|---|---|
 | Legacy `DataGrid` (pre-2.0 `DataGrid`, `DataGridColumnStyle`, `GridTableStylesCollection`…) | 15 | Low priority — superseded by `DataGridView`, deprecated in WinForms itself |
-| `DataGridView` completeness (`DataGridViewBand`, editing controls, enums, converters) | 17 | Real gaps in an otherwise-present control (§5) |
+| `DataGridView` completeness (`DataGridViewBand`, editing controls, converters) | 8 | Real gaps in an otherwise-present control (§5); the nine enums closed in patch 0109 |
 | `Html*` / `WebBrowser` | 17 | Needs a browser engine — **likely non-goal** |
 | `TaskDialog` family | 16 | Modern (Core-era) Win32 dialog; mappable to GTK dialogs; absent from the net48 baseline |
 | `AxHost` / COM / ActiveX (`AxHost`, `WindowsFormsSection`, `IComponentEditorPageSite`) | 3 | **Non-goal** — COM/ActiveX is Windows-only |
@@ -108,17 +108,19 @@ three types at once. It is deep menu-model surgery (hence deferred so far), but 
 
 The subset a mainstream line-of-business app is most likely to hit, now that the big families are closed:
 
-- **Drag-drop interfaces** — top-level `DataObject` now exists, but `IDropTarget`, `IAsyncDropTarget`,
-  `ITypedDataObject`, `DataObjectExtensions` and `DropImageType` do not. Custom drop targets that
-  implement `IDropTarget` will not compile.
+- **Drag-drop** — top-level `DataObject` and `IDropTarget` now exist (`IDropTarget` is public with its
+  four notification methods; custom drop targets compile). The remaining `IAsyncDropTarget`,
+  `ITypedDataObject`, `DataObjectExtensions` and `DropImageType` are all .NET 8+ additions, absent from
+  the net48 baseline.
 - **`MdiClient`** — the container an MDI parent form exposes as `Form.MdiClient`; absent, so MDI child
   management by that surface is unavailable.
 - **`BindableComponent`** — the base that carries `DataBindings`/`BindingContext` for non-control
-  bindable components; absent.
-- **`DataGridView` editing/support types** — `DataGridViewBand`, `DataGridViewComboBoxEditingControl`,
-  `DataGridViewTextBoxEditingControl`, `IDataGridViewEditingControl`, `DataGridViewTopLeftHeaderCell`
-  and a cluster of `DataGridView*` enums/converters. A custom `DataGridView` editing control cannot be
-  written against the real names.
+  bindable components; absent in net10 (present in the net48 baseline).
+- **`DataGridView` editing/support types** — the nine `DataGridView*` enums now exist (patch 0109). What
+  remains are the editing-control classes and their base: `DataGridViewBand`, `DataGridViewElement`,
+  `DataGridViewComboBoxEditingControl`, `DataGridViewTextBoxEditingControl`, `IDataGridViewEditingControl`,
+  `DataGridViewTopLeftHeaderCell` and a couple of converters. A custom `DataGridView` editing control
+  still cannot be written against the real names.
 - **`ToolStripOverflow`/`ToolStripOverflowButton`** — the overflow chevron surface; a strip that overflows
   cannot expose it by name.
 
@@ -221,9 +223,9 @@ measures *throwing* ones (present in metadata, so "present" here). Neither subsu
 
 Confirmed by this diff and reflected in both documents: the base-class family, `VisualStyles`, the
 ToolStrip family, `BindingNavigator`/`ToolStripControlHost`, fonts, print controllers, keyboard routing,
-`Form.AcceptButton`, and `Application.Run` overloads have all landed. The one structural finding this diff
-still surfaces that source-reading would miss is §2 — `ToolStripDropDown`'s wrong base class, visible only
-by comparing hierarchies.
+`Form.AcceptButton`, `Application.Run` overloads, public `IDropTarget` and the nine `DataGridView` enums
+have all landed. The one structural finding this diff still surfaces that source-reading would miss is
+§2 — `ToolStripDropDown`'s wrong base class, visible only by comparing hierarchies.
 
 ---
 
@@ -236,10 +238,10 @@ Ranked by (breadth of impact ÷ effort), taking the structural finding into acco
    worst types, including `ContextMenuStrip`.
 
 **P1 — compile breaks on idiomatic code**
-2. Drag-drop interfaces — `IDropTarget` (+ the async/typed variants) (§4).
-3. `MdiClient`, `BindableComponent` (§4).
-4. `DataGridView` editing-control/enum cluster (§4/§5).
-5. `Layout.LayoutEngine` namespace fix (§7).
+2. `MdiClient`, `BindableComponent` (§4).
+3. `DataGridView` editing-control cluster — `DataGridViewBand`/`DataGridViewElement`/the editing controls
+   (§4/§5); the nine enums and `IDropTarget` are done (patch 0109).
+4. `Layout.LayoutEngine` namespace fix (§7).
 
 **P2 — member completeness on existing types**
 6. `Control`'s sizing/scaling core (§5.2).
