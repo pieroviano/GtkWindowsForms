@@ -34,11 +34,11 @@ checkable against those files.
 | | Forms (net48) | Forms (net10) | Drawing (net48) | Drawing (net10) |
 |---|---|---|---|---|
 | Public types in reference | 1034 | 1081 | 189 | 183 |
-| Present | **924 (89.4 %)** | **928 (85.8 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
-| Missing types | 110 | 153 | 44 | 41 |
-| Members on present types | 52 170 | 57 902 | 5 543 | 6 604 |
-| …missing | **8 177 (15.7 %)** | **9 125 (15.8 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
-| Types member-incomplete | 164 | 168 | 25 | 15 |
+| Present | **926 (89.6 %)** | **930 (86.0 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
+| Missing types | 108 | 151 | 44 | 41 |
+| Members on present types | 52 594 | 58 339 | 5 543 | 6 604 |
+| …missing | **8 223 (15.6 %)** | **9 181 (15.7 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
+| Types member-incomplete | 165 | 169 | 25 | 15 |
 
 `Net4x.Gtk.Drawing` is essentially done as an API surface (98.6 % of members present on net48).
 `Net4x.Gtk.Windows.Forms` is ~89 % of the type surface but still ~17 % short on members — and, as §2 shows,
@@ -86,7 +86,7 @@ system — one change, but a deep one, needing heavy menu testing.
 | Legacy `ToolBar`/`ToolBarButton` | 7 | Superseded by `ToolStrip`; low priority |
 | ToolStrip residue (`ToolStripOverflow`, `ToolStripOverflowButton`, `ToolStripDropDownItemAccessibleObject`) | 3 | Real but narrow |
 | Modern .NET (`FormCornerPreference`, `ScreenCaptureMode`, `SystemColorMode`, dark-mode, `IAsyncDropTarget`/`ITypedDataObject`/`DataObjectExtensions`/`DropImageType`) | ~9 | Never needed by a net4x app; absent from the net48 baseline |
-| Misc (`MdiClient`, `BindableComponent`, `NativeWindow`, `SendKeys`, stray converters) | rest | Mixed — `MdiClient`/`BindableComponent` real; `NativeWindow`/`SendKeys` non-goals (§4) |
+| Misc (`BindableComponent`, `NativeWindow`, `SendKeys`, stray converters) | rest | Mixed — `BindableComponent` is a net10-only base; `NativeWindow`/`SendKeys` non-goals (§4). `MdiClient` landed in patch 0116 |
 
 ---
 
@@ -94,10 +94,8 @@ system — one change, but a deep one, needing heavy menu testing.
 
 The subset a mainstream line-of-business app is most likely to hit:
 
-- **`MdiClient`** — the container an MDI parent form exposes as `Form.MdiClient`; absent, so MDI child
-  management by that surface is unavailable.
 - **`BindableComponent`** — the base that carries `DataBindings`/`BindingContext` for non-control bindable
-  components; absent in net10 (present in the net48 baseline).
+  components; a net10-only gap (absent from the net48 baseline).
 - **`DataGridView` editing/support types** — the editing-control classes and their base: `DataGridViewBand`,
   `DataGridViewElement`, `DataGridViewComboBoxEditingControl`, `DataGridViewTextBoxEditingControl`,
   `IDataGridViewEditingControl`, `DataGridViewTopLeftHeaderCell` and a couple of converters. A custom
@@ -113,7 +111,7 @@ The subset a mainstream line-of-business app is most likely to hit:
 
 ## 5. Member gaps on types that *do* exist
 
-168 of 928 present types are member-incomplete (net10). Excluding the §2 hierarchy artefacts, the largest:
+169 of 930 present types are member-incomplete (net10). Excluding the §2 hierarchy artefacts, the largest:
 
 | Type | Missing / total (net10) |
 |---|---|
@@ -138,17 +136,13 @@ Numbers below are the **net48** baseline (the truer target), which runs a little
 
 ### 5.1 `Form` — 94 missing (net48)
 
-The placement surface (`DesktopBounds`/`DesktopLocation`, `RestoreBounds`, `MaximizedBounds`,
-`RightToLeftLayout`) landed in patch 0114, along with the high-frequency designer-emitted surface
-(`AcceptButton`/`CancelButton`, the legacy events, `CenterToScreen`, `OwnedForms`, `TransparencyKey`).
-What remains is a long tail of DPI/modern and rarely-hand-written members.
+The high-frequency designer-emitted and placement surface is present; what remains is a long tail of
+DPI/modern and rarely-hand-written members.
 
 ### 5.2 `Control` — 49 missing (net48), in the deep extensibility surface
 
-The common override points (keyboard routing, `OnParentXxxChanged`, `RtlTranslate*`) and — as of patch
-0113 — the bounds-core/scaling/handle-lifecycle surface (`SetBoundsCore`, `SetClientSizeCore`,
-`ScaleControl`, `GetScaledBounds`, `SizeFromClientSize`, `CreateHandle`/`DestroyHandle`/`RecreateHandle`)
-are present. What remains is mostly modern additions a .NET Framework-era app never uses:
+The common override points and the bounds-core/scaling/handle-lifecycle surface are present; what remains
+is mostly modern additions a .NET Framework-era app never uses:
 `DataContext`/`DataContextChanged`/`OnParentDataContextChanged` and `InvokeAsync` (3 overloads).
 
 ### 5.3 `Application` — 12 missing (net48)
@@ -201,16 +195,12 @@ Ranked by (breadth of impact ÷ effort), taking the structural finding into acco
    backing, so it needs careful staging and heavy menu testing.
 
 **P1 — compile breaks on idiomatic code**
-2. `MdiClient`, `BindableComponent` (§4).
-3. `DataGridView` editing-control cluster — `DataGridViewBand`/`DataGridViewElement`/the editing controls
-   (§4/§5).
+2. `DataGridView` editing-control cluster — `DataGridViewBand`/`DataGridViewElement`/the editing controls
+   (§4/§5). `DataGridViewBand`/`DataGridViewElement` are base classes, so this carries re-parenting risk
+   for `Row`/`Column`/`Cell`, like the §2 finding.
+3. `BindableComponent` (§4) — a small net10-only base class.
 
-**P2 — member completeness on existing types** — *done (patches 0113–0115)*
-5. ~~`Control`'s sizing/scaling core (§5.2).~~ **Done** — patch 0113.
-6. ~~`Form`'s remaining placement/RTL members (§5.1).~~ **Done** — patch 0114.
-7. ~~`PrinterSettings` capability collections (§6).~~ **Done** — patch 0115.
-
-**P3 — declare non-goals in the package README**
+**P2 — declare non-goals in the package README**
 `AxHost`/COM/ActiveX, `WebBrowser`/`Html*`, `TaskDialog` (or map to GTK), EMF/WMF metafiles,
 `NativeWindow`, `SendKeys`, legacy `DataGrid`/`ToolBar`, `Imaging.Effects`, the .NET 9+ dark-mode surface,
 and `Control.Handle`'s GTK-not-HWND semantics.
