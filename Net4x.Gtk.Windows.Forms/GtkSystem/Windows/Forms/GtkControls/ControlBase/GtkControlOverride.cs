@@ -89,6 +89,60 @@ public sealed class GtkControlOverride : IControlOverride
     }
 
     /// <summary>
+    /// Gets or sets the colour that is to be painted as transparent instead of opaque - see
+    /// <see cref="P:System.Windows.Forms.Form.TransparencyKey" />. <see langword="null" /> when no key is
+    /// set, which is the normal case.
+    /// </summary>
+    public System.Drawing.Color? TransparencyKey
+    {
+        get;
+        set;
+    }
+
+    /// <summary>
+    /// Whether <see cref="BackColor" /> is the colour the transparency key names, in which case the
+    /// background is not painted at all but punched out of the surface.
+    /// </summary>
+    private bool BackColorIsKeyed =>
+        TransparencyKey.HasValue
+        && BackColor.HasValue
+        && TransparencyKey.Value.R == BackColor.Value.R
+        && TransparencyKey.Value.G == BackColor.Value.G
+        && TransparencyKey.Value.B == BackColor.Value.B;
+
+    /// <summary>
+    /// Paints the background colour, or clears the surface to full transparency when that colour is the
+    /// one the transparency key names.
+    /// </summary>
+    /// <param name="cr">The Cairo context.</param>
+    /// <returns><see langword="true" /> when something was painted.</returns>
+    private bool PaintBackColor(Cairo.Context cr)
+    {
+        if (!BackColor.HasValue)
+        {
+            return false;
+        }
+
+        cr.Save();
+        if (BackColorIsKeyed)
+        {
+            // Painting zero alpha in the default OVER operator is a no-op; SOURCE is what actually
+            // replaces the surface content, which is how the window ends up see-through.
+            cr.Operator = Cairo.Operator.Source;
+            cr.SetSourceRGBA(0, 0, 0, 0);
+        }
+        else
+        {
+            cr.SetSourceRGBA(BackColor.Value.R / 255f, BackColor.Value.G / 255f, BackColor.Value.B / 255f, BackColor.Value.A / 255f);
+        }
+
+        cr.Paint();
+        cr.Restore();
+
+        return true;
+    }
+
+    /// <summary>
     /// Gets or sets the background image.
     /// </summary>
     /// <value>
@@ -171,13 +225,7 @@ public sealed class GtkControlOverride : IControlOverride
     /// </param>
     public void DrawnBackColor(Cairo.Context cr, Gdk.Rectangle area)
     {
-        if (BackColor.HasValue)
-        {
-            cr.Save();
-            cr.SetSourceRGBA(BackColor.Value.R / 255f, BackColor.Value.G / 255f, BackColor.Value.B / 255f, BackColor.Value.A / 255f);
-            cr.Paint();
-            cr.Restore();
-        }
+        PaintBackColor(cr);
     }
 
     /// <summary>
@@ -205,13 +253,7 @@ public sealed class GtkControlOverride : IControlOverride
     /// </param>
     public void OnDrawnBackground(Cairo.Context cr, Gdk.Rectangle area)
     {
-        if (BackColor.HasValue)
-        {
-            cr.Save();
-            cr.SetSourceRGBA(BackColor.Value.R / 255f, BackColor.Value.G / 255f, BackColor.Value.B / 255f, BackColor.Value.A / 255f);
-            cr.Paint();
-            cr.Restore();
-        }
+        PaintBackColor(cr);
         if (BackgroundImage != null && BackgroundImage.Pixbuf != null)
         {
             SetDrawnBackground(cr, BackgroundImage.Pixbuf, BackgroundImageLayout, area.Width, area.Height);

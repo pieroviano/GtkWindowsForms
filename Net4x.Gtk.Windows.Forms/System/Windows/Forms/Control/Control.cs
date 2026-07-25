@@ -1586,15 +1586,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     public virtual bool RecreatingHandle { get; }
 
     /// <summary>
-    /// Gets or sets the region describing the window region of the control.
-    /// </summary>
-    public virtual Region? Region
-    {
-        get;
-        set;
-    }
-
-    /// <summary>
     /// Gets the right position of the control relative to its container.
     /// </summary>
     public virtual int Right
@@ -4513,6 +4504,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             // including ApplicationContext, which detects its main form closing by subscribing to
             // HandleDestroyed. Realize is the point at which the widget has a real GDK handle.
             OnHandleCreated(e);
+            // A Region assigned before the handle existed could not be pushed to GTK then; now it can, and
+            // it has to happen before Load so user code sees an already-shaped control.
+            ApplyRegion();
             OnLoad(e);
             OnCursorChanged(EventArgs.Empty);
             InitDockAnchorStyle();

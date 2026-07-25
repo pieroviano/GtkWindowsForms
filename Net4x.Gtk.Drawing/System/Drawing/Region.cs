@@ -200,6 +200,203 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// <summary>The bands of another region, as a fresh list.</summary>
     private static List<RectangleF> BandsOfRegion(Region region) => new(region.bands);
 
+    // ---------------------------------------------------------------------
+    // Combining with a curved shape.
+    //
+    // A combine works on band lists, and a path only ever contributed its
+    // bounding rectangle to one - so intersecting with an ellipse intersected
+    // with its box. The interior of a curve is now obtained the way GDI+ gets
+    // it: the path is scan-converted, and the runs of covered pixels become the
+    // bands. Paths that are already rectangles skip that entirely and keep
+    // their exact floating-point edges.
+    // ---------------------------------------------------------------------
+
+    /// <summary>
+    /// A pixel counts as inside when the shape covers at least half of it, which approximates the
+    /// centre-in rule GDI+ scan conversion uses.
+    /// </summary>
+    private const byte CoverageThreshold = 128;
+
+    /// <summary>
+    /// The largest area, in pixels, that will be rasterized to find a curve's interior. Beyond it the
+    /// bounding rectangle is used, as before - a region that big is a pathological input, and rasterizing
+    /// it would cost more than the accuracy is worth.
+    /// </summary>
+    private const long MaxScanArea = 16L * 1024 * 1024;
+
+    /// <summary>The bands a path contributes to a combine: exact rectangles, or its scan-converted interior.</summary>
+    private static List<RectangleF> BandsToCombine(GraphicsPath path) =>
+        TryRectangleBands(path, out var rectangles) ? rectangles : ScanBands(path);
+
+    /// <summary>
+    /// This region's bands as a combine should see them. A region that is still described exactly by a
+    /// curved path is scan-converted first, so the curve - not its bounding box - takes part.
+    /// </summary>
+    private List<RectangleF> BandsToCombine() =>
+        isPathExact && !TryRectangleBands(graphicsPath, out _)
+            ? ScanBands(graphicsPath)
+            : new List<RectangleF>(bands);
+
+    /// <summary>
+    /// Recognizes a path built purely from rectangles, whose interior needs no rasterizing.
+    /// </summary>
+    /// <param name="path">The path to inspect.</param>
+    /// <param name="rectangles">Its rectangles, when that is all it holds.</param>
+    /// <returns><see langword="true" /> when the path is nothing but rectangles.</returns>
+    private static bool TryRectangleBands(GraphicsPath path, out List<RectangleF> rectangles)
+    {
+        rectangles = new List<RectangleF>();
+        foreach (var item in path.list)
+        {
+            switch (item)
+            {
+                case GraphicsPath.RectangleMode rectangle:
+                    rectangles.Add(rectangle.rect);
+
+                    break;
+
+                case GraphicsPath.RectanglesMode set:
+                    if (set.rects != null)
+                    {
+                        rectangles.AddRange(set.rects);
+                    }
+
+                    break;
+
+                case GraphicsPath.FigureMode:
+                    // Figure boundaries carry no geometry of their own.
+                    break;
+
+                default:
+                    rectangles = new List<RectangleF>();
+
+                    return false;
+            }
+        }
+
+        return rectangles.Count > 0;
+    }
+
+    /// <summary>
+    /// Scan-converts a path into horizontal bands: the shape is filled into a coverage bitmap and each run
+    /// of covered pixels on a scanline becomes a band, with identical adjacent scanlines merged into one
+    /// taller band.
+    /// </summary>
+    /// <param name="path">The path whose interior is wanted.</param>
+    /// <returns>Disjoint rectangles whose union is the path's interior, at pixel resolution.</returns>
+    private static List<RectangleF> ScanBands(GraphicsPath path)
+    {
+        var bounds = path.GetBounds();
+        if (bounds.Width <= 0f || bounds.Height <= 0f)
+        {
+            return new List<RectangleF>();
+        }
+
+        var originX = (int)Math.Floor(bounds.Left);
+        var originY = (int)Math.Floor(bounds.Top);
+        var width = (int)Math.Ceiling(bounds.Right) - originX;
+        var height = (int)Math.Ceiling(bounds.Bottom) - originY;
+        if (width <= 0 || height <= 0)
+        {
+            return new List<RectangleF>();
+        }
+
+        if ((long)width * height > MaxScanArea)
+        {
+            return new List<RectangleF> { bounds };
+        }
+
+        byte[] coverage;
+        int stride;
+        try
+        {
+            using var surface = new Cairo.ImageSurface(Cairo.Format.A8, width, height);
+            using (var context = new Cairo.Context(surface))
+            {
+                context.Translate(-originX, -originY);
+                using var graphics = new Graphics(context, new Gdk.Rectangle(originX, originY, width, height));
+                graphics.FillPathForRegionScan(path);
+            }
+
+            surface.Flush();
+            stride = surface.Stride;
+            coverage = new byte[stride * height];
+            Runtime.InteropServices.Marshal.Copy(surface.DataPtr, coverage, 0, coverage.Length);
+        }
+        catch (Exception)
+        {
+            // Rasterizing is an optimisation of accuracy, not a correctness requirement: if Cairo cannot
+            // produce the coverage bitmap, fall back to the bounding rectangle rather than failing the
+            // combine outright.
+            return new List<RectangleF> { bounds };
+        }
+
+        var result = new List<RectangleF>();
+        var previousRowStart = 0;
+        var previousRowCount = 0;
+        for (var y = 0; y < height; y++)
+        {
+            var rowStart = result.Count;
+            var row = y * stride;
+            var x = 0;
+            while (x < width)
+            {
+                while (x < width && coverage[row + x] < CoverageThreshold)
+                {
+                    x++;
+                }
+
+                if (x >= width)
+                {
+                    break;
+                }
+
+                var runStart = x;
+                while (x < width && coverage[row + x] >= CoverageThreshold)
+                {
+                    x++;
+                }
+
+                result.Add(new RectangleF(originX + runStart, originY + y, x - runStart, 1));
+            }
+
+            var rowCount = result.Count - rowStart;
+            if (rowCount > 0 && rowCount == previousRowCount && RowsMatch(result, previousRowStart, rowStart, rowCount))
+            {
+                // Same runs as the row above: grow those bands instead of adding a second row of them.
+                for (var i = 0; i < rowCount; i++)
+                {
+                    var band = result[previousRowStart + i];
+                    result[previousRowStart + i] = new RectangleF(band.X, band.Y, band.Width, band.Height + 1);
+                }
+
+                result.RemoveRange(rowStart, rowCount);
+            }
+            else
+            {
+                previousRowStart = rowStart;
+                previousRowCount = rowCount;
+            }
+        }
+
+        return result;
+    }
+
+    /// <summary>Whether two runs of bands cover the same horizontal spans.</summary>
+    private static bool RowsMatch(List<RectangleF> bands, int firstStart, int secondStart, int count)
+    {
+        for (var i = 0; i < count; i++)
+        {
+            if (bands[firstStart + i].X != bands[secondStart + i].X
+                || bands[firstStart + i].Width != bands[secondStart + i].Width)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 
     /// <summary>
     /// Initializes a new
@@ -344,7 +541,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
             return;
         }
 
-        SetBands(SubtractBands(BandsOfPath(path), bands));
+        SetBands(SubtractBands(BandsToCombine(path), BandsToCombine()));
     }
 
     /// <summary>
@@ -416,7 +613,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
             return;
         }
 
-        SetBands(SubtractBands(BandsOfRegion(region), bands));
+        SetBands(SubtractBands(region.BandsToCombine(), BandsToCombine()));
     }
 
     /// <summary>
@@ -484,7 +681,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
         if (path == null) throw new ArgumentNullException(nameof(path));
         if (isInfinite) return;
 
-        SetBands(SubtractBands(bands, BandsOfPath(path)));
+        SetBands(SubtractBands(BandsToCombine(), BandsToCombine(path)));
     }
 
     /// <summary>
@@ -546,7 +743,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
             return;
         }
 
-        SetBands(SubtractBands(bands, BandsOfRegion(region)));
+        SetBands(SubtractBands(BandsToCombine(), region.BandsToCombine()));
     }
 
     /// <summary>
@@ -696,7 +893,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
         if (path == null) throw new ArgumentNullException(nameof(path));
 
         // Intersecting the infinite region with a shape yields that shape.
-        SetBands(isInfinite ? BandsOfPath(path) : IntersectBands(bands, BandsOfPath(path)));
+        SetBands(isInfinite ? BandsToCombine(path) : IntersectBands(BandsToCombine(), BandsToCombine(path)));
     }
 
     /// <summary>
@@ -748,7 +945,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
         if (region == null) throw new ArgumentNullException(nameof(region));
         if (region.isInfinite) return;
 
-        SetBands(isInfinite ? BandsOfRegion(region) : IntersectBands(bands, BandsOfRegion(region)));
+        SetBands(isInfinite ? region.BandsToCombine() : IntersectBands(BandsToCombine(), region.BandsToCombine()));
     }
 
     /// <summary>
@@ -1329,7 +1526,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
         if (path == null) throw new ArgumentNullException(nameof(path));
         if (isInfinite) return;
 
-        SetBands(UnionBands(bands, BandsOfPath(path)));
+        SetBands(UnionBands(BandsToCombine(), BandsToCombine(path)));
     }
 
     /// <summary>
@@ -1393,7 +1590,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
 
         // These used to funnel through the other region's GraphicsPath, so region-vs-region combines were
         // only as good as the bounding box of that path. They now work on the band lists directly.
-        SetBands(UnionBands(bands, BandsOfRegion(region)));
+        SetBands(UnionBands(BandsToCombine(), region.BandsToCombine()));
     }
 
     /// <summary>
@@ -1414,7 +1611,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
 
         // This returned the union of the two bounding boxes when they partly overlapped, which is the
         // opposite of an exclusive-or: the overlap was kept rather than removed.
-        SetBands(XorBands(bands, BandsOfPath(path)));
+        SetBands(XorBands(BandsToCombine(), BandsToCombine(path)));
     }
 
     /// <summary>
@@ -1473,7 +1670,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
         if (region == null) throw new ArgumentNullException(nameof(region));
         if (isInfinite || region.isInfinite) return;
 
-        SetBands(XorBands(bands, BandsOfRegion(region)));
+        SetBands(XorBands(BandsToCombine(), region.BandsToCombine()));
     }
 
     // helper to keep regionData in sync with our simple managed representation.

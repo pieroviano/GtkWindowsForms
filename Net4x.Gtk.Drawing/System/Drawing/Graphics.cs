@@ -3192,6 +3192,23 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         }
     }
 
+    /// <summary>
+    /// Fills <paramref name="path" /> into this context as flat coverage, for
+    /// <see cref="T:System.Drawing.Region" />'s scan conversion. No pen, no transform of its own: the
+    /// caller has already positioned the context over the coverage bitmap.
+    /// </summary>
+    /// <param name="path">The path whose interior is wanted.</param>
+    internal void FillPathForRegionScan(GraphicsPath path)
+    {
+        context.NewPath();
+        context.FillRule = path.FillMode == FillMode.Winding
+            ? Cairo.FillRule.Winding
+            : Cairo.FillRule.EvenOdd;
+        context.SetSourceRGBA(0, 0, 0, 1);
+        ReplayPath(path, null, forClip: true);
+        context.Fill();
+    }
+
     private void DrawPathCore(Pen pen, GraphicsPath? path, bool isfill)
     {
         if (path == null)

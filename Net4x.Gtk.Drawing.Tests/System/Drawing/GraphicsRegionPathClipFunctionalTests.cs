@@ -113,10 +113,10 @@ public class GraphicsRegionPathClipFunctionalTests
     }
 
     [Fact]
-    public void CombinedEllipticalRegion_FallsBackToBands()
+    public void CombinedEllipticalRegion_StillClipsOnTheCurve()
     {
-        // Once a path region is combined with something else, only the band list survives - the region is
-        // its bounding box from then on. Pinned so the fallback is a decision, not a surprise.
+        // A combine drops the exact path and leaves the band list in charge - but the bands are now the
+        // ellipse's scan-converted interior, not its bounding box, so the corner stays outside.
         using var bmp = Paint(g =>
         {
             var region = new Region(Ellipse());
@@ -126,7 +126,7 @@ public class GraphicsRegionPathClipFunctionalTests
         });
 
         Assert.True(IsRed(bmp.GetPixel(Size / 2, Size / 2)));
-        Assert.True(IsRed(bmp.GetPixel(1, 1)), "after a combine the region is its bounding box");
+        Assert.True(IsWhite(bmp.GetPixel(1, 1)), "combining must not widen the ellipse to its bounding box");
     }
 
     [Fact]
