@@ -13,7 +13,7 @@ namespace System.Windows.Forms;
 /// <see cref="!:System.Windows.Forms.Menu" />
 /// is retained for both backward compatibility and future use if you choose.
 /// </summary>
-public class ToolStripDropDown : ToolStrip
+public partial class ToolStripDropDown : ToolStrip
 {
     /// <summary>
     /// The self — a native GTK popup menu. Hides <see cref="ToolStrip" />'s toolbar-box <c>self</c>; the
