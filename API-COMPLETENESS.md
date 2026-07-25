@@ -8,6 +8,11 @@ That is deliberately a narrower question than "does it behave the same". Behavio
 ground truth from assembly metadata rather than recall. **It lists only what is still missing** — closed
 gaps are dropped, not catalogued.
 
+**State of the surface.** Every structural finding and every additive gap is closed. What remains missing
+is **declared non-goals** (§2) plus a member tail spread across many present types (§3); no missing type
+breaks ordinary line-of-business code. The net48 surface is at **90.6 % of types** with an **~15 % member
+tail** that is mostly modern-.NET or rarely-hand-written.
+
 ## Method
 
 A `MetadataLoadContext` reflection pass compares the public + protected surface of the real reference
@@ -34,67 +39,45 @@ checkable against those files.
 | | Forms (net48) | Forms (net10) | Drawing (net48) | Drawing (net10) |
 |---|---|---|---|---|
 | Public types in reference | 1034 | 1081 | 189 | 183 |
-| Present | **934 (90.3 %)** | **939 (86.9 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
-| Missing types | 100 | 142 | 44 | 41 |
-| Members on present types | 54 396 | 60 224 | 5 543 | 6 604 |
-| …missing | **7 953 (14.6 %)** | **8 950 (14.9 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
-| Types member-incomplete | 171 | 175 | 25 | 15 |
+| Present | **937 (90.6 %)** | **942 (87.1 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
+| Missing types | 97 | 139 | 44 | 41 |
+| Members on present types | 54 529 | 60 356 | 5 543 | 6 604 |
+| …missing | **7 974 (14.6 %)** | **8 970 (14.9 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
+| Types member-incomplete | 172 | 176 | 25 | 15 |
 
-**Every structural finding and additive gap is now closed** — including both base-class re-parents
-(`ToolStripDropDown` onto `Control`, and `DataGridViewRow`/`Cell` onto the new
-`DataGridViewBand`/`Element`). What remains missing is declared non-goals and a short tail of minor
-design-time helpers (§2/§7).
-
-`Net4x.Gtk.Drawing` is essentially done as an API surface (98.6 % of members present on net48).
-`Net4x.Gtk.Windows.Forms` is ~90 % of the type surface and ~15 % short on members — the member gap is now a
-long tail across many types rather than one structural mistake (the `ToolStripDropDown` re-parenting that
-dominated earlier revisions is done, closing ~670 member gaps at once).
-
-The net10 figures carry ~40 modern-.NET types (TaskDialog, dark-mode, `FormCornerPreference`, async
-overloads) a .NET Framework-era application never uses; the net48 column is the truer target.
+`Net4x.Gtk.Drawing` is essentially done as an API surface (98.6 % of members present on net48). Every
+`Net4x.Gtk.Windows.Forms` type still missing on the net48 baseline is a declared non-goal (§2). The net10
+column carries ~40 modern-.NET types (TaskDialog, dark-mode, `FormCornerPreference`, async overloads) a
+.NET Framework-era application never uses; the net48 column is the truer target.
 
 ---
 
-## 2. Missing types, triaged by family
+## 2. Missing types — all declared non-goals
 
-146 missing (net10) / 104 (net48), grouped so the number is actionable.
-
-| Family | ~Count | Verdict |
-|---|---|---|
-| Legacy `DataGrid` (pre-2.0 `DataGrid`, `DataGridColumnStyle`, `GridTableStylesCollection`…) | 15 | Low priority — superseded by `DataGridView`, deprecated in WinForms itself |
-| `DataGridView` design-time helpers (`DataGridViewCellStyleConverter`, `DataGridViewColumnDesignTimeVisibleAttribute`) | 2 | Design-time only; the `Band`/`Element` bases landed |
-| `Html*` / `WebBrowser` | 17 | Needs a browser engine — **likely non-goal** |
-| `TaskDialog` family | 16 | Modern (Core-era) Win32 dialog; mappable to GTK dialogs; absent from the net48 baseline |
-| `AxHost` / COM / ActiveX (`AxHost`, `WindowsFormsSection`, `IComponentEditorPageSite`) | 3 | **Non-goal** — COM/ActiveX is Windows-only |
-| Legacy `ToolBar`/`ToolBarButton` | 7 | Superseded by `ToolStrip`; low priority |
-| ToolStrip residue (`ToolStripDropDownItemAccessibleObject`) | 1 | Narrow accessibility helper; `ToolStripOverflow`/`ToolStripOverflowButton` landed |
-| Modern .NET (`FormCornerPreference`, `ScreenCaptureMode`, `SystemColorMode`, dark-mode, `IAsyncDropTarget`/`ITypedDataObject`/`DataObjectExtensions`/`DropImageType`) | ~9 | Never needed by a net4x app; absent from the net48 baseline |
-| Misc (`NativeWindow`, `SendKeys`, stray converters) | rest | `NativeWindow`/`SendKeys` are non-goals (§3) |
-
----
-
-## 3. Core missing types that break ordinary application code
-
-**None remain.** Every type a mainstream line-of-business app is likely to hit is present. What is still
-missing is either a declared non-goal (below) or a minor design-time helper — `DataGridViewCellStyleConverter`,
-`DataGridViewColumnDesignTimeVisibleAttribute`, `ToolStripDropDownItemAccessibleObject` — that does not
-break ordinary application code.
-
-One documented partial: `DataGridViewColumn` derives from a GTK `TreeViewColumn` and so, unlike `Row`/`Cell`,
-does not derive from `DataGridViewBand`. `DataGridViewBand` and `DataGridViewElement` exist and `Row`/`Cell`
-derive from them, but `column is DataGridViewBand` is `false`. The GTK column base cannot be given up
-without losing the grid's native column behaviour.
-
-**Candidate non-goals** (document rather than implement): `WebBrowser`/`Html*` (browser engine),
-`AxHost`/COM/ActiveX, `NativeWindow`/`SendKeys` (Win32 message model, EMULATION-GAPS.md §1), legacy
-`DataGrid`/`ToolBar`, `TaskDialog` (or map to GTK dialogs), and the .NET 9+ dark-mode surface. All are
+97 missing (net48) / 139 (net10), and each is a deliberate omission, not a backlog item. They are
 documented in the package README's "Platform notes and non-goals".
 
+| Family | ~Count | Why it is a non-goal |
+|---|---|---|
+| Legacy `DataGrid` (pre-2.0 `DataGrid`, `DataGridColumnStyle`, `GridTableStylesCollection`, the two `IDataGrid*` interfaces…) | 15 | Superseded by `DataGridView`, deprecated in WinForms itself |
+| `Html*` / `WebBrowser` | 17 | No cross-platform browser engine |
+| `AxHost` / COM / ActiveX (`AxHost`, `WindowsFormsSection`, `IComponentEditorPageSite`) | 3 | COM/ActiveX is Windows-only |
+| Legacy `ToolBar`/`ToolBarButton` | 7 | Superseded by `ToolStrip` |
+| `NativeWindow`, `SendKeys` | 2 | Win32 message model (EMULATION-GAPS.md §1) |
+| `TaskDialog` family | 16 | Modern (Core-era) Win32 dialog; mappable to GTK dialogs; absent from the net48 baseline |
+| Modern .NET (`FormCornerPreference`, `ScreenCaptureMode`, `SystemColorMode`, dark-mode, `IAsyncDropTarget`/`ITypedDataObject`/`DataObjectExtensions`/`DropImageType`) | ~9 | Never needed by a net4x app; absent from the net48 baseline |
+
+**One documented partial, not a missing type.** `DataGridViewBand`/`DataGridViewElement` exist and
+`DataGridViewRow`/`DataGridViewCell` derive from them, but `DataGridViewColumn` keeps its GTK
+`TreeViewColumn` base, so `column is DataGridViewBand` is `false`. Giving up the GTK column base would lose
+the grid's native column behaviour.
+
 ---
 
-## 4. Member gaps on types that *do* exist
+## 3. Member gaps on types that *do* exist
 
-175 of 939 present types are member-incomplete (net10). The largest:
+176 of 942 present types are member-incomplete (net10). The member gap is now a broad tail rather than a
+structural mistake. The largest:
 
 | Type | Missing / total (net10) |
 |---|---|
@@ -112,30 +95,20 @@ documented in the package README's "Platform notes and non-goals".
 | `Application` | 19 / 62 |
 
 The `ToolStrip*`/`MenuStrip`/`BindingNavigator`/drop-down cluster all inherit from `ToolStrip`/`Control`;
-much of their remaining gap is the same `ToolStrip`-specific member tail, not per-type work. Numbers below
-are the **net48** baseline (the truer target), which runs a little lower than the net10 table.
+much of their remaining gap is the same `ToolStrip`-specific member tail, not per-type work. On the net48
+baseline the frequently-used types run lower — `Form` 94, `Control` 49, `Application` 12 — and what remains
+in each is the deep extensibility surface, modern-.NET additions, or Win32-host members a ported .NET
+Framework application does not use:
 
-### 4.1 `Form` — 94 missing (net48)
-
-The high-frequency designer-emitted and placement surface is present; what remains is a long tail of
-DPI/modern and rarely-hand-written members.
-
-### 4.2 `Control` — 49 missing (net48), in the deep extensibility surface
-
-The common override points and the bounds-core/scaling/handle-lifecycle surface are present; what remains
-is mostly modern additions a .NET Framework-era app never uses:
-`DataContext`/`DataContextChanged`/`OnParentDataContextChanged` and `InvokeAsync` (3 overloads).
-
-### 4.3 `Application` — 12 missing (net48)
-
-What is left presumes a Win32 pump or Windows host: `EnterThreadModal`/`LeaveThreadModal`,
-`Register`/`UnregisterMessageLoop`, `RaiseIdle`, `OleRequired`, the registry properties
-(`UserAppDataRegistry`/`CommonAppDataRegistry`), `AllowQuit`, `UseWaitCursor`, `SafeTopLevelCaptionFormat`
-and `SetSuspendState`.
+- **`Form`** — the placement/designer surface is present; the tail is DPI/modern and rarely-hand-written.
+- **`Control`** — the override points and bounds-core/scaling/handle surface are present; the tail is
+  `DataContext`/`DataContextChanged`/`OnParentDataContextChanged` and `InvokeAsync` (modern).
+- **`Application`** — the tail presumes a Win32 pump or Windows host (`EnterThreadModal`,
+  `Register`/`UnregisterMessageLoop`, `RaiseIdle`, the registry properties, `SetSuspendState`, …).
 
 ---
 
-## 5. `Net4x.Gtk.Drawing` — near-complete
+## 4. `Net4x.Gtk.Drawing` — near-complete
 
 97 missing members across 6 604 (**98.5 % present**, net10). The 41 missing types:
 
@@ -152,7 +125,7 @@ essentially none of the `GraphicsPath` misses.
 
 ---
 
-## 6. Surface the shim adds that WinForms does not have
+## 5. Surface the shim adds that WinForms does not have
 
 ~262 public types exist in the shim's `System.Windows.Forms*` namespaces but not in real WinForms — GTK
 plumbing (`GtkRender.CellRenderer*`, `IControl`, `IControlBase`, `IToolMenuItem`, `GtkMenuItem`) plus
@@ -165,35 +138,7 @@ clash was one).
 
 ---
 
-## 7. Remaining work
-
-**The structural and additive order of work is complete.** Both base-class re-parents landed — the
-`ToolStripDropDown → Control` lever (patch 0119, ~670 member gaps) with the `ToolStripOverflow` types it
-unblocked (0120), and the `DataGridViewRow`/`Cell → DataGridViewBand`/`Element` hierarchy (0121). What is
-left is not a to-do list so much as a set of standing decisions:
-
-- **Declared non-goals** — `AxHost`/COM, `WebBrowser`/`Html*`, `TaskDialog`, EMF/WMF metafiles,
-  `NativeWindow`, `SendKeys`, legacy `DataGrid`/`ToolBar`, `Imaging.Effects`, the .NET 9+ dark-mode surface,
-  documented in the package README.
-- **Minor design-time helpers** — `DataGridViewCellStyleConverter`, `DataGridViewColumnDesignTimeVisibleAttribute`,
-  `ToolStripDropDownItemAccessibleObject`. Additive if wanted, but they do not break ordinary code.
-- **One documented partial** — `DataGridViewColumn` keeps its GTK `TreeViewColumn` base and so does not
-  derive from `DataGridViewBand` (§3).
-- **Member tails** — the ~15 % member gap is now spread across many present types (`PrintPreviewDialog`,
-  `DataGridView`, the `ToolStrip*` cluster, `RichTextBox`, …) rather than concentrated in one structural
-  mistake; most of it is modern-.NET or rarely-hand-written surface.
-
-Both re-parents are worth a note for future work: each looked like deep surgery from a reading pass, but the
-empirical change was small and the full suite stayed green — `ToolStripDropDown` was two edits (it was never
-used as a `ToolStripItem`; its `Gtk.Menu` backing was redirected through `GtkControl`), and the DataGridView
-hierarchy was reconciled by having each leaf **override** the shared members it already implements, so the
-row's computed `State` and the cell's computed `DataGridView` were preserved rather than rewritten. When a
-re-parent's conflicts look structural, an override-based spike behind the test suite is cheaper than the
-analysis.
-
----
-
-## 8. What this document does *not* measure
+## 6. What this document does *not* measure
 
 This diff and [EMULATION-GAPS.md](EMULATION-GAPS.md) are disjoint: this one measures *absent* members;
 EMULATION-GAPS.md measures *behaviour* — members that exist and compile but do the wrong thing. Neither
@@ -206,6 +151,6 @@ subsumes the other. And type/member presence is a floor, not a ceiling:
 - **Member accessibility beyond public/protected**, generic arity, `ref`/`out` beyond the type-name level,
   and explicit interface implementations.
 - **Whether a missing member matters to *your* app.** Frequency-weighting against a corpus of real
-  WinForms source would sharpen §7.
+  WinForms source would sharpen the member-tail view in §3.
 - **Reference-version sensitivity.** The net10 column carries recent additions a .NET Framework 4.x app
   never uses; the net48 column is the truer target and is reported alongside it throughout.
