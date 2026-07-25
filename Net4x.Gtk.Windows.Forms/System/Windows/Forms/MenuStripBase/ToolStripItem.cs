@@ -12,7 +12,7 @@ namespace System.Windows.Forms;
 /// <see cref="T:System.Windows.Forms.ToolStrip" /> or
 /// <see cref="T:System.Windows.Forms.ToolStripDropDown" /> can contain.
 /// </summary>
-public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArrangedElement, IComponent, IDisposable, IKeyboardToolTip
+public partial class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArrangedElement, IComponent, IDisposable, IKeyboardToolTip
 {
     CssProvider provider = new CssProvider();
 
@@ -1192,6 +1192,7 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
 
     protected override void Dispose(bool disposing)
     {
+        IsDisposed = true;
         try
         {
             GetWidget()?.Dispose();
