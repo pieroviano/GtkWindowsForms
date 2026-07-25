@@ -42,7 +42,7 @@ checkable against those files.
 | Present | **937 (90.6 %)** | **942 (87.1 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
 | Missing types | 97 | 139 | 44 | 41 |
 | Members on present types | 54 529 | 60 356 | 5 543 | 6 604 |
-| …missing | **7 974 (14.6 %)** | **8 970 (14.9 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
+| …missing | **7 854 (14.4 %)** | **8 850 (14.7 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
 | Types member-incomplete | 172 | 176 | 25 | 15 |
 
 `Net4x.Gtk.Drawing` is essentially done as an API surface (98.6 % of members present on net48). Every
@@ -83,13 +83,12 @@ structural mistake. The largest:
 |---|---|
 | `PrintPreviewDialog` | 177 / 565 |
 | `DataGridView` | 177 / 796 |
-| `ToolStripTextBox` | 154 / 265 |
-| `ToolStripDropDown` / `ContextMenuStrip` / `ToolStripDropDownMenu` | 153 / 150 / 150 |
-| `ToolStripComboBox` | 135 / 252 |
-| `MenuStrip` / `ToolStrip` / `StatusStrip` | 134 / 130 / 129 |
-| `BindingNavigator` | 130 / 504 |
+| `ToolStripTextBox` | 139 / 265 |
+| `ToolStripDropDown` / `ContextMenuStrip` / `ToolStripDropDownMenu` | 138 / 135 / 135 |
 | `TreeView` | 127 / 477 |
 | `RichTextBox` | 124 / 509 |
+| `ToolStripComboBox` / `MenuStrip` / `StatusStrip` | 120 / 119 / 114 |
+| `ToolStrip` / `BindingNavigator` | 115 / 115 |
 | `Form` | 122 / 562 |
 | `Control` | 59 / 409 |
 | `Application` | 19 / 62 |
