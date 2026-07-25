@@ -597,6 +597,17 @@ public partial class Form : ContainerControl, IWin32Window
         }
         set
         {
+            // Remember the bounds the form should restore to. Capture on the first move away from Normal
+            // and hold it across a Minimized<->Maximized switch; clear it once the form is Normal again.
+            if (value == FormWindowState.Normal)
+            {
+                _restoreBounds = null;
+            }
+            else
+            {
+                _restoreBounds ??= Bounds;
+            }
+
             _WindowState = value;
             if (value == FormWindowState.Maximized)
             {
