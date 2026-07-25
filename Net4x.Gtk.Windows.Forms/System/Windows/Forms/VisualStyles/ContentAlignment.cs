@@ -1,0 +1,18 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+namespace System.Windows.Forms.VisualStyles;
+
+/// <summary>Identifies a ContentAlignment used with visual styles.</summary>
+public enum ContentAlignment
+{
+    /// <summary>The Left value.</summary>
+    Left = 0,
+
+    /// <summary>The Center value.</summary>
+    Center = 1,
+
+    /// <summary>The Right value.</summary>
+    Right = 2,
+}
