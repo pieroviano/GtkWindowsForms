@@ -78,6 +78,18 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
 
     public virtual event EventHandler? EnabledChanged;
 
+    /// <summary>Occurs when the user drops data on the item during a drag-and-drop operation.</summary>
+    public virtual event DragEventHandler? DragDrop;
+
+    /// <summary>Occurs when the pointer enters the item during a drag-and-drop operation.</summary>
+    public virtual event DragEventHandler? DragEnter;
+
+    /// <summary>Occurs when the pointer moves over the item during a drag-and-drop operation.</summary>
+    public virtual event DragEventHandler? DragOver;
+
+    /// <summary>Occurs when the pointer leaves the item during a drag-and-drop operation.</summary>
+    public virtual event EventHandler? DragLeave;
+
     public virtual event EventHandler? Enter;
 
     public virtual event KeyEventHandler? KeyDown;
@@ -1247,6 +1259,42 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
     {
         Click?.Invoke(this, e);
     }
+
+    /// <summary>Raises the <see cref="DragEnter" /> event.</summary>
+    /// <param name="e">The drag event data.</param>
+    protected virtual void OnDragEnter(DragEventArgs e)
+    {
+        DragEnter?.Invoke(this, e);
+    }
+
+    /// <summary>Raises the <see cref="DragOver" /> event.</summary>
+    /// <param name="e">The drag event data.</param>
+    protected virtual void OnDragOver(DragEventArgs e)
+    {
+        DragOver?.Invoke(this, e);
+    }
+
+    /// <summary>Raises the <see cref="DragDrop" /> event.</summary>
+    /// <param name="e">The drag event data.</param>
+    protected virtual void OnDragDrop(DragEventArgs e)
+    {
+        DragDrop?.Invoke(this, e);
+    }
+
+    /// <summary>Raises the <see cref="DragLeave" /> event.</summary>
+    /// <param name="e">The event data.</param>
+    protected virtual void OnDragLeave(EventArgs e)
+    {
+        DragLeave?.Invoke(this, e);
+    }
+
+    void IDropTarget.OnDragEnter(DragEventArgs e) => OnDragEnter(e);
+
+    void IDropTarget.OnDragOver(DragEventArgs e) => OnDragOver(e);
+
+    void IDropTarget.OnDragDrop(DragEventArgs e) => OnDragDrop(e);
+
+    void IDropTarget.OnDragLeave(EventArgs e) => OnDragLeave(e);
 
     /// <summary>
     /// Raises the ContextMenuStripChanged event.
