@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace System.Windows.Forms;
 
-internal class ListBindingHelper
+public class ListBindingHelper
 {
     private static Attribute[]? _browsableAttribute;
 
