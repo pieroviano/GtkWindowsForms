@@ -64,12 +64,9 @@ GTK has no "message queue drained" notification, so `Idle` is sampled: while som
 
 `PrintDocument.Print()` runs through the GTK print dialog machinery and stays untested (needs a live print loop).
 
-### 2.6 Dock/anchor — measured and fixed, with a residual
+### 2.6 Dock/anchor — a residual pixel artifact
 
-Dock and anchor now reproduce WinForms arithmetic (pinned in `LayoutArrangementFunctionalTests` against real `System.Windows.Forms` oracle values). Two residuals remain:
-
-- **Resize response is verified as arithmetic, not end-to-end.** This GTK test host does not propagate a runtime resize to a modal dialog's allocation, so the anchor *rule* is pinned directly against oracle values while the *wiring* is covered by the dock tests (which do run through a real allocation). A display-backed run would close the gap.
-- **A one-to-two-pixel artifact.** Exact rectangles occasionally leave a filled child a hair larger than its GTK viewport, which can raise a scrollbar WinForms would not show. Cosmetic; recorded rather than chased.
+Dock and anchor reproduce WinForms arithmetic (pinned in `LayoutArrangementFunctionalTests` against real `System.Windows.Forms` oracle values). One deviation remains: exact rectangles occasionally leave a filled child a hair larger than its GTK viewport, which can raise a scrollbar WinForms would not show — a one-to-two-pixel artifact, cosmetic, recorded rather than chased. (Separately, the resize *rule* is pinned against oracle values rather than a live resize, because the headless GTK host does not propagate a runtime resize to a modal dialog's allocation; the *wiring* is covered by the dock tests, which run through a real allocation. A display-backed run would close that coverage gap.)
 
 ---
 
@@ -113,6 +110,5 @@ Stated so the gaps in the gap analysis are visible.
 - **Behavioural divergence is the dominant unmeasured risk.** Layout drift, event ordering and focus/tab-order are invisible to source reading. This limit was demonstrated, not asserted: several past fixes (unraised `HandleCreated`/`HandleDestroyed`, one-member `AccessibleRole`, `Padding.Horizontal` = `Right − Left`, the three property-browser defects, the dock/anchor collapse) were found only by *writing tests*. Wrong-but-plausible code is invisible to a reading pass in a way that missing code is not.
 - **`TableLayoutPanel`/`FlowLayoutPanel`** have not been compared against real WinForms (§3); assume pixel-level and edge-case divergence there until they are.
 - **The property browser beyond its contract** (§3) is under-tested.
-- **Data-binding depth** *is* covered (nested/dotted members, source-side `INotifyPropertyChanged`, `IEditableObject` transactions — see the binding functional tests), leaving no open depth question there.
 - **`Net4x.Gtk.Windows.FormsDesigner`** and the ResX/designer round-trip are out of scope here.
 - **Per-member API-surface diffing** is handled by [API-COMPLETENESS.md](API-COMPLETENESS.md) and the re-runnable tool in [api-diff/](api-diff/), strictly more complete than this document at the type/member level.
