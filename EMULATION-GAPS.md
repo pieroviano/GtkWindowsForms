@@ -50,23 +50,19 @@ This one is *substrate-bound* — GTK's retained paint cycle genuinely does not 
 
 Verified absent by type-declaration search over both projects.
 
-### 3.1 ToolStrip — one host base class left
+### 3.1 Controls
 
-The container/panel/renderer family (`ToolStripManager`, `ToolStripRenderer`, `ToolStripProfessionalRenderer`, `ProfessionalColorTable`, `ToolStripContainer`, `ToolStripPanel`, `ToolStripContentPanel`) now exists, and so do the standard hosted items `ToolStripComboBox`/`ToolStripTextBox`/`ToolStripProgressBar` (implemented independently). The one remaining hole is **`ToolStripControlHost`** — the public base class for hosting an *arbitrary* `Control` inside a strip. Its absence does not break the standard items; it blocks user code that derives a custom hosted item from `ToolStripControlHost`, and any type reference to the class name in ported source.
+`WebBrowser`, `HtmlDocument`/`HtmlElement` do not exist — all three are browser-hosting types with no cross-platform substrate (§5.1), so they are candidate non-goals rather than to-dos. The ToolStrip family is complete: the container/panel/renderer types, the standard hosted items (`ToolStripComboBox`/`ToolStripTextBox`/`ToolStripProgressBar`), and `ToolStripControlHost` (patch 0108) all exist; `BindingNavigator` exists (patch 0107).
 
-### 3.2 Controls
+`WebBrowser` deserves a note: its four `*EventArgs` types (`WebBrowserDocumentCompletedEventArgs`, `WebBrowserNavigatedEventArgs`, `WebBrowserNavigatingEventArgs`, `WebBrowserProgressChangedEventArgs`) are all present, but the control itself is not — so those types are currently unreachable. Either the control is coming or the event args are dead weight.
 
-`WebBrowser`, `HtmlDocument`/`HtmlElement` do not exist. (`BindingNavigator` now exists — patch 0107 — as a `ToolStrip` subclass wiring the standard navigation items to a `BindingSource`.)
-
-`WebBrowser` deserves a note: its four `*EventArgs` types (`WebBrowserDocumentCompletedEventArgs`, `WebBrowserNavigatedEventArgs`, `WebBrowserNavigatingEventArgs`, `WebBrowserProgressChangedEventArgs`) are all present, but the control itself is not — so those types are currently unreachable. Either the control is coming or the event args are dead weight. `WebBrowser`/`HtmlDocument`/`HtmlElement` have no cross-platform substrate and are likely non-goals (§5.1).
-
-### 3.3 Interop and misc
+### 3.2 Interop and misc
 
 `NativeWindow` and `SendKeys` do not exist — both are Win32-message-model constructs (§5.1) and are candidate non-goals. Also absent: `Region` on `Control` (non-rectangular control shapes) and `TransparencyKey` on `Form`.
 
 `Help`, `HelpProvider`, `AmbientProperties`, `IWindowsFormsEditorService` and `AutoCompleteStringCollection` now exist.
 
-### 3.4 `Net4x.Gtk.Drawing`
+### 3.3 `Net4x.Gtk.Drawing`
 
 No missing types remain. `PrivateFontCollection` and `InstalledFontCollection` now exist over the base `FontCollection`.
 
@@ -130,20 +126,16 @@ The print-controller family (`PrintController`/`StandardPrintController`/`Previe
 
 Ranked by (damage × frequency) ÷ effort.
 
-**P1 — compile breaks on real source**
-1. `ToolStripControlHost` (§3.1) — only custom hosted items reference it (the standard three already exist), so this is a compile break for a narrower slice of source than its position in the ToolStrip hierarchy suggests.
+**P1 — runtime failures on real source**
+1. `PropertyGrid`/`GridEntry` throw cluster (§4) — 11 sites in the property browser.
 
-**P2 — remaining controls and collections**
-3. `PropertyGrid`/`GridEntry` throw cluster (§4) — 11 sites in the property browser.
-4. `WebBrowser`/`HtmlDocument`/`HtmlElement` (§3.2) — decide non-goal vs implement, and either build the control or delete the four orphaned event-args types.
+**P2 — fidelity**
+2. `Graphics.SetClip(Region)` through the region's path rather than its bands (§5.4).
+3. `CreateGraphics` immediate-mode semantics — or document the deviation (§2.1).
+4. `Application.Idle`, `Restart`, product/company metadata (§5.2).
 
-**P3 — fidelity**
-5. `Graphics.SetClip(Region)` through the region's path rather than its bands (§5.4).
-6. `CreateGraphics` immediate-mode semantics — or document the deviation (§2.1).
-7. `Application.Idle`, `Restart`, product/company metadata (§5.2).
-
-**P4 — declare non-goals**
-8. EMF/WMF metafiles, `NativeWindow`, `SendKeys`, `WebBrowser`/`Html*`, `Control.Handle` semantics — document rather than implement (§5.1, §5.3).
+**P3 — declare non-goals**
+5. EMF/WMF metafiles, `NativeWindow`, `SendKeys`, `WebBrowser`/`Html*`, `Control.Handle` semantics — document rather than implement (§5.1, §5.3).
 
 ---
 
