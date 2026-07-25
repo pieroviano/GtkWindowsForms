@@ -34,11 +34,16 @@ checkable against those files.
 | | Forms (net48) | Forms (net10) | Drawing (net48) | Drawing (net10) |
 |---|---|---|---|---|
 | Public types in reference | 1034 | 1081 | 189 | 183 |
-| Present | **932 (90.1 %)** | **937 (86.7 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
-| Missing types | 102 | 144 | 44 | 41 |
-| Members on present types | 54 343 | 60 171 | 5 543 | 6 604 |
-| …missing | **8 026 (14.8 %)** | **9 023 (15.0 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
-| Types member-incomplete | 170 | 174 | 25 | 15 |
+| Present | **934 (90.3 %)** | **939 (86.9 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
+| Missing types | 100 | 142 | 44 | 41 |
+| Members on present types | 54 396 | 60 224 | 5 543 | 6 604 |
+| …missing | **7 953 (14.6 %)** | **8 950 (14.9 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
+| Types member-incomplete | 171 | 175 | 25 | 15 |
+
+**Every structural finding and additive gap is now closed** — including both base-class re-parents
+(`ToolStripDropDown` onto `Control`, and `DataGridViewRow`/`Cell` onto the new
+`DataGridViewBand`/`Element`). What remains missing is declared non-goals and a short tail of minor
+design-time helpers (§2/§7).
 
 `Net4x.Gtk.Drawing` is essentially done as an API surface (98.6 % of members present on net48).
 `Net4x.Gtk.Windows.Forms` is ~90 % of the type surface and ~15 % short on members — the member gap is now a
@@ -57,7 +62,7 @@ overloads) a .NET Framework-era application never uses; the net48 column is the 
 | Family | ~Count | Verdict |
 |---|---|---|
 | Legacy `DataGrid` (pre-2.0 `DataGrid`, `DataGridColumnStyle`, `GridTableStylesCollection`…) | 15 | Low priority — superseded by `DataGridView`, deprecated in WinForms itself |
-| `DataGridView` base classes + converters (`DataGridViewBand`/`DataGridViewElement`, a couple converters) | 4 | Re-parenting refactor (§3/§7) |
+| `DataGridView` design-time helpers (`DataGridViewCellStyleConverter`, `DataGridViewColumnDesignTimeVisibleAttribute`) | 2 | Design-time only; the `Band`/`Element` bases landed |
 | `Html*` / `WebBrowser` | 17 | Needs a browser engine — **likely non-goal** |
 | `TaskDialog` family | 16 | Modern (Core-era) Win32 dialog; mappable to GTK dialogs; absent from the net48 baseline |
 | `AxHost` / COM / ActiveX (`AxHost`, `WindowsFormsSection`, `IComponentEditorPageSite`) | 3 | **Non-goal** — COM/ActiveX is Windows-only |
@@ -70,10 +75,15 @@ overloads) a .NET Framework-era application never uses; the net48 column is the 
 
 ## 3. Core missing types that break ordinary application code
 
-The subset a mainstream line-of-business app is most likely to hit:
+**None remain.** Every type a mainstream line-of-business app is likely to hit is present. What is still
+missing is either a declared non-goal (below) or a minor design-time helper — `DataGridViewCellStyleConverter`,
+`DataGridViewColumnDesignTimeVisibleAttribute`, `ToolStripDropDownItemAccessibleObject` — that does not
+break ordinary application code.
 
-- **`DataGridViewBand`/`DataGridViewElement`** — the base classes of `Row`/`Column`/`Cell`, which in the
-  shim do not derive from them. A re-parenting refactor, not an addition (§7) — the last substantive gap.
+One documented partial: `DataGridViewColumn` derives from a GTK `TreeViewColumn` and so, unlike `Row`/`Cell`,
+does not derive from `DataGridViewBand`. `DataGridViewBand` and `DataGridViewElement` exist and `Row`/`Cell`
+derive from them, but `column is DataGridViewBand` is `false`. The GTK column base cannot be given up
+without losing the grid's native column behaviour.
 
 **Candidate non-goals** (document rather than implement): `WebBrowser`/`Html*` (browser engine),
 `AxHost`/COM/ActiveX, `NativeWindow`/`SendKeys` (Win32 message model, EMULATION-GAPS.md §1), legacy
@@ -84,7 +94,7 @@ documented in the package README's "Platform notes and non-goals".
 
 ## 4. Member gaps on types that *do* exist
 
-174 of 937 present types are member-incomplete (net10). The largest:
+175 of 939 present types are member-incomplete (net10). The largest:
 
 | Type | Missing / total (net10) |
 |---|---|
@@ -157,22 +167,29 @@ clash was one).
 
 ## 7. Remaining work
 
-The single biggest structural lever — re-parenting `ToolStripDropDown` onto `ToolStrip`/`Control` — is
-**done** (patch 0119, ~670 member gaps across the three worst types), and the `ToolStripOverflow` types it
-unblocked landed with it (patch 0120). One substantive item is left:
+**The structural and additive order of work is complete.** Both base-class re-parents landed — the
+`ToolStripDropDown → Control` lever (patch 0119, ~670 member gaps) with the `ToolStripOverflow` types it
+unblocked (0120), and the `DataGridViewRow`/`Cell → DataGridViewBand`/`Element` hierarchy (0121). What is
+left is not a to-do list so much as a set of standing decisions:
 
-1. **`DataGridViewBand`/`DataGridViewElement`** (§3) — the base classes of `Row`/`Column`/`Cell`. This is
-   a *refactor*, not an addition: three structural conflicts block a clean re-parent —
-   `DataGridViewColumn : TreeViewColumn` (a GTK base) cannot also inherit `Band`; `Cell.DataGridView` is
-   *computed* while `Element.DataGridView` is *stored* (inheriting it breaks cell→grid resolution); and the
-   shim *inverts* WinForms' state model (`Row.State` is derived from the flags, where `Element.State` is
-   the stored source). Best taken as a dedicated, staged refactor of the grid's state/hierarchy model.
+- **Declared non-goals** — `AxHost`/COM, `WebBrowser`/`Html*`, `TaskDialog`, EMF/WMF metafiles,
+  `NativeWindow`, `SendKeys`, legacy `DataGrid`/`ToolBar`, `Imaging.Effects`, the .NET 9+ dark-mode surface,
+  documented in the package README.
+- **Minor design-time helpers** — `DataGridViewCellStyleConverter`, `DataGridViewColumnDesignTimeVisibleAttribute`,
+  `ToolStripDropDownItemAccessibleObject`. Additive if wanted, but they do not break ordinary code.
+- **One documented partial** — `DataGridViewColumn` keeps its GTK `TreeViewColumn` base and so does not
+  derive from `DataGridViewBand` (§3).
+- **Member tails** — the ~15 % member gap is now spread across many present types (`PrintPreviewDialog`,
+  `DataGridView`, the `ToolStrip*` cluster, `RichTextBox`, …) rather than concentrated in one structural
+  mistake; most of it is modern-.NET or rarely-hand-written surface.
 
-The `ToolStripDropDown` outcome is worth noting: it looked like deep surgery from a reading pass, but the
-empirical change was two edits (base class + one collection accessor) with the full suite green — the
-menu model survived because the drop-down was never used as a `ToolStripItem` and its native `Gtk.Menu`
-backing was redirected through `GtkControl`. The `DataGridViewBand` conflicts are more fundamental (they
-fight the shim's own state model), so the same "just try it" optimism does not transfer without care.
+Both re-parents are worth a note for future work: each looked like deep surgery from a reading pass, but the
+empirical change was small and the full suite stayed green — `ToolStripDropDown` was two edits (it was never
+used as a `ToolStripItem`; its `Gtk.Menu` backing was redirected through `GtkControl`), and the DataGridView
+hierarchy was reconciled by having each leaf **override** the shared members it already implements, so the
+row's computed `State` and the cell's computed `DataGridView` were preserved rather than rewritten. When a
+re-parent's conflicts look structural, an override-based spike behind the test suite is cheaper than the
+analysis.
 
 ---
 
