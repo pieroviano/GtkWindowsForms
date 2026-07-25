@@ -56,7 +56,7 @@ The container/panel/renderer family (`ToolStripManager`, `ToolStripRenderer`, `T
 
 ### 3.2 Controls
 
-`BindingNavigator`, `WebBrowser`, `HtmlDocument`/`HtmlElement` do not exist.
+`WebBrowser`, `HtmlDocument`/`HtmlElement` do not exist. (`BindingNavigator` now exists — patch 0107 — as a `ToolStrip` subclass wiring the standard navigation items to a `BindingSource`.)
 
 `WebBrowser` deserves a note: its four `*EventArgs` types (`WebBrowserDocumentCompletedEventArgs`, `WebBrowserNavigatedEventArgs`, `WebBrowserNavigatingEventArgs`, `WebBrowserProgressChangedEventArgs`) are all present, but the control itself is not — so those types are currently unreachable. Either the control is coming or the event args are dead weight. `WebBrowser`/`HtmlDocument`/`HtmlElement` have no cross-platform substrate and are likely non-goals (§5.1).
 
@@ -131,8 +131,7 @@ The print-controller family (`PrintController`/`StandardPrintController`/`Previe
 Ranked by (damage × frequency) ÷ effort.
 
 **P1 — compile breaks on real source**
-1. `BindingNavigator` (§3.2) — designer-generated for data-bound forms with a navigator toolbar.
-2. `ToolStripControlHost` (§3.1) — only custom hosted items reference it (the standard three already exist), so this is a compile break for a narrower slice of source than its position in the ToolStrip hierarchy suggests.
+1. `ToolStripControlHost` (§3.1) — only custom hosted items reference it (the standard three already exist), so this is a compile break for a narrower slice of source than its position in the ToolStrip hierarchy suggests.
 
 **P2 — remaining controls and collections**
 3. `PropertyGrid`/`GridEntry` throw cluster (§4) — 11 sites in the property browser.
