@@ -1,0 +1,449 @@
+From 9629aa043b608153ad1faf085e2806715636398a Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Sat, 25 Jul 2026 03:40:52 +0300
+Subject: [PATCH] Add the print-controller family (unblocks PrintPreviewDialog)
+
+Restores the System.Drawing.Printing controllers, absent until now:
+
+- PrintController (abstract base: IsPreview, OnStartPrint/OnStartPage/OnEndPage/
+  OnEndPrint).
+- StandardPrintController - returns the print loop's page graphics.
+- PreviewPrintController - actually captures each page into a bitmap and exposes
+  them via GetPreviewPageInfo(); has UseAntiAlias. This is what PrintPreviewDialog
+  needs.
+- PreviewPageInfo (Image + PhysicalSize), InvalidPrinterException (: SystemException).
+- PrintControllerWithStatusDialog (System.Windows.Forms) - delegates to an
+  underlying controller; the status dialog is not shown on GTK.
+- PrintDocument gains its PrintController property (defaulting to
+  StandardPrintController), via a new partial.
+
+Net48 Drawing types present 136->141, Forms 911->912. Full suite green at 2357
+(+6 tests, including a real preview-capture cycle). The printing test seeds GTK
+via the Form static constructor before creating Bitmap/Graphics/PrinterSettings.
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ .../PrintingControllersFunctionalTests.cs     | 105 ++++++++++++++++++
+ .../Printing/InvalidPrinterException.cs       |  33 ++++++
+ .../Drawing/Printing/PreviewPageInfo.cs       |  24 ++++
+ .../Printing/PreviewPrintController.cs        |  51 +++++++++
+ .../Drawing/Printing/PrintController.cs       |  39 +++++++
+ .../Printing/PrintDocument.PrintController.cs |  19 ++++
+ .../System/Drawing/Printing/PrintDocument.cs  |   2 +-
+ .../Printing/StandardPrintController.cs       |  21 ++++
+ .../PrintControllerWithStatusDialog.cs        |  49 ++++++++
+ 9 files changed, 342 insertions(+), 1 deletion(-)
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PrintingControllersFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Drawing/Printing/InvalidPrinterException.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PreviewPageInfo.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PreviewPrintController.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintController.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.PrintController.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Drawing/Printing/StandardPrintController.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintControllerWithStatusDialog.cs
+
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PrintingControllersFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PrintingControllersFunctionalTests.cs
+new file mode 100644
+index 00000000..b5af82d1
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PrintingControllersFunctionalTests.cs
+@@ -0,0 +1,105 @@
++extern alias gtk;
++
++using System.Drawing.Printing;
++using Bitmap = gtk::System.Drawing.Bitmap;
++using Size = global::System.Drawing.Size;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Verifies the print-controller family restored to <c>System.Drawing.Printing</c>: the abstract
++/// <see cref="PrintController" /> base, <see cref="StandardPrintController" />,
++/// <see cref="PreviewPrintController" /> (which actually captures pages), <see cref="PreviewPageInfo" />,
++/// <see cref="InvalidPrinterException" />, the <see cref="PrintControllerWithStatusDialog" /> wrapper, and
++/// the <see cref="PrintDocument.PrintController" /> hook.
++/// </summary>
++[Collection("NonParallelCollection")]
++public class PrintingControllersFunctionalTests
++{
++    static PrintingControllersFunctionalTests()
++    {
++        // Bitmap/Graphics/PrinterSettings need an initialized GTK toolkit; the Form static constructor
++        // calls Application.Init, so touch one before any drawing/printer object is created.
++        try
++        {
++            using var _ = new Form();
++        }
++        catch
++        {
++            // ignored - initialization is best-effort
++        }
++    }
++
++    [Fact]
++    public void Hierarchy_And_IsPreview()
++    {
++        Assert.True(typeof(PrintController).IsAssignableFrom(typeof(StandardPrintController)));
++        Assert.True(typeof(PrintController).IsAssignableFrom(typeof(PreviewPrintController)));
++        Assert.True(typeof(PrintController).IsAssignableFrom(typeof(PrintControllerWithStatusDialog)));
++
++        Assert.False(new StandardPrintController().IsPreview);
++        Assert.True(new PreviewPrintController().IsPreview);
++    }
++
++    [Fact]
++    public void PreviewPrintController_CapturesPages()
++    {
++        var controller = new PreviewPrintController { UseAntiAlias = true };
++        Assert.True(controller.UseAntiAlias);
++        Assert.Empty(controller.GetPreviewPageInfo());
++
++        // Drive one page through the controller (null args exercise the default page size path).
++        controller.OnStartPrint(null!, null!);
++        var g = controller.OnStartPage(null!, null!);
++        Assert.NotNull(g);
++        controller.OnEndPage(null!, null!);
++
++        var pages = controller.GetPreviewPageInfo();
++        Assert.Single(pages);
++        Assert.NotNull(pages[0].Image);
++        Assert.Equal(new Size(850, 1100), pages[0].PhysicalSize);
++
++        // a fresh print run clears the captured pages
++        controller.OnStartPrint(null!, null!);
++        Assert.Empty(controller.GetPreviewPageInfo());
++    }
++
++    [Fact]
++    public void PreviewPageInfo_RoundTrip()
++    {
++        using var bmp = new Bitmap(20, 30);
++        var info = new PreviewPageInfo(bmp, new Size(20, 30));
++        Assert.Same(bmp, info.Image);
++        Assert.Equal(new Size(20, 30), info.PhysicalSize);
++    }
++
++    [Fact]
++    public void InvalidPrinterException_IsSystemException()
++    {
++        var settings = new PrinterSettings();
++        var ex = new InvalidPrinterException(settings);
++        Assert.IsAssignableFrom<SystemException>(ex);
++        Assert.Contains("are not valid", ex.Message);
++    }
++
++    [Fact]
++    public void PrintControllerWithStatusDialog_DelegatesIsPreview()
++    {
++        var withPreview = new PrintControllerWithStatusDialog(new PreviewPrintController());
++        Assert.True(withPreview.IsPreview);
++
++        var withStandard = new PrintControllerWithStatusDialog(new StandardPrintController(), "My Print");
++        Assert.False(withStandard.IsPreview);
++    }
++
++    [Fact]
++    public void PrintDocument_PrintController_DefaultsAndSets()
++    {
++        var doc = new PrintDocument();
++        Assert.IsType<StandardPrintController>(doc.PrintController);
++
++        var preview = new PreviewPrintController();
++        doc.PrintController = preview;
++        Assert.Same(preview, doc.PrintController);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/InvalidPrinterException.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/InvalidPrinterException.cs
+new file mode 100644
+index 00000000..2b08b9fc
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/InvalidPrinterException.cs
+@@ -0,0 +1,33 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Runtime.Serialization;
++
++namespace System.Drawing.Printing;
++
++/// <summary>Represents the exception that is thrown when trying to access a printer using invalid printer settings.</summary>
++[Serializable]
++public class InvalidPrinterException : SystemException
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Drawing.Printing.InvalidPrinterException" /> class.</summary>
++    /// <param name="settings">The printer settings that are not valid.</param>
++    public InvalidPrinterException(PrinterSettings settings)
++        : base("Settings to access printer '" + (settings?.PrinterName ?? string.Empty) + "' are not valid.")
++    {
++    }
++
++    /// <summary>Initializes a new instance from serialized data.</summary>
++    /// <param name="info">The serialization info.</param>
++    /// <param name="context">The streaming context.</param>
++    protected InvalidPrinterException(SerializationInfo info, StreamingContext context)
++        : base(info, context)
++    {
++    }
++
++    /// <summary>Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo" /> with the data needed to serialize the exception.</summary>
++    /// <param name="info">The serialization info.</param>
++    /// <param name="context">The streaming context.</param>
++    public override void GetObjectData(SerializationInfo info, StreamingContext context)
++        => base.GetObjectData(info, context);
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PreviewPageInfo.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PreviewPageInfo.cs
+new file mode 100644
+index 00000000..c20fa7da
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PreviewPageInfo.cs
+@@ -0,0 +1,24 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Drawing.Printing;
++
++/// <summary>Specifies print preview information for a single page. This class cannot be inherited.</summary>
++public sealed class PreviewPageInfo
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Drawing.Printing.PreviewPageInfo" /> class.</summary>
++    /// <param name="image">The image of the printed page.</param>
++    /// <param name="physicalSize">The size of the printed page, in hundredths of an inch.</param>
++    public PreviewPageInfo(Image image, Size physicalSize)
++    {
++        Image = image;
++        PhysicalSize = physicalSize;
++    }
++
++    /// <summary>Gets the image of the printed page.</summary>
++    public Image Image { get; }
++
++    /// <summary>Gets the size of the printed page, in hundredths of an inch.</summary>
++    public Size PhysicalSize { get; }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PreviewPrintController.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PreviewPrintController.cs
+new file mode 100644
+index 00000000..92afe418
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PreviewPrintController.cs
+@@ -0,0 +1,51 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Collections.Generic;
++
++namespace System.Drawing.Printing;
++
++/// <summary>Specifies a print controller that displays a document on a screen as a series of images.</summary>
++public class PreviewPrintController : PrintController
++{
++    private readonly List<PreviewPageInfo> pages = new();
++    private Bitmap? current;
++
++    /// <summary>Gets a value indicating that this controller is a preview controller.</summary>
++    public override bool IsPreview => true;
++
++    /// <summary>Gets or sets a value indicating whether anti-aliasing is used when displaying the preview.</summary>
++    public virtual bool UseAntiAlias { get; set; }
++
++    /// <inheritdoc />
++    public override void OnStartPrint(PrintDocument document, PrintEventArgs e)
++    {
++        pages.Clear();
++        current = null;
++    }
++
++    /// <inheritdoc />
++    public override Graphics? OnStartPage(PrintDocument document, PrintPageEventArgs e)
++    {
++        var bounds = e?.PageBounds ?? Rectangle.Empty;
++        var w = bounds.Width > 0 ? bounds.Width : 850;
++        var h = bounds.Height > 0 ? bounds.Height : 1100;
++        current = new Bitmap(w, h);
++        return Graphics.FromImage(current);
++    }
++
++    /// <inheritdoc />
++    public override void OnEndPage(PrintDocument document, PrintPageEventArgs e)
++    {
++        if (current != null)
++        {
++            pages.Add(new PreviewPageInfo(current, new Size(current.Width, current.Height)));
++            current = null;
++        }
++    }
++
++    /// <summary>Captures the pages of a document as a series of images.</summary>
++    /// <returns>An array of <see cref="T:System.Drawing.Printing.PreviewPageInfo" /> objects, one per page.</returns>
++    public PreviewPageInfo[] GetPreviewPageInfo() => pages.ToArray();
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintController.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintController.cs
+new file mode 100644
+index 00000000..a6c7b249
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintController.cs
+@@ -0,0 +1,39 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Drawing.Printing;
++
++/// <summary>Controls how a document is printed, from within a print job.</summary>
++public abstract class PrintController
++{
++    /// <summary>Gets a value indicating whether the controller generates a preview instead of printing.</summary>
++    public virtual bool IsPreview => false;
++
++    /// <summary>Called when a print job starts.</summary>
++    /// <param name="document">The document being printed.</param>
++    /// <param name="e">The event data.</param>
++    public virtual void OnStartPrint(PrintDocument document, PrintEventArgs e)
++    {
++    }
++
++    /// <summary>Called when a page starts; returns the <see cref="T:System.Drawing.Graphics" /> to paint the page.</summary>
++    /// <param name="document">The document being printed.</param>
++    /// <param name="e">The event data.</param>
++    /// <returns>The graphics for the page, or <see langword="null" />.</returns>
++    public virtual Graphics? OnStartPage(PrintDocument document, PrintPageEventArgs e) => null;
++
++    /// <summary>Called when a page ends.</summary>
++    /// <param name="document">The document being printed.</param>
++    /// <param name="e">The event data.</param>
++    public virtual void OnEndPage(PrintDocument document, PrintPageEventArgs e)
++    {
++    }
++
++    /// <summary>Called when a print job ends.</summary>
++    /// <param name="document">The document being printed.</param>
++    /// <param name="e">The event data.</param>
++    public virtual void OnEndPrint(PrintDocument document, PrintEventArgs e)
++    {
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.PrintController.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.PrintController.cs
+new file mode 100644
+index 00000000..0fceffdf
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.PrintController.cs
+@@ -0,0 +1,19 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Drawing.Printing;
++
++/// <summary>Exposes the print controller that governs a print job. Separated from the main
++/// <see cref="T:System.Drawing.Printing.PrintDocument" /> definition.</summary>
++public partial class PrintDocument
++{
++    private PrintController? _printController;
++
++    /// <summary>Gets or sets the print controller that guides the printing process.</summary>
++    public PrintController PrintController
++    {
++        get => _printController ??= new StandardPrintController();
++        set => _printController = value;
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
+index b2120065..4d5bea99 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
+@@ -14,7 +14,7 @@ namespace System.Drawing.Printing;
+ /// </summary>
+ /// <seealso cref="T:System.ComponentModel.Component" />
+ [DefaultProperty("DocumentName"), DefaultEvent("PrintPage")]
+-public class PrintDocument : Component
++public partial class PrintDocument : Component
+ {
+ 
+     private PrintEventHandler _beginPrintHandler = delegate { };
+diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/StandardPrintController.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/StandardPrintController.cs
+new file mode 100644
+index 00000000..3dc4dd78
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/StandardPrintController.cs
+@@ -0,0 +1,21 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Drawing.Printing;
++
++/// <summary>Specifies a print controller that sends information to a printer.</summary>
++public class StandardPrintController : PrintController
++{
++    /// <inheritdoc />
++    public override void OnStartPrint(PrintDocument document, PrintEventArgs e) => base.OnStartPrint(document, e);
++
++    /// <inheritdoc />
++    public override Graphics? OnStartPage(PrintDocument document, PrintPageEventArgs e) => e?.Graphics;
++
++    /// <inheritdoc />
++    public override void OnEndPage(PrintDocument document, PrintPageEventArgs e) => base.OnEndPage(document, e);
++
++    /// <inheritdoc />
++    public override void OnEndPrint(PrintDocument document, PrintEventArgs e) => base.OnEndPrint(document, e);
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintControllerWithStatusDialog.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintControllerWithStatusDialog.cs
+new file mode 100644
+index 00000000..97a58896
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintControllerWithStatusDialog.cs
+@@ -0,0 +1,49 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++using System.Drawing.Printing;
++
++namespace System.Windows.Forms;
++
++/// <summary>Controls how a document is printed, from within a Windows-based application, showing a status
++/// dialog. On the GTK layer the status dialog is not shown; the controller delegates to the underlying
++/// controller so preview/print still work.</summary>
++public class PrintControllerWithStatusDialog : PrintController
++{
++    private readonly PrintController underlyingController;
++
++    /// <summary>Initializes a new instance wrapping the specified controller.</summary>
++    /// <param name="underlyingController">The controller to delegate to.</param>
++    public PrintControllerWithStatusDialog(PrintController underlyingController)
++        : this(underlyingController, "Printing")
++    {
++    }
++
++    /// <summary>Initializes a new instance wrapping the specified controller, with a dialog title.</summary>
++    /// <param name="underlyingController">The controller to delegate to.</param>
++    /// <param name="dialogTitle">The title of the status dialog.</param>
++    public PrintControllerWithStatusDialog(PrintController underlyingController, string dialogTitle)
++    {
++        this.underlyingController = underlyingController;
++        DialogTitle = dialogTitle;
++    }
++
++    private string DialogTitle { get; }
++
++    /// <summary>Gets a value indicating whether the underlying controller generates a preview.</summary>
++    public override bool IsPreview => underlyingController?.IsPreview ?? false;
++
++    /// <inheritdoc />
++    public override void OnStartPrint(PrintDocument document, PrintEventArgs e) => underlyingController?.OnStartPrint(document, e);
++
++    /// <inheritdoc />
++    public override Graphics? OnStartPage(PrintDocument document, PrintPageEventArgs e) => underlyingController?.OnStartPage(document, e);
++
++    /// <inheritdoc />
++    public override void OnEndPage(PrintDocument document, PrintPageEventArgs e) => underlyingController?.OnEndPage(document, e);
++
++    /// <inheritdoc />
++    public override void OnEndPrint(PrintDocument document, PrintEventArgs e) => underlyingController?.OnEndPrint(document, e);
++}
+-- 
+2.53.0.windows.3
+
