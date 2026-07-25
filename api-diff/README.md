@@ -12,8 +12,9 @@ assemblies. **These files are generated** — regenerate rather than hand-edit.
 | `wf48.*` | **net48** `System.Windows.Forms.dll` vs `Net4x.Gtk.Windows.Forms.dll` |
 | `dr48.*` | **net48** `System.Drawing.dll` vs `Net4x.Gtk.Drawing.dll` |
 
-The `*48` pair is the baseline [GAP-CLOSURE-PLAN.md](../GAP-CLOSURE-PLAN.md) targets — it excludes modern
-additions no ported application can already be using. The unsuffixed pair is the full .NET 10 surface.
+The `*48` pair is the net48 baseline — it excludes modern additions no ported application can already be
+using, and is the truer target (see [API-COMPLETENESS.md](../API-COMPLETENESS.md)). The unsuffixed pair is
+the full .NET 10 surface.
 
 | Baseline | Types present | Members present (on present types) |
 |---|---|---|
