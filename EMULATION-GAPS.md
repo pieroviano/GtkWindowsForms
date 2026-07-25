@@ -161,7 +161,7 @@ Two clusters stand out:
 
 `Graphics.cs` has one remaining mention and `Image.cs` one; both are in comments or `catch` clauses, not throw sites. The interop entry points were converted to `PlatformNotSupportedException` — `Graphics.FromHdc`/`FromHwnd`/`GetHdc`/`GetHalftonePalette` (7 sites), `Font.FromHdc`/`FromHfont`/`FromLogFont` (4), `Icon.FromHandle`, `BufferedGraphics`, `BufferedGraphicsContext`. That is the right convention: it tells a caller "never" rather than "not yet."
 
-**Remaining accuracy caveat, not a throw:** `MeasureCharacterRanges` ([Graphics.cs:1963](Net4x.Gtk.Drawing/System/Drawing/Graphics.cs:1963)) no longer throws but returns approximate regions positioned by estimate. Text selection and hit-testing in custom text controls need true per-range extents. Pango exposes these; the approximation is a placeholder.
+**Closed (patch 0106):** `MeasureCharacterRanges` now positions each range from the *cumulative* Cairo advance (`XAdvance`) of the preceding text rather than measuring each substring in isolation, so boundary kerning is counted once and contiguous ranges tile without overlap or gap. Regions are one text-line tall, matching WinForms' single-line hit-test regions. Verified by `MeasureCharacterRangesFunctionalTests` (ordering, contiguous tiling, and tiled sub-ranges covering exactly the same span as one whole range). The remaining representation limit is the same one `MeasureString` has — the shim measures via Cairo `TextExtents`, not a Pango layout, so wrapped multi-line ranges are not decomposed per line.
 
 ---
 
@@ -203,7 +203,7 @@ The residual limit is inherent to rectangle decomposition: **curved boundaries a
 
 ### 5.6 Data binding — value flow fixed, depth unverified
 
-The prior pass fixed the four-way break that made bindings write `null` (§6). Now established by `BindingPipelineFunctionalTests`: `Format`/`Parse` events, `FormatString`/`FormatInfo`/`NullValue` round-trips, `DataSourceUpdateMode` (`OnPropertyChanged` required fixing `TextBox.TextChanged`, which was suppressed while invisible; `Never`/`OnValidation` verified), `AddNew`/`AddingNew`/`CancelEdit`, related binding sources following parent currency, and `CurrencyManager` position/allow semantics. Still unestablished: `IEditableObject` transactions and `INotifyPropertyChanged` propagation from the data source side.
+The prior pass fixed the four-way break that made bindings write `null` (§6). Now established by `BindingPipelineFunctionalTests`: `Format`/`Parse` events, `FormatString`/`FormatInfo`/`NullValue` round-trips, `DataSourceUpdateMode` (`OnPropertyChanged` required fixing `TextBox.TextChanged`, which was suppressed while invisible; `Never`/`OnValidation` verified), `AddNew`/`AddingNew`/`CancelEdit`, related binding sources following parent currency, and `CurrencyManager` position/allow semantics. **Nested (dotted) data members** — `Add("Text", customer, "Address.City")` — are now verified in both directions by `NestedBindingFunctionalTests`: the path segment resolves to the intermediate object, read and write both traverse it, the incoming text is converted to the nested property's type, and a re-read follows a replaced intermediate. Still unestablished: `IEditableObject` transactions and `INotifyPropertyChanged` propagation from the data source side.
 
 ### 5.7 Printing model and `Image.RawFormat` — recorded deviations
 
@@ -321,7 +321,7 @@ Ranked by (damage × frequency) ÷ effort.
 7. `WebBrowser` — or delete the four orphaned event-args types (§3.3).
 
 **P3 — fidelity**
-8. `MeasureCharacterRanges` with true Pango extents (§4.2).
+8. ~~`MeasureCharacterRanges` with true Pango extents (§4.2).~~ **Done** — kerning-aware cumulative Cairo advance (patch 0106).
 9. `Graphics.SetClip(Region)` through the region's path rather than its bands (§5.4).
 10. `CreateGraphics` immediate-mode semantics — or document the deviation (§2.1).
 11. `Application.Idle` and `ThreadException`/`SetUnhandledExceptionMode` (§5.2) — `ApplicationExit` and `ThreadExit` landed in this pass.
