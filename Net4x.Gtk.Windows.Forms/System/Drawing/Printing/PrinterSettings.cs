@@ -124,7 +124,7 @@ public partial class PrinterSettings : ICloneable
     public static StringCollection InstalledPrinters
     {
         // WinForms never returns null here - with no print system the collection is empty.
-        get => _installedPrinters ??= new StringCollection();
+        get => _installedPrinters ??= new StringCollection(Array.Empty<string>());
         set => _installedPrinters = value;
     }
 
