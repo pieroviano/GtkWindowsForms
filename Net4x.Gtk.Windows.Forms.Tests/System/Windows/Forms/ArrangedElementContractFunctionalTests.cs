@@ -93,4 +93,5 @@ public class ArrangedElementContractFunctionalTests
 
         Assert.Null(exception);
     }
+
 }

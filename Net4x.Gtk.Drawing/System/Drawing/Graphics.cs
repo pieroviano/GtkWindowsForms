@@ -2483,6 +2483,25 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             return;
         }
 
+        // A region that still knows its own path is clipped through that path, so an ellipse or a
+        // rounded rectangle clips on its true curve instead of on the rectangles the band list
+        // decomposes it into. Bands remain the fallback - and the only representation left once the
+        // region has been combined with another.
+        var exactPath = clip.ExactPath;
+        if (exactPath != null && exactPath.list.Count > 0)
+        {
+            context.FillRule = exactPath.FillMode == FillMode.Winding
+                ? Cairo.FillRule.Winding
+                : Cairo.FillRule.EvenOdd;
+            ReplayPath(exactPath, null, forClip: true);
+            context.ClosePath();
+            context.Clip();
+            context.NewPath();
+            _clipBounds = exactPath.GetBounds();
+
+            return;
+        }
+
         var bands = clip.Bands;
         if (bands.Count == 0)
         {
@@ -2950,15 +2969,24 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         }
     }
 
-    private void DrawPathCore(Pen pen, GraphicsPath? path, bool isfill)
+    /// <summary>
+    /// Walks a <see cref="GraphicsPath" />'s recorded figures into the current Cairo path.
+    /// </summary>
+    /// <param name="path">The path to replay.</param>
+    /// <param name="pen">The pen nested sub-paths are drawn with; unused when <paramref name="forClip" /> is true.</param>
+    /// <param name="forClip">
+    /// True when the caller is going to <c>Clip()</c> on the result rather than fill or stroke it. Two
+    /// figure kinds have to behave differently in that case: text contributes its glyph outlines
+    /// (<c>TextPath</c>) instead of being painted (<c>ShowText</c>), and a nested path contributes its
+    /// geometry instead of being drawn as a side effect.
+    /// </param>
+    /// <remarks>
+    /// Pulled out of <see cref="DrawPathCore" /> so that <see cref="SetClip(Region, Drawing2D.CombineMode)" />
+    /// can clip to a region's true shape - curves included - rather than to the rectangles its band list
+    /// decomposes that shape into.
+    /// </remarks>
+    private void ReplayPath(GraphicsPath path, Pen? pen, bool forClip)
     {
-        if (path == null)
-            return;
-        this.context.Save();
-        path.Context = this.context;
-        this.SetTranslateWithDifference(0, 0);
-        this.SetSourcePen(pen, isfill);
-        this.context.NewPath();
         foreach (var o in path.list)
         {
             if (o is GraphicsPath.FigureMode start && start.start == true)
@@ -3131,12 +3159,30 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
                     }
                 }
 
-                this.context.ShowText(text);
+                if (forClip)
+                {
+                    // Painting the glyphs would draw, not clip; their outlines are what the clip needs.
+                    this.context.TextPath(text);
+                }
+                else
+                {
+                    this.context.ShowText(text);
+                }
             }
 
             else if (o is GraphicsPath.PathMode addpath)
             {
-                DrawPath(pen, addpath.path);
+                if (forClip)
+                {
+                    if (addpath.path != null)
+                    {
+                        ReplayPath(addpath.path, pen, forClip);
+                    }
+                }
+                else
+                {
+                    DrawPath(pen, addpath.path);
+                }
             }
 
             if (path.IsCloseAllFigures == true || (o is GraphicsPath.FigureMode close && close.close == true))
@@ -3144,6 +3190,18 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
                 this.context.ClosePath();
             }
         }
+    }
+
+    private void DrawPathCore(Pen pen, GraphicsPath? path, bool isfill)
+    {
+        if (path == null)
+            return;
+        this.context.Save();
+        path.Context = this.context;
+        this.SetTranslateWithDifference(0, 0);
+        this.SetSourcePen(pen, isfill);
+        this.context.NewPath();
+        ReplayPath(path, pen, forClip: false);
 
         if (isfill == true)
             this.context.Fill();

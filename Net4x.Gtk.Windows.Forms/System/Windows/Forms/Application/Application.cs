@@ -441,11 +441,16 @@ public sealed partial class Application
     }
 
     /// <summary>
-    /// Enables the visual styles.
+    /// Enables visual styles for the application.
     /// </summary>
+    /// <remarks>
+    /// GTK themes the widgets itself, so there is no per-process theming switch to flip; what this does
+    /// record is the answer <see cref="P:System.Windows.Forms.Application.RenderWithVisualStyles" /> gives,
+    /// which owner-drawing code branches on.
+    /// </remarks>
     public static void EnableVisualStyles()
     {
-
+        _useVisualStyles = true;
     }
 
     /// <summary>

@@ -78,14 +78,13 @@ public class ArrangedElementTests
     }
 
     [Fact]
-    public void Handle_ThrowsNotImplemented()
+    public void Handle_IsZeroForANonWindowedElement()
     {
         var sut = new TestArrangedElement();
 
-        Assert.Throws<NotImplementedException>(() =>
-        {
-            var _ = sut.Handle;
-        });
+        // An arranged element is a layout participant, not a window, so it owns no native handle. This
+        // used to throw NotImplementedException, which took down any code that probed elements for one.
+        Assert.Equal(IntPtr.Zero, sut.Handle);
     }
 
     [Fact]

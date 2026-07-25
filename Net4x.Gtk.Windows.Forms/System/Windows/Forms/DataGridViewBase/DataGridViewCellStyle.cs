@@ -322,8 +322,5 @@ public class DataGridViewCellStyle : ICloneable
         return "DataGridViewCellStyle";
     }
 
-    object ICloneable.Clone()
-    {
-        throw new NotImplementedException();
-    }
+    object ICloneable.Clone() => Clone();
 }

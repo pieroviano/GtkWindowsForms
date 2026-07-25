@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Reflection;
 
 namespace System.Windows.Forms.PropertyGridInternal;
@@ -10,6 +11,10 @@ public partial class GridEntry : GridItem, ITypeDescriptorContext
 {
 
     public GridEntry? _parent;
+
+    private PropertyDescriptor? _descriptor;
+
+    private bool _descriptorResolved;
 
     public GridEntry(GridEntry? parent, GridItemType itemtype, int level, string? label, object? entryobj, string? description)
     {
@@ -28,7 +33,27 @@ public partial class GridEntry : GridItem, ITypeDescriptorContext
         OwnerGrid = ownerGrid;
     }
 
-    public IContainer Container => throw new NotImplementedException();
+    /// <summary>
+    /// Gets the container the object being edited belongs to, or <see langword="null" /> when it belongs
+    /// to none. This is the <see cref="T:System.ComponentModel.ITypeDescriptorContext" /> contract: the
+    /// container is taken from the edited object's site, falling back to the owning
+    /// <see cref="T:System.Windows.Forms.PropertyGrid" />'s site.
+    /// </summary>
+    public IContainer? Container
+    {
+        get
+        {
+            for (var entry = this; entry != null; entry = entry._parent)
+            {
+                if ((entry.OwnerObj as IComponent)?.Site is { } site)
+                {
+                    return site.Container;
+                }
+            }
+
+            return OwnerGrid?.Site?.Container;
+        }
+    }
 
     public string? Description
     {
@@ -62,7 +87,7 @@ public partial class GridEntry : GridItem, ITypeDescriptorContext
                             var attribute = (DescriptionAttribute?)attri3.FirstOrDefault();
                             description = attribute?.Description;
                         }
-                        items.Add(new GridEntry(this, GridItemType.Property, 2, property.Name, obj, description) { Editable = property.CanWrite, ValueType = property.PropertyType, PropertyInfo = property });
+                        items.Add(new GridEntry(this, GridItemType.Property, 2, property.Name, obj, description) { Editable = property.CanWrite, ValueType = property.PropertyType, PropertyInfo = property, OwnerGrid = OwnerGrid });
                     }
                 }
             }
@@ -73,7 +98,12 @@ public partial class GridEntry : GridItem, ITypeDescriptorContext
 
     public override GridItemType GridItemType { get; }
 
-    public object Instance => throw new NotImplementedException();
+    /// <summary>
+    /// Gets the object whose property this entry describes - the value owner, which is what
+    /// <see cref="T:System.ComponentModel.ITypeDescriptorContext" /> consumers (type converters and UI
+    /// type editors) expect to receive.
+    /// </summary>
+    public object? Instance => OwnerObj;
 
     public override string? Label { get; }
 
@@ -91,7 +121,36 @@ public partial class GridEntry : GridItem, ITypeDescriptorContext
 
     public override GridItem? Parent { get; }
 
-    public override PropertyDescriptor? PropertyDescriptor { get; }
+    /// <summary>
+    /// Gets the descriptor of the property this entry edits, resolved from the owning object through
+    /// <see cref="T:System.ComponentModel.TypeDescriptor" />. Category rows - which describe no property -
+    /// return <see langword="null" />.
+    /// </summary>
+    /// <remarks>
+    /// This is the descriptor <see cref="M:System.Windows.Forms.PropertyGridInternal.GridEntry.OnComponentChanged" />
+    /// and <see cref="M:System.Windows.Forms.PropertyGridInternal.GridEntry.OnComponentChanging" /> report to
+    /// an <see cref="T:System.ComponentModel.Design.IComponentChangeService" />, so it has to describe the
+    /// same property the entry writes through <see cref="P:System.Windows.Forms.PropertyGridInternal.GridEntry.PropertyInfo" />.
+    /// </remarks>
+    public override PropertyDescriptor? PropertyDescriptor
+    {
+        get
+        {
+            if (_descriptorResolved)
+            {
+                return _descriptor;
+            }
+
+            _descriptorResolved = true;
+            var name = PropertyInfo?.Name ?? Label;
+            if (OwnerObj != null && !string.IsNullOrEmpty(name) && GridItemType != GridItemType.Category)
+            {
+                _descriptor = TypeDescriptor.GetProperties(OwnerObj)[name];
+            }
+
+            return _descriptor;
+        }
+    }
 
     public object? OwnerObj
     {
@@ -126,19 +185,74 @@ public partial class GridEntry : GridItem, ITypeDescriptorContext
         set;
     }
 
-    public object GetService(Type serviceType)
+    /// <summary>
+    /// Gets the service object of the specified type, as
+    /// <see cref="T:System.ComponentModel.ITypeDescriptorContext" /> requires. The entry answers for itself,
+    /// then defers to the owning <see cref="T:System.Windows.Forms.PropertyGrid" />'s site and finally to the
+    /// site of the object being edited.
+    /// </summary>
+    /// <param name="serviceType">The type of service to retrieve.</param>
+    /// <returns>The service, or <see langword="null" /> when no provider supplies it.</returns>
+    /// <exception cref="T:System.ArgumentNullException"><paramref name="serviceType" /> is <see langword="null" />.</exception>
+    public object? GetService(Type serviceType)
     {
-        throw new NotImplementedException();
+        if (serviceType == null)
+        {
+            throw new ArgumentNullException(nameof(serviceType));
+        }
+
+        if (serviceType == typeof(ITypeDescriptorContext) || serviceType == typeof(GridEntry))
+        {
+            return this;
+        }
+
+        if (serviceType == typeof(PropertyGrid) && OwnerGrid != null)
+        {
+            return OwnerGrid;
+        }
+
+        return OwnerGrid?.Site?.GetService(serviceType)
+            ?? (OwnerObj as IComponent)?.Site?.GetService(serviceType);
     }
 
+    /// <summary>
+    /// Notifies the design surface that the property this entry edits has changed, by raising
+    /// <see cref="M:System.ComponentModel.Design.IComponentChangeService.OnComponentChanged(System.Object,System.ComponentModel.MemberDescriptor,System.Object,System.Object)" />
+    /// when such a service is available. With no design surface attached this is a no-op, which is what
+    /// WinForms does at run time.
+    /// </summary>
     public void OnComponentChanged()
     {
-        throw new NotImplementedException();
+        if (GetService(typeof(IComponentChangeService)) is IComponentChangeService changeService)
+        {
+            changeService.OnComponentChanged(Instance!, PropertyDescriptor, null, null);
+        }
     }
 
+    /// <summary>
+    /// Asks the design surface for permission to change the property this entry edits, by raising
+    /// <see cref="M:System.ComponentModel.Design.IComponentChangeService.OnComponentChanging(System.Object,System.ComponentModel.MemberDescriptor)" />
+    /// when such a service is available.
+    /// </summary>
+    /// <returns>
+    /// <see langword="false" /> when the change was refused - the designer cancelled the checkout -
+    /// otherwise <see langword="true" />, including when no design surface is attached.
+    /// </returns>
     public bool OnComponentChanging()
     {
-        throw new NotImplementedException();
+        if (GetService(typeof(IComponentChangeService)) is IComponentChangeService changeService)
+        {
+            try
+            {
+                changeService.OnComponentChanging(Instance!, PropertyDescriptor);
+            }
+            catch (CheckoutException checkout) when (checkout == CheckoutException.Canceled)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public override bool Select()
@@ -146,8 +260,26 @@ public partial class GridEntry : GridItem, ITypeDescriptorContext
         return false;
     }
 
+    /// <summary>
+    /// Writes <paramref name="value" /> to the property this entry describes, bracketed by the
+    /// component-change notifications a design surface expects. A refused change (see
+    /// <see cref="M:System.Windows.Forms.PropertyGridInternal.GridEntry.OnComponentChanging" />) leaves the
+    /// property untouched.
+    /// </summary>
+    /// <param name="value">The value to write.</param>
     public override void SetValue(object value)
     {
-        PropertyInfo?.SetValue(OwnerObj, value);
+        if (PropertyInfo == null)
+        {
+            return;
+        }
+
+        if (!OnComponentChanging())
+        {
+            return;
+        }
+
+        PropertyInfo.SetValue(OwnerObj, value);
+        OnComponentChanged();
     }
 }

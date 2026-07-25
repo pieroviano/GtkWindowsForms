@@ -249,28 +249,32 @@ public class PropertyGridTests
     }
 
     [Fact]
-    public void IComPropertyBrowser_Methods_ShouldThrow()
+    public void IComPropertyBrowser_Methods_ShouldWork()
     {
+        // These used to throw NotImplementedException; they now close the open editor and commit the
+        // pending edit. See PropertyGridBrowserFunctionalTests for the behaviour they were given.
         var form = new Form();
         var grid = new PropertyGrid();
         form.Controls.Add(grid);
 
         Exception? ex1 = null;
         Exception? ex2 = null;
+        var committed = false;
 
         form.Load += (s, e) =>
         {
             var browser = (ComponentModel.Com2Interop.IComPropertyBrowser)grid;
 
             try { browser.DropDownDone(); } catch (Exception e1) { ex1 = e1; }
-            try { browser.EnsurePendingChangesCommitted(); } catch (Exception e2) { ex2 = e2; }
+            try { committed = browser.EnsurePendingChangesCommitted(); } catch (Exception e2) { ex2 = e2; }
 
             form.Close();
         };
 
         form.ShowDialog();
 
-        Assert.IsType<NotImplementedException>(ex1);
-        Assert.IsType<NotImplementedException>(ex2);
+        Assert.Null(ex1);
+        Assert.Null(ex2);
+        Assert.True(committed, "with no edit open there is nothing to commit and the call succeeds");
     }
 }

@@ -38,12 +38,28 @@ public sealed class Region : MarshalByRefObject, IDisposable
     /// <summary>The disjoint rectangles whose union is this region.</summary>
     internal IReadOnlyList<RectangleF> Bands => bands;
 
+    /// <summary>
+    /// True while the interior is still described exactly by <see cref="graphicsPath" /> - that is, the
+    /// region came straight from a <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> and has not been
+    /// combined with anything since. The band list only approximates such a region by its bounding
+    /// rectangle, so a consumer that can honour the real shape (clipping) should ask for
+    /// <see cref="ExactPath" /> first.
+    /// </summary>
+    private bool isPathExact;
+
+    /// <summary>
+    /// The path that describes this region exactly, or <see langword="null" /> when only the band list
+    /// does - after any combine operation, and for regions built from rectangles.
+    /// </summary>
+    internal GraphicsPath? ExactPath => isPathExact ? graphicsPath : null;
+
     /// <summary>Replaces the interior with the given rectangles and refreshes the derived state.</summary>
     private void SetBands(List<RectangleF> value)
     {
         bands = Compact(value);
         isInfinite = false;
         isEmpty = bands.Count == 0;
+        isPathExact = false;
         rectangle = BoundsOf(bands);
         graphicsPath = new GraphicsPath();
         foreach (var band in bands)
@@ -218,6 +234,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
         SetBands(BandsOfPath(clone));
         // Keep the real path so that clipping can use the true shape rather than the bounding box.
         graphicsPath = clone;
+        isPathExact = true;
     }
 
     /// <summary>
@@ -292,6 +309,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
             regionData = regionData,
             isEmpty = isEmpty,
             isInfinite = isInfinite,
+            isPathExact = isPathExact,
             // The band list has to be copied, not shared: without this, emptying the original emptied
             // the clone as well.
             bands = new List<RectangleF>(bands)
@@ -413,6 +431,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
         regionData = new RegionData();
         isEmpty = true;
         isInfinite = false;
+        isPathExact = false;
     }
 
     /// <summary>
@@ -1203,6 +1222,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
         bands = new List<RectangleF>();
         isInfinite = true;
         isEmpty = false;
+        isPathExact = false;
         graphicsPath = new GraphicsPath();
         rectangle = RectangleF.Empty;
         UpdateRegionData();

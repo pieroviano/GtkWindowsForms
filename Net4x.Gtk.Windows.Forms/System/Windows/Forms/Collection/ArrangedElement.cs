@@ -48,7 +48,12 @@ internal abstract class ArrangedElement : Component, IArrangedElement
         }
     }
 
-    public IntPtr Handle => throw new NotImplementedException();
+    /// <summary>
+    /// An arranged element is a layout participant, not a window: it owns no native handle, so this is
+    /// always <see cref="F:System.IntPtr.Zero" />. Windowed participants override it - see
+    /// <see cref="P:System.Windows.Forms.Control.Handle" />.
+    /// </summary>
+    public IntPtr Handle => IntPtr.Zero;
 
     public abstract LayoutEngine LayoutEngine
     {

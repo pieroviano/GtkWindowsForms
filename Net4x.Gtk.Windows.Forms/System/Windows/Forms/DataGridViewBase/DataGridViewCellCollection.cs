@@ -201,7 +201,20 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
         }
     }
 
-    object IList.this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    object IList.this[int index]
+    {
+        get => this[index];
+        set
+        {
+            if (value != null && value is not DataGridViewCell)
+            {
+                throw new ArgumentException("Value must be a DataGridViewCell.", nameof(value));
+            }
+
+            // A null goes to the typed indexer so it reports the ArgumentNullException WinForms reports.
+            this[index] = (DataGridViewCell)value!;
+        }
+    }
 
     /// <summary>
     /// Adds the specified data grid view cell.

@@ -25,6 +25,13 @@ internal sealed partial class PropertyGridView
 
     private GridEntry? oldSelectedPropertyItem;
 
+    /// <summary>
+    /// The cell editor currently open on the value column, if any. GTK hands it to us on
+    /// <c>editing-started</c> and takes it away again on <c>edited</c> / <c>editing-canceled</c>; it is what
+    /// <see cref="EnsurePendingChangesCommitted" /> and <see cref="DropDownDone" /> act on.
+    /// </summary>
+    private Gtk.ICellEditable? _activeEditable;
+
     public event PropertyValueChangedEventHandler? PropertyValueChanged;
 
     public event SelectedGridItemChangedEventHandler? SelectedGridItemChanged;
@@ -139,6 +146,106 @@ internal sealed partial class PropertyGridView
         private set;
     }
 
+    /// <summary>
+    /// Whether the view is currently writing a value back to the selected object. Backs
+    /// <see cref="P:System.Windows.Forms.PropertyGrid.InPropertySet" />.
+    /// </summary>
+    internal bool InPropertySet
+    {
+        get;
+        private set;
+    }
+
+    /// <summary>
+    /// Whether a cell editor is open on the value column.
+    /// </summary>
+    internal bool IsEditing => _activeEditable != null;
+
+    /// <summary>
+    /// Records the editor GTK has just opened on the value column.
+    /// </summary>
+    private void OnEditingStarted(Gtk.ICellEditable? editable) => _activeEditable = editable;
+
+    /// <summary>
+    /// Forgets the editor GTK has just closed.
+    /// </summary>
+    private void OnEditingFinished() => _activeEditable = null;
+
+    /// <summary>
+    /// Commits the edit in progress, if there is one. Mirrors
+    /// <c>IComPropertyBrowser.EnsurePendingChangesCommitted</c>: with nothing being edited there is nothing
+    /// to commit and the call succeeds.
+    /// </summary>
+    /// <returns>
+    /// <see langword="false" /> only when an edit was open and committing it failed.
+    /// </returns>
+    internal bool EnsurePendingChangesCommitted()
+    {
+        var editable = _activeEditable;
+        if (editable == null)
+        {
+            return true;
+        }
+
+        try
+        {
+            // Ends the edit the way GTK itself does when the entry loses focus: the editor raises
+            // "editing-done", which drives the renderer's "edited" signal and so the value write.
+            editable.FinishEditing();
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.GtkLogger.Debug("Unexpected exception committing a pending property edit", ex);
+
+            return false;
+        }
+        finally
+        {
+            _activeEditable = null;
+        }
+    }
+
+    /// <summary>
+    /// Closes the open cell editor - GTK's equivalent of the drop-down the WinForms property browser hosts -
+    /// committing whatever it holds, and returns focus to the grid.
+    /// </summary>
+    internal void DropDownDone()
+    {
+        var editable = _activeEditable;
+        if (editable != null)
+        {
+            try
+            {
+                editable.FinishEditing();
+                editable.RemoveWidget();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.GtkLogger.Debug("Unexpected exception closing the property editor", ex);
+            }
+            finally
+            {
+                _activeEditable = null;
+            }
+        }
+
+        FocusGrid();
+    }
+
+    /// <summary>
+    /// Moves keyboard focus to the property list, which is what the property browser does when the shell
+    /// asks it to activate (F4).
+    /// </summary>
+    internal void FocusGrid()
+    {
+        if (tree.IsRealized)
+        {
+            tree.GrabFocus();
+        }
+    }
+
     public void LoadPropertyInfo(object? entryobj)
     {
         tree.Selection.UnselectAll();
@@ -152,20 +259,15 @@ internal sealed partial class PropertyGridView
         var propertyInfos = entryobj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
         foreach (var propertyInfo in propertyInfos)
         {
+            // A property is browsable unless it says otherwise: BrowsableAttribute defaults to true, and an
+            // undecorated property is the common case. Requiring the attribute meant an ordinary object -
+            // one that carries no design-time attributes at all - showed no properties whatsoever.
             var attri = propertyInfo.GetCustomAttributes(typeof(BrowsableAttribute));
-            if (attri != null && attri.Count() > 0)
-            {
-                //BrowsableAttribute
-                var attribute = (BrowsableAttribute)attri.FirstOrDefault();
-                if (attribute.Browsable == false)
-                {
-                    continue;
-                }
-            }
-            else
+            if (((BrowsableAttribute?)attri?.FirstOrDefault())?.Browsable == false)
             {
                 continue;
             }
+
             var category = "【 uncategorized group】";
             var description = "";
 
@@ -186,7 +288,8 @@ internal sealed partial class PropertyGridView
             {
                 Level = 0,
                 Editable = false,
-                PropertyInfo = propertyInfo
+                PropertyInfo = propertyInfo,
+                OwnerGrid = OwnerGrid
             };
             categorys.Add(propertyItem);
         }
@@ -199,7 +302,7 @@ internal sealed partial class PropertyGridView
         {
             foreach (var g in gs)
             {
-                var value0 = new GridEntry(null, GridItemType.Category, 0, g.Key, g.Key, g.Key) { Level = 0, Editable = false };
+                var value0 = new GridEntry(null, GridItemType.Category, 0, g.Key, g.Key, g.Key) { Level = 0, Editable = false, OwnerGrid = OwnerGrid };
                 var category1 = store.AppendValues(value0);
                 foreach (var m in g)
                 {
@@ -214,20 +317,13 @@ internal sealed partial class PropertyGridView
     {
         if (property?.CanRead == true)
         {
+            // As in LoadPropertyInfo: no BrowsableAttribute means browsable, not hidden.
             var attri = property.GetCustomAttributes(typeof(BrowsableAttribute));
-            if (attri != null && attri.Count() > 0)
-            {
-                //BrowsableAttribute
-                var attribute = (BrowsableAttribute)attri.FirstOrDefault();
-                if (attribute.Browsable == false)
-                {
-                    return null;
-                }
-            }
-            else if (parent == null)
+            if (((BrowsableAttribute?)attri?.FirstOrDefault())?.Browsable == false)
             {
                 return null;
             }
+
             if (parent != null && property.CanWrite == false)
             {
                 return null;
@@ -241,7 +337,7 @@ internal sealed partial class PropertyGridView
             }
             if (property.PropertyType.IsEnum || property.PropertyType.Name == "String")
             {
-                var value1 = new GridEntry(parentitem, GridItemType.Property, 1, property.Name, obj, description) { Editable = property.CanWrite, ValueType = property.PropertyType, PropertyInfo = property };
+                var value1 = new GridEntry(parentitem, GridItemType.Property, 1, property.Name, obj, description) { Editable = property.CanWrite, ValueType = property.PropertyType, PropertyInfo = property, OwnerGrid = OwnerGrid };
                 StoreValue(parent, value1);
                 return value1;
             }
@@ -249,7 +345,7 @@ internal sealed partial class PropertyGridView
             {
                 if (property.PropertyType.IsPrimitive == false)
                 { // only primitive types can be edited
-                    var value1 = new GridEntry(parentitem, GridItemType.Property, 1, property.Name, obj, description) { ValueType = property.PropertyType, PropertyInfo = property };
+                    var value1 = new GridEntry(parentitem, GridItemType.Property, 1, property.Name, obj, description) { ValueType = property.PropertyType, PropertyInfo = property, OwnerGrid = OwnerGrid };
                     var node1 = StoreValue(parent, value1);
                     var val = property.GetValue(obj);
                     if (property.CanWrite)
@@ -258,14 +354,14 @@ internal sealed partial class PropertyGridView
                 }
                 else
                 {
-                    var value1 = new GridEntry(parentitem, GridItemType.Property, 1, property.Name, obj, description) { Editable = property.CanWrite, ValueType = property.PropertyType, PropertyInfo = property };
+                    var value1 = new GridEntry(parentitem, GridItemType.Property, 1, property.Name, obj, description) { Editable = property.CanWrite, ValueType = property.PropertyType, PropertyInfo = property, OwnerGrid = OwnerGrid };
                     var node1 = StoreValue(parent, value1);
                     return value1;
                 }
             }
             else
             {
-                var value1 = new GridEntry(parentitem, GridItemType.Property, 1, property.Name, obj, description) { Editable = false, ValueType = property.PropertyType, PropertyInfo = property };
+                var value1 = new GridEntry(parentitem, GridItemType.Property, 1, property.Name, obj, description) { Editable = false, ValueType = property.PropertyType, PropertyInfo = property, OwnerGrid = OwnerGrid };
                 var node1 = StoreValue(parent, value1);
                 return value1;
             }
@@ -382,6 +478,7 @@ internal sealed partial class PropertyGridView
             this.Model = model;
             this.EditingStarted += CellRendererText_EditingStarted;
             this.Edited += CellRendererText_Edited;
+            this.EditingCanceled += CellRendererText_EditingCanceled;
         }
 
         [Property("otext")]
@@ -436,8 +533,14 @@ internal sealed partial class PropertyGridView
             base.OnRender(cr, widget, background_area, cell_area, flags);
         }
 
+        private void CellRendererText_EditingCanceled(object? o, EventArgs args)
+        {
+            owner.OnEditingFinished();
+        }
+
         private void CellRendererText_Edited(object o, EditedArgs args)
         {
+            owner.OnEditingFinished();
             var path = new TreePath(args.Path);
             var model = ((Gtk.TreeView)owner.tree).Model;
             model.GetIter(out var iter, path);
@@ -445,6 +548,7 @@ internal sealed partial class PropertyGridView
             if (cell is GridEntry val)
             {
                 var oldvalue = val.Value;
+                owner.InPropertySet = true;
                 try
                 {
                     if (path.Depth == 1)
@@ -498,12 +602,19 @@ internal sealed partial class PropertyGridView
                 {
                     System.Diagnostics.GtkLogger.Debug($"Unexpected exception in CellRendererText_Edited", ex);
                 }
+                finally
+                {
+                    // The set is over before anyone is told about it, so a PropertyValueChanged handler that
+                    // asks PropertyGrid.InPropertySet sees false - the same order WinForms reports.
+                    owner.InPropertySet = false;
+                }
                 owner.PropertyValueChanged?.Invoke(o, new PropertyValueChangedEventArgs(val, oldvalue));
             }
         }
 
         private void CellRendererText_EditingStarted(object o, EditingStartedArgs args)
         {
+            owner.OnEditingStarted(args.Editable);
             model.Clear();
             if (_value?.ValueType != null)
             {

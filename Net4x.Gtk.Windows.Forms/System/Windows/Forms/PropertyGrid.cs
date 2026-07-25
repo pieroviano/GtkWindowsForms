@@ -527,7 +527,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     /// false
     /// </c>.
     /// </value>
-    public bool InPropertySet => true;
+    public bool InPropertySet => _propertyView.InPropertySet;
 
     /// <summary>
     /// Gets or sets a value indicating whether large buttons.
@@ -639,11 +639,10 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     public object SelectedObject
     {
         get => _selectedObjects is null || _selectedObjects.Length == 0 ? null : _selectedObjects[0];
-        set
-        {
-            var selectedObjects = value is null ? Array.Empty<object>() : (new object[] { value });
-            _selectedObjects = selectedObjects;
-        }
+        // Routed through SelectedObjects rather than writing the field: assigning SelectedObject has to
+        // populate the grid and raise SelectedObjectsChanged, exactly as assigning a one-element
+        // SelectedObjects does.
+        set => SelectedObjects = value is null ? Array.Empty<object>() : new[] { value };
     }
 
     /// <summary>
@@ -665,6 +664,8 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
                 _propertyView.LoadPropertyInfo(null);
             else
                 _propertyView.LoadPropertyInfo(_selectedObjects[0]);
+
+            OnSelectedObjectsChanged(EventArgs.Empty);
         }
     }
 
@@ -914,35 +915,48 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     {
     }
 
-    void IComPropertyBrowser.DropDownDone()
-    {
-        throw new NotImplementedException();
-    }
+    void IComPropertyBrowser.DropDownDone() => _propertyView.DropDownDone();
 
-    bool IComPropertyBrowser.EnsurePendingChangesCommitted()
-    {
-        throw new NotImplementedException();
-    }
+    bool IComPropertyBrowser.EnsurePendingChangesCommitted() => _propertyView.EnsurePendingChangesCommitted();
 
     void IComPropertyBrowser.HandleF4()
     {
-        throw new NotImplementedException();
+        Select();
+        _propertyView.FocusGrid();
     }
 
-    void IComPropertyBrowser.LoadState(RegistryKey key)
+    void IComPropertyBrowser.LoadState(RegistryKey key) => LoadState(key);
+
+    /// <summary>
+    /// Applies the persisted view state.
+    /// </summary>
+    /// <param name="key">
+    /// The key the state was saved under. There is no registry outside Windows, so the shim's
+    /// <see cref="T:Microsoft.Win32.RegistryKey" /> carries no values and the WinForms
+    /// <see langword="null" />-key path - restore the defaults - is taken whatever is passed. Documented
+    /// deviation.
+    /// </param>
+    private void LoadState(RegistryKey key)
     {
-        throw new NotImplementedException();
+        PropertySort = PropertySort.CategorizedAlphabetical;
+        HelpVisible = true;
+        CommandsVisibleIfAvailable = false;
     }
 
-    void SaveState(RegistryKey key)
+    /// <summary>
+    /// Persists the view state.
+    /// </summary>
+    /// <param name="key">
+    /// The key to save under. No registry exists outside Windows and the shim's
+    /// <see cref="T:Microsoft.Win32.RegistryKey" /> holds no values, so nothing is written. Documented
+    /// deviation; the state is re-derived from the defaults on the next
+    /// <see cref="M:System.Windows.Forms.ComponentModel.Com2Interop.IComPropertyBrowser.LoadState(Microsoft.Win32.RegistryKey)" />.
+    /// </param>
+    private void SaveState(RegistryKey key)
     {
-        throw new NotImplementedException();
     }
 
-    void IComPropertyBrowser.SaveState(RegistryKey key)
-    {
-        throw new NotImplementedException();
-    }
+    void IComPropertyBrowser.SaveState(RegistryKey key) => SaveState(key);
 
     /// <summary>
     /// Raises the ComComponentNameChanged event.
@@ -958,6 +972,15 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     protected virtual void OnGridItemActivated(System.EventArgs e)
     {
         GridItemActivated?.Invoke(this, e);
+    }
+
+    /// <summary>
+    /// Raises the SelectedObjectsChanged event.
+    /// </summary>
+    /// <param name="e">The event data.</param>
+    protected virtual void OnSelectedObjectsChanged(System.EventArgs e)
+    {
+        ((EventHandler)Events[s_selectedObjectsChangedEvent])?.Invoke(this, e);
     }
 
     private void _propertyView_RowActivated(object o, Gtk.RowActivatedArgs args)
