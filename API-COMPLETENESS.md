@@ -190,14 +190,21 @@ conflict at their core and need heavy subsystem testing:
    in the diff, including `ContextMenuStrip`. Blocked on the native `Gtk.Menu` backing — the drop-down is a
    popup-menu widget, not a container control, so the collection, `Widget`/`GtkControl` and a two-`self`
    conflict all cascade.
-2. **`DataGridViewBand`/`DataGridViewElement`** (§4) — the base classes of `Row`/`Column`/`Cell`.
-   `DataGridViewRow` already declares ~13 of `Band`'s members directly (backing-field `Index`, `Frozen`,
-   `Visible`, `ReadOnly`, `Selected`, `State`, `DefaultCellStyle`, `HeaderCell`, …), so the fix is member
-   migration, not addition; and `DataGridViewColumn : TreeViewColumn` (a GTK base) cannot also inherit
-   `Band`. Adding the bases standalone has no value — they are abstract, so nothing could derive from them
-   without the same migration.
+2. **`DataGridViewBand`/`DataGridViewElement`** (§4) — the base classes of `Row`/`Column`/`Cell`. Three
+   distinct structural conflicts block a clean re-parent, so it is member migration against the shim's own
+   model, not addition:
+   - `DataGridViewColumn : TreeViewColumn` (a GTK base) cannot also inherit `Band`.
+   - `DataGridViewCell.DataGridView` is *computed* (`get => OwningRow?.DataGridView`) whereas
+     `Element.DataGridView` is a *stored* property — inheriting the stored one silently breaks cell→grid
+     resolution.
+   - the shim *inverts* WinForms' state model: `Row.State` is derived from the `Displayed`/`Frozen`/
+     `ReadOnly` flags, where `Element.State` is the stored source of truth those flags derive from.
 
-Each is best taken as a dedicated, staged effort rather than an incremental patch.
+   Adding the bases standalone has no value — they are abstract, so nothing could derive from them without
+   reconciling all three.
+
+Each is best taken as a dedicated, staged effort rather than an incremental patch — the DataGridView one is
+really a refactor of the grid's state/hierarchy model.
 
 ---
 
