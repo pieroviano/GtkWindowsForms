@@ -13,7 +13,7 @@ namespace System.Windows.Forms;
 /// <summary>
 /// Provides a container for Windows toolbar objects.
 /// </summary>
-public class ToolStrip : Control
+public class ToolStrip : ScrollableControl
 {
     /// <summary>
     /// The self
