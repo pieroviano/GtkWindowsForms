@@ -1,0 +1,677 @@
+From f989b936eea8aecb3bad931028ed62e499761cb8 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Sat, 25 Jul 2026 03:15:18 +0300
+Subject: [PATCH] Sweep: system/feature/help types + Layout.LayoutEngine
+ namespace fix
+
+Additive support types (signatures from the net48 reference):
+
+- WindowsFormsSynchronizationContext : SynchronizationContext, marshalling Post/Send
+  onto the GTK main loop via Gtk.Application.Invoke so async continuations resume on
+  the UI thread. (Send is for cross-thread use; calling it from the UI thread would
+  deadlock, as in WinForms.)
+- OSFeature/FeatureSupport/IFeatureSupport - feature detection; no Windows features
+  are reported present on GTK.
+- PowerStatus (+ PowerLineStatus/BatteryChargeStatus enums) - defaults to
+  unknown / no-system-battery where no power API is wired.
+- Help (static, no-op display boundary) and HelpProvider (an IExtenderProvider that
+  stores per-control help strings/keywords/navigators/show-help).
+- SystemParameter enum.
+
+Also fixes the LayoutEngine namespace: the empty System.Windows.Forms.LayoutEngine
+placeholder is moved to System.Windows.Forms.Layout.LayoutEngine (the real
+namespace) with InitLayout/Layout, and the three referencing files import it. This
+unblocks `using System.Windows.Forms.Layout;` code.
+
+Net48 public types present 859->870 (missing 175->164). Full suite green at 2335
+(+6 tests).
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ .../SystemFeatureTypesFunctionalTests.cs      | 118 ++++++++++++++++++
+ .../WindowsFormsSynchronizationContext.cs     |  53 ++++++++
+ .../System/Windows/Forms/Control/IControl.cs  |   1 +
+ .../Windows/Forms/Control/IFeatureSupport.cs  |  25 ++++
+ .../Windows/Forms/Enum/BatteryChargeStatus.cs |  23 ++++
+ .../Windows/Forms/Enum/PowerLineStatus.cs     |  16 +++
+ .../Windows/Forms/Enum/SystemParameter.cs     |  32 +++++
+ .../System/Windows/Forms/FeatureSupport.cs    |  48 +++++++
+ .../System/Windows/Forms/Help.cs              |  47 +++++++
+ .../System/Windows/Forms/HelpProvider.cs      |  84 +++++++++++++
+ .../System/Windows/Forms/OSFeature.cs         |  34 +++++
+ .../System/Windows/Forms/PowerStatus.cs       |  27 ++++
+ .../Forms/TableLayoutBase/LayoutEngine.cs     |  25 +++-
+ 13 files changed, 530 insertions(+), 3 deletions(-)
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/SystemFeatureTypesFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/WindowsFormsSynchronizationContext.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IFeatureSupport.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/BatteryChargeStatus.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/PowerLineStatus.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/SystemParameter.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/FeatureSupport.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Help.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/HelpProvider.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/OSFeature.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/PowerStatus.cs
+
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/SystemFeatureTypesFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/SystemFeatureTypesFunctionalTests.cs
+new file mode 100644
+index 00000000..d44b2b9f
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/SystemFeatureTypesFunctionalTests.cs
+@@ -0,0 +1,118 @@
++namespace System.Windows.Forms;
++
++using System.Threading;
++using System.Windows.Forms.Layout;
++
++/// <summary>
++/// Verifies the system/feature/help support types: <see cref="PowerStatus" />, <see cref="OSFeature" />/
++/// <see cref="FeatureSupport" />, <see cref="Help" />/<see cref="HelpProvider" />,
++/// <see cref="WindowsFormsSynchronizationContext" /> and the relocated
++/// <see cref="System.Windows.Forms.Layout.LayoutEngine" />. Most are model/static types with no widgets; the
++/// control-keyed HelpProvider methods run in a realized form.
++/// </summary>
++[Collection("NonParallelCollection")]
++public class SystemFeatureTypesFunctionalTests
++{
++    [Fact]
++    public void PowerStatus_DefaultsToUnknownNoBattery()
++    {
++        var p = (PowerStatus)Activator.CreateInstance(typeof(PowerStatus), nonPublic: true)!;
++        Assert.Equal(PowerLineStatus.Unknown, p.PowerLineStatus);
++        Assert.Equal(BatteryChargeStatus.NoSystemBattery, p.BatteryChargeStatus);
++        Assert.Equal(-1, p.BatteryLifeRemaining);
++    }
++
++    [Fact]
++    public void OSFeature_FeatureSupport_Behaviour()
++    {
++        Assert.NotNull(OSFeature.Feature);
++        Assert.Same(OSFeature.Feature, OSFeature.Feature);
++        Assert.Null(OSFeature.Feature.GetVersionPresent(OSFeature.Themes));
++        Assert.False(OSFeature.Feature.IsPresent(OSFeature.LayeredWindows));
++        Assert.False(OSFeature.Feature.IsPresent(SystemParameter.DropShadow));
++
++        Assert.False(FeatureSupport.IsPresent("SomeType", "SomeConst"));
++        Assert.IsAssignableFrom<IFeatureSupport>(OSFeature.Feature);
++    }
++
++    [Fact]
++    public void Help_StaticMethods_DoNotThrow()
++    {
++        // Displaying help is a documented no-op boundary on GTK; the methods must exist and be safe to call.
++        Help.ShowHelp(null!, "help.chm");
++        Help.ShowHelpIndex(null!, "help.chm");
++        Help.ShowHelp(null!, "help.chm", HelpNavigator.Index);
++    }
++
++    [Fact]
++    public void HelpProvider_StoresAssociations()
++    {
++        var hp = new HelpProvider { HelpNamespace = "app.chm", Tag = 7 };
++        Assert.Equal("app.chm", hp.HelpNamespace);
++        Assert.Equal(7, hp.Tag);
++        Assert.False(hp.CanExtend(new object()));
++
++        var form = new Form();
++        var label = new Label();
++        form.Controls.Add(label);
++        form.Load += (s, e) =>
++        {
++            try
++            {
++                Assert.True(hp.CanExtend(label));
++                Assert.False(hp.GetShowHelp(label));
++
++                hp.SetHelpString(label, "press F1");
++                Assert.Equal("press F1", hp.GetHelpString(label));
++                Assert.True(hp.GetShowHelp(label));
++
++                hp.SetHelpKeyword(label, "topic1");
++                Assert.Equal("topic1", hp.GetHelpKeyword(label));
++
++                hp.SetShowHelp(label, false);
++                Assert.False(hp.GetShowHelp(label));
++            }
++            finally
++            {
++                form.Close();
++            }
++        };
++        form.ShowDialog();
++        form.Dispose();
++    }
++
++    [Fact]
++    public void WindowsFormsSynchronizationContext_Structure()
++    {
++        using var ctx = new WindowsFormsSynchronizationContext();
++        Assert.IsAssignableFrom<SynchronizationContext>(ctx);
++        Assert.NotSame(ctx, ctx.CreateCopy());
++        Assert.IsType<WindowsFormsSynchronizationContext>(ctx.CreateCopy());
++
++        var prev = WindowsFormsSynchronizationContext.AutoInstall;
++        WindowsFormsSynchronizationContext.AutoInstall = false;
++        Assert.False(WindowsFormsSynchronizationContext.AutoInstall);
++        WindowsFormsSynchronizationContext.AutoInstall = prev;
++    }
++
++    private sealed class SpyLayoutEngine : LayoutEngine
++    {
++        public bool LaidOut;
++        public override bool Layout(object container, LayoutEventArgs layoutEventArgs)
++        {
++            LaidOut = true;
++            return base.Layout(container, layoutEventArgs);
++        }
++    }
++
++    [Fact]
++    public void LayoutEngine_IsInTheLayoutNamespace_AndOverridable()
++    {
++        Assert.Equal("System.Windows.Forms.Layout", typeof(LayoutEngine).Namespace);
++
++        var engine = new SpyLayoutEngine();
++        engine.InitLayout(new object(), BoundsSpecified.All);
++        Assert.False(engine.Layout(new object(), new LayoutEventArgs(null, "Bounds")));
++        Assert.True(engine.LaidOut);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/WindowsFormsSynchronizationContext.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/WindowsFormsSynchronizationContext.cs
+new file mode 100644
+index 00000000..0dd1eb8f
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/WindowsFormsSynchronizationContext.cs
+@@ -0,0 +1,53 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Threading;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides a synchronization context for Windows Forms that marshals callbacks onto the GTK main
++/// loop, so async continuations resume on the UI thread.</summary>
++public sealed class WindowsFormsSynchronizationContext : SynchronizationContext, IDisposable
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.WindowsFormsSynchronizationContext" /> class.</summary>
++    public WindowsFormsSynchronizationContext() { }
++
++    /// <summary>Gets or sets a value indicating whether the context is automatically installed.</summary>
++    public static bool AutoInstall { get; set; } = true;
++
++    /// <summary>Dispatches a synchronous message: runs the callback on the GTK main loop and waits.</summary>
++    /// <param name="d">The delegate to invoke.</param>
++    /// <param name="state">The state passed to the delegate.</param>
++    public override void Send(SendOrPostCallback d, object? state)
++    {
++        if (d == null) { return; }
++        var done = new ManualResetEventSlim(false);
++        Exception? error = null;
++        Gtk.Application.Invoke((_, _) =>
++        {
++            try { d(state); } catch (Exception ex) { error = ex; } finally { done.Set(); }
++        });
++        done.Wait();
++        if (error != null) { throw error; }
++    }
++
++    /// <summary>Dispatches an asynchronous message: posts the callback to the GTK main loop.</summary>
++    /// <param name="d">The delegate to invoke.</param>
++    /// <param name="state">The state passed to the delegate.</param>
++    public override void Post(SendOrPostCallback d, object? state)
++    {
++        if (d == null) { return; }
++        Gtk.Application.Invoke((_, _) => d(state));
++    }
++
++    /// <summary>Creates a copy of this synchronization context.</summary>
++    /// <returns>A new <see cref="T:System.Windows.Forms.WindowsFormsSynchronizationContext" />.</returns>
++    public override SynchronizationContext CreateCopy() => new WindowsFormsSynchronizationContext();
++
++    /// <summary>Uninstalls the current Windows Forms synchronization context, restoring the default.</summary>
++    public static void Uninstall() => SetSynchronizationContext(new SynchronizationContext());
++
++    /// <summary>Releases the resources used by this context.</summary>
++    public void Dispose() { }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
+index c05b7377..30d08ef7 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
+@@ -1,3 +1,4 @@
++using System.Windows.Forms.Layout;
+ ﻿using System.ComponentModel;
+ using System.Drawing;
+ using Gtk;
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IFeatureSupport.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IFeatureSupport.cs
+new file mode 100644
+index 00000000..e6a0c951
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IFeatureSupport.cs
+@@ -0,0 +1,25 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies a standard interface for retrieving feature information from the current system.</summary>
++public interface IFeatureSupport
++{
++    /// <summary>Determines whether the specified feature is installed.</summary>
++    /// <param name="feature">The feature to look for.</param>
++    /// <returns><see langword="true" /> if the feature is present; otherwise <see langword="false" />.</returns>
++    bool IsPresent(object feature);
++
++    /// <summary>Determines whether the specified feature is installed at or above a version.</summary>
++    /// <param name="feature">The feature to look for.</param>
++    /// <param name="minimumVersion">The minimum version.</param>
++    /// <returns><see langword="true" /> if present at that version; otherwise <see langword="false" />.</returns>
++    bool IsPresent(object feature, Version minimumVersion);
++
++    /// <summary>Gets the version of the specified feature that is present.</summary>
++    /// <param name="feature">The feature to look for.</param>
++    /// <returns>The version present, or <see langword="null" />.</returns>
++    Version? GetVersionPresent(object feature);
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/BatteryChargeStatus.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/BatteryChargeStatus.cs
+new file mode 100644
+index 00000000..39622fce
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/BatteryChargeStatus.cs
+@@ -0,0 +1,23 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Defines the battery charge status.</summary>
++[Flags]
++public enum BatteryChargeStatus
++{
++    /// <summary>The battery is at a high charge level.</summary>
++    High = 1,
++    /// <summary>The battery is at a low charge level.</summary>
++    Low = 2,
++    /// <summary>The battery is at a critically low charge level.</summary>
++    Critical = 4,
++    /// <summary>The battery is charging.</summary>
++    Charging = 8,
++    /// <summary>There is no system battery.</summary>
++    NoSystemBattery = 128,
++    /// <summary>The battery charge status is unknown.</summary>
++    Unknown = 255,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/PowerLineStatus.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/PowerLineStatus.cs
+new file mode 100644
+index 00000000..a5cdab99
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/PowerLineStatus.cs
+@@ -0,0 +1,16 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies the system power status.</summary>
++public enum PowerLineStatus
++{
++    /// <summary>The system is not connected to AC power.</summary>
++    Offline = 0,
++    /// <summary>The system is connected to AC power.</summary>
++    Online = 1,
++    /// <summary>The power status of the system is unknown.</summary>
++    Unknown = 255,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/SystemParameter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/SystemParameter.cs
+new file mode 100644
+index 00000000..1d15dc14
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/SystemParameter.cs
+@@ -0,0 +1,32 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies system parameters whose presence can be tested through <see cref="T:System.Windows.Forms.OSFeature" />.</summary>
++public enum SystemParameter
++{
++    /// <summary>The drop shadow effect.</summary>
++    DropShadow = 0,
++    /// <summary>The flat menu appearance.</summary>
++    FlatMenu = 1,
++    /// <summary>The font-smoothing contrast metric.</summary>
++    FontSmoothingContrastMetric = 2,
++    /// <summary>The font-smoothing type metric.</summary>
++    FontSmoothingTypeMetric = 3,
++    /// <summary>Whether menu fade animation is enabled.</summary>
++    MenuFadeEnabled = 4,
++    /// <summary>The selection fade effect.</summary>
++    SelectionFade = 5,
++    /// <summary>The tool tip animation metric.</summary>
++    ToolTipAnimationMetric = 6,
++    /// <summary>Whether UI effects are enabled.</summary>
++    UIEffects = 7,
++    /// <summary>The caret width metric.</summary>
++    CaretWidthMetric = 8,
++    /// <summary>The vertical focus thickness metric.</summary>
++    VerticalFocusThicknessMetric = 9,
++    /// <summary>The horizontal focus thickness metric.</summary>
++    HorizontalFocusThicknessMetric = 10,
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/FeatureSupport.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/FeatureSupport.cs
+new file mode 100644
+index 00000000..ae2a70bb
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/FeatureSupport.cs
+@@ -0,0 +1,48 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides a base class for feature support detection.</summary>
++public abstract class FeatureSupport : IFeatureSupport
++{
++    /// <summary>Determines, for a static feature class, whether the feature is present.</summary>
++    /// <param name="featureClassName">The fully qualified type name of the feature support class.</param>
++    /// <param name="featureConstName">The name of the feature constant.</param>
++    /// <returns><see langword="true" /> if present; otherwise <see langword="false" />.</returns>
++    public static bool IsPresent(string featureClassName, string featureConstName) => false;
++
++    /// <summary>Determines, for a static feature class, whether the feature is present at a minimum version.</summary>
++    /// <param name="featureClassName">The fully qualified type name of the feature support class.</param>
++    /// <param name="featureConstName">The name of the feature constant.</param>
++    /// <param name="minimumVersion">The minimum version.</param>
++    /// <returns><see langword="true" /> if present at that version; otherwise <see langword="false" />.</returns>
++    public static bool IsPresent(string featureClassName, string featureConstName, Version minimumVersion) => false;
++
++    /// <summary>Gets the version present for a static feature class.</summary>
++    /// <param name="featureClassName">The fully qualified type name of the feature support class.</param>
++    /// <param name="featureConstName">The name of the feature constant.</param>
++    /// <returns>The version present, or <see langword="null" />.</returns>
++    public static Version? GetVersionPresent(string featureClassName, string featureConstName) => null;
++
++    /// <summary>Determines whether the specified feature is present.</summary>
++    /// <param name="feature">The feature to look for.</param>
++    /// <returns><see langword="true" /> if present; otherwise <see langword="false" />.</returns>
++    public virtual bool IsPresent(object feature) => GetVersionPresent(feature) != null;
++
++    /// <summary>Determines whether the specified feature is present at a minimum version.</summary>
++    /// <param name="feature">The feature to look for.</param>
++    /// <param name="minimumVersion">The minimum version.</param>
++    /// <returns><see langword="true" /> if present at that version; otherwise <see langword="false" />.</returns>
++    public virtual bool IsPresent(object feature, Version minimumVersion)
++    {
++        var v = GetVersionPresent(feature);
++        return v != null && v >= minimumVersion;
++    }
++
++    /// <summary>When overridden in a derived class, gets the version of the specified feature that is present.</summary>
++    /// <param name="feature">The feature to look for.</param>
++    /// <returns>The version present, or <see langword="null" />.</returns>
++    public abstract Version? GetVersionPresent(object feature);
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Help.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Help.cs
+new file mode 100644
+index 00000000..6a9b19f1
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Help.cs
+@@ -0,0 +1,47 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>Encapsulates the HTML Help 1.0 engine. On the GTK layer displaying Help is a documented no-op
++/// boundary; the methods exist so calling source compiles.</summary>
++public static class Help
++{
++    /// <summary>Displays the contents of a Help file.</summary>
++    /// <param name="parent">The parent control.</param>
++    /// <param name="url">The Help file path or URL.</param>
++    public static void ShowHelp(Control parent, string url) { }
++
++    /// <summary>Displays the contents of a Help file at the specified navigator location.</summary>
++    /// <param name="parent">The parent control.</param>
++    /// <param name="url">The Help file path or URL.</param>
++    /// <param name="navigator">The navigator command.</param>
++    public static void ShowHelp(Control parent, string url, HelpNavigator navigator) { }
++
++    /// <summary>Displays the contents of a Help file for a keyword.</summary>
++    /// <param name="parent">The parent control.</param>
++    /// <param name="url">The Help file path or URL.</param>
++    /// <param name="keyword">The keyword to look up.</param>
++    public static void ShowHelp(Control parent, string url, string keyword) { }
++
++    /// <summary>Displays the contents of a Help file at a navigator location with a parameter.</summary>
++    /// <param name="parent">The parent control.</param>
++    /// <param name="url">The Help file path or URL.</param>
++    /// <param name="command">The navigator command.</param>
++    /// <param name="parameter">The topic parameter.</param>
++    public static void ShowHelp(Control parent, string url, HelpNavigator command, object parameter) { }
++
++    /// <summary>Displays the index of the specified Help file.</summary>
++    /// <param name="parent">The parent control.</param>
++    /// <param name="url">The Help file path or URL.</param>
++    public static void ShowHelpIndex(Control parent, string url) { }
++
++    /// <summary>Displays a pop-up Help window.</summary>
++    /// <param name="parent">The parent control.</param>
++    /// <param name="caption">The Help text.</param>
++    /// <param name="location">The screen location.</param>
++    public static void ShowPopup(Control parent, string caption, Point location) { }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/HelpProvider.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/HelpProvider.cs
+new file mode 100644
+index 00000000..66b3a08a
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/HelpProvider.cs
+@@ -0,0 +1,84 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Collections.Generic;
++using System.ComponentModel;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides pop-up or online Help for controls. On the GTK layer the Help associations are stored;
++/// invoking Help is a no-op boundary.</summary>
++[ProvideProperty("HelpString", typeof(Control))]
++[ProvideProperty("HelpKeyword", typeof(Control))]
++[ProvideProperty("HelpNavigator", typeof(Control))]
++[ProvideProperty("ShowHelp", typeof(Control))]
++public class HelpProvider : Component, IExtenderProvider
++{
++    private readonly Dictionary<Control, string> strings = new();
++    private readonly Dictionary<Control, string> keywords = new();
++    private readonly Dictionary<Control, HelpNavigator> navigators = new();
++    private readonly Dictionary<Control, bool> showHelp = new();
++
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.HelpProvider" /> class.</summary>
++    public HelpProvider() { }
++
++    /// <summary>Gets or sets a value specifying the name of the Help file associated with this provider.</summary>
++    public virtual string? HelpNamespace { get; set; }
++
++    /// <summary>Gets or sets user-defined data associated with this provider.</summary>
++    public object? Tag { get; set; }
++
++    /// <summary>Determines whether this provider can offer an extender property to the specified target.</summary>
++    /// <param name="target">The target object.</param>
++    /// <returns><see langword="true" /> if the target is a <see cref="T:System.Windows.Forms.Control" />.</returns>
++    public virtual bool CanExtend(object target) => target is Control;
++
++    /// <summary>Gets the Help keyword associated with the control.</summary>
++    /// <param name="ctl">The control.</param>
++    /// <returns>The keyword, or <see langword="null" />.</returns>
++    public virtual string? GetHelpKeyword(Control ctl) => keywords.TryGetValue(ctl, out var v) ? v : null;
++
++    /// <summary>Gets the Help navigator associated with the control.</summary>
++    /// <param name="ctl">The control.</param>
++    /// <returns>The navigator.</returns>
++    public virtual HelpNavigator GetHelpNavigator(Control ctl) => navigators.TryGetValue(ctl, out var v) ? v : HelpNavigator.AssociateIndex;
++
++    /// <summary>Gets the Help string associated with the control.</summary>
++    /// <param name="ctl">The control.</param>
++    /// <returns>The Help string, or <see langword="null" />.</returns>
++    public virtual string? GetHelpString(Control ctl) => strings.TryGetValue(ctl, out var v) ? v : null;
++
++    /// <summary>Gets a value indicating whether Help is displayed for the control.</summary>
++    /// <param name="ctl">The control.</param>
++    /// <returns><see langword="true" /> if Help is shown; otherwise <see langword="false" />.</returns>
++    public virtual bool GetShowHelp(Control ctl) => showHelp.TryGetValue(ctl, out var v) && v;
++
++    /// <summary>Specifies the Help string associated with the control.</summary>
++    /// <param name="ctl">The control.</param>
++    /// <param name="helpString">The Help string.</param>
++    public virtual void SetHelpString(Control ctl, string helpString) { strings[ctl] = helpString; showHelp[ctl] = true; }
++
++    /// <summary>Specifies the Help keyword associated with the control.</summary>
++    /// <param name="ctl">The control.</param>
++    /// <param name="keyword">The keyword.</param>
++    public virtual void SetHelpKeyword(Control ctl, string keyword) { keywords[ctl] = keyword; showHelp[ctl] = true; }
++
++    /// <summary>Specifies the Help navigator associated with the control.</summary>
++    /// <param name="ctl">The control.</param>
++    /// <param name="navigator">The navigator.</param>
++    public virtual void SetHelpNavigator(Control ctl, HelpNavigator navigator) { navigators[ctl] = navigator; showHelp[ctl] = true; }
++
++    /// <summary>Specifies whether Help is displayed for the control.</summary>
++    /// <param name="ctl">The control.</param>
++    /// <param name="value">Whether to show Help.</param>
++    public virtual void SetShowHelp(Control ctl, bool value) { showHelp[ctl] = value; }
++
++    /// <summary>Resets the Help display for the control.</summary>
++    /// <param name="ctl">The control.</param>
++    public virtual void ResetShowHelp(Control ctl) { showHelp.Remove(ctl); }
++
++    /// <summary>Returns a string that represents this provider.</summary>
++    /// <returns>A string.</returns>
++    public override string ToString() => base.ToString() + ", HelpNamespace: " + HelpNamespace;
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OSFeature.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OSFeature.cs
+new file mode 100644
+index 00000000..1160ade9
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OSFeature.cs
+@@ -0,0 +1,34 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides information about operating system features. On the GTK layer no Windows features are
++/// reported present.</summary>
++public class OSFeature : FeatureSupport
++{
++    private static OSFeature? feature;
++
++    /// <summary>Represents the layered, top-level windows feature. Value is a well-known object token.</summary>
++    public static readonly object LayeredWindows = new object();
++
++    /// <summary>Represents the theming feature.</summary>
++    public static readonly object Themes = new object();
++
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.OSFeature" /> class.</summary>
++    protected OSFeature() { }
++
++    /// <summary>Gets the static <see cref="T:System.Windows.Forms.OSFeature" /> instance.</summary>
++    public static OSFeature Feature => feature ??= new OSFeature();
++
++    /// <summary>Gets the version of the specified feature that is present. Always <see langword="null" /> on GTK.</summary>
++    /// <param name="feature">The feature to look for.</param>
++    /// <returns><see langword="null" />.</returns>
++    public override Version? GetVersionPresent(object feature) => null;
++
++    /// <summary>Retrieves whether the specified system parameter is present. Always <see langword="false" /> on GTK.</summary>
++    /// <param name="enumVal">The system parameter to look for.</param>
++    /// <returns><see langword="false" />.</returns>
++    public bool IsPresent(SystemParameter enumVal) => false;
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PowerStatus.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PowerStatus.cs
+new file mode 100644
+index 00000000..a7020795
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PowerStatus.cs
+@@ -0,0 +1,27 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Indicates the current system power status information. On the GTK layer, where no battery API is
++/// wired, values default to "unknown / no battery".</summary>
++public class PowerStatus
++{
++    internal PowerStatus() { }
++
++    /// <summary>Gets the current system power status.</summary>
++    public PowerLineStatus PowerLineStatus => PowerLineStatus.Unknown;
++
++    /// <summary>Gets the current battery charge status.</summary>
++    public BatteryChargeStatus BatteryChargeStatus => BatteryChargeStatus.NoSystemBattery;
++
++    /// <summary>Gets the reported full charge lifetime of the battery, in seconds, or -1 if unknown.</summary>
++    public int BatteryFullLifetime => -1;
++
++    /// <summary>Gets the approximate percentage of full battery charge remaining (0.0 to 1.0), or 255 if unknown.</summary>
++    public float BatteryLifePercent => 255f;
++
++    /// <summary>Gets the approximate number of seconds of battery life remaining, or -1 if unknown.</summary>
++    public int BatteryLifeRemaining => -1;
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TableLayoutBase/LayoutEngine.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TableLayoutBase/LayoutEngine.cs
+index 7c0737ae..1e4e4482 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TableLayoutBase/LayoutEngine.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TableLayoutBase/LayoutEngine.cs
+@@ -1,8 +1,27 @@
+-namespace System.Windows.Forms;
++using System.Windows.Forms;
++
++namespace System.Windows.Forms.Layout;
+ 
+ /// <summary>
+-/// Class LayoutEngine.
++/// Provides the base class for implementing layout engines. This mirrors the real
++/// <c>System.Windows.Forms.Layout.LayoutEngine</c> (the correct namespace), replacing the earlier
++/// <c>System.Windows.Forms.LayoutEngine</c> placeholder.
+ /// </summary>
+ public class LayoutEngine
+ {
+-}
+\ No newline at end of file
++    /// <summary>Initializes the layout for the specified child element.</summary>
++    /// <param name="child">The element to initialize.</param>
++    /// <param name="specified">A <see cref="T:System.Windows.Forms.BoundsSpecified" /> that indicates which bounds are specified.</param>
++    public virtual void InitLayout(object child, BoundsSpecified specified)
++    {
++    }
++
++    /// <summary>Requests that the layout engine perform a layout operation.</summary>
++    /// <param name="container">The container on which the layout is performed.</param>
++    /// <param name="layoutEventArgs">A <see cref="T:System.Windows.Forms.LayoutEventArgs" /> that contains the event data.</param>
++    /// <returns><see langword="true" /> if layout should be performed again; otherwise <see langword="false" />.</returns>
++    public virtual bool Layout(object container, LayoutEventArgs layoutEventArgs)
++    {
++        return false;
++    }
++}
+-- 
+2.53.0.windows.3
+
