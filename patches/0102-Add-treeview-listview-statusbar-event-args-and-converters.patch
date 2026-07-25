@@ -1,0 +1,737 @@
+From b9dec881ab6370ceee3f35826d6200767c5c5a91 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Sat, 25 Jul 2026 03:20:27 +0300
+Subject: [PATCH] Sweep: TreeView/ListView/StatusBar event args, small support,
+ converters
+
+Additive types, signatures from the net48 reference:
+
+- Event args: NodeLabelEditEventArgs, SearchForVirtualItemEventArgs,
+  StatusBarDrawItemEventArgs (+ their delegate handlers).
+- ListViewInsertionMark, OwnerDrawPropertyBag (with static Copy/IsEmpty),
+  DockingAttribute, AmbientProperties.
+- Ten type converters as minimal subclasses of the correct BCL base
+  (ImageIndexConverter : Int32Converter, ImageKeyConverter : StringConverter,
+  TreeView* : those, ColumnHeaderConverter : ExpandableObjectConverter, and the
+  TypeConverter-based Cursor/Link/ListBinding/Padding/TreeNode converters). They
+  exist so [TypeConverter(typeof(...))] attributes and references compile.
+
+Net48 public types present 870->890 (missing 164->144). Full suite green at 2342
+(+7 tests).
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ .../SupportTypesBatchBFunctionalTests.cs      | 105 ++++++++++++++++++
+ .../System/Windows/Forms/AmbientProperties.cs |  26 +++++
+ .../Forms/Atrribute/DockingAttribute.cs       |  33 ++++++
+ .../Forms/Design/ColumnHeaderConverter.cs     |  15 +++
+ .../Windows/Forms/Design/CursorConverter.cs   |  15 +++
+ .../Forms/Design/ImageIndexConverter.cs       |  15 +++
+ .../Windows/Forms/Design/ImageKeyConverter.cs |  15 +++
+ .../Windows/Forms/Design/LinkConverter.cs     |  15 +++
+ .../Forms/Design/ListBindingConverter.cs      |  15 +++
+ .../Windows/Forms/Design/PaddingConverter.cs  |  15 +++
+ .../Windows/Forms/Design/TreeNodeConverter.cs |  15 +++
+ .../Design/TreeViewImageIndexConverter.cs     |  15 +++
+ .../Forms/Design/TreeViewImageKeyConverter.cs |  15 +++
+ .../Forms/EventArgs/NodeLabelEditEventArgs.cs |  27 +++++
+ .../SearchForVirtualItemEventArgs.cs          |  55 +++++++++
+ .../EventArgs/StatusBarDrawItemEventArgs.cs   |  42 +++++++
+ .../NodeLabelEditEventHandler.cs              |  10 ++
+ .../SearchForVirtualItemEventHandler.cs       |  10 ++
+ .../StatusBarDrawItemEventHandler.cs          |  10 ++
+ .../ListViewBase/ListViewInsertionMark.cs     |  31 ++++++
+ .../Windows/Forms/OwnerDrawPropertyBag.cs     |  42 +++++++
+ 21 files changed, 541 insertions(+)
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchBFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/AmbientProperties.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Atrribute/DockingAttribute.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ColumnHeaderConverter.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/CursorConverter.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ImageIndexConverter.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ImageKeyConverter.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/LinkConverter.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ListBindingConverter.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/PaddingConverter.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeNodeConverter.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageIndexConverter.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageKeyConverter.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/NodeLabelEditEventArgs.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/SearchForVirtualItemEventArgs.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/StatusBarDrawItemEventArgs.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/NodeLabelEditEventHandler.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/SearchForVirtualItemEventHandler.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/StatusBarDrawItemEventHandler.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewInsertionMark.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/OwnerDrawPropertyBag.cs
+
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchBFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchBFunctionalTests.cs
+new file mode 100644
+index 00000000..13fe3dbf
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchBFunctionalTests.cs
+@@ -0,0 +1,105 @@
++namespace System.Windows.Forms;
++
++extern alias gtk;
++
++using System.ComponentModel;
++using Color = global::System.Drawing.Color;
++using Point = global::System.Drawing.Point;
++
++/// <summary>
++/// Verifies the second sweep batch: the TreeView/ListView/StatusBar event args, the small support types
++/// (<see cref="ListViewInsertionMark" />, <see cref="OwnerDrawPropertyBag" />, <see cref="DockingAttribute" />,
++/// <see cref="AmbientProperties" />) and the type converters. All are model/attribute/converter types with no
++/// GTK widgets.
++/// </summary>
++public class SupportTypesBatchBFunctionalTests
++{
++    [Fact]
++    public void NodeLabelEditEventArgs_RoundTrip()
++    {
++        var node = new TreeNode("n");
++        var a = new NodeLabelEditEventArgs(node, "newlabel");
++        Assert.Same(node, a.Node);
++        Assert.Equal("newlabel", a.Label);
++        Assert.False(a.CancelEdit);
++        a.CancelEdit = true;
++        Assert.True(a.CancelEdit);
++    }
++
++    [Fact]
++    public void SearchForVirtualItemEventArgs_RoundTrip()
++    {
++        var a = new SearchForVirtualItemEventArgs(true, false, true, "abc", new Point(4, 5), SearchDirectionHint.Down, 2);
++        Assert.True(a.IsTextSearch);
++        Assert.False(a.IsPrefixSearch);
++        Assert.True(a.IncludeSubItemsInSearch);
++        Assert.Equal("abc", a.Text);
++        Assert.Equal(new Point(4, 5), a.StartingPoint);
++        Assert.Equal(SearchDirectionHint.Down, a.Direction);
++        Assert.Equal(2, a.StartIndex);
++        Assert.Equal(-1, a.Index);
++        a.Index = 9;
++        Assert.Equal(9, a.Index);
++    }
++
++    [Fact]
++    public void ListViewInsertionMark_RoundTrip()
++    {
++        var mark = (ListViewInsertionMark)Activator.CreateInstance(typeof(ListViewInsertionMark), nonPublic: true)!;
++        Assert.Equal(-1, mark.Index);
++        mark.Index = 3;
++        mark.AppearsAfterItem = true;
++        mark.Color = Color.Red;
++        Assert.Equal(3, mark.Index);
++        Assert.True(mark.AppearsAfterItem);
++        Assert.Equal(Color.Red, mark.Color);
++        Assert.Equal(-1, mark.NearestIndex(new Point(0, 0)));
++    }
++
++    [Fact]
++    public void OwnerDrawPropertyBag_CopyAndIsEmpty()
++    {
++        var empty = OwnerDrawPropertyBag.Copy(null!);
++        Assert.True(empty.IsEmpty());
++
++        empty.ForeColor = Color.Blue;
++        Assert.False(empty.IsEmpty());
++
++        var copy = OwnerDrawPropertyBag.Copy(empty);
++        Assert.Equal(Color.Blue, copy.ForeColor);
++        Assert.NotSame(empty, copy);
++    }
++
++    [Fact]
++    public void DockingAttribute_Semantics()
++    {
++        Assert.Equal(DockingBehavior.Never, new DockingAttribute().DockingBehavior);
++        Assert.True(new DockingAttribute().IsDefaultAttribute());
++
++        var a = new DockingAttribute(DockingBehavior.AutoDock);
++        Assert.Equal(DockingBehavior.AutoDock, a.DockingBehavior);
++        Assert.False(a.IsDefaultAttribute());
++        Assert.Equal(new DockingAttribute(DockingBehavior.AutoDock), a);
++    }
++
++    [Fact]
++    public void AmbientProperties_RoundTrip()
++    {
++        var amb = new AmbientProperties { BackColor = Color.Yellow, ForeColor = Color.Green };
++        Assert.Equal(Color.Yellow, amb.BackColor);
++        Assert.Equal(Color.Green, amb.ForeColor);
++    }
++
++    [Fact]
++    public void Converters_DeriveFromExpectedBases()
++    {
++        Assert.IsAssignableFrom<Int32Converter>(new ImageIndexConverter());
++        Assert.IsAssignableFrom<StringConverter>(new ImageKeyConverter());
++        Assert.IsAssignableFrom<ImageIndexConverter>(new TreeViewImageIndexConverter());
++        Assert.IsAssignableFrom<ImageKeyConverter>(new TreeViewImageKeyConverter());
++        Assert.IsAssignableFrom<ExpandableObjectConverter>(new ColumnHeaderConverter());
++        Assert.IsAssignableFrom<TypeConverter>(new CursorConverter());
++        Assert.IsAssignableFrom<TypeConverter>(new PaddingConverter());
++        Assert.IsAssignableFrom<TypeConverter>(new LinkConverter());
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/AmbientProperties.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/AmbientProperties.cs
+new file mode 100644
+index 00000000..bb07f2d3
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/AmbientProperties.cs
+@@ -0,0 +1,26 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides ambient property values to top-level controls.</summary>
++public sealed class AmbientProperties
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.AmbientProperties" /> class.</summary>
++    public AmbientProperties() { }
++
++    /// <summary>Gets or sets the ambient background color.</summary>
++    public Color BackColor { get; set; } = Color.Empty;
++
++    /// <summary>Gets or sets the ambient cursor.</summary>
++    public Cursor? Cursor { get; set; }
++
++    /// <summary>Gets or sets the ambient font.</summary>
++    public Font? Font { get; set; }
++
++    /// <summary>Gets or sets the ambient foreground color.</summary>
++    public Color ForeColor { get; set; } = Color.Empty;
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Atrribute/DockingAttribute.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Atrribute/DockingAttribute.cs
+new file mode 100644
+index 00000000..25899abf
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Atrribute/DockingAttribute.cs
+@@ -0,0 +1,33 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Specifies the default docking behavior for a control.</summary>
++[AttributeUsage(AttributeTargets.Class)]
++public sealed class DockingAttribute : Attribute
++{
++    /// <summary>Initializes a new instance with the default docking behavior.</summary>
++    public DockingAttribute() { DockingBehavior = DockingBehavior.Never; }
++
++    /// <summary>Initializes a new instance with the specified docking behavior.</summary>
++    /// <param name="dockingBehavior">The docking behavior.</param>
++    public DockingAttribute(DockingBehavior dockingBehavior) { DockingBehavior = dockingBehavior; }
++
++    /// <summary>Gets the docking behavior specified by this attribute.</summary>
++    public DockingBehavior DockingBehavior { get; }
++
++    /// <summary>Determines whether the specified object equals this attribute.</summary>
++    /// <param name="obj">The object to compare.</param>
++    /// <returns><see langword="true" /> if equal; otherwise <see langword="false" />.</returns>
++    public override bool Equals(object? obj) => obj is DockingAttribute a && a.DockingBehavior == DockingBehavior;
++
++    /// <summary>Returns the hash code for this attribute.</summary>
++    /// <returns>A hash code.</returns>
++    public override int GetHashCode() => (int)DockingBehavior;
++
++    /// <summary>Indicates whether this attribute holds the default value.</summary>
++    /// <returns><see langword="true" /> if default; otherwise <see langword="false" />.</returns>
++    public override bool IsDefaultAttribute() => DockingBehavior == DockingBehavior.Never;
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ColumnHeaderConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ColumnHeaderConverter.cs
+new file mode 100644
+index 00000000..36553565
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ColumnHeaderConverter.cs
+@@ -0,0 +1,15 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides a type converter for ColumnHeader values. Inherits the standard conversion behavior of
++/// <see cref="T:System.ComponentModel.ExpandableObjectConverter" />.</summary>
++public class ColumnHeaderConverter : System.ComponentModel.ExpandableObjectConverter
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.ColumnHeaderConverter" /> class.</summary>
++    public ColumnHeaderConverter()
++    {
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/CursorConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/CursorConverter.cs
+new file mode 100644
+index 00000000..91b75830
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/CursorConverter.cs
+@@ -0,0 +1,15 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides a type converter for Cursor values. Inherits the standard conversion behavior of
++/// <see cref="T:System.ComponentModel.TypeConverter" />.</summary>
++public class CursorConverter : System.ComponentModel.TypeConverter
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.CursorConverter" /> class.</summary>
++    public CursorConverter()
++    {
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ImageIndexConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ImageIndexConverter.cs
+new file mode 100644
+index 00000000..1579bf2b
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ImageIndexConverter.cs
+@@ -0,0 +1,15 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides a type converter for ImageIndex values. Inherits the standard conversion behavior of
++/// <see cref="T:System.ComponentModel.Int32Converter" />.</summary>
++public class ImageIndexConverter : System.ComponentModel.Int32Converter
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.ImageIndexConverter" /> class.</summary>
++    public ImageIndexConverter()
++    {
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ImageKeyConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ImageKeyConverter.cs
+new file mode 100644
+index 00000000..ee51a67a
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ImageKeyConverter.cs
+@@ -0,0 +1,15 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides a type converter for ImageKey values. Inherits the standard conversion behavior of
++/// <see cref="T:System.ComponentModel.StringConverter" />.</summary>
++public class ImageKeyConverter : System.ComponentModel.StringConverter
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.ImageKeyConverter" /> class.</summary>
++    public ImageKeyConverter()
++    {
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/LinkConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/LinkConverter.cs
+new file mode 100644
+index 00000000..f6ae6bd8
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/LinkConverter.cs
+@@ -0,0 +1,15 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides a type converter for Link values. Inherits the standard conversion behavior of
++/// <see cref="T:System.ComponentModel.TypeConverter" />.</summary>
++public class LinkConverter : System.ComponentModel.TypeConverter
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.LinkConverter" /> class.</summary>
++    public LinkConverter()
++    {
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ListBindingConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ListBindingConverter.cs
+new file mode 100644
+index 00000000..a31f5e65
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ListBindingConverter.cs
+@@ -0,0 +1,15 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides a type converter for ListBinding values. Inherits the standard conversion behavior of
++/// <see cref="T:System.ComponentModel.TypeConverter" />.</summary>
++public class ListBindingConverter : System.ComponentModel.TypeConverter
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.ListBindingConverter" /> class.</summary>
++    public ListBindingConverter()
++    {
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/PaddingConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/PaddingConverter.cs
+new file mode 100644
+index 00000000..3ee5135d
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/PaddingConverter.cs
+@@ -0,0 +1,15 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides a type converter for Padding values. Inherits the standard conversion behavior of
++/// <see cref="T:System.ComponentModel.TypeConverter" />.</summary>
++public class PaddingConverter : System.ComponentModel.TypeConverter
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.PaddingConverter" /> class.</summary>
++    public PaddingConverter()
++    {
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeNodeConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeNodeConverter.cs
+new file mode 100644
+index 00000000..dcbe418f
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeNodeConverter.cs
+@@ -0,0 +1,15 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides a type converter for TreeNode values. Inherits the standard conversion behavior of
++/// <see cref="T:System.ComponentModel.TypeConverter" />.</summary>
++public class TreeNodeConverter : System.ComponentModel.TypeConverter
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.TreeNodeConverter" /> class.</summary>
++    public TreeNodeConverter()
++    {
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageIndexConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageIndexConverter.cs
+new file mode 100644
+index 00000000..ad5e282b
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageIndexConverter.cs
+@@ -0,0 +1,15 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides a type converter for TreeViewImageIndex values. Inherits the standard conversion behavior of
++/// <see cref="T:System.Windows.Forms.ImageIndexConverter" />.</summary>
++public class TreeViewImageIndexConverter : ImageIndexConverter
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.TreeViewImageIndexConverter" /> class.</summary>
++    public TreeViewImageIndexConverter()
++    {
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageKeyConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageKeyConverter.cs
+new file mode 100644
+index 00000000..9073c805
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageKeyConverter.cs
+@@ -0,0 +1,15 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides a type converter for TreeViewImageKey values. Inherits the standard conversion behavior of
++/// <see cref="T:System.Windows.Forms.ImageKeyConverter" />.</summary>
++public class TreeViewImageKeyConverter : ImageKeyConverter
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.TreeViewImageKeyConverter" /> class.</summary>
++    public TreeViewImageKeyConverter()
++    {
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/NodeLabelEditEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/NodeLabelEditEventArgs.cs
+new file mode 100644
+index 00000000..233d6649
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/NodeLabelEditEventArgs.cs
+@@ -0,0 +1,27 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides data for the <see cref="!:TreeView.BeforeLabelEdit" /> and <see cref="!:TreeView.AfterLabelEdit" /> events.</summary>
++public class NodeLabelEditEventArgs : EventArgs
++{
++    /// <summary>Initializes a new instance for the specified node.</summary>
++    /// <param name="node">The tree node being edited.</param>
++    public NodeLabelEditEventArgs(TreeNode node) { Node = node; }
++
++    /// <summary>Initializes a new instance for the specified node and new label.</summary>
++    /// <param name="node">The tree node being edited.</param>
++    /// <param name="label">The new label text.</param>
++    public NodeLabelEditEventArgs(TreeNode node, string? label) { Node = node; Label = label; }
++
++    /// <summary>Gets or sets a value indicating whether the edit has been cancelled.</summary>
++    public bool CancelEdit { get; set; }
++
++    /// <summary>Gets the new label text, or <see langword="null" /> if the label is unchanged.</summary>
++    public string? Label { get; }
++
++    /// <summary>Gets the tree node being edited.</summary>
++    public TreeNode Node { get; }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/SearchForVirtualItemEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/SearchForVirtualItemEventArgs.cs
+new file mode 100644
+index 00000000..7d7eeecd
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/SearchForVirtualItemEventArgs.cs
+@@ -0,0 +1,55 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides data for the <see cref="!:ListView.SearchForVirtualItem" /> event.</summary>
++public class SearchForVirtualItemEventArgs : EventArgs
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.SearchForVirtualItemEventArgs" /> class.</summary>
++    /// <param name="isTextSearch">Whether the search is by text.</param>
++    /// <param name="isPrefixSearch">Whether the search matches a prefix.</param>
++    /// <param name="includeSubItemsInSearch">Whether subitems are searched.</param>
++    /// <param name="text">The text to search for.</param>
++    /// <param name="startingPoint">The point at which to start the search.</param>
++    /// <param name="direction">The direction of the search.</param>
++    /// <param name="startIndex">The index at which to start the search.</param>
++    public SearchForVirtualItemEventArgs(bool isTextSearch, bool isPrefixSearch, bool includeSubItemsInSearch, string text, Point startingPoint, SearchDirectionHint direction, int startIndex)
++    {
++        IsTextSearch = isTextSearch;
++        IsPrefixSearch = isPrefixSearch;
++        IncludeSubItemsInSearch = includeSubItemsInSearch;
++        Text = text;
++        StartingPoint = startingPoint;
++        Direction = direction;
++        StartIndex = startIndex;
++        Index = -1;
++    }
++
++    /// <summary>Gets a value indicating whether the search is by text.</summary>
++    public bool IsTextSearch { get; }
++
++    /// <summary>Gets a value indicating whether subitems are included in the search.</summary>
++    public bool IncludeSubItemsInSearch { get; }
++
++    /// <summary>Gets or sets the index of the item found by the search.</summary>
++    public int Index { get; set; }
++
++    /// <summary>Gets a value indicating whether the search matches a prefix.</summary>
++    public bool IsPrefixSearch { get; }
++
++    /// <summary>Gets the text to search for.</summary>
++    public string Text { get; }
++
++    /// <summary>Gets the point at which to start the search.</summary>
++    public Point StartingPoint { get; }
++
++    /// <summary>Gets the direction of the search.</summary>
++    public SearchDirectionHint Direction { get; }
++
++    /// <summary>Gets the index at which to start the search.</summary>
++    public int StartIndex { get; }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/StatusBarDrawItemEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/StatusBarDrawItemEventArgs.cs
+new file mode 100644
+index 00000000..b2729d66
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/StatusBarDrawItemEventArgs.cs
+@@ -0,0 +1,42 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>Provides data for the <see cref="!:StatusBar.DrawItem" /> event.</summary>
++public class StatusBarDrawItemEventArgs : DrawItemEventArgs
++{
++    /// <summary>Initializes a new instance of the <see cref="T:System.Windows.Forms.StatusBarDrawItemEventArgs" /> class.</summary>
++    /// <param name="g">The graphics used to draw.</param>
++    /// <param name="font">The font used to draw text.</param>
++    /// <param name="r">The bounds of the panel.</param>
++    /// <param name="itemId">The index of the panel.</param>
++    /// <param name="itemState">The state of the panel.</param>
++    /// <param name="panel">The panel being drawn.</param>
++    public StatusBarDrawItemEventArgs(Graphics g, Font font, Rectangle r, int itemId, DrawItemState itemState, StatusBarPanel panel)
++        : base(g, font, r, itemId, itemState)
++    {
++        Panel = panel;
++    }
++
++    /// <summary>Initializes a new instance with explicit fore and back colors.</summary>
++    /// <param name="g">The graphics used to draw.</param>
++    /// <param name="font">The font used to draw text.</param>
++    /// <param name="r">The bounds of the panel.</param>
++    /// <param name="itemId">The index of the panel.</param>
++    /// <param name="itemState">The state of the panel.</param>
++    /// <param name="panel">The panel being drawn.</param>
++    /// <param name="foreColor">The foreground color.</param>
++    /// <param name="backColor">The background color.</param>
++    public StatusBarDrawItemEventArgs(Graphics g, Font font, Rectangle r, int itemId, DrawItemState itemState, StatusBarPanel panel, Color foreColor, Color backColor)
++        : base(g, font, r, itemId, itemState, foreColor, backColor)
++    {
++        Panel = panel;
++    }
++
++    /// <summary>Gets the <see cref="T:System.Windows.Forms.StatusBarPanel" /> being drawn.</summary>
++    public StatusBarPanel Panel { get; }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/NodeLabelEditEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/NodeLabelEditEventHandler.cs
+new file mode 100644
+index 00000000..45260bff
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/NodeLabelEditEventHandler.cs
+@@ -0,0 +1,10 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Represents the method that handles an event that uses <see cref="T:System.Windows.Forms.NodeLabelEditEventArgs" />.</summary>
++/// <param name="sender">The source of the event.</param>
++/// <param name="e">A <see cref="T:System.Windows.Forms.NodeLabelEditEventArgs" /> that contains the event data.</param>
++public delegate void NodeLabelEditEventHandler(object sender, NodeLabelEditEventArgs e);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/SearchForVirtualItemEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/SearchForVirtualItemEventHandler.cs
+new file mode 100644
+index 00000000..fa83ecfe
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/SearchForVirtualItemEventHandler.cs
+@@ -0,0 +1,10 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Represents the method that handles an event that uses <see cref="T:System.Windows.Forms.SearchForVirtualItemEventArgs" />.</summary>
++/// <param name="sender">The source of the event.</param>
++/// <param name="e">A <see cref="T:System.Windows.Forms.SearchForVirtualItemEventArgs" /> that contains the event data.</param>
++public delegate void SearchForVirtualItemEventHandler(object sender, SearchForVirtualItemEventArgs e);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/StatusBarDrawItemEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/StatusBarDrawItemEventHandler.cs
+new file mode 100644
+index 00000000..9a1c7f3a
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/StatusBarDrawItemEventHandler.cs
+@@ -0,0 +1,10 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++namespace System.Windows.Forms;
++
++/// <summary>Represents the method that handles an event that uses <see cref="T:System.Windows.Forms.StatusBarDrawItemEventArgs" />.</summary>
++/// <param name="sender">The source of the event.</param>
++/// <param name="e">A <see cref="T:System.Windows.Forms.StatusBarDrawItemEventArgs" /> that contains the event data.</param>
++public delegate void StatusBarDrawItemEventHandler(object sender, StatusBarDrawItemEventArgs e);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewInsertionMark.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewInsertionMark.cs
+new file mode 100644
+index 00000000..15220255
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewInsertionMark.cs
+@@ -0,0 +1,31 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>Used to indicate the expected drop location when an item is dragged within a
++/// <see cref="T:System.Windows.Forms.ListView" /> control.</summary>
++public sealed class ListViewInsertionMark
++{
++    internal ListViewInsertionMark() { }
++
++    /// <summary>Gets or sets a value indicating whether the insertion mark appears after the item it references.</summary>
++    public bool AppearsAfterItem { get; set; }
++
++    /// <summary>Gets the bounds of the insertion mark.</summary>
++    public Rectangle Bounds { get; }
++
++    /// <summary>Gets or sets the color of the insertion mark.</summary>
++    public Color Color { get; set; } = SystemColors.Highlight;
++
++    /// <summary>Gets or sets the index of the item next to which the insertion mark appears, or -1 if hidden.</summary>
++    public int Index { get; set; } = -1;
++
++    /// <summary>Retrieves the index of the item closest to the specified point.</summary>
++    /// <param name="pt">The point to test.</param>
++    /// <returns>The nearest item index, or -1.</returns>
++    public int NearestIndex(Point pt) => -1;
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OwnerDrawPropertyBag.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OwnerDrawPropertyBag.cs
+new file mode 100644
+index 00000000..ddc50411
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OwnerDrawPropertyBag.cs
+@@ -0,0 +1,42 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>Holds ownership drawing properties (font and colors) for a list-based control item.</summary>
++public class OwnerDrawPropertyBag : MarshalByRefObject
++{
++    internal OwnerDrawPropertyBag() { }
++
++    /// <summary>Gets or sets the font.</summary>
++    public Font? Font { get; set; }
++
++    /// <summary>Gets or sets the foreground color.</summary>
++    public Color ForeColor { get; set; } = Color.Empty;
++
++    /// <summary>Gets or sets the background color.</summary>
++    public Color BackColor { get; set; } = Color.Empty;
++
++    /// <summary>Indicates whether the property bag holds no non-default values.</summary>
++    /// <returns><see langword="true" /> if empty; otherwise <see langword="false" />.</returns>
++    public bool IsEmpty() => Font == null && ForeColor.IsEmpty && BackColor.IsEmpty;
++
++    /// <summary>Returns a copy of the specified property bag.</summary>
++    /// <param name="value">The property bag to copy.</param>
++    /// <returns>A new <see cref="T:System.Windows.Forms.OwnerDrawPropertyBag" />.</returns>
++    public static OwnerDrawPropertyBag Copy(OwnerDrawPropertyBag value)
++    {
++        var bag = new OwnerDrawPropertyBag();
++        if (value != null)
++        {
++            bag.Font = value.Font;
++            bag.ForeColor = value.ForeColor;
++            bag.BackColor = value.BackColor;
++        }
++
++        return bag;
++    }
++}
+-- 
+2.53.0.windows.3
+
