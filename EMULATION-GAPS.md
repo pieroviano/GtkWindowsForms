@@ -25,7 +25,7 @@ Three classes of gap, ordered by how much damage they do:
 | **B — Present but throwing** | Exists, throws `NotImplementedException`. | *Runtime* failure — but loud and diagnosable. |
 | **C — Present but silently wrong** | Exists, does something plausible but not WinForms-equivalent. | Worst: builds, runs, quietly misbehaves. |
 
-**State of play.** **Class B is empty** — no `NotImplementedException` throw site remains in either project (§3). **Class A is closed too**: every remaining absent type is a declared non-goal (§2). Class C's last two open items were closed by patch 0111 — `Control.Region` (an inert auto-property that shaped nothing) and curved-region combination — leaving one accepted deviation, `Control.CreateGraphics()`, which is substrate-bound (§4.6). What is left is a set of deliberate deviations and non-goals (§4), a handful of substrate limits recorded alongside the features they bound, and the dominant *unmeasured* risk, which is behavioural: layout, event ordering, focus (§6).
+**State of play.** **Class B is empty** — no `NotImplementedException` throw site remains in either project (§3). **Class A is closed too**: every remaining absent type is a declared non-goal (§2). Class C is where the work now is, and it is only found by testing: patch 0111 closed `Control.Region`, and patch 0112 closed the largest one yet — dock and anchor were expressed as GTK alignments, so docked siblings *overlapped* instead of stacking and anchors never followed a resize (§4.8). `Control.CreateGraphics()` remains an accepted, substrate-bound deviation (§4.6). The dominant risk is still behavioural, but it is no longer undifferentiated: anchor/dock is now measured against real WinForms, and what remains unmeasured is named in §6.
 
 ---
 
@@ -135,22 +135,52 @@ Two substrate limits come with them:
 - **A shape needs a GDK window.** Lightweight GTK widgets — buttons, labels, anything that draws onto its parent instead of owning a window — cannot be shaped. On those, `Region` is stored and reported but changes nothing; it is logged at debug level rather than throwing. Forms and container controls do own a window and are shaped for real, which covers the shaped-window and custom-drawn-container cases the property exists for.
 - **`TransparencyKey` is not per-pixel.** What is emulated is the case the member exists for: a form whose `BackColor` *is* the key, so the window background is punched out (RGBA visual, background painted with zero alpha) and only the controls remain. A key matching a colour inside a child control or a background image leaves those pixels opaque, and keyed areas are not click-through — WinForms lets the mouse pass through them. Both would need an input shape recomputed from the rendered pixels on every paint. `Form.IsTransparencySupported` (no WinForms equivalent) reports whether the screen composites at all, so a form that stays opaque on an X11 session without a compositor is diagnosable rather than mysterious.
 
+### 4.8 Dock and anchor — measured against real WinForms, and fixed
+
+Until patch 0112 dock and anchor were expressed by giving each child a GTK alignment: a top-docked child got `Halign=Fill, Valign=Start`, and that was the whole implementation. Alignments do not compose, so:
+
+- **two top-docked panels both sat at the top edge**, overlapping, instead of stacking;
+- **`DockStyle.Fill` covered the whole container** rather than what the other docked children had left;
+- **anchoring was computed once at realize and never again**, so resizing the container moved nothing;
+- `Control.DisplayRectangle` was an auto-property nothing assigned — `Rectangle.Empty` for every control, and overridden by a *second* inert auto-property on `ScrollableControl`, so `Form` reported Empty too.
+
+The arithmetic WinForms uses is now reproduced in managed code and pushed to GTK as absolute margins with `Align.Start`. **The expected values were not reasoned about — they were taken from real `System.Windows.Forms`** (net10.0-windows, `CreateControl()` + `PerformLayout()`), and the cases are pinned in `LayoutArrangementFunctionalTests`:
+
+```
+DOCK-ORDER   client 300x200, added fill -> top2 -> top1
+             top1=(0,0,300,30) top2=(0,30,300,40) fill=(0,70,300,130)
+             -> docking runs from the END of the collection towards the start
+DOCK-ALL     top=(0,0,300,30) bottom=(0,180,300,20) left=(0,30,50,150)
+             right=(240,30,60,150) fill=(50,30,190,150)
+DOCK-PADDING padding=(10,5,15,7): top=(10,5,275,30) fill=(10,35,275,158)
+ANCHOR       300x200 -> 400x300: T|L unchanged; T|R moves +100; T|L|R widens +100;
+             all four widens and heightens; B|R moves +100,+100;
+             None moves +50,+50  (half the delta - the rule nobody expects)
+```
+
+**What is still open here**
+
+- **`TableLayoutPanel` and `FlowLayoutPanel` are not yet compared.** Their oracles are captured and waiting: for a 200x100 two-column table (Absolute 60 / Percent 100, Absolute 30 / Percent 100) real WinForms gives `c00=(3,3,54,24) c10=(63,3,134,24) c01=(3,33,54,64) c11=(63,33,134,64)`; for a 100-wide `FlowLayoutPanel` holding three 40x20 panels, `a=(3,3) b=(49,3) c=(3,29)` — the default `Margin` of 3 is what drives both.
+- **Resize response is verified as arithmetic, not end-to-end.** This GTK test host does not propagate a runtime resize to a modal dialog's allocation, so the anchor *rule* is pinned directly against the oracle values while the *wiring* is covered by the dock tests, which do run through a real allocation. A display-backed run would close the gap.
+- **A one-to-two-pixel artifact.** Exact rectangles occasionally leave a filled child a hair larger than its GTK viewport, which can raise a scrollbar that WinForms would not show. Visible in the sample-app baselines; cosmetic, and recorded rather than chased.
+
 ---
 
 ## 5. Priority order
 
 Ranked by (damage × frequency) ÷ effort.
 
-**P1 — measurement, not code.** Behavioural divergence — layout, event ordering, focus/tab order (§6) — is
-now the largest unknown in the whole comparison by a wide margin, and the only class of gap where nobody
-can say how big it is. Every remaining code item below is smaller than it.
+**P1 — measurement, not code.** Behavioural divergence is still the largest unknown, but it is now
+partly charted: anchor/dock has been measured against real WinForms and fixed (§4.8). What is left is
+named rather than vague.
 
-1. Compare `TableLayoutPanel` / `FlowLayoutPanel` / anchor-dock against WinForms measure-arrange on
-   concrete layouts. Start where the reimplementation is furthest from the original.
+1. `TableLayoutPanel` and `FlowLayoutPanel` against WinForms measure-arrange. The oracle values are
+   already recorded in §4.8, so this is comparison work, not discovery work.
 2. Pin event *order* for the common lifecycles (show, resize, click, focus change, close) — ordering is
    invisible to the API diff and to a reading pass alike.
 3. Exercise the property browser past its contract: category grouping, sorting, expansion, editor
    selection (§3 closed its throw sites, not its behaviour).
+4. Re-run the layout suite on a display-backed host, where a live resize actually propagates (§4.8).
 
 **P2 — recorded deviations worth revisiting if they bite**
 
@@ -167,8 +197,8 @@ can say how big it is. Every remaining code item below is smaller than it.
 
 Stated so the gaps in the gap analysis are visible.
 
-- **Behavioural divergence is the dominant unmeasured risk.** Layout drift, event ordering, and focus/tab-order differences are invisible to source reading. This limit was demonstrated, not asserted: several past fixes (unraised `HandleCreated`/`HandleDestroyed`, one-member `AccessibleRole`, `Padding.Horizontal` = `Right − Left`) were found only by *writing tests* — as were the three property-browser defects in §3, none of which a reading pass had flagged. Wrong-but-plausible code is invisible to a reading pass in a way that missing code is not.
-- **Layout engines** — `TableLayoutPanel`, `FlowLayoutPanel`, anchor/dock — have not been compared against WinForms measure/arrange semantics. Fully reimplemented on GTK's allocate cycle; assume pixel-level and edge-case divergence until tested.
+- **Behavioural divergence is the dominant unmeasured risk.** Layout drift, event ordering, and focus/tab-order differences are invisible to source reading. This limit was demonstrated, not asserted: several past fixes (unraised `HandleCreated`/`HandleDestroyed`, one-member `AccessibleRole`, `Padding.Horizontal` = `Right − Left`) were found only by *writing tests* — as were the three property-browser defects in §3 and the dock/anchor collapse in §4.8, none of which a reading pass had flagged. Wrong-but-plausible code is invisible to a reading pass in a way that missing code is not.
+- **Layout engines.** Anchor and dock *have* now been compared against real WinForms and corrected (§4.8) — and the comparison found the biggest single behavioural defect in the library, which no amount of source reading had surfaced. `TableLayoutPanel` and `FlowLayoutPanel` have **not** been compared; assume pixel-level and edge-case divergence there until they are.
 - **The property browser beyond its contract.** §3 closed the throw sites and the three defects the tests reached, but the grid's category grouping, sorting, expansion and value-editor selection are still only lightly exercised. Treat the subsystem as under-tested rather than verified.
 - **Data-binding depth** is now covered (nested/dotted members, source-side `INotifyPropertyChanged`, `IEditableObject` transactions — see the binding functional tests), leaving no open depth question there.
 - **`Net4x.Gtk.Windows.FormsDesigner`** and the ResX/designer round-trip are out of scope here.
