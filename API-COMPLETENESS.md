@@ -34,10 +34,10 @@ checkable against those files.
 | | Forms (net48) | Forms (net10) | Drawing (net48) | Drawing (net10) |
 |---|---|---|---|---|
 | Public types in reference | 1034 | 1081 | 189 | 183 |
-| Present | **924 (89.4 %)** | **928 (85.8 %)** | **141 (74.6 %)** | **138 (75.4 %)** |
-| Missing types | 110 | 153 | 48 | 45 |
-| Members on present types | 52 170 | 57 902 | 5 487 | 6 548 |
-| …missing | **8 685 (16.6 %)** | **9 633 (16.6 %)** | **71 (1.3 %)** | **100 (1.5 %)** |
+| Present | **924 (89.4 %)** | **928 (85.8 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
+| Missing types | 110 | 153 | 44 | 41 |
+| Members on present types | 52 170 | 57 902 | 5 543 | 6 604 |
+| …missing | **8 177 (15.7 %)** | **9 125 (15.8 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
 | Types member-incomplete | 164 | 168 | 25 | 15 |
 
 `Net4x.Gtk.Drawing` is essentially done as an API surface (98.6 % of members present on net48).
@@ -121,13 +121,14 @@ The subset a mainstream line-of-business app is most likely to hit:
 | `DataGridView` | 186 / 796 |
 | `ToolStripTextBox` | 154 / 265 |
 | `MenuStrip` | 143 / 489 |
-| `Form` / `ThreadExceptionDialog` | 142 / 142 |
+| `ThreadExceptionDialog` | 142 / 562 |
 | `ToolStrip` / `BindingNavigator` | 139 / 139 |
 | `StatusStrip` | 138 / 487 |
 | `TreeView` | 136 / 477 |
 | `ToolStripComboBox` | 135 / 252 |
 | `RichTextBox` | 133 / 509 |
-| `Control` | 68 / 409 |
+| `Form` | 122 / 562 |
+| `Control` | 59 / 409 |
 | `Application` | 19 / 62 |
 
 (`ThreadExceptionDialog`, `ToolStrip*`, `MenuStrip`, `BindingNavigator` all inherit from `ToolStrip`/
@@ -135,24 +136,20 @@ The subset a mainstream line-of-business app is most likely to hit:
 
 Numbers below are the **net48** baseline (the truer target), which runs a little lower than the net10 table.
 
-### 5.1 `Form` — 114 missing (net48)
+### 5.1 `Form` — 94 missing (net48)
 
-Absent include `RestoreBounds`, `MaximizedBounds`, `RightToLeftLayout` and a long tail of DPI/modern
-members. The high-frequency designer-emitted surface (`AcceptButton`/`CancelButton`, the legacy events,
-`CenterToScreen`, `OwnedForms`, `TransparencyKey`) is present, so the tail is lower-frequency than the
-count suggests.
+The placement surface (`DesktopBounds`/`DesktopLocation`, `RestoreBounds`, `MaximizedBounds`,
+`RightToLeftLayout`) landed in patch 0114, along with the high-frequency designer-emitted surface
+(`AcceptButton`/`CancelButton`, the legacy events, `CenterToScreen`, `OwnedForms`, `TransparencyKey`).
+What remains is a long tail of DPI/modern and rarely-hand-written members.
 
-### 5.2 `Control` — 58 missing (net48), in the deep extensibility surface
+### 5.2 `Control` — 49 missing (net48), in the deep extensibility surface
 
-The common override points (keyboard routing, `OnParentXxxChanged`, `RtlTranslate*`) are present. What
-remains is the lowest-level override surface a custom control rarely needs, plus modern additions:
-
-- **Sizing/scaling core** — `SetBoundsCore`, `SetClientSizeCore`, `ScaleControl`, `GetScaledBounds`,
-  `SizeFromClientSize`. Standard override points for custom layout behaviour.
-- **Handle lifecycle** — `CreateHandle`, `DestroyHandle`, `RecreateHandle` (entangled with the
-  GTK-not-HWND `Handle` semantics, EMULATION-GAPS.md §1).
-- **Modern additions** — `DataContext`/`DataContextChanged`/`OnParentDataContextChanged`, `InvokeAsync`
-  (3 overloads). A .NET Framework-era app uses none of these.
+The common override points (keyboard routing, `OnParentXxxChanged`, `RtlTranslate*`) and — as of patch
+0113 — the bounds-core/scaling/handle-lifecycle surface (`SetBoundsCore`, `SetClientSizeCore`,
+`ScaleControl`, `GetScaledBounds`, `SizeFromClientSize`, `CreateHandle`/`DestroyHandle`/`RecreateHandle`)
+are present. What remains is mostly modern additions a .NET Framework-era app never uses:
+`DataContext`/`DataContextChanged`/`OnParentDataContextChanged` and `InvokeAsync` (3 overloads).
 
 ### 5.3 `Application` — 12 missing (net48)
 
@@ -165,12 +162,11 @@ and `SetSuspendState`.
 
 ## 6. `Net4x.Gtk.Drawing` — near-complete
 
-100 missing members across 6 548 (**98.5 % present**, net10). The 45 missing types:
+97 missing members across 6 604 (**98.5 % present**, net10). The 41 missing types:
 
 | Group | Types | Verdict |
 |---|---|---|
 | `Imaging.Effects.*` | 25 | .NET 8+ GDI+ effects; niche, Windows-only implementation |
-| `PrinterSettings` nested collections | `PaperSizeCollection`, `PaperSourceCollection`, `PrinterResolutionCollection`, `StringCollection` | Real but narrow — enumerating a printer's capabilities |
 | Converters | `FontConverter` (+2 nested), `IconConverter`, `Design.CategoryNameCollection` | Design-time |
 | Path | `GraphicsPathIterator`, `AdjustableArrowCap`, `PathPointType` | Real but narrow |
 | Interop/misc | `Interop.LOGFONT`, `CachedBitmap`, `DitherType`, `PaletteType`, `StringUnit`, `StockIconId`/`StockIconOptions`, the two `BitmapSuffix*` attributes | Mostly Windows-bound |
@@ -188,10 +184,10 @@ plumbing (`GtkRender.CellRenderer*`, `IControl`, `IControlBase`, `IToolMenuItem`
 additions (`DataGridViewRadioColumn`, `SwitchBox`). Full list:
 [api-diff/wf.extra-types.txt](api-diff/wf.extra-types.txt).
 
-One item worth deciding on: **`LayoutEngine` is declared as `System.Windows.Forms.LayoutEngine`**, where
-WinForms has `System.Windows.Forms.Layout.LayoutEngine` — so it reads as both "missing" and "extra", and
-`using System.Windows.Forms.Layout;` code breaks. Moving GTK plumbing to a `GtkSystem.*` namespace would
-also remove a class of future name collisions.
+`LayoutEngine` is now correctly under `System.Windows.Forms.Layout` (neither missing nor extra in the
+diff). The remaining consideration is broader: moving the GTK plumbing types out of the
+`System.Windows.Forms` namespace into a `GtkSystem.*` one would remove a class of future name collisions
+(the `ButtonBase`/`TextBoxBase` wrapper clash was one).
 
 ---
 
@@ -208,12 +204,11 @@ Ranked by (breadth of impact ÷ effort), taking the structural finding into acco
 2. `MdiClient`, `BindableComponent` (§4).
 3. `DataGridView` editing-control cluster — `DataGridViewBand`/`DataGridViewElement`/the editing controls
    (§4/§5).
-4. `Layout.LayoutEngine` namespace fix (§7).
 
-**P2 — member completeness on existing types**
-5. `Control`'s sizing/scaling core (§5.2).
-6. `Form`'s remaining placement/RTL members (§5.1).
-7. `PrinterSettings` capability collections (§6), unblocking parts of `PrintPreviewDialog`.
+**P2 — member completeness on existing types** — *done (patches 0113–0115)*
+5. ~~`Control`'s sizing/scaling core (§5.2).~~ **Done** — patch 0113.
+6. ~~`Form`'s remaining placement/RTL members (§5.1).~~ **Done** — patch 0114.
+7. ~~`PrinterSettings` capability collections (§6).~~ **Done** — patch 0115.
 
 **P3 — declare non-goals in the package README**
 `AxHost`/COM/ActiveX, `WebBrowser`/`Html*`, `TaskDialog` (or map to GTK), EMF/WMF metafiles,
