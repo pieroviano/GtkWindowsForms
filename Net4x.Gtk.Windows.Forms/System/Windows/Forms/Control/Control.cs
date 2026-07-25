@@ -1151,8 +1151,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the rectangle that represents the display area of the control.
     /// </summary>
-    public virtual Rectangle DisplayRectangle { get; }
-
     /// <summary>
     /// Gets a value indicating whether the control is in the process of being disposed.
     /// </summary>
@@ -4285,7 +4283,16 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     private void Control_AnchorChanged(object? sender, EventArgs e)
     {
-        SetAnchorStyle(this.Widget, _anchor);
+        // The container owns the arrangement: a child's anchor changing is a reason to re-run its pass,
+        // not to hand this one widget an alignment of its own (see Control.LayoutPass.cs).
+        if (Parent is { } parent)
+        {
+            parent.PerformDockAnchorLayout();
+        }
+        else
+        {
+            SetAnchorStyle(this.Widget, _anchor);
+        }
     }
 
     private void Control_CursorChanged(object? sender, EventArgs e)
@@ -4295,7 +4302,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     private void Control_DockChanged(object? sender, EventArgs e)
     {
-        SetDockStyle(this.Widget, _dock);
+        if (Parent is { } parent)
+        {
+            parent.PerformDockAnchorLayout();
+        }
+        else
+        {
+            SetDockStyle(this.Widget, _dock);
+        }
     }
 
     private void InitDockAnchorStyle()
@@ -4507,6 +4521,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             // A Region assigned before the handle existed could not be pushed to GTK then; now it can, and
             // it has to happen before Load so user code sees an already-shaped control.
             ApplyRegion();
+            PerformDockAnchorLayout();
             OnLoad(e);
             OnCursorChanged(EventArgs.Empty);
             InitDockAnchorStyle();
@@ -4526,6 +4541,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     private void Widget_SizeAllocated(object o, SizeAllocatedArgs args)
     {
+        // Re-arrange the children against the new size: docked ones re-consume their edges, anchored ones
+        // follow the delta. Nothing did this before, so a resized container left its children where they
+        // had first been placed.
+        PerformDockAnchorLayout();
         OnResize(EventArgs.Empty);
         if (args.Allocation.Width != size_width || args.Allocation.Height != size_height)
         {

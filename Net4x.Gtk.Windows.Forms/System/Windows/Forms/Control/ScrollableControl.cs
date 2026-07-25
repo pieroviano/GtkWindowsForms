@@ -124,10 +124,10 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
         }
     }
 
-    /// <summary>
-    /// Gets the rectangle that represents the display area of the control (client area).
-    /// </summary>
-    public override Rectangle DisplayRectangle { get; }
+    // DisplayRectangle was overridden here as an auto-property that nothing assigned, so every scrollable
+    // container - Form included - reported Rectangle.Empty and shadowed the base implementation that
+    // computes it. The base one (Control.LayoutPass.cs) is correct for this layer; scroll offset is not
+    // modelled, so there is nothing left for this override to add.
 
     /// <summary>
     /// Gets or sets whether the horizontal scrollbar is visible.
