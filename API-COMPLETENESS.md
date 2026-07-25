@@ -200,10 +200,11 @@ Ranked by (breadth of impact ÷ effort), taking the structural finding into acco
    for `Row`/`Column`/`Cell`, like the §2 finding.
 3. `BindableComponent` (§4) — a small net10-only base class.
 
-**P2 — declare non-goals in the package README**
-`AxHost`/COM/ActiveX, `WebBrowser`/`Html*`, `TaskDialog` (or map to GTK), EMF/WMF metafiles,
-`NativeWindow`, `SendKeys`, legacy `DataGrid`/`ToolBar`, `Imaging.Effects`, the .NET 9+ dark-mode surface,
-and `Control.Handle`'s GTK-not-HWND semantics.
+**P2 — declare non-goals in the package README** — *done*
+The package `README.md` now carries a "Platform notes and non-goals" section covering `AxHost`/COM/ActiveX,
+`WebBrowser`/`Html*`, `TaskDialog`, EMF/WMF metafiles, `NativeWindow`, `SendKeys`, legacy
+`DataGrid`/`ToolBar`, `Imaging.Effects`, the .NET 9+ dark-mode surface, and `Control.Handle`'s
+GTK-not-HWND semantics.
 
 ---
 
