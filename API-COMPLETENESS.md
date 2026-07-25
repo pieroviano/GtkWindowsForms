@@ -42,7 +42,7 @@ checkable against those files.
 | Present | **937 (90.6 %)** | **942 (87.1 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
 | Missing types | 97 | 139 | 44 | 41 |
 | Members on present types | 54 529 | 60 356 | 5 543 | 6 604 |
-| …missing | **7 854 (14.4 %)** | **8 850 (14.7 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
+| …missing | **7 760 (14.2 %)** | **8 756 (14.5 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
 | Types member-incomplete | 172 | 176 | 25 | 15 |
 
 `Net4x.Gtk.Drawing` is essentially done as an API surface (98.6 % of members present on net48). Every
@@ -83,18 +83,20 @@ structural mistake. The largest:
 |---|---|
 | `PrintPreviewDialog` | 177 / 565 |
 | `DataGridView` | 177 / 796 |
-| `ToolStripTextBox` | 139 / 265 |
-| `ToolStripDropDown` / `ContextMenuStrip` / `ToolStripDropDownMenu` | 138 / 135 / 135 |
+| `ToolStripTextBox` / `ToolStripComboBox` | 154 / 135 |
 | `TreeView` | 127 / 477 |
+| `ToolStripDropDown` / `ContextMenuStrip` / `ToolStripDropDownMenu` | 126 / 123 / 123 |
 | `RichTextBox` | 124 / 509 |
-| `ToolStripComboBox` / `MenuStrip` / `StatusStrip` | 120 / 119 / 114 |
-| `ToolStrip` / `BindingNavigator` | 115 / 115 |
-| `Form` | 122 / 562 |
+| `Form` / `ThreadExceptionDialog` | 122 / 122 |
+| `CheckedListBox` | 123 / 494 |
+| `MenuStrip` / `StatusStrip` / `ToolStrip` | 107 / 104 / 103 |
 | `Control` | 59 / 409 |
 | `Application` | 19 / 62 |
 
-The `ToolStrip*`/`MenuStrip`/`BindingNavigator`/drop-down cluster all inherit from `ToolStrip`/`Control`;
-much of their remaining gap is the same `ToolStrip`-specific member tail, not per-type work. On the net48
+The `ToolStrip*`/`MenuStrip`/drop-down cluster all inherit from `ToolStrip`/`Control`; much of their
+remaining gap is the same `ToolStrip`-specific member tail, not per-type work (the hosted
+`ToolStripTextBox`/`ToolStripComboBox` derive from `ToolStripControlHost` instead, so they do not share it).
+On the net48
 baseline the frequently-used types run lower — `Form` 94, `Control` 49, `Application` 12 — and what remains
 in each is the deep extensibility surface, modern-.NET additions, or Win32-host members a ported .NET
 Framework application does not use:

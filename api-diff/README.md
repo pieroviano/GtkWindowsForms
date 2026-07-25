@@ -18,8 +18,8 @@ the full .NET 10 surface.
 
 | Baseline | Types present | Members present (on present types) |
 |---|---|---|
-| net48 Forms | 937 / 1034 | 46 675 / 54 529 |
-| net10 Forms | 942 / 1081 | 51 506 / 60 356 |
+| net48 Forms | 937 / 1034 | 46 769 / 54 529 |
+| net10 Forms | 942 / 1081 | 51 600 / 60 356 |
 | net48 Drawing | 145 / 189 | 5 475 / 5 543 |
 | net10 Drawing | 142 / 183 | 6 507 / 6 604 |
 
