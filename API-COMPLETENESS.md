@@ -45,7 +45,7 @@ checkable against those files.
 | Present | **924 (89.4 %)** | **928 (85.8 %)** | **141 (74.6 %)** | **138 (75.4 %)** |
 | Missing types | 110 | 153 | 48 | 45 |
 | Members on present types | 52 170 | 57 902 | 5 487 | 6 548 |
-| …missing | **8 697 (16.7 %)** | **9 645 (16.7 %)** | **71 (1.3 %)** | **100 (1.5 %)** |
+| …missing | **8 685 (16.6 %)** | **9 633 (16.6 %)** | **71 (1.3 %)** | **100 (1.5 %)** |
 | Types member-incomplete | 164 | 168 | 25 | 15 |
 
 **The two libraries are in very different states.** `Net4x.Gtk.Drawing` is essentially done as an API
@@ -151,14 +151,15 @@ The subset a mainstream line-of-business app is most likely to hit, now that the
 (`ThreadExceptionDialog`, `ToolStrip*`, `MenuStrip`, `BindingNavigator` all inherit from `ToolStrip`/
 `Form`/`Control`; much of their gap is the same `Control`-surface tail, not per-type work.)
 
-### 5.1 `Form` — 144 missing
+### 5.1 `Form` — 114 missing
 
 `AcceptButton`/`CancelButton`, `Activated`/`Deactivate`/`Closing`/`Closed`, `CenterToScreen()`/
-`CenterToParent()`, `OwnedForms` and the window-placement members are now **present**. Still absent
-include `TransparencyKey`, `RestoreBounds`, `MaximizedBounds`, `RightToLeftLayout` and a long tail of
-DPI/modern members — lower-frequency than the designer-emitted surface that has since landed.
+`CenterToParent()`, `OwnedForms`, the window-placement members and - as of patch 0111 -
+`TransparencyKey`/`AllowTransparency` are now **present**. Still absent include `RestoreBounds`,
+`MaximizedBounds`, `RightToLeftLayout` and a long tail of DPI/modern members — lower-frequency than the
+designer-emitted surface that has since landed.
 
-### 5.2 `Control` — 64 missing, in the deep extensibility surface
+### 5.2 `Control` — 58 missing, in the deep extensibility surface
 
 Keyboard routing (`ProcessCmdKey`/`ProcessDialogKey`/…), the `OnParentXxxChanged` family and the
 `RtlTranslate*` helpers are now **present**. What remains is the lowest-level override surface a custom
@@ -171,14 +172,15 @@ control rarely needs and the modern additions:
 - **Modern additions** — `DataContext`/`DataContextChanged`/`OnParentDataContextChanged`, `InvokeAsync`
   (3 overloads). A .NET Framework-era app uses none of these.
 
-### 5.3 `Application` — 26 missing
+### 5.3 `Application` — 12 missing
 
 `Run`/`Run(ApplicationContext)`, `MessageLoop`, `ApplicationExit`, `ThreadExit`, `ThreadException`,
-`SetUnhandledExceptionMode` are present. Still missing: `Idle`/`RaiseIdle`, `EnterThreadModal`/
-`LeaveThreadModal`, `Register`/`UnregisterMessageLoop`, `Restart()`, `SetDefaultFont`, `ProductName`/
-`ProductVersion`/`CompanyName`, `UseWaitCursor`, `AllowQuit`, `HighDpiMode`, `RenderWithVisualStyles`/
-`VisualStyleState`, `UserAppDataRegistry`/`CommonAppDataRegistry`, and the .NET 9+ dark-mode surface
-(`ColorMode`, `SystemColorMode`, `IsDarkModeEnabled`, `SetColorMode`).
+`SetUnhandledExceptionMode` are present, and patch 0110 closed the lifecycle tail: `Idle`, `Restart()`,
+`ProductName`/`ProductVersion`/`CompanyName`, `RenderWithVisualStyles`/`VisualStyleState`. What is left is
+the modal/message-loop plumbing that presumes a Win32 pump (`EnterThreadModal`/`LeaveThreadModal`,
+`Register`/`UnregisterMessageLoop`, `RaiseIdle`, `OleRequired`), the registry properties
+(`UserAppDataRegistry`/`CommonAppDataRegistry` — no registry off Windows), `AllowQuit`, `UseWaitCursor`,
+`SafeTopLevelCaptionFormat` and `SetSuspendState`.
 
 ---
 
@@ -223,8 +225,8 @@ measures *throwing* ones (present in metadata, so "present" here). Neither subsu
 
 Confirmed by this diff and reflected in both documents: the base-class family, `VisualStyles`, the
 ToolStrip family, `BindingNavigator`/`ToolStripControlHost`, fonts, print controllers, keyboard routing,
-`Form.AcceptButton`, `Application.Run` overloads, public `IDropTarget` and the nine `DataGridView` enums
-have all landed. The one structural finding this diff still surfaces that source-reading would miss is
+`Form.AcceptButton`, `Application.Run` overloads, public `IDropTarget`, the nine `DataGridView` enums,
+`Application`'s lifecycle tail and `Form.TransparencyKey`/`AllowTransparency` have all landed. The one structural finding this diff still surfaces that source-reading would miss is
 §2 — `ToolStripDropDown`'s wrong base class, visible only by comparing hierarchies.
 
 ---
@@ -246,8 +248,7 @@ Ranked by (breadth of impact ÷ effort), taking the structural finding into acco
 **P2 — member completeness on existing types**
 6. `Control`'s sizing/scaling core (§5.2).
 7. `Form`'s remaining placement/RTL members (§5.1).
-8. `Application`'s `Idle`/product-metadata tail (§5.3).
-9. `PrinterSettings` capability collections (§6), unblocking parts of `PrintPreviewDialog`.
+8. `PrinterSettings` capability collections (§6), unblocking parts of `PrintPreviewDialog`.
 
 **P3 — declare non-goals in the package README**
 `AxHost`/COM/ActiveX, `WebBrowser`/`Html*`, `TaskDialog` (or map to GTK), EMF/WMF metafiles,

@@ -1,0 +1,1229 @@
+From a086729a7bcc97ef7ec19b8f1de258048585d79e Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Sat, 25 Jul 2026 06:57:42 +0300
+Subject: [PATCH] Shaped controls, colour-keyed transparency, exact
+ curved-region combination
+
+Closes what EMULATION-GAPS listed as the last non-behavioural gaps.
+
+Control.Region was recorded as absent; it was worse than that - an inert
+auto-property. Assigning a region compiled, ran, stored the region and shaped
+nothing, so a round button or a skinned splash form silently stayed rectangular.
+It now drives GTK's shape-combine: the region's bands become the pixel rectangles
+gtk_widget_shape_combine_region takes, a region assigned before the handle
+existed is applied at realize (before Load, so user code sees an already-shaped
+control), and null clears back to the full rectangle. Substrate limit recorded:
+a shape lives on a GDK window and lightweight widgets - buttons, labels - own
+none, so on those the region is stored and reported but changes nothing, logged
+rather than thrown. Forms and containers do own one and shape for real.
+
+Form.TransparencyKey and AllowTransparency did not exist at all, so the standard
+shaped-window idiom (BackColor = X; TransparencyKey = X) did not compile. What is
+emulated is that idiom: the window gets an RGBA visual and the background painter
+punches the background out with zero alpha under the SOURCE operator when the key
+names the form's own BackColor. Per-pixel keying of arbitrary content and
+click-through on keyed areas are not emulated - both need an input shape
+recomputed from rendered pixels every paint - and IsTransparencySupported reports
+whether the screen composites at all, so a form that stays opaque on an X11
+session with no compositor is diagnosable.
+
+Curved regions now combine exactly. A combine works on band lists and a path only
+ever contributed its bounding rectangle to one, so region.Intersect(circle)
+intersected with the circle's square and the corners counted as inside. The
+interior of a curve is now obtained the way GDI+ obtains it: filled into an A8
+coverage bitmap through the existing path replay, runs of covered pixels become
+bands, identical adjacent scanlines merge into one taller band. Paths made only of
+rectangles are detected and skip the rasterizer entirely, keeping their exact
+floating-point edges; past 16 megapixels the bounding rectangle is still used.
+
+Covered by ControlShapeAndTransparencyFunctionalTests (Gdk.Window.IsShaped is the
+oracle for the shape - no managed state reports it) and
+RegionCurvedCombineFunctionalTests (a point inside the bounding box and outside
+the shape is the oracle for every combine operator). One test from patch 0110 that
+pinned the bounding-box fallback now pins the exact result instead.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+---
+ .../GraphicsRegionPathClipFunctionalTests.cs  |   8 +-
+ .../RegionCurvedCombineFunctionalTests.cs     | 159 +++++++++++++
+ Net4x.Gtk.Drawing/System/Drawing/Graphics.cs  |  17 ++
+ Net4x.Gtk.Drawing/System/Drawing/Region.cs    | 217 +++++++++++++++++-
+ ...trolShapeAndTransparencyFunctionalTests.cs | 216 +++++++++++++++++
+ .../ControlBase/GtkControlOverride.cs         |  70 ++++--
+ .../Windows/Forms/Control/Control.Shape.cs    | 132 +++++++++++
+ .../System/Windows/Forms/Control/Control.cs   |  12 +-
+ .../System/Windows/Forms/Form.Transparency.cs | 156 +++++++++++++
+ 9 files changed, 950 insertions(+), 37 deletions(-)
+ create mode 100644 Net4x.Gtk.Drawing.Tests/System/Drawing/RegionCurvedCombineFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlShapeAndTransparencyFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Shape.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Transparency.cs
+
+diff --git a/Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs b/Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
+index 247792ae..7eee51b4 100644
+--- a/Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
++++ b/Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
+@@ -113,10 +113,10 @@ public class GraphicsRegionPathClipFunctionalTests
+     }
+ 
+     [Fact]
+-    public void CombinedEllipticalRegion_FallsBackToBands()
++    public void CombinedEllipticalRegion_StillClipsOnTheCurve()
+     {
+-        // Once a path region is combined with something else, only the band list survives - the region is
+-        // its bounding box from then on. Pinned so the fallback is a decision, not a surprise.
++        // A combine drops the exact path and leaves the band list in charge - but the bands are now the
++        // ellipse's scan-converted interior, not its bounding box, so the corner stays outside.
+         using var bmp = Paint(g =>
+         {
+             var region = new Region(Ellipse());
+@@ -126,7 +126,7 @@ public class GraphicsRegionPathClipFunctionalTests
+         });
+ 
+         Assert.True(IsRed(bmp.GetPixel(Size / 2, Size / 2)));
+-        Assert.True(IsRed(bmp.GetPixel(1, 1)), "after a combine the region is its bounding box");
++        Assert.True(IsWhite(bmp.GetPixel(1, 1)), "combining must not widen the ellipse to its bounding box");
+     }
+ 
+     [Fact]
+diff --git a/Net4x.Gtk.Drawing.Tests/System/Drawing/RegionCurvedCombineFunctionalTests.cs b/Net4x.Gtk.Drawing.Tests/System/Drawing/RegionCurvedCombineFunctionalTests.cs
+new file mode 100644
+index 00000000..f992f707
+--- /dev/null
++++ b/Net4x.Gtk.Drawing.Tests/System/Drawing/RegionCurvedCombineFunctionalTests.cs
+@@ -0,0 +1,159 @@
++extern alias gtk;
++using Region = gtk::System.Drawing.Region;
++using GraphicsPath = gtk::System.Drawing.Drawing2D.GraphicsPath;
++
++namespace System.Drawing;
++
++/// <summary>
++/// Behavioural tests for combining a region whose interior is a curve.
++/// <para>
++/// A combine works on band lists, and a <see cref="GraphicsPath" /> only ever contributed its *bounding
++/// rectangle* to one. So <c>region.Intersect(circle)</c> intersected with the circle's square, and the
++/// four corners - well outside the circle - counted as inside the result. The interior of a curve is now
++/// obtained the way GDI+ gets it, by scan conversion, so the combine sees the shape.
++/// </para>
++/// The oracle throughout is a point that lies inside the bounding box and outside the shape: it is the
++/// only thing that distinguishes the two behaviours.
++/// </summary>
++[Collection("NonParallelCollection")]
++public class RegionCurvedCombineFunctionalTests
++{
++    private static GraphicsPath EllipsePath(float x, float y, float width, float height)
++    {
++        var path = new GraphicsPath();
++        path.AddEllipse(x, y, width, height);
++
++        return path;
++    }
++
++    /// <summary>A circle of diameter 100 at the origin. Its top-left corner is 15px outside the curve.</summary>
++    private static GraphicsPath Circle() => EllipsePath(0, 0, 100, 100);
++
++    private static readonly PointF Centre = new(50, 50);
++
++    private static readonly PointF Corner = new(3, 3);
++
++    [Fact]
++    public void Intersect_WithACircle_ExcludesTheCornersOfItsBoundingBox()
++    {
++        var region = new Region(new RectangleF(0, 0, 100, 100));
++
++        region.Intersect(Circle());
++
++        Assert.True(region.IsVisible(Centre), "the middle of the circle is inside");
++        Assert.False(region.IsVisible(Corner), "a corner of the bounding box is outside the circle");
++    }
++
++    [Fact]
++    public void Intersect_OnACircularRegion_ExcludesTheCorners()
++    {
++        // The curve on the left-hand side this time: the region itself is the circle.
++        var region = new Region(Circle());
++
++        region.Intersect(new RectangleF(0, 0, 100, 100));
++
++        Assert.True(region.IsVisible(Centre));
++        Assert.False(region.IsVisible(Corner));
++    }
++
++    [Fact]
++    public void Intersect_OfTwoOverlappingCircles_IsTheLensNotTheOverlapOfTheirBoxes()
++    {
++        var region = new Region(Circle());
++
++        region.Intersect(EllipsePath(60, 0, 100, 100));
++
++        // The lens between two circles 60 apart spans x in [60, 100] around y = 50.
++        Assert.True(region.IsVisible(new PointF(80, 50)), "the middle of the lens is inside both circles");
++
++        // Inside the overlap of the two *boxes*, but above the lens - inside neither circle there.
++        Assert.False(
++            region.IsVisible(new PointF(62, 3)),
++            "the corner of the box overlap lies outside both circles");
++    }
++
++    [Fact]
++    public void Exclude_ACircle_LeavesTheCornersOfItsBoundingBox()
++    {
++        var region = new Region(new RectangleF(0, 0, 100, 100));
++
++        region.Exclude(Circle());
++
++        Assert.False(region.IsVisible(Centre), "the circle was taken away");
++        Assert.True(region.IsVisible(Corner), "the corners were never part of the circle");
++    }
++
++    [Fact]
++    public void Union_WithACircle_DoesNotAddTheCornersOfItsBoundingBox()
++    {
++        // A square to the left, united with a circle to the right: the circle contributes its curve only.
++        var region = new Region(new RectangleF(0, 0, 40, 100));
++
++        region.Union(EllipsePath(100, 0, 100, 100));
++
++        Assert.True(region.IsVisible(new PointF(20, 50)), "the square is still there");
++        Assert.True(region.IsVisible(new PointF(150, 50)), "so is the circle");
++        Assert.False(region.IsVisible(new PointF(103, 3)), "the circle's bounding-box corner is not");
++    }
++
++    [Fact]
++    public void Xor_WithACircle_KeepsTheCornersOfTheSquareOnly()
++    {
++        var region = new Region(new RectangleF(0, 0, 100, 100));
++
++        region.Xor(Circle());
++
++        Assert.False(region.IsVisible(Centre), "the circle is in both operands, so it cancels");
++        Assert.True(region.IsVisible(Corner), "the corner is in the square only");
++    }
++
++    [Fact]
++    public void GetBounds_AfterCombining_IsTheCurvesExtentNotAWiderBox()
++    {
++        using var bmp = new gtk::System.Drawing.Bitmap(200, 200);
++        using var graphics = gtk::System.Drawing.Graphics.FromImage(bmp);
++        var region = new Region(new RectangleF(0, 0, 200, 200));
++
++        region.Intersect(EllipsePath(20, 30, 100, 60));
++
++        var bounds = region.GetBounds(graphics);
++
++        // Scan conversion works in whole pixels, so the extent is the ellipse's box rounded outwards -
++        // never wider than that, and never the whole 200x200 square.
++        Assert.InRange(bounds.Left, 19f, 21f);
++        Assert.InRange(bounds.Top, 29f, 31f);
++        Assert.InRange(bounds.Right, 119f, 121f);
++        Assert.InRange(bounds.Bottom, 89f, 91f);
++    }
++
++    [Fact]
++    public void CombiningRectangles_KeepsExactFloatingPointEdges()
++    {
++        // Rectangular paths must not go anywhere near the scan converter: their edges are exact, and
++        // rounding them to pixels would be a regression.
++        var region = new Region(new RectangleF(0.25f, 0.25f, 10f, 10f));
++        var path = new GraphicsPath();
++        path.AddRectangle(new RectangleF(0.25f, 0.25f, 5.5f, 10f));
++
++        region.Intersect(path);
++
++        using var bmp = new gtk::System.Drawing.Bitmap(20, 20);
++        using var graphics = gtk::System.Drawing.Graphics.FromImage(bmp);
++        var bounds = region.GetBounds(graphics);
++
++        Assert.Equal(0.25f, bounds.Left, 3);
++        Assert.Equal(5.75f, bounds.Right, 3);
++    }
++
++    [Fact]
++    public void IsEmpty_AfterCombiningDisjointCurves()
++    {
++        using var bmp = new gtk::System.Drawing.Bitmap(400, 200);
++        using var graphics = gtk::System.Drawing.Graphics.FromImage(bmp);
++        var region = new Region(Circle());
++
++        region.Intersect(EllipsePath(200, 0, 100, 100));
++
++        Assert.True(region.IsEmpty(graphics), "two circles 200 apart share nothing");
++    }
++}
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+index 4587582a..0cbe1571 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+@@ -3192,6 +3192,23 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
+         }
+     }
+ 
++    /// <summary>
++    /// Fills <paramref name="path" /> into this context as flat coverage, for
++    /// <see cref="T:System.Drawing.Region" />'s scan conversion. No pen, no transform of its own: the
++    /// caller has already positioned the context over the coverage bitmap.
++    /// </summary>
++    /// <param name="path">The path whose interior is wanted.</param>
++    internal void FillPathForRegionScan(GraphicsPath path)
++    {
++        context.NewPath();
++        context.FillRule = path.FillMode == FillMode.Winding
++            ? Cairo.FillRule.Winding
++            : Cairo.FillRule.EvenOdd;
++        context.SetSourceRGBA(0, 0, 0, 1);
++        ReplayPath(path, null, forClip: true);
++        context.Fill();
++    }
++
+     private void DrawPathCore(Pen pen, GraphicsPath? path, bool isfill)
+     {
+         if (path == null)
+diff --git a/Net4x.Gtk.Drawing/System/Drawing/Region.cs b/Net4x.Gtk.Drawing/System/Drawing/Region.cs
+index 389c32e9..d139c524 100644
+--- a/Net4x.Gtk.Drawing/System/Drawing/Region.cs
++++ b/Net4x.Gtk.Drawing/System/Drawing/Region.cs
+@@ -200,6 +200,203 @@ public sealed class Region : MarshalByRefObject, IDisposable
+     /// <summary>The bands of another region, as a fresh list.</summary>
+     private static List<RectangleF> BandsOfRegion(Region region) => new(region.bands);
+ 
++    // ---------------------------------------------------------------------
++    // Combining with a curved shape.
++    //
++    // A combine works on band lists, and a path only ever contributed its
++    // bounding rectangle to one - so intersecting with an ellipse intersected
++    // with its box. The interior of a curve is now obtained the way GDI+ gets
++    // it: the path is scan-converted, and the runs of covered pixels become the
++    // bands. Paths that are already rectangles skip that entirely and keep
++    // their exact floating-point edges.
++    // ---------------------------------------------------------------------
++
++    /// <summary>
++    /// A pixel counts as inside when the shape covers at least half of it, which approximates the
++    /// centre-in rule GDI+ scan conversion uses.
++    /// </summary>
++    private const byte CoverageThreshold = 128;
++
++    /// <summary>
++    /// The largest area, in pixels, that will be rasterized to find a curve's interior. Beyond it the
++    /// bounding rectangle is used, as before - a region that big is a pathological input, and rasterizing
++    /// it would cost more than the accuracy is worth.
++    /// </summary>
++    private const long MaxScanArea = 16L * 1024 * 1024;
++
++    /// <summary>The bands a path contributes to a combine: exact rectangles, or its scan-converted interior.</summary>
++    private static List<RectangleF> BandsToCombine(GraphicsPath path) =>
++        TryRectangleBands(path, out var rectangles) ? rectangles : ScanBands(path);
++
++    /// <summary>
++    /// This region's bands as a combine should see them. A region that is still described exactly by a
++    /// curved path is scan-converted first, so the curve - not its bounding box - takes part.
++    /// </summary>
++    private List<RectangleF> BandsToCombine() =>
++        isPathExact && !TryRectangleBands(graphicsPath, out _)
++            ? ScanBands(graphicsPath)
++            : new List<RectangleF>(bands);
++
++    /// <summary>
++    /// Recognizes a path built purely from rectangles, whose interior needs no rasterizing.
++    /// </summary>
++    /// <param name="path">The path to inspect.</param>
++    /// <param name="rectangles">Its rectangles, when that is all it holds.</param>
++    /// <returns><see langword="true" /> when the path is nothing but rectangles.</returns>
++    private static bool TryRectangleBands(GraphicsPath path, out List<RectangleF> rectangles)
++    {
++        rectangles = new List<RectangleF>();
++        foreach (var item in path.list)
++        {
++            switch (item)
++            {
++                case GraphicsPath.RectangleMode rectangle:
++                    rectangles.Add(rectangle.rect);
++
++                    break;
++
++                case GraphicsPath.RectanglesMode set:
++                    if (set.rects != null)
++                    {
++                        rectangles.AddRange(set.rects);
++                    }
++
++                    break;
++
++                case GraphicsPath.FigureMode:
++                    // Figure boundaries carry no geometry of their own.
++                    break;
++
++                default:
++                    rectangles = new List<RectangleF>();
++
++                    return false;
++            }
++        }
++
++        return rectangles.Count > 0;
++    }
++
++    /// <summary>
++    /// Scan-converts a path into horizontal bands: the shape is filled into a coverage bitmap and each run
++    /// of covered pixels on a scanline becomes a band, with identical adjacent scanlines merged into one
++    /// taller band.
++    /// </summary>
++    /// <param name="path">The path whose interior is wanted.</param>
++    /// <returns>Disjoint rectangles whose union is the path's interior, at pixel resolution.</returns>
++    private static List<RectangleF> ScanBands(GraphicsPath path)
++    {
++        var bounds = path.GetBounds();
++        if (bounds.Width <= 0f || bounds.Height <= 0f)
++        {
++            return new List<RectangleF>();
++        }
++
++        var originX = (int)Math.Floor(bounds.Left);
++        var originY = (int)Math.Floor(bounds.Top);
++        var width = (int)Math.Ceiling(bounds.Right) - originX;
++        var height = (int)Math.Ceiling(bounds.Bottom) - originY;
++        if (width <= 0 || height <= 0)
++        {
++            return new List<RectangleF>();
++        }
++
++        if ((long)width * height > MaxScanArea)
++        {
++            return new List<RectangleF> { bounds };
++        }
++
++        byte[] coverage;
++        int stride;
++        try
++        {
++            using var surface = new Cairo.ImageSurface(Cairo.Format.A8, width, height);
++            using (var context = new Cairo.Context(surface))
++            {
++                context.Translate(-originX, -originY);
++                using var graphics = new Graphics(context, new Gdk.Rectangle(originX, originY, width, height));
++                graphics.FillPathForRegionScan(path);
++            }
++
++            surface.Flush();
++            stride = surface.Stride;
++            coverage = new byte[stride * height];
++            Runtime.InteropServices.Marshal.Copy(surface.DataPtr, coverage, 0, coverage.Length);
++        }
++        catch (Exception)
++        {
++            // Rasterizing is an optimisation of accuracy, not a correctness requirement: if Cairo cannot
++            // produce the coverage bitmap, fall back to the bounding rectangle rather than failing the
++            // combine outright.
++            return new List<RectangleF> { bounds };
++        }
++
++        var result = new List<RectangleF>();
++        var previousRowStart = 0;
++        var previousRowCount = 0;
++        for (var y = 0; y < height; y++)
++        {
++            var rowStart = result.Count;
++            var row = y * stride;
++            var x = 0;
++            while (x < width)
++            {
++                while (x < width && coverage[row + x] < CoverageThreshold)
++                {
++                    x++;
++                }
++
++                if (x >= width)
++                {
++                    break;
++                }
++
++                var runStart = x;
++                while (x < width && coverage[row + x] >= CoverageThreshold)
++                {
++                    x++;
++                }
++
++                result.Add(new RectangleF(originX + runStart, originY + y, x - runStart, 1));
++            }
++
++            var rowCount = result.Count - rowStart;
++            if (rowCount > 0 && rowCount == previousRowCount && RowsMatch(result, previousRowStart, rowStart, rowCount))
++            {
++                // Same runs as the row above: grow those bands instead of adding a second row of them.
++                for (var i = 0; i < rowCount; i++)
++                {
++                    var band = result[previousRowStart + i];
++                    result[previousRowStart + i] = new RectangleF(band.X, band.Y, band.Width, band.Height + 1);
++                }
++
++                result.RemoveRange(rowStart, rowCount);
++            }
++            else
++            {
++                previousRowStart = rowStart;
++                previousRowCount = rowCount;
++            }
++        }
++
++        return result;
++    }
++
++    /// <summary>Whether two runs of bands cover the same horizontal spans.</summary>
++    private static bool RowsMatch(List<RectangleF> bands, int firstStart, int secondStart, int count)
++    {
++        for (var i = 0; i < count; i++)
++        {
++            if (bands[firstStart + i].X != bands[secondStart + i].X
++                || bands[firstStart + i].Width != bands[secondStart + i].Width)
++            {
++                return false;
++            }
++        }
++
++        return true;
++    }
++
+ 
+     /// <summary>
+     /// Initializes a new
+@@ -344,7 +541,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
+             return;
+         }
+ 
+-        SetBands(SubtractBands(BandsOfPath(path), bands));
++        SetBands(SubtractBands(BandsToCombine(path), BandsToCombine()));
+     }
+ 
+     /// <summary>
+@@ -416,7 +613,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
+             return;
+         }
+ 
+-        SetBands(SubtractBands(BandsOfRegion(region), bands));
++        SetBands(SubtractBands(region.BandsToCombine(), BandsToCombine()));
+     }
+ 
+     /// <summary>
+@@ -484,7 +681,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
+         if (path == null) throw new ArgumentNullException(nameof(path));
+         if (isInfinite) return;
+ 
+-        SetBands(SubtractBands(bands, BandsOfPath(path)));
++        SetBands(SubtractBands(BandsToCombine(), BandsToCombine(path)));
+     }
+ 
+     /// <summary>
+@@ -546,7 +743,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
+             return;
+         }
+ 
+-        SetBands(SubtractBands(bands, BandsOfRegion(region)));
++        SetBands(SubtractBands(BandsToCombine(), region.BandsToCombine()));
+     }
+ 
+     /// <summary>
+@@ -696,7 +893,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
+         if (path == null) throw new ArgumentNullException(nameof(path));
+ 
+         // Intersecting the infinite region with a shape yields that shape.
+-        SetBands(isInfinite ? BandsOfPath(path) : IntersectBands(bands, BandsOfPath(path)));
++        SetBands(isInfinite ? BandsToCombine(path) : IntersectBands(BandsToCombine(), BandsToCombine(path)));
+     }
+ 
+     /// <summary>
+@@ -748,7 +945,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
+         if (region == null) throw new ArgumentNullException(nameof(region));
+         if (region.isInfinite) return;
+ 
+-        SetBands(isInfinite ? BandsOfRegion(region) : IntersectBands(bands, BandsOfRegion(region)));
++        SetBands(isInfinite ? region.BandsToCombine() : IntersectBands(BandsToCombine(), region.BandsToCombine()));
+     }
+ 
+     /// <summary>
+@@ -1329,7 +1526,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
+         if (path == null) throw new ArgumentNullException(nameof(path));
+         if (isInfinite) return;
+ 
+-        SetBands(UnionBands(bands, BandsOfPath(path)));
++        SetBands(UnionBands(BandsToCombine(), BandsToCombine(path)));
+     }
+ 
+     /// <summary>
+@@ -1393,7 +1590,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
+ 
+         // These used to funnel through the other region's GraphicsPath, so region-vs-region combines were
+         // only as good as the bounding box of that path. They now work on the band lists directly.
+-        SetBands(UnionBands(bands, BandsOfRegion(region)));
++        SetBands(UnionBands(BandsToCombine(), region.BandsToCombine()));
+     }
+ 
+     /// <summary>
+@@ -1414,7 +1611,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
+ 
+         // This returned the union of the two bounding boxes when they partly overlapped, which is the
+         // opposite of an exclusive-or: the overlap was kept rather than removed.
+-        SetBands(XorBands(bands, BandsOfPath(path)));
++        SetBands(XorBands(BandsToCombine(), BandsToCombine(path)));
+     }
+ 
+     /// <summary>
+@@ -1473,7 +1670,7 @@ public sealed class Region : MarshalByRefObject, IDisposable
+         if (region == null) throw new ArgumentNullException(nameof(region));
+         if (isInfinite || region.isInfinite) return;
+ 
+-        SetBands(XorBands(bands, BandsOfRegion(region)));
++        SetBands(XorBands(BandsToCombine(), region.BandsToCombine()));
+     }
+ 
+     // helper to keep regionData in sync with our simple managed representation.
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlShapeAndTransparencyFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlShapeAndTransparencyFunctionalTests.cs
+new file mode 100644
+index 00000000..c141f06e
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlShapeAndTransparencyFunctionalTests.cs
+@@ -0,0 +1,216 @@
++extern alias gtk;
++using System.Drawing;
++using System.Runtime.ExceptionServices;
++using System.Windows.Forms;
++using Region = gtk::System.Drawing.Region;
++using GraphicsPath = gtk::System.Drawing.Drawing2D.GraphicsPath;
++
++namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++
++/// <summary>
++/// Behavioural tests for non-rectangular control shapes (<see cref="Control.Region" />) and colour-keyed
++/// window transparency (<c>Form.TransparencyKey</c>).
++/// <para>
++/// <see cref="Control.Region" /> existed as an inert auto-property: it stored a region and shaped nothing,
++/// so a round button or a skinned splash form compiled, ran and stayed rectangular - the silent-failure
++/// shape of gap. <c>TransparencyKey</c> and <c>AllowTransparency</c> did not exist at all, so the standard
++/// shaped-window idiom did not compile.
++/// </para>
++/// </summary>
++[Collection("NonParallelCollection")]
++public class ControlShapeAndTransparencyFunctionalTests
++{
++    /// <summary>
++    /// Runs <paramref name="body" /> once <paramref name="form" /> is up, so the widgets under test have
++    /// real GDK handles - a shape cannot be applied to an unrealized widget.
++    /// </summary>
++    private static void WhenShown(Form form, Action body)
++    {
++        ExceptionDispatchInfo? failure = null;
++
++        form.Load += (_, _) =>
++        {
++            try
++            {
++                body();
++            }
++            catch (Exception ex)
++            {
++                failure = ExceptionDispatchInfo.Capture(ex);
++            }
++            finally
++            {
++                form.Close();
++            }
++        };
++
++        form.ShowDialog();
++        failure?.Throw();
++    }
++
++    private static Region EllipticalRegion(int size)
++    {
++        var path = new GraphicsPath();
++        path.AddEllipse(0, 0, size, size);
++
++        return new Region(path);
++    }
++
++    [Fact]
++    public void Region_RoundTrips()
++    {
++        using var button = new Button();
++        var region = new Region(new Rectangle(0, 0, 10, 10));
++
++        button.Region = region;
++
++        Assert.Same(region, button.Region);
++    }
++
++    [Fact]
++    public void Region_DefaultsToNull()
++    {
++        using var button = new Button();
++
++        Assert.Null(button.Region);
++    }
++
++    [Fact]
++    public void Region_RaisesRegionChangedOnceForEachRealChange()
++    {
++        using var button = new Button();
++        var raised = 0;
++        button.RegionChanged += (_, _) => raised++;
++        var region = new Region(new Rectangle(0, 0, 10, 10));
++
++        button.Region = region;
++        button.Region = region; // same instance - not a change
++        button.Region = null;
++
++        Assert.Equal(2, raised);
++    }
++
++    [Fact]
++    public void Region_AssignedBeforeTheHandleExists_ShapesTheWindowOnceRealized()
++    {
++        using var form = new Form { Width = 200, Height = 200 };
++
++        // Assigned while unrealized: the shape has to be remembered and applied at realize time.
++        form.Region = EllipticalRegion(200);
++
++        WhenShown(form, () =>
++        {
++            var window = form.Widget?.Window;
++            Assert.NotNull(window);
++            Assert.True(window!.IsShaped, "the form's GDK window must carry the shape");
++        });
++    }
++
++    [Fact]
++    public void Region_AssignedAfterRealize_ShapesTheWindow()
++    {
++        using var form = new Form { Width = 200, Height = 200 };
++
++        WhenShown(form, () =>
++        {
++            var window = form.Widget?.Window;
++            Assert.NotNull(window);
++            Assert.False(window!.IsShaped, "nothing has been shaped yet");
++
++            form.Region = EllipticalRegion(200);
++
++            Assert.True(window.IsShaped);
++        });
++    }
++
++    [Fact]
++    public void Region_SetToNull_ClearsTheShape()
++    {
++        using var form = new Form { Width = 200, Height = 200 };
++
++        WhenShown(form, () =>
++        {
++            form.Region = EllipticalRegion(200);
++            Assert.True(form.Widget!.Window.IsShaped);
++
++            form.Region = null;
++
++            Assert.False(form.Widget!.Window.IsShaped, "a null region means the whole rectangle again");
++        });
++    }
++
++    [Fact]
++    public void Region_OnAWindowlessWidget_IsStoredAndHarmless()
++    {
++        // A GTK button draws onto its parent and owns no GDK window, so there is nothing to shape. The
++        // documented behaviour is that the region round-trips and nothing throws - not that it is refused.
++        using var form = new Form { Width = 200, Height = 200 };
++        using var button = new Button { Width = 60, Height = 60 };
++        form.Controls.Add(button);
++        var region = EllipticalRegion(60);
++
++        WhenShown(form, () =>
++        {
++            var exception = Record.Exception(() => button.Region = region);
++
++            Assert.Null(exception);
++            Assert.Same(region, button.Region);
++        });
++    }
++
++    [Fact]
++    public void TransparencyKey_DefaultsToEmptyAndOpaque()
++    {
++        using var form = new Form();
++
++        Assert.Equal(Color.Empty, form.TransparencyKey);
++        Assert.False(form.AllowTransparency);
++    }
++
++    [Fact]
++    public void TransparencyKey_RoundTripsAndTurnsAllowTransparencyOn()
++    {
++        using var form = new Form();
++
++        form.TransparencyKey = Color.Magenta;
++
++        Assert.Equal(Color.Magenta, form.TransparencyKey);
++        Assert.True(form.AllowTransparency, "assigning a key implies transparency is allowed");
++    }
++
++    [Fact]
++    public void AllowTransparency_TurnedOff_ClearsTheKey()
++    {
++        using var form = new Form { TransparencyKey = Color.Magenta };
++
++        form.AllowTransparency = false;
++
++        Assert.Equal(Color.Empty, form.TransparencyKey);
++    }
++
++    [Fact]
++    public void TransparencyKey_ReachesThePaintPath()
++    {
++        using var form = new Form { BackColor = Color.Magenta };
++
++        form.TransparencyKey = Color.Magenta;
++
++        // The background painter is what turns the key into transparency; if the key never reaches it the
++        // form reports a key it does not honour.
++        Assert.Equal(Color.Magenta, form.self.Override.TransparencyKey);
++
++        form.TransparencyKey = Color.Empty;
++
++        Assert.Null(form.self.Override.TransparencyKey);
++    }
++
++    [Fact]
++    public void TransparencyKey_ClearedWhenTransparencyIsDisallowed()
++    {
++        using var form = new Form { BackColor = Color.Magenta, TransparencyKey = Color.Magenta };
++
++        form.AllowTransparency = false;
++
++        Assert.Null(form.self.Override.TransparencyKey);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
+index 39af0aea..905c48e4 100644
+--- a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
++++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
+@@ -88,6 +88,60 @@ public sealed class GtkControlOverride : IControlOverride
+         set;
+     }
+ 
++    /// <summary>
++    /// Gets or sets the colour that is to be painted as transparent instead of opaque - see
++    /// <see cref="P:System.Windows.Forms.Form.TransparencyKey" />. <see langword="null" /> when no key is
++    /// set, which is the normal case.
++    /// </summary>
++    public System.Drawing.Color? TransparencyKey
++    {
++        get;
++        set;
++    }
++
++    /// <summary>
++    /// Whether <see cref="BackColor" /> is the colour the transparency key names, in which case the
++    /// background is not painted at all but punched out of the surface.
++    /// </summary>
++    private bool BackColorIsKeyed =>
++        TransparencyKey.HasValue
++        && BackColor.HasValue
++        && TransparencyKey.Value.R == BackColor.Value.R
++        && TransparencyKey.Value.G == BackColor.Value.G
++        && TransparencyKey.Value.B == BackColor.Value.B;
++
++    /// <summary>
++    /// Paints the background colour, or clears the surface to full transparency when that colour is the
++    /// one the transparency key names.
++    /// </summary>
++    /// <param name="cr">The Cairo context.</param>
++    /// <returns><see langword="true" /> when something was painted.</returns>
++    private bool PaintBackColor(Cairo.Context cr)
++    {
++        if (!BackColor.HasValue)
++        {
++            return false;
++        }
++
++        cr.Save();
++        if (BackColorIsKeyed)
++        {
++            // Painting zero alpha in the default OVER operator is a no-op; SOURCE is what actually
++            // replaces the surface content, which is how the window ends up see-through.
++            cr.Operator = Cairo.Operator.Source;
++            cr.SetSourceRGBA(0, 0, 0, 0);
++        }
++        else
++        {
++            cr.SetSourceRGBA(BackColor.Value.R / 255f, BackColor.Value.G / 255f, BackColor.Value.B / 255f, BackColor.Value.A / 255f);
++        }
++
++        cr.Paint();
++        cr.Restore();
++
++        return true;
++    }
++
+     /// <summary>
+     /// Gets or sets the background image.
+     /// </summary>
+@@ -171,13 +225,7 @@ public sealed class GtkControlOverride : IControlOverride
+     /// </param>
+     public void DrawnBackColor(Cairo.Context cr, Gdk.Rectangle area)
+     {
+-        if (BackColor.HasValue)
+-        {
+-            cr.Save();
+-            cr.SetSourceRGBA(BackColor.Value.R / 255f, BackColor.Value.G / 255f, BackColor.Value.B / 255f, BackColor.Value.A / 255f);
+-            cr.Paint();
+-            cr.Restore();
+-        }
++        PaintBackColor(cr);
+     }
+ 
+     /// <summary>
+@@ -205,13 +253,7 @@ public sealed class GtkControlOverride : IControlOverride
+     /// </param>
+     public void OnDrawnBackground(Cairo.Context cr, Gdk.Rectangle area)
+     {
+-        if (BackColor.HasValue)
+-        {
+-            cr.Save();
+-            cr.SetSourceRGBA(BackColor.Value.R / 255f, BackColor.Value.G / 255f, BackColor.Value.B / 255f, BackColor.Value.A / 255f);
+-            cr.Paint();
+-            cr.Restore();
+-        }
++        PaintBackColor(cr);
+         if (BackgroundImage != null && BackgroundImage.Pixbuf != null)
+         {
+             SetDrawnBackground(cr, BackgroundImage.Pixbuf, BackgroundImageLayout, area.Width, area.Height);
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Shape.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Shape.cs
+new file mode 100644
+index 00000000..ad45b63e
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Shape.cs
+@@ -0,0 +1,132 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.ComponentModel;
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Non-rectangular control shapes - <c>Control.Region</c>. The property existed as an inert
++/// auto-property: assigning it stored a region and shaped nothing, so a shaped control (a round button, a
++/// skinned splash form) compiled, ran, and stayed rectangular.
++/// </summary>
++public partial class Control
++{
++    private Region? _region;
++
++    /// <summary>
++    /// Gets or sets the window region associated with the control.
++    /// </summary>
++    /// <value>
++    /// The <see cref="T:System.Drawing.Region" /> that represents the window region, in client
++    /// coordinates, or <see langword="null" /> for the whole rectangle.
++    /// </value>
++    /// <remarks>
++    /// Backed by GTK's shape-combine, which - like the Win32 window region this mirrors - takes a list of
++    /// rectangles. A region whose interior is a real path is therefore applied as the rectangles it
++    /// decomposes into, so a curved outline is stepped at pixel resolution rather than smooth. That is
++    /// what Win32 does too; the difference is only how finely the curve is scanned.
++    /// <para>
++    /// The shape needs a realized widget, so a region assigned before the handle exists is remembered and
++    /// applied when the widget is realized.
++    /// </para>
++    /// <para>
++    /// **Substrate limit.** A shape lives on a GDK window, and lightweight GTK widgets - buttons, labels,
++    /// and anything else that draws onto its parent rather than owning a window - do not have one. On
++    /// those the region is stored and reported but changes nothing. Forms and the container controls
++    /// (<see cref="T:System.Windows.Forms.Panel" /> and friends) do own a window and are shaped for real,
++    /// which covers the shaped-window and custom-drawn-container cases the property exists for.
++    /// </para>
++    /// </remarks>
++    [Browsable(false)]
++    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
++    [EditorBrowsable(EditorBrowsableState.Advanced)]
++    public virtual Region? Region
++    {
++        get => _region;
++        set
++        {
++            if (ReferenceEquals(_region, value))
++            {
++                return;
++            }
++
++            _region = value;
++            ApplyRegion();
++            OnRegionChanged(EventArgs.Empty);
++        }
++    }
++
++    /// <summary>
++    /// Pushes <see cref="Region" /> down to the widget, or clears the shape when it is
++    /// <see langword="null" />. A no-op until the widget is realized - <see cref="ApplyRegion" /> is
++    /// called again from the realize handler.
++    /// </summary>
++    internal void ApplyRegion()
++    {
++        var widget = Widget;
++        if (widget == null || !widget.IsRealized)
++        {
++            return;
++        }
++
++        if (!widget.HasWindow || widget.Window == null)
++        {
++            // A shape lives on a GDK window, and lightweight GTK widgets (buttons, labels) do not own one -
++            // they draw onto their parent's. There is nothing to combine the shape with, so the region is
++            // kept and reported but has no effect. See the remarks on Region.
++            Diagnostics.GtkLogger.Debug(
++                $"Control.Region has no effect on {GetType().Name}: its GTK widget owns no window to shape.");
++
++            return;
++        }
++
++        try
++        {
++            widget.ShapeCombineRegion(ToCairoRegion(_region));
++        }
++        catch (Exception ex)
++        {
++            Diagnostics.GtkLogger.Debug("Unexpected exception applying the control region", ex);
++        }
++    }
++
++    /// <summary>
++    /// Converts a <see cref="T:System.Drawing.Region" /> to the pixel-rectangle region GTK's
++    /// shape-combine takes.
++    /// </summary>
++    /// <param name="region">The region to convert.</param>
++    /// <returns>
++    /// <see langword="null" /> when <paramref name="region" /> is <see langword="null" /> or covers
++    /// everything - which is how the shape is reset - otherwise the region's rectangles, rounded outwards
++    /// so no part of the requested shape is clipped away.
++    /// </returns>
++    private static Cairo.Region? ToCairoRegion(Region? region)
++    {
++        if (region == null || region.Bands.Count == 0)
++        {
++            // A null shape means "the whole widget" to GTK. An empty region cannot be expressed that way,
++            // but an empty Cairo region is honoured, so only the null case short-circuits.
++            return region == null ? null : new Cairo.Region();
++        }
++
++        var rectangles = new Cairo.RectangleInt[region.Bands.Count];
++        for (var i = 0; i < rectangles.Length; i++)
++        {
++            var band = region.Bands[i];
++            var left = (int)Math.Floor(band.Left);
++            var top = (int)Math.Floor(band.Top);
++            rectangles[i] = new Cairo.RectangleInt
++            {
++                X = left,
++                Y = top,
++                Width = (int)Math.Ceiling(band.Right) - left,
++                Height = (int)Math.Ceiling(band.Bottom) - top
++            };
++        }
++
++        return new Cairo.Region(rectangles);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+index 21424667..ea91c715 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+@@ -1585,15 +1585,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     /// </summary>
+     public virtual bool RecreatingHandle { get; }
+ 
+-    /// <summary>
+-    /// Gets or sets the region describing the window region of the control.
+-    /// </summary>
+-    public virtual Region? Region
+-    {
+-        get;
+-        set;
+-    }
+-
+     /// <summary>
+     /// Gets the right position of the control relative to its container.
+     /// </summary>
+@@ -4513,6 +4504,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+             // including ApplicationContext, which detects its main form closing by subscribing to
+             // HandleDestroyed. Realize is the point at which the widget has a real GDK handle.
+             OnHandleCreated(e);
++            // A Region assigned before the handle existed could not be pushed to GTK then; now it can, and
++            // it has to happen before Load so user code sees an already-shaped control.
++            ApplyRegion();
+             OnLoad(e);
+             OnCursorChanged(EventArgs.Empty);
+             InitDockAnchorStyle();
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Transparency.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Transparency.cs
+new file mode 100644
+index 00000000..19fda0a9
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Transparency.cs
+@@ -0,0 +1,156 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++// See the LICENSE file in the project root for more information.
++
++using System.ComponentModel;
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Colour-keyed window transparency - <c>Form.TransparencyKey</c> and <c>Form.AllowTransparency</c>.
++/// Neither member existed, so the standard shaped-window idiom
++/// (<c>BackColor = X; TransparencyKey = X;</c>) did not compile.
++/// </summary>
++public partial class Form
++{
++    private Color _transparencyKey = Color.Empty;
++
++    private bool _allowTransparency;
++
++    /// <summary>
++    /// Gets or sets a value indicating whether the form can be made transparent - through
++    /// <see cref="P:System.Windows.Forms.Form.Opacity" /> or
++    /// <see cref="P:System.Windows.Forms.Form.TransparencyKey" />.
++    /// </summary>
++    /// <remarks>
++    /// Assigning a non-empty <see cref="P:System.Windows.Forms.Form.TransparencyKey" /> turns this on, as
++    /// it does in WinForms. Turning it off clears the key.
++    /// </remarks>
++    [DefaultValue(false)]
++    public bool AllowTransparency
++    {
++        get => _allowTransparency;
++        set
++        {
++            if (_allowTransparency == value)
++            {
++                return;
++            }
++
++            _allowTransparency = value;
++            if (!value)
++            {
++                _transparencyKey = Color.Empty;
++            }
++
++            ApplyTransparency();
++        }
++    }
++
++    /// <summary>
++    /// Gets or sets the colour that will represent transparent areas of the form.
++    /// </summary>
++    /// <value>
++    /// The colour to treat as transparent, or <see cref="F:System.Drawing.Color.Empty" /> - the default -
++    /// for an opaque form.
++    /// </value>
++    /// <remarks>
++    /// <para>
++    /// What is emulated: the idiom this member exists for, a form whose background colour *is* the key, so
++    /// the window's own background becomes invisible and only the controls on it are drawn. The window is
++    /// given an RGBA visual and its background is painted with zero alpha.
++    /// </para>
++    /// <para>
++    /// What is not: per-pixel colour keying of arbitrary content - a key that matches a colour inside a
++    /// child control or a background image leaves those pixels opaque - and click-through, which in
++    /// WinForms lets the mouse pass through keyed areas. GTK expresses both through an input shape that
++    /// would have to be recomputed from the rendered pixels on every paint. Documented deviation.
++    /// </para>
++    /// <para>
++    /// Transparency also needs a compositing window manager. Without one the key is remembered and
++    /// reported, but the window stays opaque; <see cref="P:System.Windows.Forms.Form.IsTransparencySupported" />
++    /// says which case you are in.
++    /// </para>
++    /// </remarks>
++    public Color TransparencyKey
++    {
++        get => _transparencyKey;
++        set
++        {
++            if (_transparencyKey == value)
++            {
++                return;
++            }
++
++            _transparencyKey = value;
++            if (!value.IsEmpty)
++            {
++                _allowTransparency = true;
++            }
++
++            ApplyTransparency();
++        }
++    }
++
++    /// <summary>
++    /// Gets a value indicating whether the screen this form is on can actually composite transparency.
++    /// </summary>
++    /// <remarks>
++    /// There is no WinForms equivalent - on Windows the answer is always yes. It is exposed because on
++    /// X11 without a compositor, and on some remote sessions, it is no, and a form that silently stays
++    /// opaque is otherwise indistinguishable from a bug.
++    /// </remarks>
++    [Browsable(false)]
++    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
++    public bool IsTransparencySupported
++    {
++        get
++        {
++            try
++            {
++                return self.Screen?.IsComposited == true && self.Screen.RgbaVisual != null;
++            }
++            catch (Exception ex)
++            {
++                Diagnostics.GtkLogger.Debug("Unexpected exception querying compositing support", ex);
++
++                return false;
++            }
++        }
++    }
++
++    /// <summary>
++    /// Pushes the current transparency settings to the window: an RGBA visual and an alpha-zero background
++    /// while a key matching the form's own background colour is set, the normal visual and background
++    /// otherwise.
++    /// </summary>
++    private void ApplyTransparency()
++    {
++        try
++        {
++            var keyed = _allowTransparency && !_transparencyKey.IsEmpty;
++            if (keyed && IsTransparencySupported)
++            {
++                self.Visual = self.Screen.RgbaVisual;
++                self.AppPaintable = true;
++            }
++            else if (!keyed)
++            {
++                self.AppPaintable = false;
++            }
++
++            // The background is what the key can actually make transparent here: when it matches, the
++            // override paints nothing rather than a colour.
++            self.Override.TransparencyKey = keyed ? _transparencyKey : null;
++            if (self.IsRealized)
++            {
++                self.QueueDraw();
++            }
++        }
++        catch (Exception ex)
++        {
++            Diagnostics.GtkLogger.Debug("Unexpected exception applying the form transparency key", ex);
++        }
++    }
++}
+-- 
+2.53.0.windows.3
+

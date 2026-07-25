@@ -2,7 +2,7 @@
 
 **Bar being measured against.** The stated intent: *an existing WinForms application should compile unchanged against these two assemblies and behave the same on Windows, Linux and macOS.* Everything below is scored against that.
 
-**This document lists only what is still open.** Earlier revisions carried a large record of already-closed findings (three threading defects, `SetStyle`/`GetStyle`, `Graphics.Transform`, `Region` banding, data-binding value flow, `Padding` arithmetic, the `IArrangedElement` contract, `Application.Run(ApplicationContext)`, accessibility wiring, the `VisualStyles` namespace, the ToolStrip container/panel/renderer family, `PrivateFontCollection`/`InstalledFontCollection`, `MeasureCharacterRanges`, the full data-binding depth surface, and — as of patch 0110 — the entire `NotImplementedException` set and `Application`'s residual lifecycle members). Those sections were pruned once verified — the history is in git and the surviving evidence is the functional-test suite that pins each one. What remains here is the open frontier.
+**This document lists only what is still open.** Earlier revisions carried a large record of already-closed findings (three threading defects, `SetStyle`/`GetStyle`, `Graphics.Transform`, `Region` banding, data-binding value flow, `Padding` arithmetic, the `IArrangedElement` contract, `Application.Run(ApplicationContext)`, accessibility wiring, the `VisualStyles` namespace, the ToolStrip container/panel/renderer family, `PrivateFontCollection`/`InstalledFontCollection`, `MeasureCharacterRanges`, the full data-binding depth surface, and — as of patches 0110 and 0111 — the entire `NotImplementedException` set, `Application`'s residual lifecycle members, shaped controls, colour-keyed transparency and exact curved-region combination). Those sections were pruned once verified — the history is in git and the surviving evidence is the functional-test suite that pins each one. What remains here is the open frontier.
 
 > **See also — [API-COMPLETENESS.md](API-COMPLETENESS.md).** The per-member API-surface diff run against the
 > real .NET reference assemblies supersedes this document on *what exists* (type and member counts, renamed
@@ -25,28 +25,27 @@ Three classes of gap, ordered by how much damage they do:
 | **B — Present but throwing** | Exists, throws `NotImplementedException`. | *Runtime* failure — but loud and diagnosable. |
 | **C — Present but silently wrong** | Exists, does something plausible but not WinForms-equivalent. | Worst: builds, runs, quietly misbehaves. |
 
-**State of play.** **Class B is empty** — no `NotImplementedException` throw site remains in either project (§3). Class C has no open item: the last one, `Control.CreateGraphics()`, has been resolved as a *documented deviation* rather than a fix, because it is substrate-bound (§4.6). Class A is a short tail of genuinely peripheral controls, all of them declared non-goals except two `Control`/`Form` members (§2). What is left is therefore a set of deliberate deviations and non-goals (§4) plus two absent members — and the dominant *unmeasured* risk, which is behavioural: layout, event ordering, focus (§6).
+**State of play.** **Class B is empty** — no `NotImplementedException` throw site remains in either project (§3). **Class A is closed too**: every remaining absent type is a declared non-goal (§2). Class C's last two open items were closed by patch 0111 — `Control.Region` (an inert auto-property that shaped nothing) and curved-region combination — leaving one accepted deviation, `Control.CreateGraphics()`, which is substrate-bound (§4.6). What is left is a set of deliberate deviations and non-goals (§4), a handful of substrate limits recorded alongside the features they bound, and the dominant *unmeasured* risk, which is behavioural: layout, event ordering, focus (§6).
 
 ---
 
-## 2. Class A — types and members that still do not exist
+## 2. Class A — types that still do not exist
 
-Verified absent by type-declaration search over both projects.
+Verified absent by type-declaration search over both projects. Everything in this class is now a declared
+non-goal; there is no absent type or member left that is merely *not done yet*.
 
 ### 2.1 Non-goals (documented in §4.1 and §4.3)
 
 `WebBrowser`, `HtmlDocument`/`HtmlElement`, `NativeWindow` and `SendKeys` do not exist and are not planned: the first three have no cross-platform substrate, the last two are Win32-message-model constructs. They are non-goals, not to-dos.
 
-`WebBrowser` deserves a note: its four `*EventArgs` types (`WebBrowserDocumentCompletedEventArgs`, `WebBrowserNavigatedEventArgs`, `WebBrowserNavigatingEventArgs`, `WebBrowserProgressChangedEventArgs`) are all present, but the control itself is not — so those types are currently unreachable. Since the control is a non-goal, the event args are dead weight and could be dropped.
+`WebBrowser`'s four `*EventArgs` types (`WebBrowserDocumentCompletedEventArgs`, `WebBrowserNavigatedEventArgs`, `WebBrowserNavigatingEventArgs`, `WebBrowserProgressChangedEventArgs`) are present while the control is not, so nothing can raise them. **Decision: keep them.** They exist in the reference assembly, so deleting them would open four new holes in the surface [API-COMPLETENESS.md](API-COMPLETENESS.md) measures, in exchange for nothing — an application that names one still compiles, which is the bar. They are inert, not wrong.
 
 The ToolStrip family is complete: the container/panel/renderer types, the standard hosted items (`ToolStripComboBox`/`ToolStripTextBox`/`ToolStripProgressBar`), and `ToolStripControlHost` (patch 0108) all exist; `BindingNavigator` exists (patch 0107). `Help`, `HelpProvider`, `AmbientProperties`, `IWindowsFormsEditorService` and `AutoCompleteStringCollection` exist.
 
-### 2.2 Still open
+### 2.2 Closed since the last revision
 
-- **`Control.Region`** — non-rectangular control shapes. GTK can express this (`gtk_widget_shape_combine_region`), so unlike the above this is a genuine to-do rather than a non-goal.
-- **`Form.TransparencyKey`** — colour-keyed transparency. Expressible on a composited GTK window; also a to-do.
-
-Both are missing members rather than missing types, so an application that touches either does not compile.
+- **`Control.Region`** was recorded here as absent. That was wrong: it existed as an inert auto-property, which is a Class C defect, not a Class A one — assigning a region compiled, ran and shaped nothing. It now shapes the widget (§4.7).
+- **`Form.TransparencyKey`** genuinely was absent, along with `AllowTransparency`; both now exist (§4.7).
 
 ### 2.3 `Net4x.Gtk.Drawing`
 
@@ -90,13 +89,19 @@ One deviation to record. GTK has no "the message queue just drained" notificatio
 
 `Metafile`, `MetafileHeader`, `MetaHeader`, `WmfPlaceableFileHeader`, `EmfPlusRecordType`, `PlayRecordCallback` exist as types, but EMF/WMF is a Windows record format with no cross-platform playback. A permanent non-goal.
 
-### 4.4 `Region` fidelity — bounded by combination, no longer by curves
+### 4.4 `Region` fidelity — exact for curves, quantised to pixels
 
 `Region` is backed by a band list, and `Region(GraphicsPath)` decomposes the path into rectangles. `SetClip` honours the full `CombineMode` family (Replace/Intersect/Union/Exclude/Xor/Complement), each pixel-verified in `GraphicsClipFunctionalTests`.
 
 Curved boundaries no longer clip as their bounding box: a region built from a `GraphicsPath` keeps that path, and `Graphics.SetClip`/`Graphics.Clip` now clip through it via Cairo's native path clip, so an ellipse or a rounded rectangle clips on its true curve (`GraphicsRegionPathClipFunctionalTests` pins this on the corner pixel). The path-replay loop was extracted out of `DrawPathCore` for this, with text contributing glyph outlines instead of painted glyphs when the target is a clip.
 
-**Residual limit.** The path is only kept while it is still the exact description of the interior. Once the region is *combined* with anything — `Intersect`, `Union`, `Exclude`, `Xor`, `Complement`, or `Translate` — the band list takes over and a curved operand collapses to its bounding rectangle. Combining two curved regions exactly needs real path arithmetic (Cairo does not offer it; a scan-converted region or a path-boolean library would).
+Combining is exact too, as of patch 0111. A combine works on band lists, and a path used to contribute only its bounding rectangle to one — so `region.Intersect(circle)` intersected with the circle's *square*. The interior of a curve is now obtained the way GDI+ obtains it: the path is scan-converted (filled into a coverage bitmap, runs of covered pixels become bands, identical adjacent scanlines merge into one taller band). Pinned by `RegionCurvedCombineFunctionalTests`, whose oracle is a point inside the bounding box and outside the shape.
+
+**Residual limits**, both recorded rather than open:
+
+- **Pixel resolution.** Scan conversion quantises a curve to whole pixels, using half-coverage as the centre-in rule. GDI+ scan-converts too, so this is the same *kind* of approximation, but the two rasterizers will not agree on every edge pixel. A region combined and then queried with `IsVisible` can therefore differ from GDI+ by a pixel on the boundary.
+- **Rectangles skip it.** A path made only of rectangles keeps its exact floating-point edges and never reaches the rasterizer — deliberately, since rounding those would be a regression. Pinned by `CombiningRectangles_KeepsExactFloatingPointEdges`.
+- **Very large regions.** Past 16 megapixels the rasterizer is skipped and the bounding rectangle is used, as before. That is a pathological input, not a normal one, but it is a silent widening when it happens.
 
 ### 4.5 Printing model and `Image.RawFormat` — recorded deviations
 
@@ -121,23 +126,42 @@ The pattern this breaks is the classic rubber-band: `CreateGraphics()` in `Mouse
 
 **Decision: accept and document.** GTK's retained paint cycle does not offer an immediate-mode DC on an unrealized widget, so a faithful fix would mean compositing such drawing through an overlay the paint cycle owns — a redesign of the paint path whose cost is out of proportion to the pattern's frequency, and which would still not give callers a second live surface. Applications that need immediate feedback should draw in `OnPaint` and call `Invalidate()`, which is the portable idiom. This item is closed as a deviation, not as a fix; reopen it if overlay compositing is undertaken for other reasons.
 
+### 4.7 Shaped controls and colour-keyed transparency — what the substrate allows
+
+`Control.Region` and `Form.TransparencyKey`/`AllowTransparency` work as of patch 0111. `Region` was an inert auto-property; it now drives GTK's shape-combine, is applied at handle creation for a region assigned before the control was realized, and clears back to the full rectangle when set to `null`. `TransparencyKey` did not exist at all, so the standard shaped-window idiom (`BackColor = X; TransparencyKey = X;`) did not compile.
+
+Two substrate limits come with them:
+
+- **A shape needs a GDK window.** Lightweight GTK widgets — buttons, labels, anything that draws onto its parent instead of owning a window — cannot be shaped. On those, `Region` is stored and reported but changes nothing; it is logged at debug level rather than throwing. Forms and container controls do own a window and are shaped for real, which covers the shaped-window and custom-drawn-container cases the property exists for.
+- **`TransparencyKey` is not per-pixel.** What is emulated is the case the member exists for: a form whose `BackColor` *is* the key, so the window background is punched out (RGBA visual, background painted with zero alpha) and only the controls remain. A key matching a colour inside a child control or a background image leaves those pixels opaque, and keyed areas are not click-through — WinForms lets the mouse pass through them. Both would need an input shape recomputed from the rendered pixels on every paint. `Form.IsTransparencySupported` (no WinForms equivalent) reports whether the screen composites at all, so a form that stays opaque on an X11 session without a compositor is diagnosable rather than mysterious.
+
 ---
 
 ## 5. Priority order
 
 Ranked by (damage × frequency) ÷ effort.
 
-**P1 — compile-time breaks on real source**
-1. `Control.Region` and `Form.TransparencyKey` (§2.2) — the only two absent members that are not non-goals, and both are expressible on GTK.
+**P1 — measurement, not code.** Behavioural divergence — layout, event ordering, focus/tab order (§6) — is
+now the largest unknown in the whole comparison by a wide margin, and the only class of gap where nobody
+can say how big it is. Every remaining code item below is smaller than it.
 
-**P2 — fidelity**
-2. Exact combination of curved regions (§4.4) — needs path arithmetic; the common single-path clip case is already exact.
-3. Drop or implement the four orphaned `WebBrowser*EventArgs` types (§2.1).
+1. Compare `TableLayoutPanel` / `FlowLayoutPanel` / anchor-dock against WinForms measure-arrange on
+   concrete layouts. Start where the reimplementation is furthest from the original.
+2. Pin event *order* for the common lifecycles (show, resize, click, focus change, close) — ordering is
+   invisible to the API diff and to a reading pass alike.
+3. Exercise the property browser past its contract: category grouping, sorting, expansion, editor
+   selection (§3 closed its throw sites, not its behaviour).
 
-**P3 — measurement, not code**
-4. Behavioural divergence: layout, event ordering, focus/tab order (§6). This is now the largest unknown in the whole comparison, and no amount of source reading will shrink it.
+**P2 — recorded deviations worth revisiting if they bite**
 
----
+4. Per-pixel `TransparencyKey` and click-through on keyed areas (§4.7).
+5. `Control.Region` on windowless widgets (§4.7) — would mean hosting them in a windowed GTK container.
+6. Scan-conversion edge agreement with GDI+ (§4.4).
+
+**P3 — accepted, reopen only with a reason**
+
+7. `CreateGraphics` immediate-mode semantics (§4.6), EMF/WMF metafiles (§4.3), the Win32 message pump and
+   what depends on it (§4.1), the printing enum numbering and virtual-device defaults (§4.5).
 
 ## 6. What this review does not cover
 
