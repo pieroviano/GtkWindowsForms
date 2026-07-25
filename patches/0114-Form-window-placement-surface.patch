@@ -1,0 +1,245 @@
+From 1bcbc6acfbf3b848be92867cd0310ec2a40670bc Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Sat, 25 Jul 2026 07:52:47 +0300
+Subject: [PATCH] Add Form window-placement surface
+
+Closes API-COMPLETENESS.md P2 item 6 (Form section 5.1): DesktopBounds,
+DesktopLocation, SetDesktopBounds, SetDesktopLocation, MaximizedBounds,
+RestoreBounds, RightToLeftLayout and the MaximizedBoundsChanged /
+RightToLeftLayoutChanged events with their OnXxx raisers - designer-emitted
+placement code did not compile without them.
+
+Desktop coordinates coincide with the form's Bounds on this layer, so those
+delegate; MaximizedBounds and RightToLeftLayout are stored with change events;
+RestoreBounds returns the normal-state bounds, tracked by a minimal capture in
+the WindowState setter (record on the first move away from Normal, hold across a
+Minimized<->Maximized switch, clear when Normal again).
+
+Covered by FormPlacementFunctionalTests (property round-trips, change events,
+desktop-coordinate delegation, RestoreBounds while Normal). Full Forms suite
+green at 2470.
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+---
+ .../Forms/FormPlacementFunctionalTests.cs     |  77 +++++++++++++
+ .../System/Windows/Forms/Form.Placement.cs    | 101 ++++++++++++++++++
+ .../System/Windows/Forms/Form.cs              |  11 ++
+ 3 files changed, 189 insertions(+)
+ create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormPlacementFunctionalTests.cs
+ create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Placement.cs
+
+diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormPlacementFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormPlacementFunctionalTests.cs
+new file mode 100644
+index 00000000..18d9257f
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormPlacementFunctionalTests.cs
+@@ -0,0 +1,77 @@
++using System.Drawing;
++using System.Windows.Forms;
++
++namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++
++/// <summary>
++/// Tests for Form's window-placement surface (§5.1 of API-COMPLETENESS): DesktopBounds/DesktopLocation and
++/// their setters, MaximizedBounds, RestoreBounds and RightToLeftLayout with their change events. These were
++/// absent, so designer-emitted placement code did not compile. The tests pin the deterministic contract —
++/// property round-trips, change events, and the desktop-coordinate delegation — rather than live window
++/// state, which the headless GTK host does not drive.
++/// </summary>
++[Collection("NonParallelCollection")]
++public class FormPlacementFunctionalTests
++{
++    [Fact]
++    public void MaximizedBounds_RoundTripsAndRaisesItsEvent()
++    {
++        using var form = new Form();
++        var raised = 0;
++        form.MaximizedBoundsChanged += (_, _) => raised++;
++
++        form.MaximizedBounds = new Rectangle(1, 2, 300, 400);
++
++        Assert.Equal(new Rectangle(1, 2, 300, 400), form.MaximizedBounds);
++        Assert.Equal(1, raised);
++
++        // Setting the same value again does not re-raise.
++        form.MaximizedBounds = new Rectangle(1, 2, 300, 400);
++        Assert.Equal(1, raised);
++    }
++
++    [Fact]
++    public void RightToLeftLayout_RoundTripsAndRaisesItsEvent()
++    {
++        using var form = new Form();
++        var raised = 0;
++        form.RightToLeftLayoutChanged += (_, _) => raised++;
++
++        Assert.False(form.RightToLeftLayout);
++
++        form.RightToLeftLayout = true;
++
++        Assert.True(form.RightToLeftLayout);
++        Assert.Equal(1, raised);
++    }
++
++    [Fact]
++    public void RestoreBounds_EqualsBoundsWhileNormal()
++    {
++        using var form = new Form();
++
++        Assert.Equal(FormWindowState.Normal, form.WindowState);
++        Assert.Equal(form.Bounds, form.RestoreBounds);
++    }
++
++    [Fact]
++    public void DesktopBounds_DelegatesToBounds()
++    {
++        using var form = new Form();
++
++        Assert.Equal(form.Bounds, form.DesktopBounds);
++    }
++
++    [Fact]
++    public void DesktopLocation_DelegatesToLocation_AndSetterUpdatesIt()
++    {
++        using var form = new Form();
++
++        Assert.Equal(form.Location, form.DesktopLocation);
++
++        form.SetDesktopLocation(40, 55);
++
++        // The setter routes to Location, so the two stay in agreement whatever the host reports.
++        Assert.Equal(form.Location, form.DesktopLocation);
++    }
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Placement.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Placement.cs
+new file mode 100644
+index 00000000..03bb95bf
+--- /dev/null
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Placement.cs
+@@ -0,0 +1,101 @@
++// Licensed to the .NET Foundation under one or more agreements.
++// The .NET Foundation licenses this file to you under the MIT license.
++
++using System.Drawing;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// Window-placement surface: desktop-relative bounds, the maximize/restore rectangles and right-to-left
++/// layout. These were absent, so designer or application code touching <c>DesktopBounds</c>,
++/// <c>RestoreBounds</c>, <c>MaximizedBounds</c> or <c>RightToLeftLayout</c> did not compile.
++/// </summary>
++public partial class Form
++{
++    private Rectangle? _restoreBounds;
++    private Rectangle _maximizedBounds;
++    private bool _rightToLeftLayout;
++
++    /// <summary>Occurs when the value of the <see cref="MaximizedBounds" /> property changes.</summary>
++    public event EventHandler? MaximizedBoundsChanged;
++
++    /// <summary>Occurs when the value of the <see cref="RightToLeftLayout" /> property changes.</summary>
++    public event EventHandler? RightToLeftLayoutChanged;
++
++    /// <summary>
++    /// Gets the bounds of the form in the normal window state, i.e. the bounds it restores to when a
++    /// minimized or maximized form returns to <see cref="FormWindowState.Normal" />. While the form is
++    /// already normal this is its current bounds.
++    /// </summary>
++    public Rectangle RestoreBounds => _restoreBounds ?? Bounds;
++
++    /// <summary>Gets or sets the size and location of the form when it is maximized.</summary>
++    public Rectangle MaximizedBounds
++    {
++        get => _maximizedBounds;
++        set
++        {
++            if (_maximizedBounds == value)
++            {
++                return;
++            }
++
++            _maximizedBounds = value;
++            OnMaximizedBoundsChanged(EventArgs.Empty);
++        }
++    }
++
++    /// <summary>Gets or sets a value indicating whether right-to-left mirroring is applied to the form's layout.</summary>
++    public virtual bool RightToLeftLayout
++    {
++        get => _rightToLeftLayout;
++        set
++        {
++            if (_rightToLeftLayout == value)
++            {
++                return;
++            }
++
++            _rightToLeftLayout = value;
++            OnRightToLeftLayoutChanged(EventArgs.Empty);
++        }
++    }
++
++    /// <summary>
++    /// Gets or sets the size and location of the form on the Windows desktop. On this layer desktop
++    /// coordinates coincide with the form's <see cref="Control.Bounds" />.
++    /// </summary>
++    public Rectangle DesktopBounds
++    {
++        get => Bounds;
++        set => SetBounds(value.X, value.Y, value.Width, value.Height, BoundsSpecified.All);
++    }
++
++    /// <summary>Gets or sets the location of the form on the Windows desktop.</summary>
++    public Point DesktopLocation
++    {
++        get => Location;
++        set => Location = value;
++    }
++
++    /// <summary>Sets the bounds of the form in desktop coordinates.</summary>
++    /// <param name="x">The desktop x-coordinate.</param>
++    /// <param name="y">The desktop y-coordinate.</param>
++    /// <param name="width">The width.</param>
++    /// <param name="height">The height.</param>
++    public void SetDesktopBounds(int x, int y, int width, int height) =>
++        SetBounds(x, y, width, height, BoundsSpecified.All);
++
++    /// <summary>Sets the location of the form in desktop coordinates.</summary>
++    /// <param name="x">The desktop x-coordinate.</param>
++    /// <param name="y">The desktop y-coordinate.</param>
++    public void SetDesktopLocation(int x, int y) => Location = new Point(x, y);
++
++    /// <summary>Raises the <see cref="MaximizedBoundsChanged" /> event.</summary>
++    /// <param name="e">The event data.</param>
++    protected virtual void OnMaximizedBoundsChanged(EventArgs e) => MaximizedBoundsChanged?.Invoke(this, e);
++
++    /// <summary>Raises the <see cref="RightToLeftLayoutChanged" /> event.</summary>
++    /// <param name="e">The event data.</param>
++    protected virtual void OnRightToLeftLayoutChanged(EventArgs e) => RightToLeftLayoutChanged?.Invoke(this, e);
++}
+diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+index d38c2cba..2c645db2 100644
+--- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
++++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+@@ -597,6 +597,17 @@ public partial class Form : ContainerControl, IWin32Window
+         }
+         set
+         {
++            // Remember the bounds the form should restore to. Capture on the first move away from Normal
++            // and hold it across a Minimized<->Maximized switch; clear it once the form is Normal again.
++            if (value == FormWindowState.Normal)
++            {
++                _restoreBounds = null;
++            }
++            else
++            {
++                _restoreBounds ??= Bounds;
++            }
++
+             _WindowState = value;
+             if (value == FormWindowState.Maximized)
+             {
+-- 
+2.53.0.windows.3
+
