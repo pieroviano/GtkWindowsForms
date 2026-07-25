@@ -80,7 +80,10 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// </param>
     public ToolStripItemCollection(ToolStripDropDown owner)
     {
-        this.menu = owner.Widget.MenuItem as Gtk.Menu;
+        // The drop-down's GtkControl is its native Gtk.Menu (StripDropDown). It used to be reached via the
+        // ToolStripItem-style Widget.MenuItem; now that ToolStripDropDown derives from ToolStrip/Control the
+        // menu is the GtkControl directly.
+        this.menu = owner.GtkControl as Gtk.Menu;
         isToolStripDropDown = true;
     }
 

@@ -13,12 +13,14 @@ namespace System.Windows.Forms;
 /// <see cref="!:System.Windows.Forms.Menu" />
 /// is retained for both backward compatibility and future use if you choose.
 /// </summary>
-public class ToolStripDropDown : ToolStripItem
+public class ToolStripDropDown : ToolStrip
 {
     /// <summary>
-    /// The self
+    /// The self — a native GTK popup menu. Hides <see cref="ToolStrip" />'s toolbar-box <c>self</c>; the
+    /// drop-down is rendered as a real <c>Gtk.Menu</c> while inheriting the <see cref="Control" /> API
+    /// surface from <see cref="ToolStrip" />.
     /// </summary>
-    public StripDropDown self = new StripDropDown();
+    public new StripDropDown self = new StripDropDown();
 
     /// <summary>
     /// Initializes a new instance of the
@@ -30,22 +32,8 @@ public class ToolStripDropDown : ToolStripItem
     }
 
     /// <summary>
-    /// Gets or sets the size of the image scaling.
+    /// Gets the underlying GTK control — the native popup menu, so the inherited <see cref="Control" />
+    /// plumbing targets it rather than the toolbar box.
     /// </summary>
-    /// <value>
-    /// The size of the image scaling.
-    /// </value>
-    public Size ImageScalingSize
-    {
-        get;
-        set;
-    }
-
-    /// <summary>
-    /// Gets the widget.
-    /// </summary>
-    /// <value>
-    /// The widget.
-    /// </value>
-    public override IToolMenuItem Widget { get => self; }
+    public override object GtkControl => self;
 }
