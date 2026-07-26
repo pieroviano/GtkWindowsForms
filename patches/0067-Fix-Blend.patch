@@ -4,26 +4,26 @@ Date: Fri, 10 Apr 2026 04:02:06 +0300
 Subject: [PATCH] Fix Blend
 
 ---
- .../Net4x.Gtk.Drawing.csproj.DotSettings      |  4 ++++
+ .../Gtk.Drawing.csproj.DotSettings      |  4 ++++
  .../System/Drawing/Drawing2D/Blend.cs         | 20 +++++--------------
  2 files changed, 9 insertions(+), 15 deletions(-)
- create mode 100644 Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.csproj.DotSettings
+ create mode 100644 Gtk.Drawing/Gtk.Drawing.csproj.DotSettings
 
-diff --git a/Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.csproj.DotSettings b/Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.csproj.DotSettings
+diff --git a/Gtk.Drawing/Gtk.Drawing.csproj.DotSettings b/Gtk.Drawing/Gtk.Drawing.csproj.DotSettings
 new file mode 100644
 index 0000000..79ba9fe
 --- /dev/null
-+++ b/Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.csproj.DotSettings
++++ b/Gtk.Drawing/Gtk.Drawing.csproj.DotSettings
 @@ -0,0 +1,4 @@
 +﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 +	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=system_005Cdrawing_005Cdesign_005Cdesigner/@EntryIndexedValue">True</s:Boolean>
 +	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=system_005Cdrawing_005Cdrawing2d_005Cenum/@EntryIndexedValue">True</s:Boolean>
 +	<s:Boolean x:Key="/Default/CodeInspection/NamespaceProvider/NamespaceFoldersToSkip/=system_005Cdrawing_005Cdrawing2d_005Cimaging/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs
 index 901e79c..52381f8 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs
 @@ -1,4 +1,4 @@
 -namespace System.Drawing.Drawing2D;
 +﻿namespace System.Drawing.Drawing2D;

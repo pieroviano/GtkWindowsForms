@@ -9,10 +9,10 @@ Subject: [PATCH] Fix SwitchBox
  .../System/Windows/Forms/Timer.cs             |  7 +++++
  3 files changed, 41 insertions(+), 3 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/SwitchBoxBase.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/SwitchBoxBase.cs
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/SwitchBoxBase.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/SwitchBoxBase.cs
 index d5b6e66..686c38d 100644
---- a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/SwitchBoxBase.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/SwitchBoxBase.cs
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/SwitchBoxBase.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/SwitchBoxBase.cs
 @@ -1,3 +1,5 @@
 +﻿using Gdk;
 +
@@ -31,10 +31,10 @@ index d5b6e66..686c38d 100644
      /// <summary>
      /// Gets or sets the
      /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride" /> instance that centralizes drawing and styling behavior for this control. This override encapsulates background painting (color and image), image drawing, CSS class management and raises paint events so the control can handle custom painting (both direct Cairo via
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
 index 4a90a20..93da6b4 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
 @@ -33,7 +33,13 @@ public partial class SwitchBox : Control
      /// </summary>
      public SwitchBox()
@@ -95,10 +95,10 @@ index 4a90a20..93da6b4 100644
 +    }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Timer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Timer.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Timer.cs b/Gtk.Windows.Forms/System/Windows/Forms/Timer.cs
 index 942e8fd..e5f92bf 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Timer.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Timer.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Timer.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Timer.cs
 @@ -19,6 +19,7 @@ public class Timer : Component
  {
  

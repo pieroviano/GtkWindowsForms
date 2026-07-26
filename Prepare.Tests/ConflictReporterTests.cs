@@ -9,7 +9,7 @@ namespace Prepare.Tests
         {
             var provenance = new Dictionary<string, string>
             {
-                ["Net4x.Gtk.Drawing/System/Drawing/Pen.cs"] = @"C:\src\gtksystem\Source\GTKSystem.Windows.Forms\GTKControls\Drawing\Pen.cs"
+                ["Gtk.Drawing/System/Drawing/Pen.cs"] = @"C:\src\gtksystem\Source\GTKSystem.Windows.Forms\GTKControls\Drawing\Pen.cs"
             };
 
             var conflicts = ConflictReporter.Describe(
@@ -17,15 +17,15 @@ namespace Prepare.Tests
                 baseTreeDir: @"C:\build\base",
                 theirsTreeDir: @"C:\build\theirs",
                 provenance: provenance,
-                conflictRelativePaths: new[] { "Net4x.Gtk.Drawing/System/Drawing/Pen.cs" });
+                conflictRelativePaths: new[] { "Gtk.Drawing/System/Drawing/Pen.cs" });
 
             var c = Assert.Single(conflicts);
-            Assert.Equal("Net4x.Gtk.Drawing/System/Drawing/Pen.cs", c.RelativePath);
+            Assert.Equal("Gtk.Drawing/System/Drawing/Pen.cs", c.RelativePath);
             Assert.EndsWith("Pen.cs", c.Net4xFullPath);
             Assert.Contains("repo", c.Net4xFullPath);
             Assert.Contains("base", c.BaseRefFullPath);
             Assert.Contains("theirs", c.TheirsRefFullPath);
-            Assert.Equal(provenance["Net4x.Gtk.Drawing/System/Drawing/Pen.cs"], c.SourceFullPath);
+            Assert.Equal(provenance["Gtk.Drawing/System/Drawing/Pen.cs"], c.SourceFullPath);
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace Prepare.Tests
             var conflicts = ConflictReporter.Describe(
                 @"C:\repo", @"C:\build\base", @"C:\build\theirs",
                 provenance: null,
-                conflictRelativePaths: new[] { "Net4x.Gtk.Windows.Forms/Form.cs" });
+                conflictRelativePaths: new[] { "Gtk.Windows.Forms/Form.cs" });
 
             Assert.Null(conflicts[0].SourceFullPath);
             var notice = ConflictReporter.FormatNotice(conflicts);
@@ -50,9 +50,9 @@ namespace Prepare.Tests
                 @"C:\repo", @"C:\build\base", @"C:\build\theirs",
                 provenance: new Dictionary<string, string>
                 {
-                    ["Net4x.Gtk.Drawing/Pen.cs"] = @"C:\src\gtksystem\Source\Pen.cs"
+                    ["Gtk.Drawing/Pen.cs"] = @"C:\src\gtksystem\Source\Pen.cs"
                 },
-                conflictRelativePaths: new[] { "Net4x.Gtk.Drawing/Pen.cs" });
+                conflictRelativePaths: new[] { "Gtk.Drawing/Pen.cs" });
 
             var text = ConflictReporter.FormatOne(conflicts[0]);
 

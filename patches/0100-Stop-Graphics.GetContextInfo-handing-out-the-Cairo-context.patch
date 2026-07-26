@@ -12,12 +12,12 @@ published it anyway.
 It now answers what GDI+ callers actually ask this API - the cumulative clip
 and the cumulative transform offset - as object[] { Region, PointF }.
 
-Covered by Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsContextInfoTests.cs.
+Covered by Gtk.Drawing.Tests/System/Drawing/GraphicsContextInfoTests.cs.
 ---
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+diff --git a/Gtk.Drawing/System/Drawing/Graphics.cs b/Gtk.Drawing/System/Drawing/Graphics.cs
 index 569d4df2..e82957cc 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+--- a/Gtk.Drawing/System/Drawing/Graphics.cs
++++ b/Gtk.Drawing/System/Drawing/Graphics.cs
 @@ -1861,12 +1861,26 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      }
  

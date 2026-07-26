@@ -7,10 +7,10 @@ Subject: [PATCH] Fix MonthCalendar
  .../ControlBase/MonthCalendarBase.cs          | 38 +++++++++++++++++++
  1 file changed, 38 insertions(+)
 
-diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/MonthCalendarBase.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/MonthCalendarBase.cs
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/MonthCalendarBase.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/MonthCalendarBase.cs
 index 8b57859..2a6506e 100644
---- a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/MonthCalendarBase.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/MonthCalendarBase.cs
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/MonthCalendarBase.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/MonthCalendarBase.cs
 @@ -1,3 +1,5 @@
 +﻿using System.Windows.Forms;
 +

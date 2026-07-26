@@ -10,26 +10,26 @@ Subject: [PATCH] Added StringFormat implementation
  .../Drawing/{ => Enum}/StringTrimming.cs      |   0
  .../System/Drawing/StringFormat.cs            | 142 ++++++++----------
  5 files changed, 68 insertions(+), 80 deletions(-)
- rename Net4x.Gtk.Drawing/System/Drawing/{ => Enum}/StringAlignment.cs (100%)
- rename Net4x.Gtk.Drawing/System/Drawing/{ => Enum}/StringDigitSubstitute.cs (100%)
- rename Net4x.Gtk.Drawing/System/Drawing/{ => Enum}/StringFormatFlags.cs (96%)
- rename Net4x.Gtk.Drawing/System/Drawing/{ => Enum}/StringTrimming.cs (100%)
+ rename Gtk.Drawing/System/Drawing/{ => Enum}/StringAlignment.cs (100%)
+ rename Gtk.Drawing/System/Drawing/{ => Enum}/StringDigitSubstitute.cs (100%)
+ rename Gtk.Drawing/System/Drawing/{ => Enum}/StringFormatFlags.cs (96%)
+ rename Gtk.Drawing/System/Drawing/{ => Enum}/StringTrimming.cs (100%)
 
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/StringAlignment.cs b/Net4x.Gtk.Drawing/System/Drawing/Enum/StringAlignment.cs
+diff --git a/Gtk.Drawing/System/Drawing/StringAlignment.cs b/Gtk.Drawing/System/Drawing/Enum/StringAlignment.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/StringAlignment.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Enum/StringAlignment.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/StringDigitSubstitute.cs b/Net4x.Gtk.Drawing/System/Drawing/Enum/StringDigitSubstitute.cs
+rename from Gtk.Drawing/System/Drawing/StringAlignment.cs
+rename to Gtk.Drawing/System/Drawing/Enum/StringAlignment.cs
+diff --git a/Gtk.Drawing/System/Drawing/StringDigitSubstitute.cs b/Gtk.Drawing/System/Drawing/Enum/StringDigitSubstitute.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/StringDigitSubstitute.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Enum/StringDigitSubstitute.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/StringFormatFlags.cs b/Net4x.Gtk.Drawing/System/Drawing/Enum/StringFormatFlags.cs
+rename from Gtk.Drawing/System/Drawing/StringDigitSubstitute.cs
+rename to Gtk.Drawing/System/Drawing/Enum/StringDigitSubstitute.cs
+diff --git a/Gtk.Drawing/System/Drawing/StringFormatFlags.cs b/Gtk.Drawing/System/Drawing/Enum/StringFormatFlags.cs
 similarity index 96%
-rename from Net4x.Gtk.Drawing/System/Drawing/StringFormatFlags.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Enum/StringFormatFlags.cs
+rename from Gtk.Drawing/System/Drawing/StringFormatFlags.cs
+rename to Gtk.Drawing/System/Drawing/Enum/StringFormatFlags.cs
 index 419b4c5..ae8eb6a 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/StringFormatFlags.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Enum/StringFormatFlags.cs
+--- a/Gtk.Drawing/System/Drawing/StringFormatFlags.cs
++++ b/Gtk.Drawing/System/Drawing/Enum/StringFormatFlags.cs
 @@ -1,4 +1,4 @@
 -namespace System.Drawing;
 +﻿namespace System.Drawing;
@@ -47,14 +47,14 @@ index 419b4c5..ae8eb6a 100644
      /// <summary>
      /// Text is displayed from right to left.
      /// </summary>
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/StringTrimming.cs b/Net4x.Gtk.Drawing/System/Drawing/Enum/StringTrimming.cs
+diff --git a/Gtk.Drawing/System/Drawing/StringTrimming.cs b/Gtk.Drawing/System/Drawing/Enum/StringTrimming.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/StringTrimming.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Enum/StringTrimming.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs b/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs
+rename from Gtk.Drawing/System/Drawing/StringTrimming.cs
+rename to Gtk.Drawing/System/Drawing/Enum/StringTrimming.cs
+diff --git a/Gtk.Drawing/System/Drawing/StringFormat.cs b/Gtk.Drawing/System/Drawing/StringFormat.cs
 index cd647d9..3e26de6 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs
+--- a/Gtk.Drawing/System/Drawing/StringFormat.cs
++++ b/Gtk.Drawing/System/Drawing/StringFormat.cs
 @@ -1,3 +1,4 @@
 +﻿using System;
  using System.Drawing.Text;

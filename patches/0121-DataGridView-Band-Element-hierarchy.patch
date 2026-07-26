@@ -31,19 +31,19 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../DataGridViewBase/DataGridViewElement.cs   | 66 +++++++++++++++++++
  .../Forms/DataGridViewBase/DataGridViewRow.cs | 28 ++++----
  5 files changed, 205 insertions(+), 15 deletions(-)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewBandFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewBand.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewElement.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewBandFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewBand.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewElement.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewBandFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewBandFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewBandFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewBandFunctionalTests.cs
 new file mode 100644
 index 00000000..6495f4e3
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewBandFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewBandFunctionalTests.cs
 @@ -0,0 +1,62 @@
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Pins the DataGridView hierarchy re-parent: <see cref="DataGridViewRow"/> now derives from
@@ -103,11 +103,11 @@ index 00000000..6495f4e3
 +        Assert.True(row.HasDefaultCellStyle);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewBand.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewBand.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewBand.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewBand.cs
 new file mode 100644
 index 00000000..9bcc2f9f
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewBand.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewBand.cs
 @@ -0,0 +1,60 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -169,10 +169,10 @@ index 00000000..9bcc2f9f
 +    /// <summary>Gets or sets the header cell of the band.</summary>
 +    protected DataGridViewHeaderCell? HeaderCellCore { get; set; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCell.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCell.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCell.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCell.cs
 index 8ea930cd..7d6d4813 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCell.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCell.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCell.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCell.cs
 @@ -9,7 +9,7 @@ namespace System.Windows.Forms;
  /// <filterpriority>
  /// 2
@@ -191,11 +191,11 @@ index 8ea930cd..7d6d4813 100644
  
      /// <summary>
      /// Gets the default new row value.
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewElement.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewElement.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewElement.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewElement.cs
 new file mode 100644
 index 00000000..f0ba717c
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewElement.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewElement.cs
 @@ -0,0 +1,66 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -263,10 +263,10 @@ index 00000000..f0ba717c
 +    {
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs
 index 81ddc3c8..15255047 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs
 @@ -9,7 +9,7 @@ namespace System.Windows.Forms;
  /// <filterpriority>
  /// 2

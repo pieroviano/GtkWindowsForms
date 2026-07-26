@@ -7,10 +7,10 @@ Subject: [PATCH] Clean Metafile
  .../Imaging/Drawing/Drawing2D/Metafile.cs     | 32 ++++++-------------
  1 file changed, 10 insertions(+), 22 deletions(-)
 
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs b/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs
+diff --git a/Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs b/Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs
 index 9e2882b..45f8052 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs
+--- a/Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs
++++ b/Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs
 @@ -1,6 +1,5 @@
  ﻿using System.ComponentModel;
  

@@ -11,40 +11,40 @@
     <TargetString>&lt;PackageReference Include="GtkSharp" Version="$(GtkSharpLatestVersion).*" /&gt;</TargetString>
   </Item>
   <Item>
-    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <FileName>Gtk.Windows.Forms.csproj</FileName>
     <SourceString>&lt;Copyright&gt;438865652@qq.com，chenhongjin&lt;/Copyright&gt;</SourceString>
     <TargetString>&lt;Copyright&gt;Copyright (c) Piero Viano. All right reserved.&lt;/Copyright&gt;</TargetString>
   </Item>
   <Item>
-    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <FileName>Gtk.Windows.Forms.csproj</FileName>
     <SourceString>&lt;RepositoryUrl&gt;https://gitee.com/easywebfactory/gtksystem-windows-forms&lt;/RepositoryUrl&gt;</SourceString>
     <TargetString>&lt;RepositoryUrl&gt;https://bitbucket.org/piero-viano/net4x.gtk.windows.forms&lt;/RepositoryUrl&gt;</TargetString>
   </Item>
   <Item>
-    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <FileName>Gtk.Windows.Forms.csproj</FileName>
     <SourceString>&lt;Nullable&gt;annotations&lt;/Nullable&gt;</SourceString>
     <TargetString>&lt;Nullable&gt;annotations&lt;/Nullable&gt;
     &lt;RootNamespace /&gt;</TargetString>
   </Item>
   <Item>
-    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <FileName>Gtk.Windows.Forms.csproj</FileName>
     <SourceString>&lt;PackageReference Include="GtkSharp"</SourceString>
     <TargetString>&lt;PackageReference Include="System.Memory" Version="4.6.0" /&gt;
         &lt;PackageReference Include="GtkSharp"</TargetString>
   </Item>
   <Item>
-    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <FileName>Gtk.Windows.Forms.csproj</FileName>
     <SourceString>&lt;None Include="..\gtksystem-windows-forms\README.md"&gt;</SourceString>
     <TargetString>&lt;None Include="..\Resources\README.md"&gt;</TargetString>
   </Item>
   <Item>
-    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <FileName>Gtk.Windows.Forms.csproj</FileName>
     <SourceString>&lt;PackageReference Include="System.Resources.Extensions" Version="8.0.0" /&gt;</SourceString>
     <TargetString>&lt;PackageReference Include="System.Resources.Extensions" Version="8.0.0" /&gt;
     &lt;PackageReference Include="Net4x.NuGetUtility" Version="1.0.8" PrivateAssets="All" /&gt;</TargetString>
   </Item>
   <Item>
-    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <FileName>Gtk.Windows.Forms.csproj</FileName>
     <SourceString>    &lt;EmbeddedResource Update="Properties\Resources.zh-Hans.resx"&gt;</SourceString>
     <TargetString>    &lt;Compile Update="Properties\Resources.Designer.cs"&gt;
       &lt;DesignTime&gt;True&lt;/DesignTime&gt;
@@ -59,7 +59,7 @@
     &lt;EmbeddedResource Update="Properties\Resources.zh-Hans.resx"&gt;</TargetString>
   </Item>
   <Item>
-  	<FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+  	<FileName>Gtk.Windows.Forms.csproj</FileName>
   	<SourceString>&lt;EmbeddedResource Update="Properties\Resources.it.resx"&gt;</SourceString>
   	<TargetString>&lt;EmbeddedResource Update="GtkSystem\Resources\Extensions\SR.resx"&gt;
               &lt;Generator&gt;ResXFileCodeGenerator&lt;/Generator&gt;
@@ -74,17 +74,17 @@
           &lt;EmbeddedResource Update="Properties\Resources.it.resx"&gt;</TargetString>
   </Item>
   <Item>
-    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <FileName>Gtk.Windows.Forms.csproj</FileName>
     <SourceString>windows\linux\macos</SourceString>
     <TargetString>windows/linux/macos</TargetString>
   </Item>
   <Item>
-    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <FileName>Gtk.Windows.Forms.csproj</FileName>
     <SourceString>&lt;Authors&gt;chenhongjin&lt;/Authors&gt;</SourceString>
     <TargetString>&lt;Authors&gt;Piero Viano&lt;/Authors&gt;</TargetString>
   </Item>
   <Item>
-    <FileName>Net4x.Gtk.Windows.Forms.csproj</FileName>
+    <FileName>Gtk.Windows.Forms.csproj</FileName>
     <SourceString>&lt;Company&gt;chenhongjin&lt;/Company&gt;</SourceString>
     <TargetString>&lt;Company&gt;Piero Viano&lt;/Company&gt;</TargetString>
   </Item>
@@ -363,12 +363,12 @@ using GTKControls;</TargetString>
                         break;</TargetString>
   </Item>
   <!--<Item>
-    <FileName>Net4x.Gtk.Windows.Forms\Properties\PublishProfiles\FolderProfile.pubxml</FileName>
+    <FileName>Gtk.Windows.Forms\Properties\PublishProfiles\FolderProfile.pubxml</FileName>
     <SourceString></SourceString>
     <TargetString></TargetString>
   </Item>
   <Item>
-    <FileName>Net4x.Gtk.Windows.Forms\Properties\PublishProfiles\FolderProfile.pubxml.user</FileName>
+    <FileName>Gtk.Windows.Forms\Properties\PublishProfiles\FolderProfile.pubxml.user</FileName>
     <SourceString></SourceString>
     <TargetString></TargetString>
   </Item>-->

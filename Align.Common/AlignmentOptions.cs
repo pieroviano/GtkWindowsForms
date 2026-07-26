@@ -4,7 +4,7 @@ namespace Align.Common;
 /// Everything that distinguishes one alignment tool from another: what is merged (<see cref="Scope"/>),
 /// how the transformed trees are produced (<see cref="Transform"/>), where the checkpoint lives, and the
 /// labels/branch names used in reports. The driver itself (<see cref="AlignmentDriver"/>) is identical
-/// for AlignProjects (Net4x.* libraries) and AlignSamples (the sample apps) - see
+/// for AlignProjects (Gtk.* libraries) and AlignSamples (the sample apps) - see
 /// <c>AlignSamples-Plan.md</c> Phase 0.
 /// </summary>
 public sealed class AlignmentOptions
@@ -17,7 +17,7 @@ public sealed class AlignmentOptions
 
     /// <summary>
     /// Repo-relative directories the merge covers - and the ONLY paths the delta may ever replace
-    /// (e.g. <c>Net4x.Gtk.Windows.Forms</c> + <c>Net4x.Gtk.Drawing</c>, or the two sample apps).
+    /// (e.g. <c>Gtk.Windows.Forms</c> + <c>Gtk.Drawing</c>, or the two sample apps).
     /// </summary>
     public required IReadOnlyList<string> Scope { get; init; }
 

@@ -7,10 +7,10 @@ Subject: [PATCH] Fix ItemArray
  .../System/Windows/Forms/Collection/ItemArray.cs       | 10 ++++++++--
  1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.cs
 index 85e3d6d..66ac42e 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.cs
 @@ -11,7 +11,6 @@ namespace System.Windows.Forms;
  /// This is similar to ArrayList except that it also
  /// maintains a bit-flag based state element for each item

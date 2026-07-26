@@ -21,7 +21,7 @@ public sealed class StructuralMatchResult
 
 /// <summary>
 /// Preflight guard for the 3-way merge: <c>f(base)</c> must have the <b>same set of file paths</b> as
-/// <c>OURS</c> (the live Net4x.*), differing only <i>inside</i> files. If the transform's layout has
+/// <c>OURS</c> (the live Gtk.*), differing only <i>inside</i> files. If the transform's layout has
 /// drifted (files added/removed/renamed), a cherry-pick would create duplicates/orphans instead of
 /// merging — so the run must abort. See <c>AlignProjects-Plan.md</c> §3.4.
 /// </summary>

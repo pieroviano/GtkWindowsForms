@@ -17,20 +17,20 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../ToolStripDropDown.Members.cs              | 120 ++++++++++++++++++
  .../Forms/MenuStripBase/ToolStripDropDown.cs  |   2 +-
  3 files changed, 219 insertions(+), 1 deletion(-)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripDropDownMembersFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.Members.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripDropDownMembersFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.Members.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripDropDownMembersFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripDropDownMembersFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripDropDownMembersFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripDropDownMembersFunctionalTests.cs
 new file mode 100644
 index 00000000..993cbfde
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripDropDownMembersFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripDropDownMembersFunctionalTests.cs
 @@ -0,0 +1,98 @@
 +using System.ComponentModel;
 +using System.Drawing;
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Tests for the drop-down lifecycle surface added to <see cref="ToolStripDropDown" /> — the
@@ -124,11 +124,11 @@ index 00000000..993cbfde
 +        Assert.False(ctx.AutoClose);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.Members.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.Members.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.Members.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.Members.cs
 new file mode 100644
 index 00000000..faa2bb5b
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.Members.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.Members.cs
 @@ -0,0 +1,120 @@
 +using System.ComponentModel;
 +using System.Drawing;
@@ -250,10 +250,10 @@ index 00000000..faa2bb5b
 +        }
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
 index 96de6449..33eb2fd3 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
 @@ -13,7 +13,7 @@ namespace System.Windows.Forms;
  /// <see cref="!:System.Windows.Forms.Menu" />
  /// is retained for both backward compatibility and future use if you choose.

@@ -25,19 +25,19 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../System/Windows/Forms/Form.Placement.cs    | 101 ++++++++++++++++++
  .../System/Windows/Forms/Form.cs              |  11 ++
  3 files changed, 189 insertions(+)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormPlacementFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Placement.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/FormPlacementFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Form.Placement.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormPlacementFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormPlacementFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/FormPlacementFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/FormPlacementFunctionalTests.cs
 new file mode 100644
 index 00000000..18d9257f
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormPlacementFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/FormPlacementFunctionalTests.cs
 @@ -0,0 +1,77 @@
 +using System.Drawing;
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Tests for Form's window-placement surface (§5.1 of API-COMPLETENESS): DesktopBounds/DesktopLocation and
@@ -111,11 +111,11 @@ index 00000000..18d9257f
 +        Assert.Equal(form.Location, form.DesktopLocation);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Placement.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Placement.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Form.Placement.cs b/Gtk.Windows.Forms/System/Windows/Forms/Form.Placement.cs
 new file mode 100644
 index 00000000..03bb95bf
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Placement.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Form.Placement.cs
 @@ -0,0 +1,101 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -218,10 +218,10 @@ index 00000000..03bb95bf
 +    /// <param name="e">The event data.</param>
 +    protected virtual void OnRightToLeftLayoutChanged(EventArgs e) => RightToLeftLayoutChanged?.Invoke(this, e);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 index d38c2cba..2c645db2 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 @@ -597,6 +597,17 @@ public partial class Form : ContainerControl, IWin32Window
          }
          set

@@ -6,7 +6,7 @@ namespace Prepare.Common.IO;
 /// Guards the one failure mode the generate-from-submodule design creates: a fix hand-edited into a
 /// generated tree is <em>silently temporary</em>.
 /// <para>
-/// The transform rewrites <c>Net4x.Gtk.Windows.Forms/</c> and <c>Net4x.Gtk.Drawing/</c> from the
+/// The transform rewrites <c>Gtk.Windows.Forms/</c> and <c>Gtk.Drawing/</c> from the
 /// submodule before any patch is applied, so uncommitted edits in those trees are destroyed by the next
 /// run without a word. Durable changes belong in <c>patches/</c>, <c>Resources/</c>, a post-processing
 /// rule, or the submodule - see Patches.txt.
@@ -17,8 +17,8 @@ public static class GeneratedTreeGuard
     /// <summary>The trees the transform regenerates, and therefore may not be hand-edited durably.</summary>
     public static readonly string[] GeneratedRoots =
     {
-        "Net4x.Gtk.Windows.Forms/",
-        "Net4x.Gtk.Drawing/",
+        "Gtk.Windows.Forms/",
+        "Gtk.Drawing/",
     };
 
     /// <summary>Set this environment variable to a non-empty value to proceed despite dirty trees.</summary>

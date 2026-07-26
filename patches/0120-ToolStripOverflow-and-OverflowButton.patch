@@ -17,19 +17,19 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../Forms/MenuStripBase/ToolStripOverflow.cs  | 29 +++++++++++++++
  .../MenuStripBase/ToolStripOverflowButton.cs  | 17 +++++++++
  3 files changed, 83 insertions(+)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripOverflowFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripOverflow.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripOverflowButton.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripOverflowFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripOverflow.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripOverflowButton.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripOverflowFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripOverflowFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripOverflowFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripOverflowFunctionalTests.cs
 new file mode 100644
 index 00000000..3b81dc35
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripOverflowFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripOverflowFunctionalTests.cs
 @@ -0,0 +1,37 @@
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Tests for the overflow chevron surface (§3 of API-COMPLETENESS), which became additive once
@@ -64,11 +64,11 @@ index 00000000..3b81dc35
 +        Assert.IsAssignableFrom<ToolStripDropDownButton>(button);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripOverflow.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripOverflow.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripOverflow.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripOverflow.cs
 new file mode 100644
 index 00000000..b191642a
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripOverflow.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripOverflow.cs
 @@ -0,0 +1,29 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -99,11 +99,11 @@ index 00000000..b191642a
 +    {
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripOverflowButton.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripOverflowButton.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripOverflowButton.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripOverflowButton.cs
 new file mode 100644
 index 00000000..0813a5a3
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripOverflowButton.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripOverflowButton.cs
 @@ -0,0 +1,17 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.

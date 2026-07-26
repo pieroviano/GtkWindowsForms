@@ -3,15 +3,15 @@ Form Design Management Method
 Using the GTKWinFormsApp project as an example:
 
 1. GtkWinFormsApp.csproj
-   This project references the Net4x.Gtk.Windows.Forms framework.
-   Install Net4x.System.Windows.FormsDesigner from NuGet, then simply build the project.
+   This project references the Gtk.Windows.Forms framework.
+   Install Gtk.Windows.FormsDesigner from NuGet, then simply build the project.
 2. GtkSystemWinFormsApp11.csproj
-   This project references the Net4x.Gtk.Windows.Forms framework.
-   Install Net4x.System.Windows.FormsDesigner from NuGet, then simply build the project.
+   This project references the Gtk.Windows.Forms framework.
+   Install Gtk.Windows.FormsDesigner from NuGet, then simply build the project.
 
 Creation steps:
 + Create a new Windows Forms App project (for example, GtkWinFormsApp_Win).
-+ After the project is created, add a package reference to Net4x.Gtk.Windows.Forms and Net4x.Gtk.Windows.FormsDesigner.
++ After the project is created, add a package reference to Gtk.Windows.Forms and Gtk.Windows.FormsDesigner.
 + Enable Show All Files and add all forms and user controls to the project.
 + Compile and run the project.
 

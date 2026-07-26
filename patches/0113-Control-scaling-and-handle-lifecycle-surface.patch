@@ -29,19 +29,19 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../Windows/Forms/Control/Control.Scaling.cs  | 175 ++++++++++++++++++
  .../System/Windows/Forms/Control/Control.cs   |  38 +---
  3 files changed, 292 insertions(+), 35 deletions(-)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlScalingFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Scaling.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlScalingFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Scaling.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlScalingFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlScalingFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlScalingFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlScalingFunctionalTests.cs
 new file mode 100644
 index 00000000..d7277434
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlScalingFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlScalingFunctionalTests.cs
 @@ -0,0 +1,114 @@
 +using System.Drawing;
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Tests for the bounds-core / scaling / handle-lifecycle override surface (§5.2 of API-COMPLETENESS).
@@ -152,11 +152,11 @@ index 00000000..d7277434
 +        Assert.Equal("DC", probe.HandleLog);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Scaling.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Scaling.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Scaling.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Scaling.cs
 new file mode 100644
 index 00000000..1cd50cf8
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Scaling.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Scaling.cs
 @@ -0,0 +1,175 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -333,10 +333,10 @@ index 00000000..1cd50cf8
 +        CreateHandle();
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 index 994341ed..b8c1986a 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 @@ -3089,41 +3089,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </param>
      public virtual void SetBounds(int x, int y, int width, int height, BoundsSpecified specified)

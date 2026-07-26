@@ -56,8 +56,8 @@ that pinned the old throwing behaviour were rewritten to pin the new one.
 Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
 ---
  .../GraphicsRegionPathClipFunctionalTests.cs  | 146 +++++++
- Net4x.Gtk.Drawing/System/Drawing/Graphics.cs  |  78 +++-
- Net4x.Gtk.Drawing/System/Drawing/Region.cs    |  20 +
+ Gtk.Drawing/System/Drawing/Graphics.cs  |  78 +++-
+ Gtk.Drawing/System/Drawing/Region.cs    |  20 +
  ...plicationResidualSurfaceFunctionalTests.cs | 170 ++++++++
  .../ArrangedElementContractFunctionalTests.cs |   1 +
  .../CollectionTests/ArrangedElementTests.cs   |   9 +-
@@ -74,17 +74,17 @@ Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
  .../PropertyGridBase/GridEntry.cs             | 150 ++++++-
  .../PropertyGridBase/PropertyGridView.cs      | 163 ++++++--
  18 files changed, 1655 insertions(+), 99 deletions(-)
- create mode 100644 Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ApplicationResidualSurfaceFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewCollectionMembersFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridBrowserFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.Lifecycle.cs
+ create mode 100644 Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/ApplicationResidualSurfaceFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewCollectionMembersFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridBrowserFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Application/Application.Lifecycle.cs
 
-diff --git a/Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs b/Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
+diff --git a/Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs b/Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
 new file mode 100644
 index 00000000..247792ae
 --- /dev/null
-+++ b/Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
++++ b/Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
 @@ -0,0 +1,146 @@
 +extern alias gtk;
 +using Graphics = gtk::System.Drawing.Graphics;
@@ -232,10 +232,10 @@ index 00000000..247792ae
 +        Assert.Equal((float)Size, bounds.Height, 3);
 +    }
 +}
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+diff --git a/Gtk.Drawing/System/Drawing/Graphics.cs b/Gtk.Drawing/System/Drawing/Graphics.cs
 index f34ea168..4587582a 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+--- a/Gtk.Drawing/System/Drawing/Graphics.cs
++++ b/Gtk.Drawing/System/Drawing/Graphics.cs
 @@ -2483,6 +2483,25 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
              return;
          }
@@ -347,10 +347,10 @@ index f34ea168..4587582a 100644
  
          if (isfill == true)
              this.context.Fill();
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Region.cs b/Net4x.Gtk.Drawing/System/Drawing/Region.cs
+diff --git a/Gtk.Drawing/System/Drawing/Region.cs b/Gtk.Drawing/System/Drawing/Region.cs
 index 8e4cd118..389c32e9 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Region.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Region.cs
+--- a/Gtk.Drawing/System/Drawing/Region.cs
++++ b/Gtk.Drawing/System/Drawing/Region.cs
 @@ -38,12 +38,28 @@ public sealed class Region : MarshalByRefObject, IDisposable
      /// <summary>The disjoint rectangles whose union is this region.</summary>
      internal IReadOnlyList<RectangleF> Bands => bands;
@@ -412,18 +412,18 @@ index 8e4cd118..389c32e9 100644
          graphicsPath = new GraphicsPath();
          rectangle = RectangleF.Empty;
          UpdateRegionData();
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ApplicationResidualSurfaceFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ApplicationResidualSurfaceFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ApplicationResidualSurfaceFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ApplicationResidualSurfaceFunctionalTests.cs
 new file mode 100644
 index 00000000..2b8847e8
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ApplicationResidualSurfaceFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ApplicationResidualSurfaceFunctionalTests.cs
 @@ -0,0 +1,170 @@
 +using System.ComponentModel;
 +using System.Reflection;
 +using System.Windows.Forms;
 +using System.Windows.Forms.VisualStyles;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Behavioural tests for the lifecycle members <see cref="Application" /> was still missing:
@@ -588,20 +588,20 @@ index 00000000..2b8847e8
 +        Assert.Equal(typeof(void), restart!.ReturnType);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ArrangedElementContractFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ArrangedElementContractFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ArrangedElementContractFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ArrangedElementContractFunctionalTests.cs
 index e4c52e93..7377df95 100644
---- a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ArrangedElementContractFunctionalTests.cs
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ArrangedElementContractFunctionalTests.cs
+--- a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ArrangedElementContractFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ArrangedElementContractFunctionalTests.cs
 @@ -93,4 +93,5 @@ public class ArrangedElementContractFunctionalTests
  
          Assert.Null(exception);
      }
 +
  }
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/CollectionTests/ArrangedElementTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/CollectionTests/ArrangedElementTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/CollectionTests/ArrangedElementTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/CollectionTests/ArrangedElementTests.cs
 index 1b00573d..aef7855c 100644
---- a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/CollectionTests/ArrangedElementTests.cs
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/CollectionTests/ArrangedElementTests.cs
+--- a/Gtk.Windows.Forms.Tests/System/Windows/Forms/CollectionTests/ArrangedElementTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/CollectionTests/ArrangedElementTests.cs
 @@ -78,14 +78,13 @@ public class ArrangedElementTests
      }
  
@@ -621,17 +621,17 @@ index 1b00573d..aef7855c 100644
      }
  
      [Fact]
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewCollectionMembersFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewCollectionMembersFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewCollectionMembersFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewCollectionMembersFunctionalTests.cs
 new file mode 100644
 index 00000000..caba6fb5
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewCollectionMembersFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewCollectionMembersFunctionalTests.cs
 @@ -0,0 +1,150 @@
 +using System.Collections;
 +using System.Drawing;
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Behavioural tests for the collection and style members that still threw
@@ -777,11 +777,11 @@ index 00000000..caba6fb5
 +        Assert.Empty(list.Cast<object>());
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridBrowserFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridBrowserFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridBrowserFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridBrowserFunctionalTests.cs
 new file mode 100644
 index 00000000..45a403ec
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridBrowserFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridBrowserFunctionalTests.cs
 @@ -0,0 +1,383 @@
 +using System.ComponentModel;
 +using System.ComponentModel.Design;
@@ -791,7 +791,7 @@ index 00000000..45a403ec
 +using System.Windows.Forms.ComponentModel.Com2Interop;
 +using System.Windows.Forms.PropertyGridInternal;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Behavioural tests for the property browser's editing machinery.
@@ -1166,10 +1166,10 @@ index 00000000..45a403ec
 +        return store.IterNChildren();
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridTests.cs
 index bbdde1eb..44cccb74 100644
---- a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridTests.cs
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridTests.cs
+--- a/Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/PropertyGridTests.cs
 @@ -249,28 +249,32 @@ public class PropertyGridTests
      }
  
@@ -1208,11 +1208,11 @@ index bbdde1eb..44cccb74 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.Lifecycle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.Lifecycle.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.Lifecycle.cs b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.Lifecycle.cs
 new file mode 100644
 index 00000000..8f5f60c0
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.Lifecycle.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.Lifecycle.cs
 @@ -0,0 +1,282 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1496,10 +1496,10 @@ index 00000000..8f5f60c0
 +            ? argument
 +            : "\"" + argument.Replace("\"", "\\\"") + "\"";
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
 index bc2c2e08..0a762016 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
 @@ -441,11 +441,16 @@ public sealed partial class Application
      }
  
@@ -1519,10 +1519,10 @@ index bc2c2e08..0a762016 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ArrangedElement.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ArrangedElement.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/ArrangedElement.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/ArrangedElement.cs
 index 8cf6081e..3ab16b4e 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ArrangedElement.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ArrangedElement.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/ArrangedElement.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/ArrangedElement.cs
 @@ -48,7 +48,12 @@ internal abstract class ArrangedElement : Component, IArrangedElement
          }
      }
@@ -1537,10 +1537,10 @@ index 8cf6081e..3ab16b4e 100644
  
      public abstract LayoutEngine LayoutEngine
      {
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellCollection.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellCollection.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellCollection.cs
 index 78b6abad..338dd15a 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellCollection.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellCollection.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellCollection.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellCollection.cs
 @@ -201,7 +201,20 @@ public class DataGridViewCellCollection : BaseCollection, IList, ICollection, IE
          }
      }
@@ -1563,10 +1563,10 @@ index 78b6abad..338dd15a 100644
  
      /// <summary>
      /// Adds the specified data grid view cell.
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellLinkedList.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellLinkedList.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellLinkedList.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellLinkedList.cs
 index e5143b69..66bfeae1 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellLinkedList.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellLinkedList.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellLinkedList.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellLinkedList.cs
 @@ -1,7 +1,8 @@
 -﻿// Licensed to the .NET Foundation under one or more agreements.
 +// Licensed to the .NET Foundation under one or more agreements.
@@ -1718,10 +1718,10 @@ index e5143b69..66bfeae1 100644
 -}
 \ No newline at end of file
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyle.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyle.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyle.cs
 index 9cb48aba..038f08d8 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyle.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyle.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyle.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyle.cs
 @@ -322,8 +322,5 @@ public class DataGridViewCellStyle : ICloneable
          return "DataGridViewCellStyle";
      }
@@ -1733,10 +1733,10 @@ index 9cb48aba..038f08d8 100644
 +    object ICloneable.Clone() => Clone();
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs b/Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
 index 7d30c254..656eb17d 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
 @@ -527,7 +527,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
      /// false
      /// </c>.
@@ -1854,10 +1854,10 @@ index 7d30c254..656eb17d 100644
      private void _propertyView_RowActivated(object o, Gtk.RowActivatedArgs args)
      {
          if (_propertyView.store.GetIter(out var iter, args.Path))
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/GridEntry.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/GridEntry.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/GridEntry.cs b/Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/GridEntry.cs
 index 623feef6..9a6fbe58 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/GridEntry.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/GridEntry.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/GridEntry.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/GridEntry.cs
 @@ -2,6 +2,7 @@
  // The .NET Foundation licenses this file to you under the MIT license.
  
@@ -2075,10 +2075,10 @@ index 623feef6..9a6fbe58 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/PropertyGridView.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/PropertyGridView.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/PropertyGridView.cs b/Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/PropertyGridView.cs
 index 0b45e5c2..483b208a 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/PropertyGridView.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/PropertyGridView.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/PropertyGridView.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/PropertyGridInternal/PropertyGridBase/PropertyGridView.cs
 @@ -25,6 +25,13 @@ internal sealed partial class PropertyGridView
  
      private GridEntry? oldSelectedPropertyItem;

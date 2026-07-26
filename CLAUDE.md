@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repository is
 
-`Net4x.Gtk.Windows.Forms` is a WinForms-compatibility layer implemented on top of GTK (via GtkSharp), letting existing C# WinForms apps compile once and run cross-platform (Windows, Linux, macOS) with the native Visual Studio WinForms designer. It ships as the NuGet packages **`Gtk.Windows.Forms`** (`Net4x.Gtk.Windows.Forms.csproj`) and **`Net4x.Gtk.Drawing`** (a `System.Drawing` shim split out of the main library).
+`Gtk.Windows.Forms` is a WinForms-compatibility layer implemented on top of GTK (via GtkSharp), letting existing C# WinForms apps compile once and run cross-platform (Windows, Linux, macOS) with the native Visual Studio WinForms designer. It ships as the NuGet packages **`Gtk.Windows.Forms`** (`Gtk.Windows.Forms.csproj`) and **`Gtk.Drawing`** (a `System.Drawing` shim split out of the main library).
 
 This is a **maintained fork** of [GTKSystem.Windows.Forms](https://github.com/easywebfactory/gtksystem-windows-forms) (originally EasyWebFactory). The vendored submodule's own `LICENSE` — and the `Source/licenses/LICENSE.txt` that all five NuGet packages pack — is the **GNU LGPL v3**; this line previously said "MIT", which nothing in the tree supports. Confirm with upstream before relying on either. Instead of a git fork (which produced too many merge conflicts), upstream is vendored as the **`gtksystem-windows-forms` git submodule** and the shippable library is *regenerated* from it by a build pipeline (see below). The `mono` submodule supplies reference implementations for unimplemented `System.Drawing` types.
 
@@ -12,23 +12,23 @@ This is a **maintained fork** of [GTKSystem.Windows.Forms](https://github.com/ea
 
 | Solution | Purpose |
 |---|---|
-| `Net4x.Gtk.Windows.Forms.sln` | **The product**: the library projects, sample apps (`GtkWinFormsApp`, `GtkSystemWinFormsApp11`), and test projects. Build/run/test this normally. |
+| `Gtk.Windows.Forms.sln` | **The product**: the library projects, sample apps (`GtkWinFormsApp`, `GtkSystemWinFormsApp11`), and test projects. Build/run/test this normally. |
 | `PrepareProjects.sln` | **The build/generation pipeline**: `PrepareProjects` (orchestrator, see [PrepareProjects/Program.cs](PrepareProjects/Program.cs)), `Prepare.Common`, `Align.Common`, `XmlDocSync`, `UpdatePostProcessing`, and the two post-pipelines `AlignProjects` / `AlignSamples`. Running it regenerates the library from the submodule. |
 
 ### CRITICAL: the shippable library source is generated
 
-The contents of `Net4x.Gtk.Windows.Forms/` and `Net4x.Gtk.Drawing/` are **produced by the prepare pipeline** from the `gtksystem-windows-forms` submodule. `PrepareProjects` performs, in order (see [Program.cs](PrepareProjects/Program.cs)): UTF-8 conversion, Chinese→English translation, multi-language resource extraction, applying `patches/*.patch`, file reorganization to match namespaces, splitting the `System.Drawing` code into `Net4x.Gtk.Drawing`, substituting unimplemented classes with `mono` equivalents, XML-doc merge, Roslyn rewrites (e.g. ensuring `OnXxx` methods raise their events), `dotnet format`, then a build and NuGet publish.
+The contents of `Gtk.Windows.Forms/` and `Gtk.Drawing/` are **produced by the prepare pipeline** from the `gtksystem-windows-forms` submodule. `PrepareProjects` performs, in order (see [Program.cs](PrepareProjects/Program.cs)): UTF-8 conversion, Chinese→English translation, multi-language resource extraction, applying `patches/*.patch`, file reorganization to match namespaces, splitting the `System.Drawing` code into `Gtk.Drawing`, substituting unimplemented classes with `mono` equivalents, XML-doc merge, Roslyn rewrites (e.g. ensuring `OnXxx` methods raise their events), `dotnet format`, then a build and NuGet publish.
 
-**Consequence:** hand edits to files under `Net4x.Gtk.Windows.Forms/` or `Net4x.Gtk.Drawing/` can be overwritten the next time the pipeline runs. To make a change durable, put it in the right layer:
+**Consequence:** hand edits to files under `Gtk.Windows.Forms/` or `Gtk.Drawing/` can be overwritten the next time the pipeline runs. To make a change durable, put it in the right layer:
 
 - **Behavioral code fixes** → add/update a patch in `patches/` (there are 80+, named `NNNN-Description.patch`). New patches are created with the recipe in [Patches.txt](Patches.txt): `git format-patch -o patches/ -1 HEAD -- :(exclude)*.csproj`. Patches are applied by `GitPatchApplier.CommitAndApplyPatches()` at the end of the pipeline.
 - **Injected/overlaid source & translations** → files under `Resources/` (e.g. `AutoClosingMessageBox.cs`, `ControlExtension.cs`, `MessageBoxResources.*.xml`, `Translations.xml`). `ResourcesCopyService.CopyCodeFromResources` copies these into the generated tree.
 - **Post-processing rules** → the `Resources/*PostProcessing.xml` files (`PostProcessing.xml`, `IntermediatePostProcessing.xml`, `LatestPostProcessing.xml`), edited via the `UpdatePostProcessing` tool.
 - **Upstream logic** → the `gtksystem-windows-forms` submodule itself.
 
-Directories ending in `.LatestBackup` (e.g. `Net4x.Gtk.Windows.Forms.LatestBackup`) are pipeline-generated backups — not source.
+Directories ending in `.LatestBackup` (e.g. `Gtk.Windows.Forms.LatestBackup`) are pipeline-generated backups — not source.
 
-**`AlignProjects`** and **`AlignSamples`** (both in `PrepareProjects.sln`) are companion post-pipelines that incrementally forward-port newer gitee upstream changes onto the generated code — a transformed-space delta, 3-way merged, preserving patches. `AlignProjects` covers the `Net4x.*` libraries (transform `f`); `AlignSamples` covers the sample apps (transform `fs`) and additionally keeps them culture-aware (new Chinese is keyed into the resx pair and reviewed at an operator pause, and the culture invariant is verified after the merge). They share one driver (`Align.Common.AlignmentDriver`) and keep independent checkpoints.
+**`AlignProjects`** and **`AlignSamples`** (both in `PrepareProjects.sln`) are companion post-pipelines that incrementally forward-port newer gitee upstream changes onto the generated code — a transformed-space delta, 3-way merged, preserving patches. `AlignProjects` covers the `Gtk.*` libraries (transform `f`); `AlignSamples` covers the sample apps (transform `fs`) and additionally keeps them culture-aware (new Chinese is keyed into the resx pair and reviewed at an operator pause, and the culture invariant is verified after the merge). They share one driver (`Align.Common.AlignmentDriver`) and keep independent checkpoints.
 
 Run order — never chained automatically: `PrepareProjects` → `AlignProjects` → `AlignSamples`. See [AlignProjects.md](AlignProjects.md) / [AlignProjects-Plan.md](AlignProjects-Plan.md) and [AlignSamples.md](AlignSamples.md) / [AlignSamples-Plan.md](AlignSamples-Plan.md); AlignProjects' transform-producer half is not finished yet.
 
@@ -38,14 +38,14 @@ Prerequisites: .NET SDK (net10.0 SDK required — test projects target `net10.0`
 
 ```sh
 # Build / test the product
-dotnet build Net4x.Gtk.Windows.Forms.sln
-dotnet test  Net4x.Gtk.Windows.Forms.sln
+dotnet build Gtk.Windows.Forms.sln
+dotnet test  Gtk.Windows.Forms.sln
 
 # Run a single test project
-dotnet test Net4x.Gtk.Windows.Forms.Tests/Net4x.Gtk.Windows.Forms.Tests.csproj
+dotnet test Gtk.Windows.Forms.Tests/Gtk.Windows.Forms.Tests.csproj
 
 # Run a single test by name (xUnit)
-dotnet test Net4x.Gtk.Windows.Forms.Tests/Net4x.Gtk.Windows.Forms.Tests.csproj --filter "FullyQualifiedName~SomeTestName"
+dotnet test Gtk.Windows.Forms.Tests/Gtk.Windows.Forms.Tests.csproj --filter "FullyQualifiedName~SomeTestName"
 
 # Run a sample app
 dotnet run --project GtkWinFormsApp/GtkWinFormsApp.csproj
@@ -55,21 +55,21 @@ dotnet run --project GtkWinFormsApp/GtkWinFormsApp.csproj
 dotnet run --project PrepareProjects/PrepareProjects.csproj
 ```
 
-Test projects (all xUnit + `Microsoft.NET.Test.Sdk`): `Net4x.Gtk.Windows.Forms.Tests`, `Net4x.Gtk.Drawing.Tests`, `Gtk.Windows.FormsDesigner.Tests`, `Net4x.ResxProcessor.Tests`, `AutoClosingMessageBox.Tests`, and `Prepare.Tests` (tests the pipeline, in `PrepareProjects.sln`).
+Test projects (all xUnit + `Microsoft.NET.Test.Sdk`): `Gtk.Windows.Forms.Tests`, `Gtk.Drawing.Tests`, `Gtk.Windows.FormsDesigner.Tests`, `ResxProcessor.Tests`, `AutoClosingMessageBox.Tests`, and `Prepare.Tests` (tests the pipeline, in `PrepareProjects.sln`).
 
 ## Build configuration
 
-- **Central versioning & package pinning** live in [Directory.Nuget.Props](Directory.Nuget.Props) (a large generated-ish property/version manifest) and [Directory.Build.Props](Directory.Build.Props). Package version is `Net4xGtkWindowsFormsVersion` (currently `1.3.24`) + `VersionSuffix`; `GtkSharpLatestVersion` (currently `3.24.24`) pins GtkSharp. Prefer editing these variables over hardcoding versions in individual csproj files.
+- **Central versioning & package pinning** live in [Directory.Nuget.Props](Directory.Nuget.Props) (a large generated-ish property/version manifest) and [Directory.Build.Props](Directory.Build.Props). Package version is `GtkWindowsFormsVersion` (currently `1.3.24`) + `VersionSuffix`; `GtkSharpLatestVersion` (currently `3.24.24`) pins GtkSharp. Prefer editing these variables over hardcoding versions in individual csproj files.
 - **Target frameworks**: the shippable library is `netstandard2.0` (deliberately not tied to a specific .NET version). Tests target `net10.0`. Tooling targets modern .NET.
 - **Signing**: assemblies are strong-name signed with `GtkForms.snk`; `InternalsVisibleTo` for test projects is declared with the matching public key.
 - **NuGet feeds** ([Nuget.Config](Nuget.Config)): a local `Packages` folder (symlink) plus nuget.org. Built packages are emitted to `$(SolutionDir)Packages/`.
 
 ## Code architecture
 
-- **`Net4x.Gtk.Windows.Forms`** — the WinForms API surface. Public types live under `System/` mirroring the real `System.Windows.Forms` namespaces; GTK-backed implementations live under `GtkControls/` and `GtkSystem/`. The pattern throughout: public WinForms classes wrap GtkSharp widgets and translate GTK signals into WinForms events with compatible delegate signatures (e.g. `RichTextBoxBase` wraps `Gtk.TextView`). Layout/rendering rules are reimplemented on top of GTK's measure/allocate cycle. Image assets are `EmbeddedResource`s under `Resources/System/` and are loaded at runtime by assembly resource name (`Resources.System.<file>`).
-- **`Net4x.Gtk.Drawing`** — `System.Drawing` compatibility shim (brushes, `Matrix`, `StringFormat`, etc.) over GTK/Cairo, referenced by the Forms library. Referenced in test projects with the `gtk` extern alias to disambiguate from real `System.Drawing`.
-- **`Net4x.Gtk.Windows.FormsDesigner`** / **`Net4x.System.Resources.Extensions`** — design-time support and a `System.Resources.Extensions` reimplementation (many patches target ResX reading/serialization).
-- **`Net4x.ResxProcessor`** — a tool packaged with the library (shipped under `tools/`) for resource processing; regenerates `.Designer.cs` from resources during the pipeline.
+- **`Gtk.Windows.Forms`** — the WinForms API surface. Public types live under `System/` mirroring the real `System.Windows.Forms` namespaces; GTK-backed implementations live under `GtkControls/` and `GtkSystem/`. The pattern throughout: public WinForms classes wrap GtkSharp widgets and translate GTK signals into WinForms events with compatible delegate signatures (e.g. `RichTextBoxBase` wraps `Gtk.TextView`). Layout/rendering rules are reimplemented on top of GTK's measure/allocate cycle. Image assets are `EmbeddedResource`s under `Resources/System/` and are loaded at runtime by assembly resource name (`Resources.System.<file>`).
+- **`Gtk.Drawing`** — `System.Drawing` compatibility shim (brushes, `Matrix`, `StringFormat`, etc.) over GTK/Cairo, referenced by the Forms library. Referenced in test projects with the `gtk` extern alias to disambiguate from real `System.Drawing`.
+- **`Gtk.Windows.FormsDesigner`** / **`Gtk.Resources.Extensions`** — design-time support and a `System.Resources.Extensions` reimplementation (many patches target ResX reading/serialization).
+- **`ResxProcessor`** — a tool packaged with the library (shipped under `tools/`) for resource processing; regenerates `.Designer.cs` from resources during the pipeline.
 
 ## Conventions (from `.github/copilot-instructions.md`)
 

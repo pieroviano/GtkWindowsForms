@@ -7,10 +7,10 @@ Subject: [PATCH] Fix ApplicationContext
  .../System/Windows/Forms/Control/Control.cs                    | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 index de9b1cc..237431b 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 @@ -1044,7 +1044,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// <summary>
      /// Gets a value indicating whether the control has been disposed.

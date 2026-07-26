@@ -37,27 +37,27 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../DataGridViewRowHeadersWidthSizeMode.cs    |  21 ++++
  .../Forms/MenuStripBase/ToolStripItem.cs      |  48 ++++++++
  13 files changed, 437 insertions(+), 2 deletions(-)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEnumValuesTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DropTargetFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewAutoSizeRowMode.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellBorderStyle.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewClipboardCopyMode.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxDisplayStyle.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewEditMode.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHeaderBorderStyle.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHitTestType.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewImageCellLayout.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowHeadersWidthSizeMode.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEnumValuesTests.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/DropTargetFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewAutoSizeRowMode.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellBorderStyle.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewClipboardCopyMode.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxDisplayStyle.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewEditMode.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHeaderBorderStyle.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHitTestType.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewImageCellLayout.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowHeadersWidthSizeMode.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEnumValuesTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEnumValuesTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEnumValuesTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEnumValuesTests.cs
 new file mode 100644
 index 00000000..1b3b7fe0
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEnumValuesTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEnumValuesTests.cs
 @@ -0,0 +1,107 @@
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Value tests for the nine <c>DataGridView*</c> enums that were absent. The underlying integer values must
@@ -162,15 +162,15 @@ index 00000000..1b3b7fe0
 +        Assert.Equal(3, (int)DataGridViewImageCellLayout.Zoom);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DropTargetFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DropTargetFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/DropTargetFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/DropTargetFunctionalTests.cs
 new file mode 100644
 index 00000000..5a71c5c7
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DropTargetFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/DropTargetFunctionalTests.cs
 @@ -0,0 +1,64 @@
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Tests for the public <see cref="IDropTarget"/> interface. It existed only as an empty internal marker,
@@ -232,10 +232,10 @@ index 00000000..5a71c5c7
 +        Assert.Equal("enter;over;drop;leave;", log);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IDropTarget.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IDropTarget.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/IDropTarget.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/IDropTarget.cs
 index 1b05e68e..8cdad7d7 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IDropTarget.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IDropTarget.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/IDropTarget.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/IDropTarget.cs
 @@ -1,5 +1,28 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -268,11 +268,11 @@ index 1b05e68e..8cdad7d7 100644
 +    /// <param name="e">The drag event data.</param>
 +    void OnDragOver(DragEventArgs e);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewAutoSizeRowMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewAutoSizeRowMode.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewAutoSizeRowMode.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewAutoSizeRowMode.cs
 new file mode 100644
 index 00000000..94a3380f
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewAutoSizeRowMode.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewAutoSizeRowMode.cs
 @@ -0,0 +1,17 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -291,11 +291,11 @@ index 00000000..94a3380f
 +    /// <summary>The row height adjusts to fit the content of the row header cell.</summary>
 +    RowHeader = 1
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellBorderStyle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellBorderStyle.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellBorderStyle.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellBorderStyle.cs
 new file mode 100644
 index 00000000..baafa918
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellBorderStyle.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellBorderStyle.cs
 @@ -0,0 +1,33 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -330,11 +330,11 @@ index 00000000..baafa918
 +    /// <summary>A three-dimensional sunken horizontal border.</summary>
 +    SunkenHorizontal = 10
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewClipboardCopyMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewClipboardCopyMode.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewClipboardCopyMode.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewClipboardCopyMode.cs
 new file mode 100644
 index 00000000..65c1f0fe
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewClipboardCopyMode.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewClipboardCopyMode.cs
 @@ -0,0 +1,19 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -355,11 +355,11 @@ index 00000000..65c1f0fe
 +    /// <summary>Header text is always included when copying.</summary>
 +    EnableAlwaysIncludeHeaderText = 3
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxDisplayStyle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxDisplayStyle.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxDisplayStyle.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxDisplayStyle.cs
 new file mode 100644
 index 00000000..f8f8f631
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxDisplayStyle.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxDisplayStyle.cs
 @@ -0,0 +1,17 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -378,11 +378,11 @@ index 00000000..f8f8f631
 +    /// <summary>The cell appears as a static text cell.</summary>
 +    Nothing = 2
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewEditMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewEditMode.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewEditMode.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewEditMode.cs
 new file mode 100644
 index 00000000..19c19d37
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewEditMode.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewEditMode.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -405,11 +405,11 @@ index 00000000..19c19d37
 +    /// <summary>Editing begins only in response to BeginEdit.</summary>
 +    EditProgrammatically = 4
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHeaderBorderStyle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHeaderBorderStyle.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHeaderBorderStyle.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHeaderBorderStyle.cs
 new file mode 100644
 index 00000000..c8417659
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHeaderBorderStyle.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHeaderBorderStyle.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -432,11 +432,11 @@ index 00000000..c8417659
 +    /// <summary>No borders.</summary>
 +    None = 4
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHitTestType.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHitTestType.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHitTestType.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHitTestType.cs
 new file mode 100644
 index 00000000..18b7c3b2
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHitTestType.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewHitTestType.cs
 @@ -0,0 +1,25 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -463,11 +463,11 @@ index 00000000..18b7c3b2
 +    /// <summary>The vertical scroll bar.</summary>
 +    VerticalScrollBar = 6
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewImageCellLayout.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewImageCellLayout.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewImageCellLayout.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewImageCellLayout.cs
 new file mode 100644
 index 00000000..a3dc7d3d
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewImageCellLayout.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewImageCellLayout.cs
 @@ -0,0 +1,19 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -488,11 +488,11 @@ index 00000000..a3dc7d3d
 +    /// <summary>The image is scaled to fit while preserving its aspect ratio.</summary>
 +    Zoom = 3
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowHeadersWidthSizeMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowHeadersWidthSizeMode.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowHeadersWidthSizeMode.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowHeadersWidthSizeMode.cs
 new file mode 100644
 index 00000000..7121ea9d
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowHeadersWidthSizeMode.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowHeadersWidthSizeMode.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -515,10 +515,10 @@ index 00000000..7121ea9d
 +    /// <summary>The row headers size to fit the content of the first row header.</summary>
 +    AutoSizeToFirstHeader = 4
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
 index 9d51e044..49dfc7c1 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
 @@ -78,6 +78,18 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
  
      public virtual event EventHandler? EnabledChanged;

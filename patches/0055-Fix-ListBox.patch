@@ -4,16 +4,16 @@ Date: Mon, 6 Apr 2026 06:11:53 +0300
 Subject: [PATCH] Fix ListBox
 
 ---
- .../Net4x.Gtk.Windows.Forms.xml               |  22 ----
+ .../Gtk.Windows.Forms.xml               |  22 ----
  .../Forms/Collection/ItemArray.Entry.cs       |   2 +-
  .../System/Windows/Forms/ListBox.cs           | 106 +++++++++++++-----
  .../System/Windows/Forms/MaskedTextBox.cs     |   2 +-
  4 files changed, 82 insertions(+), 50 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.xml b/Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.xml
+diff --git a/Gtk.Windows.Forms/Gtk.Windows.Forms.xml b/Gtk.Windows.Forms/Gtk.Windows.Forms.xml
 index 7d4767f..7652d17 100644
---- a/Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.xml
-+++ b/Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.xml
+--- a/Gtk.Windows.Forms/Gtk.Windows.Forms.xml
++++ b/Gtk.Windows.Forms/Gtk.Windows.Forms.xml
 @@ -30500,28 +30500,6 @@
              </summary>
              <seealso cref="T:System.Windows.Forms.Label" />
@@ -43,20 +43,20 @@ index 7d4767f..7652d17 100644
          <member name="P:System.Windows.Forms.ListBox.ListBoxItem.ItemValue">
              <summary>
              Gets or sets the item value.
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.Entry.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.Entry.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.Entry.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.Entry.cs
 index 16c6726..807fcdd 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.Entry.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.Entry.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.Entry.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/ItemArray.Entry.cs
 @@ -1,4 +1,4 @@
 -// Licensed to the .NET Foundation under one or more agreements.
 +﻿// Licensed to the .NET Foundation under one or more agreements.
  // The .NET Foundation licenses this file to you under the MIT license.
  
  namespace System.Windows.Forms;
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
 index 8ac69b6..0000a56 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
 @@ -7,6 +7,7 @@
  using System.Collections;
  using System.ComponentModel;
@@ -243,10 +243,10 @@ index 8ac69b6..0000a56 100644
          public object DisplayText
          {
              get { return base.Text; }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
 index 2cf7e4d..90af6fe 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
 @@ -72,7 +72,7 @@ public class MaskedTextBox : TextBox
      /// <value>
      /// The text.

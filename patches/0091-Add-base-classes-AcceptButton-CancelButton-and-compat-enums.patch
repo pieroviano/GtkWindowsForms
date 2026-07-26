@@ -65,32 +65,32 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../System/Windows/Forms/TextBox.cs           |  89 ++--
  .../System/Windows/Forms/TextBoxBase.cs       | 440 ++++++++++++++++++
  27 files changed, 1439 insertions(+), 275 deletions(-)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ButtonBaseFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormAcceptCancelButtonFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/MissingEnumValueFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/TextBoxBaseEditingFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/ButtonBase.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Buttons/FlatButtonAppearance.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrowDirection.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/CharacterCasing.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ColumnHeaderAutoResizeStyle.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/DockingBehavior.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/FrameStyle.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/InsertKeyMode.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ItemBoundsPortion.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/LinkBehavior.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuMerge.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollBars.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollButton.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/SearchDirectionHint.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TabAppearance.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBoxBase.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/ButtonBaseFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/FormAcceptCancelButtonFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/MissingEnumValueFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/TextBoxBaseEditingFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/ButtonBase.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Buttons/FlatButtonAppearance.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrowDirection.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/CharacterCasing.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/ColumnHeaderAutoResizeStyle.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/DockingBehavior.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/FrameStyle.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/InsertKeyMode.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/ItemBoundsPortion.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/LinkBehavior.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuMerge.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollBars.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollButton.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/SearchDirectionHint.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/TabAppearance.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/TextBoxBase.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ButtonBaseFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ButtonBaseFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ButtonBaseFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ButtonBaseFunctionalTests.cs
 new file mode 100644
 index 00000000..f5f9959b
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ButtonBaseFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ButtonBaseFunctionalTests.cs
 @@ -0,0 +1,82 @@
 +namespace System.Windows.Forms;
 +
@@ -174,10 +174,10 @@ index 00000000..f5f9959b
 +        form.Dispose();
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlTests/ButtonTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlTests/ButtonTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlTests/ButtonTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlTests/ButtonTests.cs
 index 33d76cfb..72a93b50 100644
---- a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlTests/ButtonTests.cs
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlTests/ButtonTests.cs
+--- a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlTests/ButtonTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlTests/ButtonTests.cs
 @@ -19,7 +19,7 @@ public class ButtonTests
          var button = new Button();
          form.Controls.Add(button);
@@ -187,11 +187,11 @@ index 33d76cfb..72a93b50 100644
          form.Load += (s, e) =>
          {
              buttonGtkControl = button.GtkControl;
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormAcceptCancelButtonFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormAcceptCancelButtonFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/FormAcceptCancelButtonFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/FormAcceptCancelButtonFunctionalTests.cs
 new file mode 100644
 index 00000000..e5ba3f80
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormAcceptCancelButtonFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/FormAcceptCancelButtonFunctionalTests.cs
 @@ -0,0 +1,60 @@
 +namespace System.Windows.Forms;
 +
@@ -253,11 +253,11 @@ index 00000000..e5ba3f80
 +        form.Dispose();
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/MissingEnumValueFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/MissingEnumValueFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/MissingEnumValueFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/MissingEnumValueFunctionalTests.cs
 new file mode 100644
 index 00000000..7d2ddab8
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/MissingEnumValueFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/MissingEnumValueFunctionalTests.cs
 @@ -0,0 +1,125 @@
 +namespace System.Windows.Forms;
 +
@@ -384,11 +384,11 @@ index 00000000..7d2ddab8
 +        Assert.Equal(2, (int)DockingBehavior.AutoDock);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/TextBoxBaseEditingFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/TextBoxBaseEditingFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/TextBoxBaseEditingFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/TextBoxBaseEditingFunctionalTests.cs
 new file mode 100644
 index 00000000..9e385ced
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/TextBoxBaseEditingFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/TextBoxBaseEditingFunctionalTests.cs
 @@ -0,0 +1,94 @@
 +namespace System.Windows.Forms;
 +
@@ -484,10 +484,10 @@ index 00000000..9e385ced
 +        form.Dispose();
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Button.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Button.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Button.cs b/Gtk.Windows.Forms/System/Windows/Forms/Button.cs
 index 2384cfee..55c1c503 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Button.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Button.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Button.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Button.cs
 @@ -7,6 +7,7 @@
  
  using System.ComponentModel;
@@ -584,11 +584,11 @@ index 2384cfee..55c1c503 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ButtonBase.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ButtonBase.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ButtonBase.cs b/Gtk.Windows.Forms/System/Windows/Forms/ButtonBase.cs
 new file mode 100644
 index 00000000..cb8f2a9c
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ButtonBase.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ButtonBase.cs
 @@ -0,0 +1,145 @@
 +/*
 + * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
@@ -735,11 +735,11 @@ index 00000000..cb8f2a9c
 +        return 0.0f;
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Buttons/FlatButtonAppearance.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Buttons/FlatButtonAppearance.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Buttons/FlatButtonAppearance.cs b/Gtk.Windows.Forms/System/Windows/Forms/Buttons/FlatButtonAppearance.cs
 new file mode 100644
 index 00000000..beda58c1
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Buttons/FlatButtonAppearance.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Buttons/FlatButtonAppearance.cs
 @@ -0,0 +1,39 @@
 +namespace System.Windows.Forms;
 +
@@ -780,10 +780,10 @@ index 00000000..beda58c1
 +    /// </summary>
 +    public System.Drawing.Color MouseOverBackColor { get; set; } = System.Drawing.Color.Empty;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
 index 1113d9fb..ceb788cb 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
 @@ -17,15 +17,13 @@ namespace System.Windows.Forms;
  /// <filterpriority> 1
  /// </filterpriority>
@@ -896,11 +896,11 @@ index 1113d9fb..ceb788cb 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrowDirection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrowDirection.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrowDirection.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrowDirection.cs
 new file mode 100644
 index 00000000..783b461c
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrowDirection.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrowDirection.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -923,11 +923,11 @@ index 00000000..783b461c
 +    /// <summary>The down direction.</summary>
 +    Down = 17,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/CharacterCasing.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/CharacterCasing.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/CharacterCasing.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/CharacterCasing.cs
 new file mode 100644
 index 00000000..1794e16f
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/CharacterCasing.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/CharacterCasing.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -947,11 +947,11 @@ index 00000000..1794e16f
 +    /// <summary>Converts all characters to lowercase.</summary>
 +    Lower = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ColumnHeaderAutoResizeStyle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ColumnHeaderAutoResizeStyle.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/ColumnHeaderAutoResizeStyle.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ColumnHeaderAutoResizeStyle.cs
 new file mode 100644
 index 00000000..4c292205
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ColumnHeaderAutoResizeStyle.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ColumnHeaderAutoResizeStyle.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -971,11 +971,11 @@ index 00000000..4c292205
 +    /// <summary>Resizes the column width to fit the width of the column contents.</summary>
 +    ColumnContent = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/DockingBehavior.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/DockingBehavior.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/DockingBehavior.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/DockingBehavior.cs
 new file mode 100644
 index 00000000..8ca34166
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/DockingBehavior.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/DockingBehavior.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -995,11 +995,11 @@ index 00000000..8ca34166
 +    /// <summary>The control docks to the parent container's edges automatically.</summary>
 +    AutoDock = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/FrameStyle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/FrameStyle.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/FrameStyle.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/FrameStyle.cs
 new file mode 100644
 index 00000000..c470e117
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/FrameStyle.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/FrameStyle.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1016,11 +1016,11 @@ index 00000000..c470e117
 +    /// <summary>A thick, solid border.</summary>
 +    Thick = 1,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/InsertKeyMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/InsertKeyMode.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/InsertKeyMode.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/InsertKeyMode.cs
 new file mode 100644
 index 00000000..48525fc7
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/InsertKeyMode.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/InsertKeyMode.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1040,11 +1040,11 @@ index 00000000..48525fc7
 +    /// <summary>Uses overwrite mode.</summary>
 +    Overwrite = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ItemBoundsPortion.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ItemBoundsPortion.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/ItemBoundsPortion.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ItemBoundsPortion.cs
 new file mode 100644
 index 00000000..29889d1e
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ItemBoundsPortion.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ItemBoundsPortion.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1067,11 +1067,11 @@ index 00000000..29889d1e
 +    /// <summary>The bounding rectangle of the icon or small icon and the item text should be retrieved.</summary>
 +    ItemOnly = 3,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/LinkBehavior.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/LinkBehavior.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/LinkBehavior.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/LinkBehavior.cs
 new file mode 100644
 index 00000000..9f0c6933
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/LinkBehavior.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/LinkBehavior.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1094,11 +1094,11 @@ index 00000000..9f0c6933
 +    /// <summary>The link text is never underlined.</summary>
 +    NeverUnderline = 3,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuMerge.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuMerge.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuMerge.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuMerge.cs
 new file mode 100644
 index 00000000..f67b9ee5
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuMerge.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuMerge.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1121,11 +1121,11 @@ index 00000000..f67b9ee5
 +    /// <summary>Removes the item from the collection.</summary>
 +    Remove = 3,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollBars.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollBars.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollBars.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollBars.cs
 new file mode 100644
 index 00000000..4fd4892d
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollBars.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollBars.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1148,11 +1148,11 @@ index 00000000..4fd4892d
 +    /// <summary>Both horizontal and vertical scroll bars are shown.</summary>
 +    Both = 3,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollButton.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollButton.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollButton.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollButton.cs
 new file mode 100644
 index 00000000..85367f0c
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollButton.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ScrollButton.cs
 @@ -0,0 +1,27 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1181,11 +1181,11 @@ index 00000000..85367f0c
 +    /// <summary>The maximum-scroll arrow (equivalent to <see cref="F:System.Windows.Forms.ScrollButton.Right" />).</summary>
 +    Max = 3,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/SearchDirectionHint.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/SearchDirectionHint.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/SearchDirectionHint.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/SearchDirectionHint.cs
 new file mode 100644
 index 00000000..7720356c
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/SearchDirectionHint.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/SearchDirectionHint.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1208,11 +1208,11 @@ index 00000000..7720356c
 +    /// <summary>Search down.</summary>
 +    Down = 40,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TabAppearance.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TabAppearance.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/TabAppearance.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/TabAppearance.cs
 new file mode 100644
 index 00000000..f7fda7bf
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TabAppearance.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/TabAppearance.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1232,10 +1232,10 @@ index 00000000..f7fda7bf
 +    /// <summary>The tabs have the appearance of flat buttons.</summary>
 +    FlatButtons = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 index 26d3191e..b2e72b4a 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 @@ -177,6 +177,39 @@ public partial class Form : ContainerControl, IWin32Window
          set;
      }
@@ -1320,10 +1320,10 @@ index 26d3191e..b2e72b4a 100644
      }
  
      private void OnShownHandler()
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs b/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
 index e4fb518b..d552c33a 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
 @@ -15,7 +15,7 @@ namespace System.Windows.Forms;
  /// <see cref="T:System.Windows.Forms.RadioButton" /> controls.
  /// </summary>
@@ -1437,10 +1437,10 @@ index e4fb518b..d552c33a 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
 index 1d3db0ee..6670912f 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
 @@ -14,18 +14,13 @@ namespace System.Windows.Forms;
  /// Represents a Windows rich text box control.
  /// </summary>
@@ -1619,10 +1619,10 @@ index 1d3db0ee..6670912f 100644
          {
              OnTextChanged(e);
          }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
 index 476b237e..36b45229 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
 @@ -7,6 +7,7 @@
  using System.ComponentModel;
  using Gtk;
@@ -1826,11 +1826,11 @@ index 476b237e..36b45229 100644
      private void Self_Changed(object sender, EventArgs e)
      {
          // TextChanged used to be suppressed while the widget was not visible, so bindings with
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBoxBase.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBoxBase.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TextBoxBase.cs b/Gtk.Windows.Forms/System/Windows/Forms/TextBoxBase.cs
 new file mode 100644
 index 00000000..c1a3f6bd
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBoxBase.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TextBoxBase.cs
 @@ -0,0 +1,440 @@
 +/*
 + * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.

@@ -11,8 +11,8 @@ namespace Prepare.Tests
             var match = new StructuralMatchResult(
                 onlyInBase: new[]
                 {
-                    "Net4x.Gtk.Windows.Forms.props",                                  // rename (Net4x. prefix)
-                    "Net4x.Gtk.Windows.Forms.targets",                               // rename
+                    "Gtk.Windows.Forms.props",                                  // props/targets present both sides
+                    "Gtk.Windows.Forms.targets",                               // (recognized as a move)
                     "System/Windows/Forms/Application/ApplicationConfiguration.cs",   // patch DELETE (genuine)
                     "System/Windows/Forms/Application/InitAppliction.cs",             // patch DELETE (genuine)
                     "System/Windows/Forms/Collection/Control.cs",                     // split source
@@ -22,7 +22,7 @@ namespace Prepare.Tests
                 {
                     "Gtk.Windows.Forms.props",                                        // rename target
                     "Gtk.Windows.Forms.targets",                                      // rename target
-                    "Net4x.Gtk.Windows.Forms.csproj.DotSettings",                     // committed setting (genuine)
+                    "Gtk.Windows.Forms.csproj.DotSettings",                     // committed setting (genuine)
                     "System/Windows/Forms/Collection/Control.ArrangedElementWidget.cs", // split part
                     "System/Windows/Forms/Collection/Control.ControlCollection.cs",     // split part
                     "System/Windows/Forms/Enum/ColorDepth.cs"                         // moved target
@@ -38,7 +38,7 @@ namespace Prepare.Tests
                     "System/Windows/Forms/Application/InitAppliction.cs"
                 },
                 reduced.BaseOnly);
-            Assert.Equal(new[] { "Net4x.Gtk.Windows.Forms.csproj.DotSettings" }, reduced.OursOnly);
+            Assert.Equal(new[] { "Gtk.Windows.Forms.csproj.DotSettings" }, reduced.OursOnly);
         }
 
         [Fact]

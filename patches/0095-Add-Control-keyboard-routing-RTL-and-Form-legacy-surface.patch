@@ -42,16 +42,16 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../System/Windows/Forms/Form.Legacy.cs       | 105 ++++++++
  .../System/Windows/Forms/Form.cs              | 105 ++++++++
  5 files changed, 626 insertions(+)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlExtensibilityFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormLegacyFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Extensibility.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Legacy.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlExtensibilityFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/FormLegacyFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Extensibility.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Form.Legacy.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlExtensibilityFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlExtensibilityFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlExtensibilityFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlExtensibilityFunctionalTests.cs
 new file mode 100644
 index 00000000..e6884514
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlExtensibilityFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlExtensibilityFunctionalTests.cs
 @@ -0,0 +1,89 @@
 +namespace System.Windows.Forms;
 +
@@ -142,11 +142,11 @@ index 00000000..e6884514
 +        form.Dispose();
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormLegacyFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormLegacyFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/FormLegacyFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/FormLegacyFunctionalTests.cs
 new file mode 100644
 index 00000000..d0de3642
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/FormLegacyFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/FormLegacyFunctionalTests.cs
 @@ -0,0 +1,97 @@
 +namespace System.Windows.Forms;
 +
@@ -245,11 +245,11 @@ index 00000000..d0de3642
 +        owner.Dispose();
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Extensibility.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Extensibility.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Extensibility.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Extensibility.cs
 new file mode 100644
 index 00000000..f2338cee
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Extensibility.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Extensibility.cs
 @@ -0,0 +1,230 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -481,11 +481,11 @@ index 00000000..f2338cee
 +    /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
 +    protected virtual void OnParentVisibleChanged(EventArgs e) => OnVisibleChanged(e);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Legacy.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Legacy.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Form.Legacy.cs b/Gtk.Windows.Forms/System/Windows/Forms/Form.Legacy.cs
 new file mode 100644
 index 00000000..8a51570a
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Legacy.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Form.Legacy.cs
 @@ -0,0 +1,105 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -592,10 +592,10 @@ index 00000000..8a51570a
 +    /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
 +    protected virtual void OnDeactivate(EventArgs e) => Deactivate?.Invoke(this, e);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 index b2e72b4a..d38c2cba 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 @@ -966,6 +966,8 @@ public partial class Form : ContainerControl, IWin32Window
      protected virtual void OnFormClosed(System.Windows.Forms.FormClosedEventArgs e)
      {

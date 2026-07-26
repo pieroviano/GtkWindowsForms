@@ -4,13 +4,13 @@ Date: Tue, 7 Apr 2026 02:59:19 +0300
 Subject: [PATCH] Fixed MaskedTextBox
 
 ---
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs | 2 +-
+ Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
 index 90af6fe..fd2d123 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
 @@ -174,7 +174,7 @@ public class MaskedTextBox : TextBox
                  {
                      if (IsNumberText(correctText.Substring(position - 1, 1)) && IsNumberText(new_text))

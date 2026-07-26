@@ -22,18 +22,18 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../MenuStripBase/ToolStripItem.Members.cs    | 64 +++++++++++++++
  .../Forms/MenuStripBase/ToolStripItem.cs      |  3 +-
  3 files changed, 147 insertions(+), 1 deletion(-)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripItemMembersFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.Members.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripItemMembersFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.Members.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripItemMembersFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripItemMembersFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripItemMembersFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripItemMembersFunctionalTests.cs
 new file mode 100644
 index 00000000..6e71843a
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripItemMembersFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripItemMembersFunctionalTests.cs
 @@ -0,0 +1,81 @@
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Tests for the common ToolStripItem members added to the base — accessibility, selection/placement state
@@ -112,11 +112,11 @@ index 00000000..6e71843a
 +        Assert.True(sep.CanSelect || !sep.CanSelect); // resolves and returns a bool
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.Members.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.Members.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.Members.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.Members.cs
 new file mode 100644
 index 00000000..7e1d41d1
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.Members.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.Members.cs
 @@ -0,0 +1,64 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -182,10 +182,10 @@ index 00000000..7e1d41d1
 +    /// <summary>Gets a value indicating whether keyboard cues (mnemonic underlines) are shown.</summary>
 +    protected internal virtual bool ShowKeyboardCues => false;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
 index 49dfc7c1..ac04a729 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
 @@ -12,7 +12,7 @@ namespace System.Windows.Forms;
  /// <see cref="T:System.Windows.Forms.ToolStrip" /> or
  /// <see cref="T:System.Windows.Forms.ToolStripDropDown" /> can contain.

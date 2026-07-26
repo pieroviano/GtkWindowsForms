@@ -23,18 +23,18 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../Windows/Forms/MdiClientFunctionalTests.cs |  80 +++++++++++++
  .../System/Windows/Forms/MdiClient.cs         | 109 ++++++++++++++++++
  2 files changed, 189 insertions(+)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/MdiClientFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MdiClient.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/MdiClientFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/MdiClient.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/MdiClientFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/MdiClientFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/MdiClientFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/MdiClientFunctionalTests.cs
 new file mode 100644
 index 00000000..80456b14
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/MdiClientFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/MdiClientFunctionalTests.cs
 @@ -0,0 +1,80 @@
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Tests for <see cref="MdiClient"/> (§4 of API-COMPLETENESS). The type was absent, so <c>is MdiClient</c>,
@@ -112,11 +112,11 @@ index 00000000..80456b14
 +        Assert.NotNull(collection);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MdiClient.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MdiClient.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MdiClient.cs b/Gtk.Windows.Forms/System/Windows/Forms/MdiClient.cs
 new file mode 100644
 index 00000000..aead1c8c
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MdiClient.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MdiClient.cs
 @@ -0,0 +1,109 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.

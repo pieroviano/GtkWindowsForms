@@ -22,11 +22,11 @@ Subject: [PATCH] Cleaned code
  .../ControlBase/ScrollableBoxBase.cs          |   6 +-
  .../GtkControls/ControlBase/ScrollbarBase.cs  |   4 +-
  .../Windows/Forms/Utility/ImageUtility.cs     |  64 ++--
- .../Net4x.Gtk.Windows.Forms.xml               |  14 +-
+ .../Gtk.Windows.Forms.xml               |  14 +-
  .../DynamicallyAccessedMemberTypes.cs         |   4 +-
  .../Drawing/Printing/MarginsConverter.cs      |   8 +-
  .../Drawing/Printing/PrinterSettings.cs       |   4 +-
- Net4x.Gtk.Windows.Forms/System/HashCode.cs    |   4 +-
+ Gtk.Windows.Forms/System/HashCode.cs    |   4 +-
  .../AssemblyNamesTypeResolutionService.cs     |  10 +-
  .../System/Resources/Misc/MultitargetUtil.cs  |   4 +-
  .../System/Resources/ResXDataNode.cs          |  49 +--
@@ -138,10 +138,10 @@ Subject: [PATCH] Cleaned code
  .../Forms/TreeViewBase/TreeNodeCollection.cs  |   8 +-
  130 files changed, 1287 insertions(+), 1349 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/GTKSystem/Resources/Extensions/DeserializingResourceReader.cs b/Net4x.Gtk.Windows.Forms/GTKSystem/Resources/Extensions/DeserializingResourceReader.cs
+diff --git a/Gtk.Windows.Forms/GTKSystem/Resources/Extensions/DeserializingResourceReader.cs b/Gtk.Windows.Forms/GTKSystem/Resources/Extensions/DeserializingResourceReader.cs
 index 507b5ba5..e5ad05f6 100644
---- a/Net4x.Gtk.Windows.Forms/GTKSystem/Resources/Extensions/DeserializingResourceReader.cs
-+++ b/Net4x.Gtk.Windows.Forms/GTKSystem/Resources/Extensions/DeserializingResourceReader.cs
+--- a/Gtk.Windows.Forms/GTKSystem/Resources/Extensions/DeserializingResourceReader.cs
++++ b/Gtk.Windows.Forms/GTKSystem/Resources/Extensions/DeserializingResourceReader.cs
 @@ -1,15 +1,11 @@
 -using System;
 -using System.Collections;
@@ -738,10 +738,10 @@ index 507b5ba5..e5ad05f6 100644
          }
          set
          {
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
 index 4bbf1334..53f68c0e 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
 @@ -1,4 +1,4 @@
 -// Licensed to the .NET Foundation under one or more agreements.
 +﻿// Licensed to the .NET Foundation under one or more agreements.
@@ -781,10 +781,10 @@ index 4bbf1334..53f68c0e 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/GtkControls/ControlBase/FormBase.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/GtkControls/ControlBase/FormBase.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/GtkControls/ControlBase/FormBase.cs b/Gtk.Windows.Forms/System/Windows/Forms/GtkControls/ControlBase/FormBase.cs
 index 43783f0b..079986f2 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/GtkControls/ControlBase/FormBase.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/GtkControls/ControlBase/FormBase.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/GtkControls/ControlBase/FormBase.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/GtkControls/ControlBase/FormBase.cs
 @@ -1,4 +1,4 @@
 -using System;
 +﻿using System;
@@ -827,10 +827,10 @@ index 43783f0b..079986f2 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
+diff --git a/Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs b/Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
 index dd4ce88a..87fadaa9 100644
---- a/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
+--- a/Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
++++ b/Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
 @@ -1,24 +1,24 @@
 -namespace GtkSystem.IO;
 +﻿namespace GtkSystem.IO.Resources;
@@ -867,10 +867,10 @@ index dd4ce88a..87fadaa9 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/PinnedBufferMemoryStream.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/PinnedBufferMemoryStream.cs
+diff --git a/Gtk.Windows.Forms/GtkSystem/IO/Resources/PinnedBufferMemoryStream.cs b/Gtk.Windows.Forms/GtkSystem/IO/Resources/PinnedBufferMemoryStream.cs
 index 707f98a0..2f5f7891 100644
---- a/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/PinnedBufferMemoryStream.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/PinnedBufferMemoryStream.cs
+--- a/Gtk.Windows.Forms/GtkSystem/IO/Resources/PinnedBufferMemoryStream.cs
++++ b/Gtk.Windows.Forms/GtkSystem/IO/Resources/PinnedBufferMemoryStream.cs
 @@ -1,7 +1,6 @@
 -using System.IO;
 -using System.Runtime.InteropServices;
@@ -881,10 +881,10 @@ index 707f98a0..2f5f7891 100644
  
  internal sealed class PinnedBufferMemoryStream : UnmanagedMemoryStream
  {
-diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
 index 43783f0b..079986f2 100644
---- a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
 @@ -1,4 +1,4 @@
 -using System;
 +﻿using System;
@@ -927,10 +927,10 @@ index 43783f0b..079986f2 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GLibrary.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GLibrary.cs
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GLibrary.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GLibrary.cs
 index eeb07f62..2bd542e1 100644
---- a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GLibrary.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GLibrary.cs
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GLibrary.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GLibrary.cs
 @@ -1,4 +1,4 @@
 -using System;
 +﻿using System;
@@ -946,10 +946,10 @@ index eeb07f62..2bd542e1 100644
              {
                  value = FuncLoader.LoadLibrary(_libraryDefinitions[library][i]);
                  if (value != IntPtr.Zero)
-diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
 index 3b8c9d1e..135c855b 100644
---- a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
 @@ -1,4 +1,4 @@
 -using System;
 +﻿using System;
@@ -965,10 +965,10 @@ index 3b8c9d1e..135c855b 100644
          {
              if (container.StyleContext.HasClass(cssClass))
                  container.StyleContext.RemoveClass(cssClass);
-diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/PropertyGridBase.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/PropertyGridBase.cs
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/PropertyGridBase.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/PropertyGridBase.cs
 index ba034959..c20f83b7 100644
---- a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/PropertyGridBase.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/PropertyGridBase.cs
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/PropertyGridBase.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/PropertyGridBase.cs
 @@ -1,4 +1,4 @@
 -/*
 +﻿/*
@@ -1015,10 +1015,10 @@ index ba034959..c20f83b7 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
 index 43783f0b..079986f2 100644
---- a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
 @@ -1,4 +1,4 @@
 -using System;
 +﻿using System;
@@ -1060,10 +1060,10 @@ index 43783f0b..079986f2 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
+diff --git a/Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs b/Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
 index dd4ce88a..87fadaa9 100644
---- a/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
+--- a/Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
++++ b/Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
 @@ -1,24 +1,24 @@
 -namespace GtkSystem.IO;
 +﻿namespace GtkSystem.IO.Resources;
@@ -1100,10 +1100,10 @@ index dd4ce88a..87fadaa9 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/PinnedBufferMemoryStream.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/PinnedBufferMemoryStream.cs
+diff --git a/Gtk.Windows.Forms/GtkSystem/IO/Resources/PinnedBufferMemoryStream.cs b/Gtk.Windows.Forms/GtkSystem/IO/Resources/PinnedBufferMemoryStream.cs
 index 707f98a0..2f5f7891 100644
---- a/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/PinnedBufferMemoryStream.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/PinnedBufferMemoryStream.cs
+--- a/Gtk.Windows.Forms/GtkSystem/IO/Resources/PinnedBufferMemoryStream.cs
++++ b/Gtk.Windows.Forms/GtkSystem/IO/Resources/PinnedBufferMemoryStream.cs
 @@ -1,7 +1,6 @@
 -using System.IO;
 -using System.Runtime.InteropServices;

@@ -4,13 +4,13 @@ Date: Thu, 26 Mar 2026 06:39:20 +0200
 Subject: [PATCH] Fx CharacterRange
 
 ---
- Net4x.Gtk.Drawing/System/Drawing/CharacterRange.cs | 4 ++--
+ Gtk.Drawing/System/Drawing/CharacterRange.cs | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/CharacterRange.cs b/Net4x.Gtk.Drawing/System/Drawing/CharacterRange.cs
+diff --git a/Gtk.Drawing/System/Drawing/CharacterRange.cs b/Gtk.Drawing/System/Drawing/CharacterRange.cs
 index 83ce9eda..3a042162 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/CharacterRange.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/CharacterRange.cs
+--- a/Gtk.Drawing/System/Drawing/CharacterRange.cs
++++ b/Gtk.Drawing/System/Drawing/CharacterRange.cs
 @@ -1,4 +1,4 @@
 -//
 +﻿//

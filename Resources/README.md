@@ -40,7 +40,7 @@ It makes cross-platform WinForms application development easy and enables existi
 
 The project repository is:
 
-- [Gtk.Windows.Forms](https://bitbucket.org/piero-viano/Net4x.Gtk.Windows.Forms)
+- [Gtk.Windows.Forms](https://bitbucket.org/piero-viano/Gtk.Windows.Forms)
 
 ### Based on GTKSystem.Windows.Forms:
 
@@ -123,14 +123,14 @@ Gtk.Windows.Forms is a compatibility layer that reproduces the Windows Forms API
 - Porting a WinForms app to cross-platform: minimal API changes required.
 - Keeping the same development workflow (Visual Studio, forms designer) while targeting Linux/macOS/Windows with GTK.
 
-## Image resources in Net4x.Gtk.Windows.Forms
+## Image resources in Gtk.Windows.Forms
 
 This chapter explains how image resources are organized, embedded and used at runtime in `Gtk.Windows.Forms`.
 
 ### Where images live in the repo and how they're embedded
 
 - Image files used by the library are included under the `Resources` tree (for example `Resources/System/...`).
-- These files are added to the project as `EmbeddedResource` entries in the project file (`Net4x.Gtk.Windows.Forms.csproj`). Example entries look like:
+- These files are added to the project as `EmbeddedResource` entries in the project file (`Gtk.Windows.Forms.csproj`). Example entries look like:
   - `<EmbeddedResource Include="Resources\System\view-more.png" />`
   - The csproj already contains many `EmbeddedResource` updates for `Resources\System\*.png` and cursor files.
 - Because they are embedded, at runtime images can be loaded from the assembly using the assembly resource name. The resource name uses the folder dots (e.g. `Resources.System.view-more.png`).
@@ -190,7 +190,7 @@ This chapter explains how image resources are organized, embedded and used at ru
 - Create Pixbuf from raw bytes:
   - `var pixbuf = new Gdk.Pixbuf(byteArray);`
 
-This should give you a clear view of how images are stored, packaged and consumed in `Net4x.Gtk.Windows.Forms`. If you want, I can add a short example showing how to add a new image resource and reference it from `Form.Show()` end-to-end.
+This should give you a clear view of how images are stored, packaged and consumed in `Gtk.Windows.Forms`. If you want, I can add a short example showing how to add a new image resource and reference it from `Form.Show()` end-to-end.
 
 ## Using Gtk.Windows.Forms in application development:
 

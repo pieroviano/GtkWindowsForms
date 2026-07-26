@@ -8,13 +8,13 @@ Subject: [PATCH] Fix ControlBindingsCollection
  .../Control.ArrangedElementWidget.cs          | 112 ++++++++++++
  ...ontrol.cs => Control.ControlCollection.cs} | 168 +++++-------------
  3 files changed, 220 insertions(+), 171 deletions(-)
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ArrangedElementWidget.cs
- rename Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/{Control.cs => Control.ControlCollection.cs} (83%)
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ArrangedElementWidget.cs
+ rename Gtk.Windows.Forms/System/Windows/Forms/Collection/{Control.cs => Control.ControlCollection.cs} (83%)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
 index 62bcc6d..a775e64 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
 @@ -981,72 +981,87 @@ public class Binding
      private void CheckBinding()
      {
@@ -151,11 +151,11 @@ index 62bcc6d..a775e64 100644
      }
  
      private BindingCompleteEventArgs CreateBindingCompleteEventArgs(BindingCompleteContext context, Exception? ex)
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ArrangedElementWidget.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ArrangedElementWidget.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ArrangedElementWidget.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ArrangedElementWidget.cs
 new file mode 100644
 index 0000000..56874a4
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ArrangedElementWidget.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ArrangedElementWidget.cs
 @@ -0,0 +1,112 @@
 +﻿/*
 + * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
@@ -270,13 +270,13 @@ index 0000000..56874a4
 +    }
 +}
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
 similarity index 83%
-rename from Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs
-rename to Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
+rename from Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs
+rename to Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
 index 3af5a8e..fea1fb8 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
 @@ -1,26 +1,11 @@
 -﻿/*
 - * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.

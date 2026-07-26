@@ -4,13 +4,13 @@ Date: Sun, 12 Apr 2026 07:10:30 +0300
 Subject: [PATCH] Fixed Image
 
 ---
- Net4x.Gtk.Drawing/System/Drawing/Image.cs | 91 +++++++++++++++++++++--
+ Gtk.Drawing/System/Drawing/Image.cs | 91 +++++++++++++++++++++--
  1 file changed, 85 insertions(+), 6 deletions(-)
 
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Image.cs b/Net4x.Gtk.Drawing/System/Drawing/Image.cs
+diff --git a/Gtk.Drawing/System/Drawing/Image.cs b/Gtk.Drawing/System/Drawing/Image.cs
 index 58e9138..647942f 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Image.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Image.cs
+--- a/Gtk.Drawing/System/Drawing/Image.cs
++++ b/Gtk.Drawing/System/Drawing/Image.cs
 @@ -102,7 +102,26 @@ public abstract class Image : Gtk.Widget, IDisposable, ICloneable, ISerializable
      public string? FileName
      {

@@ -4,14 +4,14 @@ Date: Fri, 10 Apr 2026 06:13:59 +0300
 Subject: [PATCH] Moved enum
 
 ---
- Net4x.Gtk.Drawing/System/Drawing/{ => Enum}/KnownColor.cs | 0
+ Gtk.Drawing/System/Drawing/{ => Enum}/KnownColor.cs | 0
  1 file changed, 0 insertions(+), 0 deletions(-)
- rename Net4x.Gtk.Drawing/System/Drawing/{ => Enum}/KnownColor.cs (100%)
+ rename Gtk.Drawing/System/Drawing/{ => Enum}/KnownColor.cs (100%)
 
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/KnownColor.cs b/Net4x.Gtk.Drawing/System/Drawing/Enum/KnownColor.cs
+diff --git a/Gtk.Drawing/System/Drawing/KnownColor.cs b/Gtk.Drawing/System/Drawing/Enum/KnownColor.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/KnownColor.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Enum/KnownColor.cs
+rename from Gtk.Drawing/System/Drawing/KnownColor.cs
+rename to Gtk.Drawing/System/Drawing/Enum/KnownColor.cs
 -- 
 2.51.1.windows.1
 

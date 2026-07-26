@@ -3,7 +3,7 @@ using System.Text;
 namespace Prepare.Common.Alignment;
 
 /// <summary>
-/// Maps each generated <c>Net4x.*</c> file (repo-relative, forward slashes) to the raw
+/// Maps each generated <c>Gtk.*</c> file (repo-relative, forward slashes) to the raw
 /// <c>gtksystem-windows-forms</c> source file it came from — recorded by the transform as it
 /// moves/renames/splits files (AlignProjects-Plan.md §3.1), and read by the conflict pause (§3.6) to
 /// point the operator at the exact upstream source. Stored as tab-separated lines

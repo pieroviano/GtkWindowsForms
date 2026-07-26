@@ -11,8 +11,8 @@
         <VersionBuildSuffix Condition="'$(Configuration)' != 'Release'">*</VersionBuildSuffix>
         <VersionBuildSuffix Condition="'$(Configuration)' == 'Release'">*</VersionBuildSuffix>
         <GtkSharpLatestVersion>3.24.24</GtkSharpLatestVersion>
+        <GtkWindowsFormsVersion>1.3.2464</GtkWindowsFormsVersion>
         <Net4xBaseTypesVersion>1.3.1</Net4xBaseTypesVersion>
-        <Net4xGtkWindowsFormsVersion>1.3.24</Net4xGtkWindowsFormsVersion>
         <NuGetUtilityVersion>1.0.9</NuGetUtilityVersion>
         <ObfuscarVersion>2.2.37</ObfuscarVersion>
         <SystemTextJson10Version>10.0.3</SystemTextJson10Version>

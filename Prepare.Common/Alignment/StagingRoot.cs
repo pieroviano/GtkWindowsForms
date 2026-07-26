@@ -11,7 +11,7 @@ namespace Prepare.Common.Alignment;
 /// anything the transform <i>writes</i> into (notably <c>Resources</c>, where
 /// <c>ProjectUtility.PersistProjectFiles</c> emits the <c>*.Files.xml</c> source→destination maps — a
 /// junction there would write straight through into the live repo); a copied <c>.editorconfig</c>; and
-/// empty <c>Net4x.*</c> output dirs. Dispose removes the worktree and the junctions (leaving their
+/// empty <c>Gtk.*</c> output dirs. Dispose removes the worktree and the junctions (leaving their
 /// targets intact) and deletes the root.
 /// </summary>
 public sealed class StagingRoot : IDisposable

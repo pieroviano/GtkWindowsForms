@@ -32,17 +32,17 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../Forms/MenuStripBase/ToolStripDropDown.cs  | 28 +++------
  .../MenuStripBase/ToolStripItemCollection.cs  |  5 +-
  3 files changed, 69 insertions(+), 21 deletions(-)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripDropDownReparentFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripDropDownReparentFunctionalTests.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripDropDownReparentFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripDropDownReparentFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripDropDownReparentFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripDropDownReparentFunctionalTests.cs
 new file mode 100644
 index 00000000..9000a96c
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripDropDownReparentFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripDropDownReparentFunctionalTests.cs
 @@ -0,0 +1,57 @@
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Pins the §2 structural fix: <see cref="ToolStripDropDown"/> now derives from <see cref="ToolStrip"/> →
@@ -97,10 +97,10 @@ index 00000000..9000a96c
 +        Assert.Same(open, parent.DropDownItems[0]);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
 index 339e6f98..f18ac0be 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
 @@ -13,12 +13,14 @@ namespace System.Windows.Forms;
  /// <see cref="!:System.Windows.Forms.Menu" />
  /// is retained for both backward compatibility and future use if you choose.
@@ -145,10 +145,10 @@ index 339e6f98..f18ac0be 100644
 -    public override IToolMenuItem Widget { get => self; }
 +    public override object GtkControl => self;
  }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItemCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItemCollection.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItemCollection.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItemCollection.cs
 index de9eb2a3..33444a90 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItemCollection.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItemCollection.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItemCollection.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItemCollection.cs
 @@ -80,7 +80,10 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
      /// </param>
      public ToolStripItemCollection(ToolStripDropDown owner)

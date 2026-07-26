@@ -15,7 +15,7 @@ public static class SourceRepositorySync
 {
     /// <summary>
     /// Full id of the frozen generation base: the third custom commit after
-    /// <c>337d7df</c> (i.e. <c>e5227ae</c>) - the exact commit the current <c>Net4x.*</c>
+    /// <c>337d7df</c> (i.e. <c>e5227ae</c>) - the exact commit the current <c>Gtk.*</c>
     /// projects and the <c>patches/</c> series were generated from.
     /// </summary>
     public const string GenerationBaseCommit = "e5227aeb608d27affc5d348a4b165c5cc63d8bf3";

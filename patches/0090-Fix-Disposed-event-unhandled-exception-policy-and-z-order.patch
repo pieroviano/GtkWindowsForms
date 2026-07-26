@@ -30,12 +30,12 @@ Application
  .../Application/UnhandledExceptionMode.cs     |  24 +++
  .../System/Windows/Forms/Control/Control.cs   | 106 ++++++++++-
  3 files changed, 305 insertions(+), 3 deletions(-)
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/UnhandledExceptionMode.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Application/UnhandledExceptionMode.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
 index 2d91756c..919ed90f 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
 @@ -51,6 +51,181 @@ public sealed class Application
      /// </summary>
      public static event EventHandler? ThreadExit;
@@ -228,11 +228,11 @@ index 2d91756c..919ed90f 100644
          var previousContext = CurrentContext;
          CurrentContext = context;
  
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/UnhandledExceptionMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/UnhandledExceptionMode.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Application/UnhandledExceptionMode.cs b/Gtk.Windows.Forms/System/Windows/Forms/Application/UnhandledExceptionMode.cs
 new file mode 100644
 index 00000000..563d6165
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/UnhandledExceptionMode.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Application/UnhandledExceptionMode.cs
 @@ -0,0 +1,24 @@
 +namespace System.Windows.Forms;
 +
@@ -258,10 +258,10 @@ index 00000000..563d6165
 +    /// </summary>
 +    CatchException = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 index 245b2f81..21424667 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 @@ -1851,7 +1851,16 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// <summary>
      /// Gets a value indicating whether the component can raise an event.

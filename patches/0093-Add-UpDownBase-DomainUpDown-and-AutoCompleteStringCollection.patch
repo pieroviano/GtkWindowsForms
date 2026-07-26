@@ -32,17 +32,17 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../System/Windows/Forms/NumericUpDown.cs     |  39 ++-
  .../System/Windows/Forms/UpDownBase.cs        |  90 ++++++
  6 files changed, 738 insertions(+), 1 deletion(-)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/AutoCompleteStringCollectionFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/UpDownFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/AutoCompleteStringCollection.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DomainUpDown.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/UpDownBase.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/AutoCompleteStringCollectionFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/UpDownFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/AutoCompleteStringCollection.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DomainUpDown.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/UpDownBase.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/AutoCompleteStringCollectionFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/AutoCompleteStringCollectionFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/AutoCompleteStringCollectionFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/AutoCompleteStringCollectionFunctionalTests.cs
 new file mode 100644
 index 00000000..c7934a12
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/AutoCompleteStringCollectionFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/AutoCompleteStringCollectionFunctionalTests.cs
 @@ -0,0 +1,80 @@
 +namespace System.Windows.Forms;
 +
@@ -124,11 +124,11 @@ index 00000000..c7934a12
 +        Assert.Equal(new[] { "p", "q" }, seen);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/UpDownFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/UpDownFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/UpDownFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/UpDownFunctionalTests.cs
 new file mode 100644
 index 00000000..3f2cbd6f
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/UpDownFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/UpDownFunctionalTests.cs
 @@ -0,0 +1,95 @@
 +namespace System.Windows.Forms;
 +
@@ -225,11 +225,11 @@ index 00000000..3f2cbd6f
 +        form.Dispose();
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/AutoCompleteStringCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/AutoCompleteStringCollection.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/AutoCompleteStringCollection.cs b/Gtk.Windows.Forms/System/Windows/Forms/AutoCompleteStringCollection.cs
 new file mode 100644
 index 00000000..50bcb343
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/AutoCompleteStringCollection.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/AutoCompleteStringCollection.cs
 @@ -0,0 +1,159 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -390,11 +390,11 @@ index 00000000..50bcb343
 +
 +    void ICollection.CopyTo(Array array, int index) => ((ICollection)_items).CopyTo(array, index);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DomainUpDown.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DomainUpDown.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DomainUpDown.cs b/Gtk.Windows.Forms/System/Windows/Forms/DomainUpDown.cs
 new file mode 100644
 index 00000000..67f48db9
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DomainUpDown.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DomainUpDown.cs
 @@ -0,0 +1,276 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -672,10 +672,10 @@ index 00000000..67f48db9
 +            string.Compare(a?.ToString(), b?.ToString(), StringComparison.CurrentCulture)));
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs b/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
 index 25002778..7c17fd33 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
 @@ -13,7 +13,7 @@ namespace System.Windows.Forms;
  /// Represents a Windows spin box (also known as an up-down control) that displays numeric values.
  /// </summary>
@@ -729,11 +729,11 @@ index 25002778..7c17fd33 100644
      /// <summary>
      /// Raises the ValueChanged event.
      /// </summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UpDownBase.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UpDownBase.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/UpDownBase.cs b/Gtk.Windows.Forms/System/Windows/Forms/UpDownBase.cs
 new file mode 100644
 index 00000000..e5e771bd
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UpDownBase.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/UpDownBase.cs
 @@ -0,0 +1,90 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.

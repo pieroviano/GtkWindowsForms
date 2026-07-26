@@ -10,11 +10,11 @@ namespace Prepare.Common.Alignment;
 /// Each manifest entry is <c>&lt;Item Source="GtkControls\ListView.cs"
 /// Destination="System\Windows\Forms\ListView.cs"&gt;</c>, where <c>Source</c> is relative to the upstream
 /// project inside the submodule and <c>Destination</c> is relative to the generated project. This class
-/// re-keys them to repo-relative generated paths (<c>Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs</c>)
+/// re-keys them to repo-relative generated paths (<c>Gtk.Windows.Forms/System/Windows/Forms/ListView.cs</c>)
 /// and resolves <c>Source</c> against the live submodule.
 ///
 /// Two deliberate limitations: entries whose resolved source does not exist on disk are dropped (this
-/// filters the <c>Net4x.Gtk.Drawing</c> manifest, whose <c>Source == Destination</c> identity rows carry
+/// filters the <c>Gtk.Drawing</c> manifest, whose <c>Source == Destination</c> identity rows carry
 /// no upstream provenance), and files produced by <c>TypeSplitService</c> are absent because the split
 /// step records nothing — for those the transformed <c>DIFFED base/theirs</c> pair remains the reference.
 /// </summary>
@@ -81,10 +81,10 @@ public static class FilesXmlProvenance
         return map;
     }
 
-    /// <summary>The generated project a manifest describes: <c>Net4x.Gtk.Drawing.LatestFiles.xml</c> → <c>Net4x.Gtk.Drawing</c>.</summary>
+    /// <summary>The generated project a manifest describes: <c>Gtk.Drawing.LatestFiles.xml</c> → <c>Gtk.Drawing</c>.</summary>
     private static string? ProjectNameOf(string manifestPath)
     {
-        var name = Path.GetFileNameWithoutExtension(manifestPath); // e.g. Net4x.Gtk.Drawing.LatestFiles
+        var name = Path.GetFileNameWithoutExtension(manifestPath); // e.g. Gtk.Drawing.LatestFiles
         var lastDot = name.LastIndexOf('.');
         return lastDot <= 0 ? null : name.Substring(0, lastDot);
     }

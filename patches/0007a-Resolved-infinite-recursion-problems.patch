@@ -5,19 +5,19 @@ Subject: [PATCH] Resolved infinite recursion problems
 
 ---
  .../System/Drawing/ColorExtension.cs          |  15 +-
- Net4x.Gtk.Drawing/System/Drawing/Font.cs      |  21 +-
+ Gtk.Drawing/System/Drawing/Font.cs      |  21 +-
  .../System/Drawing/FontFamily.cs              |  17 +-
- Net4x.Gtk.Drawing/System/Drawing/Graphics.cs  |   4 +-
+ Gtk.Drawing/System/Drawing/Graphics.cs  |   4 +-
  .../System/Windows/Forms/ComboBox.cs          |   4 +-
  .../System/Windows/Forms/Enum/Message.cs      |   4 +-
  .../System/Windows/Forms/ListBox.cs           |   2 +-
  .../Windows/Forms/TreeViewBase/TreeNode.cs    |  14 +-
  9 files changed, 420 insertions(+), 24 deletions(-)
 
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/ColorExtension.cs b/Net4x.Gtk.Drawing/System/Drawing/ColorExtension.cs
+diff --git a/Gtk.Drawing/System/Drawing/ColorExtension.cs b/Gtk.Drawing/System/Drawing/ColorExtension.cs
 index 28d24829..ec2cb3b2 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/ColorExtension.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/ColorExtension.cs
+--- a/Gtk.Drawing/System/Drawing/ColorExtension.cs
++++ b/Gtk.Drawing/System/Drawing/ColorExtension.cs
 @@ -1,4 +1,4 @@
 -namespace System.Drawing;
 +﻿namespace System.Drawing;
@@ -44,10 +44,10 @@ index 28d24829..ec2cb3b2 100644
 +
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Font.cs b/Net4x.Gtk.Drawing/System/Drawing/Font.cs
+diff --git a/Gtk.Drawing/System/Drawing/Font.cs b/Gtk.Drawing/System/Drawing/Font.cs
 index 7b93aee0..abbb366c 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Font.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Font.cs
+--- a/Gtk.Drawing/System/Drawing/Font.cs
++++ b/Gtk.Drawing/System/Drawing/Font.cs
 @@ -1,4 +1,4 @@
 -using System.ComponentModel;
 +﻿using System.ComponentModel;
@@ -80,10 +80,10 @@ index 7b93aee0..abbb366c 100644
      /// <summary>
      /// Creates a System.Drawing.Font from the specified Windows handle to a device context.
      /// </summary>
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/FontFamily.cs b/Net4x.Gtk.Drawing/System/Drawing/FontFamily.cs
+diff --git a/Gtk.Drawing/System/Drawing/FontFamily.cs b/Gtk.Drawing/System/Drawing/FontFamily.cs
 index 9ebfe8ac..d7d5dbd0 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/FontFamily.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/FontFamily.cs
+--- a/Gtk.Drawing/System/Drawing/FontFamily.cs
++++ b/Gtk.Drawing/System/Drawing/FontFamily.cs
 @@ -1,4 +1,4 @@
 -using System.Drawing.Text;
 +﻿using System.Drawing.Text;
@@ -112,10 +112,10 @@ index 9ebfe8ac..d7d5dbd0 100644
      /// <summary>
      /// Returns the cell ascent, in design units, of the System.Drawing.FontFamily of
      /// the specified style.
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+diff --git a/Gtk.Drawing/System/Drawing/Graphics.cs b/Gtk.Drawing/System/Drawing/Graphics.cs
 index ff7b1f16..163418c4 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+--- a/Gtk.Drawing/System/Drawing/Graphics.cs
++++ b/Gtk.Drawing/System/Drawing/Graphics.cs
 @@ -1,4 +1,4 @@
 -using System.ComponentModel;
 +﻿using System.ComponentModel;
@@ -131,10 +131,10 @@ index ff7b1f16..163418c4 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
 index cd5f32dc..6fbb9c1d 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
 @@ -1,4 +1,4 @@
 -/*
 +﻿/*
@@ -150,10 +150,10 @@ index cd5f32dc..6fbb9c1d 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Message.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Message.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/Message.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/Message.cs
 index bba4a6e2..e1c47426 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Message.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Message.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Enum/Message.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/Message.cs
 @@ -1,4 +1,4 @@
 -// Licensed to the .NET Foundation under one or more agreements.
 +﻿// Licensed to the .NET Foundation under one or more agreements.
@@ -169,10 +169,10 @@ index bba4a6e2..e1c47426 100644
  
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
 index ef01708c..41174982 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
 @@ -960,7 +960,7 @@ public partial class ListBox : ListControl
      {
          if (self.ListBox.SelectedRow != null)
@@ -182,10 +182,10 @@ index ef01708c..41174982 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs b/Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs
 index ddba4cbd..0a009150 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs
 @@ -1,4 +1,4 @@
 -// Licensed to the .NET Foundation under one or more agreements.
 +﻿// Licensed to the .NET Foundation under one or more agreements.

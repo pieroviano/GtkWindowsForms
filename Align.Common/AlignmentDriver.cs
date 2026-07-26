@@ -4,7 +4,7 @@ using Prepare.Common.Logging;
 namespace Align.Common;
 
 /// <summary>
-/// The alignment driver shared by AlignProjects (Net4x.* libraries) and AlignSamples (the sample apps):
+/// The alignment driver shared by AlignProjects (Gtk.* libraries) and AlignSamples (the sample apps):
 /// produce the transformed <c>BASE</c>/<c>THEIRS</c> trees (§3.1/§3.2) → structural preflight (§3.4) →
 /// 3-way delta merge (§3.5) → conflict pause (§3.6) → report + residual-Chinese scan (§3.7) → advance the
 /// checkpoint (§3.8). Everything tool-specific lives in <see cref="AlignmentOptions"/>; nothing here

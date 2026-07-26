@@ -9,7 +9,7 @@ namespace AlignProjects;
 
 /// <summary>
 /// Post-pipeline tool: forward-ports the latest gitee upstream onto the generated
-/// <c>Net4x.*</c> library projects via a transformed-space delta merge
+/// <c>Gtk.*</c> library projects via a transformed-space delta merge
 /// (<c>f(base)</c> vs <c>f(target)</c>, applied onto the live projects).
 /// See <c>AlignProjects-Plan.md</c>.
 ///
@@ -20,7 +20,7 @@ namespace AlignProjects;
 public static class Program
 {
     /// <summary>Repo-relative directories this tool aligns.</summary>
-    private static readonly string[] Scope = { "Net4x.Gtk.Windows.Forms", "Net4x.Gtk.Drawing" };
+    private static readonly string[] Scope = { "Gtk.Windows.Forms", "Gtk.Drawing" };
 
     private const string SubmoduleName = "gtksystem-windows-forms";
 
@@ -56,7 +56,7 @@ public static class Program
             return 5;
         }
 
-        Console.WriteLine("AlignProjects - align Net4x.* with the latest gitee upstream");
+        Console.WriteLine("AlignProjects - align Gtk.* with the latest gitee upstream");
         Console.WriteLine($"  base commit   : {baseCommit}");
         Console.WriteLine($"  target commit : {targetCommit} ({targetRef})");
         Console.WriteLine($"  source dir    : {sourceDir}");

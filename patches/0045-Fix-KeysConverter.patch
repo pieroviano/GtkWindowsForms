@@ -7,10 +7,10 @@ Subject: [PATCH] Fix KeysConverter
  .../Windows/Forms/Atrribute/KeysConverter.cs  | 35 +++++++++++++++++++
  1 file changed, 35 insertions(+)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Atrribute/KeysConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Atrribute/KeysConverter.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Atrribute/KeysConverter.cs b/Gtk.Windows.Forms/System/Windows/Forms/Atrribute/KeysConverter.cs
 index eca73b3..92410e3 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Atrribute/KeysConverter.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Atrribute/KeysConverter.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Atrribute/KeysConverter.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Atrribute/KeysConverter.cs
 @@ -390,5 +390,40 @@ public class KeysConverter : TypeConverter, IComparer
          AddKey("7", Keys.D7);
          AddKey("8", Keys.D8);

@@ -10,7 +10,7 @@ This document describes the tool **as built** ([AlignSamples/Program.cs](AlignSa
 
 | | AlignProjects | AlignSamples |
 |---|---|---|
-| Scope | `Net4x.Gtk.Windows.Forms` + `Net4x.Gtk.Drawing` | `GtkWinFormsApp` + `GtkSystemWinFormsApp11` |
+| Scope | `Gtk.Windows.Forms` + `Gtk.Drawing` | `GtkWinFormsApp` + `GtkSystemWinFormsApp11` |
 | Transform | `f` — `TransformPipeline.RunTransform` | `fs` — `SampleTransformPipeline.RunAllSampleTransformsAsync` |
 | Checkpoint | `AlignProjects/last-aligned.txt` | `AlignSamples/last-aligned.txt` (independent) |
 | Extra duty | — | Globalization: new Chinese is **keyed and translated**, and the culture invariant is verified after the merge |

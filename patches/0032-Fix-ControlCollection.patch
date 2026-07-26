@@ -9,10 +9,10 @@ Subject: [PATCH] Fix ControlCollection
  .../Windows/Forms/Collection/Control.cs       | 168 ++++++++----------
  3 files changed, 99 insertions(+), 109 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
 index 614afdb..1081448 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
 @@ -236,7 +236,10 @@ public sealed class Application
  
                  Gtk.Application.Quit();
@@ -25,10 +25,10 @@ index 614afdb..1081448 100644
          }
      }
  
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs
 index 26cf8a8..c4e6b5c 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs
 @@ -37,23 +37,19 @@ internal class BindToObject
      {
          get
@@ -139,10 +139,10 @@ index 26cf8a8..c4e6b5c 100644
              current = manager?.Current;
              (current as IEditableObject)?.BeginEdit();
              if (!_fieldInfo.IsReadOnly)
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs
 index f8c247b..3af5a8e 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.cs
 @@ -10,6 +10,7 @@ using System.ComponentModel;
  using System.Drawing;
  using System.Windows.Forms.Layout;

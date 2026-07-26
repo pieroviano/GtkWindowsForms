@@ -26,19 +26,19 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../Printing/PrinterSettings.Collections.cs   | 187 ++++++++++++++++++
  .../Drawing/Printing/PrinterSettings.cs       |   2 +-
  3 files changed, 274 insertions(+), 1 deletion(-)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Drawing/Printing/PrinterSettingsCollectionsFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.Collections.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Drawing/Printing/PrinterSettingsCollectionsFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.Collections.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Drawing/Printing/PrinterSettingsCollectionsFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Drawing/Printing/PrinterSettingsCollectionsFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Drawing/Printing/PrinterSettingsCollectionsFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Drawing/Printing/PrinterSettingsCollectionsFunctionalTests.cs
 new file mode 100644
 index 00000000..79e0d4ae
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Drawing/Printing/PrinterSettingsCollectionsFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Drawing/Printing/PrinterSettingsCollectionsFunctionalTests.cs
 @@ -0,0 +1,86 @@
 +using System.Collections;
 +using System.Drawing.Printing;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Drawing.Printing;
++namespace GtkWinForms.Tests.System.Drawing.Printing;
 +
 +/// <summary>
 +/// Tests for the nested capability collections on <see cref="PrinterSettings"/> (§6 of API-COMPLETENESS):
@@ -121,11 +121,11 @@ index 00000000..79e0d4ae
 +        Assert.Equal("p2", arr[1]);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.Collections.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.Collections.cs
+diff --git a/Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.Collections.cs b/Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.Collections.cs
 new file mode 100644
 index 00000000..31a78358
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.Collections.cs
++++ b/Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.Collections.cs
 @@ -0,0 +1,187 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -314,10 +314,10 @@ index 00000000..31a78358
 +        object ICollection.SyncRoot => this;
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs
+diff --git a/Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs b/Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs
 index 9ad03084..9315fb5f 100644
---- a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs
+--- a/Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs
++++ b/Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs
 @@ -124,7 +124,7 @@ public partial class PrinterSettings : ICloneable
      public static StringCollection InstalledPrinters
      {

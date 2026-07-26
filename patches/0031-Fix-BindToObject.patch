@@ -7,10 +7,10 @@ Subject: [PATCH] Fix BindToObject
  .../Windows/Forms/Collection/BindToObject.cs  | 78 ++++++++++++-------
  1 file changed, 49 insertions(+), 29 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs
 index 92b9450..26cf8a8 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/BindToObject.cs
 @@ -1,4 +1,4 @@
 -using System.ComponentModel;
 +﻿using System.ComponentModel;

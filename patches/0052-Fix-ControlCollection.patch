@@ -7,10 +7,10 @@ Subject: [PATCH] Fix ControlCollection
  .../Forms/Collection/Control.ControlCollection.cs    | 12 +++++++++++-
  1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
 index fea1fb8..f6afee8 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
 @@ -239,7 +239,17 @@ public partial class Control
          /// <returns>
          /// True if found; otherwise false.

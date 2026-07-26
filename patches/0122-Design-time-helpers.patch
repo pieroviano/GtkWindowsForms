@@ -21,22 +21,22 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  ...ridViewColumnDesignTimeVisibleAttribute.cs | 46 +++++++++++++++
  .../ToolStripDropDownItemAccessibleObject.cs  | 33 +++++++++++
  4 files changed, 177 insertions(+)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DesignTimeHelpersFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyleConverter.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumnDesignTimeVisibleAttribute.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownItemAccessibleObject.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/DesignTimeHelpersFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyleConverter.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumnDesignTimeVisibleAttribute.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownItemAccessibleObject.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DesignTimeHelpersFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DesignTimeHelpersFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/DesignTimeHelpersFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/DesignTimeHelpersFunctionalTests.cs
 new file mode 100644
 index 00000000..b199c002
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DesignTimeHelpersFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/DesignTimeHelpersFunctionalTests.cs
 @@ -0,0 +1,59 @@
 +using System.ComponentModel;
 +using System.ComponentModel.Design.Serialization;
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Tests for the three remaining minor helpers that were the last non-non-goal gaps:
@@ -91,11 +91,11 @@ index 00000000..b199c002
 +        Assert.Throws<ArgumentNullException>(() => new ToolStripDropDownItemAccessibleObject(null!));
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyleConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyleConverter.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyleConverter.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyleConverter.cs
 new file mode 100644
 index 00000000..3577662b
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyleConverter.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewCellStyleConverter.cs
 @@ -0,0 +1,39 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -136,11 +136,11 @@ index 00000000..3577662b
 +        return base.ConvertTo(context, culture, value, destinationType);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumnDesignTimeVisibleAttribute.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumnDesignTimeVisibleAttribute.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumnDesignTimeVisibleAttribute.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumnDesignTimeVisibleAttribute.cs
 new file mode 100644
 index 00000000..ac829fda
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumnDesignTimeVisibleAttribute.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumnDesignTimeVisibleAttribute.cs
 @@ -0,0 +1,46 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -188,11 +188,11 @@ index 00000000..ac829fda
 +    /// <inheritdoc />
 +    public override bool IsDefaultAttribute() => Visible == Default.Visible;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownItemAccessibleObject.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownItemAccessibleObject.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownItemAccessibleObject.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownItemAccessibleObject.cs
 new file mode 100644
 index 00000000..3865df59
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownItemAccessibleObject.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownItemAccessibleObject.cs
 @@ -0,0 +1,33 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.

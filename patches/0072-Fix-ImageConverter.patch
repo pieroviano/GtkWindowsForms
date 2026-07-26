@@ -4,13 +4,13 @@ Date: Fri, 10 Apr 2026 05:57:05 +0300
 Subject: [PATCH] Fix ImageConverter
 
 ---
- Net4x.Gtk.Drawing/System/Drawing/ImageConverter.cs | 2 +-
+ Gtk.Drawing/System/Drawing/ImageConverter.cs | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/ImageConverter.cs b/Net4x.Gtk.Drawing/System/Drawing/ImageConverter.cs
+diff --git a/Gtk.Drawing/System/Drawing/ImageConverter.cs b/Gtk.Drawing/System/Drawing/ImageConverter.cs
 index f606851..cdb9a05 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/ImageConverter.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/ImageConverter.cs
+--- a/Gtk.Drawing/System/Drawing/ImageConverter.cs
++++ b/Gtk.Drawing/System/Drawing/ImageConverter.cs
 @@ -217,7 +217,7 @@ public class ImageConverter : TypeConverter
          var array = imageEncoders;
          foreach (var imageCodecInfo in array)

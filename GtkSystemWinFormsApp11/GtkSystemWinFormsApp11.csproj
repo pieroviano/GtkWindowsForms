@@ -38,12 +38,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Net4x.Gtk.Windows.Forms\Content\System.ComponentModel.cs" Link="System.ComponentModel.cs" />
-    <Compile Include="..\Net4x.Gtk.Windows.Forms\Content\System.Resources.ResourceManager.cs" Link="System.Resources.ResourceManager.cs" />
+    <Compile Include="..\Gtk.Windows.Forms\Content\System.ComponentModel.cs" Link="System.ComponentModel.cs" />
+    <Compile Include="..\Gtk.Windows.Forms\Content\System.Resources.ResourceManager.cs" Link="System.Resources.ResourceManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.csproj" />
-    <ProjectReference Include="..\Net4x.System.Resources.Extensions\Net4x.System.Resources.Extensions.csproj" />
+    <ProjectReference Include="..\Gtk.Windows.Forms\Gtk.Windows.Forms.csproj" />
+    <ProjectReference Include="..\Gtk.Resources.Extensions\Gtk.Resources.Extensions.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
@@ -53,8 +53,8 @@
     </Compile>
   </ItemGroup>
   <Target Name="PrepareBuild" BeforeTargets="BeforeBuild">
-    <Message Importance="High" Text="&quot;$(MSBuildThisFileDirectory)..\Net4x.ResxProcessor\bin\$(Configuration)\net8.0\Net4x.XUnit.Copy.exe&quot; $(TargetFramework) &quot;$(TargetDir)&quot; &quot;$(MSBuildProjectFullPath)&quot;" />
-    <Exec Command="&quot;$(MSBuildThisFileDirectory)..\Net4x.ResxProcessor\bin\$(Configuration)\net8.0\Net4x.ResxProcessor.exe&quot; &quot;$(MSBuildProjectDirectory)&quot;" />
+    <Message Importance="High" Text="&quot;$(MSBuildThisFileDirectory)..\ResxProcessor\bin\$(Configuration)\net8.0\Net4x.XUnit.Copy.exe&quot; $(TargetFramework) &quot;$(TargetDir)&quot; &quot;$(MSBuildProjectFullPath)&quot;" />
+    <Exec Command="&quot;$(MSBuildThisFileDirectory)..\ResxProcessor\bin\$(Configuration)\net8.0\ResxProcessor.exe&quot; &quot;$(MSBuildProjectDirectory)&quot;" />
   </Target>
   <ItemGroup>
     <Compile Update="Properties\GtkWinFormsAppResources.Designer.cs">

@@ -7,10 +7,10 @@ Subject: [PATCH] Fix RelatedCurrencyManager
  .../System/Windows/Forms/Collection/RelatedCurrencyManager.cs  | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/RelatedCurrencyManager.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/RelatedCurrencyManager.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/RelatedCurrencyManager.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/RelatedCurrencyManager.cs
 index 9312f11..5702b75 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/RelatedCurrencyManager.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/RelatedCurrencyManager.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/RelatedCurrencyManager.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/RelatedCurrencyManager.cs
 @@ -21,7 +21,7 @@ internal class RelatedCurrencyManager : CurrencyManager
  
      static RelatedCurrencyManager()

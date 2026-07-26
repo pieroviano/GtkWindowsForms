@@ -4,13 +4,13 @@ Date: Mon, 23 Mar 2026 07:55:55 +0200
 Subject: [PATCH] Fix trackbar
 
 ---
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs | 6 +++---
+ Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs b/Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
 index 3eb7d275..9f53a647 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
 @@ -1,4 +1,4 @@
 -/*
 +﻿/*

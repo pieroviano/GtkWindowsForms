@@ -43,17 +43,17 @@ jobs:
         run: choco install --no-progress --yes gtksharp
 
       - name: Restore
-        run: dotnet restore Net4x.Gtk.Windows.Forms.sln
+        run: dotnet restore Gtk.Windows.Forms.sln
 
       - name: Build
-        run: dotnet build Net4x.Gtk.Windows.Forms.sln --configuration Debug --no-restore
+        run: dotnet build Gtk.Windows.Forms.sln --configuration Debug --no-restore
 
       - name: Test
         run: |
-          dotnet test Net4x.Gtk.Drawing.Tests/Net4x.Gtk.Drawing.Tests.csproj --configuration Debug --no-build --logger "trx;LogFileName=drawing.trx"
-          dotnet test Net4x.Gtk.Windows.Forms.Tests/Net4x.Gtk.Windows.Forms.Tests.csproj --configuration Debug --no-build --logger "trx;LogFileName=forms.trx"
+          dotnet test Gtk.Drawing.Tests/Gtk.Drawing.Tests.csproj --configuration Debug --no-build --logger "trx;LogFileName=drawing.trx"
+          dotnet test Gtk.Windows.Forms.Tests/Gtk.Windows.Forms.Tests.csproj --configuration Debug --no-build --logger "trx;LogFileName=forms.trx"
           dotnet test Gtk.Windows.FormsDesigner.Tests/Gtk.Windows.FormsDesigner.Tests.csproj --configuration Debug --no-build --logger "trx;LogFileName=designer.trx"
-          dotnet test Net4x.ResxProcessor.Tests/Net4x.ResxProcessor.Tests.csproj --configuration Debug --no-build --logger "trx;LogFileName=resx.trx"
+          dotnet test ResxProcessor.Tests/ResxProcessor.Tests.csproj --configuration Debug --no-build --logger "trx;LogFileName=resx.trx"
           dotnet test AutoClosingMessageBox.Tests/AutoClosingMessageBox.Tests.csproj --configuration Debug --no-build --logger "trx;LogFileName=messagebox.trx"
 
       - name: Upload test results

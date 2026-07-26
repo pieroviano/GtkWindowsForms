@@ -22,17 +22,17 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  ...lStripScrollableReparentFunctionalTests.cs | 42 +++++++++++++++++++
  .../System/Windows/Forms/ToolStrip.cs         |  2 +-
  2 files changed, 43 insertions(+), 1 deletion(-)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripScrollableReparentFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripScrollableReparentFunctionalTests.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripScrollableReparentFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripScrollableReparentFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripScrollableReparentFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripScrollableReparentFunctionalTests.cs
 new file mode 100644
 index 00000000..dd10800e
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripScrollableReparentFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripScrollableReparentFunctionalTests.cs
 @@ -0,0 +1,42 @@
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Pins the ToolStrip base-class fix: <see cref="ToolStrip"/> now derives from
@@ -72,10 +72,10 @@ index 00000000..dd10800e
 +        Assert.True(menu.AutoScroll);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs b/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
 index 735f3c42..bceeaf7e 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
 @@ -13,7 +13,7 @@ namespace System.Windows.Forms;
  /// <summary>
  /// Provides a container for Windows toolbar objects.

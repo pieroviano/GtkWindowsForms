@@ -7,10 +7,10 @@ Subject: [PATCH] Fix ReaderAliasResolver
  .../ResXResourceReader.ReaderAliasResolver.cs      | 14 +++++++++-----
  1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Resources/ResXResourceReader.ReaderAliasResolver.cs b/Net4x.Gtk.Windows.Forms/System/Resources/ResXResourceReader.ReaderAliasResolver.cs
+diff --git a/Gtk.Windows.Forms/System/Resources/ResXResourceReader.ReaderAliasResolver.cs b/Gtk.Windows.Forms/System/Resources/ResXResourceReader.ReaderAliasResolver.cs
 index 70542921..688665f6 100644
---- a/Net4x.Gtk.Windows.Forms/System/Resources/ResXResourceReader.ReaderAliasResolver.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Resources/ResXResourceReader.ReaderAliasResolver.cs
+--- a/Gtk.Windows.Forms/System/Resources/ResXResourceReader.ReaderAliasResolver.cs
++++ b/Gtk.Windows.Forms/System/Resources/ResXResourceReader.ReaderAliasResolver.cs
 @@ -1,4 +1,4 @@
 -// Licensed to the .NET Foundation under one or more agreements.
 +﻿// Licensed to the .NET Foundation under one or more agreements.

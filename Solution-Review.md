@@ -1,7 +1,7 @@
-# Solution review — `Net4x.Gtk.Windows.Forms.sln`
+# Solution review — `Gtk.Windows.Forms.sln`
 
 **Type:** architectural + implementation analysis, written in the shape of a pull-request review.
-**Scope:** the product solution [Net4x.Gtk.Windows.Forms.sln](Net4x.Gtk.Windows.Forms.sln) — 20 projects:
+**Scope:** the product solution [Gtk.Windows.Forms.sln](Gtk.Windows.Forms.sln) — 20 projects:
 five shipped libraries, one bundled tool, three sample apps, six test projects. The generation pipeline
 (`PrepareProjects.sln`) is out of scope except where it constrains the product.
 **Basis:** static reading of the sources, a full `dotnet restore` + `dotnet build` of the solution, a
@@ -21,7 +21,7 @@ Companion documents, not duplicated here: [Architecture.md](Architecture.md) (ho
 | | |
 |---|---|
 | **Overall** | **Approve.** Nothing found in this pass blocks a merge or a publish. The architecture is sound and unusually well-documented for a compatibility shim, the packaging is now internally consistent, and the two defects that were quietly costing something — a displacement that never happened and a patch that never applied — are fixed and verified rather than described. |
-| **Build** | ✅ `dotnet restore` + `dotnet build Net4x.Gtk.Windows.Forms.sln` → 0 errors, 0 warnings. |
+| **Build** | ✅ `dotnet restore` + `dotnet build Gtk.Windows.Forms.sln` → 0 errors, 0 warnings. |
 | **Tests** | ✅ 3,597 passing across all six test projects, UI suite included. A further 625 in `Prepare.Tests` guard the pipeline. |
 | **Open question** | The licence the packages declare is now consistent — LGPL-3.0, the one the vendored submodule carries — but that it is the *right* licence is a question for upstream, not for this repository (§5.1). |
 | **Deferred** | Clipping to the true outline of a curved `GraphicsPath` rather than its band decomposition (§4.3). Deliberately not attempted in this pass; the reason is specific and stated. |
@@ -42,7 +42,7 @@ Three layers, cleanly separated, and the separation is real rather than nominal:
                     │                            │
    System.Windows.Forms.*            System.Drawing.*
                     ▼                            ▼
-      Net4x.Gtk.Windows.Forms  ──────►   Net4x.Gtk.Drawing
+      Gtk.Windows.Forms  ──────►   Gtk.Drawing
       (pkg Gtk.Windows.Forms)            (pkg Gtk.Drawing)
                     │                            │
               wraps Gtk.Widget            draws via Cairo.Context
@@ -50,10 +50,10 @@ Three layers, cleanly separated, and the separation is real rather than nominal:
                        GtkSharp 3.24.x → GTK/GDK/Cairo/Pango
 ```
 
-Around that core sit four support assemblies: `Net4x.Gtk.Windows.Extensions` (non-WinForms additions,
-layered *on* the Forms library), `Net4x.System.Resources.Extensions` (an intentionally empty displacing
-assembly), `Net4x.Gtk.Windows.FormsDesigner` (MSBuild-integrated design-time support), and
-`Net4x.ResxProcessor` (a `net8.0` tool shipped inside the main package under `tools/`).
+Around that core sit four support assemblies: `Gtk.Windows.Extensions` (non-WinForms additions,
+layered *on* the Forms library), `System.Resources.Extensions` (an intentionally empty displacing
+assembly), `Gtk.Windows.FormsDesigner` (MSBuild-integrated design-time support), and
+`ResxProcessor` (a `net8.0` tool shipped inside the main package under `tools/`).
 
 ### 2.1 The central pattern is the right one
 
@@ -61,7 +61,7 @@ Every control is a **facade/base pair**: a public `System.Windows.Forms.X` type 
 semantics, and a `GtkSystem.Windows.Forms.GtkControls.ControlBase.XBase` type owning the GTK widget.
 Cross-cutting painting, CSS-class and background/image concerns are factored out into a single
 composable helper,
-[GtkControlOverride.cs](Net4x.Gtk.Windows.Forms/GTKSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs),
+[GtkControlOverride.cs](Gtk.Windows.Forms/GTKSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs),
 attached to each base rather than inherited.
 
 This is the correct decomposition for the problem. It keeps the substrate swappable in principle, keeps
@@ -73,7 +73,7 @@ bypassed.
 
 ### 2.2 Threading is modelled properly, which is rare in this class of project
 
-[Control.cs:1329](Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs#L1329) onwards is the
+[Control.cs:1329](Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs#L1329) onwards is the
 best code in the repository. `InvokeRequired` compares against a **per-control owning thread id**
 (matching WinForms' per-handle rule, not a global "is this the UI thread"); `MarshalToUiThread` posts to
 `GLib.Idle`, blocks on a `ManualResetEventSlim`, and rethrows with `ExceptionDispatchInfo` while
@@ -85,7 +85,7 @@ inline, because nothing would ever drain the idle queue. That is the kind of det
 after someone has actually hit the hang.
 
 `Application.Run(ApplicationContext)`
-([Application.cs:604](Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs#L604)) is
+([Application.cs:604](Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs#L604)) is
 similarly disciplined: single-loop-per-thread enforcement, `Control.CaptureUiThread()`, context
 save/restore, and `ThreadExit`/context-dispose/`ApplicationExit` ordering in a `finally`.
 
@@ -103,13 +103,13 @@ for.
 
 The generated code carries an unusual density of rationale comments, and they are the load-bearing kind:
 
-- [Control.cs:61](Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs#L61) — why the
+- [Control.cs:61](Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs#L61) — why the
   `CreateGraphics` surface must *not* derive from `Widget.Window` (upstream's version corrupts GTK
   rendering during a modal dialog's realize path).
-- [Graphics.cs:36](Net4x.Gtk.Drawing/System/Drawing/Graphics.cs#L36) — why the Cairo surface/context
+- [Graphics.cs:36](Gtk.Drawing/System/Drawing/Graphics.cs#L36) — why the Cairo surface/context
   fields are not `static` (two `Graphics` over two bitmaps could not otherwise coexist, which is exactly
   what double buffering needs).
-- [Region.cs:23](Net4x.Gtk.Drawing/System/Drawing/Region.cs#L23) — why the region is a band list rather
+- [Region.cs:23](Gtk.Drawing/System/Drawing/Region.cs#L23) — why the region is a band list rather
   than one rectangle, and which case (`Xor` of partially overlapping rectangles) forced it.
 
 Because the shipped source is regenerated, these comments are the only durable record of hard-won
@@ -117,17 +117,17 @@ substrate knowledge. Keep enforcing that habit in patches.
 
 ### 2.4 The structural constraint is the generation pipeline
 
-`Net4x.Gtk.Windows.Forms/` and `Net4x.Gtk.Drawing/` are **build outputs that are committed**. Every durable
+`Gtk.Windows.Forms/` and `Gtk.Drawing/` are **build outputs that are committed**. Every durable
 change must be expressed as a `patches/*.patch`, a `Resources/` overlay, a post-processing rule, or a
 submodule change. This is a deliberate and, given the merge-conflict history with upstream, a defensible
 trade — but it means the repository has an unusual failure mode: *a correct fix that is not captured in the
 right layer is silently temporary.* §3 covers how well that is currently defended, and §3.4 is what
 happens when the defence has a hole.
 
-Two projects sit **outside** that constraint and are hand-maintained: `Net4x.Gtk.Windows.Extensions` and
-`Net4x.Gtk.Windows.FormsDesigner`. Edits to those are permanent without a patch. The asymmetry is worth
+Two projects sit **outside** that constraint and are hand-maintained: `Gtk.Windows.Extensions` and
+`Gtk.Windows.FormsDesigner`. Edits to those are permanent without a patch. The asymmetry is worth
 stating in onboarding, because the two kinds of library look identical in the solution tree.
-`Net4x.System.Resources.Extensions` is a third case again: its whole directory is deleted and re-copied
+`System.Resources.Extensions` is a third case again: its whole directory is deleted and re-copied
 from the submodule on every run, so *nothing* hand-written survives there — it is emitted by
 `SystemResourcesExtensionsProjectHandler` instead.
 
@@ -142,7 +142,7 @@ from the submodule on every run, so *nothing* hand-written survives there — it
 hoping, `Prepare.Tests` asserts it, so a regeneration that dropped either fails a test instead of quietly
 breaking the suite.
 
-The same instinct now covers the packaging of `Net4x.System.Resources.Extensions`
+The same instinct now covers the packaging of `System.Resources.Extensions`
 ([SystemResourcesExtensionsProjectHandlerTests.cs](Prepare.Tests/SystemResourcesExtensionsProjectHandlerTests.cs)),
 which matters because that project's directory does not survive a run: its package id, README, pack
 settings and displacement sentinel exist only for as long as the handler keeps emitting them.
@@ -210,7 +210,7 @@ with a check that would not catch it.
 ### 3.5 ✅ Two patches were repaired after the `AutoClosingMessageBox` move
 
 `0004` and `0009` still carried hunks against
-`Net4x.Gtk.Windows.Forms/System/Windows/Forms/AutoClosingMessageBox.cs`, a file the pipeline no longer
+`Gtk.Windows.Forms/System/Windows/Forms/AutoClosingMessageBox.cs`, a file the pipeline no longer
 produces since that type moved to the hand-maintained Extensions project. Because `git apply` is atomic
 per patch, both would have been rejected **in their entirety** on the next run, taking ~150 and ~215
 unrelated file diffs down with them. The stale hunks are removed; both patches still parse and both are
@@ -227,7 +227,7 @@ patches that target it.
 ### 4.1 🟢 `Control` raises `Disposed`, and the reason it once could not is worth knowing
 
 `Control` overrides `CanRaiseEvents`, and it must return `true`
-([Control.cs:1863](Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs#L1863)). The override
+([Control.cs:1863](Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs#L1863)). The override
 being an auto-property — permanently `false` — is not inert, which is the interesting part:
 `EventHandlerList` holds a reference to the component that owns it and its **indexer getter** returns
 `null` whenever that owner reports it cannot raise events. `Component` stores the `Disposed`
@@ -241,7 +241,7 @@ and `Dispose` *is* reached. Only the interaction explains it, and only for a typ
 
 `Disposed` firing exactly once — on direct disposal, through `IDisposable`, and on children reached by a
 parent's walk — is covered by
-[ControlDisposalFunctionalTests.cs](Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlDisposalFunctionalTests.cs),
+[ControlDisposalFunctionalTests.cs](Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlDisposalFunctionalTests.cs),
 along with the rest of the disposal contract.
 
 ### 4.2 🟢 The z-order and handle-creation methods do what they say
@@ -250,7 +250,7 @@ along with the rest of the disposal contract.
 window-manager hint `KeepBelow`, which is not what a child control among siblings needs). All three now
 carry the half of the WinForms contract that is observable without a display — the parent's child order,
 and `Created` — as well as the GDK raise/lower and the realize walk that need a live window.
-[ControlZOrderFunctionalTests.cs](Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlZOrderFunctionalTests.cs)
+[ControlZOrderFunctionalTests.cs](Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlZOrderFunctionalTests.cs)
 asserts the ordering directly via `Controls.GetChildIndex`, and that `CreateControl` creates the whole
 child tree rather than just the control it was called on.
 
@@ -261,7 +261,7 @@ legitimately empty: `BeginInit`/`EndInit`, the `OnPaint`/`OnPaintBackground` bas
 ### 4.3 🟡 Clipping is coherent; the curved-path approximation is deliberately still there
 
 Every `SetClip`/`IntersectClip` overload funnels through
-[SetClip(Region, CombineMode)](Net4x.Gtk.Drawing/System/Drawing/Graphics.cs#L2312): combining happens on
+[SetClip(Region, CombineMode)](Gtk.Drawing/System/Drawing/Graphics.cs#L2312): combining happens on
 the `Region` — which implements the whole `CombineMode` family exactly for rectangular inputs — and the
 result is applied to the Cairo context in one pass by `ApplyClip`. This is the right shape, because Cairo's
 own `Clip()` can only ever *narrow*, so `Union`, `Exclude`, `Xor` and `Complement` are not expressible
@@ -295,7 +295,7 @@ the field `internal` (which a previous pass did, with a comment explaining why) 
 method published it anyway.
 
 It now answers what GDI+ callers actually ask this API: `object[] { Region clip, PointF transformOffset }`.
-[GraphicsContextInfoTests.cs](Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsContextInfoTests.cs) asserts
+[GraphicsContextInfoTests.cs](Gtk.Drawing.Tests/System/Drawing/GraphicsContextInfoTests.cs) asserts
 the shape, that the reported clip tracks the clip actually in force rather than the initial surface, that
 the offset follows `TranslateTransform`, and — the point of the change — that no Cairo type escapes.
 Captured as
@@ -345,7 +345,7 @@ every existing caller instead of warning them.
 ## 5. Packaging & build configuration
 
 The solution emits **five** NuGet packages — `Gtk.Windows.Forms`, `Gtk.Drawing`,
-`Gtk.Windows.FormsDesigner`, `Gtk.Windows.Extensions` and `Gtk.System.Resources.Extensions`. Everything
+`Gtk.Windows.FormsDesigner`, `Gtk.Windows.Extensions` and `Gtk.Resources.Extensions`. Everything
 below was read from the built `.nupkg` files rather than inferred from the csprojs.
 
 ### 5.1 ✅ The five packages now tell one story; whether it is the right story is upstream's to say
@@ -372,18 +372,18 @@ fix is the inconsistency, and that is fixed.
 ### 5.2 ✅ Package metadata is real
 
 `Gtk.Windows.Extensions` shipped `<description>Package Description</description>` and
-`<authors>Net4x.Gtk.Windows.Extensions</authors>` — the SDK's placeholders, which render as the headline
+`<authors>Gtk.Windows.Extensions</authors>` — the SDK's placeholders, which render as the headline
 and by-line on nuget.org — and `Gtk.Windows.FormsDesigner` shipped the placeholder author. Both now carry
 author, company, copyright, title, description and project URL. A dead `<PackegeId>` typo (the real one is
 declared correctly further down) went with it.
 
 ### 5.3 ✅ The `System.Resources.Extensions` displacement now actually happens
 
-`Net4x.System.Resources.Extensions` builds an assembly *named* `System.Resources.Extensions` in order to
+`System.Resources.Extensions` builds an assembly *named* `System.Resources.Extensions` in order to
 **displace Microsoft's** in an application's output folder, so nothing can bind to an implementation that
 deserialises through `BinaryFormatter`. Nothing needs the displaced types — the working reader/writer live
 in the Forms library under
-[GTKSystem/Resources/Extensions/](Net4x.Gtk.Windows.Forms/GTKSystem/Resources/Extensions) — and all three
+[GTKSystem/Resources/Extensions/](Gtk.Windows.Forms/GTKSystem/Resources/Extensions) — and all three
 sample apps carry a `ProjectReference` to the shim.
 
 **It had never worked.** MSBuild's conflict resolution keeps the highest `AssemblyVersion` for a given
@@ -439,7 +439,7 @@ matching version.
 | `DirectoryNuGet` | import guard for `Directory.Build.Props` |
 | `NuGetPackageRoot` | resolves the `NuGet.Utility` props/targets imports in the shippable csprojs |
 | `VersionBuildSuffix` | revision wildcard for the in-house references in `Prepare.Common` |
-| `Net4xGtkWindowsFormsVersion` | this solution's own version |
+| `GtkWindowsFormsVersion` | this solution's own version |
 | `GtkSharpLatestVersion` | the GTK3 binding the product is built on |
 | `NuGetUtilityVersion` | build-time utility, `PrivateAssets="All"` |
 | `Net4xBaseTypesVersion`, `SystemTextJson10Version` | the generation pipeline projects |
@@ -456,7 +456,7 @@ Both directions are enforced by
 than lingering: a declared-but-unreferenced property fails, a referenced-but-undefined `*Version` fails,
 and exceeding 20 properties fails with "check whether the shared CommonLibrary manifest has been copied
 back over it". The placement contract is asserted too — `VersionPrepare` rewrites
-`Net4xGtkWindowsFormsVersion` in place during the pipeline and looks for it in the *first*
+`GtkWindowsFormsVersion` in place during the pipeline and looks for it in the *first*
 `PropertyGroup` only.
 
 [Directory.Build.Props](Directory.Build.Props) imports the file and may override anything in it
@@ -477,20 +477,20 @@ null-checking the source that produced them.
 
 ### 6.1 ✅ The tests assert behaviour, not coverage
 
-The oracles are real. [GraphicsClipFunctionalTests.cs](Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsClipFunctionalTests.cs)
+The oracles are real. [GraphicsClipFunctionalTests.cs](Gtk.Drawing.Tests/System/Drawing/GraphicsClipFunctionalTests.cs)
 does not ask the `Graphics` what it thinks its clip is — it fills the whole surface and then reads back
 **actual pixels** inside, outside, and in the gap between two unioned regions, with the observed colour in
-the failure message. [ResourceManagerCultureFunctionalTests.cs](Net4x.Gtk.Windows.Forms.Tests/GtkSystem/Resources/ResourceManagerCultureFunctionalTests.cs)
+the failure message. [ResourceManagerCultureFunctionalTests.cs](Gtk.Windows.Forms.Tests/GtkSystem/Resources/ResourceManagerCultureFunctionalTests.cs)
 runs against a real pair of compiled resources — a neutral `.resx` and an Italian sibling the build turns
 into an actual satellite assembly — so what it proves about the culture fallback chain (`it-IT` → `it` →
 neutral, per key rather than per file) is true of the real mechanism, not a stand-in.
 
 | Project | Tests | Result |
 |---|---:|---|
-| `Net4x.Gtk.Windows.Forms.Tests` | 2,320 | ✅ |
-| `Net4x.Gtk.Drawing.Tests` | 1,193 | ✅ |
+| `Gtk.Windows.Forms.Tests` | 2,320 | ✅ |
+| `Gtk.Drawing.Tests` | 1,193 | ✅ |
 | `Gtk.Windows.FormsDesigner.Tests` | 45 | ✅ |
-| `Net4x.ResxProcessor.Tests` | 20 | ✅ |
+| `ResxProcessor.Tests` | 20 | ✅ |
 | `GtkWinFormsApp.UITests` | 10 | ✅ (ran — display available) |
 | `AutoClosingMessageBox.Tests` | 9 | ✅ |
 | **Product solution total** | **3,597** | ✅ |
@@ -527,7 +527,7 @@ generated trees and publishes packages.
 
 ### 6.4 🟢 The thin spots have been thickened
 
-`AutoClosingMessageBox.Tests` and `Net4x.ResxProcessor.Tests` were the two places where a silent
+`AutoClosingMessageBox.Tests` and `ResxProcessor.Tests` were the two places where a silent
 regression would have been expensive and nothing would have caught it — the resx processor rewrites every
 `.resx` in the tree unattended on every pipeline run, and a wrong answer there corrupts a regenerated
 sample rather than failing.

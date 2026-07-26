@@ -5,13 +5,13 @@ Subject: [PATCH] Fixed bug regarding Image throwing exception if created from
  scratch
 
 ---
- Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs | 6 ++++++
+ Gtk.Drawing/System/Drawing/Drawing2D/Image.cs | 6 ++++++
  1 file changed, 6 insertions(+)
 
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/Image.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
 index d6ebf72e..e933e235 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
 @@ -2,6 +2,7 @@
  using System.Drawing.Imaging;
  using System.Runtime.InteropServices;

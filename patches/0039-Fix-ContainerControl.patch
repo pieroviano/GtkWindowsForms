@@ -7,10 +7,10 @@ Subject: [PATCH] Fix ContainerControl
  .../System/Windows/Forms/Control/Control.cs                 | 6 ++++++
  1 file changed, 6 insertions(+)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 index 4efcef2..de9b1cc 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 @@ -442,6 +442,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      public Control()
      {

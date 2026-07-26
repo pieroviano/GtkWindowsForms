@@ -43,33 +43,33 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../ListViewBase/ListViewInsertionMark.cs     |  31 ++++++
  .../Windows/Forms/OwnerDrawPropertyBag.cs     |  42 +++++++
  21 files changed, 541 insertions(+)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchBFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/AmbientProperties.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Atrribute/DockingAttribute.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ColumnHeaderConverter.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/CursorConverter.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ImageIndexConverter.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ImageKeyConverter.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/LinkConverter.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ListBindingConverter.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/PaddingConverter.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeNodeConverter.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageIndexConverter.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageKeyConverter.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/NodeLabelEditEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/SearchForVirtualItemEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/StatusBarDrawItemEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/NodeLabelEditEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/SearchForVirtualItemEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/StatusBarDrawItemEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewInsertionMark.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/OwnerDrawPropertyBag.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchBFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/AmbientProperties.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Atrribute/DockingAttribute.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Design/ColumnHeaderConverter.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Design/CursorConverter.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Design/ImageIndexConverter.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Design/ImageKeyConverter.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Design/LinkConverter.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Design/ListBindingConverter.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Design/PaddingConverter.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Design/TreeNodeConverter.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageIndexConverter.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageKeyConverter.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/NodeLabelEditEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/SearchForVirtualItemEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/StatusBarDrawItemEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/NodeLabelEditEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/SearchForVirtualItemEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/StatusBarDrawItemEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewInsertionMark.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/OwnerDrawPropertyBag.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchBFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchBFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchBFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchBFunctionalTests.cs
 new file mode 100644
 index 00000000..13fe3dbf
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchBFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchBFunctionalTests.cs
 @@ -0,0 +1,105 @@
 +namespace System.Windows.Forms;
 +
@@ -176,11 +176,11 @@ index 00000000..13fe3dbf
 +        Assert.IsAssignableFrom<TypeConverter>(new LinkConverter());
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/AmbientProperties.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/AmbientProperties.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/AmbientProperties.cs b/Gtk.Windows.Forms/System/Windows/Forms/AmbientProperties.cs
 new file mode 100644
 index 00000000..bb07f2d3
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/AmbientProperties.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/AmbientProperties.cs
 @@ -0,0 +1,26 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -208,11 +208,11 @@ index 00000000..bb07f2d3
 +    /// <summary>Gets or sets the ambient foreground color.</summary>
 +    public Color ForeColor { get; set; } = Color.Empty;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Atrribute/DockingAttribute.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Atrribute/DockingAttribute.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Atrribute/DockingAttribute.cs b/Gtk.Windows.Forms/System/Windows/Forms/Atrribute/DockingAttribute.cs
 new file mode 100644
 index 00000000..25899abf
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Atrribute/DockingAttribute.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Atrribute/DockingAttribute.cs
 @@ -0,0 +1,33 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -247,11 +247,11 @@ index 00000000..25899abf
 +    /// <returns><see langword="true" /> if default; otherwise <see langword="false" />.</returns>
 +    public override bool IsDefaultAttribute() => DockingBehavior == DockingBehavior.Never;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ColumnHeaderConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ColumnHeaderConverter.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Design/ColumnHeaderConverter.cs b/Gtk.Windows.Forms/System/Windows/Forms/Design/ColumnHeaderConverter.cs
 new file mode 100644
 index 00000000..36553565
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ColumnHeaderConverter.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Design/ColumnHeaderConverter.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -268,11 +268,11 @@ index 00000000..36553565
 +    {
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/CursorConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/CursorConverter.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Design/CursorConverter.cs b/Gtk.Windows.Forms/System/Windows/Forms/Design/CursorConverter.cs
 new file mode 100644
 index 00000000..91b75830
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/CursorConverter.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Design/CursorConverter.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -289,11 +289,11 @@ index 00000000..91b75830
 +    {
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ImageIndexConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ImageIndexConverter.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Design/ImageIndexConverter.cs b/Gtk.Windows.Forms/System/Windows/Forms/Design/ImageIndexConverter.cs
 new file mode 100644
 index 00000000..1579bf2b
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ImageIndexConverter.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Design/ImageIndexConverter.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -310,11 +310,11 @@ index 00000000..1579bf2b
 +    {
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ImageKeyConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ImageKeyConverter.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Design/ImageKeyConverter.cs b/Gtk.Windows.Forms/System/Windows/Forms/Design/ImageKeyConverter.cs
 new file mode 100644
 index 00000000..ee51a67a
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ImageKeyConverter.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Design/ImageKeyConverter.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -331,11 +331,11 @@ index 00000000..ee51a67a
 +    {
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/LinkConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/LinkConverter.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Design/LinkConverter.cs b/Gtk.Windows.Forms/System/Windows/Forms/Design/LinkConverter.cs
 new file mode 100644
 index 00000000..f6ae6bd8
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/LinkConverter.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Design/LinkConverter.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -352,11 +352,11 @@ index 00000000..f6ae6bd8
 +    {
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ListBindingConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ListBindingConverter.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Design/ListBindingConverter.cs b/Gtk.Windows.Forms/System/Windows/Forms/Design/ListBindingConverter.cs
 new file mode 100644
 index 00000000..a31f5e65
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ListBindingConverter.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Design/ListBindingConverter.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -373,11 +373,11 @@ index 00000000..a31f5e65
 +    {
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/PaddingConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/PaddingConverter.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Design/PaddingConverter.cs b/Gtk.Windows.Forms/System/Windows/Forms/Design/PaddingConverter.cs
 new file mode 100644
 index 00000000..3ee5135d
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/PaddingConverter.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Design/PaddingConverter.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -394,11 +394,11 @@ index 00000000..3ee5135d
 +    {
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeNodeConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeNodeConverter.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Design/TreeNodeConverter.cs b/Gtk.Windows.Forms/System/Windows/Forms/Design/TreeNodeConverter.cs
 new file mode 100644
 index 00000000..dcbe418f
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeNodeConverter.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Design/TreeNodeConverter.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -415,11 +415,11 @@ index 00000000..dcbe418f
 +    {
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageIndexConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageIndexConverter.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageIndexConverter.cs b/Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageIndexConverter.cs
 new file mode 100644
 index 00000000..ad5e282b
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageIndexConverter.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageIndexConverter.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -436,11 +436,11 @@ index 00000000..ad5e282b
 +    {
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageKeyConverter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageKeyConverter.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageKeyConverter.cs b/Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageKeyConverter.cs
 new file mode 100644
 index 00000000..9073c805
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageKeyConverter.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Design/TreeViewImageKeyConverter.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -457,11 +457,11 @@ index 00000000..9073c805
 +    {
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/NodeLabelEditEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/NodeLabelEditEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/NodeLabelEditEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/NodeLabelEditEventArgs.cs
 new file mode 100644
 index 00000000..233d6649
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/NodeLabelEditEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/NodeLabelEditEventArgs.cs
 @@ -0,0 +1,27 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -490,11 +490,11 @@ index 00000000..233d6649
 +    /// <summary>Gets the tree node being edited.</summary>
 +    public TreeNode Node { get; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/SearchForVirtualItemEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/SearchForVirtualItemEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/SearchForVirtualItemEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/SearchForVirtualItemEventArgs.cs
 new file mode 100644
 index 00000000..7d7eeecd
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/SearchForVirtualItemEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/SearchForVirtualItemEventArgs.cs
 @@ -0,0 +1,55 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -551,11 +551,11 @@ index 00000000..7d7eeecd
 +    /// <summary>Gets the index at which to start the search.</summary>
 +    public int StartIndex { get; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/StatusBarDrawItemEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/StatusBarDrawItemEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/StatusBarDrawItemEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/StatusBarDrawItemEventArgs.cs
 new file mode 100644
 index 00000000..b2729d66
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/StatusBarDrawItemEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/StatusBarDrawItemEventArgs.cs
 @@ -0,0 +1,42 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -599,11 +599,11 @@ index 00000000..b2729d66
 +    /// <summary>Gets the <see cref="T:System.Windows.Forms.StatusBarPanel" /> being drawn.</summary>
 +    public StatusBarPanel Panel { get; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/NodeLabelEditEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/NodeLabelEditEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/NodeLabelEditEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/NodeLabelEditEventHandler.cs
 new file mode 100644
 index 00000000..45260bff
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/NodeLabelEditEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/NodeLabelEditEventHandler.cs
 @@ -0,0 +1,10 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -615,11 +615,11 @@ index 00000000..45260bff
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.NodeLabelEditEventArgs" /> that contains the event data.</param>
 +public delegate void NodeLabelEditEventHandler(object sender, NodeLabelEditEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/SearchForVirtualItemEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/SearchForVirtualItemEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/SearchForVirtualItemEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/SearchForVirtualItemEventHandler.cs
 new file mode 100644
 index 00000000..fa83ecfe
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/SearchForVirtualItemEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/SearchForVirtualItemEventHandler.cs
 @@ -0,0 +1,10 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -631,11 +631,11 @@ index 00000000..fa83ecfe
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.SearchForVirtualItemEventArgs" /> that contains the event data.</param>
 +public delegate void SearchForVirtualItemEventHandler(object sender, SearchForVirtualItemEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/StatusBarDrawItemEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/StatusBarDrawItemEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/StatusBarDrawItemEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/StatusBarDrawItemEventHandler.cs
 new file mode 100644
 index 00000000..9a1c7f3a
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/StatusBarDrawItemEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/StatusBarDrawItemEventHandler.cs
 @@ -0,0 +1,10 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -647,11 +647,11 @@ index 00000000..9a1c7f3a
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.StatusBarDrawItemEventArgs" /> that contains the event data.</param>
 +public delegate void StatusBarDrawItemEventHandler(object sender, StatusBarDrawItemEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewInsertionMark.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewInsertionMark.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewInsertionMark.cs b/Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewInsertionMark.cs
 new file mode 100644
 index 00000000..15220255
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewInsertionMark.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewInsertionMark.cs
 @@ -0,0 +1,31 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -684,11 +684,11 @@ index 00000000..15220255
 +    /// <returns>The nearest item index, or -1.</returns>
 +    public int NearestIndex(Point pt) => -1;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OwnerDrawPropertyBag.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OwnerDrawPropertyBag.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/OwnerDrawPropertyBag.cs b/Gtk.Windows.Forms/System/Windows/Forms/OwnerDrawPropertyBag.cs
 new file mode 100644
 index 00000000..ddc50411
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OwnerDrawPropertyBag.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/OwnerDrawPropertyBag.cs
 @@ -0,0 +1,42 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.

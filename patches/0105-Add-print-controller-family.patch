@@ -33,20 +33,20 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../Printing/StandardPrintController.cs       |  21 ++++
  .../PrintControllerWithStatusDialog.cs        |  49 ++++++++
  9 files changed, 342 insertions(+), 1 deletion(-)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PrintingControllersFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Drawing/Printing/InvalidPrinterException.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PreviewPageInfo.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PreviewPrintController.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintController.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.PrintController.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Drawing/Printing/StandardPrintController.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintControllerWithStatusDialog.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/PrintingControllersFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Drawing/Printing/InvalidPrinterException.cs
+ create mode 100644 Gtk.Windows.Forms/System/Drawing/Printing/PreviewPageInfo.cs
+ create mode 100644 Gtk.Windows.Forms/System/Drawing/Printing/PreviewPrintController.cs
+ create mode 100644 Gtk.Windows.Forms/System/Drawing/Printing/PrintController.cs
+ create mode 100644 Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.PrintController.cs
+ create mode 100644 Gtk.Windows.Forms/System/Drawing/Printing/StandardPrintController.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintControllerWithStatusDialog.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PrintingControllersFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PrintingControllersFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/PrintingControllersFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/PrintingControllersFunctionalTests.cs
 new file mode 100644
 index 00000000..b5af82d1
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/PrintingControllersFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/PrintingControllersFunctionalTests.cs
 @@ -0,0 +1,105 @@
 +extern alias gtk;
 +
@@ -153,11 +153,11 @@ index 00000000..b5af82d1
 +        Assert.Same(preview, doc.PrintController);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/InvalidPrinterException.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/InvalidPrinterException.cs
+diff --git a/Gtk.Windows.Forms/System/Drawing/Printing/InvalidPrinterException.cs b/Gtk.Windows.Forms/System/Drawing/Printing/InvalidPrinterException.cs
 new file mode 100644
 index 00000000..2b08b9fc
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/InvalidPrinterException.cs
++++ b/Gtk.Windows.Forms/System/Drawing/Printing/InvalidPrinterException.cs
 @@ -0,0 +1,33 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -192,11 +192,11 @@ index 00000000..2b08b9fc
 +    public override void GetObjectData(SerializationInfo info, StreamingContext context)
 +        => base.GetObjectData(info, context);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PreviewPageInfo.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PreviewPageInfo.cs
+diff --git a/Gtk.Windows.Forms/System/Drawing/Printing/PreviewPageInfo.cs b/Gtk.Windows.Forms/System/Drawing/Printing/PreviewPageInfo.cs
 new file mode 100644
 index 00000000..c20fa7da
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PreviewPageInfo.cs
++++ b/Gtk.Windows.Forms/System/Drawing/Printing/PreviewPageInfo.cs
 @@ -0,0 +1,24 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -222,11 +222,11 @@ index 00000000..c20fa7da
 +    /// <summary>Gets the size of the printed page, in hundredths of an inch.</summary>
 +    public Size PhysicalSize { get; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PreviewPrintController.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PreviewPrintController.cs
+diff --git a/Gtk.Windows.Forms/System/Drawing/Printing/PreviewPrintController.cs b/Gtk.Windows.Forms/System/Drawing/Printing/PreviewPrintController.cs
 new file mode 100644
 index 00000000..92afe418
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PreviewPrintController.cs
++++ b/Gtk.Windows.Forms/System/Drawing/Printing/PreviewPrintController.cs
 @@ -0,0 +1,51 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -279,11 +279,11 @@ index 00000000..92afe418
 +    /// <returns>An array of <see cref="T:System.Drawing.Printing.PreviewPageInfo" /> objects, one per page.</returns>
 +    public PreviewPageInfo[] GetPreviewPageInfo() => pages.ToArray();
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintController.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintController.cs
+diff --git a/Gtk.Windows.Forms/System/Drawing/Printing/PrintController.cs b/Gtk.Windows.Forms/System/Drawing/Printing/PrintController.cs
 new file mode 100644
 index 00000000..a6c7b249
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintController.cs
++++ b/Gtk.Windows.Forms/System/Drawing/Printing/PrintController.cs
 @@ -0,0 +1,39 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -324,11 +324,11 @@ index 00000000..a6c7b249
 +    {
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.PrintController.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.PrintController.cs
+diff --git a/Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.PrintController.cs b/Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.PrintController.cs
 new file mode 100644
 index 00000000..0fceffdf
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.PrintController.cs
++++ b/Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.PrintController.cs
 @@ -0,0 +1,19 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -349,10 +349,10 @@ index 00000000..0fceffdf
 +        set => _printController = value;
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
+diff --git a/Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs b/Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
 index b2120065..4d5bea99 100644
---- a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
+--- a/Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
++++ b/Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
 @@ -14,7 +14,7 @@ namespace System.Drawing.Printing;
  /// </summary>
  /// <seealso cref="T:System.ComponentModel.Component" />
@@ -362,11 +362,11 @@ index b2120065..4d5bea99 100644
  {
  
      private PrintEventHandler _beginPrintHandler = delegate { };
-diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/StandardPrintController.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/StandardPrintController.cs
+diff --git a/Gtk.Windows.Forms/System/Drawing/Printing/StandardPrintController.cs b/Gtk.Windows.Forms/System/Drawing/Printing/StandardPrintController.cs
 new file mode 100644
 index 00000000..3dc4dd78
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/StandardPrintController.cs
++++ b/Gtk.Windows.Forms/System/Drawing/Printing/StandardPrintController.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -389,11 +389,11 @@ index 00000000..3dc4dd78
 +    /// <inheritdoc />
 +    public override void OnEndPrint(PrintDocument document, PrintEventArgs e) => base.OnEndPrint(document, e);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintControllerWithStatusDialog.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintControllerWithStatusDialog.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintControllerWithStatusDialog.cs b/Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintControllerWithStatusDialog.cs
 new file mode 100644
 index 00000000..97a58896
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintControllerWithStatusDialog.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintControllerWithStatusDialog.cs
 @@ -0,0 +1,49 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.

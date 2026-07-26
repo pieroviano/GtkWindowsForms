@@ -7,10 +7,10 @@ Subject: [PATCH] Fix BaseCollection
  .../Windows/Forms/Collection/BaseCollection.cs       | 12 ++++++------
  1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BaseCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BaseCollection.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/BaseCollection.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/BaseCollection.cs
 index 1b1887d..d466f4a 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BaseCollection.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BaseCollection.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/BaseCollection.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/BaseCollection.cs
 @@ -1,4 +1,4 @@
 -using System.Collections;
 +﻿using System.Collections;

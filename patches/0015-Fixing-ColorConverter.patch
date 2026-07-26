@@ -4,14 +4,14 @@ Date: Thu, 26 Mar 2026 06:03:55 +0200
 Subject: [PATCH] Fixing ColorConverter
 
 ---
- Net4x.Gtk.Drawing/System/Drawing/ColorConverter.cs |  3 +--
- Net4x.Gtk.Drawing/System/Drawing/ColorExtension.cs | 14 ++++++++++++--
+ Gtk.Drawing/System/Drawing/ColorConverter.cs |  3 +--
+ Gtk.Drawing/System/Drawing/ColorExtension.cs | 14 ++++++++++++--
  2 files changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/ColorConverter.cs b/Net4x.Gtk.Drawing/System/Drawing/ColorConverter.cs
+diff --git a/Gtk.Drawing/System/Drawing/ColorConverter.cs b/Gtk.Drawing/System/Drawing/ColorConverter.cs
 index 4fbd6b12..3df9082f 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/ColorConverter.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/ColorConverter.cs
+--- a/Gtk.Drawing/System/Drawing/ColorConverter.cs
++++ b/Gtk.Drawing/System/Drawing/ColorConverter.cs
 @@ -1,5 +1,4 @@
 -using System;
 -using System.Collections;
@@ -19,10 +19,10 @@ index 4fbd6b12..3df9082f 100644
  using System.ComponentModel;
  using System.ComponentModel.Design.Serialization;
  using System.Globalization;
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/ColorExtension.cs b/Net4x.Gtk.Drawing/System/Drawing/ColorExtension.cs
+diff --git a/Gtk.Drawing/System/Drawing/ColorExtension.cs b/Gtk.Drawing/System/Drawing/ColorExtension.cs
 index ec2cb3b2..8bf8a7fc 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/ColorExtension.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/ColorExtension.cs
+--- a/Gtk.Drawing/System/Drawing/ColorExtension.cs
++++ b/Gtk.Drawing/System/Drawing/ColorExtension.cs
 @@ -2,11 +2,21 @@
  
  internal static class ColorExtension

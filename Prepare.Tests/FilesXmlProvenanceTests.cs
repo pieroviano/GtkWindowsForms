@@ -26,7 +26,7 @@ namespace Prepare.Tests
         public void Load_KeysByRepoRelativeGeneratedPath_AndResolvesSourceAgainstUpstream()
         {
             WriteUpstream(@"GtkControls\ListView.cs");
-            WriteManifest("Net4x.Gtk.Windows.Forms.Files.xml",
+            WriteManifest("Gtk.Windows.Forms.Files.xml",
                 """
                 <Files>
                   <Item Source="GtkControls\ListView.cs" Destination="System\Windows\Forms\ListView.cs" />
@@ -36,7 +36,7 @@ namespace Prepare.Tests
             var map = FilesXmlProvenance.Load(Manifests, Upstream);
 
             // The key must match the repo-relative path git reports for a conflict.
-            var source = Assert.Contains("Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs", map);
+            var source = Assert.Contains("Gtk.Windows.Forms/System/Windows/Forms/ListView.cs", map);
             Assert.Equal(Path.Combine(Upstream, "GtkControls", "ListView.cs"), source);
         }
 
@@ -45,7 +45,7 @@ namespace Prepare.Tests
         {
             // The Drawing manifest is largely Source == Destination identity rows that never existed
             // upstream; printing those paths would send the operator to a non-existent file.
-            WriteManifest("Net4x.Gtk.Drawing.LatestFiles.xml",
+            WriteManifest("Gtk.Drawing.LatestFiles.xml",
                 """
                 <Files>
                   <Item Source="System\Drawing\Pen.cs" Destination="System\Drawing\Pen.cs" />
@@ -60,13 +60,13 @@ namespace Prepare.Tests
         {
             WriteUpstream(@"GtkControls\Old.cs");
             WriteUpstream(@"GtkControls\New.cs");
-            WriteManifest("Net4x.Gtk.Windows.Forms.Files.xml",
+            WriteManifest("Gtk.Windows.Forms.Files.xml",
                 """
                 <Files>
                   <Item Source="GtkControls\Old.cs" Destination="System\Windows\Forms\Thing.cs" />
                 </Files>
                 """);
-            WriteManifest("Net4x.Gtk.Windows.Forms.LatestFiles.xml",
+            WriteManifest("Gtk.Windows.Forms.LatestFiles.xml",
                 """
                 <Files>
                   <Item Source="GtkControls\New.cs" Destination="System\Windows\Forms\Thing.cs" />
@@ -76,7 +76,7 @@ namespace Prepare.Tests
             var map = FilesXmlProvenance.Load(Manifests, Upstream);
 
             Assert.Equal(Path.Combine(Upstream, "GtkControls", "New.cs"),
-                map["Net4x.Gtk.Windows.Forms/System/Windows/Forms/Thing.cs"]);
+                map["Gtk.Windows.Forms/System/Windows/Forms/Thing.cs"]);
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace Prepare.Tests
         {
             Assert.Empty(FilesXmlProvenance.Load(Path.Combine(_root, "nope"), Upstream));
 
-            WriteManifest("Net4x.Gtk.Windows.Forms.Files.xml", "<Files><Item Source=");
+            WriteManifest("Gtk.Windows.Forms.Files.xml", "<Files><Item Source=");
             Assert.Empty(FilesXmlProvenance.Load(Manifests, Upstream));
         }
 

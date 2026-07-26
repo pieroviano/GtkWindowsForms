@@ -68,45 +68,45 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../System/Windows/Forms/OLE/DataObject.cs    | 243 ++++++++++++++++++
  .../Forms/TreeViewBase/TreeViewHitTestInfo.cs |  29 +++
  33 files changed, 1473 insertions(+)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataObjectFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/OwnerDrawAndHitTestFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/Phase2EnumValueFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeDirection.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeStartingPosition.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/AutoCompleteSource.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/CaptionButton.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/DataGridViewAutoSizeColumnsMode.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ListViewHitTestLocations.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuGlyph.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxFinds.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxLanguageOptions.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxScrollBars.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionAttribute.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionTypes.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxStreamType.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxWordPunctuations.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripDropDownCloseReason.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripGripDisplayStyle.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripManagerRenderMode.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewDrawMode.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewHitTestLocations.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewColumnHeaderEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewItemEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewSubItemEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawTreeNodeEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewColumnHeaderEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewItemEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewSubItemEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawTreeNodeEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewHitTestInfo.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/OLE/DataObject.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeViewHitTestInfo.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/DataObjectFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/OwnerDrawAndHitTestFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/Phase2EnumValueFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeDirection.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeStartingPosition.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/AutoCompleteSource.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/CaptionButton.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/DataGridViewAutoSizeColumnsMode.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/ListViewHitTestLocations.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuGlyph.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxFinds.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxLanguageOptions.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxScrollBars.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionAttribute.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionTypes.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxStreamType.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxWordPunctuations.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripDropDownCloseReason.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripGripDisplayStyle.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripManagerRenderMode.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewDrawMode.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewHitTestLocations.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewColumnHeaderEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewItemEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewSubItemEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawTreeNodeEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewColumnHeaderEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewItemEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewSubItemEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawTreeNodeEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewHitTestInfo.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/OLE/DataObject.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeViewHitTestInfo.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataObjectFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataObjectFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/DataObjectFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/DataObjectFunctionalTests.cs
 new file mode 100644
 index 00000000..01c8ac05
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataObjectFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/DataObjectFunctionalTests.cs
 @@ -0,0 +1,94 @@
 +namespace System.Windows.Forms;
 +
@@ -202,11 +202,11 @@ index 00000000..01c8ac05
 +        Assert.Equal("ascii", data.GetData(DataFormats.UnicodeText, true));
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/OwnerDrawAndHitTestFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/OwnerDrawAndHitTestFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/OwnerDrawAndHitTestFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/OwnerDrawAndHitTestFunctionalTests.cs
 new file mode 100644
 index 00000000..fa74da88
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/OwnerDrawAndHitTestFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/OwnerDrawAndHitTestFunctionalTests.cs
 @@ -0,0 +1,92 @@
 +namespace System.Windows.Forms;
 +
@@ -300,11 +300,11 @@ index 00000000..fa74da88
 +        Assert.NotNull(h2);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/Phase2EnumValueFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/Phase2EnumValueFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/Phase2EnumValueFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/Phase2EnumValueFunctionalTests.cs
 new file mode 100644
 index 00000000..216e40eb
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/Phase2EnumValueFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/Phase2EnumValueFunctionalTests.cs
 @@ -0,0 +1,158 @@
 +namespace System.Windows.Forms;
 +
@@ -464,11 +464,11 @@ index 00000000..216e40eb
 +        Assert.Equal(2048, (int)TreeViewHitTestLocations.LeftOfClientArea);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeDirection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeDirection.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeDirection.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeDirection.cs
 new file mode 100644
 index 00000000..87b68363
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeDirection.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeDirection.cs
 @@ -0,0 +1,22 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -492,11 +492,11 @@ index 00000000..87b68363
 +    /// <summary>Arranges vertically, from bottom to top.</summary>
 +    Up = 4,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeStartingPosition.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeStartingPosition.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeStartingPosition.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeStartingPosition.cs
 new file mode 100644
 index 00000000..e36ce389
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeStartingPosition.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ArrangeStartingPosition.cs
 @@ -0,0 +1,25 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -523,11 +523,11 @@ index 00000000..e36ce389
 +    /// <summary>Hides minimized windows by moving them off the visible area of the screen.</summary>
 +    Hide = 8,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/AutoCompleteSource.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/AutoCompleteSource.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/AutoCompleteSource.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/AutoCompleteSource.cs
 new file mode 100644
 index 00000000..0ead4e8d
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/AutoCompleteSource.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/AutoCompleteSource.cs
 @@ -0,0 +1,36 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -565,11 +565,11 @@ index 00000000..0ead4e8d
 +    /// <summary>Specifies that the items of the ComboBox represent the source.</summary>
 +    ListItems = 256,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/CaptionButton.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/CaptionButton.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/CaptionButton.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/CaptionButton.cs
 new file mode 100644
 index 00000000..a0d53cd9
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/CaptionButton.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/CaptionButton.cs
 @@ -0,0 +1,24 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -595,11 +595,11 @@ index 00000000..a0d53cd9
 +    /// <summary>A Help button.</summary>
 +    Help = 4,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/DataGridViewAutoSizeColumnsMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/DataGridViewAutoSizeColumnsMode.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/DataGridViewAutoSizeColumnsMode.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/DataGridViewAutoSizeColumnsMode.cs
 new file mode 100644
 index 00000000..49f17f38
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/DataGridViewAutoSizeColumnsMode.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/DataGridViewAutoSizeColumnsMode.cs
 @@ -0,0 +1,30 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -631,11 +631,11 @@ index 00000000..49f17f38
 +    /// <summary>The column widths adjust so the total widths fill the display area of the control.</summary>
 +    Fill = 16,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ListViewHitTestLocations.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ListViewHitTestLocations.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/ListViewHitTestLocations.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ListViewHitTestLocations.cs
 new file mode 100644
 index 00000000..e6da6b38
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ListViewHitTestLocations.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ListViewHitTestLocations.cs
 @@ -0,0 +1,34 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -671,11 +671,11 @@ index 00000000..e6da6b38
 +    /// <summary>A position within the bounds of a state image contained in a ListView or ListViewItem.</summary>
 +    StateImage = 512,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuGlyph.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuGlyph.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuGlyph.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuGlyph.cs
 new file mode 100644
 index 00000000..5c40aa47
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuGlyph.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/MenuGlyph.cs
 @@ -0,0 +1,24 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -701,11 +701,11 @@ index 00000000..5c40aa47
 +    /// <summary>The maximum glyph value.</summary>
 +    Max = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxFinds.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxFinds.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxFinds.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxFinds.cs
 new file mode 100644
 index 00000000..d93349ec
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxFinds.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxFinds.cs
 @@ -0,0 +1,25 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -732,11 +732,11 @@ index 00000000..d93349ec
 +    /// <summary>Searches from the end of the control to the beginning.</summary>
 +    Reverse = 16,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxLanguageOptions.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxLanguageOptions.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxLanguageOptions.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxLanguageOptions.cs
 new file mode 100644
 index 00000000..9527cc37
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxLanguageOptions.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxLanguageOptions.cs
 @@ -0,0 +1,31 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -769,11 +769,11 @@ index 00000000..9527cc37
 +    /// <summary>Uses UI default fonts.</summary>
 +    UIFonts = 32,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxScrollBars.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxScrollBars.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxScrollBars.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxScrollBars.cs
 new file mode 100644
 index 00000000..a77e2d4b
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxScrollBars.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxScrollBars.cs
 @@ -0,0 +1,30 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -805,11 +805,11 @@ index 00000000..a77e2d4b
 +    /// <summary>Always displays both a horizontal and a vertical scroll bar.</summary>
 +    ForcedBoth = 19,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionAttribute.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionAttribute.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionAttribute.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionAttribute.cs
 new file mode 100644
 index 00000000..2b7b9752
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionAttribute.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionAttribute.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -829,11 +829,11 @@ index 00000000..2b7b9752
 +    /// <summary>All characters have the attribute.</summary>
 +    All = 1,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionTypes.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionTypes.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionTypes.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionTypes.cs
 new file mode 100644
 index 00000000..036140e9
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionTypes.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxSelectionTypes.cs
 @@ -0,0 +1,25 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -860,11 +860,11 @@ index 00000000..036140e9
 +    /// <summary>The selection contains more than one OLE object.</summary>
 +    MultiObject = 8,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxStreamType.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxStreamType.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxStreamType.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxStreamType.cs
 new file mode 100644
 index 00000000..491aacd3
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxStreamType.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxStreamType.cs
 @@ -0,0 +1,24 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -890,11 +890,11 @@ index 00000000..491aacd3
 +    /// <summary>Text stream in the Unicode character encoding.</summary>
 +    UnicodePlainText = 4,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxWordPunctuations.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxWordPunctuations.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxWordPunctuations.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxWordPunctuations.cs
 new file mode 100644
 index 00000000..21489661
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxWordPunctuations.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/RichTextBoxWordPunctuations.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -917,11 +917,11 @@ index 00000000..21489661
 +    /// <summary>The combination of the punctuation flags.</summary>
 +    All = 896,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripDropDownCloseReason.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripDropDownCloseReason.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripDropDownCloseReason.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripDropDownCloseReason.cs
 new file mode 100644
 index 00000000..7387f9d8
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripDropDownCloseReason.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripDropDownCloseReason.cs
 @@ -0,0 +1,24 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -947,11 +947,11 @@ index 00000000..7387f9d8
 +    /// <summary>Closed programmatically by a call to the Close method.</summary>
 +    CloseCalled = 4,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripGripDisplayStyle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripGripDisplayStyle.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripGripDisplayStyle.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripGripDisplayStyle.cs
 new file mode 100644
 index 00000000..ed71fd01
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripGripDisplayStyle.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripGripDisplayStyle.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -968,11 +968,11 @@ index 00000000..ed71fd01
 +    /// <summary>The move handle is displayed vertically.</summary>
 +    Vertical = 1,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripManagerRenderMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripManagerRenderMode.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripManagerRenderMode.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripManagerRenderMode.cs
 new file mode 100644
 index 00000000..56e425c9
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripManagerRenderMode.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ToolStripManagerRenderMode.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -992,11 +992,11 @@ index 00000000..56e425c9
 +    /// <summary>The elements are rendered with a professional (Office-style) appearance.</summary>
 +    Professional = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewDrawMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewDrawMode.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewDrawMode.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewDrawMode.cs
 new file mode 100644
 index 00000000..c223fddf
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewDrawMode.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewDrawMode.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1016,11 +1016,11 @@ index 00000000..c223fddf
 +    /// <summary>All elements of a tree node are drawn manually.</summary>
 +    OwnerDrawAll = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewHitTestLocations.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewHitTestLocations.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewHitTestLocations.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewHitTestLocations.cs
 new file mode 100644
 index 00000000..1870281e
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewHitTestLocations.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/TreeViewHitTestLocations.cs
 @@ -0,0 +1,43 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1065,11 +1065,11 @@ index 00000000..1870281e
 +    /// <summary>A position to the left of the client area of a TreeView control.</summary>
 +    LeftOfClientArea = 2048,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewColumnHeaderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewColumnHeaderEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewColumnHeaderEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewColumnHeaderEventArgs.cs
 new file mode 100644
 index 00000000..63efe674
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewColumnHeaderEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewColumnHeaderEventArgs.cs
 @@ -0,0 +1,81 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1152,11 +1152,11 @@ index 00000000..63efe674
 +            ForeColor.IsEmpty ? SystemColors.ControlText : ForeColor, flags);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewItemEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewItemEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewItemEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewItemEventArgs.cs
 new file mode 100644
 index 00000000..23b68877
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewItemEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewItemEventArgs.cs
 @@ -0,0 +1,74 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1232,11 +1232,11 @@ index 00000000..23b68877
 +        TextRenderer.DrawText(Graphics, Item?.Text, SystemFonts.DefaultFont, Bounds, SystemColors.WindowText, flags);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewSubItemEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewSubItemEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewSubItemEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewSubItemEventArgs.cs
 new file mode 100644
 index 00000000..9ac60579
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewSubItemEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawListViewSubItemEventArgs.cs
 @@ -0,0 +1,90 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1328,11 +1328,11 @@ index 00000000..9ac60579
 +        TextRenderer.DrawText(Graphics, SubItem?.Text, SystemFonts.DefaultFont, Bounds, SystemColors.WindowText, flags);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawTreeNodeEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawTreeNodeEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawTreeNodeEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawTreeNodeEventArgs.cs
 new file mode 100644
 index 00000000..e701efc1
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawTreeNodeEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/DrawTreeNodeEventArgs.cs
 @@ -0,0 +1,43 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1377,11 +1377,11 @@ index 00000000..e701efc1
 +    /// <summary>Gets the current state of the node to draw.</summary>
 +    public TreeNodeStates State { get; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewColumnHeaderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewColumnHeaderEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewColumnHeaderEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewColumnHeaderEventHandler.cs
 new file mode 100644
 index 00000000..40ea535a
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewColumnHeaderEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewColumnHeaderEventHandler.cs
 @@ -0,0 +1,12 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1395,11 +1395,11 @@ index 00000000..40ea535a
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.DrawListViewColumnHeaderEventArgs" /> that contains the event data.</param>
 +public delegate void DrawListViewColumnHeaderEventHandler(object sender, DrawListViewColumnHeaderEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewItemEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewItemEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewItemEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewItemEventHandler.cs
 new file mode 100644
 index 00000000..4d4be2e1
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewItemEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewItemEventHandler.cs
 @@ -0,0 +1,12 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1413,11 +1413,11 @@ index 00000000..4d4be2e1
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.DrawListViewItemEventArgs" /> that contains the event data.</param>
 +public delegate void DrawListViewItemEventHandler(object sender, DrawListViewItemEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewSubItemEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewSubItemEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewSubItemEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewSubItemEventHandler.cs
 new file mode 100644
 index 00000000..e473b55a
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewSubItemEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawListViewSubItemEventHandler.cs
 @@ -0,0 +1,12 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1431,11 +1431,11 @@ index 00000000..e473b55a
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.DrawListViewSubItemEventArgs" /> that contains the event data.</param>
 +public delegate void DrawListViewSubItemEventHandler(object sender, DrawListViewSubItemEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawTreeNodeEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawTreeNodeEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawTreeNodeEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawTreeNodeEventHandler.cs
 new file mode 100644
 index 00000000..454170b1
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawTreeNodeEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/DrawTreeNodeEventHandler.cs
 @@ -0,0 +1,12 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1449,11 +1449,11 @@ index 00000000..454170b1
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.DrawTreeNodeEventArgs" /> that contains the event data.</param>
 +public delegate void DrawTreeNodeEventHandler(object sender, DrawTreeNodeEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewHitTestInfo.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewHitTestInfo.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewHitTestInfo.cs b/Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewHitTestInfo.cs
 new file mode 100644
 index 00000000..51b423ce
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewHitTestInfo.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewHitTestInfo.cs
 @@ -0,0 +1,34 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1489,11 +1489,11 @@ index 00000000..51b423ce
 +    /// <summary>Gets the <see cref="T:System.Windows.Forms.ListViewItem.ListViewSubItem" /> located at the hit-tested point.</summary>
 +    public ListViewItem.ListViewSubItem? SubItem { get; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OLE/DataObject.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OLE/DataObject.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/OLE/DataObject.cs b/Gtk.Windows.Forms/System/Windows/Forms/OLE/DataObject.cs
 new file mode 100644
 index 00000000..958be2b0
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OLE/DataObject.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/OLE/DataObject.cs
 @@ -0,0 +1,243 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1738,11 +1738,11 @@ index 00000000..958be2b0
 +        _ => DataFormats.Text,
 +    };
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeViewHitTestInfo.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeViewHitTestInfo.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeViewHitTestInfo.cs b/Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeViewHitTestInfo.cs
 new file mode 100644
 index 00000000..ac9f5640
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeViewHitTestInfo.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeViewHitTestInfo.cs
 @@ -0,0 +1,29 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.

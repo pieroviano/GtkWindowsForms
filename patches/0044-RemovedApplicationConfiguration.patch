@@ -6,12 +6,12 @@ Subject: [PATCH] RemovedApplicationConfiguration
 ---
  .../Application/ApplicationConfiguration.cs     | 17 -----------------
  1 file changed, 17 deletions(-)
- delete mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/ApplicationConfiguration.cs
+ delete mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Application/ApplicationConfiguration.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/ApplicationConfiguration.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/ApplicationConfiguration.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Application/ApplicationConfiguration.cs b/Gtk.Windows.Forms/System/Windows/Forms/Application/ApplicationConfiguration.cs
 deleted file mode 100644
 index 3f2df7a..0000000
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/ApplicationConfiguration.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Application/ApplicationConfiguration.cs
 +++ /dev/null
 @@ -1,17 +0,0 @@
 -using System.Windows.Forms;

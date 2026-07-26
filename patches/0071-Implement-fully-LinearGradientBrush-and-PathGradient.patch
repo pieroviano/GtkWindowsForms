@@ -9,7 +9,7 @@ Subject: [PATCH] Implement fully LinearGradientBrush and PathGradientBrush
  .../Drawing/Drawing2D/LinearGradientBrush.cs  | 414 ++++--------------
  .../Drawing/Drawing2D/PathGradientBrush.cs    | 216 +++++----
  4 files changed, 206 insertions(+), 425 deletions(-)
- rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/MatrixOrder.cs (100%)
+ rename Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/MatrixOrder.cs (100%)
 
 diff --git a/.github/copilot-instructions.md b/.github/copilot-instructions.md
 index 0cd0830..e38b20d 100644
@@ -23,14 +23,14 @@ index 0cd0830..e38b20d 100644
  
  ## Documentation
  - Ensure that XML comments are added for all fields, including the 'self' field.
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/MatrixOrder.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/MatrixOrder.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/MatrixOrder.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Enum/MatrixOrder.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/MatrixOrder.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/MatrixOrder.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientBrush.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientBrush.cs
+rename from Gtk.Drawing/System/Drawing/Drawing2D/MatrixOrder.cs
+rename to Gtk.Drawing/System/Drawing/Drawing2D/Enum/MatrixOrder.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientBrush.cs b/Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientBrush.cs
 index 0d75c97..7c31e44 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientBrush.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientBrush.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientBrush.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientBrush.cs
 @@ -7,83 +7,38 @@
  /// </summary>
  public sealed class LinearGradientBrush : Brush
@@ -655,10 +655,10 @@ index 0d75c97..7c31e44 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/PathGradientBrush.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/PathGradientBrush.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/PathGradientBrush.cs b/Gtk.Drawing/System/Drawing/Drawing2D/PathGradientBrush.cs
 index 7d5ded3..bf953e0 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/PathGradientBrush.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/PathGradientBrush.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/PathGradientBrush.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/PathGradientBrush.cs
 @@ -1,5 +1,4 @@
 -﻿
 -namespace System.Drawing.Drawing2D;

@@ -358,11 +358,11 @@ public static class GtkSampleAppProjectsHandler
                 new XAttribute("Importance", "High"),
                 new XAttribute(
                     "Text",
-                    "\"$(MSBuildThisFileDirectory)..\\Net4x.ResxProcessor\\bin\\$(Configuration)\\net8.0\\Net4x.XUnit.Copy.exe\" $(TargetFramework) \"$(TargetDir)\" \"$(MSBuildProjectFullPath)\"")),
+                    "\"$(MSBuildThisFileDirectory)..\\ResxProcessor\\bin\\$(Configuration)\\net8.0\\Net4x.XUnit.Copy.exe\" $(TargetFramework) \"$(TargetDir)\" \"$(MSBuildProjectFullPath)\"")),
             new XElement(ns + "Exec",
                 new XAttribute(
                     "Command",
-                    "\"$(MSBuildThisFileDirectory)..\\Net4x.ResxProcessor\\bin\\$(Configuration)\\net8.0\\Net4x.ResxProcessor.exe\" \"$(MSBuildProjectDirectory)\""))
+                    "\"$(MSBuildThisFileDirectory)..\\ResxProcessor\\bin\\$(Configuration)\\net8.0\\ResxProcessor.exe\" \"$(MSBuildProjectDirectory)\""))
         );
 
         // Append at the very end of the root element
@@ -616,13 +616,13 @@ public static class GtkSampleAppProjectsHandler
             .Descendants(ns + "Compile")
             .Any(e =>
                 (string?)e.Attribute("Include") ==
-                @"..\Net4x.Gtk.Windows.Forms\Content\System.ComponentModel.cs");
+                @"..\Gtk.Windows.Forms\Content\System.ComponentModel.cs");
 
         var hasResourceManager = doc
             .Descendants(ns + "Compile")
             .Any(e =>
                 (string?)e.Attribute("Include") ==
-                @"..\Net4x.Gtk.Windows.Forms\Content\System.Resources.ResourceManager.cs");
+                @"..\Gtk.Windows.Forms\Content\System.Resources.ResourceManager.cs");
 
         if (!hasComponentModel || !hasResourceManager)
         {
@@ -634,7 +634,7 @@ public static class GtkSampleAppProjectsHandler
                     new XElement(ns + "Compile",
                         new XAttribute(
                             "Include",
-                            @"..\Net4x.Gtk.Windows.Forms\Content\System.ComponentModel.cs"),
+                            @"..\Gtk.Windows.Forms\Content\System.ComponentModel.cs"),
                         new XAttribute("Link", "System.ComponentModel.cs")));
             }
 
@@ -644,7 +644,7 @@ public static class GtkSampleAppProjectsHandler
                     new XElement(ns + "Compile",
                         new XAttribute(
                             "Include",
-                            @"..\Net4x.Gtk.Windows.Forms\Content\System.Resources.ResourceManager.cs"),
+                            @"..\Gtk.Windows.Forms\Content\System.Resources.ResourceManager.cs"),
                         new XAttribute("Link", "System.Resources.ResourceManager.cs")));
             }
 
@@ -666,13 +666,13 @@ public static class GtkSampleAppProjectsHandler
             @$"..\..\Source\GTKSystem.Windows.Forms\{sourceProjectName}.csproj";
 
         var newInclude =
-            @"..\Net4x.Gtk.Windows.Forms\Net4x.Gtk.Windows.Forms.csproj";
+            @"..\Gtk.Windows.Forms\Gtk.Windows.Forms.csproj";
 
         const string designerPackageId = "GTKSystem.Windows.FormsDesigner";
         const string gtkPackageId = "GTKSystem.Windows.Forms";
 
         const string resourcesExtensionsInclude =
-            @"..\Net4x.System.Resources.Extensions\Net4x.System.Resources.Extensions.csproj";
+            @"..\Gtk.Resources.Extensions\Gtk.Resources.Extensions.csproj";
 
         // ------------------------------------------------------------
         // 1. REMOVE unwanted PackageReferences

@@ -4,29 +4,29 @@ Date: Mon, 6 Apr 2026 04:02:52 +0300
 Subject: [PATCH] Fix Control Text Nullability
 
 ---
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/Button.cs      | 6 +++---
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs    | 2 +-
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs    | 2 +-
+ Gtk.Windows.Forms/System/Windows/Forms/Button.cs      | 6 +++---
+ Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs    | 2 +-
+ Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs    | 2 +-
  .../System/Windows/Forms/Control/Control.cs                 | 6 +++---
  .../System/Windows/Forms/Control/IControl.cs                | 2 +-
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs        | 2 +-
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs    | 2 +-
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/Label.cs       | 4 ++--
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs   | 6 +++---
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs     | 2 +-
+ Gtk.Windows.Forms/System/Windows/Forms/Form.cs        | 2 +-
+ Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs    | 2 +-
+ Gtk.Windows.Forms/System/Windows/Forms/Label.cs       | 4 ++--
+ Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs   | 6 +++---
+ Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs     | 2 +-
  .../System/Windows/Forms/Printing/PrintPreviewControl.cs    | 2 +-
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs | 2 +-
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs | 2 +-
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs   | 2 +-
+ Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs | 2 +-
+ Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs | 2 +-
+ Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs   | 2 +-
  .../System/Windows/Forms/TabControlBase/TabPage.cs          | 2 +-
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs     | 2 +-
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs   | 2 +-
+ Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs     | 2 +-
+ Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs   | 2 +-
  17 files changed, 24 insertions(+), 24 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Button.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Button.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Button.cs b/Gtk.Windows.Forms/System/Windows/Forms/Button.cs
 index 863178a..02626bb 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Button.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Button.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Button.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Button.cs
 @@ -66,9 +66,9 @@ public partial class Button : Control
      /// <value>
      /// The text.
@@ -48,10 +48,10 @@ index 863178a..02626bb 100644
      {
          Click?.Invoke(this, e);
      }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
 index a43afbe..170999f 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
 @@ -87,7 +87,7 @@ public partial class CheckBox : Control
      /// <value>
      /// The text.
@@ -61,10 +61,10 @@ index a43afbe..170999f 100644
      {
          get { return self.Label; }
          set { self.Label = value; }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
 index 3b3c1ac..9ab50fe 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
 @@ -184,7 +184,7 @@ public partial class ComboBox : ListControl
      /// <summary>
      /// Gets or sets the text associated with the combo box's editable portion.
@@ -74,10 +74,10 @@ index 3b3c1ac..9ab50fe 100644
      {
          get => self.Entry.Text;
          set { self.Entry.Text = value; }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 index 237431b..5b7087c 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 @@ -1263,11 +1263,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// <summary>
      /// Gets or sets the text associated with the control.
@@ -101,10 +101,10 @@ index 237431b..5b7087c 100644
      {
          Click?.Invoke(this, e);
      }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
 index 19a4211..bf2086e 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
 @@ -1107,7 +1107,7 @@ public interface IControl
      /// <value>
      /// The text.
@@ -114,10 +114,10 @@ index 19a4211..bf2086e 100644
      {
          get;
          set;
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 index 68c5ab7..bc95e3a 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 @@ -286,7 +286,7 @@ public partial class Form : ContainerControl, IWin32Window
      /// <summary>
      /// Gets or sets the text associated with the form (displayed in the title bar).
@@ -127,10 +127,10 @@ index 68c5ab7..bc95e3a 100644
      {
          get { return self.Title; }
          set { self.Title = value; }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
 index 79bb692..0fe7c34 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
 @@ -82,7 +82,7 @@ public partial class GroupBox : ContainerControl
      /// <value>
      /// The text.
@@ -140,10 +140,10 @@ index 79bb692..0fe7c34 100644
      {
          get { return self.Label; }
          set { self.Label = value; }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Label.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Label.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Label.cs b/Gtk.Windows.Forms/System/Windows/Forms/Label.cs
 index dc5678d..e93be88 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Label.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Label.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Label.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Label.cs
 @@ -83,10 +83,10 @@ public partial class Label : Control
      /// <value>
      /// The text.
@@ -157,10 +157,10 @@ index dc5678d..e93be88 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs b/Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
 index 9fe861d..b6974ac 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
 @@ -131,7 +131,7 @@ public partial class LinkLabel : Control
      /// <value>
      /// The text.
@@ -188,10 +188,10 @@ index 9fe861d..b6974ac 100644
      {
          LinkClicked?.Invoke(this, e);
      }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
 index 69cbd32..8ac69b6 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
 @@ -496,7 +496,7 @@ public partial class ListBox : ListControl
      /// The text.
      /// </value>
@@ -201,10 +201,10 @@ index 69cbd32..8ac69b6 100644
      {
          get
          {
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintPreviewControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintPreviewControl.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintPreviewControl.cs b/Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintPreviewControl.cs
 index 2245d5a..97ebc0c 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintPreviewControl.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintPreviewControl.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintPreviewControl.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintPreviewControl.cs
 @@ -254,7 +254,7 @@ public partial class PrintPreviewControl : Control
      [Browsable(false)]
      [EditorBrowsable(EditorBrowsableState.Never)]
@@ -214,10 +214,10 @@ index 2245d5a..97ebc0c 100644
      {
          get => base.Text;
          set => base.Text = value;
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs b/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
 index 272a1d3..55b88f1 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
 @@ -69,7 +69,7 @@ public partial class RadioButton : Control
      /// <value>
      /// The text.
@@ -227,10 +227,10 @@ index 272a1d3..55b88f1 100644
      {
          get { return self.Label; }
          set { self.Label = value; }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
 index 3677101..f48cfd0 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
 @@ -130,7 +130,7 @@ public partial class RichTextBox : ScrollableControl
      /// <value>
      /// The text.
@@ -240,10 +240,10 @@ index 3677101..f48cfd0 100644
      {
          get => self.TextView.Buffer.Text;
          set => self.TextView.Buffer.Text = value;
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
 index 7104925..4a90a20 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
 @@ -73,7 +73,7 @@ public partial class SwitchBox : Control
      /// <value>
      /// The text.
@@ -253,10 +253,10 @@ index 7104925..4a90a20 100644
      {
          get { return self.TooltipText; }
          set { self.TooltipText = value; }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TabControlBase/TabPage.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TabControlBase/TabPage.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TabControlBase/TabPage.cs b/Gtk.Windows.Forms/System/Windows/Forms/TabControlBase/TabPage.cs
 index 6a897c5..295642f 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TabControlBase/TabPage.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TabControlBase/TabPage.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TabControlBase/TabPage.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TabControlBase/TabPage.cs
 @@ -179,7 +179,7 @@ public class TabPage : ContainerControl
      /// <value>
      /// The text.
@@ -266,10 +266,10 @@ index 6a897c5..295642f 100644
      {
          get { return _tabLabel.Text; }
          set { _tabLabel.Text = value; }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
 index c93449e..757e8ca 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
 @@ -194,7 +194,7 @@ public partial class TextBox : Control
      /// <value>
      /// The text.
@@ -279,10 +279,10 @@ index c93449e..757e8ca 100644
      {
          get { return self.Text; }
          set { self.Text = value; }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs b/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
 index 41ca3de..9ec5a99 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
 @@ -149,7 +149,7 @@ public class ToolStrip : Control
      /// <summary>
      /// Raises the Click event.
