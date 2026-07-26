@@ -7,10 +7,10 @@ Subject: [PATCH] Fix Label
  .../System/Windows/Forms/Label.cs             | 28 ++++++++++++++++++-
  1 file changed, 27 insertions(+), 1 deletion(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Label.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Label.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Label.cs b/Gtk.Windows.Forms/System/Windows/Forms/Label.cs
 index 393e429..dc5678d 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Label.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Label.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Label.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Label.cs
 @@ -16,7 +16,9 @@ namespace System.Windows.Forms;
  public partial class Label : Control
  {

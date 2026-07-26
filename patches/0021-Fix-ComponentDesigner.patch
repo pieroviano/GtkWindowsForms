@@ -7,10 +7,10 @@ Subject: [PATCH] Fix ComponentDesigner
  .../Design/Designer/ComponentDesigner.cs       | 18 +++++++++++++-----
  1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/ComponentModel/Design/Designer/ComponentDesigner.cs b/Net4x.Gtk.Windows.Forms/System/ComponentModel/Design/Designer/ComponentDesigner.cs
+diff --git a/Gtk.Windows.Forms/System/ComponentModel/Design/Designer/ComponentDesigner.cs b/Gtk.Windows.Forms/System/ComponentModel/Design/Designer/ComponentDesigner.cs
 index 211cb5ab..fb54d7a8 100644
---- a/Net4x.Gtk.Windows.Forms/System/ComponentModel/Design/Designer/ComponentDesigner.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/ComponentModel/Design/Designer/ComponentDesigner.cs
+--- a/Gtk.Windows.Forms/System/ComponentModel/Design/Designer/ComponentDesigner.cs
++++ b/Gtk.Windows.Forms/System/ComponentModel/Design/Designer/ComponentDesigner.cs
 @@ -1,4 +1,4 @@
 -// Licensed to the .NET Foundation under one or more agreements.
 +﻿// Licensed to the .NET Foundation under one or more agreements.

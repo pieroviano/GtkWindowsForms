@@ -8,10 +8,10 @@ Subject: [PATCH] Fix PropertyStore
  .../System/Windows/Forms/Enum/Padding.cs      |  8 +++
  2 files changed, 67 insertions(+), 4 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyStore.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyStore.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyStore.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyStore.cs
 index 9ada8b7..87eb68c 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyStore.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyStore.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyStore.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyStore.cs
 @@ -582,11 +582,39 @@ internal partial class PropertyStore
      /// </summary>
      private bool LocateIntegerEntry(short entryKey, out int index)
@@ -95,10 +95,10 @@ index 9ada8b7..87eb68c 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Padding.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Padding.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/Padding.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/Padding.cs
 index cf1fa1c..1a9e687 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Padding.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Padding.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Enum/Padding.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/Padding.cs
 @@ -182,6 +182,14 @@ public struct Padding
      /// </returns>
      public override bool Equals(object other)

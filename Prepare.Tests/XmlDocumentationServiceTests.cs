@@ -5,7 +5,7 @@ namespace Prepare.Tests
     public class XmlDocumentationServiceTests
     {
         private const string RoslynFolder = @"..\..\..\Roslyn";
-        private const string XmlFile = "Net4x.Gtk.Windows.Forms.xml";
+        private const string XmlFile = "Gtk.Windows.Forms.xml";
 
         [Theory]
         [InlineData("TableLayoutPanel.cs", "The self")]

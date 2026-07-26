@@ -85,7 +85,7 @@ namespace Prepare.Tests
                     {
                         [".editorconfig"] = Path.Combine(work, ".editorconfig")
                     },
-                    emptyDirs: new[] { "Net4x.Gtk.Windows.Forms", "Net4x.Gtk.Drawing" }))
+                    emptyDirs: new[] { "Gtk.Windows.Forms", "Gtk.Drawing" }))
                 {
                     // worktree checked out at the commit
                     Assert.Equal("hello", File.ReadAllText(Path.Combine(stagingPath, "gtksystem-windows-forms", "Source", "x.txt")));
@@ -94,8 +94,8 @@ namespace Prepare.Tests
                     Assert.Equal("mono", File.ReadAllText(Path.Combine(stagingPath, "mono", "m.txt")));
                     // copied file + empty output dirs
                     Assert.Equal("cfg", File.ReadAllText(Path.Combine(stagingPath, ".editorconfig")));
-                    Assert.True(Directory.Exists(Path.Combine(stagingPath, "Net4x.Gtk.Windows.Forms")));
-                    Assert.True(Directory.Exists(Path.Combine(stagingPath, "Net4x.Gtk.Drawing")));
+                    Assert.True(Directory.Exists(Path.Combine(stagingPath, "Gtk.Windows.Forms")));
+                    Assert.True(Directory.Exists(Path.Combine(stagingPath, "Gtk.Drawing")));
                 }
 
                 // after Dispose: staging gone, but junction TARGETS must survive

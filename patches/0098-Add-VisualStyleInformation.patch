@@ -17,14 +17,14 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../VisualStyleInformationFunctionalTests.cs  | 36 ++++++++++
  .../VisualStyles/VisualStyleInformation.cs    | 65 +++++++++++++++++++
  2 files changed, 101 insertions(+)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/VisualStyleInformationFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleInformation.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/VisualStyleInformationFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleInformation.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/VisualStyleInformationFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/VisualStyleInformationFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/VisualStyleInformationFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/VisualStyleInformationFunctionalTests.cs
 new file mode 100644
 index 00000000..8db011e5
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/VisualStyleInformationFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/VisualStyleInformationFunctionalTests.cs
 @@ -0,0 +1,36 @@
 +namespace System.Windows.Forms;
 +
@@ -62,11 +62,11 @@ index 00000000..8db011e5
 +        Assert.False(VisualStyleInformation.ControlHighlightHot.IsEmpty);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleInformation.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleInformation.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleInformation.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleInformation.cs
 new file mode 100644
 index 00000000..2108142e
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleInformation.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleInformation.cs
 @@ -0,0 +1,65 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.

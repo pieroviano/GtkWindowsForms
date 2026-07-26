@@ -6,13 +6,13 @@ Subject: [PATCH] Fixing SR
 ---
  .../IO/Resources/BinaryReaderExtensions.cs    |   2 +-
  .../Resources/Extensions/SR.Designer.cs       | 383 +++++++-----------
- .../Net4x.Gtk.Windows.Forms.csproj            |   2 +-
+ .../Gtk.Windows.Forms.csproj            |   2 +-
  3 files changed, 159 insertions(+), 228 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
+diff --git a/Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs b/Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
 index 925806da..59e63401 100644
---- a/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
+--- a/Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
++++ b/Gtk.Windows.Forms/GtkSystem/IO/Resources/BinaryReaderExtensions.cs
 @@ -11,7 +11,7 @@ internal static class BinaryReaderExtensions
          {
              if (bitPosition == 35)
@@ -22,10 +22,10 @@ index 925806da..59e63401 100644
              }
              byteRead = reader.ReadByte();
              result |= (byteRead & 0x7F) << bitPosition;
-diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Resources/Extensions/SR.Designer.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Resources/Extensions/SR.Designer.cs
+diff --git a/Gtk.Windows.Forms/GtkSystem/Resources/Extensions/SR.Designer.cs b/Gtk.Windows.Forms/GtkSystem/Resources/Extensions/SR.Designer.cs
 index 98e5f7a4..bb34aabf 100644
---- a/Net4x.Gtk.Windows.Forms/GtkSystem/Resources/Extensions/SR.Designer.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Resources/Extensions/SR.Designer.cs
+--- a/Gtk.Windows.Forms/GtkSystem/Resources/Extensions/SR.Designer.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Resources/Extensions/SR.Designer.cs
 @@ -1,393 +1,324 @@
 -    using System;
 -//------------------------------------------------------------------------------
@@ -578,10 +578,10 @@ index 98e5f7a4..bb34aabf 100644
 -}
 \ No newline at end of file
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.csproj b/Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.csproj
+diff --git a/Gtk.Windows.Forms/Gtk.Windows.Forms.csproj b/Gtk.Windows.Forms/Gtk.Windows.Forms.csproj
 index 135a2d67..cff80b25 100644
---- a/Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.csproj
-+++ b/Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.csproj
+--- a/Gtk.Windows.Forms/Gtk.Windows.Forms.csproj
++++ b/Gtk.Windows.Forms/Gtk.Windows.Forms.csproj
 @@ -256,7 +256,7 @@ Based on GTKSystem.Windows.Forms:
          <EmbeddedResource Update="GtkSystem\Resources\Extensions\SR.resx">
              <Generator>ResXFileCodeGenerator</Generator>

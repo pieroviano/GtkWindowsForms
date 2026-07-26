@@ -4,33 +4,33 @@ Date: Fri, 10 Apr 2026 04:32:16 +0300
 Subject: [PATCH] Moved files to align to namespace
 
 ---
- Net4x.Gtk.Drawing/System/Drawing/{Drawing2D => }/Bitmap.cs    | 0
- Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs           | 4 ++--
- Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs      | 4 ++--
+ Gtk.Drawing/System/Drawing/{Drawing2D => }/Bitmap.cs    | 0
+ Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs           | 4 ++--
+ Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs      | 4 ++--
  .../System/Drawing/Drawing2D/{ => Enum}/HatchStyle.cs         | 0
  .../System/Drawing/Drawing2D/LinearGradientBrush.cs           | 3 +--
  .../System/Drawing/{Drawing2D => Enum}/ImageType.cs           | 0
- Net4x.Gtk.Drawing/System/Drawing/{Drawing2D => }/Image.cs     | 0
+ Gtk.Drawing/System/Drawing/{Drawing2D => }/Image.cs     | 0
  .../System/Drawing/{Drawing2D => }/ImageAnimator.cs           | 0
  .../System/Drawing/{Drawing2D => }/ImageConverter.cs          | 0
  .../System/Drawing/{Drawing2D => }/ImageFormatConverter.cs    | 0
  10 files changed, 5 insertions(+), 6 deletions(-)
- rename Net4x.Gtk.Drawing/System/Drawing/{Drawing2D => }/Bitmap.cs (100%)
- rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/HatchStyle.cs (100%)
- rename Net4x.Gtk.Drawing/System/Drawing/{Drawing2D => Enum}/ImageType.cs (100%)
- rename Net4x.Gtk.Drawing/System/Drawing/{Drawing2D => }/Image.cs (100%)
- rename Net4x.Gtk.Drawing/System/Drawing/{Drawing2D => }/ImageAnimator.cs (100%)
- rename Net4x.Gtk.Drawing/System/Drawing/{Drawing2D => }/ImageConverter.cs (100%)
- rename Net4x.Gtk.Drawing/System/Drawing/{Drawing2D => }/ImageFormatConverter.cs (100%)
+ rename Gtk.Drawing/System/Drawing/{Drawing2D => }/Bitmap.cs (100%)
+ rename Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/HatchStyle.cs (100%)
+ rename Gtk.Drawing/System/Drawing/{Drawing2D => Enum}/ImageType.cs (100%)
+ rename Gtk.Drawing/System/Drawing/{Drawing2D => }/Image.cs (100%)
+ rename Gtk.Drawing/System/Drawing/{Drawing2D => }/ImageAnimator.cs (100%)
+ rename Gtk.Drawing/System/Drawing/{Drawing2D => }/ImageConverter.cs (100%)
+ rename Gtk.Drawing/System/Drawing/{Drawing2D => }/ImageFormatConverter.cs (100%)
 
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Bitmap.cs b/Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/Bitmap.cs b/Gtk.Drawing/System/Drawing/Bitmap.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Bitmap.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs
+rename from Gtk.Drawing/System/Drawing/Drawing2D/Bitmap.cs
+rename to Gtk.Drawing/System/Drawing/Bitmap.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs
 index 52381f8..c215b71 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/Blend.cs
 @@ -34,7 +34,7 @@ public sealed class Blend
      /// <returns>
      /// An array of blend factors that specify the percentages of the starting color and the ending color to be used at the corresponding position.
@@ -49,10 +49,10 @@ index 52381f8..c215b71 100644
      {
          get;
          set;
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs b/Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs
 index bedf7dd..865c32a 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs
 @@ -33,7 +33,7 @@ public sealed class ColorBlend
      /// An array of
      /// <see cref="T:System.Drawing.Color" /> structures that represents the colors to use at corresponding positions along a gradient.
@@ -71,14 +71,14 @@ index bedf7dd..865c32a 100644
      {
          get;
          set;
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/HatchStyle.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/HatchStyle.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/HatchStyle.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Enum/HatchStyle.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/HatchStyle.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/HatchStyle.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientBrush.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientBrush.cs
+rename from Gtk.Drawing/System/Drawing/Drawing2D/HatchStyle.cs
+rename to Gtk.Drawing/System/Drawing/Drawing2D/Enum/HatchStyle.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientBrush.cs b/Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientBrush.cs
 index 3ecc19f..0d75c97 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientBrush.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientBrush.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientBrush.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/LinearGradientBrush.cs
 @@ -1,5 +1,4 @@
 -﻿
 -namespace System.Drawing.Drawing2D;
@@ -86,26 +86,26 @@ index 3ecc19f..0d75c97 100644
  
  /// <summary>
  /// Encapsulates a
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageType.cs b/Net4x.Gtk.Drawing/System/Drawing/Enum/ImageType.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/ImageType.cs b/Gtk.Drawing/System/Drawing/Enum/ImageType.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageType.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Enum/ImageType.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs b/Net4x.Gtk.Drawing/System/Drawing/Image.cs
+rename from Gtk.Drawing/System/Drawing/Drawing2D/ImageType.cs
+rename to Gtk.Drawing/System/Drawing/Enum/ImageType.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/Image.cs b/Gtk.Drawing/System/Drawing/Image.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Image.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs b/Net4x.Gtk.Drawing/System/Drawing/ImageAnimator.cs
+rename from Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
+rename to Gtk.Drawing/System/Drawing/Image.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs b/Gtk.Drawing/System/Drawing/ImageAnimator.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/ImageAnimator.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageConverter.cs b/Net4x.Gtk.Drawing/System/Drawing/ImageConverter.cs
+rename from Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs
+rename to Gtk.Drawing/System/Drawing/ImageAnimator.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/ImageConverter.cs b/Gtk.Drawing/System/Drawing/ImageConverter.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageConverter.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/ImageConverter.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageFormatConverter.cs b/Net4x.Gtk.Drawing/System/Drawing/ImageFormatConverter.cs
+rename from Gtk.Drawing/System/Drawing/Drawing2D/ImageConverter.cs
+rename to Gtk.Drawing/System/Drawing/ImageConverter.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/ImageFormatConverter.cs b/Gtk.Drawing/System/Drawing/ImageFormatConverter.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageFormatConverter.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/ImageFormatConverter.cs
+rename from Gtk.Drawing/System/Drawing/Drawing2D/ImageFormatConverter.cs
+rename to Gtk.Drawing/System/Drawing/ImageFormatConverter.cs
 -- 
 2.51.1.windows.1
 

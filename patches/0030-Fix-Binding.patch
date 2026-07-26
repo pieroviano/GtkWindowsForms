@@ -7,10 +7,10 @@ Subject: [PATCH] Fix Binding
  .../System/Windows/Forms/Collection/Binding.cs                  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
 index 917b2b9..62bcc6d 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
 @@ -886,7 +886,7 @@ public class Binding
      /// A
      /// <see cref="T:System.Windows.Forms.BindingCompleteEventArgs" />  that contains the event data.

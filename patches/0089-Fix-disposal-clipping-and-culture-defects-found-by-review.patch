@@ -35,10 +35,10 @@ ResourceManager / ComponentResourceManager
    when the static type was exactly that class, one of which dropped its culture. The base class
    overrides both correctly, so they are gone.
 
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+diff --git a/Gtk.Drawing/System/Drawing/Graphics.cs b/Gtk.Drawing/System/Drawing/Graphics.cs
 index 237fcd86..569d4df2 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+--- a/Gtk.Drawing/System/Drawing/Graphics.cs
++++ b/Gtk.Drawing/System/Drawing/Graphics.cs
 @@ -22,7 +22,12 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// <summary>
      /// The underlying Cairo context used by this Graphics instance.
@@ -286,10 +286,10 @@ index 237fcd86..569d4df2 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/Content/System.ComponentModel.cs b/Net4x.Gtk.Windows.Forms/Content/System.ComponentModel.cs
+diff --git a/Gtk.Windows.Forms/Content/System.ComponentModel.cs b/Gtk.Windows.Forms/Content/System.ComponentModel.cs
 index 21429490..c5e3b184 100644
---- a/Net4x.Gtk.Windows.Forms/Content/System.ComponentModel.cs
-+++ b/Net4x.Gtk.Windows.Forms/Content/System.ComponentModel.cs
+--- a/Gtk.Windows.Forms/Content/System.ComponentModel.cs
++++ b/Gtk.Windows.Forms/Content/System.ComponentModel.cs
 @@ -29,30 +29,8 @@ public class ComponentResourceManager : GtkSystem.ComponentModel.ComponentResour
  
      }
@@ -326,10 +326,10 @@ index 21429490..c5e3b184 100644
 +    // culture fallback chain, so forwarding shims are not needed.
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/GTKSystem/ComponentModel/ComponentResourceManager.cs b/Net4x.Gtk.Windows.Forms/GTKSystem/ComponentModel/ComponentResourceManager.cs
+diff --git a/Gtk.Windows.Forms/GTKSystem/ComponentModel/ComponentResourceManager.cs b/Gtk.Windows.Forms/GTKSystem/ComponentModel/ComponentResourceManager.cs
 index bdd1b4b3..74254756 100644
---- a/Net4x.Gtk.Windows.Forms/GTKSystem/ComponentModel/ComponentResourceManager.cs
-+++ b/Net4x.Gtk.Windows.Forms/GTKSystem/ComponentModel/ComponentResourceManager.cs
+--- a/Gtk.Windows.Forms/GTKSystem/ComponentModel/ComponentResourceManager.cs
++++ b/Gtk.Windows.Forms/GTKSystem/ComponentModel/ComponentResourceManager.cs
 @@ -51,7 +51,10 @@ public class ComponentResourceManager : System.ComponentModel.ComponentResourceM
      /// </returns>
      public override object GetObject(string name, CultureInfo culture)
@@ -367,10 +367,10 @@ index bdd1b4b3..74254756 100644
 +    }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs b/Net4x.Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
+diff --git a/Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs b/Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
 index b128fcda..4f59c68d 100644
---- a/Net4x.Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
-+++ b/Net4x.Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
+--- a/Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
++++ b/Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
 @@ -112,9 +112,13 @@ public class ResourceManager : System.Resources.ResourceManager
      /// name
      /// </paramref> cannot be found, the method returns null.
@@ -562,10 +562,10 @@ index b128fcda..4f59c68d 100644
              var reader = new GtkSystem.Resources.Extensions.DeserializingResourceReader(stream);
              var dict = reader.GetEnumerator();
              while (dict.MoveNext())
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 index 63c3e29e..245b2f81 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 @@ -2108,15 +2108,13 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
          }
      }

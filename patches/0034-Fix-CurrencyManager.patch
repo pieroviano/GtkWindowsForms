@@ -7,10 +7,10 @@ Subject: [PATCH] Fix CurrencyManager
  .../Forms/Collection/CurrencyManager.cs       | 139 ++++++++----------
  1 file changed, 60 insertions(+), 79 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/CurrencyManager.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/CurrencyManager.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/CurrencyManager.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/CurrencyManager.cs
 index 78e8451..d3e88d1 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/CurrencyManager.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/CurrencyManager.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/CurrencyManager.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/CurrencyManager.cs
 @@ -1,4 +1,7 @@
 -﻿using System.Collections;
 +﻿// Licensed to the .NET Foundation under one or more agreements.

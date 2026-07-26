@@ -7,10 +7,10 @@ Subject: [PATCH] Fix ResXFileRef
  .../System/Resources/ResXFileRef.cs           | 63 ++++++-------------
  1 file changed, 18 insertions(+), 45 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Resources/ResXFileRef.cs b/Net4x.Gtk.Windows.Forms/System/Resources/ResXFileRef.cs
+diff --git a/Gtk.Windows.Forms/System/Resources/ResXFileRef.cs b/Gtk.Windows.Forms/System/Resources/ResXFileRef.cs
 index 82ed96f5..f74fc6e0 100644
---- a/Net4x.Gtk.Windows.Forms/System/Resources/ResXFileRef.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Resources/ResXFileRef.cs
+--- a/Gtk.Windows.Forms/System/Resources/ResXFileRef.cs
++++ b/Gtk.Windows.Forms/System/Resources/ResXFileRef.cs
 @@ -1,4 +1,4 @@
 -// Licensed to the .NET Foundation under one or more agreements.
 +﻿// Licensed to the .NET Foundation under one or more agreements.

@@ -4,7 +4,7 @@ Date: Wed, 25 Mar 2026 02:39:58 +0200
 Subject: [PATCH] Cleaned Net4x.Drawing
 
 ---
- Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml       |  5 ++
+ Gtk.Drawing/Gtk.Drawing.xml       |  5 ++
  .../System/Diagnostics/LogLevel.cs            |  4 +-
  .../System/Drawing/CharacterRange.cs          |  4 +-
  .../System/Drawing/ColorTable.cs              |  3 +-
@@ -16,18 +16,18 @@ Subject: [PATCH] Cleaned Net4x.Drawing
  .../System/Drawing/Drawing2D/ImageAnimator.cs |  4 +-
  .../Drawing/Drawing2D/ImageConverter.cs       |  3 +-
  .../Drawing/Drawing2D/ImageFormatConverter.cs |  3 +-
- Net4x.Gtk.Drawing/System/Drawing/Graphics.cs  |  1 -
- Net4x.Gtk.Drawing/System/Drawing/Icon.cs      |  4 +-
+ Gtk.Drawing/System/Drawing/Graphics.cs  |  1 -
+ Gtk.Drawing/System/Drawing/Icon.cs      |  4 +-
  .../Imaging/Drawing/Drawing2D/Metafile.cs     |  4 +-
  .../Drawing/Drawing2D/SafeNativeMethods.cs    |  5 +-
  .../System/Drawing/StringFormat.cs            | 88 +++++++------------
  .../System/Drawing/StringFormatFlags.cs       |  8 +-
  19 files changed, 59 insertions(+), 103 deletions(-)
 
-diff --git a/Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml b/Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml
+diff --git a/Gtk.Drawing/Gtk.Drawing.xml b/Gtk.Drawing/Gtk.Drawing.xml
 index 9a564e2b..ace9b4eb 100644
---- a/Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml
-+++ b/Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml
+--- a/Gtk.Drawing/Gtk.Drawing.xml
++++ b/Gtk.Drawing/Gtk.Drawing.xml
 @@ -16669,6 +16669,11 @@
              Overhanging parts of glyphs, and unwrapped text reaching outside the formatting rectangle are allowed to show. By default all text and glyph parts reaching outside the formatting rectangle are clipped.
              </summary>
@@ -40,10 +40,10 @@ index 9a564e2b..ace9b4eb 100644
          <member name="T:System.Drawing.StringTrimming">
              <summary>
              Specifies how to trim characters from a string that does not completely fit into a layout shape.
-diff --git a/Net4x.Gtk.Drawing/System/Diagnostics/LogLevel.cs b/Net4x.Gtk.Drawing/System/Diagnostics/LogLevel.cs
+diff --git a/Gtk.Drawing/System/Diagnostics/LogLevel.cs b/Gtk.Drawing/System/Diagnostics/LogLevel.cs
 index fa17997e..b93e24a8 100644
---- a/Net4x.Gtk.Drawing/System/Diagnostics/LogLevel.cs
-+++ b/Net4x.Gtk.Drawing/System/Diagnostics/LogLevel.cs
+--- a/Gtk.Drawing/System/Diagnostics/LogLevel.cs
++++ b/Gtk.Drawing/System/Diagnostics/LogLevel.cs
 @@ -1,6 +1,4 @@
 -using System.Text;
 -
@@ -52,10 +52,10 @@ index fa17997e..b93e24a8 100644
  
  /// <summary>
  /// Defines logging severity levels.
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/CharacterRange.cs b/Net4x.Gtk.Drawing/System/Drawing/CharacterRange.cs
+diff --git a/Gtk.Drawing/System/Drawing/CharacterRange.cs b/Gtk.Drawing/System/Drawing/CharacterRange.cs
 index 83ce9eda..0426f53a 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/CharacterRange.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/CharacterRange.cs
+--- a/Gtk.Drawing/System/Drawing/CharacterRange.cs
++++ b/Gtk.Drawing/System/Drawing/CharacterRange.cs
 @@ -1,4 +1,4 @@
 -//
 +﻿//
@@ -71,10 +71,10 @@ index 83ce9eda..0426f53a 100644
  namespace System.Drawing;
  
  /// <summary>
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/ColorTable.cs b/Net4x.Gtk.Drawing/System/Drawing/ColorTable.cs
+diff --git a/Gtk.Drawing/System/Drawing/ColorTable.cs b/Gtk.Drawing/System/Drawing/ColorTable.cs
 index f77ab751..49700234 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/ColorTable.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/ColorTable.cs
+--- a/Gtk.Drawing/System/Drawing/ColorTable.cs
++++ b/Gtk.Drawing/System/Drawing/ColorTable.cs
 @@ -1,7 +1,6 @@
 -// Licensed to the .NET Foundation under one or more agreements.
 +﻿// Licensed to the .NET Foundation under one or more agreements.
@@ -84,10 +84,10 @@ index f77ab751..49700234 100644
  using System.Reflection;
  
  namespace System.Drawing;
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Bitmap.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Bitmap.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/Bitmap.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Bitmap.cs
 index 26429a57..362d998e 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Bitmap.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Bitmap.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/Bitmap.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/Bitmap.cs
 @@ -1,11 +1,7 @@
 -using System.ComponentModel;
 +﻿using System.ComponentModel;
@@ -101,10 +101,10 @@ index 26429a57..362d998e 100644
  
  namespace System.Drawing;
  
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/InterpolationMode.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/InterpolationMode.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/Enum/InterpolationMode.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Enum/InterpolationMode.cs
 index 10925448..cfe56e56 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/InterpolationMode.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/InterpolationMode.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/Enum/InterpolationMode.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/Enum/InterpolationMode.cs
 @@ -1,6 +1,4 @@
 -using System;
 -
@@ -113,10 +113,10 @@ index 10925448..cfe56e56 100644
  
  /// <summary>
  /// The System.Drawing.Drawing2D.InterpolationMode enumeration specifies the algorithm
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs b/Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
 index ff0c6881..7991479b 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
 @@ -1,6 +1,4 @@
 -using System.Collections;
 -using System.Collections.Generic;
@@ -125,10 +125,10 @@ index ff0c6881..7991479b 100644
  
  namespace System.Drawing.Drawing2D;
  
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GtkImageConverter.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GtkImageConverter.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/GtkImageConverter.cs b/Gtk.Drawing/System/Drawing/Drawing2D/GtkImageConverter.cs
 index 0f904e8b..e8dd1451 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GtkImageConverter.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GtkImageConverter.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/GtkImageConverter.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/GtkImageConverter.cs
 @@ -1,9 +1,6 @@
 -using System.ComponentModel;
 +﻿using System.ComponentModel;
@@ -140,10 +140,10 @@ index 0f904e8b..e8dd1451 100644
  
  namespace System.Drawing;
  
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/Image.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
 index 6a1a68d1..3bb627fd 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/Image.cs
 @@ -1,7 +1,5 @@
 -using System.ComponentModel;
 -using System.Diagnostics.CodeAnalysis;
@@ -153,10 +153,10 @@ index 6a1a68d1..3bb627fd 100644
  using System.Runtime.InteropServices;
  using System.Runtime.Serialization;
  
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs b/Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs
 index 496f4193..445fe3e1 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs
 @@ -1,8 +1,6 @@
 -﻿using System.Collections.Generic;
 -using System.Diagnostics;
@@ -167,10 +167,10 @@ index 496f4193..445fe3e1 100644
  
  namespace System.Drawing;
  
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageConverter.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageConverter.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/ImageConverter.cs b/Gtk.Drawing/System/Drawing/Drawing2D/ImageConverter.cs
 index 33298829..24e1f7b2 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageConverter.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageConverter.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/ImageConverter.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/ImageConverter.cs
 @@ -1,9 +1,8 @@
 -using System.Buffers.Binary;
 +﻿using System.Buffers.Binary;
@@ -182,10 +182,10 @@ index 33298829..24e1f7b2 100644
  
  namespace System.Drawing;
  
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageFormatConverter.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageFormatConverter.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/ImageFormatConverter.cs b/Gtk.Drawing/System/Drawing/Drawing2D/ImageFormatConverter.cs
 index 6626bd02..968fe478 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageFormatConverter.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageFormatConverter.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/ImageFormatConverter.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/ImageFormatConverter.cs
 @@ -1,9 +1,8 @@
 -using System.ComponentModel;
 +﻿using System.ComponentModel;
@@ -197,10 +197,10 @@ index 6626bd02..968fe478 100644
  
  namespace System.Drawing;
  
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+diff --git a/Gtk.Drawing/System/Drawing/Graphics.cs b/Gtk.Drawing/System/Drawing/Graphics.cs
 index 163418c4..dd574f11 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+--- a/Gtk.Drawing/System/Drawing/Graphics.cs
++++ b/Gtk.Drawing/System/Drawing/Graphics.cs
 @@ -4,7 +4,6 @@ using System.Drawing.Imaging;
  using System.Drawing.Text;
  using Cairo;
@@ -209,10 +209,10 @@ index 163418c4..dd574f11 100644
  
  namespace System.Drawing;
  
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Icon.cs b/Net4x.Gtk.Drawing/System/Drawing/Icon.cs
+diff --git a/Gtk.Drawing/System/Drawing/Icon.cs b/Gtk.Drawing/System/Drawing/Icon.cs
 index 923efba6..f9dc8b12 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Icon.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Icon.cs
+--- a/Gtk.Drawing/System/Drawing/Icon.cs
++++ b/Gtk.Drawing/System/Drawing/Icon.cs
 @@ -1,7 +1,5 @@
 -using System.ComponentModel;
 -using System.IO;
@@ -222,10 +222,10 @@ index 923efba6..f9dc8b12 100644
  
  namespace System.Drawing;
  
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs b/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs
+diff --git a/Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs b/Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs
 index 548f361c..f4fede56 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs
+--- a/Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs
++++ b/Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/Metafile.cs
 @@ -1,6 +1,4 @@
 -using System.ComponentModel;
 -
@@ -234,10 +234,10 @@ index 548f361c..f4fede56 100644
  using System.Runtime.CompilerServices;
  using System.Runtime.InteropServices;
  using System.Runtime.Serialization;
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/SafeNativeMethods.cs b/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/SafeNativeMethods.cs
+diff --git a/Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/SafeNativeMethods.cs b/Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/SafeNativeMethods.cs
 index 50c934f0..c9b857fd 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/SafeNativeMethods.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/SafeNativeMethods.cs
+--- a/Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/SafeNativeMethods.cs
++++ b/Gtk.Drawing/System/Drawing/Imaging/Drawing/Drawing2D/SafeNativeMethods.cs
 @@ -1,7 +1,4 @@
 -using System.Runtime.CompilerServices;
 -using System.Runtime.InteropServices;
@@ -247,10 +247,10 @@ index 50c934f0..c9b857fd 100644
  
  internal static class SafeNativeMethods
  {
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs b/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs
+diff --git a/Gtk.Drawing/System/Drawing/StringFormat.cs b/Gtk.Drawing/System/Drawing/StringFormat.cs
 index cd647d99..04298f37 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs
+--- a/Gtk.Drawing/System/Drawing/StringFormat.cs
++++ b/Gtk.Drawing/System/Drawing/StringFormat.cs
 @@ -1,4 +1,4 @@
 -using System.Drawing.Text;
 +﻿using System.Drawing.Text;
@@ -434,10 +434,10 @@ index cd647d99..04298f37 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/StringFormatFlags.cs b/Net4x.Gtk.Drawing/System/Drawing/StringFormatFlags.cs
+diff --git a/Gtk.Drawing/System/Drawing/StringFormatFlags.cs b/Gtk.Drawing/System/Drawing/StringFormatFlags.cs
 index 419b4c53..8e3934d7 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/StringFormatFlags.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/StringFormatFlags.cs
+--- a/Gtk.Drawing/System/Drawing/StringFormatFlags.cs
++++ b/Gtk.Drawing/System/Drawing/StringFormatFlags.cs
 @@ -1,4 +1,4 @@
 -namespace System.Drawing;
 +﻿namespace System.Drawing;

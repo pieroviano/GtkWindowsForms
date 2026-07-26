@@ -9,10 +9,10 @@ Subject: [PATCH] Added ParentControlDesigner implementation
  .../Design/Designer/ParentControlDesigner.cs  | 76 ++++++++++++++-----
  3 files changed, 64 insertions(+), 23 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/ComponentModel/Design/Designer/ComponentDesigner.cs b/Net4x.Gtk.Windows.Forms/System/ComponentModel/Design/Designer/ComponentDesigner.cs
+diff --git a/Gtk.Windows.Forms/System/ComponentModel/Design/Designer/ComponentDesigner.cs b/Gtk.Windows.Forms/System/ComponentModel/Design/Designer/ComponentDesigner.cs
 index a9a1afd..9de479d 100644
---- a/Net4x.Gtk.Windows.Forms/System/ComponentModel/Design/Designer/ComponentDesigner.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/ComponentModel/Design/Designer/ComponentDesigner.cs
+--- a/Gtk.Windows.Forms/System/ComponentModel/Design/Designer/ComponentDesigner.cs
++++ b/Gtk.Windows.Forms/System/ComponentModel/Design/Designer/ComponentDesigner.cs
 @@ -92,7 +92,7 @@ public partial class ComponentDesigner : ITreeDesigner, IDesignerFilter, ICompon
          _component = component;
      }
@@ -22,10 +22,10 @@ index a9a1afd..9de479d 100644
  
      /// <summary>
      /// Restores an instance of a component to its default state.
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/Designer/DocumentDesigner.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/Designer/DocumentDesigner.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Design/Designer/DocumentDesigner.cs b/Gtk.Windows.Forms/System/Windows/Forms/Design/Designer/DocumentDesigner.cs
 index 5acff1f..353a6c4 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/Designer/DocumentDesigner.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/Designer/DocumentDesigner.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Design/Designer/DocumentDesigner.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Design/Designer/DocumentDesigner.cs
 @@ -145,13 +145,12 @@ public partial class DocumentDesigner : ScrollableControlDesigner, IRootDesigner
          }
  
@@ -60,10 +60,10 @@ index 5acff1f..353a6c4 100644
              {
                  if (parent is Form form)
                  {
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/Designer/ParentControlDesigner.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/Designer/ParentControlDesigner.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Design/Designer/ParentControlDesigner.cs b/Gtk.Windows.Forms/System/Windows/Forms/Design/Designer/ParentControlDesigner.cs
 index 19758f3..a6c359b 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/Designer/ParentControlDesigner.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/Designer/ParentControlDesigner.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Design/Designer/ParentControlDesigner.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Design/Designer/ParentControlDesigner.cs
 @@ -10,7 +10,7 @@ namespace System.Windows.Forms.Design;
  /// to manipulate child components, and provides a selection UI handler for all
  /// components it contains.

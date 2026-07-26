@@ -7,10 +7,10 @@ Subject: [PATCH] Fix ResXSerializationBinder
  .../System/Resources/ResXSerializationBinder.cs    | 14 +++++---------
  1 file changed, 5 insertions(+), 9 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Resources/ResXSerializationBinder.cs b/Net4x.Gtk.Windows.Forms/System/Resources/ResXSerializationBinder.cs
+diff --git a/Gtk.Windows.Forms/System/Resources/ResXSerializationBinder.cs b/Gtk.Windows.Forms/System/Resources/ResXSerializationBinder.cs
 index f3fbb9c4..338b8589 100644
---- a/Net4x.Gtk.Windows.Forms/System/Resources/ResXSerializationBinder.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Resources/ResXSerializationBinder.cs
+--- a/Gtk.Windows.Forms/System/Resources/ResXSerializationBinder.cs
++++ b/Gtk.Windows.Forms/System/Resources/ResXSerializationBinder.cs
 @@ -28,14 +28,10 @@ internal class ResXSerializationBinder : SerializationBinder
      }
  

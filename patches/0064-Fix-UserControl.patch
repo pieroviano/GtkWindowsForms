@@ -5,13 +5,13 @@ Subject: [PATCH] Fix UserControl
 
 ---
  .../Forms/GtkControls/ControlBase/GtkControlOverride.cs     | 6 ++++++
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs | 2 +-
+ Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs | 2 +-
  2 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
 index 8b17172..d4475c9 100644
---- a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
 @@ -138,6 +138,12 @@ public sealed class GtkControlOverride : IControlOverride
          set;
      }
@@ -25,10 +25,10 @@ index 8b17172..d4475c9 100644
      /// <summary>
      /// Adds the class.
      /// </summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs b/Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs
 index ba32ae6..96a9a23 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs
 @@ -162,7 +162,7 @@ public partial class UserControl : ContainerControl
      /// <summary>
      /// Raises the Load event.

@@ -7,10 +7,10 @@ Subject: [PATCH] Added Clear to FormCollection
  .../Windows/Forms/Application/FormCollection.cs      | 12 ++++++++++++
  1 file changed, 12 insertions(+)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/FormCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/FormCollection.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Application/FormCollection.cs b/Gtk.Windows.Forms/System/Windows/Forms/Application/FormCollection.cs
 index f03c7ea..124713f 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/FormCollection.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/FormCollection.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Application/FormCollection.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Application/FormCollection.cs
 @@ -93,4 +93,16 @@ public class FormCollection : ReadOnlyCollectionBase
              InnerList.Remove(form);
          }

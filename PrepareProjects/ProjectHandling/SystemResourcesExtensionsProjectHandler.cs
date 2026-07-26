@@ -12,7 +12,7 @@ public static class SystemResourcesExtensionsProjectHandler
     /// </summary>
     private const string EmptyAssemblyComment =
         """
-         The project "Net4x.System.Resources.Extensions" generates an **intentionally empty** assembly whose `AssemblyName`
+         The project "Gtk.Resources.Extensions" generates an **intentionally empty** assembly whose `AssemblyName`
              *is* `System.Resources.Extensions`, so that it displaces Microsoft's assembly of that name in an
              application's output folder. It carries no code and is not meant to: the working implementation lives
              in the Forms library under `GTKSystem/Resources/Extensions/`, in namespace
@@ -34,13 +34,13 @@ public static class SystemResourcesExtensionsProjectHandler
     private const string DisplacementAssemblyVersion = "99.0.0.0";
 
     /// <summary>
-    /// Package metadata for <c>Gtk.System.Resources.Extensions</c>, in the order it is written. Upstream's
+    /// Package metadata for <c>Gtk.Resources.Extensions</c>, in the order it is written. Upstream's
     /// csproj has none of it: without these the project builds a library nobody packs, and packing it by
     /// hand yields NuGet's placeholder author and description.
     /// </summary>
     private static readonly (string Name, string Value)[] PackagingProperties =
     {
-        ("PackageId", "Gtk.System.Resources.Extensions"),
+        ("PackageId", "Gtk.Resources.Extensions"),
         ("PackageReadmeFile", "README.md"),
         ("Authors", "Piero Viano"),
         ("Company", "Piero Viano"),
@@ -68,7 +68,7 @@ public static class SystemResourcesExtensionsProjectHandler
     {
         var targetDir = ProjectUtility.CopyProjectAndTranslateIt(
             "System.Resources.Extensions",
-            "Net4x.System.Resources.Extensions", ProjectPatching.PatchProjectNamespace);
+            "Gtk.Resources.Extensions", ProjectPatching.PatchProjectNamespace);
 
         var oldCsproj = Path.Combine(targetDir, "System.Resources.Extensions.csproj");
         var newCsproj = Path.Combine(targetDir, net4xSystemResourcesExtensionsCsproj);

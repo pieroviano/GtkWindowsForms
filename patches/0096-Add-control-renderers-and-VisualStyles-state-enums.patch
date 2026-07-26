@@ -48,35 +48,35 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../Forms/VisualStyles/TrackBarRenderer.cs    | 90 +++++++++++++++++++
  .../Forms/VisualStyles/TrackBarThumbState.cs  | 21 +++++
  23 files changed, 1045 insertions(+)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlRenderersFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ButtonRenderer.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxRenderer.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxState.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxRenderer.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxState.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeStyle.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxRenderer.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxState.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ProgressBarRenderer.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PushButtonState.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonRenderer.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonState.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarArrowButtonState.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarRenderer.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarSizeBoxState.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarState.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabItemState.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabRenderer.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxRenderer.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxState.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarRenderer.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarThumbState.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlRenderersFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ButtonRenderer.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxRenderer.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxState.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxRenderer.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxState.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeStyle.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxRenderer.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxState.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ProgressBarRenderer.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PushButtonState.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonRenderer.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonState.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarArrowButtonState.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarRenderer.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarSizeBoxState.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarState.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabItemState.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabRenderer.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxRenderer.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxState.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarRenderer.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarThumbState.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlRenderersFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlRenderersFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlRenderersFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlRenderersFunctionalTests.cs
 new file mode 100644
 index 00000000..c9016220
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlRenderersFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlRenderersFunctionalTests.cs
 @@ -0,0 +1,80 @@
 +namespace System.Windows.Forms;
 +
@@ -158,11 +158,11 @@ index 00000000..c9016220
 +        form.Dispose();
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ButtonRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ButtonRenderer.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ButtonRenderer.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ButtonRenderer.cs
 new file mode 100644
 index 00000000..fde39456
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ButtonRenderer.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ButtonRenderer.cs
 @@ -0,0 +1,81 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -245,11 +245,11 @@ index 00000000..fde39456
 +        TextRenderer.DrawText(g, buttonText, font, bounds, SystemColors.ControlText, flags);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxRenderer.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxRenderer.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxRenderer.cs
 new file mode 100644
 index 00000000..18d97cbb
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxRenderer.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxRenderer.cs
 @@ -0,0 +1,77 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -328,11 +328,11 @@ index 00000000..18d97cbb
 +        if (focused) { ControlPaint.DrawFocusRectangle(g, textBounds); }
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxState.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxState.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxState.cs
 new file mode 100644
 index 00000000..8f6ca7ab
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxState.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/CheckBoxState.cs
 @@ -0,0 +1,45 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -379,11 +379,11 @@ index 00000000..8f6ca7ab
 +    /// <summary>The MixedDisabled state.</summary>
 +    MixedDisabled = 12,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxRenderer.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxRenderer.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxRenderer.cs
 new file mode 100644
 index 00000000..01fa30a0
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxRenderer.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxRenderer.cs
 @@ -0,0 +1,51 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -436,11 +436,11 @@ index 00000000..01fa30a0
 +    public static void DrawDropDownButton(Graphics g, Rectangle bounds, ComboBoxState state)
 +        => ControlPaint.DrawButton(g, bounds, state == ComboBoxState.Pressed ? ButtonState.Pushed : ButtonState.Normal);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxState.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxState.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxState.cs
 new file mode 100644
 index 00000000..6e75f2cb
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxState.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ComboBoxState.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -463,11 +463,11 @@ index 00000000..6e75f2cb
 +    /// <summary>The Disabled state.</summary>
 +    Disabled = 4,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeStyle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeStyle.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeStyle.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeStyle.cs
 new file mode 100644
 index 00000000..4e065699
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeStyle.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeStyle.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -490,11 +490,11 @@ index 00000000..4e065699
 +    /// <summary>A sunken outer edge and a raised inner edge.</summary>
 +    Bump = 9,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxRenderer.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxRenderer.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxRenderer.cs
 new file mode 100644
 index 00000000..fcda5984
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxRenderer.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxRenderer.cs
 @@ -0,0 +1,53 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -549,11 +549,11 @@ index 00000000..fcda5984
 +        TextRenderer.DrawText(g, groupBoxText, font, bounds, textColor, flags);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxState.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxState.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxState.cs
 new file mode 100644
 index 00000000..a978735e
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxState.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GroupBoxState.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -570,11 +570,11 @@ index 00000000..a978735e
 +    /// <summary>The Disabled state.</summary>
 +    Disabled = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ProgressBarRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ProgressBarRenderer.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ProgressBarRenderer.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ProgressBarRenderer.cs
 new file mode 100644
 index 00000000..7b8a8013
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ProgressBarRenderer.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ProgressBarRenderer.cs
 @@ -0,0 +1,43 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -619,11 +619,11 @@ index 00000000..7b8a8013
 +        g.FillRectangle(brush, bounds);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PushButtonState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PushButtonState.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PushButtonState.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PushButtonState.cs
 new file mode 100644
 index 00000000..61f97333
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PushButtonState.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PushButtonState.cs
 @@ -0,0 +1,24 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -649,11 +649,11 @@ index 00000000..61f97333
 +    /// <summary>The Default state.</summary>
 +    Default = 5,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonRenderer.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonRenderer.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonRenderer.cs
 new file mode 100644
 index 00000000..d960c44f
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonRenderer.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonRenderer.cs
 @@ -0,0 +1,68 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -723,11 +723,11 @@ index 00000000..d960c44f
 +        if (focused) { ControlPaint.DrawFocusRectangle(g, textBounds); }
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonState.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonState.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonState.cs
 new file mode 100644
 index 00000000..ab98b91a
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonState.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/RadioButtonState.cs
 @@ -0,0 +1,33 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -762,11 +762,11 @@ index 00000000..ab98b91a
 +    /// <summary>The CheckedDisabled state.</summary>
 +    CheckedDisabled = 8,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarArrowButtonState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarArrowButtonState.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarArrowButtonState.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarArrowButtonState.cs
 new file mode 100644
 index 00000000..4ba3b6f8
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarArrowButtonState.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarArrowButtonState.cs
 @@ -0,0 +1,57 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -825,11 +825,11 @@ index 00000000..4ba3b6f8
 +    /// <summary>The RightDisabled state.</summary>
 +    RightDisabled = 16,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarRenderer.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarRenderer.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarRenderer.cs
 new file mode 100644
 index 00000000..3bfea117
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarRenderer.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarRenderer.cs
 @@ -0,0 +1,70 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -901,11 +901,11 @@ index 00000000..3bfea117
 +    /// <summary>Gets the size of a scroll size box.</summary>
 +    public static Size GetSizeBoxSize(Graphics g, ScrollBarState state) => new Size(17, 17);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarSizeBoxState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarSizeBoxState.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarSizeBoxState.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarSizeBoxState.cs
 new file mode 100644
 index 00000000..4b68f5b3
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarSizeBoxState.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarSizeBoxState.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -922,11 +922,11 @@ index 00000000..4b68f5b3
 +    /// <summary>The LeftAlign state.</summary>
 +    LeftAlign = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarState.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarState.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarState.cs
 new file mode 100644
 index 00000000..fcde1674
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarState.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ScrollBarState.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -949,11 +949,11 @@ index 00000000..fcde1674
 +    /// <summary>The Disabled state.</summary>
 +    Disabled = 4,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabItemState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabItemState.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabItemState.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabItemState.cs
 new file mode 100644
 index 00000000..8443064b
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabItemState.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabItemState.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -976,11 +976,11 @@ index 00000000..8443064b
 +    /// <summary>The Disabled state.</summary>
 +    Disabled = 4,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabRenderer.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabRenderer.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabRenderer.cs
 new file mode 100644
 index 00000000..914d8985
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabRenderer.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TabRenderer.cs
 @@ -0,0 +1,64 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1046,11 +1046,11 @@ index 00000000..914d8985
 +    public static void DrawTabPage(Graphics g, Rectangle bounds)
 +        => ControlPaint.DrawBorder3D(g, bounds, Border3DStyle.Raised);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxRenderer.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxRenderer.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxRenderer.cs
 new file mode 100644
 index 00000000..a5b19d12
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxRenderer.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxRenderer.cs
 @@ -0,0 +1,47 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1099,11 +1099,11 @@ index 00000000..a5b19d12
 +        TextRenderer.DrawText(g, text, font, textBounds, SystemColors.ControlText, flags);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxState.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxState.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxState.cs
 new file mode 100644
 index 00000000..79591e8e
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxState.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextBoxState.cs
 @@ -0,0 +1,27 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1132,11 +1132,11 @@ index 00000000..79591e8e
 +    /// <summary>The Assist state.</summary>
 +    Assist = 7,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarRenderer.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarRenderer.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarRenderer.cs
 new file mode 100644
 index 00000000..5a844aa1
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarRenderer.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarRenderer.cs
 @@ -0,0 +1,90 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1228,11 +1228,11 @@ index 00000000..5a844aa1
 +    /// <summary>Gets the size of a bottom-pointing thumb.</summary>
 +    public static Size GetBottomPointingThumbSize(Graphics g, TrackBarThumbState state) => new Size(21, 11);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarThumbState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarThumbState.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarThumbState.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarThumbState.cs
 new file mode 100644
 index 00000000..5aa6893d
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarThumbState.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrackBarThumbState.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.

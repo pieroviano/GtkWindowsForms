@@ -17,10 +17,10 @@ the null lookup.
  .../System/Drawing/FontFamily.cs              | 55 ++++++++++---------
  1 file changed, 30 insertions(+), 25 deletions(-)
 
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/FontFamily.cs b/Net4x.Gtk.Drawing/System/Drawing/FontFamily.cs
+diff --git a/Gtk.Drawing/System/Drawing/FontFamily.cs b/Gtk.Drawing/System/Drawing/FontFamily.cs
 index 5dab9838..93181453 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/FontFamily.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/FontFamily.cs
+--- a/Gtk.Drawing/System/Drawing/FontFamily.cs
++++ b/Gtk.Drawing/System/Drawing/FontFamily.cs
 @@ -44,7 +44,7 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
      /// </param>
      public FontFamily(string? name, FontCollection? fontCollection)

@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.props" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.props')" />
+    <PropertyGroup>
+        <DocumentationFile>$(MSBuildProjectDirectory)\$(MSBuildProjectName).xml</DocumentationFile>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <TargetFrameworks>netstandard2.0</TargetFrameworks>
+        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+        <Authors>Piero Viano</Authors>
+        <Company>Piero Viano</Company>
+        <Copyright>Copyright (c) Piero Viano. All right reserved.</Copyright>
+        <Version>$(VersionPrefix).$(VersionSuffix)</Version>
+        <PackageProjectUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</PackageProjectUrl>
+        <PackageReleaseNotes>C# interface cross-platform development component gtk-windows-forms</PackageReleaseNotes>
+        <Title>GTK cross-platform winform interface component, compiled once, can run on windows, linux, macos platforms</Title>
+        <Description>It is a cross-platform interface component developed based on GTK components and compatible with the native C# control winform interface.
+Use this component GtkSystem.Drawing to compile once and run across platforms windows/linux/macos.
+Update platform:
+https://pieroviano@bitbucket.org/piero-viano/net4x.gtk.windows.forms.git
+
+Based on GTKSystem.Windows.Forms:
+ https://www.gtkapp.com；
+ https://gitee.com/easywebfactory/gtksystem-windows-forms；
+ https://github.com/easywebfactory/gtksystem-windows-forms；</Description>
+        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RepositoryUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</RepositoryUrl>
+        <PackAsTool>False</PackAsTool>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+        <SignAssembly>true</SignAssembly>
+        <LangVersion>latest</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace />
+        <PackageOutputPath>$(SolutionDir)Packages/</PackageOutputPath>
+        <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+        <AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
+        <NoWarn>$(NoWarn);CS0067;CS0169;CS0419;CS0436;CS0162;CS0168;CS0414;CS0612;CS0618;CS0649;CS1574;CS3021;CS8002</NoWarn>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="$(MSBuildProjectName).xml" Pack="true" PackagePath="\Documentation.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>Gtk.Windows.Forms.Tests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100518ef14d1a0c9efc88ac39397509c94a703ec7a674ed0414a18d3bad86b3618863d9d20204b50c28a13c56df0493d2943f2013a9b4f2bd5a829217698fa2444fbbebd449d6a8942a1278c87fe9ccba10535b9b2b1f47295168308a2b2a85af1fc655f8c736b51fe1d457d1b7be6c807516f58d5d981b112929c5c24f3ff1c0ce</_Parameter1>
+        </AssemblyAttribute>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>Gtk.Windows.Extensions, PublicKey=0024000004800000940000000602000000240000525341310004000001000100518ef14d1a0c9efc88ac39397509c94a703ec7a674ed0414a18d3bad86b3618863d9d20204b50c28a13c56df0493d2943f2013a9b4f2bd5a829217698fa2444fbbebd449d6a8942a1278c87fe9ccba10535b9b2b1f47295168308a2b2a85af1fc655f8c736b51fe1d457d1b7be6c807516f58d5d981b112929c5c24f3ff1c0ce</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="GTKControls\Interface\**" />
+        <Compile Remove="GTKControls\Struct\**" />
+        <Compile Remove="Resources\Forms_ico\**" />
+        <Compile Remove="Resources\icons\**" />
+        <EmbeddedResource Remove="GTKControls\Interface\**" />
+        <EmbeddedResource Remove="GTKControls\Struct\**" />
+        <EmbeddedResource Remove="Resources\Forms_ico\**" />
+        <EmbeddedResource Remove="Resources\icons\**" />
+        <None Remove="GTKControls\Interface\**" />
+        <None Remove="GTKControls\Struct\**" />
+        <None Remove="Resources\Forms_ico\**" />
+        <None Remove="Resources\icons\**" />
+        <Compile Remove="Content/System.ComponentModel.cs" Pack="true" PackagePath="content\" />
+        <Compile Remove="Content/System.Resources.ResourceManager.cs" Pack="true" PackagePath="content\" />
+        <Compile Update="Properties/Resources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+        <None Include="Content\System.ComponentModel.cs" Pack="true" PackagePath="content\System.ComponentModel.cs" />
+        <None Include="Content\System.Resources.ResourceManager.cs" Pack="true" PackagePath="content\System.Resources.ResourceManager.cs" />
+        <None Include="Gtk.Windows.Forms.props" Pack="true" PackagePath="\build\" />
+        <None Include="Gtk.Windows.Forms.targets" Pack="true" PackagePath="\build\" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="GTKControls\ControlExtensions\ComboBox.Methods.cs" />
+        <Compile Remove="GTKControls\Control\ArrangedElementCollection.cs" />
+        <Compile Remove="GTKControls\Control\GridItem.cs" />
+        <Compile Remove="GTKControls\Control\GridItemCollection.cs" />
+        <Compile Remove="GTKControls\Control\IArrangedElement.cs" />
+        <Compile Remove="GTKControls\Enum\Enums\ColorDepth.cs" />
+        <Compile Remove="GTKControls\Enum\Enums\GridItemType.cs" />
+        <Compile Remove="GTKControls\EventArgs\PropertyValueChangedEventArgs.cs" />
+        <Compile Remove="GTKControls\EventArgs\SelectedGridItemChangedEventArgs.cs" />
+        <Compile Remove="GTKControls\EventHandlers\SelectedGridItemChangedEventHandler.cs" />
+        <Compile Remove="GTKControls\ListViewBase\ImageList.cs" />
+        <Compile Remove="GTKControls\ListViewBase\ImageListStreamer.cs" />
+        <Compile Remove="GTKControls\ListViewBase\SerializationInfo.cs" />
+        <Compile Remove="GTKControls\MenuStripBase\WidgetToolStrip.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Remove="Resources\Cursors\all-scroll.cur" />
+        <None Remove="Resources\Cursors\arrow.cur" />
+        <None Remove="Resources\Cursors\circle.cur" />
+        <None Remove="Resources\Cursors\col-resize.cur" />
+        <None Remove="Resources\Cursors\cross.cur" />
+        <None Remove="Resources\Cursors\default.cur" />
+        <None Remove="Resources\Cursors\e-resize.cur" />
+        <None Remove="Resources\Cursors\ew-resize.cur" />
+        <None Remove="Resources\Cursors\hand.cur" />
+        <None Remove="Resources\Cursors\help.cur" />
+        <None Remove="Resources\Cursors\move.cur" />
+        <None Remove="Resources\Cursors\n-resize.cur" />
+        <None Remove="Resources\Cursors\ne-resize.cur" />
+        <None Remove="Resources\Cursors\nesw-resize.cur" />
+        <None Remove="Resources\Cursors\not-allowed.cur" />
+        <None Remove="Resources\Cursors\ns-resize.cur" />
+        <None Remove="Resources\Cursors\nw-resize.cur" />
+        <None Remove="Resources\Cursors\nwse-resize.cur" />
+        <None Remove="Resources\Cursors\row-resize.cur" />
+        <None Remove="Resources\Cursors\s-resize.cur" />
+        <None Remove="Resources\Cursors\sb_down_arrow.cur" />
+        <None Remove="Resources\Cursors\sb_left_arrow.cur" />
+        <None Remove="Resources\Cursors\sb_right_arrow.cur" />
+        <None Remove="Resources\Cursors\sb_up_arrow.cur" />
+        <None Remove="Resources\Cursors\se-resize.cur" />
+        <None Remove="Resources\Cursors\size_all.cur" />
+        <None Remove="Resources\Cursors\size_hor.cur" />
+        <None Remove="Resources\Cursors\size_ver.cur" />
+        <None Remove="Resources\Cursors\sw-resize.cur" />
+        <None Remove="Resources\Cursors\w-resize.cur" />
+        <None Remove="Resources\Cursors\xterm.cur" />
+        <None Remove="Resources\System\DateTimePicker.ico" />
+        <None Remove="Resources\System\dialog-error.png" />
+        <None Remove="Resources\System\dialog-information-symbolic.svg" />
+        <None Remove="Resources\System\dialog-information.png" />
+        <None Remove="Resources\System\dialog-password.png" />
+        <None Remove="Resources\System\dialog-question.png" />
+        <None Remove="Resources\System\dialog-warning.png" />
+        <None Remove="Resources\System\go-down-symbolic.png" />
+        <None Remove="Resources\System\go-next-symbolic.png" />
+        <None Remove="Resources\System\help-faq.png" />
+        <None Remove="Resources\System\image-missing16.png" />
+        <None Remove="Resources\System\image-missing48.png" />
+        <None Remove="Resources\System\MonthCalendar.ico" />
+        <None Remove="Resources\System\Panel.ico" />
+        <None Remove="Resources\System\PBAlpha.ico" />
+        <None Remove="Resources\System\PBCategory.ico" />
+        <None Remove="Resources\System\view-more.ico" />
+        <None Remove="Resources\System\view-more.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\System\dialog-error.png" />
+        <EmbeddedResource Include="Resources\System\dialog-information.png" />
+        <EmbeddedResource Include="Resources\System\dialog-password.png" />
+        <EmbeddedResource Include="Resources\System\dialog-question.png" />
+        <EmbeddedResource Include="Resources\System\dialog-warning.png" />
+        <EmbeddedResource Include="Resources\System\go-next-symbolic.png" />
+        <EmbeddedResource Include="Resources\Cursors\all-scroll.cur" />
+        <EmbeddedResource Include="Resources\Cursors\arrow.cur" />
+        <EmbeddedResource Include="Resources\Cursors\circle.cur" />
+        <EmbeddedResource Include="Resources\Cursors\col-resize.cur" />
+        <EmbeddedResource Include="Resources\Cursors\cross.cur" />
+        <EmbeddedResource Include="Resources\Cursors\default.cur" />
+        <EmbeddedResource Include="Resources\Cursors\e-resize.cur" />
+        <EmbeddedResource Include="Resources\Cursors\ew-resize.cur" />
+        <EmbeddedResource Include="Resources\Cursors\hand.cur" />
+        <EmbeddedResource Include="Resources\Cursors\help.cur" />
+        <EmbeddedResource Include="Resources\Cursors\move.cur" />
+        <EmbeddedResource Include="Resources\Cursors\n-resize.cur" />
+        <EmbeddedResource Include="Resources\Cursors\ne-resize.cur" />
+        <EmbeddedResource Include="Resources\Cursors\nesw-resize.cur" />
+        <EmbeddedResource Include="Resources\Cursors\not-allowed.cur" />
+        <EmbeddedResource Include="Resources\Cursors\ns-resize.cur" />
+        <EmbeddedResource Include="Resources\Cursors\nw-resize.cur" />
+        <EmbeddedResource Include="Resources\Cursors\nwse-resize.cur" />
+        <EmbeddedResource Include="Resources\Cursors\row-resize.cur" />
+        <EmbeddedResource Include="Resources\Cursors\s-resize.cur" />
+        <EmbeddedResource Include="Resources\Cursors\sb_down_arrow.cur" />
+        <EmbeddedResource Include="Resources\Cursors\sb_left_arrow.cur" />
+        <EmbeddedResource Include="Resources\Cursors\sb_right_arrow.cur" />
+        <EmbeddedResource Include="Resources\Cursors\sb_up_arrow.cur" />
+        <EmbeddedResource Include="Resources\Cursors\se-resize.cur" />
+        <EmbeddedResource Include="Resources\Cursors\size_all.cur" />
+        <EmbeddedResource Include="Resources\Cursors\size_hor.cur" />
+        <EmbeddedResource Include="Resources\Cursors\size_ver.cur" />
+        <EmbeddedResource Include="Resources\Cursors\sw-resize.cur" />
+        <EmbeddedResource Include="Resources\Cursors\w-resize.cur" />
+        <EmbeddedResource Include="Resources\Cursors\xterm.cur" />
+        <EmbeddedResource Include="Resources\System\DateTimePicker.ico" />
+        <EmbeddedResource Include="Resources\System\go-down-symbolic.png" />
+        <EmbeddedResource Include="Resources\System\help-faq.png" />
+        <EmbeddedResource Include="Resources\System\image-missing16.png" />
+        <EmbeddedResource Include="Resources\System\image-missing48.png" />
+        <EmbeddedResource Include="Resources\System\MonthCalendar.ico" />
+        <EmbeddedResource Include="Resources\System\Panel.ico" />
+        <EmbeddedResource Include="Resources\System\PBAlpha.ico" />
+        <EmbeddedResource Include="Resources\System\PBCategory.ico" />
+        <EmbeddedResource Include="Resources\System\view-more.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="System.Memory" Version="4.6.0" />
+        <PackageReference Include="GtkSharp" Version="$(GtkSharpPackageVersion)" />
+        <PackageReference Include="System.Resources.Extensions" Version="$(SystemResourcesExtensionsPackageVersion)" />
+        <PackageReference Include="Net4x.NuGetUtility" Version="$(NuGetUtilityVersion)" PrivateAssets="All" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="GTKControls\Button.cs" />
+        <Compile Update="GTKControls\CheckBox.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\CheckedListBox.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\ComboBox.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\DataGridView.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\DateTimePicker.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\EventArgs\Control.PrintPaintEventArgs.cs" />
+        <Compile Update="GTKControls\Form.cs">
+            <SubType>Form</SubType>
+        </Compile>
+        <Compile Update="GTKControls\GroupBox.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\Label.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\LinkLabel.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\MaskedTextBox.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\MenuStrip.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\MonthCalendar.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\NumericUpDown.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\Panel.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\PictureBox.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\RadioButton.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\RichTextBox.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\SplitContainer.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\SplitterPanel.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\TabControl.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\TextBox.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\Timer.cs">
+            <SubType>Component</SubType>
+        </Compile>
+        <Compile Update="GTKControls\TreeView.cs">
+            <SubType>Component</SubType>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="..\Resources\README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Include="..\gtksystem-windows-forms\Source\licenses\LICENSE.txt">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="obj\Debug\" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Gtk.Drawing\Gtk.Drawing.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="..\ResxProcessor\bin\$(Configuration)\net8.0\**\*.*" Link="tools/%(RecursiveDir)%(Filename)%(Extension)" Pack="True" PackagePath="tools/" />
+        <Compile Update="Properties/Resources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+        <EmbeddedResource Update="GtkSystem\Resources\Extensions\SR.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>SR.Designer.cs</LastGenOutput>
+            <CustomToolNamespace>GtkSystem.Resources.Extensions</CustomToolNamespace>
+        </EmbeddedResource>
+        <Compile Update="GtkSystem\Resources\Extensions\SR.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>SR.resx</DependentUpon>
+        </Compile>
+        <EmbeddedResource Update="Properties\Resources.it.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\Resources.es.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\Resources.de.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\Resources.fr.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </EmbeddedResource>
+        <Compile Update="Properties/Resources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </Compile>
+        <EmbeddedResource Update="Properties\Resources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+            <CustomToolNamespace>System.Properties</CustomToolNamespace>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\Resources.zh-Hans.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <DependentUpon>Resources.resx</DependentUpon>
+        </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Gtk.Windows.FormsDesigner\Gtk.Windows.FormsDesigner.csproj" />
+    </ItemGroup>
+    <PropertyGroup>
+        <NoWarn>$(NoWarn);MSB3243;</NoWarn>
+        <PackageId>Gtk.Windows.Forms</PackageId>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Update="Properties\MessageBoxResources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>MessageBoxResources.resx</DependentUpon>
+        </Compile>
+        <EmbeddedResource Update="Properties\MessageBoxResources.it.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <DependentUpon>MessageBoxResources.resx</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\MessageBoxResources.es.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <DependentUpon>MessageBoxResources.resx</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\MessageBoxResources.de.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <DependentUpon>MessageBoxResources.resx</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\MessageBoxResources.fr.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <DependentUpon>MessageBoxResources.resx</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\MessageBoxResources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>MessageBoxResources.Designer.cs</LastGenOutput>
+            <CustomToolNamespace>System.Windows.Forms.Properties</CustomToolNamespace>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Properties\MessageBoxResources.zh-Hans.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <DependentUpon>MessageBoxResources.resx</DependentUpon>
+        </EmbeddedResource>
+    </ItemGroup>
+    <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets')" />
+</Project>

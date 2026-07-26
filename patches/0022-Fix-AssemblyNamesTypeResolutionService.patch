@@ -7,10 +7,10 @@ Subject: [PATCH] Fix AssemblyNamesTypeResolutionService
  .../AssemblyNamesTypeResolutionService.cs     | 253 +++++++++---------
  1 file changed, 133 insertions(+), 120 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Resources/AssemblyNamesTypeResolutionService.cs b/Net4x.Gtk.Windows.Forms/System/Resources/AssemblyNamesTypeResolutionService.cs
+diff --git a/Gtk.Windows.Forms/System/Resources/AssemblyNamesTypeResolutionService.cs b/Gtk.Windows.Forms/System/Resources/AssemblyNamesTypeResolutionService.cs
 index eca486ee..f5f6b071 100644
---- a/Net4x.Gtk.Windows.Forms/System/Resources/AssemblyNamesTypeResolutionService.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Resources/AssemblyNamesTypeResolutionService.cs
+--- a/Gtk.Windows.Forms/System/Resources/AssemblyNamesTypeResolutionService.cs
++++ b/Gtk.Windows.Forms/System/Resources/AssemblyNamesTypeResolutionService.cs
 @@ -1,197 +1,149 @@
 -﻿// Licensed to the .NET Foundation under one or more agreements.
 -// The .NET Foundation licenses this file to you under the MIT license.

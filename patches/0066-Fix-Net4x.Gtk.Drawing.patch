@@ -1,18 +1,18 @@
 From 780cc4b8bfb4c1fed6469de910608fbd4c8ebd10 Mon Sep 17 00:00:00 2001
 From: pieroviano <piero.viano@gmail.com>
 Date: Fri, 10 Apr 2026 03:48:22 +0300
-Subject: [PATCH] Fix Net4x.Gtk.Drawing
+Subject: [PATCH] Fix Gtk.Drawing
 
 ---
  .gitignore                                    |     2 +
- Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml       | 16777 ------
+ Gtk.Drawing/Gtk.Drawing.xml       | 16777 ------
  .../System/Drawing/Drawing2D/GraphicsPath.cs  |   652 +-
  .../System/Drawing/FontFamily.cs              |     2 +-
- Net4x.Gtk.Drawing/System/Drawing/Region.cs    |   444 +-
- .../Net4x.Gtk.Windows.Forms.xml               | 47076 ----------------
+ Gtk.Drawing/System/Drawing/Region.cs    |   444 +-
+ .../Gtk.Windows.Forms.xml               | 47076 ----------------
  6 files changed, 796 insertions(+), 64157 deletions(-)
- delete mode 100644 Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml
- delete mode 100644 Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.xml
+ delete mode 100644 Gtk.Drawing/Gtk.Drawing.xml
+ delete mode 100644 Gtk.Windows.Forms/Gtk.Windows.Forms.xml
 
 diff --git a/.gitignore b/.gitignore
 index e678192..40bf336 100644
@@ -21,19 +21,19 @@ index e678192..40bf336 100644
 @@ -290,3 +290,5 @@ __pycache__/
  obfuscar.xml
  /Directory.NuGet.json
- /Net4x.Gtk.Windows.Forms/GTKSystem.Windows.Forms.xml
-+/Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.xml
-+/Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml
-diff --git a/Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml b/Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml
+ /Gtk.Windows.Forms/GTKSystem.Windows.Forms.xml
++/Gtk.Windows.Forms/Gtk.Windows.Forms.xml
++/Gtk.Drawing/Gtk.Drawing.xml
+diff --git a/Gtk.Drawing/Gtk.Drawing.xml b/Gtk.Drawing/Gtk.Drawing.xml
 deleted file mode 100644
 index f2d8957..0000000
---- a/Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.xml
+--- a/Gtk.Drawing/Gtk.Drawing.xml
 +++ /dev/null
 @@ -1,16777 +0,0 @@
 -<?xml version="1.0"?>
 -<doc>
 -    <assembly>
--        <name>Net4x.Gtk.Drawing</name>
+-        <name>Gtk.Drawing</name>
 -    </assembly>
 -    <members>
 -        <member name="T:System.Diagnostics.GtkLogger">
@@ -16807,10 +16807,10 @@ index f2d8957..0000000
 -        </member>
 -    </members>
 -</doc>
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs b/Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
 index 3758fbe..6d68f84 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
 @@ -1150,6 +1150,8 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
      /// </summary>
      public void ClearMarkers()
@@ -17695,10 +17695,10 @@ index 3758fbe..6d68f84 100644
 +    }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/FontFamily.cs b/Net4x.Gtk.Drawing/System/Drawing/FontFamily.cs
+diff --git a/Gtk.Drawing/System/Drawing/FontFamily.cs b/Gtk.Drawing/System/Drawing/FontFamily.cs
 index 525a16a..415c856 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/FontFamily.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/FontFamily.cs
+--- a/Gtk.Drawing/System/Drawing/FontFamily.cs
++++ b/Gtk.Drawing/System/Drawing/FontFamily.cs
 @@ -172,7 +172,7 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
      /// <returns>
      /// The hash code for this System.Drawing.FontFamily.
@@ -17708,10 +17708,10 @@ index 525a16a..415c856 100644
  
      /// <summary>
      /// Returns the line spacing, in design units, of the System.Drawing.FontFamily of
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Region.cs b/Net4x.Gtk.Drawing/System/Drawing/Region.cs
+diff --git a/Gtk.Drawing/System/Drawing/Region.cs b/Gtk.Drawing/System/Drawing/Region.cs
 index 20377d6..874c8d0 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Region.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Region.cs
+--- a/Gtk.Drawing/System/Drawing/Region.cs
++++ b/Gtk.Drawing/System/Drawing/Region.cs
 @@ -1,4 +1,4 @@
 -using System.Drawing.Drawing2D;
 +﻿using System.Drawing.Drawing2D;
@@ -18586,16 +18586,16 @@ index 20377d6..874c8d0 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.xml b/Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.xml
+diff --git a/Gtk.Windows.Forms/Gtk.Windows.Forms.xml b/Gtk.Windows.Forms/Gtk.Windows.Forms.xml
 deleted file mode 100644
 index 5c0535f..0000000
---- a/Net4x.Gtk.Windows.Forms/Net4x.Gtk.Windows.Forms.xml
+--- a/Gtk.Windows.Forms/Gtk.Windows.Forms.xml
 +++ /dev/null
 @@ -1,47076 +0,0 @@
 -<?xml version="1.0"?>
 -<doc>
 -    <assembly>
--        <name>Net4x.Gtk.Windows.Forms</name>
+-        <name>Gtk.Windows.Forms</name>
 -    </assembly>
 -    <members>
 -        <member name="T:GtkSystem.ComponentModel.ComponentResourceManager">

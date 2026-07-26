@@ -4,7 +4,7 @@ namespace Prepare.Tests
 {
     /// <summary>
     /// The generate-from-submodule design has one silent failure mode: a fix hand-edited into
-    /// <c>Net4x.Gtk.Windows.Forms/</c> or <c>Net4x.Gtk.Drawing/</c> is overwritten by the next pipeline
+    /// <c>Gtk.Windows.Forms/</c> or <c>Gtk.Drawing/</c> is overwritten by the next pipeline
     /// run and, not being in <c>patches/</c>, never comes back. The guard names those edits before the
     /// transform destroys them.
     /// </summary>
@@ -23,7 +23,7 @@ namespace Prepare.Tests
             var porcelain = string.Join("\n", new[]
             {
                 " M Prepare.Common/IO/GitPatchApplier.cs",
-                "?? Net4x.Gtk.Drawing.Tests/System/Drawing/NewTests.cs",
+                "?? Gtk.Drawing.Tests/System/Drawing/NewTests.cs",
                 " M Solution-Review.md",
             });
 
@@ -36,16 +36,16 @@ namespace Prepare.Tests
         {
             var porcelain = string.Join("\n", new[]
             {
-                " M Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs",
-                " M Net4x.Gtk.Drawing/System/Drawing/Graphics.cs",
+                " M Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs",
+                " M Gtk.Drawing/System/Drawing/Graphics.cs",
                 " M Prepare.Common/IO/GitPatchApplier.cs",
             });
 
             var endangered = GeneratedTreeGuard.FindEndangeredEdits(porcelain);
 
             Assert.Equal(2, endangered.Count);
-            Assert.Contains("Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs", endangered);
-            Assert.Contains("Net4x.Gtk.Drawing/System/Drawing/Graphics.cs", endangered);
+            Assert.Contains("Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs", endangered);
+            Assert.Contains("Gtk.Drawing/System/Drawing/Graphics.cs", endangered);
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace Prepare.Tests
         {
             // csproj files are maintained here rather than produced by the transform, which is exactly why
             // the patch recipe in Patches.txt excludes them.
-            var porcelain = " M Net4x.Gtk.Drawing/Net4x.Gtk.Drawing.csproj";
+            var porcelain = " M Gtk.Drawing/Gtk.Drawing.csproj";
 
             Assert.Empty(GeneratedTreeGuard.FindEndangeredEdits(porcelain));
         }
@@ -63,8 +63,8 @@ namespace Prepare.Tests
         {
             var porcelain = string.Join("\n", new[]
             {
-                "?? Net4x.Gtk.Drawing/System/Drawing/Brand.cs",
-                "M  Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs",
+                "?? Gtk.Drawing/System/Drawing/Brand.cs",
+                "M  Gtk.Windows.Forms/System/Windows/Forms/Form.cs",
             });
 
             var endangered = GeneratedTreeGuard.FindEndangeredEdits(porcelain);
@@ -75,18 +75,18 @@ namespace Prepare.Tests
         [Fact]
         public void FindEndangeredEdits_Rename_ReportsTheDestination()
         {
-            var porcelain = "R  Net4x.Gtk.Drawing/System/Drawing/Old.cs -> Net4x.Gtk.Drawing/System/Drawing/New.cs";
+            var porcelain = "R  Gtk.Drawing/System/Drawing/Old.cs -> Gtk.Drawing/System/Drawing/New.cs";
 
             var endangered = GeneratedTreeGuard.FindEndangeredEdits(porcelain);
 
             Assert.Single(endangered);
-            Assert.Equal("Net4x.Gtk.Drawing/System/Drawing/New.cs", endangered[0]);
+            Assert.Equal("Gtk.Drawing/System/Drawing/New.cs", endangered[0]);
         }
 
         [Fact]
         public void FindEndangeredEdits_WindowsSeparators_AreMatched()
         {
-            var porcelain = @" M Net4x.Gtk.Drawing\System\Drawing\Graphics.cs";
+            var porcelain = @" M Gtk.Drawing\System\Drawing\Graphics.cs";
 
             Assert.Single(GeneratedTreeGuard.FindEndangeredEdits(porcelain));
         }

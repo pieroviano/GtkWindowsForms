@@ -15,20 +15,20 @@ Subject: [PATCH] Move enum files
  .../Drawing/Drawing2D/{ => Enum}/FillMode.cs  |  0
  .../Drawing2D/{ => Enum}/FlushIntention.cs    |  0
  10 files changed, 5 insertions(+), 15 deletions(-)
- rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/CombineMode.cs (100%)
- rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/CompositingMode.cs (100%)
- rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/CompositingQuality.cs (100%)
- rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/CoordinateSpace.cs (100%)
- rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/CustomLineCap.cs (100%)
- rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/DashCap.cs (100%)
- rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/DashStyle.cs (100%)
- rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/FillMode.cs (100%)
- rename Net4x.Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/FlushIntention.cs (100%)
+ rename Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/CombineMode.cs (100%)
+ rename Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/CompositingMode.cs (100%)
+ rename Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/CompositingQuality.cs (100%)
+ rename Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/CoordinateSpace.cs (100%)
+ rename Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/CustomLineCap.cs (100%)
+ rename Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/DashCap.cs (100%)
+ rename Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/DashStyle.cs (100%)
+ rename Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/FillMode.cs (100%)
+ rename Gtk.Drawing/System/Drawing/Drawing2D/{ => Enum}/FlushIntention.cs (100%)
 
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs b/Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs
 index ada0914..bedf7dd 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/ColorBlend.cs
 @@ -1,4 +1,4 @@
 -namespace System.Drawing.Drawing2D;
 +﻿namespace System.Drawing.Drawing2D;
@@ -67,42 +67,42 @@ index ada0914..bedf7dd 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CombineMode.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CombineMode.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/CombineMode.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Enum/CombineMode.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CombineMode.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CombineMode.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CompositingMode.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CompositingMode.cs
+rename from Gtk.Drawing/System/Drawing/Drawing2D/CombineMode.cs
+rename to Gtk.Drawing/System/Drawing/Drawing2D/Enum/CombineMode.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/CompositingMode.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Enum/CompositingMode.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CompositingMode.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CompositingMode.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CompositingQuality.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CompositingQuality.cs
+rename from Gtk.Drawing/System/Drawing/Drawing2D/CompositingMode.cs
+rename to Gtk.Drawing/System/Drawing/Drawing2D/Enum/CompositingMode.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/CompositingQuality.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Enum/CompositingQuality.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CompositingQuality.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CompositingQuality.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CoordinateSpace.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CoordinateSpace.cs
+rename from Gtk.Drawing/System/Drawing/Drawing2D/CompositingQuality.cs
+rename to Gtk.Drawing/System/Drawing/Drawing2D/Enum/CompositingQuality.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/CoordinateSpace.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Enum/CoordinateSpace.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CoordinateSpace.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CoordinateSpace.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CustomLineCap.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs
+rename from Gtk.Drawing/System/Drawing/Drawing2D/CoordinateSpace.cs
+rename to Gtk.Drawing/System/Drawing/Drawing2D/Enum/CoordinateSpace.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/CustomLineCap.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/CustomLineCap.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/DashCap.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/DashCap.cs
+rename from Gtk.Drawing/System/Drawing/Drawing2D/CustomLineCap.cs
+rename to Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/DashCap.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Enum/DashCap.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/DashCap.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/DashCap.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/DashStyle.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/DashStyle.cs
+rename from Gtk.Drawing/System/Drawing/Drawing2D/DashCap.cs
+rename to Gtk.Drawing/System/Drawing/Drawing2D/Enum/DashCap.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/DashStyle.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Enum/DashStyle.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/DashStyle.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/DashStyle.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/FillMode.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/FillMode.cs
+rename from Gtk.Drawing/System/Drawing/Drawing2D/DashStyle.cs
+rename to Gtk.Drawing/System/Drawing/Drawing2D/Enum/DashStyle.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/FillMode.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Enum/FillMode.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/FillMode.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/FillMode.cs
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/FlushIntention.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/FlushIntention.cs
+rename from Gtk.Drawing/System/Drawing/Drawing2D/FillMode.cs
+rename to Gtk.Drawing/System/Drawing/Drawing2D/Enum/FillMode.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/FlushIntention.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Enum/FlushIntention.cs
 similarity index 100%
-rename from Net4x.Gtk.Drawing/System/Drawing/Drawing2D/FlushIntention.cs
-rename to Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/FlushIntention.cs
+rename from Gtk.Drawing/System/Drawing/Drawing2D/FlushIntention.cs
+rename to Gtk.Drawing/System/Drawing/Drawing2D/Enum/FlushIntention.cs
 -- 
 2.51.1.windows.1
 

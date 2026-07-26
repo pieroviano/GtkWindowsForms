@@ -1,6 +1,6 @@
 # AlignProjects
 
-`AlignProjects` is the **post-pipeline**: a console tool run *after* [PrepareProjects](PrepareProjects.md) that forward-ports newer gitee upstream changes onto the already-generated `Net4x.Gtk.Windows.Forms` and `Net4x.Gtk.Drawing` projects — **incrementally**, and **preserving the fork's patches and manual edits**.
+`AlignProjects` is the **post-pipeline**: a console tool run *after* [PrepareProjects](PrepareProjects.md) that forward-ports newer gitee upstream changes onto the already-generated `Gtk.Windows.Forms` and `Gtk.Drawing` projects — **incrementally**, and **preserving the fork's patches and manual edits**.
 
 This document describes the tool **as built** ([AlignProjects/Program.cs](AlignProjects/Program.cs) + `Align.Common/` + `Prepare.Common/Alignment/`). Since the samples got their own post-pipeline, the driver itself — staging roots, preflight, merge, conflict pause, report, checkpoint — lives in the shared `Align.Common.AlignmentDriver`, and `Program.cs` is only the library-specific configuration (scope, the transform `f`, translation enrichment, provenance fallback). [AlignSamples](AlignSamples.md) runs the same driver with sample parameters. The design rationale, decisions, and remaining verification checklist live in [AlignProjects-Plan.md](AlignProjects-Plan.md); where the two disagree, this file describes what the code actually does today (see [Plan vs. implementation](#plan-vs-implementation)).
 
@@ -10,20 +10,20 @@ This document describes the tool **as built** ([AlignProjects/Program.cs](AlignP
 |---|---|---|
 | Input | The submodule pinned at the **frozen generation base** (`e5227ae…`) | The submodule at **checkpoint → latest gitee** |
 | Method | Full regeneration, then replay `patches/*.patch` | Transformed-space **delta**, 3-way merged onto the live projects |
-| Output | `Net4x.*` rebuilt from scratch + build + NuGet publish | `Net4x.*` updated in place; no build, no publish |
+| Output | `Gtk.*` rebuilt from scratch + build + NuGet publish | `Gtk.*` updated in place; no build, no publish |
 | Patches | Re-applied on top | Never touched — they are *already* in `OURS` and the merge respects them |
 
 PrepareProjects deliberately regenerates from a *frozen* commit so its line-anchored patch series still applies. That freeze is exactly why upstream progress can't ride in through it — absorbing new gitee commits is AlignProjects' job.
 
 ## Core mechanism
 
-The delta is computed in **transformed space** — i.e. *after* running the shared transform `f`, so it already lands on the correct `Net4x.*` paths, namespaces, English text, and formatting:
+The delta is computed in **transformed space** — i.e. *after* running the shared transform `f`, so it already lands on the correct `Gtk.*` paths, namespaces, English text, and formatting:
 
 ```
 BASE   = f(submodule @ last-aligned checkpoint)     # bootstrap: e5227ae
 THEIRS = f(submodule @ target commit)               # default: the submodule's tracking branch (main, gitee-merged)
-OURS   = the live Net4x.* projects on disk          # = BASE + patches + manual edits
-DELTA  = BASE -> THEIRS, scoped to Net4x.Gtk.Windows.Forms + Net4x.Gtk.Drawing
+OURS   = the live Gtk.* projects on disk          # = BASE + patches + manual edits
+DELTA  = BASE -> THEIRS, scoped to Gtk.Windows.Forms + Gtk.Drawing
 result = 3-way merge of DELTA onto OURS
 ```
 
@@ -81,11 +81,11 @@ Run it **interactively** — both operator pauses need a real console. With stdi
    > The **apply-side guard** in `TranslationsHelper`/`Translator` skips empty-English entries, so an unfilled blank leaves its Chinese **in place** rather than erasing it. That is what makes "enrich now, fill later" safe, and what stage 8 then reports.
 
 4. **Produce BASE and THEIRS** (`TransformedTreeProducer`) — the trees land in `AlignProjects/build/{base,theirs}` (gitignored, cleared on entry); the **staging roots** themselves go under `%TEMP%\alignprojects-staging-<guid>\` and are deleted afterwards. For each commit, in its own staging root:
-   - `StagingRoot.Create` adds a detached `git worktree` of the submodule at that commit, junctions (`mklink /J`) the read-only top-level repo directories, **copies** `Resources/` (the transform *writes* there — see below), copies every top-level file (props, `Nuget.Config`, `.snk`, …), and creates empty `Net4x.*` output dirs — so the transform sees a full repo layout but **writes in isolation**;
+   - `StagingRoot.Create` adds a detached `git worktree` of the submodule at that commit, junctions (`mklink /J`) the read-only top-level repo directories, **copies** `Resources/` (the transform *writes* there — see below), copies every top-level file (props, `Nuget.Config`, `.snk`, …), and creates empty `Gtk.*` output dirs — so the transform sees a full repo layout but **writes in isolation**;
    - `RepoPaths.Root` is redirected at the staging root, `TransformPipeline.RunTransform()` runs, and `RepoPaths.Root` is restored in a `finally`;
-   - the two generated `Net4x.*` dirs are copied out to `build/base` / `build/theirs`, that run's `*.Files.xml` manifests are captured into `build/<side>/_manifests/`, and the staging root is disposed (worktree removed, junctions deleted — their targets untouched).
+   - the two generated `Gtk.*` dirs are copied out to `build/base` / `build/theirs`, that run's `*.Files.xml` manifests are captured into `build/<side>/_manifests/`, and the staging root is disposed (worktree removed, junctions deleted — their targets untouched).
 
-   The live submodule and live `Net4x.*` are never mutated by this stage. Skipped entirely when `ALIGN_BASE_TREE`/`ALIGN_THEIRS_TREE` are supplied.
+   The live submodule and live `Gtk.*` are never mutated by this stage. Skipped entirely when `ALIGN_BASE_TREE`/`ALIGN_THEIRS_TREE` are supplied.
 
    > **Why `Resources/` is copied, not junctioned.** `ProjectUtility.PersistProjectFiles` writes its `*.Files.xml` manifests to `<repoRoot>/Resources/`. With a junction there, both transform passes wrote *through* into the live repo, silently overwriting the committed manifests twice per run. Copying restores the isolation the staging root exists to provide — and makes each side's manifests a per-snapshot artifact.
 
@@ -115,7 +115,7 @@ Run it **interactively** — both operator pauses need a real console. With stdi
 
    The re-check covers both index-unmerged paths and moved-file fork copies that still carry markers (the latter never appear as unmerged, because their old path was already resolved by `git rm`). Once nothing is outstanding, `DeltaMerge.Continue()` finalizes the cherry-pick. Non-interactive ⇒ the log is written, conflicts are left in place, exit `3`.
 
-9. **Residual-Chinese report** (`ResidualChineseScanner.Scan`) — scans the merged `Net4x.*` for `[一-鿿]` and lists each offending file with a match count. Non-empty ⇒ exit code `1`; it means a dictionary blank was left unfilled in stage 3.
+9. **Residual-Chinese report** (`ResidualChineseScanner.Scan`) — scans the merged `Gtk.*` for `[一-鿿]` and lists each offending file with a match count. Non-empty ⇒ exit code `1`; it means a dictionary blank was left unfilled in stage 3.
 
 10. **Advance the checkpoint** — `AlignmentCheckpoint.Write(checkpointFile, targetCommit)`, with the **resolved commit id** (never the branch name — a moving ref would make the next base mean "wherever `main` is now" instead of "what this run absorbed"), followed by a pathspec-scoped commit of that one file, so a later `git checkout`/`restore` cannot silently revert it. `AlignProjects/build/` is then deleted — **unless conflicts were left unresolved** (exit `≥ 2`), in which case it is retained and its location printed, because stage 8 just told the operator to diff files inside it.
 
@@ -126,8 +126,8 @@ Run it **interactively** — both operator pauses need a real console. With stdi
 | Plan says | Code does |
 |---|---|
 | §3.4 structural preflight **aborts** the run (exit `2`) on layout drift | Informational note only. The abort exists as `AlignmentOptions.AbortOnStructuralDrift` (exit `2`) but is left off: `f(base)` and `OURS` differ structurally by design, because patches rename, move, split and delete files. |
-| §3.0/§3.8 the tool **auto-commits** the filled translations before the merge and the aligned `Net4x.*` + checkpoint after | Partly. `DeltaMerge` commits the cherry-pick and the driver commits the advanced checkpoint (pathspec-scoped); the filled translations are still left as working-tree changes for you to commit. |
-| §3.9 failure restores `Net4x.*` and the submodule from git | Not implemented as an outer handler. `DeltaMerge` exposes `Abort()`/`Cleanup()`, but `Program` does not call them — after a `3` exit the cherry-pick is still in progress (`git cherry-pick --abort` to back out). |
+| §3.0/§3.8 the tool **auto-commits** the filled translations before the merge and the aligned `Gtk.*` + checkpoint after | Partly. `DeltaMerge` commits the cherry-pick and the driver commits the advanced checkpoint (pathspec-scoped); the filled translations are still left as working-tree changes for you to commit. |
+| §3.9 failure restores `Gtk.*` and the submodule from git | Not implemented as an outer handler. `DeltaMerge` exposes `Abort()`/`Cleanup()`, but `Program` does not call them — after a `3` exit the cherry-pick is still in progress (`git cherry-pick --abort` to back out). |
 
 Also still pending per the plan's status table: native **provenance emission** from `f` (§3.1). `RunTransform` still does not write `provenance.tsv` — stage 5 derives the mapping from the `*.Files.xml` manifests instead, which covers copies/moves/renames but not type splits. (The sample transform `fs` *does* emit one; see [AlignSamples.md](AlignSamples.md).) The **determinism self-check** is implemented — `ALIGN_SELFCHECK` — but a full validation run on `f` has not been recorded.
 

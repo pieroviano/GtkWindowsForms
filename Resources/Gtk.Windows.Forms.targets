@@ -1,0 +1,6 @@
+﻿<Project>
+	<Target Name="PrepareBuild" BeforeTargets="BeforeBuild">
+		<Message Importance="High" Text='&quot;$(MSBuildThisFileDirectory)..\tools\ResxProcessor.exe&quot; $(TargetFramework) &quot;$(TargetDir)&quot; &quot;$(MSBuildProjectFullPath)&quot;' />
+		<Exec Command='&quot;$(MSBuildThisFileDirectory)..\tools\ResxProcessor.exe&quot; &quot;$(MSBuildProjectDirectory)&quot;' />	
+	</Target>
+</Project>

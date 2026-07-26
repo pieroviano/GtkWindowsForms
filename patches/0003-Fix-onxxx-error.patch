@@ -7,10 +7,10 @@ Subject: [PATCH] Fix OnXXX error
  .../System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs       | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
 index 5b0fa8c9..520fbbd9 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
 @@ -926,7 +926,7 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
      /// </summary>
      protected override void OnCheckedChanged(EventArgs e)

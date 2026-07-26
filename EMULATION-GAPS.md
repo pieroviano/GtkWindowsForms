@@ -1,4 +1,4 @@
-# Emulation gaps — `Net4x.Gtk.Windows.Forms` vs `System.Windows.Forms`, `Net4x.Gtk.Drawing` vs `System.Drawing`
+# Emulation gaps — `Gtk.Windows.Forms` vs `System.Windows.Forms`, `Gtk.Drawing` vs `System.Drawing`
 
 **Bar being measured against.** The stated intent: *an existing WinForms application should compile unchanged against these two assemblies and behave the same on Windows, Linux and macOS.* Everything below is scored against that.
 
@@ -23,7 +23,7 @@ These will not be implemented; an application that needs them is not portable to
 - **`WebBrowser`, `HtmlDocument`/`HtmlElement`.** No cross-platform browser substrate. `WebBrowser`'s four `*EventArgs` types are present while the control is not — **kept deliberately**: they exist in the reference assembly, so deleting them would open four new surface holes for nothing; an application that names one still compiles. They are inert, not wrong.
 - **EMF/WMF metafiles.** `Metafile`, `MetafileHeader`, `MetaHeader`, `WmfPlaceableFileHeader`, `EmfPlusRecordType`, `PlayRecordCallback` exist as types, but the record format has no cross-platform playback.
 
-**Correctly delegated, not a gap — preserve this.** `Color`, `Point`, `PointF`, `Size`, `SizeF`, `Rectangle`, `RectangleF` are deliberately absent from `Net4x.Gtk.Drawing`; `netstandard2.0` supplies them from `System.Drawing.Primitives`, so they are the genuine BCL types. `Net4x.Gtk.Drawing`'s interop entry points (`Graphics.FromHdc`/`FromHwnd`/`GetHdc`/`GetHalftonePalette`, `Font.FromHdc`/`FromHfont`/`FromLogFont`, `Icon.FromHandle`) throw `PlatformNotSupportedException` by design — "never", not "not yet".
+**Correctly delegated, not a gap — preserve this.** `Color`, `Point`, `PointF`, `Size`, `SizeF`, `Rectangle`, `RectangleF` are deliberately absent from `Gtk.Drawing`; `netstandard2.0` supplies them from `System.Drawing.Primitives`, so they are the genuine BCL types. `Gtk.Drawing`'s interop entry points (`Graphics.FromHdc`/`FromHwnd`/`GetHdc`/`GetHalftonePalette`, `Font.FromHdc`/`FromHfont`/`FromLogFont`, `Icon.FromHandle`) throw `PlatformNotSupportedException` by design — "never", not "not yet".
 
 ---
 
@@ -112,5 +112,5 @@ Stated so the gaps in the gap analysis are visible.
 
 - **Behavioural divergence is the dominant unmeasured risk.** Layout drift, event ordering and focus/tab-order are invisible to source reading. This limit was demonstrated, not asserted: several past fixes (unraised `HandleCreated`/`HandleDestroyed`, one-member `AccessibleRole`, `Padding.Horizontal` = `Right − Left`, the three property-browser defects, the dock/anchor collapse) were found only by *writing tests*. Wrong-but-plausible code is invisible to a reading pass in a way that missing code is not.
 - **The property browser beyond its contract** (§3) is under-tested.
-- **`Net4x.Gtk.Windows.FormsDesigner`** and the ResX/designer round-trip are out of scope here.
+- **`Gtk.Windows.FormsDesigner`** and the ResX/designer round-trip are out of scope here.
 - **Per-member API-surface diffing** is handled by [API-COMPLETENESS.md](API-COMPLETENESS.md) and the re-runnable tool in [api-diff/](api-diff/), strictly more complete than this document at the type/member level.

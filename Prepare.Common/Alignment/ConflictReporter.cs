@@ -24,16 +24,16 @@ public sealed class ConflictInfo
     /// <summary>The raw <c>gtksystem-windows-forms</c> source (from the provenance manifest), or null if unresolved.</summary>
     public string? SourceFullPath { get; }
 
-    /// <summary>The new upstream version already in <c>Net4x.*</c> layout (<c>build/theirs</c>).</summary>
+    /// <summary>The new upstream version already in <c>Gtk.*</c> layout (<c>build/theirs</c>).</summary>
     public string TheirsRefFullPath { get; }
 
-    /// <summary>The previous baseline in <c>Net4x.*</c> layout (<c>build/base</c>).</summary>
+    /// <summary>The previous baseline in <c>Gtk.*</c> layout (<c>build/base</c>).</summary>
     public string BaseRefFullPath { get; }
 }
 
 /// <summary>
 /// Builds operator-facing conflict descriptions for the §3.6 pause: for each unmerged file it resolves
-/// the live <c>Net4x.*</c> path, the exact raw upstream source (via the provenance manifest), and the
+/// the live <c>Gtk.*</c> path, the exact raw upstream source (via the provenance manifest), and the
 /// <c>build/theirs</c> / <c>build/base</c> reference paths. See AlignProjects-Plan.md §3.6.
 /// </summary>
 public static class ConflictReporter

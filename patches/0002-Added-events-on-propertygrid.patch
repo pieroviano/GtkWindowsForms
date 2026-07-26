@@ -7,10 +7,10 @@ Subject: [PATCH] Added events on propertygrid
  .../System/Windows/Forms/PropertyGrid.cs      |  32 +-
  1 file changed, 26 insertions(+), 6 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs b/Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
 index 7f8b3821..6419a282 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
 @@ -1,4 +1,4 @@
 -/*
 +﻿/*

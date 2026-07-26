@@ -46,23 +46,23 @@ Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
 ---
  .../GraphicsRegionPathClipFunctionalTests.cs  |   8 +-
  .../RegionCurvedCombineFunctionalTests.cs     | 159 +++++++++++++
- Net4x.Gtk.Drawing/System/Drawing/Graphics.cs  |  17 ++
- Net4x.Gtk.Drawing/System/Drawing/Region.cs    | 217 +++++++++++++++++-
+ Gtk.Drawing/System/Drawing/Graphics.cs  |  17 ++
+ Gtk.Drawing/System/Drawing/Region.cs    | 217 +++++++++++++++++-
  ...trolShapeAndTransparencyFunctionalTests.cs | 216 +++++++++++++++++
  .../ControlBase/GtkControlOverride.cs         |  70 ++++--
  .../Windows/Forms/Control/Control.Shape.cs    | 132 +++++++++++
  .../System/Windows/Forms/Control/Control.cs   |  12 +-
  .../System/Windows/Forms/Form.Transparency.cs | 156 +++++++++++++
  9 files changed, 950 insertions(+), 37 deletions(-)
- create mode 100644 Net4x.Gtk.Drawing.Tests/System/Drawing/RegionCurvedCombineFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlShapeAndTransparencyFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Shape.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Transparency.cs
+ create mode 100644 Gtk.Drawing.Tests/System/Drawing/RegionCurvedCombineFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlShapeAndTransparencyFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Shape.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Form.Transparency.cs
 
-diff --git a/Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs b/Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
+diff --git a/Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs b/Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
 index 247792ae..7eee51b4 100644
---- a/Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
-+++ b/Net4x.Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
+--- a/Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
++++ b/Gtk.Drawing.Tests/System/Drawing/GraphicsRegionPathClipFunctionalTests.cs
 @@ -113,10 +113,10 @@ public class GraphicsRegionPathClipFunctionalTests
      }
  
@@ -86,11 +86,11 @@ index 247792ae..7eee51b4 100644
      }
  
      [Fact]
-diff --git a/Net4x.Gtk.Drawing.Tests/System/Drawing/RegionCurvedCombineFunctionalTests.cs b/Net4x.Gtk.Drawing.Tests/System/Drawing/RegionCurvedCombineFunctionalTests.cs
+diff --git a/Gtk.Drawing.Tests/System/Drawing/RegionCurvedCombineFunctionalTests.cs b/Gtk.Drawing.Tests/System/Drawing/RegionCurvedCombineFunctionalTests.cs
 new file mode 100644
 index 00000000..f992f707
 --- /dev/null
-+++ b/Net4x.Gtk.Drawing.Tests/System/Drawing/RegionCurvedCombineFunctionalTests.cs
++++ b/Gtk.Drawing.Tests/System/Drawing/RegionCurvedCombineFunctionalTests.cs
 @@ -0,0 +1,159 @@
 +extern alias gtk;
 +using Region = gtk::System.Drawing.Region;
@@ -251,10 +251,10 @@ index 00000000..f992f707
 +        Assert.True(region.IsEmpty(graphics), "two circles 200 apart share nothing");
 +    }
 +}
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+diff --git a/Gtk.Drawing/System/Drawing/Graphics.cs b/Gtk.Drawing/System/Drawing/Graphics.cs
 index 4587582a..0cbe1571 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+--- a/Gtk.Drawing/System/Drawing/Graphics.cs
++++ b/Gtk.Drawing/System/Drawing/Graphics.cs
 @@ -3192,6 +3192,23 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
          }
      }
@@ -279,10 +279,10 @@ index 4587582a..0cbe1571 100644
      private void DrawPathCore(Pen pen, GraphicsPath? path, bool isfill)
      {
          if (path == null)
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Region.cs b/Net4x.Gtk.Drawing/System/Drawing/Region.cs
+diff --git a/Gtk.Drawing/System/Drawing/Region.cs b/Gtk.Drawing/System/Drawing/Region.cs
 index 389c32e9..d139c524 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Region.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Region.cs
+--- a/Gtk.Drawing/System/Drawing/Region.cs
++++ b/Gtk.Drawing/System/Drawing/Region.cs
 @@ -200,6 +200,203 @@ public sealed class Region : MarshalByRefObject, IDisposable
      /// <summary>The bands of another region, as a fresh list.</summary>
      private static List<RectangleF> BandsOfRegion(Region region) => new(region.bands);
@@ -577,11 +577,11 @@ index 389c32e9..d139c524 100644
      }
  
      // helper to keep regionData in sync with our simple managed representation.
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlShapeAndTransparencyFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlShapeAndTransparencyFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlShapeAndTransparencyFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlShapeAndTransparencyFunctionalTests.cs
 new file mode 100644
 index 00000000..c141f06e
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlShapeAndTransparencyFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlShapeAndTransparencyFunctionalTests.cs
 @@ -0,0 +1,216 @@
 +extern alias gtk;
 +using System.Drawing;
@@ -590,7 +590,7 @@ index 00000000..c141f06e
 +using Region = gtk::System.Drawing.Region;
 +using GraphicsPath = gtk::System.Drawing.Drawing2D.GraphicsPath;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Behavioural tests for non-rectangular control shapes (<see cref="Control.Region" />) and colour-keyed
@@ -799,10 +799,10 @@ index 00000000..c141f06e
 +        Assert.Null(form.self.Override.TransparencyKey);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
 index 39af0aea..905c48e4 100644
---- a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
 @@ -88,6 +88,60 @@ public sealed class GtkControlOverride : IControlOverride
          set;
      }
@@ -894,11 +894,11 @@ index 39af0aea..905c48e4 100644
          if (BackgroundImage != null && BackgroundImage.Pixbuf != null)
          {
              SetDrawnBackground(cr, BackgroundImage.Pixbuf, BackgroundImageLayout, area.Width, area.Height);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Shape.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Shape.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Shape.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Shape.cs
 new file mode 100644
 index 00000000..ad45b63e
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Shape.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.Shape.cs
 @@ -0,0 +1,132 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1032,10 +1032,10 @@ index 00000000..ad45b63e
 +        return new Cairo.Region(rectangles);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 index 21424667..ea91c715 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 @@ -1585,15 +1585,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </summary>
      public virtual bool RecreatingHandle { get; }
@@ -1062,11 +1062,11 @@ index 21424667..ea91c715 100644
              OnLoad(e);
              OnCursorChanged(EventArgs.Empty);
              InitDockAnchorStyle();
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Transparency.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Transparency.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Form.Transparency.cs b/Gtk.Windows.Forms/System/Windows/Forms/Form.Transparency.cs
 new file mode 100644
 index 00000000..19fda0a9
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.Transparency.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Form.Transparency.cs
 @@ -0,0 +1,156 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.

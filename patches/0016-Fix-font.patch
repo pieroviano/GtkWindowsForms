@@ -4,13 +4,13 @@ Date: Thu, 26 Mar 2026 06:53:18 +0200
 Subject: [PATCH] Fix font
 
 ---
- Net4x.Gtk.Drawing/System/Drawing/Font.cs | 14 ++++++++++++--
+ Gtk.Drawing/System/Drawing/Font.cs | 14 ++++++++++++--
  1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Font.cs b/Net4x.Gtk.Drawing/System/Drawing/Font.cs
+diff --git a/Gtk.Drawing/System/Drawing/Font.cs b/Gtk.Drawing/System/Drawing/Font.cs
 index abbb366c..38334a7f 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Font.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Font.cs
+--- a/Gtk.Drawing/System/Drawing/Font.cs
++++ b/Gtk.Drawing/System/Drawing/Font.cs
 @@ -422,9 +422,19 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
      /// Creates an exact copy of this System.Drawing.Font.
      /// </summary>

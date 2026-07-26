@@ -7,10 +7,10 @@ Subject: [PATCH] Fix PropertyGrid
  .../System/Windows/Forms/PropertyGrid.cs                    | 6 +++++-
  1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs b/Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
 index 1cf646f..0fd37f5 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/PropertyGrid.cs
 @@ -632,7 +632,11 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
      public object SelectedObject
      {

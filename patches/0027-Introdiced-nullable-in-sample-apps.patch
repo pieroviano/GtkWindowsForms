@@ -2030,10 +2030,10 @@ index adcd588..768f313 100644
 +    }
 +}
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Drawing/System/Diagnostics/GtkLogger.cs b/Net4x.Gtk.Drawing/System/Diagnostics/GtkLogger.cs
+diff --git a/Gtk.Drawing/System/Diagnostics/GtkLogger.cs b/Gtk.Drawing/System/Diagnostics/GtkLogger.cs
 index da4c43b..83980ed 100644
---- a/Net4x.Gtk.Drawing/System/Diagnostics/GtkLogger.cs
-+++ b/Net4x.Gtk.Drawing/System/Diagnostics/GtkLogger.cs
+--- a/Gtk.Drawing/System/Diagnostics/GtkLogger.cs
++++ b/Gtk.Drawing/System/Diagnostics/GtkLogger.cs
 @@ -67,7 +67,7 @@ public static class GtkLogger
      /// </param>
      /// <param name="exception">Optional exception to include in the log.
@@ -2115,10 +2115,10 @@ index da4c43b..83980ed 100644
      {
          Log(LogLevel.Warning, message, exception);
      }
-diff --git a/Net4x.Gtk.Windows.Forms/Content/System.ComponentModel.cs b/Net4x.Gtk.Windows.Forms/Content/System.ComponentModel.cs
+diff --git a/Gtk.Windows.Forms/Content/System.ComponentModel.cs b/Gtk.Windows.Forms/Content/System.ComponentModel.cs
 index 1f5286b..2142949 100644
---- a/Net4x.Gtk.Windows.Forms/Content/System.ComponentModel.cs
-+++ b/Net4x.Gtk.Windows.Forms/Content/System.ComponentModel.cs
+--- a/Gtk.Windows.Forms/Content/System.ComponentModel.cs
++++ b/Gtk.Windows.Forms/Content/System.ComponentModel.cs
 @@ -1,60 +1,58 @@
 -// This file is mainly to overwrite the native System.ComponentModel.ComponentResourceManager class.
 +﻿// This file is mainly to overwrite the native System.ComponentModel.ComponentResourceManager class.
@@ -2223,10 +2223,10 @@ index 1f5286b..2142949 100644
 +    }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/Content/System.Resources.ResourceManager.cs b/Net4x.Gtk.Windows.Forms/Content/System.Resources.ResourceManager.cs
+diff --git a/Gtk.Windows.Forms/Content/System.Resources.ResourceManager.cs b/Gtk.Windows.Forms/Content/System.Resources.ResourceManager.cs
 index 1420128..169ce80 100644
---- a/Net4x.Gtk.Windows.Forms/Content/System.Resources.ResourceManager.cs
-+++ b/Net4x.Gtk.Windows.Forms/Content/System.Resources.ResourceManager.cs
+--- a/Gtk.Windows.Forms/Content/System.Resources.ResourceManager.cs
++++ b/Gtk.Windows.Forms/Content/System.Resources.ResourceManager.cs
 @@ -1,4 +1,4 @@
 -// This file is mainly to overwrite the native System.Resources.ResourceManager class.
 +﻿// This file is mainly to overwrite the native System.Resources.ResourceManager class.
@@ -2378,10 +2378,10 @@ index 1420128..169ce80 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs b/Net4x.Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
+diff --git a/Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs b/Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
 index ad6cf48..54da69e 100644
---- a/Net4x.Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
-+++ b/Net4x.Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
+--- a/Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
++++ b/Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
 @@ -73,7 +73,7 @@ public class ResourceManager : System.Resources.ResourceManager
      /// <see cref="T:System.Resources.ResourceSet">
      /// </see> object is used.
@@ -2391,10 +2391,10 @@ index ad6cf48..54da69e 100644
      {
          this._baseName = baseName;
          this._assembly = assembly;
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs b/Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs
 index 6fc6ffc..6518eed 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNode.cs
 @@ -52,7 +52,7 @@ public class TreeNode : ICloneable, ISerializable, IEquatable<TreeNode>
      /// <param name="text">
      /// The text.

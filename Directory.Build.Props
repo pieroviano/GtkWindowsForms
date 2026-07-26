@@ -2,8 +2,16 @@
 <Project>
   <Import Project="Directory.Nuget.Props" Condition="'$(DirectoryNuGet)'==''" />
   <PropertyGroup>
-    <VersionPrefix>$(Net4xGtkWindowsFormsVersion)</VersionPrefix>
-    <VersionSuffix>26204</VersionSuffix>
+    <!--
+      Pinned here, after the import above, and not in Directory.Nuget.Props: that file is regenerated on every
+      build by NuGetUtility itself, which merges it with the profile copy and the copy inside the package. The
+      merge keeps the "greater" value by ordinal string comparison, so "1.0.9" beats "1.0.10" there and the pin
+      silently walks backwards. 1.0.9 cannot parse a multi-line XML comment in Directory.Nuget.Props - it
+      crashes with "length ('-2') must be a non-negative value" - which 1.0.10 fixes; do not lower this.
+    -->
+    <NuGetUtilityVersion>1.0.10</NuGetUtilityVersion>
+    <VersionPrefix>$(GtkWindowsFormsVersion)</VersionPrefix>
+    <VersionSuffix>26205</VersionSuffix>
     <MinimalDirectoryNuGetProps>true</MinimalDirectoryNuGetProps>
     <SolutionDir Condition="'$(SolutionDir)'==''">$(MSBuildThisFileDirectory)</SolutionDir>
     <IncludeSymbols>true</IncludeSymbols>
@@ -16,7 +24,7 @@
     Package versions the shipped libraries reference.
 
     These used to float: GtkSharp was referenced as "$(GtkSharpLatestVersion).*" and the resource shim as
-    "$(Net4xGtkWindowsFormsVersion).$(VersionBuildSuffix)", with VersionBuildSuffix set to "*" for Release
+    "$(GtkWindowsFormsVersion).$(VersionBuildSuffix)", with VersionBuildSuffix set to "*" for Release
     as well as Debug. Two builds of the same commit could therefore resolve different GtkSharp revisions -
     and for a GTK interop layer the revision is exactly where marshalling behaviour changes. Release builds
     now pin; Debug keeps floating so local work still picks up new revisions.
@@ -31,8 +39,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <!--
-      This is Microsoft's System.Resources.Extensions, not the Net4x.System.Resources.Extensions project in
-      this solution: that project publishes as "Gtk.System.Resources.Extensions", so a reference to
+      This is Microsoft's System.Resources.Extensions, not the Gtk.Resources.Extensions project in
+      this solution: that project publishes as "Gtk.Resources.Extensions", so a reference to
       "System.Resources.Extensions" never resolved to it. It was requested as "1.3.24.*", which has no match
       on any configured feed, so NuGet floated it up to Microsoft's 4.6.0 - the version named here. Naming it
       makes the shipped dependency honest and reproducible instead of "whatever NuGet lands on".

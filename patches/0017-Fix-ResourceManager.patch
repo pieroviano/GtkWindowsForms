@@ -4,13 +4,13 @@ Date: Fri, 27 Mar 2026 01:55:39 +0200
 Subject: [PATCH] Fix ResourceManager
 
 ---
- Net4x.Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs | 2 +-
+ Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs b/Net4x.Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
+diff --git a/Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs b/Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
 index 3b819e87..f6b97a53 100644
---- a/Net4x.Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
-+++ b/Net4x.Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
+--- a/Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
++++ b/Gtk.Windows.Forms/GTKSystem/Resources/ResourceManager.cs
 @@ -36,7 +36,7 @@ public class ResourceManager : System.Resources.ResourceManager
      /// <param name="usingResourceSet">
      /// The using resource set.

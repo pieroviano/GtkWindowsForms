@@ -1,0 +1,212 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Gtk.Windows.Extensions</name>
+    </assembly>
+    <members>
+        <member name="T:System.Windows.Forms.AutoClosingMessageBox">
+            <summary>
+            An IMessageBox implementation that wraps a platform message box and automatically disposes it after a timeout.
+            This class delegates actual presentation to a non-static MessageBox implementation and starts a background
+            task to auto-close/cleanup the underlying GTK <see cref="T:Gtk.Dialog" /> after
+            <see cref="P:System.Windows.Forms.AutoClosingMessageBox.MessageBoxTimeout" /> milliseconds.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.AutoClosingMessageBox.InnerMessageBox">
+            <summary>
+            The underlying IMessageBox implementation used to show dialogs. Set by the constructor.
+            </summary>
+        </member>
+        <member name="F:System.Windows.Forms.AutoClosingMessageBox._dialog">
+            <summary>
+            The currently visible GTK dialog instance (if any).
+            </summary>
+        </member>
+        <member name="E:System.Windows.Forms.AutoClosingMessageBox.DialogAvailable">
+            <summary>
+            Raised when the underlying dialog becomes available. Subscribers can inspect or modify the dialog.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.#cctor">
+            <summary>
+            Static constructor to perform one-time Windows Forms / GTK initialization required for message boxes.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.AutoClosingMessageBox.Instance">
+            <summary>
+            Gets the thread-local singleton instance of <see cref="T:System.Windows.Forms.AutoClosingMessageBox" />.
+            Accessing this property creates the instance on first use in the current thread.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.AutoClosingMessageBox.MessageBoxTimeout">
+            <summary>
+            Gets or sets the timeout in milliseconds after which the shown message box (GTK dialog) will be disposed.
+            Default value is configured via <see cref="M:System.Windows.Forms.AutoClosingMessageBox.Init(System.Int32)" />.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Init(System.Int32)">
+            <summary>
+            Initialize the auto-closing behavior and optionally set the default timeout interval.
+            This is a convenience to ensure the singleton and timeout are configured.
+            </summary>
+            <param name="interval">
+            Timeout in milliseconds for auto-disposal. Default is 5000 ms.
+            </param>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Install(System.Int32)">
+            <summary>
+            Installs this auto-closing implementation behind the static
+            <see cref="T:System.Windows.Forms.MessageBox" /> helpers, so that every subsequent
+            <c>MessageBox.Show(...)</c> auto-closes after <paramref name="interval" /> milliseconds.
+            </summary>
+            <param name="interval">
+            Timeout in milliseconds for auto-disposal. Default is 5000 ms.
+            </param>
+            <returns>
+            The installed <see cref="T:System.Windows.Forms.AutoClosingMessageBox" /> instance.
+            </returns>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.Boolean)">
+            <summary>
+            Shows a message box and ensures it will be auto-closed after the configured timeout.
+            This overload forwards all parameters to the underlying message box implementation.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String)">
+            <summary>
+            Shows a message box with a help file path and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String)">
+            <summary>
+            Shows a message box owned by a specific window and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.String)">
+            <summary>
+            Shows a message box with keyword help and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.String)">
+            <summary>
+            Shows an owner-owned message box with keyword help and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator)">
+            <summary>
+            Shows a message box that opens help by navigator and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator)">
+            <summary>
+            Shows an owner-owned message box that opens help by navigator and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator,System.Object)">
+            <summary>
+            Shows a message box with help navigator and parameter and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions,System.String,System.Windows.Forms.HelpNavigator,System.Object)">
+            <summary>
+            Shows an owner-owned message box with help navigator and parameter and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions)">
+            <summary>
+            Shows a message box and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton)">
+            <summary>
+            Shows a message box and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon)">
+            <summary>
+            Shows a message box and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons)">
+            <summary>
+            Shows a message box and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.String,System.String)">
+            <summary>
+            Shows a message box with text and caption and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.String)">
+            <summary>
+            Shows a message box with specified text and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton,System.Windows.Forms.MessageBoxOptions)">
+            <summary>
+            Shows an owner-owned message box and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon,System.Windows.Forms.MessageBoxDefaultButton)">
+            <summary>
+            Shows an owner-owned message box and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon)">
+            <summary>
+            Shows an owner-owned message box and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String,System.Windows.Forms.MessageBoxButtons)">
+            <summary>
+            Shows an owner-owned message box and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.Windows.Forms.IWin32Window,System.String,System.String)">
+            <summary>
+            Shows an owner-owned message box with text and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Show(System.Windows.Forms.IWin32Window,System.String)">
+            <summary>
+            Shows an owner-owned message box with text and auto-closes after the configured timeout.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.OnDialogAvailable(System.Windows.Forms.DialogEventArgs)">
+            <summary>
+            Raises the DialogAvailable event.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.AutoDisposeAfterTimeout">
+            <summary>
+            Runs an asynchronous task that waits for the configured timeout then disposes the current GTK dialog if still present.
+            </summary>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.FormsMessageBox_DialogAvailable(System.Object,System.Windows.Forms.DialogEventArgs)">
+            <summary>
+            Handles the DialogAvailable event from the underlying message box implementation, stores the GTK
+            dialog instance, and forwards the notification to this instance's own subscribers.
+            </summary>
+            <param name="sender">Event sender.
+            </param>
+            <param name="e">Dialog event data containing the GTK dialog.
+            </param>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.Initialize(System.Int32)">
+            <summary>
+            Internal initializer for the instance; sets the default timeout.
+            </summary>
+            <param name="interval">Timeout interval in milliseconds.
+            </param>
+        </member>
+        <member name="M:System.Windows.Forms.AutoClosingMessageBox.InvokeAndAutoClose(System.Func{System.Windows.Forms.DialogResult})">
+            <summary>
+            Invokes the supplied show function and arranges for automatic disposal of the dialog after the timeout.
+            </summary>
+            <param name="invoke">A function that shows the dialog and returns the DialogResult.
+            </param>
+            <returns>The dialog result returned by the underlying message box.
+            </returns>
+        </member>
+    </members>
+</doc>

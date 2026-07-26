@@ -1,9 +1,9 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Claude <noreply@anthropic.com>
 Date: Wed, 22 Jul 2026 00:00:00 +0000
-Subject: [PATCH] Fix Net4x.Gtk.Windows.Forms defects found by functional tests
+Subject: [PATCH] Fix Gtk.Windows.Forms defects found by functional tests
 
-Behavioural defects surfaced by the Net4x.Gtk.Windows.Forms.Tests functional suite.
+Behavioural defects surfaced by the Gtk.Windows.Forms.Tests functional suite.
 
 Control
  - Right and Bottom reported the widget's end/bottom *margins* instead of the control's edges
@@ -204,10 +204,10 @@ TabControl and ListBox throw sites (SS4.3)
   DataGridViewColumn.Clone returns a configured copy instead of null, and DisplayIndex = 0
   is reachable (MoveColumnAfter needs a null base column for the head position).
 ---
-diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PageSettings.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PageSettings.cs
+diff --git a/Gtk.Windows.Forms/System/Drawing/Printing/PageSettings.cs b/Gtk.Windows.Forms/System/Drawing/Printing/PageSettings.cs
 index 674500d5..447a5883 100644
---- a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PageSettings.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PageSettings.cs
+--- a/Gtk.Windows.Forms/System/Drawing/Printing/PageSettings.cs
++++ b/Gtk.Windows.Forms/System/Drawing/Printing/PageSettings.cs
 @@ -10,14 +10,16 @@ public unsafe class PageSettings : ICloneable
  {
      private Margins _margins = new();
@@ -308,10 +308,10 @@ index 674500d5..447a5883 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PaperSize.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PaperSize.cs
+diff --git a/Gtk.Windows.Forms/System/Drawing/Printing/PaperSize.cs b/Gtk.Windows.Forms/System/Drawing/Printing/PaperSize.cs
 index dc8663e5..b98fc5be 100644
---- a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PaperSize.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PaperSize.cs
+--- a/Gtk.Windows.Forms/System/Drawing/Printing/PaperSize.cs
++++ b/Gtk.Windows.Forms/System/Drawing/Printing/PaperSize.cs
 @@ -92,7 +92,10 @@ public partial class PaperSize
      /// <value>
      /// The kind.
@@ -324,10 +324,10 @@ index dc8663e5..b98fc5be 100644
  
      /// <summary>
      /// Gets or sets the name of the paper.
-diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PaperSource.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PaperSource.cs
+diff --git a/Gtk.Windows.Forms/System/Drawing/Printing/PaperSource.cs b/Gtk.Windows.Forms/System/Drawing/Printing/PaperSource.cs
 index 6edf3cc1..46ded206 100644
---- a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PaperSource.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PaperSource.cs
+--- a/Gtk.Windows.Forms/System/Drawing/Printing/PaperSource.cs
++++ b/Gtk.Windows.Forms/System/Drawing/Printing/PaperSource.cs
 @@ -35,7 +35,9 @@ public partial class PaperSource
      /// <value>
      /// The kind.
@@ -339,10 +339,10 @@ index 6edf3cc1..46ded206 100644
  
      /// <summary>
      /// Gets or sets the kind of the raw.
-diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
+diff --git a/Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs b/Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
 index 808263ae..b2120065 100644
---- a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
+--- a/Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
++++ b/Gtk.Windows.Forms/System/Drawing/Printing/PrintDocument.cs
 @@ -152,9 +152,24 @@ public class PrintDocument : Component
              _pageSetup = value;
              var pageSettings = DefaultPageSettings;
@@ -393,10 +393,10 @@ index 808263ae..b2120065 100644
      /// <summary>
      /// Raises the
      /// <see cref="T:System.Drawing.Printing.PrintDocument.BeginPrint" /> event.
-diff --git a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs
+diff --git a/Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs b/Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs
 index 15961b5b..9ad03084 100644
---- a/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs
+--- a/Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs
++++ b/Gtk.Windows.Forms/System/Drawing/Printing/PrinterSettings.cs
 @@ -14,7 +14,7 @@ public partial class PrinterSettings : ICloneable
  {
      private readonly byte[]? _cachedDevmode;
@@ -521,10 +521,10 @@ index 15961b5b..9ad03084 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Resources/ResXDataNode.cs b/Net4x.Gtk.Windows.Forms/System/Resources/ResXDataNode.cs
+diff --git a/Gtk.Windows.Forms/System/Resources/ResXDataNode.cs b/Gtk.Windows.Forms/System/Resources/ResXDataNode.cs
 index 72eb83f6..3d74aa02 100644
---- a/Net4x.Gtk.Windows.Forms/System/Resources/ResXDataNode.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Resources/ResXDataNode.cs
+--- a/Gtk.Windows.Forms/System/Resources/ResXDataNode.cs
++++ b/Gtk.Windows.Forms/System/Resources/ResXDataNode.cs
 @@ -89,6 +89,13 @@ public sealed class ResXDataNode : ISerializable
      /// </exception>
      public ResXDataNode(string name, object? value, Func<Type, string>? typeNameConverter)
@@ -539,10 +539,10 @@ index 72eb83f6..3d74aa02 100644
          if (name.Length == 0)
          {
              throw (new ArgumentException(nameof(name)));
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
 index 9928349e..c9156f23 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
 @@ -541,6 +541,8 @@ tooltip label {padding: 0px 10px; color: #555555;}
      /// </param>
      public static void Run(Form mainForm)
@@ -552,10 +552,10 @@ index 9928349e..c9156f23 100644
          if (mainForm.ShowInTaskbar == false)
          {
              var pw = new Gtk.Window(Gtk.WindowType.Toplevel);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
 index 8b895655..1620508f 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Binding.cs
 @@ -1065,6 +1065,11 @@ public class Binding
          {
              _validateInfo = eventDescriptor;
@@ -568,10 +568,10 @@ index 8b895655..1620508f 100644
      }
  
      private BindingCompleteEventArgs CreateBindingCompleteEventArgs(BindingCompleteContext context, Exception? ex)
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingContext.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingContext.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingContext.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingContext.cs
 index d3494bb4..16598d13 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingContext.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingContext.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingContext.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingContext.cs
 @@ -42,6 +42,32 @@ public class BindingContext : ContextBoundObject
          return listManagers.ContainsKey(GetKey(dataSource, dataMember));
      }
@@ -605,10 +605,10 @@ index d3494bb4..16598d13 100644
      /// <summary>
      /// Updates the binding.
      /// </summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingSource.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingSource.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingSource.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingSource.cs
 index 4d32675e..1be120bc 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingSource.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingSource.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingSource.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/BindingSource.cs
 @@ -840,10 +840,30 @@ public class BindingSource : Component, IBindingListView, ITypedList, ICancelAdd
              if (List is IBindingListView { SupportsFiltering: true } list)
              {
@@ -651,10 +651,10 @@ index 4d32675e..1be120bc 100644
              _isBindingList = false;
              _needToSetList = true;
              _raiseListChangedEvents = false;
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
 index 8e65fd50..174f2ff3 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
 @@ -148,6 +148,20 @@ public partial class Control
              {
                  return;
@@ -728,11 +728,11 @@ index 8e65fd50..174f2ff3 100644
          }
  
          /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ContextMenu.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ContextMenu.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ContextMenu.cs b/Gtk.Windows.Forms/System/Windows/Forms/ContextMenu.cs
 new file mode 100644
 index 00000000..c789a22f
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ContextMenu.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ContextMenu.cs
 @@ -0,0 +1,124 @@
 +using System.ComponentModel;
 +using System.Drawing;
@@ -858,10 +858,10 @@ index 00000000..c789a22f
 +    /// <inheritdoc />
 +    internal override void HostClear() => Strip.Items.Clear();
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ContainerControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ContainerControl.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/ContainerControl.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/ContainerControl.cs
 index 20d81be8..68f761fa 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ContainerControl.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ContainerControl.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/ContainerControl.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/ContainerControl.cs
 @@ -1,4 +1,6 @@
  ﻿
 +using System.Drawing;
@@ -1067,10 +1067,10 @@ index 20d81be8..68f761fa 100644
      /// <summary>
      /// Gets or sets the control that is active on the container control.
      /// </summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 index 415561b9..02498b84 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 @@ -843,10 +843,26 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// </summary>
      public virtual BindingContext? BindingContext
@@ -1814,10 +1814,10 @@ index 415561b9..02498b84 100644
      /// <summary>
      /// Updates the background styling when mapped.
      /// </summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/GetChildAtPointSkip.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/GetChildAtPointSkip.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/GetChildAtPointSkip.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/GetChildAtPointSkip.cs
 index 9fce6cea..052e0bb5 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/GetChildAtPointSkip.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/GetChildAtPointSkip.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/GetChildAtPointSkip.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/GetChildAtPointSkip.cs
 @@ -3,6 +3,31 @@ namespace System.Windows.Forms;
  /// <summary>
  /// Specifies which child controls to skip.
@@ -1853,10 +1853,10 @@ index 9fce6cea..052e0bb5 100644
 +    /// </summary>
 +    Transparent = 4
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
 index bf2086e0..c05b7377 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/IControl.cs
 @@ -670,7 +670,7 @@ public interface IControl
      /// <value>
      /// The data bindings.
@@ -1866,11 +1866,11 @@ index bf2086e0..c05b7377 100644
  
      /// <summary>
      /// Gets the device dpi.
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ControlPaint.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ControlPaint.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ControlPaint.cs b/Gtk.Windows.Forms/System/Windows/Forms/ControlPaint.cs
 new file mode 100644
 index 00000000..1535d3ac
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ControlPaint.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ControlPaint.cs
 @@ -0,0 +1,298 @@
 +using System.Drawing;
 +using System.Drawing.Drawing2D;
@@ -2170,10 +2170,10 @@ index 00000000..1535d3ac
 +    /// <summary>Restricts <paramref name="value" /> to the range 0 to 1.</summary>
 +    private static float Clamp(float value) => value < 0f ? 0f : value > 1f ? 1f : value;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
 index 0c8057e0..4c2f7d5b 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
 @@ -946,10 +946,12 @@ public partial class DataGridView : ScrollableControl
          set
          {
@@ -2214,10 +2214,10 @@ index 0c8057e0..4c2f7d5b 100644
          }
      }
  
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumn.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumn.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumn.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumn.cs
 index 6e5bc381..0ae9f1b3 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumn.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumn.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumn.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewColumn.cs
 @@ -154,7 +154,10 @@ public class DataGridViewColumn : TreeViewColumn
          get => _AutoSizeMode;
          set
@@ -2269,10 +2269,10 @@ index 6e5bc381..0ae9f1b3 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs
 index 66c3f3e1..81ddc3c8 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRow.cs
 @@ -317,7 +317,46 @@ public class DataGridViewRow
      /// <value>
      /// The state.
@@ -2321,10 +2321,10 @@ index 66c3f3e1..81ddc3c8 100644
  
      /// <summary>
      /// Gets the tree iter.
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowCollection.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowCollection.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowCollection.cs
 index 6f3d207f..1fafbde3 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowCollection.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowCollection.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowCollection.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewRowCollection.cs
 @@ -202,7 +202,8 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
              Add(row);
          }
@@ -2600,11 +2600,11 @@ index 6f3d207f..1fafbde3 100644
          if (Count > index)
          {
              var iter = ((DataGridViewRow)items[index]).TreeIter;
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ButtonBorderStyle.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ButtonBorderStyle.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/ButtonBorderStyle.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ButtonBorderStyle.cs
 new file mode 100644
 index 00000000..0f362dcf
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ButtonBorderStyle.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ButtonBorderStyle.cs
 @@ -0,0 +1,29 @@
 +namespace System.Windows.Forms;
 +
@@ -2635,11 +2635,11 @@ index 00000000..0f362dcf
 +    /// <summary>A raised border.</summary>
 +    Outset
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ErrorProviderEnums.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ErrorProviderEnums.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/ErrorProviderEnums.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ErrorProviderEnums.cs
 new file mode 100644
 index 00000000..6bdbd935
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ErrorProviderEnums.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ErrorProviderEnums.cs
 @@ -0,0 +1,43 @@
 +namespace System.Windows.Forms;
 +
@@ -2684,11 +2684,11 @@ index 00000000..6bdbd935
 +    /// <summary>The icon never blinks.</summary>
 +    NeverBlink
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Shortcut.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Shortcut.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/Shortcut.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/Shortcut.cs
 new file mode 100644
 index 00000000..52a7b0d8
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Shortcut.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/Shortcut.cs
 @@ -0,0 +1,106 @@
 +namespace System.Windows.Forms;
 +
@@ -2796,11 +2796,11 @@ index 00000000..52a7b0d8
 +    /// <summary>ALT+F4.</summary>
 +    AltF4 = 262259
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/StatusBarPanelEnums.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/StatusBarPanelEnums.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/StatusBarPanelEnums.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/StatusBarPanelEnums.cs
 new file mode 100644
 index 00000000..be99aec7
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/StatusBarPanelEnums.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/StatusBarPanelEnums.cs
 @@ -0,0 +1,85 @@
 +using System.Drawing;
 +
@@ -2887,11 +2887,11 @@ index 00000000..be99aec7
 +/// <param name="sender">The status bar that raised the event.</param>
 +/// <param name="e">The event data.</param>
 +public delegate void StatusBarPanelClickEventHandler(object sender, StatusBarPanelClickEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ErrorProvider.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ErrorProvider.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ErrorProvider.cs b/Gtk.Windows.Forms/System/Windows/Forms/ErrorProvider.cs
 new file mode 100644
 index 00000000..c2ea16a4
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ErrorProvider.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ErrorProvider.cs
 @@ -0,0 +1,302 @@
 +using System.ComponentModel;
 +using System.Drawing;
@@ -3195,10 +3195,10 @@ index 00000000..c2ea16a4
 +        widget.HasTooltip = true;
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 index 38b34553..26d3191e 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 @@ -135,23 +135,6 @@ public partial class Form : ContainerControl, IWin32Window
          internal set => _ActiveMdiChild = value;
      }
@@ -3317,10 +3317,10 @@ index 38b34553..26d3191e 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ImageList/ImageList.ImageCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ImageList/ImageList.ImageCollection.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ImageList/ImageList.ImageCollection.cs b/Gtk.Windows.Forms/System/Windows/Forms/ImageList/ImageList.ImageCollection.cs
 index 13ec4f01..eb843de5 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ImageList/ImageList.ImageCollection.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ImageList/ImageList.ImageCollection.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ImageList/ImageList.ImageCollection.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ImageList/ImageList.ImageCollection.cs
 @@ -403,7 +403,8 @@ public sealed partial class ImageList
                  return -1;
              }
@@ -3331,10 +3331,10 @@ index 13ec4f01..eb843de5 100644
          }
  
          /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs b/Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
 index f170b988..e2e0c661 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
 @@ -1,562 +1,572 @@
 -﻿/*
 - * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
@@ -4471,10 +4471,10 @@ index f170b988..e2e0c661 100644
 +        }
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
 index ed9c201f..9cc0ce6e 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
 @@ -1,1208 +1,1231 @@
 -﻿/*
 - * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
@@ -6916,10 +6916,10 @@ index ed9c201f..9cc0ce6e 100644
 +        }
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ListView.cs b/Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
 index 2b819721..4f27c5b9 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
 @@ -704,17 +704,32 @@ public class ListView : ContainerControl
      }
  
@@ -7054,10 +7054,10 @@ index 2b819721..4f27c5b9 100644
          if (column.DisplayIndex < header.Children.Length)
          {
              var headercol = header.Children[column.DisplayIndex];
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewItem.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewItem.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewItem.cs b/Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewItem.cs
 index 12981189..5ae2243b 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewItem.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewItem.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewItem.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ListViewBase/ListViewItem.cs
 @@ -854,16 +854,19 @@ public class ListViewItem : ICloneable, ISerializable, IKeyboardToolTip
      internal void InitListViewItem(string[] items, int imageIndex, string imageKey, Color? foreColor, Color? backColor, Font? font, ListViewGroup? group)
      {
@@ -7082,11 +7082,11 @@ index 12981189..5ae2243b 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MainMenu.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MainMenu.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MainMenu.cs b/Gtk.Windows.Forms/System/Windows/Forms/MainMenu.cs
 new file mode 100644
 index 00000000..30f1420e
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MainMenu.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MainMenu.cs
 @@ -0,0 +1,81 @@
 +using System.ComponentModel;
 +
@@ -7169,11 +7169,11 @@ index 00000000..30f1420e
 +    /// <inheritdoc />
 +    internal override void HostClear() => Strip.Items.Clear();
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Menu.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Menu.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Menu.cs b/Gtk.Windows.Forms/System/Windows/Forms/Menu.cs
 new file mode 100644
 index 00000000..1e7054dc
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Menu.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Menu.cs
 @@ -0,0 +1,334 @@
 +using System.Collections;
 +using System.ComponentModel;
@@ -7509,11 +7509,11 @@ index 00000000..1e7054dc
 +        }
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuItem.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuItem.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuItem.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuItem.cs
 new file mode 100644
 index 00000000..aa3a77cb
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuItem.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuItem.cs
 @@ -0,0 +1,327 @@
 +using System.ComponentModel;
 +
@@ -7842,10 +7842,10 @@ index 00000000..aa3a77cb
 +    /// </summary>
 +    public override string ToString() => $"{GetType().Name}: {Text}";
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
 index b2795a73..1fe165e7 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItem.cs
 @@ -303,7 +303,11 @@ public class ToolStripItem : Component, IDropTarget, ISupportOleDropSource, IArr
      /// </value>
      /// <exception cref="T:System.NotImplementedException">
@@ -7982,10 +7982,10 @@ index b2795a73..1fe165e7 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItemCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItemCollection.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItemCollection.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItemCollection.cs
 index 26891ec0..de9eb2a3 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItemCollection.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItemCollection.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItemCollection.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripItemCollection.cs
 @@ -19,7 +19,9 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
  
      private readonly bool isToolStripDropDown;
@@ -7997,10 +7997,10 @@ index 26891ec0..de9eb2a3 100644
  
      private readonly ToolStripItem? owner;
  
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
 index 51c9b607..58667cd2 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
 @@ -33,6 +33,42 @@ public class ToolStripMenuItem : ToolStripItem
          DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
      }
@@ -8075,10 +8075,10 @@ index 51c9b607..58667cd2 100644
      }
  
      public override ToolStripItemDisplayStyle DisplayStyle
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OLE/Clipboard.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OLE/Clipboard.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/OLE/Clipboard.cs b/Gtk.Windows.Forms/System/Windows/Forms/OLE/Clipboard.cs
 index 374a21c6..38b5bacc 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OLE/Clipboard.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/OLE/Clipboard.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/OLE/Clipboard.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/OLE/Clipboard.cs
 @@ -132,29 +132,91 @@ namespace System.Windows.Forms
                  return GetData(format.Name, true);
              }
@@ -8176,10 +8176,10 @@ index 374a21c6..38b5bacc 100644
              }
  
              public void SetData(string format, bool autoConvert, object data)
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintDialog.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintDialog.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintDialog.cs b/Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintDialog.cs
 index 624f92df..f26e7104 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintDialog.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintDialog.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintDialog.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Printing/PrintDialog.cs
 @@ -275,7 +275,10 @@ public sealed class PrintDialog : CommonDialog
              }
              else
@@ -8192,11 +8192,11 @@ index 624f92df..f26e7104 100644
                  return result != Gtk.PrintOperationResult.Cancel && result != Gtk.PrintOperationResult.Error;
              }
          }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Splitter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Splitter.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Splitter.cs b/Gtk.Windows.Forms/System/Windows/Forms/Splitter.cs
 new file mode 100644
 index 00000000..5d895ac9
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Splitter.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Splitter.cs
 @@ -0,0 +1,195 @@
 +using System.ComponentModel;
 +using System.Drawing;
@@ -8393,11 +8393,11 @@ index 00000000..5d895ac9
 +        return candidate;
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/StatusBar.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/StatusBar.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/StatusBar.cs b/Gtk.Windows.Forms/System/Windows/Forms/StatusBar.cs
 new file mode 100644
 index 00000000..101b00de
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/StatusBar.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/StatusBar.cs
 @@ -0,0 +1,273 @@
 +using System.Collections;
 +using System.ComponentModel;
@@ -8672,11 +8672,11 @@ index 00000000..101b00de
 +        }
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/StatusBarPanel.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/StatusBarPanel.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/StatusBarPanel.cs b/Gtk.Windows.Forms/System/Windows/Forms/StatusBarPanel.cs
 new file mode 100644
 index 00000000..d0f7effd
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/StatusBarPanel.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/StatusBarPanel.cs
 @@ -0,0 +1,162 @@
 +using System.ComponentModel;
 +using System.Drawing;
@@ -8840,11 +8840,11 @@ index 00000000..d0f7effd
 +    /// </summary>
 +    public override string ToString() => $"{GetType().Name}: {{{Text}}}";
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SystemInformation.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SystemInformation.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/SystemInformation.cs b/Gtk.Windows.Forms/System/Windows/Forms/SystemInformation.cs
 new file mode 100644
 index 00000000..11e57f8b
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SystemInformation.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/SystemInformation.cs
 @@ -0,0 +1,164 @@
 +using System.Drawing;
 +
@@ -9010,10 +9010,10 @@ index 00000000..11e57f8b
 +    /// <summary>Gets the width, in pixels, of the left and right edges of the focus rectangle.</summary>
 +    public static int HorizontalFocusThickness => 1;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs b/Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs
 index aeb8c3d1..27fba50d 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs
 @@ -1,4 +1,4 @@
 -/*
 +﻿/*
@@ -9134,10 +9134,10 @@ index aeb8c3d1..27fba50d 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
 index 3223ffc6..476b237e 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
 @@ -315,7 +315,10 @@ public partial class TextBox : Control
  
      private void Self_Changed(object sender, EventArgs e)
@@ -9150,11 +9150,11 @@ index 3223ffc6..476b237e 100644
      }
  
      private void Self_KeyPressEvent(object o, Gtk.KeyPressEventArgs args)
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextRenderer.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TextRenderer.cs b/Gtk.Windows.Forms/System/Windows/Forms/TextRenderer.cs
 new file mode 100644
 index 00000000..26a87bd4
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextRenderer.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TextRenderer.cs
 @@ -0,0 +1,289 @@
 +using System.Drawing;
 +
@@ -9445,10 +9445,10 @@ index 00000000..26a87bd4
 +    /// </summary>
 +    private static bool HasFlag(TextFormatFlags flags, TextFormatFlags flag) => (flags & flag) == flag;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolTip/ToolTip.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolTip/ToolTip.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ToolTip/ToolTip.cs b/Gtk.Windows.Forms/System/Windows/Forms/ToolTip/ToolTip.cs
 index 5e989003..21433ea4 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolTip/ToolTip.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolTip/ToolTip.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ToolTip/ToolTip.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ToolTip/ToolTip.cs
 @@ -1,4 +1,4 @@
 -/*
 +﻿/*
@@ -9525,10 +9525,10 @@ index 5e989003..21433ea4 100644
      }
  
      public void Show(string? text, IWin32Window window)
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs b/Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
 index b1437c9a..6c8010ab 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
 @@ -317,7 +317,12 @@ public partial class TreeView : ScrollableControl
      public bool ShowLines
      {
@@ -9543,10 +9543,10 @@ index b1437c9a..6c8010ab 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNodeCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNodeCollection.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNodeCollection.cs b/Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNodeCollection.cs
 index 9540ef58..49a8f8d9 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNodeCollection.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNodeCollection.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNodeCollection.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TreeViewBase/TreeNodeCollection.cs
 @@ -38,6 +38,70 @@ public class TreeNodeCollection : List<TreeNode>
          }
      }
@@ -9618,10 +9618,10 @@ index 9540ef58..49a8f8d9 100644
      /// <summary>
      /// Adds the range.
      /// </summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs b/Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs
 index a8b56278..7ae5f1b8 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/UserControl.cs
 @@ -71,29 +71,6 @@ public partial class UserControl : ContainerControl
          self.Shown += Self_Shown;
      }

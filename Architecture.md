@@ -1,14 +1,14 @@
-# Net4x.Gtk.Windows.Forms — Architecture
+# Gtk.Windows.Forms — Architecture
 
 This document explains **how the product solution works**: the runtime architecture of the libraries in
-[Net4x.Gtk.Windows.Forms.sln](Net4x.Gtk.Windows.Forms.sln). The PoC sample apps (`GtkWinFormsApp`,
+[Gtk.Windows.Forms.sln](Gtk.Windows.Forms.sln). The PoC sample apps (`GtkWinFormsApp`,
 `GtkSystemWinFormsApp11`, `AutoClosingMessageBoxApp`) are intentionally excluded.
 
 For a project-by-project inventory (packages, TFMs, references) see
 [Solution-Projects.md](Solution-Projects.md). For the build/generation pipeline see
 [CLAUDE.md](CLAUDE.md) and `PrepareProjects.sln`.
 
-> **Reminder:** the source under `Net4x.Gtk.Windows.Forms/` and `Net4x.Gtk.Drawing/` is *generated*
+> **Reminder:** the source under `Gtk.Windows.Forms/` and `Gtk.Drawing/` is *generated*
 > by the prepare pipeline from the `gtksystem-windows-forms` submodule. Durable changes belong in
 > `patches/`, `Resources/`, or the submodule — not in the generated trees.
 
@@ -25,7 +25,7 @@ re-implemented on top of GTK3 (via GtkSharp) and Cairo.
 └──────────────┬──────────────────────────────┬─────────────────┘
                │ System.Windows.Forms.*       │ System.Drawing.*
 ┌──────────────▼───────────────┐  ┌───────────▼─────────────────┐
-│  Net4x.Gtk.Windows.Forms     │  │  Net4x.Gtk.Drawing          │
+│  Gtk.Windows.Forms     │  │  Gtk.Drawing          │
 │  (package: Gtk.Windows.Forms)│─►│  (package: Gtk.Drawing)     │
 │  Control/Form/Button/...     │  │  Graphics, Pen, Brush,      │
 │  Application, MessageBox,    │  │  Bitmap, Font, Matrix, ...  │
@@ -42,22 +42,22 @@ re-implemented on top of GTK3 (via GtkSharp) and Cairo.
 
 Supporting assemblies around that core:
 
-- **`Net4x.System.Resources.Extensions`** — an **intentionally empty** assembly whose `AssemblyName`
+- **`System.Resources.Extensions`** — an **intentionally empty** assembly whose `AssemblyName`
   *is* `System.Resources.Extensions`, so that it displaces Microsoft's assembly of that name in an
   application's output folder. It carries no code and is not meant to: the working implementation lives
   in the Forms library under `GTKSystem/Resources/Extensions/`, in namespace
   `GtkSystem.Resources.Extensions`, so nothing needs the displaced types. The sample apps reference the
   project for that reason. (See the comment in its `.csproj`, or
-  [README.md](Net4x.System.Resources.Extensions/README.md) — which is packed into the NuGet package — for
+  [README.md](Gtk.Resources.Extensions/README.md) — which is packed into the NuGet package — for
   the consumer-facing version. Note that displacement only takes effect if this assembly wins MSBuild's
   conflict resolution against the `System.Resources.Extensions` NuGet package — see
   [Solution-Review.md](Solution-Review.md) §5.1.)
-- **`Net4x.Gtk.Windows.FormsDesigner`** — MSBuild-integrated design-time support
+- **`Gtk.Windows.FormsDesigner`** — MSBuild-integrated design-time support
   (`Microsoft.Build.*` tasks plus `build/` props+targets) so the **native Visual Studio WinForms
   designer** can open forms that target this framework.
-- **`Net4x.ResxProcessor`** — a `net8.0` tool bundled inside the `Gtk.Windows.Forms` NuGet package
+- **`ResxProcessor`** — a `net8.0` tool bundled inside the `Gtk.Windows.Forms` NuGet package
   under `tools/`; regenerates `.Designer.cs` from `.resx` during builds.
-- **`Net4x.Gtk.Windows.Extensions`** — published as `Gtk.Windows.Extensions`: additions to the
+- **`Gtk.Windows.Extensions`** — published as `Gtk.Windows.Extensions`: additions to the
   `System.Windows.Forms` surface that are **not** part of the real WinForms API, kept out of the core
   library so it stays a faithful compatibility layer. Ships `AutoClosingMessageBox`; it is also the
   place for a consumer's own extension classes over the Forms library. Unlike the two libraries above,
@@ -68,18 +68,18 @@ Supporting assemblies around that core:
 Every control is **two classes working as a pair**:
 
 1. **The public facade** in namespace `System.Windows.Forms`
-   (files under [Net4x.Gtk.Windows.Forms/System/Windows/Forms](Net4x.Gtk.Windows.Forms/System/Windows/Forms)) —
+   (files under [Gtk.Windows.Forms/System/Windows/Forms](Gtk.Windows.Forms/System/Windows/Forms)) —
    the API your WinForms code sees: `Button`, `TextBox`, `Form`, `DataGridView`, …
 2. **A GTK-derived base widget** in namespace `GtkSystem.Windows.Forms.GtkControls.ControlBase`
    (files under
-   [Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase](Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase)) —
+   [Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase](Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase)) —
    a subclass of the actual GTK widget: `ButtonBase : Gtk.Button`, `FormBase : Gtk.Window`,
    `RichTextBoxBase` wrapping `Gtk.TextView`, `TreeViewBase` wrapping `Gtk.TreeView`, and so on.
 
 The facade holds its widget in a public field named `self` and exposes it through the
 `GtkControl` property. Taking `Button` as the canonical example
-([Button.cs](Net4x.Gtk.Windows.Forms/System/Windows/Forms/Button.cs),
-[ButtonBase.cs](Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ButtonBase.cs)):
+([Button.cs](Gtk.Windows.Forms/System/Windows/Forms/Button.cs),
+[ButtonBase.cs](Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ButtonBase.cs)):
 
 ```csharp
 public partial class Button : Control
@@ -111,7 +111,7 @@ Three translation duties are visible here and repeated across the whole library:
 
 ### Control — the shared base
 
-[Control.cs](Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs) is the common facade
+[Control.cs](Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs) is the common facade
 base (`Control : Component, IControl, ISynchronizeInvoke, …`). It centralizes:
 
 - **Low-level event wiring** — one place subscribes the underlying `Gtk.Widget`'s
@@ -129,7 +129,7 @@ base (`Control : Component, IControl, ISynchronizeInvoke, …`). It centralizes:
 ### GtkControlOverride — custom painting and styling
 
 Every `*Base` widget implements `IControlGtk`, which exposes a `GtkControlOverride`
-([GtkControlOverride.cs](Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs)).
+([GtkControlOverride.cs](Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs)).
 This object centralizes what WinForms calls owner-drawing and what GTK calls CSS styling:
 
 - Each base widget overrides `OnDrawn(Cairo.Context)` and calls `Override.OnPaint(cr, rect)` before
@@ -141,7 +141,7 @@ This object centralizes what WinForms calls owner-drawing and what GTK calls CSS
 
 ## Application lifecycle and theming
 
-[Application.cs](Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs) replaces the
+[Application.cs](Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs) replaces the
 WinForms message pump with the GTK main loop:
 
 - The static constructor calls `Init()`, which runs `Gtk.Application.Init()`, creates a
@@ -158,16 +158,16 @@ WinForms message pump with the GTK main loop:
 - `Application.OpenForms` enumerates GTK toplevel windows and resolves them back to `Form` facades
   via the `Data["Control"]` back-pointer.
 
-`Form` ([Form.cs](Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs)) extends the same facade
+`Form` ([Form.cs](Gtk.Windows.Forms/System/Windows/Forms/Form.cs)) extends the same facade
 pattern to windows: `FormBase : Gtk.Window` is the `self`, and modal `ShowDialog()` semantics,
 `DialogResult`, owner windows, close events (`FormClosing`/`FormClosed`) are mapped onto GTK
 window/dialog behavior.
 
 ## Drawing: System.Drawing over Cairo
 
-`Net4x.Gtk.Drawing` reimplements the `System.Drawing` object model with Cairo as the render backend:
+`Gtk.Drawing` reimplements the `System.Drawing` object model with Cairo as the render backend:
 
-- [Graphics.cs](Net4x.Gtk.Drawing/System/Drawing/Graphics.cs) owns a `Cairo.Context` plus the target
+- [Graphics.cs](Gtk.Drawing/System/Drawing/Graphics.cs) owns a `Cairo.Context` plus the target
   rectangle; every `DrawLine/DrawArc/FillPath/DrawString/DrawImage` overload translates GDI+ calls
   into Cairo path/fill/stroke operations (text via Pango).
 - `Pen`, `Brush`/`SolidBrush`, gradient brushes, `Region`, `Matrix`, `StringFormat` are state objects
@@ -191,13 +191,13 @@ alias** to disambiguate from the real `System.Drawing`.
 WinForms designer files lean heavily on `.resx` resources (images, icons, layout data), historically
 via `BinaryFormatter`-based serialization. The chain here:
 
-1. **`Net4x.System.Resources.Extensions`** ships as an empty `System.Resources.Extensions` to displace
+1. **`System.Resources.Extensions`** ships as an empty `System.Resources.Extensions` to displace
    Microsoft's assembly, so nothing can bind to its `BinaryFormatter`-based implementation. The reading
    itself is done by the Forms library's own `GtkSystem.Resources.Extensions.DeserializingResourceReader`
    & co. The Forms library additionally carries mirrored reader code under
    `GtkSystem/Resources/` (`ResourceManager`, `FastResourceComparer`, …) and a WinForms-aware
    `ComponentResourceManager` under `GtkSystem/ComponentModel/`.
-2. **`Net4x.ResxProcessor`** (bundled in the package under `tools/`) regenerates
+2. **`ResxProcessor`** (bundled in the package under `tools/`) regenerates
    `.Designer.cs` from `.resx` at build time.
 3. **MSBuild glue**: the `Gtk.Windows.Forms` package ships `build/Gtk.Windows.Forms.props|targets`
    and `content/` source files (`System.ComponentModel.cs`, `System.Resources.ResourceManager.cs`)
@@ -209,11 +209,11 @@ via `BinaryFormatter`-based serialization. The chain here:
 
 ## Design-time support
 
-`Net4x.Gtk.Windows.FormsDesigner` keeps the **standard Visual Studio WinForms designer** usable:
+`Gtk.Windows.FormsDesigner` keeps the **standard Visual Studio WinForms designer** usable:
 
-- It contains MSBuild tasks/helpers ([Designer.cs](Net4x.Gtk.Windows.FormsDesigner/Designer.cs),
-  [CsprojFixer.cs](Net4x.Gtk.Windows.FormsDesigner/CsprojFixer.cs),
-  [Framework.cs](Net4x.Gtk.Windows.FormsDesigner/Framework.cs)) plus packaged
+- It contains MSBuild tasks/helpers ([Designer.cs](Gtk.Windows.FormsDesigner/Designer.cs),
+  [CsprojFixer.cs](Gtk.Windows.FormsDesigner/CsprojFixer.cs),
+  [Framework.cs](Gtk.Windows.FormsDesigner/Framework.cs)) plus packaged
   `build/Gtk.Windows.FormsDesigner.props|targets`.
 - At design time the project is presented to VS so the designer loads real
   `System.Windows.Forms` types; at build/run time the same code compiles against the GTK
@@ -227,26 +227,26 @@ via `BinaryFormatter`-based serialization. The chain here:
   are strong-named with `GtkForms.snk`; `InternalsVisibleTo` grants use the matching public key.
 - Versioning and package pinning are centralized in
   [Directory.Build.Props](Directory.Build.Props) / [Directory.Nuget.Props](Directory.Nuget.Props)
-  (`Net4xGtkWindowsFormsVersion`, `GtkSharpLatestVersion`, `VersionSuffix`).
-- **Package IDs differ from project names**: `Net4x.Gtk.Windows.Forms` → `Gtk.Windows.Forms`,
-  `Net4x.Gtk.Drawing` → `Gtk.Drawing`, `Net4x.System.Resources.Extensions` →
-  `Gtk.System.Resources.Extensions`, etc. Packages are emitted to `Packages/`.
+  (`GtkWindowsFormsVersion`, `GtkSharpLatestVersion`, `VersionSuffix`).
+- **Package IDs differ from project names**: `Gtk.Windows.Forms` → `Gtk.Windows.Forms`,
+  `Gtk.Drawing` → `Gtk.Drawing`, `Gtk.Resources.Extensions` →
+  `Gtk.Resources.Extensions`, etc. Packages are emitted to `Packages/`.
 
 ## Project dependency graph
 
 ```
                                   ┌────────────────────────────────┐
-                                  │ Net4x.System.Resources.Ext.    │
+                                  │ System.Resources.Ext.          │
                                   │ (assembly: System.Resources.   │
                                   │  Extensions)                   │
                                   └───────┬────────────────────────┘
                                           │ (as NuGet package)
         ┌──────────────────┐              ▼
-        │ Net4x.Gtk.Drawing│──────► Net4x.Gtk.Windows.Forms ──────► Net4x.Gtk.Windows.Extensions
+        │ Gtk.Drawing│──────► Gtk.Windows.Forms ──────► Gtk.Windows.Extensions
         └──────────────────┘              ▲            │
                                           │            │ bundles under tools/
         ┌─────────────────────────────┐   │            ▼
-        │ Net4x.Gtk.Windows.Forms-    │───┘      Net4x.ResxProcessor
+        │ Gtk.Windows.Forms-    │───┘      ResxProcessor
         │ Designer (MSBuild/design-   │
         │ time)                       │
         └─────────────────────────────┘
@@ -254,8 +254,8 @@ via `BinaryFormatter`-based serialization. The chain here:
         GtkSharp (NuGet) ◄── referenced by Forms and Drawing
 ```
 
-Tests (`Tests` solution folder, all xUnit): `Net4x.Gtk.Windows.Forms.Tests`,
-`Net4x.Gtk.Drawing.Tests`, `Gtk.Windows.FormsDesigner.Tests`, `Net4x.ResxProcessor.Tests`,
+Tests (`Tests` solution folder, all xUnit): `Gtk.Windows.Forms.Tests`,
+`Gtk.Drawing.Tests`, `Gtk.Windows.FormsDesigner.Tests`, `ResxProcessor.Tests`,
 `AutoClosingMessageBox.Tests`. The first two are strong-named to match the `InternalsVisibleTo`
 grants and use the `gtk` extern alias for the Drawing shim.
 

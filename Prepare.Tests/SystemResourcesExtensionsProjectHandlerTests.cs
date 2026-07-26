@@ -4,7 +4,7 @@ using PrepareProjects.ProjectHandling;
 namespace Prepare.Tests
 {
     /// <summary>
-    /// Covers the csproj the prepare pipeline writes for <c>Net4x.System.Resources.Extensions</c>.
+    /// Covers the csproj the prepare pipeline writes for <c>Gtk.Resources.Extensions</c>.
     /// <para>
     /// The whole project directory is deleted and re-copied from the upstream submodule on every run
     /// (<c>ProjectUtility.CopyProjectAndTranslateIt</c> calls <c>PrepareEmptyDirectory</c>), so anything the
@@ -40,7 +40,7 @@ namespace Prepare.Tests
             """;
 
         private readonly string _csprojPath =
-            Path.Combine(Path.GetTempPath(), $"srx-{Guid.NewGuid():N}", "Net4x.System.Resources.Extensions.csproj");
+            Path.Combine(Path.GetTempPath(), $"srx-{Guid.NewGuid():N}", "Gtk.Resources.Extensions.csproj");
 
         public SystemResourcesExtensionsProjectHandlerTests()
         {
@@ -92,7 +92,7 @@ namespace Prepare.Tests
         {
             var project = Rewrite();
 
-            Assert.Equal("Gtk.System.Resources.Extensions",
+            Assert.Equal("Gtk.Resources.Extensions",
                 (string?)project.Descendants("PackageId").SingleOrDefault());
         }
 

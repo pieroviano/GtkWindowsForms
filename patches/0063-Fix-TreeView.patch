@@ -4,13 +4,13 @@ Date: Wed, 8 Apr 2026 05:24:25 +0300
 Subject: [PATCH] Fix TreeView
 
 ---
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs | 1 +
+ Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs b/Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
 index 885fefc..67de730 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
 @@ -417,6 +417,7 @@ public partial class TreeView : ScrollableControl
      public void Clear()
      {

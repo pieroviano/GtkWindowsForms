@@ -7,10 +7,10 @@ Subject: [PATCH] Fix PropertyManager
  .../Forms/Collection/PropertyManager.cs       | 38 ++++++++++---------
  1 file changed, 20 insertions(+), 18 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyManager.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyManager.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyManager.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyManager.cs
 index 313468a..21abc9e 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyManager.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyManager.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyManager.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/PropertyManager.cs
 @@ -97,9 +97,10 @@ public class PropertyManager : BindingManagerBase
          throw new NotSupportedException("DataBindingAddNewNotSupportedOnPropertyManager");
      }

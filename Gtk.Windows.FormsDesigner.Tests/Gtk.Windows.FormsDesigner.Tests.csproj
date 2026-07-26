@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Net4x.Gtk.Windows.FormsDesigner\Net4x.Gtk.Windows.FormsDesigner.csproj" />
+    <ProjectReference Include="..\Gtk.Windows.FormsDesigner\Gtk.Windows.FormsDesigner.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,13 +4,13 @@ Date: Sun, 5 Apr 2026 08:30:06 +0300
 Subject: [PATCH] Fix Form
 
 ---
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs | 4 ++--
+ Gtk.Windows.Forms/System/Windows/Forms/Form.cs | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 index 7dec1c5..68c5ab7 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 @@ -34,7 +34,7 @@ public partial class Form : ContainerControl, IWin32Window
      /// </summary>
      public FormBase self = new();

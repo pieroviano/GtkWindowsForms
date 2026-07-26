@@ -43,27 +43,27 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../Forms/Scrolling/ScrollProperties.cs       |  40 +++++
  .../Forms/Scrolling/VScrollProperties.cs      |  15 ++
  18 files changed, 542 insertions(+), 4 deletions(-)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlSupportTypesFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.MessageFilter.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IMessageFilter.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripDropDownClosedEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripDropDownClosingEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripDropDownClosedEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripDropDownClosingEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkArea.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDownAcceleration.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDownAccelerationCollection.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/HScrollProperties.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollProperties.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/VScrollProperties.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlSupportTypesFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Application/Application.MessageFilter.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Control/IMessageFilter.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripDropDownClosedEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripDropDownClosingEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripDropDownClosedEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripDropDownClosingEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/LinkArea.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/NumericUpDownAcceleration.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/NumericUpDownAccelerationCollection.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Scrolling/HScrollProperties.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollProperties.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Scrolling/VScrollProperties.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlSupportTypesFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlSupportTypesFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlSupportTypesFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlSupportTypesFunctionalTests.cs
 new file mode 100644
 index 00000000..6f5c03d3
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlSupportTypesFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ControlSupportTypesFunctionalTests.cs
 @@ -0,0 +1,137 @@
 +namespace System.Windows.Forms;
 +
@@ -202,11 +202,11 @@ index 00000000..6f5c03d3
 +        Assert.False(Application.FilterMessage(ref afterRemove));
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.MessageFilter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.MessageFilter.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.MessageFilter.cs b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.MessageFilter.cs
 new file mode 100644
 index 00000000..e26b5712
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.MessageFilter.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.MessageFilter.cs
 @@ -0,0 +1,69 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -277,10 +277,10 @@ index 00000000..e26b5712
 +        return false;
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
 index 919ed90f..bc2c2e08 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
 @@ -13,7 +13,7 @@ namespace System.Windows.Forms;
  /// <filterpriority>
  /// 1
@@ -290,11 +290,11 @@ index 919ed90f..bc2c2e08 100644
  {
  
      private static readonly object internalSyncObject = new();
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IMessageFilter.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IMessageFilter.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/IMessageFilter.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/IMessageFilter.cs
 new file mode 100644
 index 00000000..2e60708e
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IMessageFilter.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/IMessageFilter.cs
 @@ -0,0 +1,14 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -310,10 +310,10 @@ index 00000000..2e60708e
 +    /// <returns><see langword="true" /> to filter the message and stop it from being dispatched; otherwise <see langword="false" />.</returns>
 +    bool PreFilterMessage(ref Message m);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ScrollableControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ScrollableControl.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/ScrollableControl.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/ScrollableControl.cs
 index becc147b..09ed1081 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ScrollableControl.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ScrollableControl.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/ScrollableControl.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/ScrollableControl.cs
 @@ -147,12 +147,22 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
          set;
      }
@@ -340,11 +340,11 @@ index becc147b..09ed1081 100644
      protected bool VScroll
      {
          get => scrollbase?.VScroll ?? false;
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripDropDownClosedEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripDropDownClosedEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripDropDownClosedEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripDropDownClosedEventArgs.cs
 new file mode 100644
 index 00000000..d4325fe9
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripDropDownClosedEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripDropDownClosedEventArgs.cs
 @@ -0,0 +1,16 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -362,11 +362,11 @@ index 00000000..d4325fe9
 +    /// <summary>Gets the reason the drop-down closed.</summary>
 +    public ToolStripDropDownCloseReason CloseReason { get; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripDropDownClosingEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripDropDownClosingEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripDropDownClosingEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripDropDownClosingEventArgs.cs
 new file mode 100644
 index 00000000..196b2aee
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripDropDownClosingEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripDropDownClosingEventArgs.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -386,11 +386,11 @@ index 00000000..196b2aee
 +    /// <summary>Gets the reason the drop-down is closing.</summary>
 +    public ToolStripDropDownCloseReason CloseReason { get; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemEventArgs.cs
 new file mode 100644
 index 00000000..10920dc5
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemEventArgs.cs
 @@ -0,0 +1,16 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -408,11 +408,11 @@ index 00000000..10920dc5
 +    /// <summary>Gets the item associated with the event.</summary>
 +    public ToolStripItem Item { get; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripDropDownClosedEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripDropDownClosedEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripDropDownClosedEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripDropDownClosedEventHandler.cs
 new file mode 100644
 index 00000000..ddabde23
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripDropDownClosedEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripDropDownClosedEventHandler.cs
 @@ -0,0 +1,10 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -424,11 +424,11 @@ index 00000000..ddabde23
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripDropDownClosedEventArgs" /> that contains the event data.</param>
 +public delegate void ToolStripDropDownClosedEventHandler(object sender, ToolStripDropDownClosedEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripDropDownClosingEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripDropDownClosingEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripDropDownClosingEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripDropDownClosingEventHandler.cs
 new file mode 100644
 index 00000000..a361eeae
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripDropDownClosingEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripDropDownClosingEventHandler.cs
 @@ -0,0 +1,10 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -440,11 +440,11 @@ index 00000000..a361eeae
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripDropDownClosingEventArgs" /> that contains the event data.</param>
 +public delegate void ToolStripDropDownClosingEventHandler(object sender, ToolStripDropDownClosingEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemEventHandler.cs
 new file mode 100644
 index 00000000..a83d6ae9
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemEventHandler.cs
 @@ -0,0 +1,10 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -456,11 +456,11 @@ index 00000000..a83d6ae9
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemEventArgs" /> that contains the event data.</param>
 +public delegate void ToolStripItemEventHandler(object sender, ToolStripItemEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkArea.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkArea.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/LinkArea.cs b/Gtk.Windows.Forms/System/Windows/Forms/LinkArea.cs
 new file mode 100644
 index 00000000..2b2d4e83
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkArea.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/LinkArea.cs
 @@ -0,0 +1,48 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -510,10 +510,10 @@ index 00000000..2b2d4e83
 +    /// <summary>Compares two link areas for inequality.</summary>
 +    public static bool operator !=(LinkArea linkArea1, LinkArea linkArea2) => !(linkArea1 == linkArea2);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs b/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
 index 7c17fd33..42606de9 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
 @@ -35,6 +35,12 @@ public partial class NumericUpDown : UpDownBase
          self.ValueChanged += Self_ValueChanged;
      }
@@ -527,11 +527,11 @@ index 7c17fd33..42606de9 100644
      /// <summary>
      /// Gets or sets the decimal places.
      /// </summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDownAcceleration.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDownAcceleration.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDownAcceleration.cs b/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDownAcceleration.cs
 new file mode 100644
 index 00000000..8801a2dc
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDownAcceleration.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDownAcceleration.cs
 @@ -0,0 +1,37 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -570,11 +570,11 @@ index 00000000..8801a2dc
 +        set { if (value < 0m) { throw new ArgumentOutOfRangeException(nameof(value)); } increment = value; }
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDownAccelerationCollection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDownAccelerationCollection.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDownAccelerationCollection.cs b/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDownAccelerationCollection.cs
 new file mode 100644
 index 00000000..95c775b9
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDownAccelerationCollection.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDownAccelerationCollection.cs
 @@ -0,0 +1,67 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -643,11 +643,11 @@ index 00000000..95c775b9
 +
 +    IEnumerator IEnumerable.GetEnumerator() => items.GetEnumerator();
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/HScrollProperties.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/HScrollProperties.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Scrolling/HScrollProperties.cs b/Gtk.Windows.Forms/System/Windows/Forms/Scrolling/HScrollProperties.cs
 new file mode 100644
 index 00000000..fd0d6c9b
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/HScrollProperties.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Scrolling/HScrollProperties.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -664,11 +664,11 @@ index 00000000..fd0d6c9b
 +    {
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollProperties.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollProperties.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollProperties.cs b/Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollProperties.cs
 new file mode 100644
 index 00000000..d172c15b
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollProperties.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollProperties.cs
 @@ -0,0 +1,40 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -710,11 +710,11 @@ index 00000000..d172c15b
 +    /// <summary>Gets or sets a value indicating whether the scroll bar is visible.</summary>
 +    public bool Visible { get; set; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/VScrollProperties.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/VScrollProperties.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Scrolling/VScrollProperties.cs b/Gtk.Windows.Forms/System/Windows/Forms/Scrolling/VScrollProperties.cs
 new file mode 100644
 index 00000000..979a768d
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/VScrollProperties.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Scrolling/VScrollProperties.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.

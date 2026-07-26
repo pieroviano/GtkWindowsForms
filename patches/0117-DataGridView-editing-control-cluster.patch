@@ -28,21 +28,21 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../DataGridViewTopLeftHeaderCell.cs          |  37 ++++++
  .../IDataGridViewEditingControl.cs            |  52 +++++++++
  5 files changed, 388 insertions(+)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEditingControlFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxEditingControl.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTextBoxEditingControl.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTopLeftHeaderCell.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingControl.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEditingControlFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxEditingControl.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTextBoxEditingControl.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTopLeftHeaderCell.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingControl.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEditingControlFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEditingControlFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEditingControlFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEditingControlFunctionalTests.cs
 new file mode 100644
 index 00000000..e1b62a9e
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEditingControlFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/DataGridViewEditingControlFunctionalTests.cs
 @@ -0,0 +1,105 @@
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Tests for the DataGridView editing-control cluster (§4 of API-COMPLETENESS): the
@@ -145,11 +145,11 @@ index 00000000..e1b62a9e
 +        Assert.Same(placeholder, result);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxEditingControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxEditingControl.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxEditingControl.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxEditingControl.cs
 new file mode 100644
 index 00000000..267b17c0
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxEditingControl.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewComboBoxEditingControl.cs
 @@ -0,0 +1,94 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -245,11 +245,11 @@ index 00000000..267b17c0
 +        // The combo editing control has no separate selection step; nothing to prepare here.
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTextBoxEditingControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTextBoxEditingControl.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTextBoxEditingControl.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTextBoxEditingControl.cs
 new file mode 100644
 index 00000000..aba2aa95
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTextBoxEditingControl.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTextBoxEditingControl.cs
 @@ -0,0 +1,100 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -351,11 +351,11 @@ index 00000000..aba2aa95
 +        }
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTopLeftHeaderCell.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTopLeftHeaderCell.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTopLeftHeaderCell.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTopLeftHeaderCell.cs
 new file mode 100644
 index 00000000..94c60a4a
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTopLeftHeaderCell.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/DataGridViewTopLeftHeaderCell.cs
 @@ -0,0 +1,37 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -394,11 +394,11 @@ index 00000000..94c60a4a
 +        bool isFirstDisplayedRow) =>
 +        dataGridViewAdvancedBorderStylePlaceholder ?? dataGridViewAdvancedBorderStyleInput;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingControl.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingControl.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingControl.cs
 new file mode 100644
 index 00000000..f0402a4d
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingControl.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingControl.cs
 @@ -0,0 +1,52 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.

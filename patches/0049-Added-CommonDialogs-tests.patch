@@ -8,10 +8,10 @@ Subject: [PATCH] Added CommonDialogs tests
  .../System/Windows/Forms/Dialog/SaveFileDialog.cs               | 2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Dialog/OpenFileDialog.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Dialog/OpenFileDialog.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Dialog/OpenFileDialog.cs b/Gtk.Windows.Forms/System/Windows/Forms/Dialog/OpenFileDialog.cs
 index 9fbcd1f..7c0514b 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Dialog/OpenFileDialog.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Dialog/OpenFileDialog.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Dialog/OpenFileDialog.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Dialog/OpenFileDialog.cs
 @@ -9,7 +9,7 @@ namespace System.Windows.Forms;
  /// <summary>
  /// Prompts the user to open a file. This class cannot be inherited.
@@ -21,10 +21,10 @@ index 9fbcd1f..7c0514b 100644
  {
      /// <summary>
      /// Initializes a new instance of the
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Dialog/SaveFileDialog.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Dialog/SaveFileDialog.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Dialog/SaveFileDialog.cs b/Gtk.Windows.Forms/System/Windows/Forms/Dialog/SaveFileDialog.cs
 index ea60502..bcfb55e 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Dialog/SaveFileDialog.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Dialog/SaveFileDialog.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Dialog/SaveFileDialog.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Dialog/SaveFileDialog.cs
 @@ -9,7 +9,7 @@ namespace System.Windows.Forms;
  /// <summary>
  /// Prompts the user to select a location for saving a file. This class cannot be inherited.

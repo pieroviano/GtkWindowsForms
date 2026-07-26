@@ -21,15 +21,15 @@ gap, and tiled sub-ranges cover exactly the same span as one whole range.
 Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
 ---
  .../MeasureCharacterRangesFunctionalTests.cs  | 137 ++++++++++++++++++
- Net4x.Gtk.Drawing/System/Drawing/Graphics.cs  |  36 ++++-
+ Gtk.Drawing/System/Drawing/Graphics.cs  |  36 ++++-
  2 files changed, 166 insertions(+), 7 deletions(-)
- create mode 100644 Net4x.Gtk.Drawing.Tests/System/Drawing/MeasureCharacterRangesFunctionalTests.cs
+ create mode 100644 Gtk.Drawing.Tests/System/Drawing/MeasureCharacterRangesFunctionalTests.cs
 
-diff --git a/Net4x.Gtk.Drawing.Tests/System/Drawing/MeasureCharacterRangesFunctionalTests.cs b/Net4x.Gtk.Drawing.Tests/System/Drawing/MeasureCharacterRangesFunctionalTests.cs
+diff --git a/Gtk.Drawing.Tests/System/Drawing/MeasureCharacterRangesFunctionalTests.cs b/Gtk.Drawing.Tests/System/Drawing/MeasureCharacterRangesFunctionalTests.cs
 new file mode 100644
 index 00000000..c9569622
 --- /dev/null
-+++ b/Net4x.Gtk.Drawing.Tests/System/Drawing/MeasureCharacterRangesFunctionalTests.cs
++++ b/Gtk.Drawing.Tests/System/Drawing/MeasureCharacterRangesFunctionalTests.cs
 @@ -0,0 +1,137 @@
 +extern alias gtk;
 +using Graphics = gtk::System.Drawing.Graphics;
@@ -168,10 +168,10 @@ index 00000000..c9569622
 +        Assert.True(b.Width >= 0);
 +    }
 +}
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+diff --git a/Gtk.Drawing/System/Drawing/Graphics.cs b/Gtk.Drawing/System/Drawing/Graphics.cs
 index e82957cc..f34ea168 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+--- a/Gtk.Drawing/System/Drawing/Graphics.cs
++++ b/Gtk.Drawing/System/Drawing/Graphics.cs
 @@ -2009,30 +2009,52 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
      /// </summary>
      public Region[] MeasureCharacterRanges(string text, Font font, RectangleF layoutRect, StringFormat stringFormat)

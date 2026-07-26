@@ -65,48 +65,48 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../Forms/VisualStyles/VisualStyleRenderer.cs |  332 +++
  .../Forms/VisualStyles/VisualStyleState.cs    |   21 +
  36 files changed, 3529 insertions(+)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/VisualStyleFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BackgroundType.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BooleanProperty.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BorderType.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ColorProperty.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ContentAlignment.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeEffects.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/Edges.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EnumProperty.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FilenameProperty.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FillType.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FontProperty.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GlyphFontSizingType.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GlyphType.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HitTestCode.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HitTestOptions.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HorizontalAlign.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/IconEffect.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ImageOrientation.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ImageSelectType.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/IntegerProperty.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/MarginProperty.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/OffsetType.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PointProperty.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/SizingType.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/StringProperty.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetrics.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetricsCharacterSet.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetricsPitchAndFamilyValues.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextShadowType.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ThemeSizeType.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrueSizeScalingType.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VerticalAlignment.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleElement.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleRenderer.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleState.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/VisualStyleFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BackgroundType.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BooleanProperty.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BorderType.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ColorProperty.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ContentAlignment.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeEffects.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/Edges.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EnumProperty.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FilenameProperty.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FillType.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FontProperty.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GlyphFontSizingType.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GlyphType.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HitTestCode.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HitTestOptions.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HorizontalAlign.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/IconEffect.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ImageOrientation.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ImageSelectType.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/IntegerProperty.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/MarginProperty.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/OffsetType.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PointProperty.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/SizingType.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/StringProperty.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetrics.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetricsCharacterSet.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetricsPitchAndFamilyValues.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextShadowType.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ThemeSizeType.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrueSizeScalingType.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VerticalAlignment.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleElement.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleRenderer.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleState.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/VisualStyleFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/VisualStyleFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/VisualStyleFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/VisualStyleFunctionalTests.cs
 new file mode 100644
 index 00000000..217bc444
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/VisualStyleFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/VisualStyleFunctionalTests.cs
 @@ -0,0 +1,96 @@
 +namespace System.Windows.Forms;
 +
@@ -204,11 +204,11 @@ index 00000000..217bc444
 +        form.Dispose();
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BackgroundType.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BackgroundType.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BackgroundType.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BackgroundType.cs
 new file mode 100644
 index 00000000..67d1a2fa
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BackgroundType.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BackgroundType.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -228,11 +228,11 @@ index 00000000..67d1a2fa
 +    /// <summary>The None value.</summary>
 +    None = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BooleanProperty.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BooleanProperty.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BooleanProperty.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BooleanProperty.cs
 new file mode 100644
 index 00000000..2e88488d
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BooleanProperty.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BooleanProperty.cs
 @@ -0,0 +1,48 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -282,11 +282,11 @@ index 00000000..2e88488d
 +    /// <summary>The SourceShrink value.</summary>
 +    SourceShrink = 2213,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BorderType.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BorderType.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BorderType.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BorderType.cs
 new file mode 100644
 index 00000000..6215da9c
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BorderType.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/BorderType.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -306,11 +306,11 @@ index 00000000..6215da9c
 +    /// <summary>The Ellipse value.</summary>
 +    Ellipse = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ColorProperty.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ColorProperty.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ColorProperty.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ColorProperty.cs
 new file mode 100644
 index 00000000..5f1d9da0
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ColorProperty.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ColorProperty.cs
 @@ -0,0 +1,78 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -390,11 +390,11 @@ index 00000000..5f1d9da0
 +    /// <summary>The AccentColorHint value.</summary>
 +    AccentColorHint = 3823,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ContentAlignment.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ContentAlignment.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ContentAlignment.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ContentAlignment.cs
 new file mode 100644
 index 00000000..48adaefc
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ContentAlignment.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ContentAlignment.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -414,11 +414,11 @@ index 00000000..48adaefc
 +    /// <summary>The Right value.</summary>
 +    Right = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeEffects.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeEffects.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeEffects.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeEffects.cs
 new file mode 100644
 index 00000000..58e01055
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeEffects.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EdgeEffects.cs
 @@ -0,0 +1,25 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -445,11 +445,11 @@ index 00000000..58e01055
 +    /// <summary>The Mono value.</summary>
 +    Mono = 32768,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/Edges.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/Edges.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/Edges.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/Edges.cs
 new file mode 100644
 index 00000000..7428b5c6
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/Edges.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/Edges.cs
 @@ -0,0 +1,25 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -476,11 +476,11 @@ index 00000000..7428b5c6
 +    /// <summary>The Diagonal value.</summary>
 +    Diagonal = 16,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EnumProperty.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EnumProperty.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EnumProperty.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EnumProperty.cs
 new file mode 100644
 index 00000000..0ea3d693
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EnumProperty.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/EnumProperty.cs
 @@ -0,0 +1,54 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -536,11 +536,11 @@ index 00000000..0ea3d693
 +    /// <summary>The TrueSizeScalingType value.</summary>
 +    TrueSizeScalingType = 4015,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FilenameProperty.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FilenameProperty.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FilenameProperty.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FilenameProperty.cs
 new file mode 100644
 index 00000000..8eb832d4
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FilenameProperty.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FilenameProperty.cs
 @@ -0,0 +1,33 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -575,11 +575,11 @@ index 00000000..8eb832d4
 +    /// <summary>The GlyphImageFile value.</summary>
 +    GlyphImageFile = 3008,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FillType.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FillType.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FillType.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FillType.cs
 new file mode 100644
 index 00000000..8a2f94f7
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FillType.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FillType.cs
 @@ -0,0 +1,24 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -605,11 +605,11 @@ index 00000000..8a2f94f7
 +    /// <summary>The TileImage value.</summary>
 +    TileImage = 4,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FontProperty.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FontProperty.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FontProperty.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FontProperty.cs
 new file mode 100644
 index 00000000..7d6ab8aa
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FontProperty.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/FontProperty.cs
 @@ -0,0 +1,12 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -623,11 +623,11 @@ index 00000000..7d6ab8aa
 +    /// <summary>The GlyphFont value.</summary>
 +    GlyphFont = 2601,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GlyphFontSizingType.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GlyphFontSizingType.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GlyphFontSizingType.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GlyphFontSizingType.cs
 new file mode 100644
 index 00000000..7cb5b8f9
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GlyphFontSizingType.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GlyphFontSizingType.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -647,11 +647,11 @@ index 00000000..7cb5b8f9
 +    /// <summary>The Dpi value.</summary>
 +    Dpi = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GlyphType.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GlyphType.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GlyphType.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GlyphType.cs
 new file mode 100644
 index 00000000..78cae72b
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GlyphType.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/GlyphType.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -671,11 +671,11 @@ index 00000000..78cae72b
 +    /// <summary>The FontGlyph value.</summary>
 +    FontGlyph = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HitTestCode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HitTestCode.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HitTestCode.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HitTestCode.cs
 new file mode 100644
 index 00000000..cd7d290e
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HitTestCode.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HitTestCode.cs
 @@ -0,0 +1,39 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -716,11 +716,11 @@ index 00000000..cd7d290e
 +    /// <summary>The BottomRight value.</summary>
 +    BottomRight = 17,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HitTestOptions.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HitTestOptions.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HitTestOptions.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HitTestOptions.cs
 new file mode 100644
 index 00000000..e3216786
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HitTestOptions.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HitTestOptions.cs
 @@ -0,0 +1,40 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -762,11 +762,11 @@ index 00000000..e3216786
 +    /// <summary>The SystemSizingMargins value.</summary>
 +    SystemSizingMargins = 512,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HorizontalAlign.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HorizontalAlign.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HorizontalAlign.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HorizontalAlign.cs
 new file mode 100644
 index 00000000..22a454c2
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HorizontalAlign.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/HorizontalAlign.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -786,11 +786,11 @@ index 00000000..22a454c2
 +    /// <summary>The Right value.</summary>
 +    Right = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/IconEffect.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/IconEffect.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/IconEffect.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/IconEffect.cs
 new file mode 100644
 index 00000000..508308a1
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/IconEffect.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/IconEffect.cs
 @@ -0,0 +1,24 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -816,11 +816,11 @@ index 00000000..508308a1
 +    /// <summary>The Alpha value.</summary>
 +    Alpha = 4,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ImageOrientation.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ImageOrientation.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ImageOrientation.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ImageOrientation.cs
 new file mode 100644
 index 00000000..59d7e9a3
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ImageOrientation.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ImageOrientation.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -837,11 +837,11 @@ index 00000000..59d7e9a3
 +    /// <summary>The Horizontal value.</summary>
 +    Horizontal = 1,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ImageSelectType.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ImageSelectType.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ImageSelectType.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ImageSelectType.cs
 new file mode 100644
 index 00000000..cdae6826
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ImageSelectType.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ImageSelectType.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -861,11 +861,11 @@ index 00000000..cdae6826
 +    /// <summary>The Dpi value.</summary>
 +    Dpi = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/IntegerProperty.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/IntegerProperty.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/IntegerProperty.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/IntegerProperty.cs
 new file mode 100644
 index 00000000..94b37f0b
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/IntegerProperty.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/IntegerProperty.cs
 @@ -0,0 +1,81 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -948,11 +948,11 @@ index 00000000..94b37f0b
 +    /// <summary>The MinDpi5 value.</summary>
 +    MinDpi5 = 2424,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/MarginProperty.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/MarginProperty.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/MarginProperty.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/MarginProperty.cs
 new file mode 100644
 index 00000000..5660441f
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/MarginProperty.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/MarginProperty.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -972,11 +972,11 @@ index 00000000..5660441f
 +    /// <summary>The CaptionMargins value.</summary>
 +    CaptionMargins = 3603,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/OffsetType.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/OffsetType.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/OffsetType.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/OffsetType.cs
 new file mode 100644
 index 00000000..ea282d96
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/OffsetType.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/OffsetType.cs
 @@ -0,0 +1,51 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1029,11 +1029,11 @@ index 00000000..ea282d96
 +    /// <summary>The BelowLastButton value.</summary>
 +    BelowLastButton = 13,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PointProperty.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PointProperty.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PointProperty.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PointProperty.cs
 new file mode 100644
 index 00000000..bfa86375
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PointProperty.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/PointProperty.cs
 @@ -0,0 +1,33 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1068,11 +1068,11 @@ index 00000000..bfa86375
 +    /// <summary>The MinSize5 value.</summary>
 +    MinSize5 = 3408,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/SizingType.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/SizingType.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/SizingType.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/SizingType.cs
 new file mode 100644
 index 00000000..54966b4e
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/SizingType.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/SizingType.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1092,11 +1092,11 @@ index 00000000..54966b4e
 +    /// <summary>The Tile value.</summary>
 +    Tile = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/StringProperty.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/StringProperty.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/StringProperty.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/StringProperty.cs
 new file mode 100644
 index 00000000..7f7a52bb
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/StringProperty.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/StringProperty.cs
 @@ -0,0 +1,12 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1110,11 +1110,11 @@ index 00000000..7f7a52bb
 +    /// <summary>The Text value.</summary>
 +    Text = 3201,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetrics.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetrics.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetrics.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetrics.cs
 new file mode 100644
 index 00000000..310e4e2a
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetrics.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetrics.cs
 @@ -0,0 +1,69 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1185,11 +1185,11 @@ index 00000000..310e4e2a
 +    /// <summary>Gets or sets the character set of the font.</summary>
 +    public TextMetricsCharacterSet CharSet { get; set; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetricsCharacterSet.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetricsCharacterSet.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetricsCharacterSet.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetricsCharacterSet.cs
 new file mode 100644
 index 00000000..f3aa791f
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetricsCharacterSet.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetricsCharacterSet.cs
 @@ -0,0 +1,66 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1257,11 +1257,11 @@ index 00000000..f3aa791f
 +    /// <summary>The Thai value.</summary>
 +    Thai = 222,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetricsPitchAndFamilyValues.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetricsPitchAndFamilyValues.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetricsPitchAndFamilyValues.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetricsPitchAndFamilyValues.cs
 new file mode 100644
 index 00000000..c0d3d848
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetricsPitchAndFamilyValues.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextMetricsPitchAndFamilyValues.cs
 @@ -0,0 +1,22 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1285,11 +1285,11 @@ index 00000000..c0d3d848
 +    /// <summary>The Device value.</summary>
 +    Device = 8,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextShadowType.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextShadowType.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextShadowType.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextShadowType.cs
 new file mode 100644
 index 00000000..0bfdf1ee
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextShadowType.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TextShadowType.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1309,11 +1309,11 @@ index 00000000..0bfdf1ee
 +    /// <summary>The Continuous value.</summary>
 +    Continuous = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ThemeSizeType.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ThemeSizeType.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ThemeSizeType.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ThemeSizeType.cs
 new file mode 100644
 index 00000000..5f699678
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ThemeSizeType.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/ThemeSizeType.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1333,11 +1333,11 @@ index 00000000..5f699678
 +    /// <summary>The Draw value.</summary>
 +    Draw = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrueSizeScalingType.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrueSizeScalingType.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrueSizeScalingType.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrueSizeScalingType.cs
 new file mode 100644
 index 00000000..3580ba26
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrueSizeScalingType.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/TrueSizeScalingType.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1357,11 +1357,11 @@ index 00000000..3580ba26
 +    /// <summary>The Dpi value.</summary>
 +    Dpi = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VerticalAlignment.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VerticalAlignment.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VerticalAlignment.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VerticalAlignment.cs
 new file mode 100644
 index 00000000..455e4dde
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VerticalAlignment.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VerticalAlignment.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1381,11 +1381,11 @@ index 00000000..455e4dde
 +    /// <summary>The Bottom value.</summary>
 +    Bottom = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleElement.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleElement.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleElement.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleElement.cs
 new file mode 100644
 index 00000000..063388e3
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleElement.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleElement.cs
 @@ -0,0 +1,2095 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -3482,11 +3482,11 @@ index 00000000..063388e3
 +        }
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleRenderer.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleRenderer.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleRenderer.cs
 new file mode 100644
 index 00000000..68a0feb1
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleRenderer.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleRenderer.cs
 @@ -0,0 +1,332 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -3820,11 +3820,11 @@ index 00000000..68a0feb1
 +    /// <returns><see langword="false" />.</returns>
 +    public bool IsBackgroundPartiallyTransparent() => false;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleState.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleState.cs b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleState.cs
 new file mode 100644
 index 00000000..1bc7ca93
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleState.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/VisualStyles/VisualStyleState.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.

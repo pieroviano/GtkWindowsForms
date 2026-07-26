@@ -5,7 +5,7 @@ Subject: [PATCH] Fix Drawing-test regressions introduced by the gitee
  alignment
 
 Three behaviours the transformed-space merge took from gitee that regressed
-Net4x.Gtk.Drawing.Tests:
+Gtk.Drawing.Tests:
 
 * Form.Dispose set `self = null!`, so a form Closed from its own Load handler
   (e.g. via ShowDialog) then dereferenced the nulled window in Run() -> NRE.
@@ -18,15 +18,15 @@ Net4x.Gtk.Drawing.Tests:
 
 Fixes RegionTests.GetBounds/IsEmpty.
 ---
- Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs    | 20 +++++++++++---
+ Gtk.Drawing/System/Drawing/Bitmap.cs    | 20 +++++++++++---
  .../System/Windows/Forms/Control/Control.cs   | 15 ++++++++---
  .../System/Windows/Forms/Form.cs              | 27 ++++++++++++++++---
  3 files changed, 53 insertions(+), 9 deletions(-)
 
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs b/Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs
+diff --git a/Gtk.Drawing/System/Drawing/Bitmap.cs b/Gtk.Drawing/System/Drawing/Bitmap.cs
 index 64f00ff9..d978a2d9 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs
+--- a/Gtk.Drawing/System/Drawing/Bitmap.cs
++++ b/Gtk.Drawing/System/Drawing/Bitmap.cs
 @@ -95,9 +95,23 @@ public class Bitmap : Image
          {
              var bytes = reader.ReadBytes((int)stream.Length);
@@ -54,10 +54,10 @@ index 64f00ff9..d978a2d9 100644
          }
      }
  
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 index cf6b5f7c..415561b9 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 @@ -58,6 +58,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
  
      Surface? surface;
@@ -89,10 +89,10 @@ index cf6b5f7c..415561b9 100644
          }
          catch (Exception ex)
          {
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 index 7bd15397..38b34553 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 @@ -832,9 +832,28 @@ public partial class Form : ContainerControl, IWin32Window
      /// </returns>
      public DialogResult ShowDialog(IWin32Window? owner)

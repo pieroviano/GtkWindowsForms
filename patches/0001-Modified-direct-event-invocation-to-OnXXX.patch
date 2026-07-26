@@ -31,10 +31,10 @@ Subject: [PATCH] Modified direct event invocation to OnXXX
  .../System/Windows/Forms/TreeView.cs          |   8 +-
  25 files changed, 27 insertions(+), 53 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
 index 5babb148..43783f0b 100644
---- a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
 @@ -215,7 +215,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
          if (Scroll != null)
          {
@@ -53,10 +53,10 @@ index 5babb148..43783f0b 100644
          }
      }
  
-diff --git a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ScrollableBoxBase.cs b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ScrollableBoxBase.cs
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ScrollableBoxBase.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ScrollableBoxBase.cs
 index e2275be8..d5b39678 100644
---- a/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ScrollableBoxBase.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ScrollableBoxBase.cs
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ScrollableBoxBase.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/ScrollableBoxBase.cs
 @@ -1,4 +1,4 @@
 -using System;
 +﻿using System;
@@ -82,10 +82,10 @@ index e2275be8..d5b39678 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
 index a4f9100f..cd5f32dc 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
 @@ -275,7 +275,7 @@ public partial class ComboBox : ListControl
      /// </summary>
      protected virtual void OnDropDown(System.EventArgs e)
@@ -104,10 +104,10 @@ index a4f9100f..cd5f32dc 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 index 7fcbaf21..fc22808c 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 @@ -1,4 +1,4 @@
 -/*
 +﻿/*
@@ -321,10 +321,10 @@ index 7fcbaf21..fc22808c 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
 index 7b8230b0..73111ae5 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridView.cs
 @@ -1243,7 +1243,7 @@ public partial class DataGridView : ScrollableControl
  
      internal void CellValueChanagedHandler(int column, int row)
@@ -352,10 +352,10 @@ index 7b8230b0..73111ae5 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs b/Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs
 index 134d4c7a..2d1ac845 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs
 @@ -345,7 +345,7 @@ public partial class DateTimePicker : MaskedTextBox
      private void Self_Changed(object sender, EventArgs e)
      {
@@ -365,10 +365,10 @@ index 134d4c7a..2d1ac845 100644
      }
  
      private void Self_Shown(object sender, EventArgs e)
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/PaintEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/PaintEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/PaintEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/PaintEventArgs.cs
 index 7bda903e..33676a1d 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/PaintEventArgs.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/PaintEventArgs.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/PaintEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/PaintEventArgs.cs
 @@ -1,4 +1,4 @@
 -// Licensed to the .NET Foundation under one or more agreements.
 +﻿// Licensed to the .NET Foundation under one or more agreements.
@@ -383,10 +383,10 @@ index 7bda903e..33676a1d 100644
              oldPal = IntPtr.Zero;
          }
      }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 index 5d3a76b1..668a14fd 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 @@ -649,22 +649,22 @@ public partial class Form : ContainerControl, IWin32Window
  
      private void OnLoadHandler()
@@ -423,10 +423,10 @@ index 5d3a76b1..668a14fd 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs b/Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
 index 33819953..d14261ca 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
 @@ -1,4 +1,4 @@
 -/*
 +﻿/*
@@ -442,10 +442,10 @@ index 33819953..d14261ca 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
 index 5abc74fd..ef01708c 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
 @@ -1,4 +1,4 @@
 -/*
 +﻿/*
@@ -461,10 +461,10 @@ index 5abc74fd..ef01708c 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ListView.cs b/Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
 index 63d13d00..26853661 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
 @@ -1,4 +1,4 @@
 -/*
 +﻿/*
@@ -527,10 +527,10 @@ index 63d13d00..26853661 100644
          }
      }
  
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripComboBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripComboBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripComboBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripComboBox.cs
 index 96ead3d2..99aea353 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripComboBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripComboBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripComboBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripComboBox.cs
 @@ -114,8 +114,8 @@ public class ToolStripComboBox : WidgetToolStrip<Gtk.MenuItem>
  
      private void ComboBox_Changed(object sender, EventArgs e)
@@ -542,10 +542,10 @@ index 96ead3d2..99aea353 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownButton.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownButton.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownButton.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownButton.cs
 index 167cff6c..934dd6cb 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownButton.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownButton.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownButton.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownButton.cs
 @@ -154,12 +154,6 @@ public class ToolStripDropDownButton : ToolStripDropDownItem
      /// The
      /// <see cref="T:System.Windows.Forms.MouseEventArgs" /> instance containing the event data.
@@ -559,10 +559,10 @@ index 167cff6c..934dd6cb 100644
      protected void OnMouseDown(MouseEventArgs e)
      {
          MouseDown?.Invoke(this, e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
 index 1972e106..5b0fa8c9 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/WidgetToolStrip.cs
 @@ -926,7 +926,7 @@ public class WidgetToolStrip<T> : ToolStripItem, IDropTarget, ISupportOleDropSou
      /// </summary>
      protected override void OnCheckedChanged(EventArgs e)
@@ -593,10 +593,10 @@ index 1972e106..5b0fa8c9 100644
  
      }
  
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MonthCalendar.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MonthCalendar.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MonthCalendar.cs b/Gtk.Windows.Forms/System/Windows/Forms/MonthCalendar.cs
 index e64374bf..83d5d944 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MonthCalendar.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MonthCalendar.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MonthCalendar.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MonthCalendar.cs
 @@ -177,9 +177,9 @@ public partial class MonthCalendar : Control
      private void MonthCalendar_DaySelected(object sender, EventArgs e)
      {
@@ -610,10 +610,10 @@ index e64374bf..83d5d944 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs b/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
 index 40a105a3..ae0e0b9f 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/NumericUpDown.cs
 @@ -113,6 +113,6 @@ public partial class NumericUpDown : Control
      private void Self_ValueChanged(object sender, EventArgs e)
      {
@@ -623,10 +623,10 @@ index 40a105a3..ae0e0b9f 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs b/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
 index 49c88b7d..7492d2b0 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
 @@ -103,6 +103,6 @@ public partial class RadioButton : Control
      private void Self_Toggled(object sender, EventArgs e)
      {
@@ -636,10 +636,10 @@ index 49c88b7d..7492d2b0 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
 index ad200232..8ec45fad 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/RichTextBox.cs
 @@ -201,7 +201,7 @@ public partial class RichTextBox : ScrollableControl
      {
          if (TextChanged != null && self.IsVisible)
@@ -650,10 +650,10 @@ index ad200232..8ec45fad 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollBar.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollBar.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollBar.cs b/Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollBar.cs
 index 6f8a7873..f27dad81 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollBar.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollBar.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollBar.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Scrolling/ScrollBar.cs
 @@ -1,4 +1,4 @@
 -using System;
 +﻿using System;
@@ -673,10 +673,10 @@ index 6f8a7873..f27dad81 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
 index a9762378..e41a0c09 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/SwitchBox.cs
 @@ -55,7 +55,7 @@ public partial class SwitchBox : Control
          {
              self.Active = value;
@@ -695,10 +695,10 @@ index a9762378..e41a0c09 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs b/Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs
 index 088d9019..bcd33313 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TabControl.cs
 @@ -289,7 +289,7 @@ public partial class TabControl : ContainerControl
      private void Self_SwitchPage(object o, SwitchPageArgs args)
      {
@@ -717,10 +717,10 @@ index 088d9019..bcd33313 100644
  
                      }
                  };
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
 index 18c85905..7c8d4587 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TextBox.cs
 @@ -1,4 +1,4 @@
 -/*
 +﻿/*
@@ -755,10 +755,10 @@ index 18c85905..7c8d4587 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs b/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
 index aabfccde..b6c03158 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
 @@ -164,9 +164,9 @@ public class ToolStrip : Control
  
      private void ToolStripItem_Activated(object sender, ActivateCurrentArgs e)
@@ -774,10 +774,10 @@ index aabfccde..b6c03158 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs b/Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
 index 3eb7d275..6591267c 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TrackBar.cs
 @@ -135,7 +135,7 @@ public class TrackBar : Control
      /// </summary>
      protected virtual void OnScroll(System.EventArgs e)
@@ -796,10 +796,10 @@ index 3eb7d275..6591267c 100644
      }
  }
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs b/Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
 index a1e935e0..922bd9bb 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TreeView.cs
 @@ -626,10 +626,10 @@ public partial class TreeView : ScrollableControl
                  GetNodeChild(root, currpath.Indices, ref result);
                  cancelEventArgs = new TreeViewCancelEventArgs(result, false, TreeViewAction.ByMouse);

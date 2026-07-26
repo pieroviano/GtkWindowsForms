@@ -18,7 +18,7 @@ public static class ResGenService
     {
         var currentDirectory = Environment.CurrentDirectory;
         Environment.CurrentDirectory = Path.Combine(targetDir, "Properties");
-        var combine = Path.Combine(targetDir, "Net4x.Gtk.Windows.Forms.csproj");
+        var combine = Path.Combine(targetDir, "Gtk.Windows.Forms.csproj");
         RunResGen(combine, "Resources.resx", "System.Properties", "Properties");
         RegenerateSampleDesigner(projectName);
         RegenerateSampleDesigner(otherProjectName);

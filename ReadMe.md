@@ -1,4 +1,4 @@
-# Net4x.Gtk.Windows.Forms
+# Gtk.Windows.Forms
 ### Introduction
 
 Native Visual Studio development, no learning curve, compile once, run cross-platform.

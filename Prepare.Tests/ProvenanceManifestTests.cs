@@ -12,14 +12,14 @@ namespace Prepare.Tests
             try
             {
                 var m = new ProvenanceManifest();
-                m.Add(@"Net4x.Gtk.Drawing\System\Drawing\Pen.cs", @"C:\src\GTKControls\Drawing\Pen.cs");
+                m.Add(@"Gtk.Drawing\System\Drawing\Pen.cs", @"C:\src\GTKControls\Drawing\Pen.cs");
                 m.Save(path);
 
                 var loaded = ProvenanceManifest.Load(path);
 
                 Assert.Single(loaded);
                 Assert.Equal(@"C:\src\GTKControls\Drawing\Pen.cs",
-                    loaded["Net4x.Gtk.Drawing/System/Drawing/Pen.cs"]); // key normalized to '/'
+                    loaded["Gtk.Drawing/System/Drawing/Pen.cs"]); // key normalized to '/'
             }
             finally
             {

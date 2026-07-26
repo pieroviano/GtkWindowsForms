@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 namespace Prepare.Common.Alignment;
 
 /// <summary>
-/// Post-merge check (§3.7): scans the aligned <c>Net4x.*</c> for residual Chinese (`[一-鿿]`) — a
+/// Post-merge check (§3.7): scans the aligned <c>Gtk.*</c> for residual Chinese (`[一-鿿]`) — a
 /// translation gap left by an unfilled blank entry (protected by the apply guard, so the Chinese
 /// stays visible rather than being erased). Returns each offending file and its match count.
 /// </summary>

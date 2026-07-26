@@ -7,10 +7,10 @@ Subject: [PATCH] Fix DateTimePicker
  .../System/Windows/Forms/DateTimePicker.cs    | 30 +++++++++++++------
  1 file changed, 21 insertions(+), 9 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs b/Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs
 index 38e45d5..fc68520 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DateTimePicker.cs
 @@ -22,13 +22,15 @@ public partial class DateTimePicker : MaskedTextBox
      /// <summary>
      /// The format

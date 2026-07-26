@@ -42,7 +42,7 @@ public static class ProjectPatching
         EnsureResxProcessorInNugetPackageAsTool(csprojPath);
         EnsureLocalizedResourcesItemsInProject(csprojPath);
         ReferenceService.EnsureProjectReference(csprojPath, 
-            @"..\Net4x.Gtk.Windows.FormsDesigner\Net4x.Gtk.Windows.FormsDesigner.csproj");
+            @"..\Gtk.Windows.FormsDesigner\Gtk.Windows.FormsDesigner.csproj");
         return csprojPath;
     }
 
@@ -102,11 +102,11 @@ public static class ProjectPatching
 
         var sourceProps = Path.Combine(
             resourcesDir,
-            "Net4x.Gtk.Windows.Forms.props");
+            "Gtk.Windows.Forms.props");
 
         var targetProps = Path.Combine(
             targetDir,
-            "Net4x.Gtk.Windows.Forms.props");
+            "Gtk.Windows.Forms.props");
 
         CopyIfExists(sourceProps, targetProps);
     }
@@ -115,9 +115,9 @@ public static class ProjectPatching
     {
         var resourcesDir = Path.GetFullPath(RepoPaths.At("Resources"));
 
-        var sourceProps = Path.Combine(resourcesDir, "Net4x.Gtk.Windows.Forms.xml");
+        var sourceProps = Path.Combine(resourcesDir, "Gtk.Windows.Forms.xml");
 
-        var targetProps = Path.Combine(targetDir, "Net4x.Gtk.Windows.Forms.xml");
+        var targetProps = Path.Combine(targetDir, "Gtk.Windows.Forms.xml");
 
         CopyIfExists(sourceProps, targetProps);
     }
@@ -129,11 +129,11 @@ public static class ProjectPatching
 
         var sourceProps = Path.Combine(
             resourcesDir,
-            "Net4x.Gtk.Windows.Forms.targets");
+            "Gtk.Windows.Forms.targets");
 
         var targetProps = Path.Combine(
             targetDir,
-            "Net4x.Gtk.Windows.Forms.targets");
+            "Gtk.Windows.Forms.targets");
 
         CopyIfExists(sourceProps, targetProps);
     }
@@ -234,7 +234,7 @@ public static class ProjectPatching
         var ns = doc.Root!.Name.Namespace;
 
         const string include =
-            @"..\Net4x.ResxProcessor\bin\$(Configuration)\net8.0\**\*.*";
+            @"..\ResxProcessor\bin\$(Configuration)\net8.0\**\*.*";
 
         // Find the *last* ItemGroup
         var lastItemGroup = doc
@@ -388,7 +388,7 @@ public static class ProjectPatching
         var hasPropsNone = itemGroup
             .Elements(ns + "None")
             .Any(n => (string?)n.Attribute("Include") ==
-                      "Net4x.Gtk.Windows.Forms.props");
+                      "Gtk.Windows.Forms.props");
 
         if (!hasPropsNone)
         {
@@ -396,7 +396,7 @@ public static class ProjectPatching
                 new XElement(ns + "None",
                     new XAttribute(
                         "Include",
-                        "Net4x.Gtk.Windows.Forms.props"),
+                        "Gtk.Windows.Forms.props"),
                     new XAttribute("Pack", "true"),
                     new XAttribute("PackagePath", @"\build\")));
         }
@@ -405,7 +405,7 @@ public static class ProjectPatching
         var hasTargetsNone = itemGroup
             .Elements(ns + "None")
             .Any(n => (string?)n.Attribute("Include") ==
-                      "Net4x.Gtk.Windows.Forms.targets");
+                      "Gtk.Windows.Forms.targets");
 
         if (!hasTargetsNone)
         {
@@ -413,7 +413,7 @@ public static class ProjectPatching
                 new XElement(ns + "None",
                     new XAttribute(
                         "Include",
-                        "Net4x.Gtk.Windows.Forms.targets"),
+                        "Gtk.Windows.Forms.targets"),
                     new XAttribute("Pack", "true"),
                     new XAttribute("PackagePath", @"\build\")));
         }

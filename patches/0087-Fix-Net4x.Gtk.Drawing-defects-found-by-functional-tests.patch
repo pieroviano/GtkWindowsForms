@@ -1,9 +1,9 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Claude <noreply@anthropic.com>
 Date: Wed, 22 Jul 2026 00:00:00 +0000
-Subject: [PATCH] Fix Net4x.Gtk.Drawing defects found by functional tests
+Subject: [PATCH] Fix Gtk.Drawing defects found by functional tests
 
-Behavioural defects surfaced by the Net4x.Gtk.Drawing.Tests functional suite:
+Behavioural defects surfaced by the Gtk.Drawing.Tests functional suite:
 
 Bitmap/Image
  - the pixel buffer was never allocated, so a new Bitmap had no pixels
@@ -95,10 +95,10 @@ Region is no longer a single rectangle (SS2.7)
   overwrites RawFormat with the buffer encoding (a stream-loaded BMP reported Jpeg);
   unsupported encodings now buffer as lossless PNG with RawFormat untouched.
 ---
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs b/Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs
+diff --git a/Gtk.Drawing/System/Drawing/Bitmap.cs b/Gtk.Drawing/System/Drawing/Bitmap.cs
 index b6ec9d3a..d4cbf94a 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Bitmap.cs
+--- a/Gtk.Drawing/System/Drawing/Bitmap.cs
++++ b/Gtk.Drawing/System/Drawing/Bitmap.cs
 @@ -233,6 +233,16 @@ public class Bitmap : Image
          this.Width = width;
          this.Height = height;
@@ -296,11 +296,11 @@ index b6ec9d3a..d4cbf94a 100644
      }
  
      private static Stream GetResourceStream(Type type, string resource)
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphics.cs b/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphics.cs
+diff --git a/Gtk.Drawing/System/Drawing/BufferedGraphics.cs b/Gtk.Drawing/System/Drawing/BufferedGraphics.cs
 new file mode 100644
 index 00000000..1002a951
 --- /dev/null
-+++ b/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphics.cs
++++ b/Gtk.Drawing/System/Drawing/BufferedGraphics.cs
 @@ -0,0 +1,82 @@
 +namespace System.Drawing;
 +
@@ -384,11 +384,11 @@ index 00000000..1002a951
 +        _targetGraphics = null;
 +    }
 +}
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphicsContext.cs b/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphicsContext.cs
+diff --git a/Gtk.Drawing/System/Drawing/BufferedGraphicsContext.cs b/Gtk.Drawing/System/Drawing/BufferedGraphicsContext.cs
 new file mode 100644
 index 00000000..440ada6d
 --- /dev/null
-+++ b/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphicsContext.cs
++++ b/Gtk.Drawing/System/Drawing/BufferedGraphicsContext.cs
 @@ -0,0 +1,64 @@
 +namespace System.Drawing;
 +
@@ -454,11 +454,11 @@ index 00000000..440ada6d
 +    {
 +    }
 +}
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphicsManager.cs b/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphicsManager.cs
+diff --git a/Gtk.Drawing/System/Drawing/BufferedGraphicsManager.cs b/Gtk.Drawing/System/Drawing/BufferedGraphicsManager.cs
 new file mode 100644
 index 00000000..ef56f3f6
 --- /dev/null
-+++ b/Net4x.Gtk.Drawing/System/Drawing/BufferedGraphicsManager.cs
++++ b/Gtk.Drawing/System/Drawing/BufferedGraphicsManager.cs
 @@ -0,0 +1,23 @@
 +namespace System.Drawing;
 +
@@ -483,10 +483,10 @@ index 00000000..ef56f3f6
 +    /// </summary>
 +    public static BufferedGraphicsContext Current { get; } = new();
 +}
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs
 index 4e828b05..097ed68d 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/Enum/CustomLineCap.cs
 @@ -19,7 +19,7 @@ public class CustomLineCap : MarshalByRefObject, ICloneable, IDisposable
      /// A
      /// <see cref="T:System.Drawing.Drawing2D.GraphicsPath" /> object that defines the outline of the custom cap.
@@ -636,10 +636,10 @@ index 4e828b05..097ed68d 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs b/Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
 index 6d68f841..5ed28f50 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/GraphicsPath.cs
 @@ -1623,12 +1623,17 @@ public sealed class GraphicsPath : MarshalByRefObject, ICloneable, IDisposable
      /// /// </summary>
      public bool IsOutlineVisible(PointF point, Pen pen)
@@ -756,10 +756,10 @@ index 6d68f841..5ed28f50 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Matrix.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Matrix.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/Matrix.cs b/Gtk.Drawing/System/Drawing/Drawing2D/Matrix.cs
 index 85e27a5d..8ca2ce50 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Matrix.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/Matrix.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/Matrix.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/Matrix.cs
 @@ -125,10 +125,9 @@ public sealed class Matrix : MarshalByRefObject, IDisposable
      /// </returns>
      public float[] Elements
@@ -956,10 +956,10 @@ index 85e27a5d..8ca2ce50 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Font.cs b/Net4x.Gtk.Drawing/System/Drawing/Font.cs
+diff --git a/Gtk.Drawing/System/Drawing/Font.cs b/Gtk.Drawing/System/Drawing/Font.cs
 index 38814a76..a39814ae 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Font.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Font.cs
+--- a/Gtk.Drawing/System/Drawing/Font.cs
++++ b/Gtk.Drawing/System/Drawing/Font.cs
 @@ -312,7 +312,7 @@ public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISeriali
      /// The line spacing, in pixels, of this font.
      /// </returns>
@@ -1062,10 +1062,10 @@ index 38814a76..a39814ae 100644
  
      /// <summary>
      /// Populates a
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+diff --git a/Gtk.Drawing/System/Drawing/Graphics.cs b/Gtk.Drawing/System/Drawing/Graphics.cs
 index 5a5eb883..237fcd86 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Graphics.cs
+--- a/Gtk.Drawing/System/Drawing/Graphics.cs
++++ b/Gtk.Drawing/System/Drawing/Graphics.cs
 @@ -28,12 +28,19 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
  
      private readonly Image? image;
@@ -2192,10 +2192,10 @@ index 5a5eb883..237fcd86 100644
              this.context.Save();
              using (var p = this.context.GetSource())
              {
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Icon.cs b/Net4x.Gtk.Drawing/System/Drawing/Icon.cs
+diff --git a/Gtk.Drawing/System/Drawing/Icon.cs b/Gtk.Drawing/System/Drawing/Icon.cs
 index 0beb4e59..aebc3cef 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Icon.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Icon.cs
+--- a/Gtk.Drawing/System/Drawing/Icon.cs
++++ b/Gtk.Drawing/System/Drawing/Icon.cs
 @@ -343,12 +343,9 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
      /// <see cref="T:System.Drawing.Size" /> structure that specifies the width and height of this
      /// <see cref="T:System.Drawing.Icon" />.
@@ -2222,10 +2222,10 @@ index 0beb4e59..aebc3cef 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Image.cs b/Net4x.Gtk.Drawing/System/Drawing/Image.cs
+diff --git a/Gtk.Drawing/System/Drawing/Image.cs b/Gtk.Drawing/System/Drawing/Image.cs
 index c3c78095..268f43be 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Image.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Image.cs
+--- a/Gtk.Drawing/System/Drawing/Image.cs
++++ b/Gtk.Drawing/System/Drawing/Image.cs
 @@ -162,15 +162,7 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
      /// <summary>
      /// Gets the horizontal resolution in pixels per inch.
@@ -2460,10 +2460,10 @@ index c3c78095..268f43be 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Pen.cs b/Net4x.Gtk.Drawing/System/Drawing/Pen.cs
+diff --git a/Gtk.Drawing/System/Drawing/Pen.cs b/Gtk.Drawing/System/Drawing/Pen.cs
 index edb3af6a..4b473742 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Pen.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Pen.cs
+--- a/Gtk.Drawing/System/Drawing/Pen.cs
++++ b/Gtk.Drawing/System/Drawing/Pen.cs
 @@ -381,10 +381,15 @@ public sealed class Pen : MarshalByRefObject, ICloneable, IDisposable
      /// </returns>
      public PenType PenType
@@ -2483,10 +2483,10 @@ index edb3af6a..4b473742 100644
      }
  
      /// <summary>
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Region.cs b/Net4x.Gtk.Drawing/System/Drawing/Region.cs
+diff --git a/Gtk.Drawing/System/Drawing/Region.cs b/Gtk.Drawing/System/Drawing/Region.cs
 index 874c8d04..8e4cd118 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Region.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Region.cs
+--- a/Gtk.Drawing/System/Drawing/Region.cs
++++ b/Gtk.Drawing/System/Drawing/Region.cs
 @@ -20,12 +20,181 @@ public sealed class Region : MarshalByRefObject, IDisposable
      private bool isEmpty = false;
      private bool isInfinite = false;
@@ -3202,10 +3202,10 @@ index 874c8d04..8e4cd118 100644
      }
  }
  
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs b/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs
+diff --git a/Gtk.Drawing/System/Drawing/StringFormat.cs b/Gtk.Drawing/System/Drawing/StringFormat.cs
 index 3e26de69..4d98ecbf 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/StringFormat.cs
+--- a/Gtk.Drawing/System/Drawing/StringFormat.cs
++++ b/Gtk.Drawing/System/Drawing/StringFormat.cs
 @@ -25,6 +25,9 @@ public sealed class StringFormat : MarshalByRefObject, ICloneable, IDisposable
  
      private CharacterRange[] _ranges = Array.Empty<CharacterRange>();
@@ -3216,11 +3216,11 @@ index 3e26de69..4d98ecbf 100644
      /// <summary>
      /// Initializes a new
      /// <see cref="T:System.Drawing.StringFormat" /> object.
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/SystemBrushes.cs b/Net4x.Gtk.Drawing/System/Drawing/SystemBrushes.cs
+diff --git a/Gtk.Drawing/System/Drawing/SystemBrushes.cs b/Gtk.Drawing/System/Drawing/SystemBrushes.cs
 new file mode 100644
 index 00000000..2dc4b1e0
 --- /dev/null
-+++ b/Net4x.Gtk.Drawing/System/Drawing/SystemBrushes.cs
++++ b/Gtk.Drawing/System/Drawing/SystemBrushes.cs
 @@ -0,0 +1,113 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -3335,11 +3335,11 @@ index 00000000..2dc4b1e0
 +        return new SolidBrush(c);
 +    }
 +}
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/SystemFonts.cs b/Net4x.Gtk.Drawing/System/Drawing/SystemFonts.cs
+diff --git a/Gtk.Drawing/System/Drawing/SystemFonts.cs b/Gtk.Drawing/System/Drawing/SystemFonts.cs
 new file mode 100644
 index 00000000..97bf5adc
 --- /dev/null
-+++ b/Net4x.Gtk.Drawing/System/Drawing/SystemFonts.cs
++++ b/Gtk.Drawing/System/Drawing/SystemFonts.cs
 @@ -0,0 +1,63 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -3404,11 +3404,11 @@ index 00000000..97bf5adc
 +        _ => null
 +    };
 +}
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/SystemIcons.cs b/Net4x.Gtk.Drawing/System/Drawing/SystemIcons.cs
+diff --git a/Gtk.Drawing/System/Drawing/SystemIcons.cs b/Gtk.Drawing/System/Drawing/SystemIcons.cs
 new file mode 100644
 index 00000000..977ae8c4
 --- /dev/null
-+++ b/Net4x.Gtk.Drawing/System/Drawing/SystemIcons.cs
++++ b/Gtk.Drawing/System/Drawing/SystemIcons.cs
 @@ -0,0 +1,137 @@
 +namespace System.Drawing;
 +
@@ -3547,11 +3547,11 @@ index 00000000..977ae8c4
 +        return new Icon(stream);
 +    }
 +}
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/TextureBrush.cs b/Net4x.Gtk.Drawing/System/Drawing/TextureBrush.cs
+diff --git a/Gtk.Drawing/System/Drawing/TextureBrush.cs b/Gtk.Drawing/System/Drawing/TextureBrush.cs
 new file mode 100644
 index 00000000..f72da1a8
 --- /dev/null
-+++ b/Net4x.Gtk.Drawing/System/Drawing/TextureBrush.cs
++++ b/Gtk.Drawing/System/Drawing/TextureBrush.cs
 @@ -0,0 +1,239 @@
 +using System.Drawing.Drawing2D;
 +using System.Drawing.Imaging;
@@ -3792,11 +3792,11 @@ index 00000000..f72da1a8
 +        };
 +    }
 +}
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/ToolboxBitmapAttribute.cs b/Net4x.Gtk.Drawing/System/Drawing/ToolboxBitmapAttribute.cs
+diff --git a/Gtk.Drawing/System/Drawing/ToolboxBitmapAttribute.cs b/Gtk.Drawing/System/Drawing/ToolboxBitmapAttribute.cs
 new file mode 100644
 index 00000000..4d3cd03f
 --- /dev/null
-+++ b/Net4x.Gtk.Drawing/System/Drawing/ToolboxBitmapAttribute.cs
++++ b/Gtk.Drawing/System/Drawing/ToolboxBitmapAttribute.cs
 @@ -0,0 +1,194 @@
 +using System.IO;
 +using System.Reflection;

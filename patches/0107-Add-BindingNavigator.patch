@@ -23,18 +23,18 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../Forms/BindingNavigatorFunctionalTests.cs  | 149 ++++++
  .../System/Windows/Forms/BindingNavigator.cs  | 432 ++++++++++++++++++
  2 files changed, 581 insertions(+)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/BindingNavigatorFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/BindingNavigator.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/BindingNavigatorFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/BindingNavigator.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/BindingNavigatorFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/BindingNavigatorFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/BindingNavigatorFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/BindingNavigatorFunctionalTests.cs
 new file mode 100644
 index 00000000..f8fea46c
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/BindingNavigatorFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/BindingNavigatorFunctionalTests.cs
 @@ -0,0 +1,149 @@
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Behavioural tests for <see cref="BindingNavigator"/> — the data-navigation toolbar that designer code
@@ -181,11 +181,11 @@ index 00000000..f8fea46c
 +        Assert.True(fired >= 1);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/BindingNavigator.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/BindingNavigator.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/BindingNavigator.cs b/Gtk.Windows.Forms/System/Windows/Forms/BindingNavigator.cs
 new file mode 100644
 index 00000000..09b89c23
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/BindingNavigator.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/BindingNavigator.cs
 @@ -0,0 +1,432 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.

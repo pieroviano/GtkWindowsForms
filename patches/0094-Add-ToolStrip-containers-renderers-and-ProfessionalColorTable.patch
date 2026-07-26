@@ -65,42 +65,42 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../Forms/MenuStripBase/ToolStripRenderer.cs  | 214 ++++++++++++++++++
  .../MenuStripBase/ToolStripSystemRenderer.cs  |  14 ++
  30 files changed, 1532 insertions(+)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripContainerFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripRenderingFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripArrowRenderEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripContentPanelRenderEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripGripRenderEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemImageRenderEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemRenderEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemTextRenderEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripPanelRenderEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripRenderEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripSeparatorRenderEventArgs.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripArrowRenderEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripContentPanelRenderEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripGripRenderEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemImageRenderEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemRenderEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemTextRenderEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripPanelRenderEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripRenderEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripSeparatorRenderEventHandler.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColorTable.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColors.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContainer.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContentPanel.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripManager.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanel.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanelRow.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripProfessionalRenderer.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripRenderer.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripSystemRenderer.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripContainerFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripRenderingFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripArrowRenderEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripContentPanelRenderEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripGripRenderEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemImageRenderEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemRenderEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemTextRenderEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripPanelRenderEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripRenderEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripSeparatorRenderEventArgs.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripArrowRenderEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripContentPanelRenderEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripGripRenderEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemImageRenderEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemRenderEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemTextRenderEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripPanelRenderEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripRenderEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripSeparatorRenderEventHandler.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColorTable.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColors.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContainer.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContentPanel.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripManager.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanel.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanelRow.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripProfessionalRenderer.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripRenderer.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripSystemRenderer.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripContainerFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripContainerFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripContainerFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripContainerFunctionalTests.cs
 new file mode 100644
 index 00000000..3a9bb5d8
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripContainerFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripContainerFunctionalTests.cs
 @@ -0,0 +1,97 @@
 +namespace System.Windows.Forms;
 +
@@ -199,11 +199,11 @@ index 00000000..3a9bb5d8
 +        form.Dispose();
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripRenderingFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripRenderingFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripRenderingFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripRenderingFunctionalTests.cs
 new file mode 100644
 index 00000000..8259e6af
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripRenderingFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripRenderingFunctionalTests.cs
 @@ -0,0 +1,107 @@
 +namespace System.Windows.Forms;
 +
@@ -312,11 +312,11 @@ index 00000000..8259e6af
 +        Assert.Equal(Color.Green, render.BackColor);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripArrowRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripArrowRenderEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripArrowRenderEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripArrowRenderEventArgs.cs
 new file mode 100644
 index 00000000..ab49907d
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripArrowRenderEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripArrowRenderEventArgs.cs
 @@ -0,0 +1,41 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -359,11 +359,11 @@ index 00000000..ab49907d
 +    /// <summary>Gets the item whose arrow is painted.</summary>
 +    public ToolStripItem Item { get; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripContentPanelRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripContentPanelRenderEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripContentPanelRenderEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripContentPanelRenderEventArgs.cs
 new file mode 100644
 index 00000000..a006e524
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripContentPanelRenderEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripContentPanelRenderEventArgs.cs
 @@ -0,0 +1,29 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -394,11 +394,11 @@ index 00000000..a006e524
 +    /// <summary>Gets or sets a value indicating whether the event was handled.</summary>
 +    public bool Handled { get; set; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripGripRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripGripRenderEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripGripRenderEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripGripRenderEventArgs.cs
 new file mode 100644
 index 00000000..43fc4a55
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripGripRenderEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripGripRenderEventArgs.cs
 @@ -0,0 +1,27 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -427,11 +427,11 @@ index 00000000..43fc4a55
 +    /// <summary>Gets the visibility and mouse reaction of the grip.</summary>
 +    public ToolStripGripStyle GripStyle => ToolStripGripStyle.Visible;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemImageRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemImageRenderEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemImageRenderEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemImageRenderEventArgs.cs
 new file mode 100644
 index 00000000..dfb5158a
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemImageRenderEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemImageRenderEventArgs.cs
 @@ -0,0 +1,39 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -472,11 +472,11 @@ index 00000000..dfb5158a
 +    /// <summary>Gets the bounds of the image.</summary>
 +    public Rectangle ImageRectangle { get; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemRenderEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemRenderEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemRenderEventArgs.cs
 new file mode 100644
 index 00000000..d0c91acb
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemRenderEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemRenderEventArgs.cs
 @@ -0,0 +1,29 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -507,11 +507,11 @@ index 00000000..d0c91acb
 +    /// <summary>Gets the tool strip that owns the item, if any.</summary>
 +    public ToolStrip? ToolStrip => Item?.Owner;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemTextRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemTextRenderEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemTextRenderEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemTextRenderEventArgs.cs
 new file mode 100644
 index 00000000..a3145cb7
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemTextRenderEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripItemTextRenderEventArgs.cs
 @@ -0,0 +1,65 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -578,11 +578,11 @@ index 00000000..a3145cb7
 +    /// <summary>Gets or sets the direction of the text.</summary>
 +    public ToolStripTextDirection TextDirection { get; set; } = ToolStripTextDirection.Horizontal;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripPanelRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripPanelRenderEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripPanelRenderEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripPanelRenderEventArgs.cs
 new file mode 100644
 index 00000000..042ffb76
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripPanelRenderEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripPanelRenderEventArgs.cs
 @@ -0,0 +1,29 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -613,11 +613,11 @@ index 00000000..042ffb76
 +    /// <summary>Gets or sets a value indicating whether the event was handled.</summary>
 +    public bool Handled { get; set; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripRenderEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripRenderEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripRenderEventArgs.cs
 new file mode 100644
 index 00000000..d0557a0a
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripRenderEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripRenderEventArgs.cs
 @@ -0,0 +1,47 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -666,11 +666,11 @@ index 00000000..d0557a0a
 +    /// <summary>Gets the area where the tool strip joins an adjacent control when raftable.</summary>
 +    public Rectangle ConnectedArea => Rectangle.Empty;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripSeparatorRenderEventArgs.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripSeparatorRenderEventArgs.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripSeparatorRenderEventArgs.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripSeparatorRenderEventArgs.cs
 new file mode 100644
 index 00000000..eed67c84
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripSeparatorRenderEventArgs.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventArgs/ToolStripSeparatorRenderEventArgs.cs
 @@ -0,0 +1,24 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -696,11 +696,11 @@ index 00000000..eed67c84
 +    /// <summary>Gets a value indicating whether the separator is drawn vertically.</summary>
 +    public bool Vertical { get; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripArrowRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripArrowRenderEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripArrowRenderEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripArrowRenderEventHandler.cs
 new file mode 100644
 index 00000000..2314584d
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripArrowRenderEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripArrowRenderEventHandler.cs
 @@ -0,0 +1,10 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -712,11 +712,11 @@ index 00000000..2314584d
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripArrowRenderEventArgs" /> that contains the event data.</param>
 +public delegate void ToolStripArrowRenderEventHandler(object sender, ToolStripArrowRenderEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripContentPanelRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripContentPanelRenderEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripContentPanelRenderEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripContentPanelRenderEventHandler.cs
 new file mode 100644
 index 00000000..dc271479
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripContentPanelRenderEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripContentPanelRenderEventHandler.cs
 @@ -0,0 +1,10 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -728,11 +728,11 @@ index 00000000..dc271479
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripContentPanelRenderEventArgs" /> that contains the event data.</param>
 +public delegate void ToolStripContentPanelRenderEventHandler(object sender, ToolStripContentPanelRenderEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripGripRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripGripRenderEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripGripRenderEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripGripRenderEventHandler.cs
 new file mode 100644
 index 00000000..b60a81c1
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripGripRenderEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripGripRenderEventHandler.cs
 @@ -0,0 +1,10 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -744,11 +744,11 @@ index 00000000..b60a81c1
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripGripRenderEventArgs" /> that contains the event data.</param>
 +public delegate void ToolStripGripRenderEventHandler(object sender, ToolStripGripRenderEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemImageRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemImageRenderEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemImageRenderEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemImageRenderEventHandler.cs
 new file mode 100644
 index 00000000..ddb9d307
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemImageRenderEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemImageRenderEventHandler.cs
 @@ -0,0 +1,10 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -760,11 +760,11 @@ index 00000000..ddb9d307
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemImageRenderEventArgs" /> that contains the event data.</param>
 +public delegate void ToolStripItemImageRenderEventHandler(object sender, ToolStripItemImageRenderEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemRenderEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemRenderEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemRenderEventHandler.cs
 new file mode 100644
 index 00000000..09c06edd
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemRenderEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemRenderEventHandler.cs
 @@ -0,0 +1,10 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -776,11 +776,11 @@ index 00000000..09c06edd
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemRenderEventArgs" /> that contains the event data.</param>
 +public delegate void ToolStripItemRenderEventHandler(object sender, ToolStripItemRenderEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemTextRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemTextRenderEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemTextRenderEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemTextRenderEventHandler.cs
 new file mode 100644
 index 00000000..6fb4769c
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemTextRenderEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripItemTextRenderEventHandler.cs
 @@ -0,0 +1,10 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -792,11 +792,11 @@ index 00000000..6fb4769c
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripItemTextRenderEventArgs" /> that contains the event data.</param>
 +public delegate void ToolStripItemTextRenderEventHandler(object sender, ToolStripItemTextRenderEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripPanelRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripPanelRenderEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripPanelRenderEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripPanelRenderEventHandler.cs
 new file mode 100644
 index 00000000..711d6822
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripPanelRenderEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripPanelRenderEventHandler.cs
 @@ -0,0 +1,10 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -808,11 +808,11 @@ index 00000000..711d6822
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripPanelRenderEventArgs" /> that contains the event data.</param>
 +public delegate void ToolStripPanelRenderEventHandler(object sender, ToolStripPanelRenderEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripRenderEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripRenderEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripRenderEventHandler.cs
 new file mode 100644
 index 00000000..d76c33a3
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripRenderEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripRenderEventHandler.cs
 @@ -0,0 +1,10 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -824,11 +824,11 @@ index 00000000..d76c33a3
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripRenderEventArgs" /> that contains the event data.</param>
 +public delegate void ToolStripRenderEventHandler(object sender, ToolStripRenderEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripSeparatorRenderEventHandler.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripSeparatorRenderEventHandler.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripSeparatorRenderEventHandler.cs b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripSeparatorRenderEventHandler.cs
 new file mode 100644
 index 00000000..daf08472
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripSeparatorRenderEventHandler.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/EventHandlers/ToolStripSeparatorRenderEventHandler.cs
 @@ -0,0 +1,10 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -840,11 +840,11 @@ index 00000000..daf08472
 +/// <param name="sender">The source of the event.</param>
 +/// <param name="e">A <see cref="T:System.Windows.Forms.ToolStripSeparatorRenderEventArgs" /> that contains the event data.</param>
 +public delegate void ToolStripSeparatorRenderEventHandler(object sender, ToolStripSeparatorRenderEventArgs e);
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColorTable.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColorTable.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColorTable.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColorTable.cs
 new file mode 100644
 index 00000000..9be49f6a
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColorTable.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColorTable.cs
 @@ -0,0 +1,186 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1032,11 +1032,11 @@ index 00000000..9be49f6a
 +    /// <summary>Gets the color used to render the OverflowButtonGradientEnd element.</summary>
 +    public virtual Color OverflowButtonGradientEnd => SystemColors.Control;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColors.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColors.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColors.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColors.cs
 new file mode 100644
 index 00000000..4429536f
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColors.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ProfessionalColors.cs
 @@ -0,0 +1,181 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1219,11 +1219,11 @@ index 00000000..4429536f
 +    /// <summary>Gets the OverflowButtonGradientEnd color.</summary>
 +    public static Color OverflowButtonGradientEnd => Table.OverflowButtonGradientEnd;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContainer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContainer.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContainer.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContainer.cs
 new file mode 100644
 index 00000000..f63ec157
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContainer.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContainer.cs
 @@ -0,0 +1,66 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1291,11 +1291,11 @@ index 00000000..f63ec157
 +    /// <summary>Gets or sets a value indicating whether the right panel is visible.</summary>
 +    public bool RightToolStripPanelVisible { get; set; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContentPanel.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContentPanel.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContentPanel.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContentPanel.cs
 new file mode 100644
 index 00000000..b1207a6c
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContentPanel.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripContentPanel.cs
 @@ -0,0 +1,59 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1356,11 +1356,11 @@ index 00000000..b1207a6c
 +    /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
 +    protected virtual void OnRendererChanged(EventArgs e) => RendererChanged?.Invoke(this, e);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripManager.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripManager.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripManager.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripManager.cs
 new file mode 100644
 index 00000000..3e4a4b48
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripManager.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripManager.cs
 @@ -0,0 +1,59 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1421,11 +1421,11 @@ index 00000000..3e4a4b48
 +        return targetToolStrip != null;
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanel.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanel.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanel.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanel.cs
 new file mode 100644
 index 00000000..157191af
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanel.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanel.cs
 @@ -0,0 +1,79 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1506,11 +1506,11 @@ index 00000000..157191af
 +    /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
 +    protected virtual void OnRendererChanged(EventArgs e) => RendererChanged?.Invoke(this, e);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanelRow.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanelRow.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanelRow.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanelRow.cs
 new file mode 100644
 index 00000000..8df8bfb7
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanelRow.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripPanelRow.cs
 @@ -0,0 +1,26 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1538,11 +1538,11 @@ index 00000000..8df8bfb7
 +    /// <summary>Gets the orientation of the row, which follows the orientation of its containing panel.</summary>
 +    public Orientation Orientation => ToolStripPanel?.Orientation ?? Orientation.Horizontal;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripProfessionalRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripProfessionalRenderer.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripProfessionalRenderer.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripProfessionalRenderer.cs
 new file mode 100644
 index 00000000..07ab7988
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripProfessionalRenderer.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripProfessionalRenderer.cs
 @@ -0,0 +1,24 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1568,11 +1568,11 @@ index 00000000..07ab7988
 +    /// <summary>Gets the color table used for painting.</summary>
 +    public ProfessionalColorTable ColorTable { get; }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripRenderer.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripRenderer.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripRenderer.cs
 new file mode 100644
 index 00000000..a541ec01
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripRenderer.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripRenderer.cs
 @@ -0,0 +1,214 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -1788,11 +1788,11 @@ index 00000000..a541ec01
 +    {
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripSystemRenderer.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripSystemRenderer.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripSystemRenderer.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripSystemRenderer.cs
 new file mode 100644
 index 00000000..0b67fb78
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripSystemRenderer.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripSystemRenderer.cs
 @@ -0,0 +1,14 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.

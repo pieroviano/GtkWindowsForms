@@ -4,13 +4,13 @@ Date: Mon, 6 Apr 2026 03:29:32 +0300
 Subject: [PATCH] Fix GroupBox
 
 ---
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs | 4 ++--
+ Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
 index 325021d..79bb692 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
 @@ -21,7 +21,7 @@ public partial class GroupBox : ContainerControl
      /// </summary>
      public readonly GroupBoxBase self = new();

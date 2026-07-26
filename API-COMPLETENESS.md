@@ -1,7 +1,7 @@
 # API completeness — measured gap to `System.Windows.Forms` / `System.Drawing`
 
 **Question this document answers.** *If an existing WinForms application is recompiled against
-`Gtk.Windows.Forms` + `Net4x.Gtk.Drawing`, what does it fail to compile against?*
+`Gtk.Windows.Forms` + `Gtk.Drawing`, what does it fail to compile against?*
 
 That is deliberately a narrower question than "does it behave the same". Behaviour is
 [EMULATION-GAPS.md](EMULATION-GAPS.md)'s subject; this document is the mechanical API-surface diff,
@@ -26,7 +26,7 @@ break.
 |---|---|
 | Reference (net10) | `System.Windows.Forms.dll` + `.Primitives.dll` (WindowsDesktop.App.Ref **10.0.10**), `System.Drawing.Common.dll` (**10.0.6**) |
 | Reference (net48 baseline) | net48 `System.Windows.Forms.dll` / `System.Drawing.dll` |
-| Under test | `Net4x.Gtk.Windows.Forms.dll` + `Net4x.Gtk.Drawing.dll`, `bin/Release/netstandard2.0` |
+| Under test | `Gtk.Windows.Forms.dll` + `Gtk.Drawing.dll`, `bin/Release/netstandard2.0` |
 
 Reproduce with the tool in [api-diff/tool/](api-diff/tool/) (outputs in [api-diff/](api-diff/); the
 `wf48.*`/`dr48.*` pair is the net48 baseline, `wf.*`/`dr.*` the full net10 surface). Every count below is
@@ -45,8 +45,8 @@ checkable against those files.
 | …missing | **7 473 (13.7 %)** | **8 469 (14.0 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
 | Types member-incomplete | 172 | 176 | 25 | 15 |
 
-`Net4x.Gtk.Drawing` is essentially done as an API surface (98.6 % of members present on net48). Every
-`Net4x.Gtk.Windows.Forms` type still missing on the net48 baseline is a declared non-goal (§2). The net10
+`Gtk.Drawing` is essentially done as an API surface (98.6 % of members present on net48). Every
+`Gtk.Windows.Forms` type still missing on the net48 baseline is a declared non-goal (§2). The net10
 column carries ~40 modern-.NET types (TaskDialog, dark-mode, `FormCornerPreference`, async overloads) a
 .NET Framework-era application never uses; the net48 column is the truer target.
 
@@ -108,7 +108,7 @@ Framework application does not use:
 
 ---
 
-## 4. `Net4x.Gtk.Drawing` — near-complete
+## 4. `Gtk.Drawing` — near-complete
 
 97 missing members across 6 604 (**98.5 % present**, net10). The 41 missing types:
 

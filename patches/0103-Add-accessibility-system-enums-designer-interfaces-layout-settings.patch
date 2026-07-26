@@ -45,30 +45,30 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../Forms/Layout/FlowLayoutSettings.cs        | 36 ++++++++
  .../Windows/Forms/Layout/LayoutSettings.cs    | 17 ++++
  19 files changed, 516 insertions(+), 1 deletion(-)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchCFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ICommandExecutor.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IFileReaderService.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingCell.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/IComponentEditorPageSite.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/IUIService.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/IWindowsFormsEditorService.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ToolStripItemDesignerAvailability.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/AccessibleNavigation.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/AccessibleSelection.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/BootMode.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/PowerState.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScreenOrientation.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/SecurityIDType.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/StructFormat.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/ImeModeConversion.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Layout/FlowLayoutSettings.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Layout/LayoutSettings.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchCFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Control/ICommandExecutor.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Control/IFileReaderService.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingCell.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Design/IComponentEditorPageSite.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Design/IUIService.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Design/IWindowsFormsEditorService.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Design/ToolStripItemDesignerAvailability.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/AccessibleNavigation.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/AccessibleSelection.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/BootMode.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/PowerState.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/ScreenOrientation.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/SecurityIDType.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Enum/StructFormat.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/ImeModeConversion.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Layout/FlowLayoutSettings.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Layout/LayoutSettings.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchCFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchCFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchCFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchCFunctionalTests.cs
 new file mode 100644
 index 00000000..c3c6a9df
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchCFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/SupportTypesBatchCFunctionalTests.cs
 @@ -0,0 +1,85 @@
 +namespace System.Windows.Forms;
 +
@@ -155,10 +155,10 @@ index 00000000..c3c6a9df
 +        Assert.Equal(typeof(string), ListBindingHelper.GetListItemType(arr));
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ListBindingHelper.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ListBindingHelper.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/ListBindingHelper.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/ListBindingHelper.cs
 index 4a386927..213f994e 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ListBindingHelper.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/ListBindingHelper.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/ListBindingHelper.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/ListBindingHelper.cs
 @@ -4,7 +4,7 @@ using System.Reflection;
  
  namespace System.Windows.Forms;
@@ -168,11 +168,11 @@ index 4a386927..213f994e 100644
  {
      private static Attribute[]? _browsableAttribute;
  
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ICommandExecutor.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ICommandExecutor.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/ICommandExecutor.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/ICommandExecutor.cs
 new file mode 100644
 index 00000000..9483c455
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ICommandExecutor.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/ICommandExecutor.cs
 @@ -0,0 +1,12 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -186,11 +186,11 @@ index 00000000..9483c455
 +    /// <summary>Executes the command.</summary>
 +    void Execute();
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IFileReaderService.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IFileReaderService.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/IFileReaderService.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/IFileReaderService.cs
 new file mode 100644
 index 00000000..f566bfee
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/IFileReaderService.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/IFileReaderService.cs
 @@ -0,0 +1,16 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -208,11 +208,11 @@ index 00000000..f566bfee
 +    /// <returns>A readable <see cref="T:System.IO.Stream" />.</returns>
 +    Stream OpenFileFromSource(string fileName);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingCell.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingCell.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingCell.cs b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingCell.cs
 new file mode 100644
 index 00000000..bb7877de
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingCell.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/DataGridViewBase/IDataGridViewEditingCell.cs
 @@ -0,0 +1,25 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -239,11 +239,11 @@ index 00000000..bb7877de
 +    /// <param name="selectAll">Whether all the cell content should be selected.</param>
 +    void PrepareEditingCellForEdit(bool selectAll);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/IComponentEditorPageSite.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/IComponentEditorPageSite.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Design/IComponentEditorPageSite.cs b/Gtk.Windows.Forms/System/Windows/Forms/Design/IComponentEditorPageSite.cs
 new file mode 100644
 index 00000000..93db9129
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/IComponentEditorPageSite.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Design/IComponentEditorPageSite.cs
 @@ -0,0 +1,16 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -261,11 +261,11 @@ index 00000000..93db9129
 +    /// <summary>Notifies the site that the page has been modified.</summary>
 +    void SetDirty();
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/IUIService.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/IUIService.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Design/IUIService.cs b/Gtk.Windows.Forms/System/Windows/Forms/Design/IUIService.cs
 new file mode 100644
 index 00000000..15aa73b1
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/IUIService.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Design/IUIService.cs
 @@ -0,0 +1,71 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -338,11 +338,11 @@ index 00000000..15aa73b1
 +    /// <returns><see langword="true" /> if the tool window was shown; otherwise <see langword="false" />.</returns>
 +    bool ShowToolWindow(Guid toolWindow);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/IWindowsFormsEditorService.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/IWindowsFormsEditorService.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Design/IWindowsFormsEditorService.cs b/Gtk.Windows.Forms/System/Windows/Forms/Design/IWindowsFormsEditorService.cs
 new file mode 100644
 index 00000000..fd6a014a
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/IWindowsFormsEditorService.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Design/IWindowsFormsEditorService.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -365,11 +365,11 @@ index 00000000..fd6a014a
 +    /// <returns>The dialog result.</returns>
 +    DialogResult ShowDialog(Form dialog);
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ToolStripItemDesignerAvailability.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ToolStripItemDesignerAvailability.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Design/ToolStripItemDesignerAvailability.cs b/Gtk.Windows.Forms/System/Windows/Forms/Design/ToolStripItemDesignerAvailability.cs
 new file mode 100644
 index 00000000..8dd167b4
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Design/ToolStripItemDesignerAvailability.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Design/ToolStripItemDesignerAvailability.cs
 @@ -0,0 +1,28 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -399,11 +399,11 @@ index 00000000..8dd167b4
 +    /// <summary>The All value.</summary>
 +    All = 15,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/AccessibleNavigation.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/AccessibleNavigation.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/AccessibleNavigation.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/AccessibleNavigation.cs
 new file mode 100644
 index 00000000..7d0060a0
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/AccessibleNavigation.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/AccessibleNavigation.cs
 @@ -0,0 +1,33 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -438,11 +438,11 @@ index 00000000..7d0060a0
 +    /// <summary>The LastChild value.</summary>
 +    LastChild = 8,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/AccessibleSelection.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/AccessibleSelection.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/AccessibleSelection.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/AccessibleSelection.cs
 new file mode 100644
 index 00000000..ac51edc4
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/AccessibleSelection.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/AccessibleSelection.cs
 @@ -0,0 +1,28 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -472,11 +472,11 @@ index 00000000..ac51edc4
 +    /// <summary>The RemoveSelection value.</summary>
 +    RemoveSelection = 16,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/BootMode.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/BootMode.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/BootMode.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/BootMode.cs
 new file mode 100644
 index 00000000..be64e2e6
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/BootMode.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/BootMode.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -496,11 +496,11 @@ index 00000000..be64e2e6
 +    /// <summary>The FailSafeWithNetwork value.</summary>
 +    FailSafeWithNetwork = 2,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/PowerState.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/PowerState.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/PowerState.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/PowerState.cs
 new file mode 100644
 index 00000000..a9067f4c
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/PowerState.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/PowerState.cs
 @@ -0,0 +1,15 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -517,11 +517,11 @@ index 00000000..a9067f4c
 +    /// <summary>The Hibernate value.</summary>
 +    Hibernate = 1,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScreenOrientation.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScreenOrientation.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/ScreenOrientation.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ScreenOrientation.cs
 new file mode 100644
 index 00000000..ea149d75
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/ScreenOrientation.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/ScreenOrientation.cs
 @@ -0,0 +1,21 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -544,11 +544,11 @@ index 00000000..ea149d75
 +    /// <summary>The Angle270 value.</summary>
 +    Angle270 = 3,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/SecurityIDType.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/SecurityIDType.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/SecurityIDType.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/SecurityIDType.cs
 new file mode 100644
 index 00000000..e71412d2
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/SecurityIDType.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/SecurityIDType.cs
 @@ -0,0 +1,36 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -586,11 +586,11 @@ index 00000000..e71412d2
 +    /// <summary>The Computer value.</summary>
 +    Computer = 9,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/StructFormat.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/StructFormat.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/StructFormat.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/StructFormat.cs
 new file mode 100644
 index 00000000..cc6f8307
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/StructFormat.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/StructFormat.cs
 @@ -0,0 +1,18 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -610,11 +610,11 @@ index 00000000..cc6f8307
 +    /// <summary>The Auto value.</summary>
 +    Auto = 3,
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ImeModeConversion.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ImeModeConversion.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ImeModeConversion.cs b/Gtk.Windows.Forms/System/Windows/Forms/ImeModeConversion.cs
 new file mode 100644
 index 00000000..d23697c0
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ImeModeConversion.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ImeModeConversion.cs
 @@ -0,0 +1,19 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -635,11 +635,11 @@ index 00000000..d23697c0
 +    /// <summary>Gets a value indicating whether the current keyboard layout supports an IME conversion table.</summary>
 +    public static bool IsCurrentConversionTableSupported => false;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Layout/FlowLayoutSettings.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Layout/FlowLayoutSettings.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Layout/FlowLayoutSettings.cs b/Gtk.Windows.Forms/System/Windows/Forms/Layout/FlowLayoutSettings.cs
 new file mode 100644
 index 00000000..1714cc06
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Layout/FlowLayoutSettings.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Layout/FlowLayoutSettings.cs
 @@ -0,0 +1,36 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -677,11 +677,11 @@ index 00000000..1714cc06
 +    /// <returns><see langword="true" /> if a flow break follows the child; otherwise <see langword="false" />.</returns>
 +    public bool GetFlowBreak(object child) => flowBreaks.TryGetValue(child, out var v) && v;
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Layout/LayoutSettings.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Layout/LayoutSettings.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Layout/LayoutSettings.cs b/Gtk.Windows.Forms/System/Windows/Forms/Layout/LayoutSettings.cs
 new file mode 100644
 index 00000000..44cfff44
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Layout/LayoutSettings.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Layout/LayoutSettings.cs
 @@ -0,0 +1,17 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.

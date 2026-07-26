@@ -4,13 +4,13 @@ Date: Mon, 23 Mar 2026 05:14:40 +0200
 Subject: [PATCH] Fix ImageAnimator
 
 ---
- Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs | 6 +++---
+ Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs
+diff --git a/Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs b/Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs
 index fb4a6335..496f4193 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs
+--- a/Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs
++++ b/Gtk.Drawing/System/Drawing/Drawing2D/ImageAnimator.cs
 @@ -1,4 +1,4 @@
 -using System.Collections.Generic;
 +﻿using System.Collections.Generic;

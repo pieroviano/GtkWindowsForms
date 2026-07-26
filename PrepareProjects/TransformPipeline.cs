@@ -15,7 +15,7 @@ using XmlDocSync.Services;
 namespace PrepareProjects;
 
 /// <summary>
-/// The transform <c>f</c>: regenerates the <c>Net4x.*</c> projects from the source submodule
+/// The transform <c>f</c>: regenerates the <c>Gtk.*</c> projects from the source submodule
 /// (copy → translate → reorganize → split drawing → format → type-split), <b>excluding</b> the
 /// source hooks, patch application, build, and publish. Extracted from <see cref="Program"/> so both
 /// PrepareProjects and AlignProjects run the identical transform. See AlignProjects-Plan.md §3.1.
@@ -37,12 +37,12 @@ public static class TransformPipeline
 
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-        const string net4xGtkWindowsForms = "Net4x.Gtk.Windows.Forms";
+        const string net4xGtkWindowsForms = "Gtk.Windows.Forms";
         ConsoleColor.Green.Write(@$"Preparing {net4xGtkWindowsForms}", true);
         var (targetDir, sourceProjectPath, csprojPath) =
             await GtkWindowsFormsProjectHandler.PrepareAsync("GTKSystem.Windows.Forms", net4xGtkWindowsForms);
 
-        const string net4XSystemResourcesExtensions = "Net4x.System.Resources.Extensions";
+        const string net4XSystemResourcesExtensions = "Gtk.Resources.Extensions";
         ConsoleColor.Green.Write(@$"Preparing {net4XSystemResourcesExtensions}", true);
         SystemResourcesExtensionsProjectHandler.Prepare($"{net4XSystemResourcesExtensions}.csproj");
         var (version, updatePropsFiles) = VersionPrepare.PrepareSolutionVersion();
@@ -93,7 +93,7 @@ public static class TransformPipeline
         ConsoleColor.Green.Write($@"Replacing unimplemented classes with mono equivalent", true);
         FileContentReplacer.ReplaceContent(
             RepoPaths.At(@"mono\mcs\class\System.Drawing\System.Drawing\CharacterRange.cs"),
-            RepoPaths.At(@"Net4x.Gtk.Drawing\System\Drawing\CharacterRange.cs")
+            RepoPaths.At(@"Gtk.Drawing\System\Drawing\CharacterRange.cs")
         );
 
         ConsoleColor.Green.Write(@"Applying files first post processing", true);
@@ -106,7 +106,7 @@ public static class TransformPipeline
 
         ConsoleColor.Green.Write(@"Cleaning IntermediateBackup", true);
         BackupUtility.CleanEmptyFolders(csProjectDirectory);
-        BackupUtility.CleanBackup(csProjectDirectory, BackupUtility.IntermediateBackup, "Net4x.Gtk.Windows.Forms");
+        BackupUtility.CleanBackup(csProjectDirectory, BackupUtility.IntermediateBackup, "Gtk.Windows.Forms");
 
         ConsoleColor.Green.Write(@"Persisting IntermediateBackup", true);
         var projectFiles = ProjectUtility.GetProjectFiles(csprojPath, out _);
@@ -120,23 +120,23 @@ public static class TransformPipeline
         PrepareWorker.EnsureOnEventRaisesEvent();
 
 
-        ConsoleColor.DarkMagenta.Write("Formatting Net4x.Gtk.Windows.Forms.csproj", true);
+        ConsoleColor.DarkMagenta.Write("Formatting Gtk.Windows.Forms.csproj", true);
         DotnetFormatter.Format(csprojPath, RepoPaths.At(".editorconfig"));
-        ConsoleColor.DarkMagenta.Write("Formatting Net4x.Gtk.Drawing.csproj", true);
-        var net4xGtkDrawingPath = RepoPaths.At(@"Net4x.Gtk.Drawing\Net4x.Gtk.Drawing.csproj");
+        ConsoleColor.DarkMagenta.Write("Formatting Gtk.Drawing.csproj", true);
+        var net4xGtkDrawingPath = RepoPaths.At(@"Gtk.Drawing\Gtk.Drawing.csproj");
         DotnetFormatter.Format(net4xGtkDrawingPath, RepoPaths.At(".editorconfig"));
 
         ConsoleColor.Green.Write(@"Applying files latest post processing", true);
         postprocessingXml = PrepareWorker.GetSubsequentPostprocessingXml(true);
         PostProcessing.ApplyPostProcessing(targetDir, new[] { "gtksystem-windows-forms", "mono" },
             postprocessingXml);
-        BackupUtility.CleanBackup(csProjectDirectory, BackupUtility.LatestBackup, "Net4x.Gtk.Windows.Forms");
+        BackupUtility.CleanBackup(csProjectDirectory, BackupUtility.LatestBackup, "Gtk.Windows.Forms");
 
-        await PrepareWorker.PatchFile(RepoPaths.At(@"Net4x.Gtk.Windows.Forms\System\Windows\Forms\Dialog\FileDialog.cs"));
-        await PrepareWorker.PatchFile(RepoPaths.At(@"Net4x.Gtk.Windows.Forms\System\Windows\Forms\Printing\PrintPreviewDialog.cs"));
-        await PrepareWorker.PatchCommentsInFile(RepoPaths.At(@"Net4x.Gtk.Windows.Forms\System\Windows\Forms\Dialog\MessageBox\MessageBox.cs"));
-        await PrepareWorker.PatchCommentsInFile(RepoPaths.At(@"Net4x.Gtk.Drawing\System\Drawing\Drawing2D\ImageAnimator.cs"));
-        await PrepareWorker.PatchCommentsInFile(RepoPaths.At(@"Net4x.Gtk.Windows.Forms\System\Windows\Forms\Printing\PrintDialog.cs"));
+        await PrepareWorker.PatchFile(RepoPaths.At(@"Gtk.Windows.Forms\System\Windows\Forms\Dialog\FileDialog.cs"));
+        await PrepareWorker.PatchFile(RepoPaths.At(@"Gtk.Windows.Forms\System\Windows\Forms\Printing\PrintPreviewDialog.cs"));
+        await PrepareWorker.PatchCommentsInFile(RepoPaths.At(@"Gtk.Windows.Forms\System\Windows\Forms\Dialog\MessageBox\MessageBox.cs"));
+        await PrepareWorker.PatchCommentsInFile(RepoPaths.At(@"Gtk.Drawing\System\Drawing\Drawing2D\ImageAnimator.cs"));
+        await PrepareWorker.PatchCommentsInFile(RepoPaths.At(@"Gtk.Windows.Forms\System\Windows\Forms\Printing\PrintDialog.cs"));
 
 
         ConsoleColor.Green.Write(@"Beautifying on project files", true);

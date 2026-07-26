@@ -7,10 +7,10 @@ Subject: [PATCH] Fix InputLanguage
  .../Forms/Application/InputLanguage.cs        | 22 ++++++++++++++-----
  1 file changed, 17 insertions(+), 5 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/InputLanguage.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/InputLanguage.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Application/InputLanguage.cs b/Gtk.Windows.Forms/System/Windows/Forms/Application/InputLanguage.cs
 index b266eee..fbb29c0 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/InputLanguage.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Application/InputLanguage.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Application/InputLanguage.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Application/InputLanguage.cs
 @@ -37,7 +37,13 @@ public sealed class InputLanguage
      {
          get

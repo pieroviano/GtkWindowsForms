@@ -7,13 +7,13 @@ Subject: [PATCH] Fix Padding
  .../Forms/Collection/ArrangedElementTests.cs  | 187 ++++++++++++++++++
  .../System/Windows/Forms/Enum/Padding.cs      |   4 +-
  2 files changed, 189 insertions(+), 2 deletions(-)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/Collection/ArrangedElementTests.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/Collection/ArrangedElementTests.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/Collection/ArrangedElementTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/Collection/ArrangedElementTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/Collection/ArrangedElementTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/Collection/ArrangedElementTests.cs
 new file mode 100644
 index 0000000..9cf9cab
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/Collection/ArrangedElementTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/Collection/ArrangedElementTests.cs
 @@ -0,0 +1,187 @@
 +﻿using System.Drawing;
 +using System.Windows.Forms.Layout;
@@ -203,10 +203,10 @@ index 0000000..9cf9cab
 +    }
 +}
 \ No newline at end of file
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Padding.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Padding.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Enum/Padding.cs b/Gtk.Windows.Forms/System/Windows/Forms/Enum/Padding.cs
 index 3a866b2..cf1fa1c 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Padding.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Enum/Padding.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Enum/Padding.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Enum/Padding.cs
 @@ -1,4 +1,4 @@
 -using System.ComponentModel;
 +﻿using System.ComponentModel;

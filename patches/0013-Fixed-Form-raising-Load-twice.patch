@@ -4,13 +4,13 @@ Date: Thu, 26 Mar 2026 04:50:54 +0200
 Subject: [PATCH] Fixed Form raising Load twice
 
 ---
- Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs | 11 +++++------
+ Gtk.Windows.Forms/System/Windows/Forms/Form.cs | 11 +++++------
  1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 index 1adb9b41..d53e2639 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
 @@ -77,6 +77,11 @@ public partial class Form : ContainerControl, IWin32Window
          remove { self.Scroll += value; }
      }

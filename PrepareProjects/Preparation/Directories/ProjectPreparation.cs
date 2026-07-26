@@ -30,20 +30,20 @@ public static class ProjectPreparation
     private static string RenameProjectFiles(string targetDir)
     {
         var oldCsproj = Path.Combine(targetDir, "GTKSystem.Windows.Forms.csproj");
-        var newCsproj = Path.Combine(targetDir, "Net4x.Gtk.Windows.Forms.csproj");
+        var newCsproj = Path.Combine(targetDir, "Gtk.Windows.Forms.csproj");
 
         RenameIfExists(oldCsproj, newCsproj);
 
         RenameIfExists(
             Path.Combine(targetDir, "GTKSystem.Windows.Forms.csproj.user"),
-            Path.Combine(targetDir, "Net4x.Gtk.Windows.Forms.csproj.user"));
+            Path.Combine(targetDir, "Gtk.Windows.Forms.csproj.user"));
 
         if (!File.Exists(newCsproj))
         {
             // Neither the renamed nor the original project file is present: the upstream project
             // may have been renamed. Fail loud so downstream csproj-path assumptions don't break obscurely.
             PathGuard.RequireFile(oldCsproj,
-                "rename GTKSystem.Windows.Forms.csproj -> Net4x.Gtk.Windows.Forms.csproj");
+                "rename GTKSystem.Windows.Forms.csproj -> Gtk.Windows.Forms.csproj");
         }
 
         return newCsproj;

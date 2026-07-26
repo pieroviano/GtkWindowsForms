@@ -22,19 +22,19 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../Forms/BindableComponentFunctionalTests.cs | 68 +++++++++++++++++++
  .../System/Windows/Forms/BindableComponent.cs | 47 +++++++++++++
  2 files changed, 115 insertions(+)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/BindableComponentFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/BindableComponent.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/BindableComponentFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/BindableComponent.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/BindableComponentFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/BindableComponentFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/BindableComponentFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/BindableComponentFunctionalTests.cs
 new file mode 100644
 index 00000000..4ac2f928
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/BindableComponentFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/BindableComponentFunctionalTests.cs
 @@ -0,0 +1,68 @@
 +using System.ComponentModel;
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Tests for <see cref="BindableComponent"/> (§4 of API-COMPLETENESS): the base for a non-control component
@@ -99,11 +99,11 @@ index 00000000..4ac2f928
 +        Assert.NotNull(bindable.BindingContext);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/BindableComponent.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/BindableComponent.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/BindableComponent.cs b/Gtk.Windows.Forms/System/Windows/Forms/BindableComponent.cs
 new file mode 100644
 index 00000000..5e1bc7f6
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/BindableComponent.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/BindableComponent.cs
 @@ -0,0 +1,47 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.

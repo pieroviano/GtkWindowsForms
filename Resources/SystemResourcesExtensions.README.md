@@ -1,11 +1,11 @@
-# Gtk.System.Resources.Extensions
+# Gtk.Resources.Extensions
 
 **This package ships an assembly that is intentionally empty.** That is the whole point of it — it is
 not a stub waiting to be filled in, and nothing is missing.
 
 ## Why an empty assembly
 
-`Gtk.System.Resources.Extensions` is part of
+`Gtk.Resources.Extensions` is part of
 [Gtk.Windows.Forms](https://www.nuget.org/packages/Gtk.Windows.Forms), a WinForms-compatibility layer
 implemented on top of GTK so existing C# WinForms apps compile once and run on Windows, Linux and
 macOS.

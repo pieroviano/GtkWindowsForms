@@ -17,9 +17,8 @@ public sealed class StructuralMatchReduction
 /// <summary>
 /// Reduces a <see cref="StructuralMatchResult"/> by dropping differences that the patch series
 /// legitimately produces (since <c>OURS = f(base) + patches</c>): a file that simply <b>moved</b>
-/// (same filename in another directory), the <c>Net4x.</c> prefix on <c>.props</c>/<c>.targets</c>
-/// (<b>rename</b>), and file <b>splits</b> (<c>X.cs</c> ↔ <c>X.*.cs</c>). What remains is the
-/// likely-genuine residual (patch deletions, committed settings) — reported, never fatal.
+/// (same filename in another directory) and file <b>splits</b> (<c>X.cs</c> ↔ <c>X.*.cs</c>). What
+/// remains is the likely-genuine residual (patch deletions, committed settings) — reported, never fatal.
 /// </summary>
 public static class StructuralMatchReducer
 {
@@ -43,19 +42,8 @@ public static class StructuralMatchReducer
         return new StructuralMatchReduction(baseOnly, oursOnly);
     }
 
-    /// <summary>Filename with the <c>Net4x.</c> prefix stripped from .props/.targets.</summary>
-    private static string NormName(string relPath)
-    {
-        var name = Path.GetFileName(relPath);
-        if ((name.EndsWith(".props", StringComparison.OrdinalIgnoreCase) ||
-             name.EndsWith(".targets", StringComparison.OrdinalIgnoreCase)) &&
-            name.StartsWith("Net4x.", StringComparison.OrdinalIgnoreCase))
-        {
-            name = name.Substring("Net4x.".Length);
-        }
-
-        return name;
-    }
+    /// <summary>The bare filename, used to recognize a file that only moved between directories.</summary>
+    private static string NormName(string relPath) => Path.GetFileName(relPath);
 
     private static string StemWithoutExtension(string relPath) =>
         Path.GetFileNameWithoutExtension(Path.GetFileName(relPath));

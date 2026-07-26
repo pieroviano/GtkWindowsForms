@@ -27,15 +27,15 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../Drawing/Text/InstalledFontCollection.cs   | 27 ++++++++
  .../Drawing/Text/PrivateFontCollection.cs     | 56 +++++++++++++++++
  4 files changed, 172 insertions(+), 9 deletions(-)
- create mode 100644 Net4x.Gtk.Drawing.Tests/System/Drawing/FontCollectionTests.cs
- create mode 100644 Net4x.Gtk.Drawing/System/Drawing/Text/InstalledFontCollection.cs
- create mode 100644 Net4x.Gtk.Drawing/System/Drawing/Text/PrivateFontCollection.cs
+ create mode 100644 Gtk.Drawing.Tests/System/Drawing/FontCollectionTests.cs
+ create mode 100644 Gtk.Drawing/System/Drawing/Text/InstalledFontCollection.cs
+ create mode 100644 Gtk.Drawing/System/Drawing/Text/PrivateFontCollection.cs
 
-diff --git a/Net4x.Gtk.Drawing.Tests/System/Drawing/FontCollectionTests.cs b/Net4x.Gtk.Drawing.Tests/System/Drawing/FontCollectionTests.cs
+diff --git a/Gtk.Drawing.Tests/System/Drawing/FontCollectionTests.cs b/Gtk.Drawing.Tests/System/Drawing/FontCollectionTests.cs
 new file mode 100644
 index 00000000..6d95e8d4
 --- /dev/null
-+++ b/Net4x.Gtk.Drawing.Tests/System/Drawing/FontCollectionTests.cs
++++ b/Gtk.Drawing.Tests/System/Drawing/FontCollectionTests.cs
 @@ -0,0 +1,63 @@
 +extern alias gtk;
 +using gtk::System.Drawing.Text;
@@ -100,10 +100,10 @@ index 00000000..6d95e8d4
 +        Assert.NotNull(ifc.Families);
 +    }
 +}
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Text/FontCollection.cs b/Net4x.Gtk.Drawing/System/Drawing/Text/FontCollection.cs
+diff --git a/Gtk.Drawing/System/Drawing/Text/FontCollection.cs b/Gtk.Drawing/System/Drawing/Text/FontCollection.cs
 index 22281416..020c3deb 100644
---- a/Net4x.Gtk.Drawing/System/Drawing/Text/FontCollection.cs
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Text/FontCollection.cs
+--- a/Gtk.Drawing/System/Drawing/Text/FontCollection.cs
++++ b/Gtk.Drawing/System/Drawing/Text/FontCollection.cs
 @@ -1,30 +1,47 @@
 -﻿namespace System.Drawing.Text;
 +using System.Collections.Generic;
@@ -162,11 +162,11 @@ index 22281416..020c3deb 100644
 +        }
 +    }
 +}
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Text/InstalledFontCollection.cs b/Net4x.Gtk.Drawing/System/Drawing/Text/InstalledFontCollection.cs
+diff --git a/Gtk.Drawing/System/Drawing/Text/InstalledFontCollection.cs b/Gtk.Drawing/System/Drawing/Text/InstalledFontCollection.cs
 new file mode 100644
 index 00000000..d82adff5
 --- /dev/null
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Text/InstalledFontCollection.cs
++++ b/Gtk.Drawing/System/Drawing/Text/InstalledFontCollection.cs
 @@ -0,0 +1,27 @@
 +namespace System.Drawing.Text;
 +
@@ -195,11 +195,11 @@ index 00000000..d82adff5
 +        }
 +    }
 +}
-diff --git a/Net4x.Gtk.Drawing/System/Drawing/Text/PrivateFontCollection.cs b/Net4x.Gtk.Drawing/System/Drawing/Text/PrivateFontCollection.cs
+diff --git a/Gtk.Drawing/System/Drawing/Text/PrivateFontCollection.cs b/Gtk.Drawing/System/Drawing/Text/PrivateFontCollection.cs
 new file mode 100644
 index 00000000..554e6d6e
 --- /dev/null
-+++ b/Net4x.Gtk.Drawing/System/Drawing/Text/PrivateFontCollection.cs
++++ b/Gtk.Drawing/System/Drawing/Text/PrivateFontCollection.cs
 @@ -0,0 +1,56 @@
 +using System.IO;
 +

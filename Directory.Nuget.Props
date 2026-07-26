@@ -1,29 +1,20 @@
 <Project>
-  <PropertyGroup>
-    <!-- Guards a second import: Directory.Build.Props imports this file only while the flag is empty. -->
-    <DirectoryNuGet>true</DirectoryNuGet>
-    <!-- Where restored packages live; used by the NuGet.Utility props/targets imports in the csprojs. -->
-    <NuGetPackageRoot Condition="'$(NuGetPackageRoot)' == '' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">$(USERPROFILE)\.nuget\packages\</NuGetPackageRoot>
-    <NuGetPackageRoot Condition="'$(NuGetPackageRoot)' == '' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' != 'true'">~/.nuget/packages/</NuGetPackageRoot>
-    <!--
-      Revision wildcard appended to the in-house package references in Prepare.Common. Both
-      configurations float today. The shipped libraries deliberately do not use it - see
-      GtkSharpPackageVersion and SystemResourcesExtensionsPackageVersion in Directory.Build.Props.
-    -->
-    <VersionBuildSuffix Condition="'$(Configuration)' != 'Release'">*</VersionBuildSuffix>
-    <VersionBuildSuffix Condition="'$(Configuration)' == 'Release'">*</VersionBuildSuffix>
-    <!--
-      This solution's own version. PrepareProjects rewrites this element in place from the submodule's
-      csproj (Prepare.Common/Projects/VersionPrepare.cs), which looks for it in the FIRST PropertyGroup
-      of this file - keep it here.
-    -->
-    <Net4xGtkWindowsFormsVersion>1.3.24</Net4xGtkWindowsFormsVersion>
-    <!-- GtkSharp: the GTK3 binding the whole product is built on. -->
-    <GtkSharpLatestVersion>3.24.24</GtkSharpLatestVersion>
-    <!-- Build-time utility imported by every shippable csproj; PrivateAssets="All" keeps it out of the packages. -->
-    <NuGetUtilityVersion Condition="'$(NuGetUtilityVersion)' == ''">1.0.9</NuGetUtilityVersion>
-    <!-- Referenced by Prepare.Common (the generation pipeline), not by anything shipped. -->
-    <Net4xBaseTypesVersion>1.3.1</Net4xBaseTypesVersion>
-    <SystemTextJson10Version>10.0.3</SystemTextJson10Version>
-  </PropertyGroup>
+    <PropertyGroup>
+        <NuGetPackageRoot Condition="'$(NuGetPackageRoot)'=='' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">$(USERPROFILE)\.nuget\packages\</NuGetPackageRoot>
+        <NuGetPackageRoot Condition="'$(NuGetPackageRoot)'=='' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' != 'true'">~/.nuget/packages/</NuGetPackageRoot>
+        <VersionBuildSuffix Condition="'$(Configuration)'!='Release'">*</VersionBuildSuffix>
+        <VersionBuildSuffix Condition="'$(Configuration)'=='Release'">*</VersionBuildSuffix>
+        <NuGetUtilityVersion Condition="'$(NuGetUtilityVersion)' == ''">1.0.10</NuGetUtilityVersion>
+        <DirectoryNuGet>true</DirectoryNuGet>
+        <NuGetPackageRoot Condition="'$(NuGetPackageRoot)' == '' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">$(USERPROFILE)\.nuget\packages\</NuGetPackageRoot>
+        <NuGetPackageRoot Condition="'$(NuGetPackageRoot)' == '' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' != 'true'">~/.nuget/packages/</NuGetPackageRoot>
+        <VersionBuildSuffix Condition="'$(Configuration)' != 'Release'">*</VersionBuildSuffix>
+        <VersionBuildSuffix Condition="'$(Configuration)' == 'Release'">*</VersionBuildSuffix>
+        <GtkSharpLatestVersion>3.24.24</GtkSharpLatestVersion>
+        <GtkWindowsFormsVersion>1.3.2464</GtkWindowsFormsVersion>
+        <Net4xBaseTypesVersion>1.3.1</Net4xBaseTypesVersion>
+        <NuGetUtilityVersion>1.0.9</NuGetUtilityVersion>
+        <ObfuscarVersion>2.2.37</ObfuscarVersion>
+        <SystemTextJson10Version>10.0.3</SystemTextJson10Version>
+    </PropertyGroup>
 </Project>

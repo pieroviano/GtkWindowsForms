@@ -1,6 +1,6 @@
 # PrepareProjects
 
-`PrepareProjects` is the **code-generation / build pipeline** that regenerates the shippable `Net4x.Gtk.Windows.Forms` and `Net4x.Gtk.Drawing` libraries from the vendored `gtksystem-windows-forms` git submodule, then builds and (optionally) publishes the NuGet packages. It also **pins that submodule to a fixed generation base on entry** and **advances it to the latest gitee upstream on exit** (see [Source-repository management](#source-repository-management-entry--exit)).
+`PrepareProjects` is the **code-generation / build pipeline** that regenerates the shippable `Gtk.Windows.Forms` and `Gtk.Drawing` libraries from the vendored `gtksystem-windows-forms` git submodule, then builds and (optionally) publishes the NuGet packages. It also **pins that submodule to a fixed generation base on entry** and **advances it to the latest gitee upstream on exit** (see [Source-repository management](#source-repository-management-entry--exit)).
 
 It is a console `Exe` with no configuration file — the sequence of steps *is* the pipeline. The code is split in two:
 
@@ -11,7 +11,7 @@ It is a console `Exe` with no configuration file — the sequence of steps *is* 
 
 The shippable library is a maintained fork of upstream [GTKSystem.Windows.Forms](https://github.com/easywebfactory/gtksystem-windows-forms) (Chinese-language, MIT). Rather than a git fork (too many merge conflicts on every upstream sync), upstream is vendored as the `gtksystem-windows-forms` submodule and the product is *derived* from it on demand. `PrepareProjects` performs that derivation deterministically so an upstream update can be re-absorbed by re-running the tool.
 
-> **Consequence for contributors:** files under `Net4x.Gtk.Windows.Forms/` and `Net4x.Gtk.Drawing/` are pipeline output and can be overwritten. Durable changes belong in `patches/`, `Resources/`, the `Resources/*PostProcessing.xml` files, or the submodule. See [the repository CLAUDE.md](CLAUDE.md).
+> **Consequence for contributors:** files under `Gtk.Windows.Forms/` and `Gtk.Drawing/` are pipeline output and can be overwritten. Durable changes belong in `patches/`, `Resources/`, the `Resources/*PostProcessing.xml` files, or the submodule. See [the repository CLAUDE.md](CLAUDE.md).
 
 ## The project file
 
@@ -54,7 +54,7 @@ dotnet run --project PrepareProjects/PrepareProjects.csproj
 
 The pipeline brackets its work with two operations on the `gtksystem-windows-forms` submodule, implemented in [Prepare.Common/IO/SourceRepositorySync.cs](Prepare.Common/IO/SourceRepositorySync.cs):
 
-- **Entry — pin to the generation base.** `SourceRepositorySync.CheckoutGenerationBase()` force-checks out the frozen base commit `e5227ae…` (`GenerationBaseCommit` — the exact commit the current `Net4x.*` projects and the `patches/` series were generated from) in **detached HEAD**, so every run transforms identical source and the line-anchored patches apply. Detached on purpose: the `main` branch — which may carry a manually-resolved gitee merge — is never moved or lost. It returns the checked-out branch name for the exit step. This **force-discards any uncommitted changes** in the submodule working tree.
+- **Entry — pin to the generation base.** `SourceRepositorySync.CheckoutGenerationBase()` force-checks out the frozen base commit `e5227ae…` (`GenerationBaseCommit` — the exact commit the current `Gtk.*` projects and the `patches/` series were generated from) in **detached HEAD**, so every run transforms identical source and the line-anchored patches apply. Detached on purpose: the `main` branch — which may carry a manually-resolved gitee merge — is never moved or lost. It returns the checked-out branch name for the exit step. This **force-discards any uncommitted changes** in the submodule working tree.
 - **Exit — advance to latest gitee.** `SourceRepositorySync.AdvanceToLatestGitee(branch)` returns to the tracking branch (`git checkout -f main`, discarding the pipeline's in-place source mutations), aligns it with its own remote (`git pull`), then merges the newest upstream (`git pull gitee master`). Only new gitee commits are merged, so an existing resolved merge is preserved. Each pull **fails safe**: on a network error or merge conflict it runs `git merge --abort` and warns (via `RedConsole`), leaving the submodule intact rather than half-merged.
 
 The base commit and tracking branch are `SourceRepositorySync.GenerationBaseCommit` / `DefaultTrackingBranch` (`main`).
@@ -71,10 +71,10 @@ Each stage prints a colored banner via `ConsoleColor.*.Write`. Stages 2–26 are
 
 2. **Normalize submodule folders** — `PrepareWorker.RenameDirectoriesInSourceRepository()` renames case-variant folders (`GTKControls`→`GtkControls`, `GTKSystem`→`GtkSystem`) inside the submodule via a two-step move (git is case-insensitive on Windows).
 3. **Register code-page encodings** — needed to read the original non-UTF-8 Chinese source.
-4. **Prepare `Net4x.Gtk.Windows.Forms`** — `GtkWindowsFormsProjectHandler.PrepareAsync("GTKSystem.Windows.Forms", "Net4x.Gtk.Windows.Forms")`:
-   - Copies the submodule project into the target dir, patches namespaces, normalizes the netstandard symbol, renames `GTKSystem.Windows.Forms.csproj` → `Net4x.Gtk.Windows.Forms.csproj`, ensures the latest GtkSharp, copies localization resources (`Resources.*`, `MessageBoxResources.*`), translates Chinese → English, and ensures `NoWarn`.
-5. **Prepare `Net4x.System.Resources.Extensions`** — `SystemResourcesExtensionsProjectHandler.Prepare(...)`.
-6. **Compute & stage version** — `VersionPrepare.PrepareSolutionVersion()` reads the upstream `Version`, returns the text plus a deferred `updatePropsFiles` action that later writes `VersionSuffix` into `Directory.Build.Props` and `Net4xGtkWindowsFormsVersion` into `Directory.Nuget.Props`.
+4. **Prepare `Gtk.Windows.Forms`** — `GtkWindowsFormsProjectHandler.PrepareAsync("GTKSystem.Windows.Forms", "Gtk.Windows.Forms")`:
+   - Copies the submodule project into the target dir, patches namespaces, normalizes the netstandard symbol, renames `GTKSystem.Windows.Forms.csproj` → `Gtk.Windows.Forms.csproj`, ensures the latest GtkSharp, copies localization resources (`Resources.*`, `MessageBoxResources.*`), translates Chinese → English, and ensures `NoWarn`.
+5. **Prepare `System.Resources.Extensions`** — `SystemResourcesExtensionsProjectHandler.Prepare(...)`.
+6. **Compute & stage version** — `VersionPrepare.PrepareSolutionVersion()` reads the upstream `Version`, returns the text plus a deferred `updatePropsFiles` action that later writes `VersionSuffix` into `Directory.Build.Props` and `GtkWindowsFormsVersion` into `Directory.Nuget.Props`.
 7. **Prepare PoC sample apps** — `GtkSampleAppProjectsHandler.PrepareAsync` for `GtkWinFormsApp` and `GtkSystemWinFormsApp11`.
 8. **Regenerate `*.Designer.cs`** — `ResGenService.RegenerateDesignersFromResources(...)` for the sample apps.
 9. **Overlay source from `Resources/`** — `ResourcesCopyService.CopyCodeFromResources(...)` copies maintained `.cs` files (e.g. `ControlExtension.cs`, `NonStaticMessageBox.cs`) into the generated tree.
@@ -82,7 +82,7 @@ Each stage prints a colored banner via `ConsoleColor.*.Write`. Stages 2–26 are
 11. **Normalize comments** — `SummaryCommentTransformer` + `MemberSpacingFormatter`.
 12. **Remove stale upstream XML comments** — `PrepareWorker.RemoveOldXmlComments(csprojPath)`.
 13. **Reorganize files to match namespaces** — `FolderFixer.ReorganizeFiles(...)`, then `GtkFoldersService.NormalizeGtkFolders` / `RenameFolder` and `FixService.FixClasses`.
-14. **Split out `Net4x.Gtk.Drawing`** — `DrawingService.SeparateDrawing(...)` extracts the `System.Drawing` shim into its own project; `OptimizeNet4xGtkDrawingFileSystem` tidies it.
+14. **Split out `Gtk.Drawing`** — `DrawingService.SeparateDrawing(...)` extracts the `System.Drawing` shim into its own project; `OptimizeNet4xGtkDrawingFileSystem` tidies it.
 15. **Substitute unimplemented types with `mono` equivalents** — e.g. `FileContentReplacer.ReplaceContent(... mono/.../CharacterRange.cs ...)`.
 16. **Intermediate post-processing** — `PrepareWorker.GetSubsequentPostprocessingXml(false)` → `IntermediatePostProcessing.xml`.
 17. **Regenerate `SR.Designer.cs`** — `ResGenService.RegenerateSrDesigner(...)`.
@@ -126,11 +126,11 @@ Each stage prints a colored banner via `ConsoleColor.*.Write`. Stages 2–26 are
 
 ## AlignProjects (post-pipeline)
 
-`AlignProjects` (in `PrepareProjects.sln`) is a companion tool that runs **after** PrepareProjects to forward-port newer gitee upstream changes onto the generated `Net4x.*` projects, incrementally. Where PrepareProjects regenerates `Net4x.*` from the frozen base commit + patches, AlignProjects computes the upstream delta in *transformed space* and 3-way-merges it onto the live projects, preserving the fork's patches/manual edits.
+`AlignProjects` (in `PrepareProjects.sln`) is a companion tool that runs **after** PrepareProjects to forward-port newer gitee upstream changes onto the generated `Gtk.*` projects, incrementally. Where PrepareProjects regenerates `Gtk.*` from the frozen base commit + patches, AlignProjects computes the upstream delta in *transformed space* and 3-way-merges it onto the live projects, preserving the fork's patches/manual edits.
 
 - **Shared transform:** both tools run the same transform `f` — `TransformPipeline.RunTransform` (extracted from `Program.Main`; PrepareProjects then applies patches/build/publish, AlignProjects diffs two transformed snapshots).
 - **Incremental & checkpointed:** each run aligns `last-aligned checkpoint → gitee HEAD` and advances the checkpoint (`AlignProjects/last-aligned.txt`); re-running with nothing new is a no-op.
-- **Two operator pauses:** fill new translations (blank dictionary entries), and resolve merge conflicts (each shown with the `Net4x.*` path and the raw `gtksystem-windows-forms` source).
+- **Two operator pauses:** fill new translations (blank dictionary entries), and resolve merge conflicts (each shown with the `Gtk.*` path and the raw `gtksystem-windows-forms` source).
 - **Status:** the driver (checkpoint, structural preflight, 3-way merge, conflict pause, report) is implemented and tested; the transform-producer half (`repoRoot` threading, staging roots, provenance, determinism) is still pending a GTK-environment validation run.
 
 The as-built tool — stages, exit codes, env overrides, and where the code differs from the plan — is documented in [AlignProjects.md](AlignProjects.md); the design rationale and status live in [AlignProjects-Plan.md](AlignProjects-Plan.md).
@@ -151,7 +151,7 @@ The as-built tool is documented in [AlignSamples.md](AlignSamples.md); the desig
 The three tools are **never chained automatically** — each is invoked by hand, in this order:
 
 ```sh
-dotnet run --project PrepareProjects/PrepareProjects.csproj   # regenerate Net4x.* + samples from the frozen base, build, publish
+dotnet run --project PrepareProjects/PrepareProjects.csproj   # regenerate Gtk.* + samples from the frozen base, build, publish
 dotnet run --project AlignProjects/AlignProjects.csproj       # absorb new upstream into the libraries
 dotnet run --project AlignSamples/AlignSamples.csproj         # absorb new upstream into the samples
 ```

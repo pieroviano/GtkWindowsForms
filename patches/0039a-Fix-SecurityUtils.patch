@@ -7,10 +7,10 @@ Subject: [PATCH] Fix SecurityUtils
  .../Windows/Forms/Collection/SecurityUtils.cs | 22 ++++++++++++++-----
  1 file changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/SecurityUtils.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/SecurityUtils.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/SecurityUtils.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/SecurityUtils.cs
 index 2da8a29..8fc1bd3 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/SecurityUtils.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Collection/SecurityUtils.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/SecurityUtils.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/SecurityUtils.cs
 @@ -1,4 +1,4 @@
 -using System.Reflection;
 +﻿using System.Reflection;

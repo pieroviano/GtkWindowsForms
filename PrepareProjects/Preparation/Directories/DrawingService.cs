@@ -10,7 +10,7 @@ public static class DrawingService
         var net4xGtkDrawings = RepoPaths.At(gtkDrawing);
         var net4xGtkDrawingsSystem = RepoPaths.At($@"{gtkDrawing}\System");
         var net4xGtkDrawingsSystemDrawing = @$"{net4xGtkDrawingsSystem}\Drawing";
-        var net4xGtkWindowsFormsSystemDrawing = RepoPaths.At(@"Net4x.Gtk.Windows.Forms\System\Drawing");
+        var net4xGtkWindowsFormsSystemDrawing = RepoPaths.At(@"Gtk.Windows.Forms\System\Drawing");
 
         if (Directory.Exists(net4xGtkDrawings))
         {
@@ -22,7 +22,7 @@ public static class DrawingService
         Directory.CreateDirectory(net4xGtkDrawingsSystemDrawing);
 
         if (PathGuard.RequireDirectory(net4xGtkWindowsFormsSystemDrawing,
-                "separate Net4x.Gtk.Drawing (move System/Drawing out of Net4x.Gtk.Windows.Forms)"))
+                "separate Gtk.Drawing (move System/Drawing out of Gtk.Windows.Forms)"))
         {
             DirectoryMover.MoveAllExcept(
                 sourceRoot: net4xGtkWindowsFormsSystemDrawing,

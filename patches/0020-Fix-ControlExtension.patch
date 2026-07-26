@@ -4,13 +4,13 @@ Date: Sat, 28 Mar 2026 02:21:37 +0200
 Subject: [PATCH] Fix ControlExtension
 
 ---
- Net4x.Gtk.Windows.Forms/GtkControls/ControlExtension.cs | 8 ++++++--
+ Gtk.Windows.Forms/GtkControls/ControlExtension.cs | 8 ++++++--
  1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/GtkControls/ControlExtension.cs b/Net4x.Gtk.Windows.Forms/GtkControls/ControlExtension.cs
+diff --git a/Gtk.Windows.Forms/GtkControls/ControlExtension.cs b/Gtk.Windows.Forms/GtkControls/ControlExtension.cs
 index 96bb2bcf..e46e2276 100644
---- a/Net4x.Gtk.Windows.Forms/GtkControls/ControlExtension.cs
-+++ b/Net4x.Gtk.Windows.Forms/GtkControls/ControlExtension.cs
+--- a/Gtk.Windows.Forms/GtkControls/ControlExtension.cs
++++ b/Gtk.Windows.Forms/GtkControls/ControlExtension.cs
 @@ -1,14 +1,18 @@
 -using System.Windows.Forms;
 +﻿using System.Windows.Forms;

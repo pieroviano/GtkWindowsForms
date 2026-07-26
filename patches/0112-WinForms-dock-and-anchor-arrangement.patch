@@ -48,8 +48,8 @@ Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
  .../System/Windows/Forms/Control/Control.cs   |  27 +-
  .../Forms/Control/ScrollableControl.cs        |   8 +-
  7 files changed, 734 insertions(+), 8 deletions(-)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/LayoutArrangementFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.LayoutPass.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/LayoutArrangementFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Control/Control.LayoutPass.cs
 
 diff --git a/GtkWinFormsApp.UITests/Baselines/Form1/loaded.png b/GtkWinFormsApp.UITests/Baselines/Form1/loaded.png
 index ef48f8463000d41bec18d6784d9bef7b3d25ba8f..b494cf8141d16bc1e6917c74dd6cdb90299e4263 100644
@@ -6531,16 +6531,16 @@ zpYpzl7^U;8jdm^8w9*13L#!dn<Go#gi#kaJv`FK;tu<&@cgD#Kr%(N>%dULstbFAq
 za=_MS5+#Sl)=!9SV(&gDlWD5DOXSvzWM9uc>9aOH=HbkJ&$}nU6G&Cpn})hN<NJPh
 vmr3@Gd*&&pD`6=z%c7&G!he*=2!Z0^Pvd*;XlojZUKyXgbOv+U`R@M!|E<YC
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/LayoutArrangementFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/LayoutArrangementFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/LayoutArrangementFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/LayoutArrangementFunctionalTests.cs
 new file mode 100644
 index 00000000..b01c13aa
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/LayoutArrangementFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/LayoutArrangementFunctionalTests.cs
 @@ -0,0 +1,319 @@
 +using System.Runtime.ExceptionServices;
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Behavioural tests for dock and anchor arrangement — the first measurement of the layout engine
@@ -6856,11 +6856,11 @@ index 00000000..b01c13aa
 +        });
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.LayoutPass.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.LayoutPass.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.LayoutPass.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.LayoutPass.cs
 new file mode 100644
 index 00000000..026dd2d4
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.LayoutPass.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.LayoutPass.cs
 @@ -0,0 +1,388 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -7250,10 +7250,10 @@ index 00000000..026dd2d4
 +        }
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 index ea91c715..994341ed 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
 @@ -1151,8 +1151,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
      /// <summary>
      /// Gets the rectangle that represents the display area of the control.
@@ -7316,10 +7316,10 @@ index ea91c715..994341ed 100644
          OnResize(EventArgs.Empty);
          if (args.Allocation.Width != size_width || args.Allocation.Height != size_height)
          {
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ScrollableControl.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ScrollableControl.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/ScrollableControl.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/ScrollableControl.cs
 index 09ed1081..eea6da32 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ScrollableControl.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Control/ScrollableControl.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/ScrollableControl.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/ScrollableControl.cs
 @@ -124,10 +124,10 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
          }
      }

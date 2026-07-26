@@ -21,18 +21,18 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
  .../System/Windows/Forms/ToolStrip.Members.cs | 55 +++++++++++++
  .../System/Windows/Forms/ToolStrip.cs         |  2 +-
  4 files changed, 140 insertions(+), 1 deletion(-)
- create mode 100644 Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripMembersFunctionalTests.cs
- create mode 100644 Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.Members.cs
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripMembersFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.Members.cs
 
-diff --git a/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripMembersFunctionalTests.cs b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripMembersFunctionalTests.cs
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripMembersFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripMembersFunctionalTests.cs
 new file mode 100644
 index 00000000..d09da78d
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripMembersFunctionalTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ToolStripMembersFunctionalTests.cs
 @@ -0,0 +1,81 @@
 +using System.Windows.Forms;
 +
-+namespace Net4x.Gtk.Windows.Forms.Tests.System.Windows.Forms;
++namespace GtkWinForms.Tests.System.Windows.Forms;
 +
 +/// <summary>
 +/// Tests for the common ToolStrip configuration members added to the base (they propagate to the whole
@@ -111,10 +111,10 @@ index 00000000..d09da78d
 +        Assert.Equal(Orientation.Horizontal, menu.Orientation);
 +    }
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
 index f18ac0be..96de6449 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.cs
 @@ -36,4 +36,7 @@ public class ToolStripDropDown : ToolStrip
      /// plumbing targets it rather than the toolbar box.
      /// </summary>
@@ -123,11 +123,11 @@ index f18ac0be..96de6449 100644
 +    /// <summary>Gets a value indicating whether this strip is a drop-down. Always <see langword="true" />.</summary>
 +    public override bool IsDropDown => true;
  }
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.Members.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.Members.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.Members.cs b/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.Members.cs
 new file mode 100644
 index 00000000..a3923554
 --- /dev/null
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.Members.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.Members.cs
 @@ -0,0 +1,55 @@
 +// Licensed to the .NET Foundation under one or more agreements.
 +// The .NET Foundation licenses this file to you under the MIT license.
@@ -184,10 +184,10 @@ index 00000000..a3923554
 +    /// <summary>Gets the overflow button that opens the items that do not fit.</summary>
 +    public ToolStripOverflowButton OverflowButton => _overflowButton ??= new ToolStripOverflowButton();
 +}
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs b/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
 index bceeaf7e..bcb5f4b6 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ToolStrip.cs
 @@ -13,7 +13,7 @@ namespace System.Windows.Forms;
  /// <summary>
  /// Provides a container for Windows toolbar objects.

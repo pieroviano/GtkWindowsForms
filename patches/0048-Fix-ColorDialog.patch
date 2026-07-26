@@ -7,10 +7,10 @@ Subject: [PATCH] Fix ColorDialog
  .../System/Windows/Forms/Dialog/ColorDialog.cs                  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Dialog/ColorDialog.cs b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Dialog/ColorDialog.cs
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Dialog/ColorDialog.cs b/Gtk.Windows.Forms/System/Windows/Forms/Dialog/ColorDialog.cs
 index 7922ab3..dabc242 100644
---- a/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Dialog/ColorDialog.cs
-+++ b/Net4x.Gtk.Windows.Forms/System/Windows/Forms/Dialog/ColorDialog.cs
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Dialog/ColorDialog.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Dialog/ColorDialog.cs
 @@ -22,7 +22,7 @@ public class ColorDialog : CommonDialog
      /// </summary>
      public ColorDialog() : base()
