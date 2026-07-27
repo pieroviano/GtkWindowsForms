@@ -184,7 +184,7 @@ As the project evolves, it continues to improve in stability, coverage, and usab
 ## Resources
 
 - Project repository:
-  https://bitbucket.org/piero-viano/Gtk.Windows.Forms
+  https://bitbucket.org/piero-viano/net4x.gtk.windows.forms
 
 - Tutorial repository:
   https://bitbucket.org/piero-viano/net4x.gtk.windows.forms.tutorial
