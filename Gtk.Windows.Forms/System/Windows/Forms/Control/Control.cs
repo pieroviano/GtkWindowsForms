@@ -16,7 +16,7 @@ using Gdk;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 using Color = System.Drawing.Color;
-using Container = Gtk.Container;
+using Container = Gtk.Widget;
 using Image = System.Drawing.Image;
 using Path = System.IO.Path;
 using Point = System.Drawing.Point;
@@ -44,19 +44,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     internal static Dictionary<Gdk.Key, int> keyboardMap = new Dictionary<Gdk.Key, int>();
 
-    /// <summary>
-    /// Optional hook invoked for every raw GTK widget event before it is translated into
-    /// WinForms events. Used by derived controls that need access to the unfiltered event stream.
-    /// </summary>
-    public Action<Gtk.Widget, Gtk.WidgetEventArgs>? WidgetEventDo;
 
     internal bool _Created;
 
     internal bool LockLocation = false;// because the code executes sequentially， special locking
 
-    Context? context;
+    Cairo.Context? context;
 
-    Surface? surface;
+    Cairo.Surface? surface;
 
     // Off-screen backing surface for CreateGraphics. It must NOT be tied to the live GDK Window:
     // deriving the draw surface from Widget.Window (as upstream/gitee does) corrupts GTK's own
@@ -674,20 +669,25 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             {
                 widget.Halign = Align.Start;
                 widget.Valign = Align.Start;
-                widget.Expand = false;
+                widget.Hexpand = false;
+                widget.Vexpand = false;
             }
             widget.Data["Control"] = this;
-            widget.StyleContext.AddClass("DefaultThemeStyle");
+            widget.AddCssClass("DefaultThemeStyle");
             widget.Realized += Widget_Realized;
-            widget.Destroyed += Widget_Destroyed;
+            // Gtk 4 removed the Destroyed signal for non-window widgets; Unrealize is the closest
+            // teardown point (the widget has just given up its GDK handle).
+            widget.Unrealized += Widget_Destroyed;
             if (ISelf != null)
             {
                 ISelf.Override.PaintGraphics += Override_PaintGraphics;
                 ISelf.Override.Paint += Override_Paint;
             }
-            widget.SizeAllocated += Widget_SizeAllocated;
-            widget.ParentSet += Widget_ParentSet;
-            widget.WidgetEvent += Widget_WidgetEvent;
+            // Gtk 4 input model: raw event signals (WidgetEvent) are gone; mouse/keyboard/scroll/focus
+            // arrive through event controllers attached to the widget. See AttachInputControllers.
+            // (SizeAllocated / ParentSet signals were also removed; dock/anchor layout runs on Realize
+            //  and is re-driven by the *Base widgets' allocate cycle in the layout migration.)
+            AttachInputControllers(widget);
             this.CursorChanged += Control_CursorChanged;
             this.DockChanged += Control_DockChanged;
             this.AnchorChanged += Control_AnchorChanged;
@@ -714,21 +714,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// The widget's ATK peer, or <c>null</c> when there is no widget to expose.
     /// </summary>
-    private Atk.Object? AtkPeer
+    private object? AtkPeer
     {
         get
         {
-            try
-            {
-                return this.Widget?.Accessible;
-            }
-            catch (Exception ex)
-            {
-                // Never let an accessibility lookup take down the caller.
-                GtkLogger.Debug($"Accessible peer unavailable: {ex.Message}");
-
-                return null;
-            }
+            // TODO(gtk4-a11y): Gtk 4 removed the Atk.Object peer (Widget.Accessible); widgets implement
+            // Gtk.Accessible directly. Accessibility is inert until its own migration wires AccessibleObject
+            // onto Gtk.Accessible. Returning null keeps every AtkPeer consumer a no-op meanwhile.
+            return null;
         }
     }
 
@@ -947,9 +940,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                 var widget = this.Widget;
                 if (widget != null)
                 {
-                    widget.StyleContext.RemoveClass("BorderFixed3D");
-                    widget.StyleContext.RemoveClass("BorderNone");
-                    widget.StyleContext.AddClass("BorderFixedSingle");
+                    widget.RemoveCssClass("BorderFixed3D");
+                    widget.RemoveCssClass("BorderNone");
+                    widget.AddCssClass("BorderFixedSingle");
                 }
             }
             else if (value == BorderStyle.Fixed3D)
@@ -957,9 +950,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                 var widget = this.Widget;
                 if (widget != null)
                 {
-                    widget.StyleContext.RemoveClass("BorderFixedSingle");
-                    widget.StyleContext.RemoveClass("BorderNone");
-                    widget.StyleContext.AddClass("BorderFixed3D");
+                    widget.RemoveCssClass("BorderFixedSingle");
+                    widget.RemoveCssClass("BorderNone");
+                    widget.AddCssClass("BorderFixed3D");
                 }
             }
             else
@@ -967,9 +960,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                 var widget = this.Widget;
                 if (widget != null)
                 {
-                    widget.StyleContext.RemoveClass("BorderFixedSingle");
-                    widget.StyleContext.RemoveClass("BorderFixed3D");
-                    widget.StyleContext.AddClass("BorderNone");
+                    widget.RemoveCssClass("BorderFixedSingle");
+                    widget.RemoveCssClass("BorderFixed3D");
+                    widget.AddCssClass("BorderNone");
                 }
             }
         }
@@ -1231,7 +1224,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets the GTK container associated with this control, if any.
     /// </summary>
-    public virtual Container? GtkContainer { get => GtkControl as Gtk.Container; }
+    public virtual Container? GtkContainer { get => GtkControl as Gtk.Widget; }
 
     /// <summary>
     /// Gets or sets the underlying GTK control object.
@@ -1617,7 +1610,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             _size = value;
             Width = value.Width;
             Height = value.Height;
-            if (this.Widget != null && this.Widget.IsRealized && this.Widget.Parent is Gtk.Container con)
+            if (this.Widget != null && this.Widget.IsRealized && this.Widget.Parent is Gtk.Widget con)
             {
                 con.QueueResize();
                 con.ResizeChildren();
@@ -4142,11 +4135,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                 {
                     if (widget.StyleContext.HasClass(styleClassName))
                     {
-                        widget.StyleContext.RemoveClass(styleClassName);
+                        widget.RemoveCssClass(styleClassName);
                         widget.StyleContext.RemoveProvider(provider);
                     }
                     widget.StyleContext.AddProvider(provider, (uint)StyleProviderPriority.User);
-                    widget.StyleContext.AddClass(styleClassName);
+                    widget.AddCssClass(styleClassName);
                 }
             }
         }
@@ -4470,11 +4463,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         }
     }
 
-    private void Widget_ParentSet(object o, Gtk.ParentSetArgs args)
-    {
-        InitDockAnchorStyle();
-        OnParentChanged(EventArgs.Empty);
-    }
 
     private void Widget_Realized(object sender, EventArgs e)
     {
@@ -4507,266 +4495,132 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         OnHandleDestroyed(e);
     }
 
-    private void Widget_SizeAllocated(object o, SizeAllocatedArgs args)
+
+    private MouseButtons _pressedButtons = MouseButtons.None;
+    private static MouseButtons GtkButtonToWinForms(uint button) => button switch
     {
-        // Re-arrange the children against the new size: docked ones re-consume their edges, anchored ones
-        // follow the delta. Nothing did this before, so a resized container left its children where they
-        // had first been placed.
-        PerformDockAnchorLayout();
-        OnResize(EventArgs.Empty);
-        if (args.Allocation.Width != size_width || args.Allocation.Height != size_height)
+        1 => MouseButtons.Left,
+        2 => MouseButtons.Middle,
+        3 => MouseButtons.Right,
+        _ => MouseButtons.None,
+    };
+
+    private static Keys MapGtkKey(uint keyval, uint keycode, Gdk.ModifierType state, out int mappedChar)
+    {
+        var gkey = (Gdk.Key)keyval;
+        var keys = (Keys)keycode;
+        keyboardMap.TryGetValue(gkey, out mappedChar);
+        if (mappedChar != 0)
         {
-            size_width = args.Allocation.Width;
-            size_height = args.Allocation.Height;
-            OnSizeChanged(EventArgs.Empty);
+            keys = (Keys)mappedChar;
+            if (gkey == Gdk.Key.VoidSymbol && keycode == 20)
+                keys = Keys.CapsLock;
         }
-        if (args.Allocation.X != location_x || args.Allocation.Y != location_y)
-        {
-            location_x = args.Allocation.X;
-            location_y = args.Allocation.Y;
-            OnLocationChanged(EventArgs.Empty);
-        }
+        if (state.HasFlag(Gdk.ModifierType.AltMask)) keys |= Keys.Alt;
+        if (state.HasFlag(Gdk.ModifierType.ControlMask)) keys |= Keys.Control;
+        if (state.HasFlag(Gdk.ModifierType.ShiftMask)) keys |= Keys.Shift;
+        if (state.HasFlag(Gdk.ModifierType.LockMask)) keys |= Keys.CapsLock;
+        return keys;
     }
 
-    private void Widget_WidgetEvent(object o, Gtk.WidgetEventArgs args)
+    /// <summary>
+    /// Gtk 4 delivers input through event controllers, not the removed raw event-signal stream. This wires
+    /// mouse (GestureClick + EventControllerMotion), keyboard (EventControllerKey), wheel
+    /// (EventControllerScroll) and focus (EventControllerFocus) onto the widget and re-raises the matching
+    /// WinForms events. Coordinates arrive widget-relative, which is already the WinForms client space.
+    /// </summary>
+    private void AttachInputControllers(Gtk.Widget widget)
     {
-        if (o is not Gtk.Widget owidget || owidget.IsRealized == false)
-            return;
-
-        WidgetEventDo?.Invoke(owidget, args);
-        if (args.Event.Type == Gdk.EventType.MotionNotify)
-        {
-            if (args.Event is Gdk.EventMotion eventmotion && owidget.Window != null)
-            {
-                var clicks = 0;
-                MouseButtons button = MouseButtons.None;
-                if (eventmotion.State.HasFlag(Gdk.ModifierType.Button1Mask))
-                {
-                    button |= MouseButtons.Left;
-                    clicks += 1;
-                }
-                if (eventmotion.State.HasFlag(Gdk.ModifierType.Button2Mask))
-                {
-                    button |= MouseButtons.Middle;
-                    clicks += 1;
-                }
-                if (eventmotion.State.HasFlag(Gdk.ModifierType.Button3Mask))
-                {
-                    button |= MouseButtons.Right;
-                    clicks += 1;
-                }
-                owidget.Window.GetOrigin(out var x, out var y);
-                OnMouseMove(new MouseEventArgs(button, clicks, (int)eventmotion.XRoot - x, (int)eventmotion.YRoot - y, 1));
-            }
-        }
-        else if (args.Event.Type == Gdk.EventType.KeyPress)
-        {
-            if (args.Event is Gdk.EventKey eventkey)
-            {
-                var keys = (Keys)eventkey.HardwareKeycode;
-                keyboardMap.TryGetValue(eventkey.Key, out var keycode);
-                if (keycode != 0)
-                {
-                    keys = (Keys)keycode;
-                    if (eventkey.Key.Equals(Gdk.Key.VoidSymbol) && eventkey.HardwareKeycode == 20)
-                        keys = Keys.CapsLock;
-                }
-                if (eventkey.State.HasFlag(Gdk.ModifierType.Mod1Mask))
-                    keys |= Keys.Alt;
-                if (eventkey.State.HasFlag(Gdk.ModifierType.ControlMask))
-                    keys |= Keys.Control;
-                if (eventkey.State.HasFlag(Gdk.ModifierType.ShiftMask))
-                    keys |= Keys.Shift;
-                if (eventkey.State.HasFlag(Gdk.ModifierType.LockMask))
-                    keys |= Keys.CapsLock;
-                var keyargs = new KeyEventArgs(keys);
-                OnKeyDown(keyargs);
-                args.RetVal = keyargs.SuppressKeyPress;
-                if (!keyargs.SuppressKeyPress)
-                {
-                    var keypress = new KeyPressEventArgs(Convert.ToChar(keycode));
-                    OnKeyPress(keypress);
-                    args.RetVal = keypress.Handled;
-                }
-            }
-        }
-        else if (args.Event.Type == Gdk.EventType.KeyRelease)
-        {
-            if (args.Event is Gdk.EventKey eventkey)
-            {
-                var keys = (Keys)eventkey.HardwareKeycode;
-                if (keyboardMap.TryGetValue(eventkey.Key, out var keycode))
-                {
-                    keys = (Keys)keycode;
-                    if (eventkey.Key.Equals(Gdk.Key.VoidSymbol) && eventkey.HardwareKeycode == 20)
-                        keys = Keys.CapsLock;
-                }
-                if (eventkey.State.HasFlag(Gdk.ModifierType.Mod1Mask))
-                    keys |= Keys.Alt;
-                if (eventkey.State.HasFlag(Gdk.ModifierType.ControlMask))
-                    keys |= Keys.Control;
-                if (eventkey.State.HasFlag(Gdk.ModifierType.ShiftMask))
-                    keys |= Keys.Shift;
-                if (eventkey.State.HasFlag(Gdk.ModifierType.LockMask))
-                    keys |= Keys.CapsLock;
-                var keyargs = new KeyEventArgs(keys);
-                OnKeyUp(keyargs);
-                args.RetVal = keyargs.Handled;
-            }
-        }
-        else if (args.Event.Type == Gdk.EventType.ButtonPress)
-        {
-            if (args.Event is Gdk.EventButton eventbutton && owidget.Window != null)
-            {
-                MouseButtons button = MouseButtons.None;
-                if (eventbutton.Button == 1)
-                    button = MouseButtons.Left;
-                else if (eventbutton.Button == 2)
-                    button = MouseButtons.Middle;
-                else if (eventbutton.Button == 3)
-                    button = MouseButtons.Right;
-                owidget.Window.GetOrigin(out var x, out var y);
-                OnMouseDown(new MouseEventArgs(button, 1, (int)eventbutton.XRoot - x, (int)eventbutton.YRoot - y, 0));
-            }
-        }
-        else if (args.Event.Type == Gdk.EventType.TwoButtonPress || args.Event.Type == Gdk.EventType.DoubleButtonPress)
-        {
-            if (args.Event is Gdk.EventButton eventbutton && eventbutton.Button == 1 && owidget.Window != null)
-            {
-                Is_DoubleButtonPress = true;
-                MouseButtons button = MouseButtons.Left;
-                owidget.Window.GetOrigin(out var x, out var y);
-                OnMouseDoubleClick(new MouseEventArgs(button, 2, (int)eventbutton.XRoot - x, (int)eventbutton.YRoot - y, 0));
-                OnDoubleClick(EventArgs.Empty);
-            }
-        }
-        else if (args.Event.Type == Gdk.EventType.ButtonRelease)
-        {
-            if (args.Event is Gdk.EventButton eventbutton && owidget.Window != null
-                && owidget.Allocation.Contains((int)eventbutton.X, (int)eventbutton.Y))
-            {
-                MouseButtons button = MouseButtons.None;
-                if (eventbutton.Button == 1)
-                    button = MouseButtons.Left;
-                else if (eventbutton.Button == 2)
-                    button = MouseButtons.Middle;
-                else if (eventbutton.Button == 3)
-                    button = MouseButtons.Right;
-
-                owidget.Window.GetOrigin(out var x, out var y);
-                if (eventbutton.Button == 1 && Is_DoubleButtonPress == false)
-                {
-                    OnClick(EventArgs.Empty);
-                    OnMouseClick(new MouseEventArgs(button, 1, (int)eventbutton.XRoot - x, (int)eventbutton.YRoot - y, 0));
-                }
-                OnMouseUp(new MouseEventArgs(button, 1, (int)eventbutton.XRoot - x, (int)eventbutton.YRoot - y, 0));
-                if (eventbutton.Button == 3)
-                {
-                    if (ContextMenuStrip != null)
-                    {
-                        ContextMenuStrip.Widget.ShowAll();
-                        ((Gtk.Menu)ContextMenuStrip.Widget).PopupAtPointer(args.Event);
-                        args.RetVal = true;
-                    }
-                }
-                Is_DoubleButtonPress = false;
-            }
-        }
-        else if (args.Event.Type == Gdk.EventType.TouchBegin)
-        {
-            if (args.Args[0] is Gdk.EventTouch eventbutton && owidget.Window != null)
-            {
-                MouseButtons button = MouseButtons.Left;
-                owidget.Window.GetOrigin(out var x, out var y);
-                OnMouseDown(new MouseEventArgs(button, 1, (int)eventbutton.XRoot - x, (int)eventbutton.YRoot - y, 0));
-            }
-        }
-        else if (args.Event.Type == Gdk.EventType.TouchUpdate)
-        {
-            if (args.Args[0] is Gdk.EventTouch eventmotion && owidget.Window != null)
-            {
-                var clicks = 0;
-                MouseButtons button = MouseButtons.Left;
-                owidget.Window.GetOrigin(out var x, out var y);
-                OnMouseMove(new MouseEventArgs(button, clicks, (int)eventmotion.XRoot - x, (int)eventmotion.YRoot - y, 1));
-            }
-        }
-        else if (args.Event.Type == Gdk.EventType.TouchEnd)
-        {
-            if (args.Args[0] is Gdk.EventTouch eventbutton && owidget.Window != null)
-            {
-                MouseButtons button = MouseButtons.Left;
-                owidget.Window.GetOrigin(out var x, out var y);
-                OnClick(EventArgs.Empty);
-                OnMouseClick(new MouseEventArgs(button, 1, (int)eventbutton.XRoot - x, (int)eventbutton.YRoot - y, 0));
-                OnMouseUp(new MouseEventArgs(button, 1, (int)eventbutton.XRoot - x, (int)eventbutton.YRoot - y, 0));
-            }
-        }
-        else if (args.Event.Type == Gdk.EventType.Configure)
-        {
-            OnMove(EventArgs.Empty);
-        }
-        else if (args.Event.Type == Gdk.EventType.EnterNotify)
+        var motion = new Gtk.EventControllerMotion();
+        motion.Motion += (o, a) =>
+            OnMouseMove(new MouseEventArgs(_pressedButtons, 0, (int)a.X, (int)a.Y, 0));
+        motion.Enter += (o, a) =>
         {
             OnMouseEnter(EventArgs.Empty);
             OnMouseHover(EventArgs.Empty);
             OnEnter(EventArgs.Empty);
-        }
-        else if (args.Event.Type == Gdk.EventType.LeaveNotify)
+        };
+        motion.Leave += (o, a) =>
         {
             OnMouseLeave(EventArgs.Empty);
             OnLeave(EventArgs.Empty);
-        }
-        else if (args.Event.Type == Gdk.EventType.FocusChange)
+        };
+        widget.AddController(motion);
+
+        var click = new Gtk.GestureClick { Button = 0 };
+        click.Pressed += (o, a) =>
         {
-            if (args.Event is Gdk.EventFocus eventfocus)
+            var button = GtkButtonToWinForms(click.CurrentButton);
+            _pressedButtons |= button;
+            if (a.NPress == 2 && button == MouseButtons.Left)
             {
-                if (eventfocus.In)
-                {
-                    OnGotFocus(EventArgs.Empty);
-                }
-                else
-                {
-                    var cancelEventArgs = new CancelEventArgs(false);
-                    OnLostFocus(EventArgs.Empty);
-                    OnValidating(cancelEventArgs);
-                    if (Validated != null && cancelEventArgs.Cancel == false)
-                    {
-                        OnValidated(cancelEventArgs);
-                    }
-                }
+                Is_DoubleButtonPress = true;
+                OnMouseDoubleClick(new MouseEventArgs(MouseButtons.Left, 2, (int)a.X, (int)a.Y, 0));
+                OnDoubleClick(EventArgs.Empty);
             }
-        }
-        else if (args.Event.Type == Gdk.EventType.Scroll)
+            else
+            {
+                OnMouseDown(new MouseEventArgs(button, 1, (int)a.X, (int)a.Y, 0));
+            }
+        };
+        click.Released += (o, a) =>
         {
-            if (args.Event is Gdk.EventScroll eventscroll)
+            var button = GtkButtonToWinForms(click.CurrentButton);
+            _pressedButtons &= ~button;
+            if (button == MouseButtons.Left && Is_DoubleButtonPress == false)
             {
-                var clicks = 0;
-                MouseButtons button = MouseButtons.None;
-                if (eventscroll.State.HasFlag(Gdk.ModifierType.Button1Mask))
-                {
-                    button |= MouseButtons.Left;
-                    clicks += 1;
-                }
-                if (eventscroll.State.HasFlag(Gdk.ModifierType.Button2Mask))
-                {
-                    button |= MouseButtons.Middle;
-                    clicks += 1;
-                }
-                if (eventscroll.State.HasFlag(Gdk.ModifierType.Button3Mask))
-                {
-                    button |= MouseButtons.Right;
-                    clicks += 1;
-                }
-                var delta = (int)eventscroll.DeltaY;
-                if (eventscroll.Direction == Gdk.ScrollDirection.Left || eventscroll.Direction == Gdk.ScrollDirection.Right)
-                {
-                    delta = (int)eventscroll.DeltaX;
-                }
-                var mouseArgs = new HandledMouseEventArgs(button, clicks, (int)eventscroll.X, (int)eventscroll.Y, delta);
-                OnMouseWheel(mouseArgs);
-                args.RetVal = mouseArgs.Handled;
+                OnClick(EventArgs.Empty);
+                OnMouseClick(new MouseEventArgs(button, 1, (int)a.X, (int)a.Y, 0));
             }
-        }
+            OnMouseUp(new MouseEventArgs(button, 1, (int)a.X, (int)a.Y, 0));
+            if (button == MouseButtons.Right && ContextMenuStrip != null)
+            {
+                // TODO(gtk4-menus): pop up ContextMenuStrip via a PopoverMenu at (a.X, a.Y) once the
+                // Gtk.Menu-based drop-down is migrated to the GMenu/PopoverMenu model.
+            }
+            Is_DoubleButtonPress = false;
+        };
+        widget.AddController(click);
+
+        var key = new Gtk.EventControllerKey();
+        key.KeyPressed += (o, a) =>
+        {
+            var keys = MapGtkKey(a.Keyval, a.Keycode, a.State, out var mappedChar);
+            var keyArgs = new KeyEventArgs(keys);
+            OnKeyDown(keyArgs);
+            a.RetVal = keyArgs.SuppressKeyPress;
+            if (!keyArgs.SuppressKeyPress)
+            {
+                var pressArgs = new KeyPressEventArgs(Convert.ToChar(mappedChar));
+                OnKeyPress(pressArgs);
+                a.RetVal = pressArgs.Handled;
+            }
+        };
+        key.KeyReleased += (o, a) =>
+            OnKeyUp(new KeyEventArgs(MapGtkKey(a.Keyval, a.Keycode, a.State, out _)));
+        widget.AddController(key);
+
+        var scroll = new Gtk.EventControllerScroll(Gtk.EventControllerScrollFlags.BothAxes);
+        scroll.Scroll += (o, a) =>
+        {
+            // WinForms wheel delta is +-120 per notch; wheel-down is negative. Gtk reports down as +Dy.
+            var delta = a.Dy != 0 ? -(int)(a.Dy * 120) : -(int)(a.Dx * 120);
+            var mouseArgs = new HandledMouseEventArgs(_pressedButtons, 0, 0, 0, delta);
+            OnMouseWheel(mouseArgs);
+            a.RetVal = mouseArgs.Handled;
+        };
+        widget.AddController(scroll);
+
+        var focus = new Gtk.EventControllerFocus();
+        focus.Enter += (o, a) => OnGotFocus(EventArgs.Empty);
+        focus.Leave += (o, a) =>
+        {
+            var cancelEventArgs = new CancelEventArgs(false);
+            OnLostFocus(EventArgs.Empty);
+            OnValidating(cancelEventArgs);
+            if (Validated != null && cancelEventArgs.Cancel == false)
+                OnValidated(cancelEventArgs);
+        };
+        widget.AddController(focus);
     }
 }
