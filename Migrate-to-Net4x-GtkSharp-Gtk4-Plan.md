@@ -25,6 +25,31 @@ event signals, **~30** use dialogs/menus. The authoritative migration reference 
 
 ---
 
+## Progress log (kept current during execution)
+
+Branch: `gtk4`. Milestones are committed individually; error counts are `dotnet build -c Release`.
+
+| # | Milestone | Status | Commit | Notes |
+|---|---|---|---|---|
+| 1 | Pre-flight (B1–B4) | ✅ done | `8a395428` | pipeline left as-is; consumption verified; surface baseline in `gtk4-migration/` |
+| 2 | Package swap (§1) | ✅ done | `f12e69e5` | `GtkSharp`→`Net4x.GtkSharp` (5 refs); `GtkSharpLatestVersion` 3.24.24→4.22.4, floats `.*` |
+| 3 | `Gtk.Drawing` (Cairo/Gdk/Pango) | ✅ done — **0 errors** | `384c96b5` | `CairoSurfacePixbuf.ToPixbuf`; `FontFamily` via `CairoHelper`; `SystemIcons` IconTheme/LookupIcon |
+| 4 | `Gtk.Windows.Forms` — Control.cs input core | ✅ done — Control.cs **0 errors** | `ec1320a3` | 241-line dispatch → 5 EventControllers; styling/Container/Atk fixes. **Forms 236→222** |
+| 5 | `FormBase` (window/dialog lifecycle) | ⏳ next | — | `Gtk.Dialog`, `DeleteEvent`→`CloseRequest` (inverted veto), `Drawn`, `WindowState` (26 errors) |
+| 6 | Menus/toolbars → GMenu/PopoverMenu | ☐ todo | — | `Menu`/`MenuBar`/`MenuItem`/`Toolbar`/`StatusIcon`; `IToolMenuItem`; ContextMenuStrip popup (TODO left in Control.cs) |
+| 7 | Containers/layout (`Gtk.Layout`→§5.1) | ☐ todo | — | `LayoutBase`, `RadioButton`, scrollbars, `IScrollableBoxBase.Add`; restores `SizeAllocated`/`ParentSet` re-layout deferred in #4 |
+| 8 | Accessibility (`Atk`→`Gtk.Accessible`) | ☐ todo | — | `AtkPeer` stubbed null in #4; `AccessibleObject.cs` |
+| 9 | Drawing/override (`OnDrawn`→snapshot) | ☐ todo | — | `GtkControlOverride`, remaining `Drawn` overrides |
+| 10 | Sample apps + tests | ☐ todo | — | swap already applied to samples; fix any direct GtkSharp use; update Gtk3-specific test assertions |
+| 11 | **Run on Gtk 4.22 runtime** (acceptance) | ☐ todo | — | Windows + WSL Debian available; verify input mapping (wheel ×120, scroll sign, click counting, `CloseRequest` veto) |
+
+**Deferred/○ carried forward (restore in the noted milestone):**
+- Runtime re-layout on resize/parent-change (`SizeAllocated`/`ParentSet`) — deferred in #4 → restore in #7 via the `*Base` allocate cycle.
+- `ContextMenuStrip` right-click popup — TODO in `Control.cs` → wire in #6.
+- Accessibility — `AtkPeer` returns null → migrate in #8.
+
+---
+
 ## 0. BLOCKING pre-flight — resolve before any code changes
 
 - **B1 — Where does the migrated code live? — DECIDED.** The source under `Gtk.Windows.Forms/` and
