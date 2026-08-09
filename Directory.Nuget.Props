@@ -10,7 +10,7 @@
         <NuGetPackageRoot Condition="'$(NuGetPackageRoot)' == '' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' != 'true'">~/.nuget/packages/</NuGetPackageRoot>
         <VersionBuildSuffix Condition="'$(Configuration)' != 'Release'">*</VersionBuildSuffix>
         <VersionBuildSuffix Condition="'$(Configuration)' == 'Release'">*</VersionBuildSuffix>
-        <GtkSharpLatestVersion>3.24.24</GtkSharpLatestVersion>
+        <GtkSharpLatestVersion>4.22.4</GtkSharpLatestVersion>
         <GtkWindowsFormsVersion>1.3.2464</GtkWindowsFormsVersion>
         <Net4xBaseTypesVersion>1.3.1</Net4xBaseTypesVersion>
         <NuGetUtilityVersion>1.0.9</NuGetUtilityVersion>

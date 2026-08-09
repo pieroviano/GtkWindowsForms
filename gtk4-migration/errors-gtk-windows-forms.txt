@@ -1,0 +1,11 @@
+# Gtk.Windows.Forms compile-error inventory — GATED
+
+Gtk.Windows.Forms ProjectReferences Gtk.Drawing. Until Gtk.Drawing compiles against Net4x.GtkSharp
+(see errors-gtk-drawing.txt — 26 errors: Cairo/Gdk signature changes + removed
+IconTheme.Default / PangoHelper.ContextGet / IconLookupFlags.UseBuiltin), a build of
+Gtk.Windows.Forms only surfaces the Gtk.Drawing dependency's errors, not its own.
+
+The true Forms inventory (containers/packing/ShowAll → events/controllers → menus → dialogs → styling,
+per the plan §3–§4) is captured in the NEXT milestone, once Gtk.Drawing is green.
+
+Migration order therefore starts at the leaf: Gtk.Drawing (Cairo/Gdk/Pango) → then Gtk.Windows.Forms.

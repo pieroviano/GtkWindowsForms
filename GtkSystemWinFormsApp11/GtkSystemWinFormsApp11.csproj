@@ -22,7 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <!-- Version stays centrally pinned (fork state); upstream hardcodes it. -->
-    <PackageReference Include="GtkSharp" Version="$(GtkSharpLatestVersion).*" />
+    <PackageReference Include="Net4x.GtkSharp" Version="$(GtkSharpLatestVersion).*" />
   </ItemGroup>
   <ItemGroup>
     <Using Include="System.Windows.Forms" />
