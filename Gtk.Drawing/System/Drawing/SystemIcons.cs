@@ -63,13 +63,17 @@ public static class SystemIcons
     {
         try
         {
-            var theme = Gtk.IconTheme.Default;
+            // Gtk 4: IconTheme is per-display and LoadIcon (which returned a Pixbuf) is gone — LookupIcon
+            // now yields a GtkIconPaintable. Resolve it to a file and load that as a pixbuf.
+            var theme = Gtk.IconTheme.GetForDisplay(Gdk.Display.Default);
             if (theme != null && theme.HasIcon(themeName))
             {
-                var pixbuf = theme.LoadIcon(themeName, IconSize, Gtk.IconLookupFlags.UseBuiltin);
-                if (pixbuf != null)
+                var paintable = theme.LookupIcon(themeName, null, IconSize, 1,
+                    Gtk.TextDirection.None, Gtk.IconLookupFlags.None);
+                var path = paintable?.File?.Path;
+                if (!string.IsNullOrEmpty(path) && global::System.IO.File.Exists(path))
                 {
-                    return IconFromPixbuf(pixbuf);
+                    return IconFromPixbuf(new Gdk.Pixbuf(path));
                 }
             }
         }
@@ -121,7 +125,7 @@ public static class SystemIcons
 
         surface.Flush();
 
-        return IconFromPixbuf(new Gdk.Pixbuf(surface, 0, 0, IconSize, IconSize));
+        return IconFromPixbuf(surface.ToPixbuf(0, 0, IconSize, IconSize));
     }
 
     /// <summary>

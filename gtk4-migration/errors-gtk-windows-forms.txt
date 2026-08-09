@@ -1,11 +1,81 @@
-# Gtk.Windows.Forms compile-error inventory — GATED
+# Gtk.Windows.Forms compile-error inventory (Gtk.Drawing now green)
+# Total: 236 errors. Grouped by CS code below; full message list follows.
 
-Gtk.Windows.Forms ProjectReferences Gtk.Drawing. Until Gtk.Drawing compiles against Net4x.GtkSharp
-(see errors-gtk-drawing.txt — 26 errors: Cairo/Gdk signature changes + removed
-IconTheme.Default / PangoHelper.ContextGet / IconLookupFlags.UseBuiltin), a build of
-Gtk.Windows.Forms only surfaces the Gtk.Drawing dependency's errors, not its own.
+## By category
+     25 error CS0234
+     17 error CS0535
+     17 error CS0246
+      6 error CS0115
+      2 error CS0104
+      2 error CS0066
 
-The true Forms inventory (containers/packing/ShowAll → events/controllers → menus → dialogs → styling,
-per the plan §3–§4) is captured in the NEXT milestone, once Gtk.Drawing is green.
-
-Migration order therefore starts at the leaf: Gtk.Drawing (Cairo/Gdk/Pango) → then Gtk.Windows.Forms.
+## Distinct messages (count, message)
+     16 error CS0104: 'EventArgs' is an ambiguous reference between 'Gdk.EventArgs' and 'Gtk.EventArgs'
+     12 error CS0246: The type or namespace name 'Atk' could not be found (are you missing a using directive or an assembly reference?)
+     10 error CS0246: The type or namespace name 'DrawnArgs' could not be found (are you missing a using directive or an assembly reference?)
+     10 error CS0234: The type or namespace name 'DrawnArgs' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      8 error CS0246: The type or namespace name 'ButtonReleaseEventArgs' could not be found (are you missing a using directive or an assembly reference?)
+      8 error CS0234: The type or namespace name 'MenuItem' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      8 error CS0234: The type or namespace name 'Container' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      8 error CS0234: The type or namespace name 'ButtonReleaseEventArgs' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      6 error CS0246: The type or namespace name 'WidgetEventArgs' could not be found (are you missing a using directive or an assembly reference?)
+      6 error CS0246: The type or namespace name 'WidgetEventAfterArgs' could not be found (are you missing a using directive or an assembly reference?)
+      6 error CS0234: The type or namespace name 'Menu' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      4 error CS0246: The type or namespace name 'WindowPosition' could not be found (are you missing a using directive or an assembly reference?)
+      4 error CS0246: The type or namespace name 'SizeAllocatedArgs' could not be found (are you missing a using directive or an assembly reference?)
+      4 error CS0246: The type or namespace name 'DeleteEventArgs' could not be found (are you missing a using directive or an assembly reference?)
+      4 error CS0234: The type or namespace name 'WindowPosition' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      4 error CS0234: The type or namespace name 'WidgetEventArgs' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      4 error CS0234: The type or namespace name 'RadioButton' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      4 error CS0234: The type or namespace name 'ParentSetArgs' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      4 error CS0234: The type or namespace name 'MenuBar' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      4 error CS0234: The type or namespace name 'KeyPressEventArgs' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      4 error CS0234: The type or namespace name 'CursorType' does not exist in the namespace 'Gdk' (are you missing an assembly reference?)
+      4 error CS0234: The type or namespace name 'ButtonPressEventArgs' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      2 error CS0535: 'ToolStripDropDownBase' does not implement interface member 'IDisposable.Dispose()'
+      2 error CS0535: 'ToolStripBase' does not implement interface member 'IDisposable.Dispose()'
+      2 error CS0535: 'StripToolItem' does not implement interface member 'IToolMenuItem.ShowAll()'
+      2 error CS0535: 'StripToolItem' does not implement interface member 'IToolMenuItem.Name'
+      2 error CS0535: 'StripToolButton' does not implement interface member 'IToolMenuItem.ShowAll()'
+      2 error CS0535: 'StripToolButton' does not implement interface member 'IToolMenuItem.Name'
+      2 error CS0535: 'StripMenuToolButton' does not implement interface member 'IToolMenuItem.ShowAll()'
+      2 error CS0535: 'StripMenuToolButton' does not implement interface member 'IToolMenuItem.Name'
+      2 error CS0535: 'StripMenuItem' does not implement interface member 'IToolMenuItem.ShowAll()'
+      2 error CS0535: 'StripMenuItem' does not implement interface member 'IToolMenuItem.Name'
+      2 error CS0535: 'StripDropDown' does not implement interface member 'IToolMenuItem.ShowAll()'
+      2 error CS0535: 'StripDropDown' does not implement interface member 'IToolMenuItem.Name'
+      2 error CS0535: 'ScrollableBoxBase' does not implement interface member 'IScrollableBoxBase.Add(Widget)'
+      2 error CS0535: 'RadioButtonBase' does not implement interface member 'IDisposable.Dispose()'
+      2 error CS0535: 'MenuStripBase' does not implement interface member 'IDisposable.Dispose()'
+      2 error CS0535: 'LayoutBase' does not implement interface member 'IDisposable.Dispose()'
+      2 error CS0535: 'GroupBoxBase' does not implement interface member 'IScrollableBoxBase.Add(Widget)'
+      2 error CS0246: The type or namespace name 'WindowStateEventArgs' could not be found (are you missing a using directive or an assembly reference?)
+      2 error CS0246: The type or namespace name 'RemovedArgs' could not be found (are you missing a using directive or an assembly reference?)
+      2 error CS0246: The type or namespace name 'ParentSetArgs' could not be found (are you missing a using directive or an assembly reference?)
+      2 error CS0246: The type or namespace name 'GrabNotifyArgs' could not be found (are you missing a using directive or an assembly reference?)
+      2 error CS0246: The type or namespace name 'EventButton' could not be found (are you missing a using directive or an assembly reference?)
+      2 error CS0246: The type or namespace name 'DrawnHandler' could not be found (are you missing a using directive or an assembly reference?)
+      2 error CS0246: The type or namespace name 'ButtonPressEventArgs' could not be found (are you missing a using directive or an assembly reference?)
+      2 error CS0246: The type or namespace name 'ActivateCurrentHandler' could not be found (are you missing a using directive or an assembly reference?)
+      2 error CS0246: The type or namespace name 'ActivateCurrentArgs' could not be found (are you missing a using directive or an assembly reference?)
+      2 error CS0234: The type or namespace name 'VScrollbar' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      2 error CS0234: The type or namespace name 'ToolItem' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      2 error CS0234: The type or namespace name 'ToolButton' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      2 error CS0234: The type or namespace name 'StatusIcon' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      2 error CS0234: The type or namespace name 'SeparatorToolItem' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      2 error CS0234: The type or namespace name 'SeparatorMenuItem' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      2 error CS0234: The type or namespace name 'MenuToolButton' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      2 error CS0234: The type or namespace name 'Layout' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      2 error CS0234: The type or namespace name 'HScrollbar' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      2 error CS0234: The type or namespace name 'EventKey' does not exist in the namespace 'Gdk' (are you missing an assembly reference?)
+      2 error CS0234: The type or namespace name 'Clipboard' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      2 error CS0234: The type or namespace name 'ButtonBox' does not exist in the namespace 'Gtk' (are you missing an assembly reference?)
+      2 error CS0115: 'TabControlBase.OnDrawn(Context)': no suitable method found to override
+      2 error CS0115: 'ScrollableBoxBase.OnDrawn(Context)': no suitable method found to override
+      2 error CS0115: 'PropertyGridView.CellRendererProperty.OnRender(Context, Widget, Rectangle, Rectangle, CellRendererState)': no suitable method found to override
+      2 error CS0115: 'PropertyGridView.CellRendererExpander.OnRender(Context, Widget, Rectangle, Rectangle, CellRendererState)': no suitable method found to override
+      2 error CS0115: 'CellRendererButtonValue.OnRender(Context, Widget, Rectangle, Rectangle, CellRendererState)': no suitable method found to override
+      2 error CS0115: 'BoxBase.OnDrawn(Context)': no suitable method found to override
+      2 error CS0104: 'Surface' is an ambiguous reference between 'Cairo.Surface' and 'Gdk.Surface'
+      2 error CS0066: 'ToolStripBase.ActivateCurrent': event must be of a delegate type
+      2 error CS0066: 'GtkControlOverride.DrawnBackground': event must be of a delegate type

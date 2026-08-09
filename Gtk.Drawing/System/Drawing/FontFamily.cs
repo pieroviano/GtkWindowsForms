@@ -95,7 +95,18 @@ public sealed class FontFamily : MarshalByRefObject, IDisposable
     /// <returns>
     /// An array of System.Drawing.FontFamily objects associated with the current graphics context.
     /// </returns>
-    public static FontFamily[] Families { get => Array.ConvertAll(PangoHelper.ContextGet().Families, o => new FontFamily(o.Name)); }
+    public static FontFamily[] Families
+    {
+        get
+        {
+            // Gtk 4 removed Pango.PangoHelper.ContextGet(); obtain a Pango context (and thus the default
+            // font map's families) from PangoCairo against a throwaway 1x1 surface instead.
+            using var surface = new Cairo.ImageSurface(Cairo.Format.Argb32, 1, 1);
+            using var cr = new Cairo.Context(surface);
+            var context = Pango.CairoHelper.CreateContext(cr);
+            return Array.ConvertAll(context.Families, o => new FontFamily(o.Name));
+        }
+    }
 
     /// <summary>
     /// Gets a generic monospace System.Drawing.FontFamily.

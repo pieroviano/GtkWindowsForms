@@ -1745,7 +1745,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         {
             if (this.image != null && this.ownedSurface != null && this.ownedSurface.Status == Cairo.Status.Success)
             {
-                this.image.Pixbuf = new Pixbuf(this.ownedSurface, 0, 0, this.image.Width, this.image.Height);
+                this.image.Pixbuf = this.ownedSurface.ToPixbuf(0, 0, this.image.Width, this.image.Height);
             }
         }
 
@@ -1850,7 +1850,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         }
         else
         {
-            image.Pixbuf = new Pixbuf(surface, 0, 0, image.Width, image.Height);
+            image.Pixbuf = surface.ToPixbuf(0, 0, image.Width, image.Height);
         }
 
         return new Drawing.Graphics(image, imageContext, new Gdk.Rectangle(0, 0, _width, _height))
@@ -2873,7 +2873,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             destRect.Height = img.Height;
         using (var surface = new Cairo.ImageSurface(Cairo.Format.Argb32, destRect.Width, destRect.Height))
         {
-            var scaleimg = new Gdk.Pixbuf(surface, 0, 0, destRect.Width, destRect.Height);
+            var scaleimg = surface.ToPixbuf(0, 0, destRect.Width, destRect.Height);
 
             // Gdk's offsetX/offsetY position the SCALED source inside the destination, so selecting the
             // source sub-rectangle needs -srcX*scale (passing srcX directly ignored the source rectangle
@@ -2917,7 +2917,7 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             height = img.Height;
         using (var surface = new Cairo.ImageSurface(Cairo.Format.Argb32, width, height))
         {
-            var newimg = new Gdk.Pixbuf(surface, 0, 0, width, height);
+            var newimg = surface.ToPixbuf(0, 0, width, height);
             // Copy from the SOURCE origin: (x,y) is the destination position (applied below via
             // SetTranslateWithDifference), not an offset into the source image. Using it here read a
             // region outside the source, so nothing was drawn.
