@@ -642,7 +642,8 @@ tooltip label {padding: 0px 10px; color: #555555;}
             settings.EnableAnimations = true;
             settings.EnableTooltips = true;
             var iconpath = Path.Combine(appdirectory, "icon.png");
-            if (File.Exists(iconpath))
+            // Gtk4 removed the file-based default window icon (SetDefaultIconFromFile); only a themed
+            // icon-name is supported now. TODO(gtk4): install icon.png into the theme and set IconName.
 
             var css = new Gtk.CssProvider();
             var cssBuilder=new StringBuilder();
@@ -844,7 +845,7 @@ tooltip label {padding: 0px 10px; color: #555555;}
     {
         if (mainForm.ShowInTaskbar == false)
         {
-            var pw = new Gtk.Window(Gtk.WindowType.Toplevel);
+            var pw = new Gtk.Window();
             pw.Decorated = false;
             pw.WidthRequest = 1;
             pw.HeightRequest = 1;
@@ -917,10 +918,8 @@ tooltip label {padding: 0px 10px; color: #555555;}
             // loop trips a fatal Gtk-CRITICAL assertion (main_loops != NULL) - e.g. Application.Exit()
             // invoked with no prior Application.Run(), as in unit tests. Real WinForms treats Exit with no
             // running message loop as a no-op, so mirror that here.
-            if (Gtk.Main.Level() > 0)
-            {
-                Gtk.Application.Quit();
-            }
+            // Gtk4: no Gtk.Main; quit the GtkApplication instance if one exists (no-op otherwise).
+            App?.Quit();
         }
     }
 

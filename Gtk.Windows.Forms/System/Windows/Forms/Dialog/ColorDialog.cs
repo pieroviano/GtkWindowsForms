@@ -202,7 +202,7 @@ public class ColorDialog : CommonDialog
         }
         colorChooserDialog.IconName = "image-x-generic";
         if (Color.Name != "0")
-            colorChooserDialog.Rgba = new Gdk.RGBA() { Alpha = (double)Color.A / 255, Red = (double)Color.R / 255, Green = (double)Color.G / 255, Blue = (double)Color.B / 255 };
+            colorChooserDialog.SetRgba(new Gdk.RGBA() { Alpha = (float)Color.A / 255, Red = (float)Color.R / 255, Green = (float)Color.G / 255, Blue = (float)Color.B / 255 }); // Gtk4: Rgba is read-only; float fields
         if (FullOpen && AllowFullOpen)
             colorChooserDialog.Fullscreen();
         var res = colorChooserDialog.RunDialog();
