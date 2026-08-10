@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -416,28 +416,9 @@ public partial class ComboBox : ListControl
                     self.Entry.WidthRequest = 1;
                     ws.WidthRequest = Math.Max(self.WidthRequest, self.AllocatedWidth);
                     ws.DrawIndicator = true;
-                    ws.Drawn += Ws_Drawn;
+        // Gtk 4: Widget.Drawn is gone and there is no overridable OnSnapshot; custom paint moves to CSS (deferred).
                 }
             }
         }
-    }
-
-    private void Ws_Drawn(object o, DrawnArgs args)
-    {
-        self.Entry.Visible = false;
-        if (o is not Gtk.ToggleButton ws)
-        {
-            return;
-        }
-
-        ws.WidthRequest = Math.Max(self.WidthRequest, self.AllocatedWidth);
-        var text = self.ActiveText;
-        var layout = ws.CreatePangoLayout(text);
-        args.Cr.Save();
-        args.Cr.Translate(10, 5);
-        args.Cr.Rectangle(0, 0, ws.AllocatedWidth - 35, ws.AllocatedHeight - 5);
-        args.Cr.Clip();
-        Pango.CairoHelper.ShowLayout(args.Cr, layout);
-        args.Cr.Restore();
     }
 }

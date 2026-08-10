@@ -23,7 +23,7 @@ public sealed class LabelBase : Gtk.Label, IControlGtk
         this.LineWrap = true;
         this.LineWrapMode = Pango.WrapMode.WordChar;
         this.Selectable = true;
-        this.Drawn += LabelBase_Drawn;
+        // Gtk 4: Widget.Drawn is gone and there is no overridable OnSnapshot; custom paint moves to CSS (deferred).
     }
 
     /// <summary>
@@ -62,10 +62,5 @@ public sealed class LabelBase : Gtk.Label, IControlGtk
     {
         get;
         set;
-    }
-
-    private void LabelBase_Drawn(object o, Gtk.DrawnArgs args)
-    {
-        Override.OnPaint(args.Cr);
     }
 }

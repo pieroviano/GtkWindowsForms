@@ -18,7 +18,7 @@ public sealed class LinkLabelBase : Gtk.LinkButton, IControlGtk
         this.BorderWidth = 0;
         this.Valign = Gtk.Align.Start;
         this.Halign = Gtk.Align.Start;
-        this.Drawn += LinkLabelBase_Drawn;
+        // Gtk 4: Widget.Drawn is gone and there is no overridable OnSnapshot; custom paint moves to CSS (deferred).
     }
 
     /// <summary>
@@ -35,20 +35,5 @@ public sealed class LinkLabelBase : Gtk.LinkButton, IControlGtk
     {
         get;
         set;
-    }
-
-    /// <summary>
-    /// Handles the GTK Drawn signal and lets the
-    /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride" /> paint the control.
-    /// </summary>
-    /// <param name="o">
-    /// The source of the event.
-    /// </param>
-    /// <param name="args">
-    /// The <see cref="Gtk.DrawnArgs" /> instance containing the Cairo context.
-    /// </param>
-    private void LinkLabelBase_Drawn(object o, Gtk.DrawnArgs args)
-    {
-        Override.OnPaint(args.Cr);
     }
 }

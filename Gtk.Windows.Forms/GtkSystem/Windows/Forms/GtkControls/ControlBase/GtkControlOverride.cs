@@ -51,7 +51,8 @@ public sealed class GtkControlOverride : IControlOverride
     /// <summary>
     /// Occurs when the background is drawn.
     /// </summary>
-    public event DrawnHandler? DrawnBackground;
+    // Gtk 4: no Gtk3 DrawnHandler/DrawnArgs; expose the Cairo context directly to subscribers.
+    public event Action<object, Cairo.Context>? DrawnBackground;
 
     /// <summary>
     /// Occurs when paint.
@@ -259,11 +260,7 @@ public sealed class GtkControlOverride : IControlOverride
             SetDrawnBackground(cr, BackgroundImage.Pixbuf, BackgroundImageLayout, area.Width, area.Height);
         }
 
-        if (DrawnBackground != null)
-        {
-            var args = new DrawnArgs() { Args = new object[] { cr } };
-            DrawnBackground(this.container, args);
-        }
+        DrawnBackground?.Invoke(this.container, cr);
     }
 
     /// <summary>

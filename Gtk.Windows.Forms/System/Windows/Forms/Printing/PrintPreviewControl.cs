@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.ComponentModel;
@@ -88,7 +88,7 @@ public partial class PrintPreviewControl : Control
             Halign = Align.Center
         };
         paper.StyleContext.AddClass("Paper");
-        paper.Drawn += paper_Drawn;
+        // Gtk 4: Widget.Drawn is gone and there is no overridable OnSnapshot; custom paint moves to CSS (deferred).
         scroll = new Gtk.ScrolledWindow
         {
             Child = paper
@@ -328,38 +328,6 @@ public partial class PrintPreviewControl : Control
     protected virtual void OnStartPageChanged(EventArgs e)
     {
         ((EventHandler)Events[s_startPageChangedEvent])?.Invoke(this, e);
-    }
-
-    private void paper_Drawn(object o, Gtk.DrawnArgs args)
-    {
-        if (_document != null)
-        {
-            var setup = _document.PageSetup;
-            _document.OnBeginPrint(new PrintEventArgs());
-            var cr = args.Cr;
-            var top = (int)Math.Round(setup.GetTopMargin(Unit.Points) / pxscale, 0);
-            var left = (int)Math.Round(setup.GetLeftMargin(Unit.Points) / pxscale, 0);
-            var right = (int)Math.Round(setup.GetRightMargin(Unit.Points) / pxscale, 0);
-            var bottom = (int)Math.Round(setup.GetBottomMargin(Unit.Points) / pxscale, 0);
-            var width = (int)Math.Round(setup.GetPaperWidth(Unit.Points) / pxscale, 0); //page<paper
-            var height = (int)Math.Round(setup.GetPaperHeight(Unit.Points) / pxscale, 0);
-
-            if (AutoZoom == false)
-            {
-
-                paper.WidthRequest = (int)Math.Round(width * _zoom, 0);
-                paper.HeightRequest = (int)Math.Round(height * _zoom, 0);
-                self.WidthRequest = paper.WidthRequest + 100;
-                self.HeightRequest = paper.HeightRequest + 100;
-                cr.Scale(_zoom, _zoom);
-            }
-            cr.Translate(0, 0);
-            cr.Rectangle(0, 0, width, height);
-            cr.SetSourceRGBA(ForeColor.R / 255, ForeColor.G / 255, ForeColor.B / 255, ForeColor.A / 255);
-            cr.Fill();
-            _document.OnPrintPage(new PrintPageEventArgs(new Drawing.Graphics((Gtk.Widget)o, cr, new Gdk.Rectangle(0, 0, width, height)), new Drawing.Rectangle(left, top, width - left - right, height - top - bottom), new Drawing.Rectangle(0, 0, width, height), _document.DefaultPageSettings));
-            _document.OnEndPrint(new PrintEventArgs());
-        }
     }
 
     private void Self_Realized(object? sender, EventArgs e)

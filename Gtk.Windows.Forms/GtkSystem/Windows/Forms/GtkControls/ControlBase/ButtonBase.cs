@@ -22,7 +22,7 @@ public sealed class ButtonBase : Gtk.Button, IControlGtk
         this.Events |= EventMask.PointerMotionMask;
         this.Events |= EventMask.ButtonMotionMask;
         this.ButtonReleaseEvent += ButtonBase_ButtonReleaseEvent;
-        this.Drawn += ButtonBase_Drawn;
+        // Gtk 4: Widget.Drawn is gone and there is no overridable OnSnapshot; custom paint moves to CSS (deferred).
     }
 
     /// <summary>
@@ -81,20 +81,5 @@ public sealed class ButtonBase : Gtk.Button, IControlGtk
         {
             ((System.Windows.Forms.Form)form.Data["Control"]).DialogResult = DialogResult;
         }
-    }
-
-    /// <summary>
-    /// Handles the GTK Drawn signal and lets the
-    /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride" /> paint the control.
-    /// </summary>
-    /// <param name="o">
-    /// The source of the event.
-    /// </param>
-    /// <param name="args">
-    /// The <see cref="Gtk.DrawnArgs" /> instance containing the Cairo context.
-    /// </param>
-    private void ButtonBase_Drawn(object o, Gtk.DrawnArgs args)
-    {
-        Override.OnPaint(args.Cr);
     }
 }

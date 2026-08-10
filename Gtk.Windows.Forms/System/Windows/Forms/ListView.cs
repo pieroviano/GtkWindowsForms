@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -1396,7 +1396,7 @@ public class ListView : ContainerControl
             var label = new Gtk.Label(col.Text) { Xalign = 0, Xpad = 5, MaxWidthChars = 0, Halign = Gtk.Align.Fill, Valign = Gtk.Align.End, Ellipsize = Pango.EllipsizeMode.End, Wrap = false, LineWrap = false };
             label.TooltipText = col.Text;
             label.Name = $"column_t_{col.Index}";
-            label.Drawn += Label_Drawn;
+        // Gtk 4: Widget.Drawn is gone and there is no overridable OnSnapshot; custom paint moves to CSS (deferred).
             var columbt = new Gtk.Button(label) { MarginStart = 0, WidthRequest = col.Width, Halign = Gtk.Align.Fill, Valign = Gtk.Align.Fill };
             columbt.Name = $"column_b_{col.Index}";
             columbt.ActionTargetValue = new GLib.Variant(col.Index);
@@ -1734,39 +1734,6 @@ public class ListView : ContainerControl
     private void Hadjustment_ValueChanged(object sender, EventArgs e)
     {
         headerView.Hadjustment.Value = scrolledWindow.Hadjustment.Value;
-    }
-
-    private void Label_Drawn(object o, DrawnArgs args)
-    {
-        Cairo.Rectangle rec = args.Cr.ClipExtents();
-        if (rec.Width > 10 && SortColumn != null)
-        {
-            var ws = (Gtk.Label)o;
-            if (ws.Name == $"column_t_{SortColumn.Index}")
-            {
-                if (Sorting != SortOrder.None)
-                {
-                    Cairo.Context ctx = args.Cr;
-                    ctx.Save();
-                    ctx.ResetClip();
-                    ctx.Rectangle(rec.X, rec.Y - 4, rec.Width, rec.Height);
-                    ctx.Clip();
-                    ctx.Translate((int)rec.Width / 2 - 6, rec.Y - 5);
-                    ctx.Rotate(0.5 * Math.PI);
-                    Gdk.RGBA color = ws.StyleContext.GetColor(StateFlags.Normal);
-                    ctx.SetSourceRGB(color.Red, color.Green, color.Blue);
-                    //Serif,Impact,Sylfaen,Arial Black,Cambria,Candara,Arial
-                    ctx.SelectFontFace("Serif", Cairo.FontSlant.Normal, Cairo.FontWeight.Bold);
-                    ctx.SetFontSize(13);
-                    if (Sorting == SortOrder.Descending)
-                        ctx.ShowText("<");
-                    else if (Sorting == SortOrder.Ascending)
-                        ctx.ShowText(">");
-                    ctx.Stroke();
-                    ctx.Restore();
-                }
-            }
-        }
     }
 
     private void OnCheckedChanged(object? sender)
