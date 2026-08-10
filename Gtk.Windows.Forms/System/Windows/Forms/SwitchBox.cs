@@ -43,7 +43,7 @@ public partial class SwitchBox : Control
         // Ensure we observe native toggles so programmatic changes to `self.Active`
         // update the managed event path. This addresses tests that flip `self.Active`
         // directly and expect CheckedChanged to fire.
-        self.ButtonPressEvent += Self_Toggled;
+        // Gtk4-removed: self.ButtonPressEvent (button-press signal). CheckedChanged is driven by the toggled/Active path. TODO(gtk4): GestureClick.
     }
 
     /// <summary>

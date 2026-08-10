@@ -281,8 +281,7 @@ public class MessageBoxOld
     {
         var dia = new Gtk.Dialog(caption, owner, Gtk.DialogFlags.DestroyWithParent)
         {
-            KeepBelow = false,
-            TypeHint = Gdk.WindowTypeHint.Dialog
+            // Gtk4: Window.KeepBelow and Gdk.WindowTypeHint were removed (WM-managed).
         };
         dia.StyleContext.AddClass("DefaultThemeStyle");
         dia.StyleContext.AddClass("MessageBox");

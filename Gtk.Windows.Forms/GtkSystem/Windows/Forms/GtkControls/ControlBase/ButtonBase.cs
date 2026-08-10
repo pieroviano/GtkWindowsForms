@@ -13,8 +13,9 @@ public sealed class ButtonBase : Gtk.Button, IControlGtk
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.ButtonBase" /> class.
     /// </summary>
-    public ButtonBase() : base(new Gtk.Label() { MaxWidthChars = 0, Wrap = false, Ellipsize = Pango.EllipsizeMode.End })
+    public ButtonBase() : base()
     {
+        this.Child = new Gtk.Label() { MaxWidthChars = 0, Wrap = false, Ellipsize = Pango.EllipsizeMode.End }; // Gtk4: Button(Widget) ctor removed
         this.Override = new GtkControlOverride(this);
         this.StyleContext.AddClass("Button");
         this.Valign = Gtk.Align.Start;

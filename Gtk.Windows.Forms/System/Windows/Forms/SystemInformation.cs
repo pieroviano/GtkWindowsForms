@@ -117,7 +117,7 @@ public static class SystemInformation
         get
         {
             var display = Gdk.Display.Default;
-            var monitor = display?.PrimaryMonitor ?? display?.GetMonitor(0);
+            var monitor = (Gdk.Monitor?)(display?.Monitors.NItems > 0 ? display.Monitors.GetObject(0) : null); // Gtk4
             if (monitor == null)
             {
                 return new Rectangle(0, 0, 1920, 1080);
@@ -136,7 +136,7 @@ public static class SystemInformation
     public static Size PrimaryMonitorMaximizedWindowSize => PrimaryMonitorSize;
 
     /// <summary>Gets the number of display monitors.</summary>
-    public static int MonitorCount => Math.Max(1, Gdk.Display.Default?.NMonitors ?? 1);
+    public static int MonitorCount => Math.Max(1, (int?)Gdk.Display.Default?.Monitors.NItems ?? 1);
 
     /// <summary>Gets a value indicating whether all the monitors use the same pixel colour format.</summary>
     public static bool MonitorsSameDisplayFormat => true;

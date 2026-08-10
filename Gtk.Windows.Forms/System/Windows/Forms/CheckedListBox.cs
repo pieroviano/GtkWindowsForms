@@ -285,18 +285,9 @@ public partial class CheckedListBox : ContainerControl
                 this.ItemCheck(this, new ItemCheckEventArgs(item.Index, checkButton.Active == true ? CheckState.Checked : CheckState.Unchecked, checkButton.Active == false ? CheckState.Checked : CheckState.Unchecked));
             }
         };
-        checkbox.self.WidgetEvent += (object o, WidgetEventArgs args) =>
-        {
-            if (args.Event.Type is Gdk.EventType.ButtonRelease && args.Event is Gdk.EventButton event1 && event1.Button == 1)
-            {
-                var checkButton = (Gtk.CheckButton)o;
-                if (checkButton.Parent is FlowBoxChild item && item.IsSelected == false && this.CheckOnClick == false)
-                {
-                    args.RetVal = true;
-                    _flow.SelectChild(item);
-                }
-            }
-        };
+        // Gtk4 removed Widget.WidgetEvent / Gdk.EventButton / EventType. The intent (select the item's
+        // FlowBoxChild on a left button-release when not check-on-click) must be re-wired via a
+        // Gtk.GestureClick controller in the input-controller pass (migration #11). TODO(gtk4).
 
         checkbox.self.Visible = true;
         var boxitem = new Gtk.FlowBoxChild();

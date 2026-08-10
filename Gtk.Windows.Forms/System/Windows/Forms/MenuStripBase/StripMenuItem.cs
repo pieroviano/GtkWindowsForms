@@ -9,7 +9,7 @@ namespace System.Windows.Forms
         /// <summary>Gtk 4: widgets are visible by default; ShowAll maps to Show().</summary>
         public void ShowAll() => Show();
 
-        public Gtk.CheckButton checkButton = new Gtk.CheckButton() { Visible = true, Relief = ReliefStyle.None };
+        public Gtk.CheckButton checkButton = new Gtk.CheckButton() { Visible = true }; // Gtk4: CheckButton has no Relief
 
         private Gdk.Pixbuf _Image = null!;
 
@@ -21,7 +21,7 @@ namespace System.Windows.Forms
             checkButton.Vexpand = true;
             checkButton.Hexpand = true;
             // Gtk4-removed: checkButton.Xalign = 0f;
-            base.Add(checkButton);
+            base.Append(checkButton); // Gtk4: Box.Add -> Append
         }
 
         public bool Checked

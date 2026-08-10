@@ -204,7 +204,7 @@ public partial class PictureBox : Control
         else if (url!.EndsWith(".gif", StringComparison.OrdinalIgnoreCase))
         {
             // supports animation， animated images are not scaled or positioned
-            var image = new Gtk.Image(new Gdk.PixbufAnimation(url.Replace("\\\\", "/").Replace("\\", "/")))
+            var image = new Gtk.Image(new Gdk.Pixbuf(url.Replace("\\\\", "/").Replace("\\", "/"))) // Gtk4: GtkImage animation dropped; static first frame
             {
                 Halign = Gtk.Align.Center,
                 Valign = Gtk.Align.Center,

@@ -50,17 +50,16 @@ internal static class ControlExtension
             return 0;
         }
 
-        var value = grid.ChildGetProperty(widget, propertyName);
-
-        if (value.Val is int col)
+        // Gtk4: Grid.ChildGetProperty removed; QueryChild returns the attach cell + span.
+        grid.QueryChild(widget, out int gcol, out int grow, out int gwidth, out int gheight);
+        success = true;
+        return propertyName switch
         {
-            success = true;
-            return col;
-        }
-        else
-        {
-            success = false;
-            return 0;
-        }
+            "left-attach" => gcol,
+            "top-attach" => grow,
+            "width" => gwidth,
+            "height" => gheight,
+            _ => 0
+        };
     }
 }

@@ -204,7 +204,7 @@ public class ToolStripMenuItem : ToolStripItem
         if (self.IsRealized && image?.Pixbuf != null)
         {
             var x = 20;
-            if (self.Parent is Gtk.Toolbar || self.Parent is Gtk.MenuBar)
+            if (self.Parent is Gtk.Box) // Gtk4: Toolbar/MenuBar removed; host is a Box
                 x = Math.Max(20, self.AllocatedHeight / 2);
             Gdk.Pixbuf pixbuf = image.Pixbuf.ScaleSimple(x, x, Gdk.InterpType.Bilinear);
             self.Image = pixbuf;

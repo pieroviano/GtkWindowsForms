@@ -159,7 +159,7 @@ public partial class Control
         }
 
         _layoutParentHooked = true;
-        overlay.SizeAllocated += (_, _) => PerformDockAnchorLayout();
+        // Gtk4-removed: overlay.SizeAllocated (re-layout on resize). TODO(gtk4): notify::default-width or a size-allocate override.
     }
 
     /// <summary>

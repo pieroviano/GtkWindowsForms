@@ -314,7 +314,7 @@ namespace System.Windows.Forms
             balloonTip.HeightRequest = 50;
             balloonTip.Decorated = true;
             balloonTip.Title = tipTitle ?? "";
-            var balloonTipText = new Gtk.Label(tipText) { Xpad = 20, Ypad = 20, Halign = Align.Start };
+            var balloonTipText = new Gtk.Label(tipText) { Halign = Align.Start };
             balloonTip.AddChild(balloonTipText);
 
             // Gtk4: a balloon-tip window icon from a Pixbuf is unsupported (Gtk.Window.Icon removed; only a

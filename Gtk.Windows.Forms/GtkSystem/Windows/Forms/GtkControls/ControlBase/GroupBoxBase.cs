@@ -150,7 +150,7 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
         child.Halign = align;
         child.Hexpand = expand;
         child.Vexpand = expand;
-        base.Add(child);
+        base.Child = child; // Gtk4: Frame.Add -> Child
     }
 
     /// <summary>
@@ -175,7 +175,7 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     }
 
     // Gtk 4: IScrollableBoxBase.Add is explicit now that Gtk.Container.Add is not inherited.
-    public void Add(Gtk.Widget child) => base.Add(child);
+    public void Add(Gtk.Widget child) => base.Child = child; // Gtk4: Frame.Add -> Child
 
 
 

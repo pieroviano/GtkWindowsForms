@@ -919,7 +919,7 @@ tooltip label {padding: 0px 10px; color: #555555;}
             // invoked with no prior Application.Run(), as in unit tests. Real WinForms treats Exit with no
             // running message loop as a no-op, so mirror that here.
             // Gtk4: no Gtk.Main; quit the GtkApplication instance if one exists (no-op otherwise).
-            App?.Quit();
+            Gtk.Application.Quit();
         }
     }
 

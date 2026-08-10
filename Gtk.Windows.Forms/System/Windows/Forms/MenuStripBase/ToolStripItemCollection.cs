@@ -108,7 +108,7 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
         else if (owner.Widget?.ToolItem is StripMenuToolButton tmenu)
         {
             this.menu = new Gtk.Popover();
-            tmenu.Menu = this.menu;
+            tmenu.Popover = this.menu; // Gtk4: MenuButton.Menu -> Popover
             isToolStripDropDown = true;
         }
     }

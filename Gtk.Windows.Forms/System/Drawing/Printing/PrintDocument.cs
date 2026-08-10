@@ -203,7 +203,7 @@ public partial class PrintDocument : Component
     /// </summary>
     public void Print()
     {
-        var printDialog = new PrintDialog
+        var printDialog = new System.Windows.Forms.PrintDialog // Gtk4: disambiguate from Gtk.PrintDialog
         {
             Document = this,
             AllowPrintToFile = false,

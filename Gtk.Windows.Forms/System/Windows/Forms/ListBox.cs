@@ -854,7 +854,7 @@ public partial class ListBox : ListControl
     /// </returns>
     public Drawing.Rectangle GetItemRectangle(int index)
     {
-        self.ListBox.GetChildrenArray()[index].GetAllocatedSize(out Gdk.Rectangle allocation, out int size);
+        var allocation = self.ListBox.GetChildrenArray()[index].Allocation; // Gtk4: GetAllocatedSize -> Allocation
         return new Drawing.Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height);
     }
 

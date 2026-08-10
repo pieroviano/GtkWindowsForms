@@ -310,8 +310,8 @@ public sealed class GtkControlOverride : IControlOverride
     {
         if (PaintGraphics != null)
         {
-            if (Gdk.CairoHelper.GetClipRectangle(cr, out var clipRect))
             {
+                var ce = cr.ClipExtents(); var clipRect = new Gdk.Rectangle((int)ce.X, (int)ce.Y, (int)ce.Width, (int)ce.Height); // Gtk4: GetClipRectangle -> ClipExtents
                 cr.Save();
                 PaintGraphics.Invoke(this, new PaintGraphicsEventArgs(cr, new Rectangle(0, 0, clipRect.Width, clipRect.Height)));
                 cr.Restore();
@@ -319,8 +319,9 @@ public sealed class GtkControlOverride : IControlOverride
         }
         if (Paint != null)
         {
-            if (Gdk.CairoHelper.GetClipRectangle(cr, out var clipRect))
-                Paint.Invoke(sender, new PaintEventArgs(new Graphics(container, cr, clipRect), new Rectangle(0, 0, clipRect.Width, clipRect.Height)));
+            var ce = cr.ClipExtents();
+            var clipRect = new Gdk.Rectangle((int)ce.X, (int)ce.Y, (int)ce.Width, (int)ce.Height);
+            Paint.Invoke(sender, new PaintEventArgs(new Graphics(container, cr, clipRect), new Rectangle(0, 0, clipRect.Width, clipRect.Height)));
         }
     }
 

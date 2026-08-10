@@ -10,7 +10,7 @@ namespace System.Windows.Forms
 
         public Gtk.Separator? toolItem = null;
 
-        public StripSeparator() : base() { }
+        public StripSeparator() : base(Gtk.Orientation.Horizontal) { } // Gtk4: Separator needs orientation
 
         public bool Checked
         {

@@ -1044,7 +1044,7 @@ public class ListView : ContainerControl
             CheckBoxBase checkboxself = checkBox.self;
             checkboxself.Halign = Gtk.Align.Start;
             checkboxself.Valign = Gtk.Align.Center;
-            checkboxself.HasFrame = false; // Gtk4: Relief/ReliefStyle -> HasFrame
+            // Gtk4-removed: CheckButton has no Relief/HasFrame (button-look is CSS)
             checkboxself.StyleContext.AddClass("ButtonNone");
             checkboxself.Label = item.Text;
             checkboxself.Active = item.Checked;
@@ -1377,7 +1377,7 @@ public class ListView : ContainerControl
     {
         if (self.IsRealized)
         {
-            var label = new Gtk.Label(col.Text) { Xalign = 0, MaxWidthChars = 0, Halign = Gtk.Align.Fill, Valign = Gtk.Align.End, Ellipsize = Pango.EllipsizeMode.End, Wrap = false, LineWrap = false };
+            var label = new Gtk.Label(col.Text) { Xalign = 0, MaxWidthChars = 0, Halign = Gtk.Align.Fill, Valign = Gtk.Align.End, Ellipsize = Pango.EllipsizeMode.End, Wrap = false };
             label.TooltipText = col.Text;
             label.Name = $"column_t_{col.Index}";
         // Gtk 4: Widget.Drawn is gone and there is no overridable OnSnapshot; custom paint moves to CSS (deferred).

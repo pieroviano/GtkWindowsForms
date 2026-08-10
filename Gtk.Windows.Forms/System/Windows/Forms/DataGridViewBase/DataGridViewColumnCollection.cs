@@ -230,17 +230,9 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
         {
             if (_owner.GridView.Model == null)
             {
-                var modelFilter = new Gtk.TreeModelFilter(_owner.Store, null)
-                {
-                    VisibleFunc = new Gtk.TreeModelFilterVisibleFunc((model, iter) =>
-                    {
-                        if (model.GetValue(iter, 1) is DataGridViewRow row)
-                            return row.Visible;
-                        else
-                            return true;
-                    })
-                };
-                _owner.GridView.Model = modelFilter;
+                // Gtk4: Gtk.TreeModelFilter(model, root) ctor removed (TreeView/TreeModel deprecated).
+                // Row-visibility filtering is deferred; bind the store directly. TODO(gtk4).
+                _owner.GridView.Model = _owner.Store;
             }
             foreach (var column in this)
             {

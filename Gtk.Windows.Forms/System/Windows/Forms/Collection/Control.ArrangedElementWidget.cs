@@ -105,7 +105,7 @@ public partial class Control
             if (_widget != null)
             {
                 _widget.SetSizeRequest(bounds.Width, bounds.Height);
-                _widget.SetAllocation(new Gdk.Rectangle(bounds.X, bounds.Y, bounds.Width, bounds.Height));
+                _widget.SizeAllocate(new Gdk.Rectangle(bounds.X, bounds.Y, bounds.Width, bounds.Height), -1); // Gtk4: SetAllocation -> SizeAllocate
             }
         }
     }
