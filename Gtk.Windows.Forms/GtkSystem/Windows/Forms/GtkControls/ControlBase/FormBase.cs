@@ -314,25 +314,29 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     public bool CloseWindow(bool isResponse = false)
     {
         isCloseWindow = false;
+
+        // Capture modal state and the owning form UP-FRONT: a CloseWindowEvent handler (FormClosing/
+        // FormClosed) may dispose the form, after which this.Data no longer resolves the owner — which is
+        // why the modal loop previously never got quit and only the anti-hang fallback ended it.
+        var loop = ModalLoop;
+        var isModal = loop != null && loop.IsRunning;
+        var owningForm = this.Data["Control"] as Form;
+
         if (CloseWindowEvent?.Invoke(this, EventArgs.Empty) != true)
         {
-            if (this.Data["Control"] is Form from1)
+            if (isModal)
             {
                 // Gtk4 crashes on a re-entrant Window.Destroy() — i.e. destroying this window while it is
                 // running its own nested modal loop (ShowDialog + a Load handler that calls Close()). End
                 // the modal loop and hand the dispose/destroy to RunDialog, which performs it right after
                 // the loop unwinds (on this same thread, not on top of the loop and not at process teardown).
-                var loop = ModalLoop;
-                if (loop != null && loop.IsRunning)
-                {
-                    PendingModalClose = from1;
-                    loop.Quit();
-                }
-                else
-                {
-                    from1.Dispose();
-                    this.Destroy();
-                }
+                PendingModalClose = owningForm;
+                loop!.Quit();
+            }
+            else if (owningForm != null)
+            {
+                owningForm.Dispose();
+                this.Destroy();
             }
             isCloseWindow = true;
         }

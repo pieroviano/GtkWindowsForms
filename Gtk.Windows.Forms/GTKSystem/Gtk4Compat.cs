@@ -331,11 +331,17 @@ public static class Gtk4Compat
         // IsMapped) would spam "GTK_IS_WIDGET failed" and can crash the process.
         dialog.Unrealized += OnGone;
 
-        // Anti-hang net. It deliberately does NOT poll widget state (e.g. IsMapped): once a window is
-        // natively freed GtkSharp does not zero its Handle, so touching it spams "GTK_IS_WIDGET failed" and
-        // can crash. It only ends the loop when the handle is gone, or after a hard cap for a pathological
-        // dialog that never produces a response and is never closed (real dialogs quit via
-        // response/close/CloseWindow in well under the cap).
+        // Backstop watchdog. Ends the loop as soon as the dialog's native handle is gone. It deliberately
+        // does NOT poll widget state (e.g. IsMapped): once a window is natively freed GtkSharp does not zero
+        // its Handle, so touching it spams "GTK_IS_WIDGET failed" and can crash.
+        //
+        // TODO(gtk4) — MODAL DIALOG REDESIGN (deferred): the interim time cap below is a known limitation.
+        // FormBase is still a (Gtk4-deprecated) Gtk.Dialog driven by a nested GLib loop; a Load handler that
+        // calls Form.Close() (and some realize timing) can leave the loop with no clean quit, so as a safety
+        // net the loop is bounded. Real dialogs closed by the user (response / window close button) quit via
+        // their signals long before the cap; a modal dialog left completely untouched will auto-close at the
+        // cap, which is NOT WinForms-correct. The proper fix is to move FormBase off Gtk.Dialog to a plain
+        // Gtk.Window modal design (async present + response) and drop the cap.
         var ticks = 0;
         var watchdog = GLib.Timeout.Add(100, () =>
         {
