@@ -447,17 +447,17 @@ public partial class ToolTip : Component, IExtenderProvider
                 {
                     if (ToolTipIcon == ToolTipIcon.Info)
                     {
-                        args.Tooltip.Icon = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-question.png"));
+                        args.Tooltip.Icon = new Gdk.Texture(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-question.png"))); // Gtk4: Tooltip.Icon is IPaintable
                         tooltiptitle = $"<span foreground=\"#0069ee\" size=\"large\">{tooltiptitle}</span>{Environment.NewLine}";
                     }
                     else if (ToolTipIcon == ToolTipIcon.Warning)
                     {
-                        args.Tooltip.Icon = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-warning.png"));
+                        args.Tooltip.Icon = new Gdk.Texture(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-warning.png"))); // Gtk4: Tooltip.Icon is IPaintable
                         tooltiptitle = $"<span foreground=\"#e0a500\" size=\"large\">{tooltiptitle}</span>{Environment.NewLine}";
                     }
                     else if (ToolTipIcon == ToolTipIcon.Error)
                     {
-                        args.Tooltip.Icon = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-error.png"));
+                        args.Tooltip.Icon = new Gdk.Texture(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-error.png"))); // Gtk4: Tooltip.Icon is IPaintable
                         tooltiptitle = $"<span foreground=\"#ff0000\" size=\"large\">{tooltiptitle}</span>{Environment.NewLine}";
                     }
                     else
