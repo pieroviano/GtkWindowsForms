@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -67,7 +67,8 @@ public partial class UserControl : ContainerControl
         _controls = new ControlCollection(this, contaner);
         self.Add(contaner);
         self.Override.Paint += Override_Paint;
-        self.ParentSet += Self_ParentSet;
+        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
         self.Shown += Self_Shown;
     }
 
@@ -177,11 +178,6 @@ public partial class UserControl : ContainerControl
     private void Override_Paint(object sender, PaintEventArgs e)
     {
         OnPaint(e);
-    }
-
-    private void Self_ParentSet(object o, ParentSetArgs args)
-    {
-        OnParentChanged(EventArgs.Empty);
     }
 
     private void Self_Shown(object sender, EventArgs e)

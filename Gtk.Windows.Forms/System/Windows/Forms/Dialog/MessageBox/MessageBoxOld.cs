@@ -234,7 +234,7 @@ public class MessageBoxOld
         var irun = 0;
         if (owner is System.Windows.Forms.Form control)
         {
-            irun = ShowCore((Gtk.Window?)control.Widget, Gtk.WindowPosition.CenterOnParent, text, caption, buttons, icon);
+            irun = ShowCore((Gtk.Window?)control.Widget, 0, text, caption, buttons, icon);
         }
         else
         {
@@ -242,15 +242,15 @@ public class MessageBoxOld
             if (window != null)
             {
                 ActiveWindow = window;
-                irun = ShowCore(window, Gtk.WindowPosition.CenterOnParent, text, caption, buttons, icon);
+                irun = ShowCore(window, 0, text, caption, buttons, icon);
             }
             else if (ActiveWindow != null)
             {
-                irun = ShowCore(ActiveWindow, Gtk.WindowPosition.CenterOnParent, text, caption, buttons, icon);
+                irun = ShowCore(ActiveWindow, 0, text, caption, buttons, icon);
             }
             else
             {
-                irun = ShowCore(null, Gtk.WindowPosition.Center, text, caption, buttons, icon);
+                irun = ShowCore(null, 0, text, caption, buttons, icon);
             }
         }
 
@@ -277,7 +277,7 @@ public class MessageBoxOld
             return DialogResult.None;
     }
 
-    private static int ShowCore(Window? owner, Gtk.WindowPosition position, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, params object[] args)
+    private static int ShowCore(Window? owner, int position, string? text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, params object[] args)
     {
         var dia = new Gtk.Dialog(caption, owner, Gtk.DialogFlags.DestroyWithParent)
         {
@@ -375,7 +375,7 @@ public class MessageBoxOld
         return dia.Run();
     }
 
-    private static int ShowMessageDialogCore(Gtk.Window owner, Gtk.WindowPosition position, string text, string caption, MessageBoxButtons buttons, params object[] icon)
+    private static int ShowMessageDialogCore(Gtk.Window owner, int position, string text, string caption, MessageBoxButtons buttons, params object[] icon)
     {
         var buttonsType = Gtk.ButtonsType.Close;
         if (buttons == MessageBoxButtons.OK)

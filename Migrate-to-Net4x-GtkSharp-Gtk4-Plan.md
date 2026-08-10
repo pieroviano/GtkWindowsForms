@@ -29,6 +29,16 @@ event signals, **~30** use dialogs/menus. The authoritative migration reference 
 
 Branch: `gtk4`. Milestones are committed individually; error counts are `dotnet build -c Release`.
 
+> ⚠️ **SCOPE CHANGE (discovered milestone #9b).** The `Net4x.GtkSharp` package was **rebuilt to remove
+> its Gtk3 member-compat shims** (matching the doc's *"no compatibility shim, and none should be added"*).
+> Milestones #1–#9 compiled against an **older 26222** that still carried compat for `Widget.Window`,
+> `Box.PackStart`/`Children`, `StyleContext`, `WindowPosition`, `WindowType`, `SkipTaskbarHint`,
+> `Gdk.Screen`, etc. Against the **current** package those members are gone → **~1454 member-level errors**
+> (the doc's full ~137-file blast radius). The removed-*types* work in #1–#9b is still valid and needed;
+> the removed-*members* churn (`Window`→`Surface`, `PackStart`→`Append`, `Children`→`FirstChild`/`NextSibling`,
+> `StyleContext`→CSS, window-hint props gone, `Gdk.Screen`→`Display`) is a **large additional layer** —
+> pending a decision on how to proceed (see end of log).
+
 | # | Milestone | Status | Commit | Notes |
 |---|---|---|---|---|
 | 1 | Pre-flight (B1–B4) | ✅ done | `8a395428` | pipeline left as-is; consumption verified; surface baseline in `gtk4-migration/` |

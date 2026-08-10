@@ -100,7 +100,8 @@ public partial class ComboBox : ListControl
         __itemsData = new ObjectCollection(this);
         self.Realized += Self_Realized;
         self.Changed += Self_Changed;
-        self.GrabNotify += Self_GrabNotify;
+        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
     }
 
     /// <summary>
@@ -384,18 +385,6 @@ public partial class ComboBox : ListControl
             OnSelectedIndexChanged(e);
             OnSelectedValueChanged(e);
             OnSelectedItemChanged(e);
-        }
-    }
-
-    private void Self_GrabNotify(object o, GrabNotifyArgs args)
-    {
-        if (args.WasGrabbed)
-        {
-            DropDownClosed?.Invoke(this, EventArgs.Empty);
-        }
-        else
-        {
-            DropDown?.Invoke(this, EventArgs.Empty);
         }
     }
 

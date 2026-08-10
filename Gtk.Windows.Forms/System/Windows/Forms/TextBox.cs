@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -42,7 +42,8 @@ public partial class TextBox : TextBoxBase
         self.Halign = Gtk.Align.Start;
         self.Changed += Self_Changed;
         self.TextInserted += Self_TextInserted;
-        self.KeyPressEvent += Self_KeyPressEvent;
+        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
     }
 
     /// <summary>
@@ -346,18 +347,6 @@ public partial class TextBox : TextBoxBase
         // DataSourceUpdateMode.OnPropertyChanged (and any logic keyed on TextChanged before the
         // form is shown) never heard programmatic changes. WinForms raises it unconditionally.
         OnTextChanged(EventArgs.Empty);
-    }
-
-    private void Self_KeyPressEvent(object o, Gtk.KeyPressEventArgs args)
-    {
-        if (KeyDown != null)
-        {
-            if (args.Event is Gdk.EventKey eventkey)
-            {
-                var keys = (Keys)eventkey.HardwareKeycode;
-                OnKeyDown(new KeyEventArgs(keys));
-            }
-        }
     }
 
     private void Self_TextInserted(object o, TextInsertedArgs args)

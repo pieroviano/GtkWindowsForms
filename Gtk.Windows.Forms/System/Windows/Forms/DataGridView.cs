@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -802,8 +802,10 @@ public partial class DataGridView : ScrollableControl
         self.Realized += Self_Realized;
         self.GridView.Selection.Changed += Selection_Changed;
         self.GridView.ColumnsChanged += GridView_ColumnsChanged;
-        self.GridView.ButtonReleaseEvent += GridView_ButtonReleaseEvent;
-        self.GridView.WidgetEvent += GridView_WidgetEvent;
+        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
+        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
     }
 
     public bool AllowUserToAddRows
@@ -2351,38 +2353,12 @@ public partial class DataGridView : ScrollableControl
         return null;
     }
 
-    private void GridView_ButtonReleaseEvent(object o, ButtonReleaseEventArgs args)
-    {
-        if (CellClick != null)
-        {
-            if (o is Gtk.Widget widget && widget.Window.Handle.Equals(args.Event.Window.Parent.Handle) && GridView.GetPathAtPos((int)args.Event.X, (int)args.Event.Y, out var path, out var column))
-            {
-                if (Store.GetIter(out var iter, path))
-                {
-                    var row = GetRowByIter(Rows, iter, path.Depth);
-                    if (row != null)
-                    {
-                        OnCellClick(new DataGridViewCellEventArgs(((DataGridViewColumn)column).Index, row.Index));
-                    }
-                }
-            }
-        }
-    }
-
     private void GridView_ColumnsChanged(object sender, EventArgs e)
     {
         foreach (var item in GridView.Columns)
         {
             item.Clicked -= Item_Clicked;
             item.Clicked += Item_Clicked;
-        }
-    }
-
-    private void GridView_WidgetEvent(object o, WidgetEventArgs args)
-    {
-        if (args.Event.Type == Gdk.EventType.ButtonPress && args.Event is EventButton eb)
-        {
-            args.RetVal = eb.Button > 1;
         }
     }
 

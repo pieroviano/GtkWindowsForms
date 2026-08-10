@@ -20,7 +20,7 @@ public class TableLayoutControlCollection : Control.ControlCollection
     /// <param name="ownerContainer">
     /// The underlying GTK container used to host children.
     /// </param>
-    public TableLayoutControlCollection(Control owner, Gtk.Container ownerContainer) : base(owner, ownerContainer)
+    public TableLayoutControlCollection(Control owner, Gtk.Widget ownerContainer) : base(owner, ownerContainer)
     {
         Container = owner as TableLayoutPanel;
     }

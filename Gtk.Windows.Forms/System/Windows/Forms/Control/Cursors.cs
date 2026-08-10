@@ -99,7 +99,7 @@ public static class Cursors
     /// <value>
     /// The default.
     /// </value>
-    public static Cursor Default => s_defaultCursor ??= new Cursor(Gdk.CursorType.Arrow);
+    public static Cursor Default => s_defaultCursor ??= new Cursor(AssemblyResources.ToCursorsUri("default.cur"), 0, 0);
 
     /// <summary>
     /// Gets the hand.
@@ -291,6 +291,6 @@ public static class Cursors
     /// <value>
     /// The wait cursor.
     /// </value>
-    public static Cursor WaitCursor => s_wait ??= new Cursor(Gdk.CursorType.Watch);
+    public static Cursor WaitCursor => s_wait ??= new Cursor(AssemblyResources.ToCursorsUri("wait_i.cur"), 0, 0);
 
 }

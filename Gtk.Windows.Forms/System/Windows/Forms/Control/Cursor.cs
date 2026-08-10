@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Drawing;
@@ -47,14 +47,6 @@ public sealed class Cursor : IDisposable, ISerializable
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.Cursor" /> class for a standard GDK cursor type.
     /// </summary>
-    /// <param name="cursorType">
-    /// The GDK cursor type.
-    /// </param>
-    public Cursor(Gdk.CursorType cursorType)
-    {
-        _freeHandle = false;
-        CursorType = cursorType;
-    }
 
     /// <summary>
     /// Initializes a new instance of the
@@ -93,7 +85,7 @@ public sealed class Cursor : IDisposable, ISerializable
     public Cursor(Stream stream)
     {
         _freeHandle = true;
-        CursorType = Gdk.CursorType.CursorIsPixmap;
+        CursorType = null;
         CursorPixbuf = new Gdk.Pixbuf(stream).ScaleSimple(38, 38, Gdk.InterpType.Hyper);
     }
 
@@ -190,7 +182,7 @@ public sealed class Cursor : IDisposable, ISerializable
 
     internal Point CursorsXY { get; }
 
-    internal Gdk.CursorType CursorType
+    internal string CursorType
     {
         get;
         set;

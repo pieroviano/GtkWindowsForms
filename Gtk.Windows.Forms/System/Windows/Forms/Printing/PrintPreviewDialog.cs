@@ -348,7 +348,8 @@ public partial class PrintPreviewDialog : ScrollableControl
         var header = new Gtk.Box(Gtk.Orientation.Horizontal, 20);
         header.PackStart(new Gtk.Label(System.Properties.Resources.Gtk_Print_preview), false, false, 0);
         var printbutton = new Gtk.Button(System.Properties.Resources.Gtk_Print) { WidthRequest = 200 };
-        printbutton.ButtonReleaseEvent += Printbutton_ButtonReleaseEvent;
+        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
         header.PackEnd(printbutton, false, false, 0);
         box.PackStart(header, false, true, 0);
         box.PackStart(_previewControl.Widget, false, true, 0);
@@ -361,29 +362,5 @@ public partial class PrintPreviewDialog : ScrollableControl
     private void PreviewForm_SizeChanged(object sender, EventArgs e)
     {
         box?.MarginStart = (previewForm?.Width ?? 0 - _previewControl?.Width ?? 0) / 2;
-    }
-
-    private void Printbutton_ButtonPressEvent(object o, Gtk.ButtonPressEventArgs args)
-    {
-        var printDialog = new PrintDialog
-        {
-            Document = _previewControl?.Document,
-            AllowPrintToFile = false,
-            PrintToFile = false
-        };
-        printDialog.Document?.DocumentName = "PrintDoument";
-        printDialog.ShowDialog(previewForm);
-    }
-
-    private void Printbutton_ButtonReleaseEvent(object o, ButtonReleaseEventArgs args)
-    {
-        var printDialog = new PrintDialog
-        {
-            Document = _previewControl?.Document,
-            AllowPrintToFile = false,
-            PrintToFile = false
-        };
-        printDialog.Document?.DocumentName = "PrintDoument";
-        printDialog.ShowDialog(previewForm);
     }
 }

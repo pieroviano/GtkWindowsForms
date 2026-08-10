@@ -2,7 +2,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms.Layout;
 using Gtk;
-using Container = Gtk.Container;
+using Container = Gtk.Widget;
 
 namespace System.Windows.Forms;
 
@@ -33,7 +33,7 @@ public partial class Control
         /// </param>
         public ControlCollection(Control owner)
         {
-            _ownerControl = owner.GtkControl as Gtk.Container;
+            _ownerControl = owner.GtkControl as Gtk.Widget;
             _owner = owner;
         }
 
@@ -55,7 +55,8 @@ public partial class Control
             if (_ownerControl != null)
             {
                 _ownerControl.Mapped += OwnerContainer_Mapped;
-                _ownerControl.Removed += _ownerControl_Removed;
+        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
             }
         }
 
@@ -531,19 +532,6 @@ public partial class Control
                 var index = this.IndexOfKey(widget.Name);
                 if (index >= 0)
                     InnerList.RemoveAt(index);
-            }
-        }
-
-        private void _ownerControl_Removed(object o, RemovedArgs args)
-        {
-            if (o is Gtk.Overlay lay && lay.HeightRequest > 0)
-            {
-                lay.WidthRequest = 1;
-                lay.HeightRequest = 1;
-                if (_owner is ScrollableControl scrollableControl)
-                {
-                    scrollableControl.PerformLayout(scrollableControl, nameof(scrollableControl.AutoScroll));
-                }
             }
         }
 

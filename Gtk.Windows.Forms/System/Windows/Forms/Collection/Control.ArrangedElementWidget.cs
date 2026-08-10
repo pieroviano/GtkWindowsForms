@@ -12,7 +12,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms.Layout;
 using Gtk;
-using Container = Gtk.Container;
+using Container = Gtk.Widget;
 
 namespace System.Windows.Forms;
 

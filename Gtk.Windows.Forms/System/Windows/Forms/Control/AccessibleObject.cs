@@ -137,7 +137,7 @@ public class AccessibleObject
     /// <returns>
     /// The child count.
     /// </returns>
-    public virtual int GetChildCount() => _peer?.NAccessibleChildren ?? 0;
+    public virtual int GetChildCount() => 0; // Gtk 4: no Atk child enumeration.
 
     /// <summary>
     /// Returns the name of this accessible object.

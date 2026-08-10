@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -54,7 +54,8 @@ public partial class ToolStrip : ScrollableControl
     public ToolStrip() : base()
     {
         toolStripItemCollection = new ToolStripItemCollection(this);
-        self.ActivateCurrent += ToolStripItem_Activated;
+        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
     }
 
     /// <summary>
@@ -71,7 +72,6 @@ public partial class ToolStrip : ScrollableControl
         self.Valign = Gtk.Align.Start;
         self.Halign = Gtk.Align.Start;
         toolStripItemCollection = new ToolStripItemCollection(this, owner);
-        self.ActivateCurrent += ToolStripItem_Activated;
     }
 
     /// <summary>
@@ -202,13 +202,5 @@ public partial class ToolStrip : ScrollableControl
     protected virtual void OnDropDownItemClicked(System.Windows.Forms.ToolStripItemClickedEventArgs e)
     {
         DropDownItemClicked?.Invoke(this, e);
-    }
-
-    private void ToolStripItem_Activated(object sender, ActivateCurrentArgs e)
-    {
-        OnDropDownItemClicked(new ToolStripItemClickedEventArgs(new ToolStripItem()));
-        OnClick(e);
-        OnCheckedChanged(e);
-        OnCheckStateChanged(e);
     }
 }

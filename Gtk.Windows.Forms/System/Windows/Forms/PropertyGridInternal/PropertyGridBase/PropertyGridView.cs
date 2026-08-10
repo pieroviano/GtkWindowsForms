@@ -445,20 +445,7 @@ internal sealed partial class PropertyGridView
 
             return re;
         }
-
-        protected override void OnRender(Context cr, Widget widget, Gdk.Rectangle background_area, Gdk.Rectangle cell_area, CellRendererState flags)
-        {
-            if (this.IsExpander)
-            {
-                cr.Save();
-                if (this.IsExpanded)
-                    Gdk.CairoHelper.SetSourcePixbuf(cr, godownixbuf, background_area.Left + 10, background_area.Top + 5);
-                else
-                    Gdk.CairoHelper.SetSourcePixbuf(cr, gonextpixbuf, background_area.Left + 10, background_area.Top + 5);
-                cr.Paint();
-                cr.Restore();
-            }
-        }
+        // TODO(gtk4): OnRender(Cairo)/StyleContext.Render* removed; cell drawing -> Snapshot+CSS (deferred).
     }
 
     public class CellRendererProperty : Gtk.CellRendererCombo
@@ -514,24 +501,7 @@ internal sealed partial class PropertyGridView
 
             get { return _value; }
         }
-
-        protected override void OnRender(Context cr, Widget widget, Gdk.Rectangle background_area, Gdk.Rectangle cell_area, CellRendererState flags)
-        {
-            if (this.IsExpander)
-            {
-                if (_value?.Level == 0)
-                {
-                    cell_area.X = 30;
-                    background_area.X = 30;
-
-                    cr.Save();
-                    cr.SetSourceColor(new Cairo.Color() { A = 0.5, R = 0.9, G = 0.9, B = 0.9 });
-                    cr.Paint();
-                    cr.Restore();
-                }
-            }
-            base.OnRender(cr, widget, background_area, cell_area, flags);
-        }
+        // TODO(gtk4): OnRender(Cairo)/StyleContext.Render* removed; cell drawing -> Snapshot+CSS (deferred).
 
         private void CellRendererText_EditingCanceled(object? o, EventArgs args)
         {

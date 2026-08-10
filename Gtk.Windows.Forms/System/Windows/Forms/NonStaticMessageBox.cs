@@ -212,7 +212,7 @@ internal class NonStaticMessageBox : IMessageBox
         int irun;
         if (owner is Form control)
         {
-            irun = ShowCore((Window?)control.Widget, WindowPosition.CenterOnParent, text, caption, buttons, icon);
+            irun = ShowCore((Window?)control.Widget, 0, text, caption, buttons, icon);
         }
         else
         {
@@ -221,7 +221,7 @@ internal class NonStaticMessageBox : IMessageBox
             {
                 activeWindow = window;
             }
-            irun = ShowCore(activeWindow, WindowPosition.CenterOnParent, text, caption, buttons, icon);
+            irun = ShowCore(activeWindow, 0, text, caption, buttons, icon);
         }
 
         var resp = (ResponseType)Enum.Parse(typeof(ResponseType), irun.ToString());
@@ -262,7 +262,7 @@ internal class NonStaticMessageBox : IMessageBox
         }
     }
 
-    private int ShowCore(Window? owner, WindowPosition position, string? text, string caption,
+    private int ShowCore(Window? owner, int position, string? text, string caption,
         MessageBoxButtons buttons, MessageBoxIcon icon, params object[] args)
     {
         var dia = new Dialog(caption, owner, DialogFlags.DestroyWithParent);
@@ -358,7 +358,7 @@ internal class NonStaticMessageBox : IMessageBox
         return dia.Run();
     }
 
-    private int ShowMessageDialogCore(Window owner, WindowPosition position, string text, string caption, MessageBoxButtons buttons, params object[] icon)
+    private int ShowMessageDialogCore(Window owner, int position, string text, string caption, MessageBoxButtons buttons, params object[] icon)
     {
         var buttonsType = ButtonsType.Close;
         if (buttons == MessageBoxButtons.OK)

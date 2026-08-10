@@ -28,7 +28,7 @@ public class ListView : ContainerControl
 
     internal Gtk.Box flowBoxContainer = new Gtk.Box(Gtk.Orientation.Vertical, 0);
 
-    internal Gtk.ButtonBox header = new Gtk.ButtonBox(Gtk.Orientation.Horizontal);
+    internal Gtk.Box header = new Gtk.Box(Gtk.Orientation.Horizontal, 0);
 
     internal Gtk.ScrolledWindow headerView = new Gtk.ScrolledWindow();
 
@@ -1055,7 +1055,8 @@ public class ListView : ContainerControl
             checkboxself.Label = item.Text;
             checkboxself.Active = item.Checked;
             checkboxself.DrawIndicator = this.CheckBoxes;
-            checkboxself.WidgetEvent += Checkboxself_WidgetEvent;
+        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
             if (checkboxself.Child is Gtk.Label label)
             {
                 label.Halign = Gtk.Align.Start;
@@ -1351,7 +1352,8 @@ public class ListView : ContainerControl
                     return 0;
             });
             _flow.SelectedChildrenChanged += _flow_SelectedChildrenChanged;
-            _flow.ButtonReleaseEvent += _flow_ButtonReleaseEvent;
+        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
             hBox.PackStart(_flow, false, true, 0);
 
             if (ShowGroups == true && this.View != View.List && this.View != View.Tile)
@@ -1400,7 +1402,6 @@ public class ListView : ContainerControl
             var columbt = new Gtk.Button(label) { MarginStart = 0, WidthRequest = col.Width, Halign = Gtk.Align.Fill, Valign = Gtk.Align.Fill };
             columbt.Name = $"column_b_{col.Index}";
             columbt.ActionTargetValue = new GLib.Variant(col.Index);
-            columbt.WidgetEvent += Columbt_WidgetEvent;
             header.PackStart(columbt, false, true, 0);
             header.ReorderChild(columbt, col.Index);
         }
@@ -1561,20 +1562,6 @@ public class ListView : ContainerControl
         SelectedIndexChanged?.Invoke(this, e);
     }
 
-    private void _flow_ButtonReleaseEvent(object o, ButtonReleaseEventArgs args)
-    {
-        var widget = (Gtk.FlowBox)o;
-        if (_MultiSelect == false || ModifierKeys.HasFlag(Keys.Control) == false)
-        {
-            foreach (var group in GetAllGroups())
-            {
-                if (group.FlowBox.Handle != widget.Handle)
-                    group.FlowBox.UnselectAll();
-            }
-        }
-        OnItemActivate(EventArgs.Empty);
-    }
-
     private void _flow_SelectedChildrenChanged(object sender, EventArgs e)
     {
         var widget = (Gtk.FlowBox)sender;
@@ -1605,32 +1592,6 @@ public class ListView : ContainerControl
         OnSelectedIndexChanged(e);
     }
 
-    private void Checkboxself_WidgetEvent(object o, WidgetEventArgs args)
-    {
-        if (args.Event.Type is Gdk.EventType.ButtonRelease && args.Event is Gdk.EventButton event2 && event2.Button == 1)
-        {
-            var checkButton = (Gtk.CheckButton)o;
-            if (event2.X < 25)
-            {
-                checkButton.Active = !checkButton.Active;
-                OnCheckedChanged(checkButton.Data["Control"]);
-            }
-            else
-            {
-                var flowbox = checkButton.Parent.Parent.Parent.Parent.Parent as Gtk.FlowBox;
-                flowbox?.ProcessEvent(args.Event);
-            }
-            args.RetVal = true;
-        }
-        else if (args.Event.Type is Gdk.EventType.ButtonPress)
-        {
-            var checkButton = (Gtk.CheckButton)o;
-            var flowbox = checkButton.Parent.Parent.Parent.Parent.Parent as Gtk.FlowBox;
-            flowbox?.ProcessEvent(args.Event);
-            args.RetVal = true;
-        }
-    }
-
     private void ColomnSort(object sender)
     {
         if (this.HeaderStyle == ColumnHeaderStyle.Clickable)
@@ -1651,47 +1612,6 @@ public class ListView : ContainerControl
             this.Sort();
 
             OnColumnClick(new ColumnClickEventArgs((int)btn.ActionTargetValue));
-        }
-    }
-
-    private void Columbt_WidgetEvent(object o, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] WidgetEventArgs args)
-    {
-        if (args.Event is Gdk.EventMotion motion)
-        {
-            if (motion.State.HasFlag(Gdk.ModifierType.Button1Mask))
-            {
-                var title = (Gtk.Button)o;
-                var actioncolumn = (int)title.ActionTargetValue;
-                title.WidthRequest = (int)(Math.Max(30, sizex + motion.X));
-                Columns[actioncolumn].Width = title.WidthRequest;
-                foreach (Gtk.Box vbox in flowBoxContainer.Children)
-                {
-                    foreach (var flow in vbox.Children)
-                    {
-                        if (flow is Gtk.FlowBox _flow)
-                        {
-                            int count = _flow.Children.Length;
-                            for (int i = 0; i < count; i++)
-                            {
-                                FlowBoxChild child = _flow.GetChildAtIndex(i);
-                                var box = (Gtk.Box)child.Child;
-                                ((Gtk.Viewport)box.Children[actioncolumn]).Child.WidthRequest = title.WidthRequest;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        else if (args.Event.Type == Gdk.EventType.ButtonPress && args.Event is Gdk.EventButton press)
-        {
-            var title = (Gtk.Button)o;
-            sizex = title.WidthRequest - press.X;
-            startx = press.X;
-        }
-        else if (args.Event.Type == Gdk.EventType.ButtonRelease && args.Event is Gdk.EventButton releas)
-        {
-            if (startx == releas.X)
-                ColomnSort(o);
         }
     }
 

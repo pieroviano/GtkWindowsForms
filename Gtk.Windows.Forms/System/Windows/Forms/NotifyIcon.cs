@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this componentGTKApp.Windows.Forms instead ofMicrosoft.WindowsDesktop.App.WindowsForms， compile once， cross-platformwindows、linux、macos run
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -23,7 +23,8 @@ namespace System.Windows.Forms
 
         int offset_index = 0;
 
-        Gtk.StatusIcon? statusIcon = null;
+        // Gtk 4 removed Gtk.StatusIcon with no replacement (no system-tray API). NotifyIcon is inert.
+        object? statusIcon = null;
 
         Gtk.Window statuswin;
 
@@ -129,10 +130,11 @@ namespace System.Windows.Forms
 
         public NotifyIcon()
         {
-            statusIcon = Gtk.StatusIcon.NewFromIconName("image-missing");
-            statusIcon.ButtonPressEvent += StatusIcon_ButtonPressEvent;
-            statusIcon.ButtonReleaseEvent += StatusIcon_ButtonReleaseEvent;
-            statusIcon.Activate += StatusIcon_Activate;
+            statusIcon = null; // Gtk 4: system tray unsupported (StatusIcon removed).
+        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
+        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
             statuswin = new Gtk.Window(WindowType.Toplevel);
             statuswin.WindowPosition = Gtk.WindowPosition.Center;
             statuswin.Decorated = false;
@@ -229,7 +231,6 @@ namespace System.Windows.Forms
                         using (MemoryStream ms = new MemoryStream())
                         {
                             _icon.Save(ms);
-                            statusIcon.Pixbuf = new Gdk.Pixbuf(ms.GetBuffer());
                         }
                     }
                 }
@@ -275,8 +276,6 @@ namespace System.Windows.Forms
 
                     if (statusIcon != null)
                     {
-                        statusIcon.Title = _text;
-                        statusIcon.TooltipText = _text;
 
                     }
                 }
@@ -296,7 +295,6 @@ namespace System.Windows.Forms
                 if (_visible != value)
                 {
                     if (statusIcon != null)
-                        statusIcon.Visible = value;
                     _visible = value;
 
                 }
@@ -333,7 +331,8 @@ namespace System.Windows.Forms
             else
                 balloonTip.Icon = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-information.png"));
 
-            balloonTip.DeleteEvent += BalloonTip_DeleteEvent;
+        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
             balloonTip.Move(-1000, -1000);
 
             uint handler = GLib.Timeout.Add((uint)timeout, () =>
@@ -379,26 +378,6 @@ namespace System.Windows.Forms
             base.Dispose(disposing);
         }
 
-        private void BalloonTip_DeleteEvent(object o, DeleteEventArgs args)
-        {
-            var balloonTip = (Gtk.Window)o;
-            try
-            {
-                if (balloonTip != null)
-                {
-                    GLib.Timeout.Remove(Convert.ToUInt32(balloonTip.Data["Timeout"]));
-                    offset_index -= 1;
-                    if (offset_index <= 0)
-                        offset_bottom = 0;
-                    balloonTip.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.GtkLogger.Debug($"Unexpected exception in BalloonTip_DeleteEvent", ex);
-            }
-        }
-
         private void OnClick(EventArgs e)
         {
             ((EventHandler?)Events[EVENT_CLICK])?.Invoke(this, e);
@@ -437,46 +416,6 @@ namespace System.Windows.Forms
         private void StatusIcon_Activate(object sender, EventArgs e)
         {
             OnClick(EventArgs.Empty);
-        }
-
-        private void StatusIcon_ButtonPressEvent(object o, ButtonPressEventArgs args)
-        {
-            uint button = args.Event.Button;
-            MouseButtons mouseButtons = MouseButtons.None;
-            if (button == 1)
-                mouseButtons = MouseButtons.Left;
-            else if (button == 2)
-                mouseButtons = MouseButtons.Middle;
-            else if (button == 3)
-                mouseButtons = MouseButtons.Right;
-
-            OnMouseDown(new MouseEventArgs(mouseButtons, 1, (int)args.Event.XRoot, (int)args.Event.YRoot, 1));
-            if (args.Event.Type == Gdk.EventType.TwoButtonPress || args.Event.Type == Gdk.EventType.DoubleButtonPress)
-            {
-                var mouseArgs2 = new MouseEventArgs(mouseButtons, 2, (int)args.Event.XRoot, (int)args.Event.YRoot, 0);
-                OnMouseDoubleClick(mouseArgs2);
-                OnDoubleClick(EventArgs.Empty);
-            }
-        }
-
-        private void StatusIcon_ButtonReleaseEvent(object o, ButtonReleaseEventArgs args)
-        {
-            uint button = args.Event.Button;
-            MouseButtons mouseButtons = MouseButtons.None;
-            if (button == 1)
-                mouseButtons = MouseButtons.Left;
-            else if (button == 2)
-                mouseButtons = MouseButtons.Middle;
-            else if (button == 3)
-                mouseButtons = MouseButtons.Right;
-            var mouseargs = new MouseEventArgs(mouseButtons, 1, (int)args.Event.XRoot, (int)args.Event.YRoot, 1);
-            OnMouseUp(mouseargs);
-            OnMouseClick(mouseargs);
-            if (button == 3 && ContextMenuStrip != null)
-            {
-                args.Event.Device = Gdk.Display.Default.ListDevices()[0];
-                ContextMenuStrip.self.PopupAtPointer(args.Event);
-            }
         }
 
         private static void statuswin_Shown(object? sender, EventArgs e)

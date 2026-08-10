@@ -21,7 +21,6 @@ public sealed class ButtonBase : Gtk.Button, IControlGtk
         this.Halign = Gtk.Align.Start;
         this.Events |= EventMask.PointerMotionMask;
         this.Events |= EventMask.ButtonMotionMask;
-        this.ButtonReleaseEvent += ButtonBase_ButtonReleaseEvent;
         // Gtk 4: Widget.Drawn is gone and there is no overridable OnSnapshot; custom paint moves to CSS (deferred).
     }
 
@@ -63,23 +62,5 @@ public sealed class ButtonBase : Gtk.Button, IControlGtk
     {
         get => ((Gtk.Label)Child).Text;
         set => ((Gtk.Label)Child).Text = value;
-    }
-
-    /// <summary>
-    /// Handles the GTK ButtonReleaseEvent and propagates
-    /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.ButtonBase.DialogResult" /> to the owning form.
-    /// </summary>
-    /// <param name="o">
-    /// The source of the event.
-    /// </param>
-    /// <param name="args">
-    /// The <see cref="Gtk.ButtonReleaseEventArgs" /> instance containing the event data.
-    /// </param>
-    private void ButtonBase_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
-    {
-        if (this.Toplevel is FormBase form)
-        {
-            ((System.Windows.Forms.Form)form.Data["Control"]).DialogResult = DialogResult;
-        }
     }
 }

@@ -118,36 +118,6 @@ public class CellRendererButtonValue : CellRendererText, ICellRenderer
         get;
         set;
     }
-
-    /// <summary>
-    /// Called when render.
-    /// </summary>
-    /// <param name="cr">
-    /// The cr.
-    /// </param>
-    /// <param name="widget">
-    /// The widget.
-    /// </param>
-    /// <param name="background_area">
-    /// The background area.
-    /// </param>
-    /// <param name="cell_area">
-    /// The cell area.
-    /// </param>
-    /// <param name="flags">
-    /// The flags.
-    /// </param>
-    protected override void OnRender(Cairo.Context cr, Widget widget, Gdk.Rectangle background_area, Gdk.Rectangle cell_area, CellRendererState flags)
-    {
-        widget.StyleContext.Save();
-        widget.StyleContext.AddClass("GridViewCell-Button");
-        var areax = cell_area.X + 5;
-        var width = cell_area.Width - 10;
-        if (width < 1)
-            width = 1;
-        widget.StyleContext.RenderFrame(cr, areax, cell_area.Y, width, cell_area.Height);
-        widget.StyleContext.RenderBackground(cr, areax, cell_area.Y, width, cell_area.Height);
-        widget.StyleContext.Restore();
-        base.OnRender(cr, widget, background_area, new Gdk.Rectangle(areax, cell_area.Y, width, cell_area.Height), flags);
-    }
+    // TODO(gtk4): custom cell rendering used removed OnRender(Cairo)/StyleContext.Render*;
+    // re-express via CellRenderer.Snapshot + CSS in the styling pass. Deferred.
 }

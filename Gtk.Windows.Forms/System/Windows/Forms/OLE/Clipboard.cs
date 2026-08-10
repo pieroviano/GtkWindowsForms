@@ -1,4 +1,4 @@
-﻿using Gtk;
+using Gtk;
 
 namespace System.Windows.Forms
 {
@@ -45,9 +45,7 @@ namespace System.Windows.Forms
 
         public static void SetText(string text, TextDataFormat format)
         {
-            var clipboard = Gtk.Clipboard.Get(Gdk.Selection.Clipboard);
-            clipboard.Text = text;
-            clipboard.Store();
+            // TODO(gtk4): write to the async Gdk.Clipboard (Display.Clipboard.SetText) — deferred.
         }
 
         private static object? GetData(string format, bool autoConvert)
@@ -69,7 +67,7 @@ namespace System.Windows.Forms
 
         public partial class DataObject : IDataObject
         {
-            Gtk.Clipboard clipboard = Gtk.Clipboard.Get(Gdk.Selection.Clipboard);
+            // TODO(gtk4): system clipboard is now the async Gdk.Clipboard; this is stubbed inert.
 
             public DataObject()
             {
@@ -89,36 +87,15 @@ namespace System.Windows.Forms
             {
                 if (format == DataFormats.Text || format == DataFormats.UnicodeText)
                 {
-                    var value = string.Empty;
-                    clipboard.RequestText((clip, text) =>
-                    {
-                        value = text;
-                    });
-                    return value;
+                    return string.Empty; // TODO(gtk4): async Gdk.Clipboard read
                 }
                 else if (format == DataFormats.Bitmap)
                 {
-                    Drawing.Bitmap? bitmap = null;
-                    clipboard.RequestImage((clip, image) =>
-                    {
-                        bitmap = new Drawing.Bitmap(image.Width, image.Height);
-                        bitmap.Pixbuf = image.Copy();
-                    });
-                    return bitmap;
+                    return null; // TODO(gtk4): async Gdk.Clipboard read
                 }
                 else
                 {
-                    object? result = null;
-                    clipboard.RequestContents(Gdk.Selection.Clipboard, new ClipboardReceivedFunc((clip, data) =>
-                    {
-                        using (MemoryStream ms = new MemoryStream((byte[])data.Data.Clone()))
-                        {
-                            var dataContract = new Runtime.Serialization.DataContractSerializer(typeof(ClipDataObject));
-                            var dataobj = dataContract.ReadObject(ms) as ClipDataObject;
-                            result = dataobj?.Data;
-                        }
-                    }));
-                    return result;
+                    return null; // TODO(gtk4): async Gdk.Clipboard read
                 }
             }
 
@@ -186,7 +163,7 @@ namespace System.Windows.Forms
             {
                 var formats = new List<string>();
 
-                if (clipboard.WaitIsTextAvailable())
+                if (false) // TODO(gtk4): query Gdk.Clipboard formats
                 {
                     formats.Add(DataFormats.Text);
                     formats.Add(DataFormats.UnicodeText);
@@ -196,7 +173,7 @@ namespace System.Windows.Forms
                     }
                 }
 
-                if (clipboard.WaitIsImageAvailable())
+                if (false) // TODO(gtk4): query Gdk.Clipboard formats
                 {
                     formats.Add(DataFormats.Bitmap);
                 }
@@ -223,24 +200,15 @@ namespace System.Windows.Forms
             {
                 if (format == DataFormats.Text || format == DataFormats.UnicodeText)
                 {
-                    clipboard.Text = data?.ToString() ?? string.Empty;
+                    /* TODO(gtk4): Gdk.Clipboard.SetText */
                 }
                 else if (format == DataFormats.Bitmap)
                 {
-                    clipboard.Image = ((Drawing.Image)data).Pixbuf!.Copy();
+                    /* TODO(gtk4): Gdk.Clipboard set image */
                 }
                 else
                 {
-                    clipboard.SetWithData([new Gtk.TargetEntry(format, Gtk.TargetFlags.Widget, 0)], (clip, selectiondata, inf) =>
-                    {
-                        using (MemoryStream ms = new MemoryStream())
-                        {
-                            var dataContract = new Runtime.Serialization.DataContractSerializer(typeof(ClipDataObject));
-                            dataContract.WriteObject(ms, new ClipDataObject(data));
-                            selectiondata.Set(Gdk.Selection.Clipboard, 0, ms.ToArray());
-                        }
-                    }, new Gtk.ClipboardClearFunc(clip => { }));
-                    clipboard.Store();
+                    /* TODO(gtk4): Gdk.Clipboard.SetContent with a ContentProvider — deferred */
                 }
             }
 

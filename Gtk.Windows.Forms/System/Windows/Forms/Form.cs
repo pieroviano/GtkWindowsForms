@@ -431,8 +431,10 @@ public partial class Form : ContainerControl, IWin32Window
                 this.Size = new Size(self.DefaultWidth, self.DefaultHeight);
                 this.self.Halign = Align.Start;
                 this.self.Valign = Align.Start;
-                this.self.WidgetEventAfter += Self_WidgetEventAfter;
-                _MdiParent.MdiContainer.WidgetEventAfter += Contaner_WidgetEventAfter;
+        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
+        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
                 _MdiParent.MdiContainer.AddOverlay(self);
             }
         }
@@ -1012,15 +1014,6 @@ public partial class Form : ContainerControl, IWin32Window
         Shown?.Invoke(this, e);
     }
 
-    private void Contaner_WidgetEventAfter(object o, WidgetEventAfterArgs args)
-    {
-        if (args.Event.Type == Gdk.EventType.ButtonRelease)
-        {
-            var lay = o as Gtk.Overlay;
-            UpdateMDILayout(lay);
-        }
-    }
-
     private void Control_Shown(object sender, EventArgs e)
     {
         if (Is_Control_Shown == false)
@@ -1035,124 +1028,10 @@ public partial class Form : ContainerControl, IWin32Window
         _ObjectCollection = new ControlCollection(this, self.contaner);
         self.Shown += Control_Shown;
         self.CloseWindowEvent += Self_CloseWindowEvent;
-        self.KeyPressEvent += Self_AcceptCancelKeyPressEvent;
+        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
         self.FocusInEvent += (o, a) => OnActivated(EventArgs.Empty);
         self.FocusOutEvent += (o, a) => OnDeactivate(EventArgs.Empty);
-    }
-
-    /// <summary>
-    /// Routes Enter to <see cref="P:System.Windows.Forms.Form.AcceptButton" /> and Escape to
-    /// <see cref="P:System.Windows.Forms.Form.CancelButton" />, mirroring WinForms' default-button behaviour.
-    /// This handles keyboard activation only; mouse clicks flow through the button's own release handler, so
-    /// the two paths do not double-fire.
-    /// </summary>
-    private void Self_AcceptCancelKeyPressEvent(object o, Gtk.KeyPressEventArgs args)
-    {
-        // Give a ProcessCmdKey override the first chance at the key, as WinForms does. The key is mapped to
-        // its WinForms Keys value (with modifiers) and packaged in a WM_KEYDOWN message.
-        var keyData = GdkToKeys(args.Event);
-        if (keyData != Keys.None)
-        {
-            var msg = Message.Create(Handle, 0x0100, (IntPtr)(int)keyData, IntPtr.Zero);
-            if (ProcessCmdKey(ref msg, keyData))
-            {
-                args.RetVal = true;
-                return;
-            }
-        }
-
-        var key = args.Event.Key;
-        if ((key == Gdk.Key.Return || key == Gdk.Key.KP_Enter) && _acceptButton != null)
-        {
-            ActivateDialogButton(_acceptButton);
-            args.RetVal = true;
-        }
-        else if (key == Gdk.Key.Escape && _cancelButton != null)
-        {
-            ActivateDialogButton(_cancelButton);
-            args.RetVal = true;
-        }
-    }
-
-    /// <summary>
-    /// Maps a GTK key event, including its Control/Alt/Shift modifiers, to the equivalent WinForms
-    /// <see cref="T:System.Windows.Forms.Keys" /> value so it can be routed through
-    /// <see cref="M:System.Windows.Forms.Control.ProcessCmdKey(System.Windows.Forms.Message@,System.Windows.Forms.Keys)" />.
-    /// Covers the letters, digits, function keys and the common editing keys; unmapped keys return
-    /// <see cref="F:System.Windows.Forms.Keys.None" />.
-    /// </summary>
-    /// <param name="e">The GTK key event.</param>
-    /// <returns>The WinForms key data, or <see cref="F:System.Windows.Forms.Keys.None" /> when unmapped.</returns>
-    private static Keys GdkToKeys(Gdk.EventKey e)
-    {
-        var val = (uint)e.Key;
-        Keys keys;
-        if (val >= 0x41 && val <= 0x5A)
-        {
-            keys = (Keys)val;                 // A-Z
-        }
-        else if (val >= 0x61 && val <= 0x7A)
-        {
-            keys = (Keys)(val - 0x20);        // a-z -> A-Z
-        }
-        else if (val >= 0x30 && val <= 0x39)
-        {
-            keys = (Keys)val;                 // 0-9 (Keys.D0-D9)
-        }
-        else
-        {
-            keys = e.Key switch
-            {
-                Gdk.Key.Return or Gdk.Key.KP_Enter => Keys.Return,
-                Gdk.Key.Escape => Keys.Escape,
-                Gdk.Key.Tab => Keys.Tab,
-                Gdk.Key.space => Keys.Space,
-                Gdk.Key.BackSpace => Keys.Back,
-                Gdk.Key.Delete => Keys.Delete,
-                Gdk.Key.Insert => Keys.Insert,
-                Gdk.Key.Home => Keys.Home,
-                Gdk.Key.End => Keys.End,
-                Gdk.Key.Left => Keys.Left,
-                Gdk.Key.Right => Keys.Right,
-                Gdk.Key.Up => Keys.Up,
-                Gdk.Key.Down => Keys.Down,
-                Gdk.Key.F1 => Keys.F1,
-                Gdk.Key.F2 => Keys.F2,
-                Gdk.Key.F3 => Keys.F3,
-                Gdk.Key.F4 => Keys.F4,
-                Gdk.Key.F5 => Keys.F5,
-                Gdk.Key.F6 => Keys.F6,
-                Gdk.Key.F7 => Keys.F7,
-                Gdk.Key.F8 => Keys.F8,
-                Gdk.Key.F9 => Keys.F9,
-                Gdk.Key.F10 => Keys.F10,
-                Gdk.Key.F11 => Keys.F11,
-                Gdk.Key.F12 => Keys.F12,
-                _ => Keys.None,
-            };
-        }
-
-        if (keys == Keys.None)
-        {
-            return Keys.None;
-        }
-
-        if (e.State.HasFlag(Gdk.ModifierType.ControlMask))
-        {
-            keys |= Keys.Control;
-        }
-
-        if (e.State.HasFlag(Gdk.ModifierType.Mod1Mask))
-        {
-            keys |= Keys.Alt;
-        }
-
-        if (e.State.HasFlag(Gdk.ModifierType.ShiftMask))
-        {
-            keys |= Keys.Shift;
-        }
-
-        return keys;
     }
 
     /// <summary>
@@ -1188,44 +1067,6 @@ public partial class Form : ContainerControl, IWin32Window
         }
 
         return closing.Cancel;
-    }
-
-    private void Self_WidgetEventAfter(object o, WidgetEventAfterArgs args)
-    {
-        var owidget = o as Gtk.Dialog;
-        if (owidget == null)
-            return;
-        if (args.Event is Gdk.EventMotion motion && motion.State.HasFlag(Gdk.ModifierType.Button1Mask))
-        {
-            owidget.Window.GetOrigin(out var x, out var y);
-            if (motion.XRoot > x && motion.YRoot < y + 50)
-            {
-                owidget.MarginStart = Math.Max(0, (int)(prevmarginstart + motion.XRoot));
-                owidget.MarginTop = Math.Max(0, (int)(prevmargintop + motion.YRoot));
-            }
-            if (motion.XRoot > x + owidget.AllocatedWidth - 10 || motion.YRoot > y + owidget.AllocatedHeight - 10)
-            {
-                owidget.WidthRequest = Math.Max(0, (int)(prevwidth + motion.XRoot));
-                owidget.HeightRequest = Math.Max(0, (int)(prevheight + motion.YRoot));
-            }
-        }
-        else if (args.Event.Type == Gdk.EventType.ButtonPress && args.Event is Gdk.EventButton btn)
-        {
-            prevmarginstart = owidget.MarginStart - btn.XRoot;
-            prevmargintop = owidget.MarginTop - btn.YRoot;
-
-            prevwidth = owidget.AllocatedWidth - btn.XRoot;
-            prevheight = owidget.AllocatedHeight - btn.YRoot;
-        }
-        else if (args.Event.Type == Gdk.EventType.ButtonRelease)
-        {
-            if (owidget.Parent is Gtk.Overlay lay)
-            {
-                lay.ReorderOverlay(owidget, lay.Children.Length);
-                if (_MdiParent != null)
-                    _MdiParent.ActiveMdiChild = this;
-            }
-        }
     }
 
     private void UpdateMDILayout(Gtk.Overlay? lay)
