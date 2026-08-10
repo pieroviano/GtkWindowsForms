@@ -1366,6 +1366,21 @@ public partial class DataGridView : ScrollableControl
         {
             case DataGridViewSelectionMode.FullRowSelect:
             case DataGridViewSelectionMode.RowHeaderSelect:
+                // gtk_tree_selection_get_selected asserts a NON-multiple selection and crashes the process
+                // otherwise; when the grid allows multi-row selection, enumerate the selected rows instead.
+                if (GridView.Selection.Mode == Gtk.SelectionMode.Multiple)
+                {
+                    foreach (var path in GridView.Selection.GetSelectedRows(out var model))
+                    {
+                        if (model.GetIter(out var it, path) && it.Equals(rowiter))
+                        {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+
                 return GridView.Selection.GetSelected(out var iter) && iter.Equals(rowiter);
             default:
                 return false;

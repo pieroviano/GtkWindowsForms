@@ -292,9 +292,9 @@ namespace System.Windows.Forms
             {
                 if (_visible != value)
                 {
-                    if (statusIcon != null)
+                    // Gtk4 removed Gtk.StatusIcon (no system tray), so there is no native icon to show/hide;
+                    // the WinForms Visible property still round-trips through the backing field.
                     _visible = value;
-
                 }
             }
         }
