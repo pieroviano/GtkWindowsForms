@@ -21,7 +21,10 @@ public class AccessibleObject
     /// <summary>
     /// The ATK peer this object reflects, when it was created for a live widget.
     /// </summary>
-    private readonly Atk.Object? _peer;
+    // Gtk 4 removed Atk; accessibility is inert until a Gtk.Accessible port. Name/Description
+    // round-trip through backing fields so the WinForms AccessibleObject API still works.
+    private string? _name;
+    private string? _description;
 
     /// <summary>
     /// The widget the peer belongs to, used for bounds. GtkSharp does not project the
@@ -47,10 +50,9 @@ public class AccessibleObject
     /// <param name="widget">
     /// The widget the peer belongs to, when known.
     /// </param>
-    internal AccessibleObject(Atk.Object? peer, Gtk.Widget? widget = null)
+    internal AccessibleObject(object? peer, Gtk.Widget? widget = null)
     {
-        _peer = peer;
-        _widget = widget;
+        _widget = widget; // 'peer' (former Atk.Object) is ignored under Gtk 4.
     }
 
     /// <summary>
@@ -86,14 +88,8 @@ public class AccessibleObject
     /// </summary>
     public virtual string? Description
     {
-        get => _peer?.Description;
-        set
-        {
-            if (_peer != null)
-            {
-                _peer.Description = value ?? string.Empty;
-            }
-        }
+        get => _description;
+        set => _description = value;
     }
 
     /// <summary>
@@ -101,14 +97,8 @@ public class AccessibleObject
     /// </summary>
     public virtual string? Name
     {
-        get => _peer?.Name;
-        set
-        {
-            if (_peer != null)
-            {
-                _peer.Name = value ?? string.Empty;
-            }
-        }
+        get => _name;
+        set => _name = value;
     }
 
     /// <summary>
@@ -118,16 +108,14 @@ public class AccessibleObject
     {
         get
         {
-            var parent = _peer?.Parent;
-
-            return parent == null ? null : new AccessibleObject(parent);
+            return null; // Gtk 4: no Atk parent traversal.
         }
     }
 
     /// <summary>
     /// Gets the role of this accessible object.
     /// </summary>
-    public virtual AccessibleRole Role => _peer == null ? AccessibleRole.None : FromAtkRole(_peer.Role);
+    public virtual AccessibleRole Role => AccessibleRole.None; // Gtk 4: no Atk role.
 
     /// <summary>
     /// Retrieves the accessible child at the specified index.
@@ -140,14 +128,7 @@ public class AccessibleObject
     /// </returns>
     public virtual AccessibleObject? GetChild(int index)
     {
-        if (_peer == null || index < 0 || index >= _peer.NAccessibleChildren)
-        {
-            return null;
-        }
-
-        var child = _peer.RefAccessibleChild(index);
-
-        return child == null ? null : new AccessibleObject(child);
+        return null; // Gtk 4: no Atk child enumeration.
     }
 
     /// <summary>
@@ -165,90 +146,4 @@ public class AccessibleObject
     /// A string describing this object.
     /// </returns>
     public override string ToString() => $"{nameof(AccessibleObject)}: Name = {Name}";
-
-    /// <summary>
-    /// Maps a WinForms <see cref="T:System.Windows.Forms.AccessibleRole" /> onto the nearest ATK role.
-    /// </summary>
-    /// <param name="role">
-    /// The WinForms role.
-    /// </param>
-    /// <returns>
-    /// The corresponding <see cref="T:Atk.Role" />.
-    /// </returns>
-    internal static Atk.Role ToAtkRole(AccessibleRole role) => role switch
-    {
-        AccessibleRole.PushButton => Atk.Role.PushButton,
-        AccessibleRole.CheckButton => Atk.Role.CheckBox,
-        AccessibleRole.RadioButton => Atk.Role.RadioButton,
-        AccessibleRole.ComboBox => Atk.Role.ComboBox,
-        AccessibleRole.Text => Atk.Role.Entry,
-        AccessibleRole.StaticText => Atk.Role.Label,
-        AccessibleRole.List => Atk.Role.List,
-        AccessibleRole.ListItem => Atk.Role.ListItem,
-        AccessibleRole.MenuBar => Atk.Role.MenuBar,
-        AccessibleRole.MenuItem => Atk.Role.MenuItem,
-        AccessibleRole.MenuPopup => Atk.Role.Menu,
-        AccessibleRole.Outline => Atk.Role.TreeTable,
-        AccessibleRole.OutlineItem => Atk.Role.TreeItem,
-        AccessibleRole.PageTab => Atk.Role.PageTab,
-        AccessibleRole.PageTabList => Atk.Role.PageTabList,
-        AccessibleRole.ProgressBar => Atk.Role.ProgressBar,
-        AccessibleRole.ScrollBar => Atk.Role.ScrollBar,
-        AccessibleRole.Slider => Atk.Role.Slider,
-        AccessibleRole.SpinButton => Atk.Role.SpinButton,
-        AccessibleRole.StatusBar => Atk.Role.Statusbar,
-        AccessibleRole.Table => Atk.Role.Table,
-        AccessibleRole.ToolBar => Atk.Role.ToolBar,
-        AccessibleRole.ToolTip => Atk.Role.ToolTip,
-        AccessibleRole.Window => Atk.Role.Window,
-        AccessibleRole.Client => Atk.Role.Panel,
-        AccessibleRole.Grouping => Atk.Role.Panel,
-        AccessibleRole.Dialog => Atk.Role.Dialog,
-        AccessibleRole.Graphic => Atk.Role.Image,
-        AccessibleRole.Link => Atk.Role.Link,
-        _ => Atk.Role.Unknown
-    };
-
-    /// <summary>
-    /// Maps an ATK role back onto the nearest WinForms
-    /// <see cref="T:System.Windows.Forms.AccessibleRole" />.
-    /// </summary>
-    /// <param name="role">
-    /// The ATK role.
-    /// </param>
-    /// <returns>
-    /// The corresponding <see cref="T:System.Windows.Forms.AccessibleRole" />.
-    /// </returns>
-    internal static AccessibleRole FromAtkRole(Atk.Role role) => role switch
-    {
-        Atk.Role.PushButton => AccessibleRole.PushButton,
-        Atk.Role.CheckBox => AccessibleRole.CheckButton,
-        Atk.Role.RadioButton => AccessibleRole.RadioButton,
-        Atk.Role.ComboBox => AccessibleRole.ComboBox,
-        Atk.Role.Entry => AccessibleRole.Text,
-        Atk.Role.Label => AccessibleRole.StaticText,
-        Atk.Role.List => AccessibleRole.List,
-        Atk.Role.ListItem => AccessibleRole.ListItem,
-        Atk.Role.MenuBar => AccessibleRole.MenuBar,
-        Atk.Role.MenuItem => AccessibleRole.MenuItem,
-        Atk.Role.Menu => AccessibleRole.MenuPopup,
-        Atk.Role.TreeTable => AccessibleRole.Outline,
-        Atk.Role.TreeItem => AccessibleRole.OutlineItem,
-        Atk.Role.PageTab => AccessibleRole.PageTab,
-        Atk.Role.PageTabList => AccessibleRole.PageTabList,
-        Atk.Role.ProgressBar => AccessibleRole.ProgressBar,
-        Atk.Role.ScrollBar => AccessibleRole.ScrollBar,
-        Atk.Role.Slider => AccessibleRole.Slider,
-        Atk.Role.SpinButton => AccessibleRole.SpinButton,
-        Atk.Role.Statusbar => AccessibleRole.StatusBar,
-        Atk.Role.Table => AccessibleRole.Table,
-        Atk.Role.ToolBar => AccessibleRole.ToolBar,
-        Atk.Role.ToolTip => AccessibleRole.ToolTip,
-        Atk.Role.Window => AccessibleRole.Window,
-        Atk.Role.Dialog => AccessibleRole.Dialog,
-        Atk.Role.Image => AccessibleRole.Graphic,
-        Atk.Role.Link => AccessibleRole.Link,
-        Atk.Role.Panel => AccessibleRole.Client,
-        _ => AccessibleRole.None
-    };
 }

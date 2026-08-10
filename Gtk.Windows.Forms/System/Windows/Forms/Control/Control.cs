@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -747,10 +747,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             _accessibleDescription = value;
-            if (AtkPeer is { } peer)
-            {
-                peer.Description = value ?? string.Empty;
-            }
+            // Gtk 4: Atk peer is inert; the value is stored locally above (a11y -> Gtk.Accessible later).
         }
     }
 
@@ -765,10 +762,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             _accessibleName = value;
-            if (AtkPeer is { } peer)
-            {
-                peer.Name = value ?? string.Empty;
-            }
+            // Gtk 4: Atk peer is inert; the value is stored locally above (a11y -> Gtk.Accessible later).
         }
     }
 
@@ -783,10 +777,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             _accessibleRole = value;
-            if (AtkPeer is { } peer)
-            {
-                peer.Role = AccessibleObject.ToAtkRole(value);
-            }
+            // Gtk 4: Atk peer is inert; the value is stored locally above (a11y -> Gtk.Accessible later).
         }
     }
 
