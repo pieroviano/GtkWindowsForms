@@ -391,17 +391,16 @@ public static class Gtk4Compat
 
             loop.Run();
 
-            // A Close() during the loop deferred the actual dispose/destroy to here — the loop has now
-            // unwound, so it is safe to perform it (not re-entrant, and not on a teardown idle).
-            if (formBase != null && IsAlive(formBase) && formBase.PendingModalClose != null)
+            // A Close() during the loop deferred the actual dispose to here — the loop has now unwound, so
+            // it is safe (not re-entrant, not on a teardown idle). Disposing the owning Form releases its
+            // window; we deliberately do NOT also call formBase.Destroy() — Form.Dispose already unrefs the
+            // native window, and a second destroy on the freed window crashes ("gtk_window_destroy:
+            // GTK_IS_WINDOW failed").
+            if (formBase != null && formBase.PendingModalClose != null)
             {
                 var pending = formBase.PendingModalClose;
                 formBase.PendingModalClose = null;
                 pending.Dispose();
-                if (IsAlive(formBase))
-                {
-                    formBase.Destroy();
-                }
             }
         }
         finally
