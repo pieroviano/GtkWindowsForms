@@ -1126,7 +1126,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         // WinForms-style scaling arithmetic (value * DeviceDpi / 96) collapsed to zero.
         get
         {
-            var resolution = Gdk.Screen.Default?.Resolution ?? -1;
+            var resolution = 96.0; // Gtk4: Gdk.Screen removed; assume 96 DPI (per-monitor scale handled elsewhere)
 
             return resolution > 0 ? (int)Math.Round(resolution) : 96;
         }
@@ -1330,7 +1330,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// Indicates whether a GTK main loop is running, and therefore whether queued work will ever be
     /// dispatched.
     /// </summary>
-    private static bool IsMainLoopRunning => Gtk.Main.Level() > 0;
+    private static bool IsMainLoopRunning => true; // Gtk4: Gtk.Main removed; the GLib main loop runs under GtkApplication
 
     /// <summary>
     /// Runs <paramref name="action" /> on the UI thread and blocks until it has finished, rethrowing any
@@ -1476,7 +1476,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             var result = Keys.None;
             if (mod.HasFlag(Gdk.ModifierType.ControlMask))
                 result |= Keys.Control;
-            else if (mod.HasFlag(Gdk.ModifierType.Mod1Mask))
+            else if (mod.HasFlag(Gdk.ModifierType.AltMask))
                 result |= Keys.Alt;
             else if (mod.HasFlag(Gdk.ModifierType.ShiftMask))
                 result |= Keys.Shift;
@@ -1604,7 +1604,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             if (this.Widget != null && this.Widget.IsRealized && this.Widget.Parent is Gtk.Widget con)
             {
                 con.QueueResize();
-                con.ResizeChildren();
+                con.QueueResize(); // Gtk4: Container.ResizeChildren removed; QueueResize re-runs allocation
             }
         }
     }
@@ -2220,7 +2220,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             if (widget != null && widget.IsRealized)
             {
                 cairo.Translate(-targetBounds.X, -targetBounds.Y);
-                widget.Draw(cairo);
+                widget.QueueDraw(); // Gtk4: Widget.Draw(cairo) removed (snapshot rendering). TODO(gtk4): render via GtkSnapshot
             }
         }
 
@@ -4121,7 +4121,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                     css.AppendLine($".{styleClassName} text{{{style.ToString()}}}");
                     css.AppendLine($".{styleClassName} .view{{{style.ToString()}}}");
                 }
-                if (provider.LoadFromData(css.ToString()))
+                // Gtk4: CssProvider.LoadFromData returns void (was bool). Load, then apply.
+                provider.LoadFromData(css.ToString());
                 {
                     if (widget.StyleContext.HasClass(styleClassName))
                     {
@@ -4351,13 +4352,13 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                 if (widget.Cursor != null)
                     widget.Cursor = null;
             }
-            else if (_Cursor.CursorType == Gdk.CursorType.CursorIsPixmap)
-            {
-                widget.Cursor = new Gdk.Cursor(widget.Display, _Cursor.CursorPixbuf, _Cursor.CursorsXY.X, _Cursor.CursorsXY.Y);
-            }
             else
             {
-                widget.Cursor = new Gdk.Cursor(widget.Display, _Cursor.CursorType);
+                // Gtk4 removed Gdk.CursorType and the (display, pixbuf, x, y) / (display, type) cursor
+                // ctors. Cursors are now named (Gdk.Cursor.NewFromName) or texture-backed
+                // (Gdk.Cursor.NewFromTexture). Custom WinForms cursors fall back to the default until the
+                // .cur -> Gdk.Texture path lands. TODO(gtk4): map _Cursor to a named/texture Gdk.Cursor.
+                widget.Cursor = null;
             }
         }
     }

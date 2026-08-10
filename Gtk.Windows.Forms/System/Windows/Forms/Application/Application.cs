@@ -736,7 +736,7 @@ tooltip label {padding: 0px 10px; color: #555555;}
             }
 
             css.LoadFromData(cssBuilder.ToString());
-            Gtk.StyleContext.AddProviderForScreen(Gdk.Screen.Default, css, StyleProviderPriority.Application);
+            Gtk.StyleContext.AddProviderForDisplay(Gdk.Display.Default, css, (uint)StyleProviderPriority.Application);
         }
 
         return App;

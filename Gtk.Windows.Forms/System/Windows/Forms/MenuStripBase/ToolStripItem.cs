@@ -1595,9 +1595,9 @@ public partial class ToolStripItem : Component, IDropTarget, ISupportOleDropSour
                 if (widget.StyleContext.HasClass(styleClassName))
                 {
                     widget.StyleContext.RemoveClass(styleClassName);
-                    Gtk.StyleContext.RemoveProviderForScreen(Gdk.Screen.Default, provider);
+                    Gtk.StyleContext.RemoveProviderForDisplay(Gdk.Display.Default, provider);
                 }
-                Gtk.StyleContext.AddProviderForScreen(Gdk.Screen.Default, provider, StyleProviderPriority.User);
+                Gtk.StyleContext.AddProviderForDisplay(Gdk.Display.Default, provider, (uint)StyleProviderPriority.User);
                 widget.StyleContext.AddClass(styleClassName);
             }
         }
