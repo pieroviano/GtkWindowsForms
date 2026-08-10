@@ -62,7 +62,7 @@ public partial class UserControl : ContainerControl
             Hexpand = false,
             Vexpand = false
         };
-        contaner.Add(new Gtk.Fixed() { Halign = Align.Fill, Valign = Align.Fill });
+        contaner.AddChild(new Gtk.Fixed() { Halign = Align.Fill, Valign = Align.Fill });
         _controls = new ControlCollection(this, contaner);
         self.Add(contaner);
         self.Override.Paint += Override_Paint;

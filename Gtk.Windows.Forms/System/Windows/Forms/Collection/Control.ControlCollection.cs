@@ -214,8 +214,8 @@ public partial class Control
         {
             if (_ownerControl != null)
             {
-                foreach (var wid in _ownerControl.Children)
-                    _ownerControl.Remove(wid);
+                foreach (var wid in _ownerControl.GetChildrenArray())
+                    _ownerControl.RemoveChild(wid);
             }
 
             InnerList.Clear();
@@ -382,8 +382,8 @@ public partial class Control
                 return;
             }
             InnerList.Remove(value);
-            if (_ownerControl?.Children.Any(o => o.Equals(value.Widget)) == true)
-                _ownerControl.Remove(value.Widget);
+            if (_ownerControl?.GetChildrenArray().Any(o => o.Equals(value.Widget)) == true)
+                _ownerControl.RemoveChild(value.Widget);
         }
 
         /// <summary>
@@ -400,8 +400,8 @@ public partial class Control
             else if (element is ArrangedElementWidget widget)
             {
                 InnerList.RemoveAt(index);
-                if (_ownerControl?.Children.Any(o => o.Equals(widget.GetWidget)) == true)
-                    _ownerControl.Remove(widget.GetWidget);
+                if (_ownerControl?.GetChildrenArray().Any(o => o.Equals(widget.GetWidget)) == true)
+                    _ownerControl.RemoveChild(widget.GetWidget);
             }
         }
 
@@ -528,7 +528,7 @@ public partial class Control
                 Remove(control);
             else if (element is Gtk.Widget widget)
             {
-                _ownerControl?.Remove(widget);
+                _ownerControl?.RemoveChild(widget);
                 var index = this.IndexOfKey(widget.Name);
                 if (index >= 0)
                     InnerList.RemoveAt(index);

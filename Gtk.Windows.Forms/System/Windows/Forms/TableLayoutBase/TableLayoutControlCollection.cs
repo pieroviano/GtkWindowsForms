@@ -110,7 +110,7 @@ public class TableLayoutControlCollection : Control.ControlCollection
         {
             if (view.Child != null)
             {
-                view.Remove(view.Child);
+                view.RemoveChild(view.Child);
             }
 
             InnerList.Remove(value);

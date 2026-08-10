@@ -189,10 +189,10 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
                 widg.Halign = Align.Start;
                 widg.Hexpand = false;
                 widg.Vexpand = false;
-                box.Add(widg);
+                box.AddChild(widg);
             }
 
-            _owner.self.Add(box);
+            _owner.self.AddChild(box);
             base.AddWidget(box, control);
         }
     }

@@ -90,7 +90,7 @@ internal sealed partial class PropertyGridView
             };
             box.Append(img);
             box.ReorderChild(img, 0);
-            box.SetChildPacking(box.Children[2], false, true, 0, PackType.End);
+            box.SetChildPacking(box.GetChildrenArray()[2], false, true, 0, PackType.End);
         }
         CellRendererText names = new CellRendererProperty(this)
         {

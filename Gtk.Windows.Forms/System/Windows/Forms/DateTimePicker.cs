@@ -74,8 +74,8 @@ public partial class DateTimePicker : MaskedTextBox
         };
         var todaybtn = new Gtk.Button() { Label = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Choose_Today+DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") };
         todaybtn.Clicked += Todaybtn_Clicked;
-        popbody.Add(todaybtn);
-        popver.Add(popbody);
+        popbody.AddChild(todaybtn);
+        popver.AddChild(popbody);
         self.Changed += Self_Changed;
     }
 

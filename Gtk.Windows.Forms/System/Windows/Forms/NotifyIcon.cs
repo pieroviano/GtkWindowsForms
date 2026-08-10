@@ -315,7 +315,7 @@ namespace System.Windows.Forms
             balloonTip.Decorated = true;
             balloonTip.Title = tipTitle ?? "";
             var balloonTipText = new Gtk.Label(tipText) { Xpad = 20, Ypad = 20, Halign = Align.Start };
-            balloonTip.Add(balloonTipText);
+            balloonTip.AddChild(balloonTipText);
 
             if (tipIcon == ToolTipIcon.Info)
                 balloonTip.Icon = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-information.png"));

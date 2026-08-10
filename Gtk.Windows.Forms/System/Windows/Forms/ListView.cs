@@ -114,7 +114,7 @@ public class ListView : ContainerControl
         flowBoxContainer.Valign = Gtk.Align.Start;
         scrolledWindow.Halign = Gtk.Align.Fill;
         scrolledWindow.Valign = Gtk.Align.Fill;
-        scrolledWindow.Add(flowBoxContainer);
+        scrolledWindow.AddChild(flowBoxContainer);
         scrolledWindow.Hadjustment.ValueChanged += Hadjustment_ValueChanged;
 
         header.LayoutStyle = ButtonBoxStyle.Expand;
@@ -129,7 +129,7 @@ public class ListView : ContainerControl
         headerView.HscrollbarPolicy = PolicyType.External;
         headerView.VscrollbarPolicy = PolicyType.Never;
         headerView.StyleContext.AddClass("ListViewHeader");
-        headerView.Add(header);
+        headerView.AddChild(header);
         self.box.Append(headerView);
         self.box.Append(scrolledWindow);
         this.BorderStyle = BorderStyle.Fixed3D;
@@ -907,9 +907,9 @@ public class ListView : ContainerControl
     /// </returns>
     public ListViewItem? GetItemAt(int x, int y)
     {
-        foreach (Gtk.Box vbox in flowBoxContainer.Children)
+        foreach (Gtk.Box vbox in flowBoxContainer.GetChildrenArray())
         {
-            foreach (var flow in vbox.Children)
+            foreach (var flow in vbox.GetChildrenArray())
             {
                 if (flow is Gtk.FlowBox _flow)
                 {
@@ -1013,7 +1013,7 @@ public class ListView : ContainerControl
                     flowitem.Data.Add(col.Index, string.Empty);
             }
 
-            flowitem.Add(hBox);
+            flowitem.AddChild(hBox);
 
             Gtk.FlowBox flowBox = DefaultGroup.FlowBox;
             if (this.ShowGroups == true && this.View != View.List && this.View != View.Tile)
@@ -1029,7 +1029,7 @@ public class ListView : ContainerControl
             }
 
             if (position == -1)
-                flowBox.Add(flowitem);
+                flowBox.AddChild(flowitem);
             else
                 flowBox.Insert(flowitem, position);
 
@@ -1063,14 +1063,14 @@ public class ListView : ContainerControl
             }
 
             if (fistcell.WidthRequest == -1)
-                fistcell.Add(checkboxself);
+                fistcell.AddChild(checkboxself);
             else
                 fistcell.AddOverlay(checkboxself);
 
             checkboxself.Xalign = 0.0f;
             checkboxself.Yalign = 0.5f;
             Gtk.Viewport viewport = new Viewport();
-            viewport.Add(fistcell);
+            viewport.AddChild(fistcell);
             hBox.Append(viewport);
             if (this.View == View.Details)
             {
@@ -1133,7 +1133,7 @@ public class ListView : ContainerControl
                             sublayout.AddOverlay(sublabel);
                         }
                         Gtk.Viewport sviewport = new Viewport();
-                        sviewport.Add(sublayout);
+                        sviewport.AddChild(sublayout);
                         hBox.Append(sviewport);
                     }
                     index++;
@@ -1209,9 +1209,9 @@ public class ListView : ContainerControl
             var box = item._flowBoxChild.Child as Gtk.Box;
             if (this.View == View.Details)
             {
-                var viewport = box?.Children[0] as Gtk.Viewport;
+                var viewport = box?.GetChildrenArray()[0] as Gtk.Viewport;
                 var layout = viewport?.Child as Gtk.Overlay;
-                foreach (var chk in layout?.Children ?? [])
+                foreach (var chk in layout?.GetChildrenArray() ?? [])
                 {
                     if (chk is Gtk.CheckButton chkbutton)
                     {
@@ -1222,7 +1222,7 @@ public class ListView : ContainerControl
             }
             else
             {
-                foreach (var chk in box?.Children ?? [])
+                foreach (var chk in box?.GetChildrenArray() ?? [])
                 {
                     if (chk is Gtk.CheckButton chkbutton)
                     {
@@ -1364,7 +1364,7 @@ public class ListView : ContainerControl
 
     internal void NativeGroupsClear()
     {
-        foreach (var group in flowBoxContainer.Children)
+        foreach (var group in flowBoxContainer.GetChildrenArray())
         {
             flowBoxContainer.Remove(group);
             group.Dispose();
@@ -1394,7 +1394,7 @@ public class ListView : ContainerControl
         // This called the public Clear(), which now also clears the columns - and clearing the columns
         // comes back here. Only the item rows need to go before the headers are removed.
         Items.Clear();
-        foreach (var col in header.Children)
+        foreach (var col in header.GetChildrenArray())
         {
             header.Remove(col);
             col.Destroy();
@@ -1405,9 +1405,9 @@ public class ListView : ContainerControl
     internal void NativeHeaderRemove(ColumnHeader column)
     {
         Items.Clear();
-        if (column.DisplayIndex < header.Children.Length)
+        if (column.DisplayIndex < header.GetChildrenArray().Length)
         {
-            var headercol = header.Children[column.DisplayIndex];
+            var headercol = header.GetChildrenArray()[column.DisplayIndex];
             header.Remove(headercol);
             headercol.Destroy();
         }
@@ -1417,7 +1417,7 @@ public class ListView : ContainerControl
     {
         foreach (var group in GetAllGroups())
         {
-            foreach (Gtk.FlowBoxChild child in group.FlowBox.Children)
+            foreach (Gtk.FlowBoxChild child in group.FlowBox.GetChildrenArray())
                 group.FlowBox.Remove(child);
         }
     }
@@ -1440,9 +1440,9 @@ public class ListView : ContainerControl
             var box = item._flowBoxChild.Child as Gtk.Box;
             if (this.View == View.Details)
             {
-                var viewport = box?.Children[0] as Gtk.Viewport;
+                var viewport = box?.GetChildrenArray()[0] as Gtk.Viewport;
                 var layout = viewport?.Child as Gtk.Overlay;
-                foreach (var lab in layout?.Children ?? [])
+                foreach (var lab in layout?.GetChildrenArray() ?? [])
                 {
                     if (lab is Gtk.Label label)
                     {
@@ -1453,7 +1453,7 @@ public class ListView : ContainerControl
             }
             else if (this.View == View.SmallIcon)
             {
-                foreach (var lab in box?.Children ?? [])
+                foreach (var lab in box?.GetChildrenArray() ?? [])
                 {
                     if (lab is Gtk.Label label)
                     {
@@ -1464,8 +1464,8 @@ public class ListView : ContainerControl
             }
             else if (this.View == View.LargeIcon)
             {
-                var vbox = box?.Children[0] as Gtk.Box;
-                foreach (var lab in vbox?.Children ?? [])
+                var vbox = box?.GetChildrenArray()[0] as Gtk.Box;
+                foreach (var lab in vbox?.GetChildrenArray() ?? [])
                 {
                     if (lab is Gtk.Label label)
                     {
@@ -1476,7 +1476,7 @@ public class ListView : ContainerControl
             }
             else if (this.View == View.List)
             {
-                foreach (var lab in box?.Children ?? [])
+                foreach (var lab in box?.GetChildrenArray() ?? [])
                 {
                     if (lab is Gtk.Label label)
                     {

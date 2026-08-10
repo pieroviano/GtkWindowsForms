@@ -52,7 +52,7 @@ public class ToolStripComboBox : ToolStripItem
         comboBox.Entry.HasFrame = false;
         comboBox.Entry.MaxWidthChars = 1;
         comboBox.Entry.WidthChars = 0;
-        self.Add(comboBox);
+        self.AddChild(comboBox);
         __itemsData = new ObjectCollection(this.comboBox);
         this.comboBox.Changed += ComboBox_Changed;
     }

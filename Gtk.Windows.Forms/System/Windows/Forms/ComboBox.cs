@@ -397,7 +397,7 @@ public partial class ComboBox : ListControl
             if (_DropDownStyle == ComboBoxStyle.DropDownList)
             {
                 var box = (Gtk.Box)self.Entry.Parent;
-                if (box.Children[1] is Gtk.ToggleButton ws)
+                if (box.GetChildrenArray()[1] is Gtk.ToggleButton ws)
                 {
                     self.Entry.IsEditable = false;
                     self.Entry.CanFocus = false;

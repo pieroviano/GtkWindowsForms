@@ -30,7 +30,7 @@ public class ToolStripProgressBar : ToolStripItem
         progressBar.MinValue = 0;
         progressBar.Orientation = Gtk.Orientation.Horizontal;
         progressBar.Valign = Align.Center;
-        self.Add(progressBar);
+        self.AddChild(progressBar);
     }
 
     /// <summary>

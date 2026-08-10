@@ -81,7 +81,7 @@ public partial class CheckedListBox : ContainerControl
         get
         {
             var items = new CheckedIndexCollection();
-            foreach (Gtk.FlowBoxChild child in _flow.Children)
+            foreach (Gtk.FlowBoxChild child in _flow.GetChildrenArray())
             {
                 if ((bool)child.Child.GetProperty("active") == true)
                     items.Add(child.Index);
@@ -99,7 +99,7 @@ public partial class CheckedListBox : ContainerControl
         get
         {
             var items = new CheckedItemCollection();
-            foreach (Gtk.FlowBoxChild child in _flow.Children)
+            foreach (Gtk.FlowBoxChild child in _flow.GetChildrenArray())
             {
                 if ((bool)child.Child.GetProperty("active") == true)
                     items.Add(child.Child.GetProperty("label").Val);
@@ -202,7 +202,7 @@ public partial class CheckedListBox : ContainerControl
         get
         {
             var items = new SelectedItemCollection();
-            foreach (Gtk.FlowBoxChild child in _flow.Children)
+            foreach (Gtk.FlowBoxChild child in _flow.GetChildrenArray())
             {
                 if (child.IsSelected == true)
                     items.Add(child.Child.GetProperty("label").Val);
@@ -226,7 +226,7 @@ public partial class CheckedListBox : ContainerControl
     /// </summary>
     public void ClearSelected()
     {
-        foreach (Gtk.FlowBoxChild wi in _flow.Children)
+        foreach (Gtk.FlowBoxChild wi in _flow.GetChildrenArray())
         {
             if (wi.Child is Gtk.CheckButton check)
             {
@@ -248,9 +248,9 @@ public partial class CheckedListBox : ContainerControl
     /// </param>
     public void SetItemChecked(int index, bool value)
     {
-        if (_flow.Children.Length > index)
+        if (_flow.GetChildrenArray().Length > index)
         {
-            if (_flow.Children[index] is Gtk.FlowBoxChild child)
+            if (_flow.GetChildrenArray()[index] is Gtk.FlowBoxChild child)
             {
                 var checkBox = child.Child.Data["Control"] as CheckBox;
                 if (checkBox != null)
@@ -305,10 +305,10 @@ public partial class CheckedListBox : ContainerControl
         boxitem.TooltipText = checkbox.Text;
         boxitem.Visible = true;
         boxitem.Realized += Boxitem_Realized;
-        boxitem.Add(checkbox.self);
+        boxitem.AddChild(checkbox.self);
         if (position < 0)
         {
-            this._flow.Add(boxitem);
+            this._flow.AddChild(boxitem);
         }
         else
         {
@@ -318,14 +318,14 @@ public partial class CheckedListBox : ContainerControl
 
     internal void NativeClear()
     {
-        foreach (var item in _flow.Children)
+        foreach (var item in _flow.GetChildrenArray())
             _flow.Remove(item);
     }
 
     internal void NativeRemove(int index)
     {
-        if (_flow.Children.Length > index)
-            _flow.Remove(_flow.Children[index]);
+        if (_flow.GetChildrenArray().Length > index)
+            _flow.Remove(_flow.GetChildrenArray()[index]);
     }
 
     /// <summary>

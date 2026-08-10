@@ -376,7 +376,7 @@ public partial class TabControl : ContainerControl
         public new void Remove(TabPage value)
         {
             base.Remove(value);
-            _owner.self.Remove(((TabPage)value).Widget);
+            _owner.self.RemoveChild(((TabPage)value).Widget);
         }
 
         /// <summary>

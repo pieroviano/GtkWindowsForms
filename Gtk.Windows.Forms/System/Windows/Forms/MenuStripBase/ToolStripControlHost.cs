@@ -200,7 +200,7 @@ public class ToolStripControlHost : ToolStripItem
         // Only parent the widget if it is not already owned; re-parenting an owned widget throws in GTK.
         if (widget.Parent == null)
         {
-            _self.Add(widget);
+            _self.AddChild(widget);
             widget.Show();
         }
     }

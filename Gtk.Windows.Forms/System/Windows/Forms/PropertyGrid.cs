@@ -153,7 +153,7 @@ public partial class PropertyGrid : ContainerControl, IComPropertyBrowser
     {
         self.Override.sender = this;
         _propertyView = new PropertyGridView(this);
-        self.child1.Add(_propertyView.tree);
+        self.child1.AddChild(_propertyView.tree);
         _propertyView.PropertyValueChanged += Self_PropertyValueChanged;
         _propertyView.SelectedGridItemChanged += Self_SelectedGridItemChanged;
         _propertyView.tree.RowActivated += _propertyView_RowActivated;

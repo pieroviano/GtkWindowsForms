@@ -249,7 +249,7 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
             lay.SetSizeRequest(1, 1);
             if (lay.IsRealized)
             {
-                foreach (Gtk.Widget widget in lay.Children)
+                foreach (Gtk.Widget widget in lay.GetChildrenArray())
                 {
                     if (lay.Child.Handle.Equals(widget.Handle))
                     {
@@ -265,7 +265,7 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
             }
             else
             {
-                foreach (Gtk.Widget widget in lay.Children)
+                foreach (Gtk.Widget widget in lay.GetChildrenArray())
                 {
                     lay.WidthRequest = Math.Max(lay.WidthRequest, widget.MarginStart + widget.WidthRequest + scrolled.Allocation.Left + 20);
                     lay.HeightRequest = Math.Max(lay.HeightRequest, widget.MarginTop + widget.HeightRequest + scrolled.Allocation.Top + 20);

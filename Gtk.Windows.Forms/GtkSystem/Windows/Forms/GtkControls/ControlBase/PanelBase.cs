@@ -27,7 +27,7 @@ public sealed class PanelBase : ScrollableBoxBase
         contaner.Vexpand = false;
         var background = new Gtk.DrawingArea();
         background.DrawFunc = Background_DrawFunc;
-        contaner.Add(background);
+        contaner.AddChild(background);
         this.Add(contaner);
     }
 

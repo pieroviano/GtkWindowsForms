@@ -40,8 +40,8 @@ public sealed class PictureBoxBase : Gtk.Viewport, IControlGtk
         this.Realized += PictureBoxBase_Realized;
         var drawingArea = new Gtk.DrawingArea();
         drawingArea.DrawFunc = DrawingArea_DrawFunc;
-        contaner.Add(drawingArea);
-        this.Add(contaner);
+        contaner.AddChild(drawingArea);
+        this.AddChild(contaner);
     }
 
     /// <summary>

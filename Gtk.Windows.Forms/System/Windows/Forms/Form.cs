@@ -352,7 +352,7 @@ public partial class Form : ContainerControl, IWin32Window
             var forms = new List<Form>();
             if (this.IsMdiContainer && MdiContainer != null)
             {
-                foreach (var ofm in MdiContainer.Children)
+                foreach (var ofm in MdiContainer.GetChildrenArray())
                 {
                     if (ofm.Data.ContainsKey("Control") && ofm.Data["Control"] is Form fm)
                         forms.Add(fm);
@@ -393,13 +393,13 @@ public partial class Form : ContainerControl, IWin32Window
                     _MdiParent.MdiContainer = new Gtk.Overlay();
                     _MdiParent.scrolledWindow = new Gtk.ScrolledWindow();
                     _MdiParent.scrolledWindow.StyleContext.AddClass("MDIPanel");
-                    _MdiParent.scrolledWindow.Add(_MdiParent.MdiContainer);
+                    _MdiParent.scrolledWindow.AddChild(_MdiParent.MdiContainer);
                     _MdiParent.Controls.Add(_MdiParent.scrolledWindow);
 
                     if (_MdiParent.scrolledWindow.Parent is Gtk.Overlay olay)
                     {
                         var left = 0; var top = 0; var right = 0; var bottom = 0;
-                        foreach (var w in olay.Children)
+                        foreach (var w in olay.GetChildrenArray())
                         {
                             if (w.Halign == Align.Fill && w.Valign == Align.Start)
                             {
@@ -709,12 +709,12 @@ public partial class Form : ContainerControl, IWin32Window
                 int x = 0, y = 0;
                 var width = scrolledWindow.Parent.AllocatedWidth - scrolledWindow.MarginStart - scrolledWindow.MarginEnd;
                 var height = scrolledWindow.Parent.AllocatedHeight - scrolledWindow.MarginTop - scrolledWindow.MarginBottom;
-                double cellsize = width * height / MdiContainer.Children.Length;
+                double cellsize = width * height / MdiContainer.GetChildrenArray().Length;
                 var cellheight = (int)(Math.Sqrt(cellsize) / width * height);
                 var cellwidth = (int)(cellsize / cellheight);
                 cellwidth = (int)(width / Math.Ceiling(width * 1f / cellwidth));
                 Gtk.Widget? last = null;
-                foreach (var fm in MdiContainer.Children)
+                foreach (var fm in MdiContainer.GetChildrenArray())
                 {
                     last = fm;
                     fm.MarginStart = x;
@@ -739,12 +739,12 @@ public partial class Form : ContainerControl, IWin32Window
                 int x = 0, y = 0;
                 var width = scrolledWindow.Parent.AllocatedWidth - scrolledWindow.MarginStart - scrolledWindow.MarginEnd;
                 var height = scrolledWindow.Parent.AllocatedHeight - scrolledWindow.MarginTop - scrolledWindow.MarginBottom;
-                double cellsize = width * height / MdiContainer.Children.Length;
+                double cellsize = width * height / MdiContainer.GetChildrenArray().Length;
                 var cellheight = (int)(Math.Sqrt(cellsize) / width * height);
                 var cellwidth = (int)(cellsize / cellheight);
                 cellwidth = (int)(width / Math.Ceiling(width * 1f / cellwidth));
                 Gtk.Widget? last = null;
-                foreach (var fm in MdiContainer.Children)
+                foreach (var fm in MdiContainer.GetChildrenArray())
                 {
                     last = fm;
                     fm.MarginStart = x;
@@ -769,7 +769,7 @@ public partial class Form : ContainerControl, IWin32Window
                 if (this.IsMdiContainer && MdiContainer != null)
                 {
                     int x = 0, y = 0;
-                    foreach (var fm in MdiContainer.Children)
+                    foreach (var fm in MdiContainer.GetChildrenArray())
                     {
                         fm.MarginStart = x;
                         fm.MarginTop = y;
@@ -1065,7 +1065,7 @@ public partial class Form : ContainerControl, IWin32Window
         if (lay != null)
         {
             lay.SetSizeRequest(-1, -1);
-            foreach (var widget in lay.Children)
+            foreach (var widget in lay.GetChildrenArray())
             {
                 if (widget.AllocatedWidth > 1 && widget.AllocatedWidth + widget.MarginStart > lay.WidthRequest)
                     lay.WidthRequest = widget.AllocatedWidth + widget.MarginStart;

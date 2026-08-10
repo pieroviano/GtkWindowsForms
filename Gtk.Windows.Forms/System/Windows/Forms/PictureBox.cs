@@ -193,9 +193,9 @@ public partial class PictureBox : Control
     /// </param>
     public new void Load(string? url)
     {
-        if (self.contaner.Children.Length > 1)
+        if (self.contaner.GetChildrenArray().Length > 1)
         {
-            self.contaner.Children[1].Destroy();
+            self.contaner.GetChildrenArray()[1].Destroy();
         }
         if (string.IsNullOrWhiteSpace(url))
         {

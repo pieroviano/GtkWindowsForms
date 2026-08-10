@@ -21,7 +21,7 @@ public sealed class ListViewBase : Gtk.Viewport, IControlGtk
         this.Override = new GtkControlOverride(this);
         this.StyleContext.AddClass("view");
         this.StyleContext.AddClass("ListView");
-        this.Add(box);
+        this.AddChild(box);
     }
 
     /// <summary>

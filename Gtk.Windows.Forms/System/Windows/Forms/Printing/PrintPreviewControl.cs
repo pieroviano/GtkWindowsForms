@@ -93,7 +93,7 @@ public partial class PrintPreviewControl : Control
         {
             Child = paper
         };
-        self.Add(scroll);
+        self.AddChild(scroll);
         self.Realized += Self_Realized;
         ResetBackColor();
         ResetForeColor();

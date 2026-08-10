@@ -256,19 +256,19 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
         item.Parent = owner;
         if (isToolStrip == true)
         {
-            toolStrip?.self.Add(item.Widget.ToolItem);
+            toolStrip?.self.AddChild(item.Widget.ToolItem);
         }
         else if (isStatusStrip == true)
         {
-            statusStrip?.self.Add(item.Widget.ToolItem);
+            statusStrip?.self.AddChild(item.Widget.ToolItem);
         }
         else if (isMenuStrip == true)
         {
-            toolStrip?.self.Add(item.Widget.MenuItem);
+            toolStrip?.self.AddChild(item.Widget.MenuItem);
         }
         else if (isToolStripDropDown == true)
         {
-            menu?.Add(item.Widget.MenuItem);
+            menu?.AddChild(item.Widget.MenuItem);
         }
         else
         {
@@ -277,7 +277,7 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
                 this.menu = new Gtk.Popover();
                 owner.MenuItem.Submenu = this.menu;
             }
-            menu?.Add(item.Widget.MenuItem);
+            menu?.AddChild(item.Widget.MenuItem);
         }
 
         base.Add(item);

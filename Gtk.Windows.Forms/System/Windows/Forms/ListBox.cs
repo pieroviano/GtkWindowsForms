@@ -580,7 +580,7 @@ public partial class ListBox : ListControl
         }
         set
         {
-            foreach (var row in self.ListBox.Children)
+            foreach (var row in self.ListBox.GetChildrenArray())
             {
                 if (row is Gtk.ListBoxRow box)
                 {
@@ -604,10 +604,10 @@ public partial class ListBox : ListControl
         {
             _topIndex = value;
             var y_offset = 0;
-            int maxi = self.ListBox.Children.Length;
+            int maxi = self.ListBox.GetChildrenArray().Length;
             for (int i = 0; i < _topIndex && i < maxi; i++)
             {
-                self.ListBox.Children[i].GetPreferredHeight(out int mini_height, out int natural_height);
+                self.ListBox.GetChildrenArray()[i].GetPreferredHeight(out int mini_height, out int natural_height);
                 y_offset += natural_height;
             }
             self.ScrollView(-1, y_offset);
@@ -834,9 +834,9 @@ public partial class ListBox : ListControl
     /// </returns>
     public int GetItemHeight(int index)
     {
-        if (self.ListBox.Children.Length > index)
+        if (self.ListBox.GetChildrenArray().Length > index)
         {
-            self.ListBox.Children[index].GetPreferredHeight(out int min_height, out int nat_height);
+            self.ListBox.GetChildrenArray()[index].GetPreferredHeight(out int min_height, out int nat_height);
             return nat_height;
         }
         else
@@ -854,7 +854,7 @@ public partial class ListBox : ListControl
     /// </returns>
     public Drawing.Rectangle GetItemRectangle(int index)
     {
-        self.ListBox.Children[index].GetAllocatedSize(out Gdk.Rectangle allocation, out int size);
+        self.ListBox.GetChildrenArray()[index].GetAllocatedSize(out Gdk.Rectangle allocation, out int size);
         return new Drawing.Rectangle(allocation.X, allocation.Y, allocation.Width, allocation.Height);
     }
 
@@ -993,8 +993,8 @@ public partial class ListBox : ListControl
         var row = new Gtk.ListBoxRow();
         row.HeightRequest = ItemHeight > 0 ? ItemHeight : DefaultItemHeight;
         row.Visible = true;
-        row.Add(new Gtk.Label(item.ToString()) { Valign = Align.Center, Halign = Align.Start, Hexpand = true, Vexpand = true, Visible = !IsUpdateing });
-        self.ListBox.Add(row);
+        row.AddChild(new Gtk.Label(item.ToString()) { Valign = Align.Center, Halign = Align.Start, Hexpand = true, Vexpand = true, Visible = !IsUpdateing });
+        self.ListBox.AddChild(row);
     }
 
     /// <summary>
@@ -1002,7 +1002,7 @@ public partial class ListBox : ListControl
     /// </summary>
     protected void NativeClear()
     {
-        var count = self.ListBox.Children.Length;
+        var count = self.ListBox.GetChildrenArray().Length;
         while (count > 0)
         {
             self.ListBox.Remove(self.ListBox.GetRowAtIndex(count - 1));
@@ -1041,7 +1041,7 @@ public partial class ListBox : ListControl
         var row = new Gtk.ListBoxRow();
         row.HeightRequest = ItemHeight > 0 ? ItemHeight : DefaultItemHeight;
         row.Visible = true;
-        row.Add(new Gtk.Label(item.ToString()) { Valign = Align.Center, Halign = Align.Start, Hexpand = true, Vexpand = true, Visible = !IsUpdateing });
+        row.AddChild(new Gtk.Label(item.ToString()) { Valign = Align.Center, Halign = Align.Start, Hexpand = true, Vexpand = true, Visible = !IsUpdateing });
         self.ListBox.Insert(row, index);
     }
 

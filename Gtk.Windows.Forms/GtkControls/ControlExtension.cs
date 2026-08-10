@@ -44,7 +44,7 @@ internal static class ControlExtension
         // host, and (firing during idle layout) it crashes whichever test happens to be running. Return
         // the default 0 without querying GTK, matching the prior behaviour (ChildGetProperty yielded 0 for
         // a non-child) minus the warning, so GetGridCell still produces a non-null zero cell.
-        if (Array.IndexOf(grid.Children, widget) < 0)
+        if (Array.IndexOf(grid.GetChildrenArray(), widget) < 0)
         {
             success = true;
             return 0;

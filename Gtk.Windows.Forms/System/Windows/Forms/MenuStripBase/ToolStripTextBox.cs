@@ -30,7 +30,7 @@ public class ToolStripTextBox : ToolStripItem
     {
         entry.MaxWidthChars = 1;
         entry.WidthChars = 0;
-        self.Add(entry);
+        self.AddChild(entry);
     }
 
     /// <summary>
