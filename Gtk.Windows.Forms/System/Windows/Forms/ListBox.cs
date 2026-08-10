@@ -127,7 +127,7 @@ public partial class ListBox : ListControl
         ScrollAlwaysVisible = false;
 
         this.BorderStyle = BorderStyle.Fixed3D;
-        self.ListBox.FocusVadjustment = self.Vadjustment;
+        // Gtk4-removed: self.ListBox.FocusVadjustment = self.Vadjustment;
     }
 
     /// <summary>

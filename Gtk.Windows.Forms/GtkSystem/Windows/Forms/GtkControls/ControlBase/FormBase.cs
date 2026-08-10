@@ -399,7 +399,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
             return;
         if (maximize.Name == "restore")
         {
-            if (this.IsToplevel)
+            if ((this.Parent == null))
             {
                 this.Unmaximize();
             }
@@ -413,7 +413,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         }
         else
         {
-            if (this.IsToplevel)
+            if ((this.Parent == null))
             {
                 this.Maximize();
             }
@@ -431,9 +431,9 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
 
     private void minimize_Clicked(object? sender, EventArgs e)
     {
-        if (this.IsToplevel)
+        if ((this.Parent == null))
         {
-            this.Iconify();
+            this.Minimize();
         }
         else
         {

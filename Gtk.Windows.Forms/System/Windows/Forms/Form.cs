@@ -551,7 +551,8 @@ public partial class Form : ContainerControl, IWin32Window
     /// </summary>
     public bool TopLevel
     {
-        get { return self.IsToplevel; }
+        // Gtk4 removed Widget.IsToplevel; a Form's backing window is always a top-level window.
+        get { return self.Parent == null; }
         set { }
     }
 
@@ -613,7 +614,7 @@ public partial class Form : ContainerControl, IWin32Window
             }
             else if (value == FormWindowState.Minimized)
             {
-                self.Iconify();
+                self.Minimize();
             }
             else if (self.IsMapped)
             {

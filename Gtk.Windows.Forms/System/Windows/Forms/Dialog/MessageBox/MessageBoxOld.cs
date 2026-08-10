@@ -332,13 +332,13 @@ public class MessageBoxOld
             dia.SetSizeRequest(maxwidth, 100);
             dia.SetDefaultSize(maxwidth, 100);
             content.Wrap = true;
-            content.LineWrap = true;
+            content.Wrap = true;
             content.LineWrapMode = Pango.WrapMode.Word;
         }
         msgbox.Append(content);
         dia.ContentArea.Append(msgbox);
 
-        dia.Icon = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("help-faq.png"));
+        // Gtk4-removed: dia.Icon = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("help-faq.png"));
         if (buttons == MessageBoxButtons.OK)
         {
             dia.AddButton(System.Properties.Resources.Gtk_FileDialog_RunDialog_OK, Gtk.ResponseType.Ok);
@@ -394,7 +394,7 @@ public class MessageBoxOld
         var dia = new Gtk.MessageDialog(owner, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Info, buttonsType, text);
         dia.StyleContext.AddClass("DefaultThemeStyle");
         dia.StyleContext.AddClass("MessageBox");
-        dia.KeepBelow = false;
+        // Gtk4-removed: dia.KeepBelow = false;
         dia.Title = caption;
         dia.Response += Dia_Response;
 

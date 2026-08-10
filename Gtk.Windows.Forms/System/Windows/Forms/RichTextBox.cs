@@ -263,7 +263,7 @@ public partial class RichTextBox : TextBoxBase
     {
         self.TextView.Name = this.Name;
         base.SetStyle(self.TextView);
-        self.TextView.FocusVadjustment = self.Vadjustment;
+        // Gtk4-removed: self.TextView.FocusVadjustment = self.Vadjustment;
         self.TextView.FocusHadjustment = self.Hadjustment;
     }
 

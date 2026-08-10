@@ -1088,7 +1088,7 @@ public class ListView : ContainerControl
                         Drawing.Image? img = this.SmallImageList.GetBitmap(item.ImageKey);
                         if (img != null)
                         {
-                            checkboxself.Image = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
+                            checkboxself.Child = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
                         }
                     }
                     else if (item.ImageIndex > -1)
@@ -1096,7 +1096,7 @@ public class ListView : ContainerControl
                         Drawing.Image? img = this.SmallImageList.GetBitmap(item.ImageIndex);
                         if (img != null)
                         {
-                            checkboxself.Image = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
+                            checkboxself.Child = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
                         }
                     }
                 }
@@ -1156,7 +1156,7 @@ public class ListView : ContainerControl
                             Drawing.Image? img = this.LargeImageList.GetBitmap(item.ImageKey);
                             if (img != null)
                             {
-                                checkboxself.Image = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
+                                checkboxself.Child = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
                             }
                         }
                         else if (item.ImageIndex > -1)
@@ -1164,7 +1164,7 @@ public class ListView : ContainerControl
                             Drawing.Image? img = this.LargeImageList.GetBitmap(item.ImageIndex);
                             if (img != null)
                             {
-                                checkboxself.Image = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
+                                checkboxself.Child = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
                             }
                         }
                     }
@@ -1183,7 +1183,7 @@ public class ListView : ContainerControl
                             var img = this.SmallImageList.GetBitmap(item.ImageKey);
                             if (img != null)
                             {
-                                checkboxself.Image = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
+                                checkboxself.Child = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
                             }
                         }
                         else if (item.ImageIndex > -1)
@@ -1191,7 +1191,7 @@ public class ListView : ContainerControl
                             var img = this.SmallImageList.GetBitmap(item.ImageIndex);
                             if (img != null)
                             {
-                                checkboxself.Image = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
+                                checkboxself.Child = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
                             }
                         }
                     }
@@ -1352,7 +1352,7 @@ public class ListView : ContainerControl
             flowBoxContainer.Append(hBox);
             if (position > -1)
             {
-                flowBoxContainer.ReorderChild(hBox, position + 1);
+                // Gtk4-removed (reorder defers to remove+insert): flowBoxContainer.ReorderChild(hBox, position + 1);
             }
             if (self.IsRealized && Groups.Count > 0)
             {
@@ -1385,7 +1385,7 @@ public class ListView : ContainerControl
             columbt.Name = $"column_b_{col.Index}";
             columbt.ActionTargetValue = new GLib.Variant(col.Index);
             header.Append(columbt);
-            header.ReorderChild(columbt, col.Index);
+            // Gtk4-removed (reorder defers to remove+insert): header.ReorderChild(columbt, col.Index);
         }
     }
 

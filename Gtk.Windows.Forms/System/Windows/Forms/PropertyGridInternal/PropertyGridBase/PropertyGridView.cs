@@ -59,7 +59,7 @@ internal sealed partial class PropertyGridView
                 Visible = true
             };
             otherBox.Append(img);
-            otherBox.ReorderChild(img, 0);
+            otherBox.ReorderChildAfter(img, null);
         }
 
         var expander = new CellRendererExpander(this)
@@ -89,7 +89,7 @@ internal sealed partial class PropertyGridView
                 Visible = true
             };
             box.Append(img);
-            box.ReorderChild(img, 0);
+            box.ReorderChildAfter(img, null);
             box.SetChildPacking(box.GetChildrenArray()[2], false, true, 0, PackType.End);
         }
         CellRendererText names = new CellRendererProperty(this)

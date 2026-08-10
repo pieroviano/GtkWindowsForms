@@ -317,14 +317,9 @@ namespace System.Windows.Forms
             var balloonTipText = new Gtk.Label(tipText) { Xpad = 20, Ypad = 20, Halign = Align.Start };
             balloonTip.AddChild(balloonTipText);
 
-            if (tipIcon == ToolTipIcon.Info)
-                balloonTip.Icon = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-information.png"));
-            else if (tipIcon == ToolTipIcon.Warning)
-                balloonTip.Icon = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-warning.png"));
-            else if (tipIcon == ToolTipIcon.Error)
-                balloonTip.Icon = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-error.png"));
-            else
-                balloonTip.Icon = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-information.png"));
+            // Gtk4: a balloon-tip window icon from a Pixbuf is unsupported (Gtk.Window.Icon removed; only a
+            // themed icon-name can be set). The ToolTipIcon -> Info/Warning/Error/default icon mapping is
+            // dropped. TODO(gtk4): map ToolTipIcon to a themed icon-name via Window.IconName.
 
         // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
         // input is re-wired via event controllers / native signals and verified at runtime (migration #11).

@@ -267,7 +267,7 @@ internal class NonStaticMessageBox : IMessageBox
     {
         var dia = new Dialog(caption, owner, DialogFlags.DestroyWithParent);
         OnDialogAvailable(new DialogEventArgs(dia));
-        dia.KeepBelow = false;
+        // Gtk4-removed: dia.KeepBelow = false;
         dia.TypeHint = Gdk.WindowTypeHint.Dialog;
         dia.StyleContext.AddClass("DefaultThemeStyle");
         dia.StyleContext.AddClass("MessageBox");
@@ -309,13 +309,13 @@ internal class NonStaticMessageBox : IMessageBox
             dia.SetSizeRequest(maxwidth, 100);
             dia.SetDefaultSize(maxwidth, 100);
             content.Wrap = true;
-            content.LineWrap = true;
+            content.Wrap = true;
             content.LineWrapMode = Pango.WrapMode.Word;
         }
         msgbox.Append(content);
         dia.ContentArea?.Append(msgbox);
 
-        dia.Icon = new Gdk.Pixbuf(typeof(MessageBox).Assembly, "Resources.System.help-faq.png");
+        // Gtk4-removed: dia.Icon = new Gdk.Pixbuf(typeof(MessageBox).Assembly, "Resources.System.help-faq.png");
         if (buttons == MessageBoxButtons.OK)
         {
             dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_OK, ResponseType.Ok);
@@ -375,7 +375,7 @@ internal class NonStaticMessageBox : IMessageBox
         var dia = new MessageDialog(owner, DialogFlags.DestroyWithParent, MessageType.Info, buttonsType, text);
         dia.StyleContext.AddClass("DefaultThemeStyle");
         dia.StyleContext.AddClass("MessageBox");
-        dia.KeepBelow = false;
+        // Gtk4-removed: dia.KeepBelow = false;
         dia.Title = caption;
         dia.Response += Dia_Response;
 

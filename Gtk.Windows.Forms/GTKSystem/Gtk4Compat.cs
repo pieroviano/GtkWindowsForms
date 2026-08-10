@@ -139,6 +139,54 @@ using Gtk;
         }
 
         /// <summary>
+        /// Returns the top-level ancestor of a widget. Replaces Gtk 3's <c>Widget.Toplevel</c>
+        /// (removed in Gtk 4) by walking the <see cref="Widget.Parent"/> chain to the root.
+        /// </summary>
+        /// <param name="widget">The widget to walk up from.</param>
+        /// <returns>The root ancestor (often a <see cref="Gtk.Window"/>), or the widget itself.</returns>
+        public static Widget GetToplevel(this Widget widget)
+        {
+            var current = widget;
+            while (current != null && current.Parent != null)
+            {
+                current = current.Parent;
+            }
+
+            return current!;
+        }
+
+        /// <summary>
+        /// Measures a widget's preferred height. Replaces Gtk 3's
+        /// <c>GetPreferredHeight(out min, out natural)</c> with Gtk 4's
+        /// <see cref="Widget.Measure"/> on the vertical orientation.
+        /// </summary>
+        /// <param name="widget">The widget to measure.</param>
+        /// <param name="minimum">Receives the minimum height.</param>
+        /// <param name="natural">Receives the natural height.</param>
+        public static void GetPreferredHeight(this Widget widget, out int minimum, out int natural)
+        {
+            widget.Measure(Orientation.Vertical, -1, out minimum, out natural, out _, out _);
+        }
+
+        /// <summary>
+        /// Best-effort replacement for Gtk 3's <c>Gdk.Display.GetPointer(out x, out y, out mask)</c>,
+        /// removed in Gtk 4 (Wayland exposes no global pointer position). Returns the origin and no
+        /// modifiers; callers use this for <c>Cursor.Position</c>/<c>MousePosition</c> style queries,
+        /// whose signatures are unchanged.
+        /// </summary>
+        /// <param name="display">The display (ignored; kept for call-site shape).</param>
+        /// <param name="x">Receives 0.</param>
+        /// <param name="y">Receives 0.</param>
+        /// <param name="mask">Receives no modifiers.</param>
+        public static void GetPointer(this Gdk.Display display, out int x, out int y, out Gdk.ModifierType mask)
+        {
+            // TODO(gtk4): approximate via the default seat's pointer device where a surface is available.
+            x = 0;
+            y = 0;
+            mask = 0;
+        }
+
+        /// <summary>
         /// Sets all four Gtk 4 per-edge margins at once. Gtk 3's single <c>Widget.Margin</c> shorthand
         /// (all edges) was removed in favour of <c>MarginStart/End/Top/Bottom</c>.
         /// </summary>

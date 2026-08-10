@@ -45,8 +45,8 @@ public sealed class PropertyGridBase : Gtk.Paned, IControlGtk
         child2.Append(titleLabel);
         child2.Append(descriptionLabel);
 
-        this.Pack1(child1, true, true);
-        this.Pack2(child2, false, true);
+        this.StartChild = child1;
+        this.EndChild = child2;
     }
 
     /// <summary>

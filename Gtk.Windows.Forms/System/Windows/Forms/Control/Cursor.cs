@@ -39,8 +39,9 @@ public sealed class Cursor : IDisposable, ISerializable
     {
         _freeHandle = false;
         _handle = handle;
-        var cur =new Gdk.Cursor(handle);
-        _cursorData = cur.Image.ReadPixelBytes().Data;
+        // Gtk4: Gdk.Cursor is texture-backed (no .Image Pixbuf); pixel extraction from a native
+        // cursor handle is not available. TODO(gtk4): read via Gdk.Texture when a source is known.
+        _cursorData = null;
     }
 
     /// <summary>

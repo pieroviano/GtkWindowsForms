@@ -2103,7 +2103,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         var widget = Widget;
         // Realizing a widget that is not yet attached to a toplevel makes GTK complain and buys nothing;
         // the handle appears when the widget joins a window.
-        if (widget != null && !widget.IsRealized && widget.Toplevel is Gtk.Window { IsRealized: true })
+        if (widget != null && !widget.IsRealized && widget.GetToplevel() is Gtk.Window { IsRealized: true })
         {
             try
             {
@@ -2297,9 +2297,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual Form? FindForm()
     {
-        if (this.Widget?.Toplevel.Data.ContainsKey("Control") ?? false)
+        if (this.Widget?.GetToplevel().Data.ContainsKey("Control") ?? false)
         {
-            return this.Widget.Toplevel.Data["Control"] as Form;
+            return this.Widget.GetToplevel().Data["Control"] as Form;
         }
         else
         {
@@ -3943,7 +3943,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             if (this._image != null && this._image.PixbufData != null)
             {
-                var imgdir = Path.Combine("Resources", widget.WidgetPath.IterGetName(0)).Replace("\\", "/");
+                var imgdir = Path.Combine("Resources", widget.Name).Replace("\\", "/");
                 var imguri = $"{imgdir}/{widget.Name}_image.png";
                 if (!File.Exists(imguri))
                 {
@@ -4012,7 +4012,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             else if (this._backgroundImage != null && this._backgroundImage.PixbufData != null)
             {
                 var bgpixbuf = new Gdk.Pixbuf(this._backgroundImage.PixbufData);
-                var bgimgdir = Path.Combine("Resources", widget.WidgetPath.IterGetName(0)).Replace("\\", "/");
+                var bgimgdir = Path.Combine("Resources", widget.Name).Replace("\\", "/");
                 var bgimguri = $"{bgimgdir}/{widget.Name}_bgimage.png";
                 if (!File.Exists(bgimguri))
                 {

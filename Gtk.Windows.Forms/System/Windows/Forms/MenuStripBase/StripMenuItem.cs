@@ -55,7 +55,7 @@ namespace System.Windows.Forms
                 }
                 else
                 {
-                    checkButton.Image = new Gtk.Image(value);
+                    checkButton.Child = new Gtk.Image(value);
                 }
             }
         }

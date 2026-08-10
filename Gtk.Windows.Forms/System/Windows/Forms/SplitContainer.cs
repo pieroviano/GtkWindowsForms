@@ -46,8 +46,8 @@ public partial class SplitContainer : ContainerControl
         _panel1.self.contaner.Name = "Child1";
         _panel2 = new SplitterPanel(this);
         _panel2.self.contaner.Name = "Child2";
-        self.Pack1(_panel1.Widget, false, true);
-        self.Pack2(_panel2.Widget, true, true);
+        self.StartChild = _panel1.Widget;
+        self.EndChild = _panel2.Widget;
     }
 
     /// <summary>
