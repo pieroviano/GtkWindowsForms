@@ -44,6 +44,8 @@ namespace System.Windows.Forms
 
         Gtk.Widget ToolItem { get; }
 
+        // Gtk 4 removed Widget.ShowAll (widgets are visible by default). Each implementor — now a plain
+        // Gtk 4 widget — maps it to Show(). (Default interface methods are unavailable on netstandard2.0.)
         void ShowAll();
 
     }

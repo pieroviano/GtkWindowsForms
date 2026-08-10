@@ -129,7 +129,7 @@ public class ToolStripMenuItem : ToolStripItem
         }
     }
 
-    public override Gtk.MenuItem MenuItem
+    public override Gtk.Widget MenuItem
     {
         get => self;
         set { }

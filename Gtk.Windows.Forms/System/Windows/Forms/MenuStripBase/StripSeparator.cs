@@ -3,12 +3,12 @@
 namespace System.Windows.Forms
 {
 
-    public class StripSeparator : IToolMenuItem
+    public class StripSeparator : Gtk.Separator, IToolMenuItem
     {
 
-        public Gtk.SeparatorMenuItem? menuItem = null;
+        public Gtk.Separator? menuItem = null;
 
-        public Gtk.SeparatorToolItem? toolItem = null;
+        public Gtk.Separator? toolItem = null;
 
         public StripSeparator() : base() { }
 
@@ -41,7 +41,7 @@ namespace System.Windows.Forms
             get
             {
                 if (menuItem == null)
-                    menuItem = new Gtk.SeparatorMenuItem() { Visible = true, BorderWidth = 1 };
+                    menuItem = new Gtk.Separator(Gtk.Orientation.Horizontal) { Visible = true };
 
                 return menuItem;
             }
@@ -64,7 +64,7 @@ namespace System.Windows.Forms
             get
             {
                 if (toolItem == null)
-                    toolItem = new Gtk.SeparatorToolItem() { Visible = true, BorderWidth = 1 };
+                    toolItem = new Gtk.Separator(Gtk.Orientation.Horizontal) { Visible = true };
 
                 return toolItem;
             }
@@ -72,8 +72,8 @@ namespace System.Windows.Forms
 
         public void ShowAll()
         {
-            toolItem?.ShowAll();
-            menuItem?.ShowAll();
+            toolItem?.Show();
+            menuItem?.Show();
         }
     }
 }

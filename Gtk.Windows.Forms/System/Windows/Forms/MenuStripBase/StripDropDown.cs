@@ -3,8 +3,11 @@
 namespace System.Windows.Forms
 {
 
-    public class StripDropDown : Gtk.Menu, IToolMenuItem
+    public class StripDropDown : Gtk.Popover, IToolMenuItem
     {
+
+        /// <summary>Gtk 4: widgets are visible by default; ShowAll maps to Show().</summary>
+        public void ShowAll() => Show();
 
         public StripDropDown() { }
 

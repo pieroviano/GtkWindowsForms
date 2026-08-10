@@ -3,8 +3,11 @@
 namespace System.Windows.Forms
 {
 
-    public class StripMenuItem : Gtk.MenuItem, IToolMenuItem
+    public class StripMenuItem : Gtk.Box, IToolMenuItem
     {
+
+        /// <summary>Gtk 4: widgets are visible by default; ShowAll maps to Show().</summary>
+        public void ShowAll() => Show();
 
         public Gtk.CheckButton checkButton = new Gtk.CheckButton() { Visible = true, Relief = ReliefStyle.None };
 

@@ -21,7 +21,7 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
 
     // Qualified: the legacy WinForms Menu type now exists in this namespace, so an unqualified
     // 'Menu' here would bind to it rather than to Gtk's.
-    private Gtk.Menu? menu;
+    private Gtk.Popover? menu;
 
     private readonly ToolStripItem? owner;
 
@@ -80,10 +80,10 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// </param>
     public ToolStripItemCollection(ToolStripDropDown owner)
     {
-        // The drop-down's GtkControl is its native Gtk.Menu (StripDropDown). It used to be reached via the
+        // The drop-down's GtkControl is its native Gtk.Popover (StripDropDown). It used to be reached via the
         // ToolStripItem-style Widget.MenuItem; now that ToolStripDropDown derives from ToolStrip/Control the
         // menu is the GtkControl directly.
-        this.menu = owner.GtkControl as Gtk.Menu;
+        this.menu = owner.GtkControl as Gtk.Popover;
         isToolStripDropDown = true;
     }
 
@@ -100,14 +100,14 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
         // owner.Widget is null while the owning ToolStripItem is still in its constructor (the item builds
         // this collection before GetWidget() runs). Use null-conditional access so that case is a no-op
         // instead of a NullReferenceException - which, thrown from a GTK signal callback, crashes the host.
-        if (owner.Widget?.MenuItem is Gtk.Menu gmenu)
+        if (owner.Widget?.MenuItem is Gtk.Popover gmenu)
         {
             this.menu = gmenu;
             isToolStripDropDown = true;
         }
         else if (owner.Widget?.ToolItem is Gtk.MenuToolButton tmenu)
         {
-            this.menu = new Gtk.Menu();
+            this.menu = new Gtk.Popover();
             tmenu.Menu = this.menu;
             isToolStripDropDown = true;
         }
@@ -274,7 +274,7 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
         {
             if (owner?.MenuItem != null && owner.MenuItem.Submenu == null)
             {
-                this.menu = new Gtk.Menu();
+                this.menu = new Gtk.Popover();
                 owner.MenuItem.Submenu = this.menu;
             }
             menu?.Add(item.Widget.MenuItem);

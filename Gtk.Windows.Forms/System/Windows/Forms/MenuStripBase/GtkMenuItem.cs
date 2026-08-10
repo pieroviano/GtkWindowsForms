@@ -7,7 +7,7 @@ namespace System.Windows.Forms;
 /// <summary>
 /// GtkMenuItem
 /// </summary>
-public class GtkMenuItem : Gtk.MenuItem
+public class GtkMenuItem : Gtk.Box
 {
 
     private static readonly d_gtk_image_menu_item_get_always_show_image? gtk_image_menu_item_get_always_show_image = FuncLoader.LoadFunction<d_gtk_image_menu_item_get_always_show_image>(FuncLoader.GetProcAddress(GLibrary.Load(Library.Gtk), "gtk_image_menu_item_get_always_show_image"));

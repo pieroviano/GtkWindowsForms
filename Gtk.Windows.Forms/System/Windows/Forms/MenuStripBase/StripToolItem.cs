@@ -3,8 +3,11 @@
 namespace System.Windows.Forms
 {
 
-    public class StripToolItem : Gtk.ToolItem, IToolMenuItem
+    public class StripToolItem : Gtk.Box, IToolMenuItem
     {
+
+        /// <summary>Gtk 4: widgets are visible by default; ShowAll maps to Show().</summary>
+        public void ShowAll() => Show();
 
         public StripToolItem() : base() { this.Homogeneous = false; }
 

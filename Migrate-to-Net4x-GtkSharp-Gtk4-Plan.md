@@ -36,8 +36,8 @@ Branch: `gtk4`. Milestones are committed individually; error counts are `dotnet 
 | 3 | `Gtk.Drawing` (Cairo/Gdk/Pango) | ✅ done — **0 errors** | `384c96b5` | `CairoSurfacePixbuf.ToPixbuf`; `FontFamily` via `CairoHelper`; `SystemIcons` IconTheme/LookupIcon |
 | 4 | `Gtk.Windows.Forms` — Control.cs input core | ✅ done — Control.cs **0 errors** | `ec1320a3` | 241-line dispatch → 5 EventControllers; styling/Container/Atk fixes. **Forms 236→222** |
 | 5 | `FormBase` (window/dialog lifecycle) | ✅ done — FormBase **0 errors** | _this commit_ | `EventArgs` alias; `DeleteEvent`→`CloseRequest`; `Drawn`→`DrawFunc`; `WindowStateEvent` removed. **Forms 222→200**. Found: Net4x.GtkSharp **kept** `PackStart`/`Add`/`StyleContext`/`Events`/`BorderWidth` compat → remaining work is removed *types*, not container churn |
-| 6 | Menus/toolbars → GMenu/PopoverMenu | ⏳ next | — | `Menu`/`MenuBar`/`MenuItem`/`Toolbar`/`StatusIcon`; `IToolMenuItem`; ContextMenuStrip popup (TODO left in Control.cs) |
-| 7 | Containers/layout (`Gtk.Layout`→§5.1) | ☐ todo | — | `LayoutBase`, `RadioButton`, scrollbars, `IScrollableBoxBase.Add`; restores `SizeAllocated`/`ParentSet` re-layout deferred in #4 |
+| 6 | Menus/toolbars → **custom widgets** (§5.3) | ✅ compiles — menu tree **0 errors** | _this commit_ | Bases → `Popover`/`Box`/`Button`/`MenuButton`; items are Gtk4 widgets w/ `GestureClick`; `ShowAll`→`Show` (netstandard2.0, no default-interface); `ActivateCurrent` retyped. **Forms 200→138.** ⚠ compiles only — dropdown **popup/activation** behavior still to wire + verify at runtime |
+| 7 | Containers/layout (`Gtk.Layout`→§5.1) | ⏳ next | — | `LayoutBase`, `RadioButton`, scrollbars, `IScrollableBoxBase.Add`; restores `SizeAllocated`/`ParentSet` re-layout deferred in #4 |
 | 8 | Accessibility (`Atk`→`Gtk.Accessible`) | ☐ todo | — | `AtkPeer` stubbed null in #4; `AccessibleObject.cs` |
 | 9 | Drawing/override (`OnDrawn`→snapshot) | ☐ todo | — | `GtkControlOverride`, remaining `Drawn` overrides |
 | 10 | Sample apps + tests | ☐ todo | — | swap already applied to samples; fix any direct GtkSharp use; update Gtk3-specific test assertions |
@@ -48,6 +48,7 @@ Branch: `gtk4`. Milestones are committed individually; error counts are `dotnet 
 - `ContextMenuStrip` right-click popup — TODO in `Control.cs` → wire in #6.
 - Accessibility — `AtkPeer` returns null → migrate in #8.
 - Window maximize/restore icon on *external* state change (`WindowStateEvent`) — removed in #5 → restore via `notify::maximized` (or fold into #7).
+- **Menu popup + activation behavior** (#6) — the custom-widget menu tree *compiles* but the dropdown popup (`Popover.Popup`/`PopupAt`), menu-bar layout (Box of `MenuButton`s), item activation, and `ContextMenuStrip` right-click are **not yet wired**; do this + verify on Gtk4 in #11 (runtime). Menu-item hover-highlight (removed `Gtk.MenuItem.Selected`) → CSS.
 
 ---
 
@@ -220,6 +221,29 @@ notes in `Architecture.md`). `Gtk.Layout` is removed in Gtk 4.
 managed Dock/Anchor arithmetic that already pushes positions to margins/allocations; escalate specific
 containers to **B** only where `Fixed` demonstrably can't reproduce the arrangement. Decide per the §2
 diff + the existing `TableLayoutPanel`/`FlowLayoutPanel` behaviour notes.
+
+### 5.3 Menu/toolbar model — DECIDED: custom Gtk 4 widgets (not GMenu)
+
+Gtk 4 removed `Gtk.Menu`/`MenuBar`/`MenuItem`/`Toolbar`/`ToolItem`/`ToolButton`/`MenuToolButton`
+(no compat), and the idiomatic replacement is a `GMenu` **data model** rendered by `PopoverMenu`.
+But the shim's `ToolStrip`/`MenuStrip` model is **widget-based**: `IToolMenuItem` exposes each item as a
+`Gtk.Widget`, items carry `Image`/`CheckState`/custom display, and `Control` treats them as widgets.
+Rebuilding on `GMenu` would discard that fidelity. **Decision: rebuild the menu/toolbar tree as custom
+widgets on surviving Gtk 4 types**, preserving the widget/image/event model:
+
+| Shim class | Gtk 3 base (removed) | Gtk 4 base |
+|---|---|---|
+| `ToolStripDropDownBase`, `StripDropDown` | `Gtk.Menu` | `Gtk.Popover` |
+| `MenuStripBase`, `ToolStripBase` | `Gtk.MenuBar` | `Gtk.Box` (horizontal) of `MenuButton`s |
+| `StripMenuItem` | `Gtk.MenuItem` | `Gtk.Box` (a menu row) |
+| `StripToolItem` | `Gtk.ToolItem` | `Gtk.Box` |
+| `StripToolButton` | `Gtk.ToolButton` | `Gtk.Button` |
+| `StripMenuToolButton` | `Gtk.MenuToolButton` | `Gtk.MenuButton` |
+| `StripSeparator` | (none) | `Gtk.Separator` |
+
+Consequences to wire (need Gtk4-runtime verification): dropdown **popup** (`Popover.Popup`/`PopupAt`),
+item **activation**, `ContextMenuStrip` right-click (the TODO in `Control.cs`), and cascading secondary
+API (`CheckButton.DrawIndicator`/`ReliefStyle`/`AlwaysShowImage`/`ImagePosition`).
 
 ### 5.2 Synchronous `ShowDialog` over async Gtk 4 dialogs
 

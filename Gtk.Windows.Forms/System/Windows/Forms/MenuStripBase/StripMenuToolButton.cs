@@ -3,8 +3,11 @@
 namespace System.Windows.Forms
 {
 
-    public class StripMenuToolButton : Gtk.MenuToolButton, IToolMenuItem
+    public class StripMenuToolButton : Gtk.MenuButton, IToolMenuItem
     {
+
+        /// <summary>Gtk 4: widgets are visible by default; ShowAll maps to Show().</summary>
+        public void ShowAll() => Show();
 
         private Gdk.Pixbuf _image = null!;
 

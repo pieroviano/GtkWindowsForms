@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase
 {
-    public class MenuStripBase : Gtk.MenuBar, IControlGtk
+    public class MenuStripBase : Gtk.Box, IControlGtk
     {
         public MenuStripBase() : base()
         {

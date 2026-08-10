@@ -155,9 +155,12 @@ public partial class ToolStripItem : Component, IDropTarget, ISupportOleDropSour
             return;
         }
         _widget.Realized += _widget_Realized;
-        _widget.ButtonPressEvent += _widget_ButtonPressEvent;
-        _widget.ButtonReleaseEvent += _widget_ButtonReleaseEvent;
-        if (_widget is Gtk.ToolButton widget)
+        // Gtk 4: item mouse input via a GestureClick controller (raw button-press/release signals are gone).
+        var itemClick = new Gtk.GestureClick { Button = 0 };
+        itemClick.Pressed += (o, a) => _widget_Pressed((Gtk.GestureClick)o, a);
+        itemClick.Released += (o, a) => _widget_Released((Gtk.GestureClick)o, a);
+        _widget.AddController(itemClick);
+        if (_widget is StripToolButton widget)
         {
             widget.Clicked += Widget_Clicked;
         }
@@ -165,9 +168,9 @@ public partial class ToolStripItem : Component, IDropTarget, ISupportOleDropSour
         {
             widget2.Clicked += Widget_Clicked;
         }
-        else if (_widget is Gtk.MenuItem widget3)
+        else if (_widget is StripMenuItem widget3)
         {
-            widget3.Selected += Widget3_Selected;
+            // Gtk4: Gtk.MenuItem.Selected signal removed; hover is handled via CSS in the widget model.
             widget3.Deselected += Widget3_Deselected;
             widget3.Activated += Widget3_Activated;
         }
@@ -226,8 +229,8 @@ public partial class ToolStripItem : Component, IDropTarget, ISupportOleDropSour
             var widget = GetWidget();
             if (value == ToolStripItemAlignment.Right)
             {
-                if (widget is Gtk.MenuItem item)
-                    item.RightJustified = true;
+                if (widget is StripMenuItem item)
+                    item.Halign = Gtk.Align.End;
 
             }
         }
@@ -618,7 +621,7 @@ public partial class ToolStripItem : Component, IDropTarget, ISupportOleDropSour
     /// <value>
     /// The menu item.
     /// </value>
-    public virtual Gtk.MenuItem MenuItem
+    public virtual Gtk.Widget MenuItem
     {
         get;
         set;
@@ -1642,45 +1645,33 @@ public partial class ToolStripItem : Component, IDropTarget, ISupportOleDropSour
         });
     }
 
-    private void _widget_ButtonPressEvent(object o, Gtk.ButtonPressEventArgs args)
+    private static MouseButtons GestureButtonToWinForms(uint button) => button switch
     {
-        var widget = (Gtk.Widget)o;
-        MouseButtons button = MouseButtons.None;
-        if (args.Event.Button == 1)
-            button = MouseButtons.Left;
-        else if (args.Event.Button == 2)
-            button = MouseButtons.Middle;
-        else if (args.Event.Button == 3)
-            button = MouseButtons.Right;
+        1 => MouseButtons.Left,
+        2 => MouseButtons.Middle,
+        3 => MouseButtons.Right,
+        _ => MouseButtons.None,
+    };
 
-        var mouseArgs = new MouseEventArgs(button, 1, (int)args.Event.X, (int)args.Event.X, 0);
-        OnMouseDown(mouseArgs);
+    private void _widget_Pressed(Gtk.GestureClick gesture, Gtk.PressedArgs args)
+    {
+        var button = GestureButtonToWinForms(gesture.CurrentButton);
+        OnMouseDown(new MouseEventArgs(button, 1, (int)args.X, (int)args.Y, 0));
         isDoubleClick = false;
-        if (args.Event.Button == 1)
+        if (button == MouseButtons.Left && args.NPress == 2)
         {
-            if (args.Event.Type == Gdk.EventType.TwoButtonPress || args.Event.Type == Gdk.EventType.DoubleButtonPress)
-            {
-                isDoubleClick = true;
-                OnDoubleClick(new EventArgs());
-                OnButtonDoubleClick(new EventArgs());
-            }
+            isDoubleClick = true;
+            OnDoubleClick(new EventArgs());
+            OnButtonDoubleClick(new EventArgs());
         }
     }
 
-    private void _widget_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
+    private void _widget_Released(Gtk.GestureClick gesture, Gtk.ReleasedArgs args)
     {
         if (!isDoubleClick)
         {
-            var widget = (Gtk.Widget)o;
-            MouseButtons button = MouseButtons.None;
-            if (args.Event.Button == 1)
-                button = MouseButtons.Left;
-            else if (args.Event.Button == 2)
-                button = MouseButtons.Middle;
-            else if (args.Event.Button == 3)
-                button = MouseButtons.Right;
-
-            var mouseArgs3 = new MouseEventArgs(button, 1, (int)args.Event.X, (int)args.Event.X, 0);
+            var button = GestureButtonToWinForms(gesture.CurrentButton);
+            var mouseArgs3 = new MouseEventArgs(button, 1, (int)args.X, (int)args.Y, 0);
             OnMouseClick(mouseArgs3);
             OnClick(new EventArgs());
             OnDropDownItemClicked(new ToolStripItemClickedEventArgs(this));
