@@ -45,7 +45,7 @@ public sealed class LabelBase : Gtk.Label, IControlGtk
         this.Wrap = true;
         this.LineWrapMode = Pango.WrapMode.WordChar;
         this.Selectable = true;
-        this.Drawn += LabelBase_Drawn;
+        // Gtk4-removed (custom paint -> CSS/DrawFunc, deferred): this.Drawn += LabelBase_Drawn;
     }
 
     /// <summary>

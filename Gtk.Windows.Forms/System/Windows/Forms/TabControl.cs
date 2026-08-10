@@ -340,19 +340,10 @@ public partial class TabControl : ContainerControl
                     item._tabLabel.Halign = Align.End;
                 }
                 base.Add(item);
-                item.TabLabel.Drawn += (object sender, DrawnArgs args) =>
-                {
-                    if (_owner.DrawItem != null && _owner.DrawMode == TabDrawMode.OwnerDrawFixed)
-                    {
-                        var tab = (Gtk.Label)sender;
-                        var width = tab.AllocatedWidth;
-                        var height = tab.AllocatedHeight;
-                        args.Cr.Save();
-                        args.Cr.ResetClip();
-                        _owner.OnDrawItem(new DrawItemEventArgs(new Graphics(tab, args.Cr, new Gdk.Rectangle(0, 0, width, height)), _owner.Font, new Rectangle(0, 0, width, height), Convert.ToInt32(item.TabLabel.Data["Index"]), DrawItemState.Default));
-                        args.Cr.Restore();
-                    }
-                };
+                // Gtk4 removed Widget.Drawn / DrawnArgs. Owner-draw tab labels (TabDrawMode.OwnerDrawFixed
+                // -> OnDrawItem) must be re-expressed via a Gtk.DrawingArea + DrawFunc, part of the deferred
+                // custom-paint pass (migration #11). The DrawItem event still exists on the WinForms API.
+                // TODO(gtk4): route OnDrawItem through a DrawFunc-backed label.
                 return _owner.self.AppendPage(item.self, item.TabLabel);
             }
             catch

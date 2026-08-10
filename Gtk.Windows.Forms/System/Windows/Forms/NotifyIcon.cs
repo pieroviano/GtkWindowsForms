@@ -135,7 +135,7 @@ namespace System.Windows.Forms
         // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
         // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
         // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
-            statuswin = new Gtk.Window(WindowType.Toplevel);
+            statuswin = new Gtk.Window();
             statuswin.Decorated = false;
             statuswin.WidthRequest = 1;
             statuswin.HeightRequest = 1;
@@ -306,9 +306,9 @@ namespace System.Windows.Forms
 
         public void ShowBalloonTip(int timeout, string tipTitle, string tipText, ToolTipIcon tipIcon)
         {
-            var balloonTip = new Gtk.Window(WindowType.Toplevel);
+            var balloonTip = new Gtk.Window();
             balloonTip.DestroyWithParent = true;
-            balloonTip.TypeHint = Gdk.WindowTypeHint.Dialog;
+            // Gtk4-removed: balloonTip.TypeHint = Gdk.WindowTypeHint.Dialog;
             balloonTip.TransientFor = statuswin;
             balloonTip.WidthRequest = 200;
             balloonTip.HeightRequest = 50;

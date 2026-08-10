@@ -109,7 +109,9 @@ public partial class Form
         {
             try
             {
-                return self.Screen?.IsComposited == true && self.Screen.RgbaVisual != null;
+                // Gtk4 removed Gdk.Screen / RgbaVisual; every Gtk4 surface is RGBA-capable and
+                // compositing is handled by the display server, so transparency is always supported.
+                return true;
             }
             catch (Exception ex)
             {
@@ -130,15 +132,9 @@ public partial class Form
         try
         {
             var keyed = _allowTransparency && !_transparencyKey.IsEmpty;
-            if (keyed && IsTransparencySupported)
-            {
-                self.Visual = self.Screen.RgbaVisual;
-                self.AppPaintable = true;
-            }
-            else if (!keyed)
-            {
-                self.AppPaintable = false;
-            }
+            // Gtk4: Gdk.Screen.RgbaVisual / Widget.Visual / Widget.AppPaintable were removed; RGBA is the
+            // default and drawing goes through snapshot/DrawFunc, so no visual/paintable toggling is needed.
+            // The actual keyed transparency is applied by the paint override below.
 
             // The background is what the key can actually make transparent here: when it matches, the
             // override paints nothing rather than a colour.

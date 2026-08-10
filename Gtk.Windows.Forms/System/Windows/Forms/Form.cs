@@ -279,7 +279,7 @@ public partial class Form : ContainerControl, IWin32Window
     public override int Left
     {
         get => _location.X;
-        set { _location.X = value; base.Left = value; self.Move(_location.X, _location.Y); }
+        set { _location.X = value; base.Left = value; /* Gtk4: Window.Move removed (WM-managed) */ }
     }
 
     /// <summary>
@@ -513,10 +513,13 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Gets or sets a value indicating whether the form is displayed in the taskbar.
     /// </summary>
+    // Gtk4 removed Window.SkipTaskbarHint (taskbar presence is WM/shell policy). Backed by a field.
+    private bool _showInTaskbar = true;
+
     public bool ShowInTaskbar
     {
-        get { return self.SkipTaskbarHint == false; }
-        set { self.SkipTaskbarHint = value == false; }
+        get { return _showInTaskbar; }
+        set { _showInTaskbar = value; }
     }
 
     /// <summary>
@@ -543,7 +546,7 @@ public partial class Form : ContainerControl, IWin32Window
     public override int Top
     {
         get => _location.Y;
-        set { _location.Y = value; base.Top = value; self.Move(_location.X, _location.Y); }
+        set { _location.Y = value; base.Top = value; /* Gtk4: Window.Move removed (WM-managed) */ }
     }
 
     /// <summary>
@@ -618,7 +621,7 @@ public partial class Form : ContainerControl, IWin32Window
             }
             else if (self.IsMapped)
             {
-                self.Deiconify();
+                self.Present();
                 self.Present();
             }
         }
@@ -871,7 +874,7 @@ public partial class Form : ContainerControl, IWin32Window
         {
             foreach (var item in this.self.Group.ListWindows())
             {
-                item.Deiconify();
+                item.Present();
                 item.Show();
             }
         }

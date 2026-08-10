@@ -303,13 +303,13 @@ public class MessageBoxOld
         };
 
         if (icon == MessageBoxIcon.Question)
-            msgbox.PackStart(new Gtk.Image(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-question.png"))), false, false, 5);
+            msgbox.Append(new Gtk.Image(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-question.png"))));
         else if (icon == MessageBoxIcon.Warning || icon == MessageBoxIcon.Exclamation)
-            msgbox.PackStart(new Gtk.Image(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-warning.png"))), false, false, 5);
+            msgbox.Append(new Gtk.Image(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-warning.png"))));
         else if (icon == MessageBoxIcon.Information || icon == MessageBoxIcon.Asterisk)
-            msgbox.PackStart(new Gtk.Image(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-information.png"))), false, false, 5);
+            msgbox.Append(new Gtk.Image(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-information.png"))));
         else if (icon == MessageBoxIcon.Error || icon == MessageBoxIcon.Stop || icon == MessageBoxIcon.Hand)
-            msgbox.PackStart(new Gtk.Image(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-error.png"))), false, false, 5);
+            msgbox.Append(new Gtk.Image(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("dialog-error.png"))));
         var content = new Gtk.Label(text)
         {
             MarginEnd = 30, Halign = Align.Fill,

@@ -307,7 +307,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
             }
             isCloseWindow = true;
         }
-        else if (this.TypeHint == WindowTypeHint.Dialog && isResponse == true)
+        else if (isResponse == true) // Gtk4: TypeHint removed; FormBase is a Gtk.Dialog
         {
             Run();
             isCloseWindow = true;

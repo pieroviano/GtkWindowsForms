@@ -30,7 +30,7 @@ public class MaskedTextBox : TextBox
     {
         self.Override.sender = this;
         self.AddClass("MaskedTextBox");
-        self.Backspace += Control_Backspace;
+        // Gtk4-removed: self.Backspace += Control_Backspace;
         self.TextInserted += Control_TextInserted;
         self.Shown += Control_Shown;
     }
@@ -38,7 +38,7 @@ public class MaskedTextBox : TextBox
     internal MaskedTextBox(string cssClass) : base()
     {
         self.AddClass(cssClass);
-        self.Backspace += Control_Backspace;
+        // Gtk4-removed: self.Backspace += Control_Backspace;
         self.TextInserted += Control_TextInserted;
         self.Shown += Control_Shown;
     }
