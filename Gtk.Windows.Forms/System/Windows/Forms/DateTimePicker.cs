@@ -48,16 +48,17 @@ public partial class DateTimePicker : MaskedTextBox
         base.Mask = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Mask;
 
         self.SecondaryIconActivatable = true;
-        self.SecondaryIconStock = "open-menu";
-        self.SecondaryIconPixbuf = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("MonthCalendar.ico"));
+        self.SetIconFromIconName(Gtk.EntryIconPosition.Secondary, "open-menu"); // Gtk4: SecondaryIconStock removed
+        self.SetIconFromPaintable(Gtk.EntryIconPosition.Secondary, new Gdk.Texture(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("MonthCalendar.ico")))); // Gtk4: SecondaryIconPixbuf -> paintable
         self.IconRelease += DateTimePicker_IconRelease;
         self.Shown += Self_Shown;
 
-        popver = new Gtk.Popover(self)
+        // Gtk4: Popover has no relative-to ctor (SetParent), Modal->Autohide, ConstrainTo removed.
+        // Popup anchoring to the entry is deferred to the menu/popup pass (migration #11).
+        popver = new Gtk.Popover()
         {
-            Modal = true,
-            Position = PositionType.Bottom,
-            ConstrainTo = PopoverConstraint.Window
+            Autohide = true,
+            Position = PositionType.Bottom
         };
 
         calendar.Halign = Gtk.Align.Fill;
@@ -68,10 +69,8 @@ public partial class DateTimePicker : MaskedTextBox
         calendar.PrevMonth += Calendar_PrevMonth;
         calendar.NextMonth += Calendar_NextMonth;
 
-        var popbody= new Gtk.Box(Gtk.Orientation.Vertical, 6)
-        {
-            calendar
-        };
+        var popbody = new Gtk.Box(Gtk.Orientation.Vertical, 6);
+        popbody.Append(calendar);
         var todaybtn = new Gtk.Button() { Label = System.Properties.Resources.Gtk_DateTimePicker_DateTimePicker_Choose_Today+DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") };
         todaybtn.Clicked += Todaybtn_Clicked;
         popbody.AddChild(todaybtn);

@@ -739,9 +739,9 @@ public abstract class FileDialog : CommonDialog
         fileDialog.TooltipText = this.Description ?? string.Empty;
 
         if (!string.IsNullOrWhiteSpace(this.SelectedDirectory))
-            fileDialog.SetCurrentFolder(this.SelectedDirectory);
+            fileDialog.SetCurrentFolder(GLib.FileAdapter.NewForPath(this.SelectedDirectory));
         else if (!string.IsNullOrWhiteSpace(this.InitialDirectory))
-            fileDialog.SetCurrentFolder(this.InitialDirectory);
+            fileDialog.SetCurrentFolder(GLib.FileAdapter.NewForPath(this.InitialDirectory));
 
         if (!string.IsNullOrEmpty(_filter))
         {
@@ -766,11 +766,12 @@ public abstract class FileDialog : CommonDialog
         if (!string.IsNullOrWhiteSpace(DefaultExt))
         {
             var extand = DefaultExt!.TrimStart(new char[] { '*', ' ' });
-            if (fileDialog.Filters.Length > 0)
+            if (fileDialog.Filters.NItems > 0)
             {
-                foreach (Gtk.FileFilter item in fileDialog.Filters)
+                // Gtk4: FileChooser.Filters is a GLib.IListModel (no foreach/Length).
+                for (uint fi = 0; fi < fileDialog.Filters.NItems; fi++)
                 {
-                    if (item.Name.Contains(extand))
+                    if (fileDialog.Filters.GetObject(fi) is Gtk.FileFilter item && item.Name.Contains(extand))
                     {
                         fileDialog.Filter = item;
                         break;
@@ -790,9 +791,17 @@ public abstract class FileDialog : CommonDialog
             }
         }
         var response = fileDialog.RunDialog();
-        this.FileName = fileDialog.Filename;
-        this.FileNames = fileDialog.Filenames.Clone() as string[];
-        this.SelectedDirectory = fileDialog.Filename;
+        // Gtk4: FileChooser exposes GFile (File/Files), not string paths.
+        this.FileName = fileDialog.File?.Path ?? string.Empty;
+        var pickedFiles = new System.Collections.Generic.List<string>();
+        var filesModel = fileDialog.Files;
+        for (uint fi = 0; filesModel != null && fi < filesModel.NItems; fi++)
+        {
+            if (filesModel.GetObject(fi) is GLib.IFile gf && gf.Path != null)
+                pickedFiles.Add(gf.Path);
+        }
+        this.FileNames = pickedFiles.ToArray();
+        this.SelectedDirectory = fileDialog.File?.Path ?? string.Empty;
         fileDialog.Dispose();
         fileDialog.Destroy();
 
