@@ -53,7 +53,7 @@ public partial class Label : Control
             // Some GTK wrapper implementations expose explicit IsFocus flag; try to set it.
             try
             {
-                w.IsFocus = true;
+                w.GrabFocus();
                 return w.IsFocus;
             }
             catch
@@ -148,4 +148,4 @@ public partial class Label : Control
             }
         }
     }
-}
+}

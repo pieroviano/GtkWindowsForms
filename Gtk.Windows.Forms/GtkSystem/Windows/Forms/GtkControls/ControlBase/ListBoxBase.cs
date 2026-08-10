@@ -18,7 +18,7 @@ public sealed class ListBoxBase : ScrollableBoxBase
     public ListBoxBase() : base()
     {
         this.StyleContext.AddClass("ListBox");
-        ListBox.Margin = 0;
+        ListBox.SetMargin(0);
         ListBox.Hexpand = true;
         ListBox.Vexpand = true;
         base.AutoScroll = true;

@@ -64,7 +64,7 @@ public class TableLayoutControlCollection : Control.ControlCollection
         control.Parent = Container;
         if (control.Widget != null)
         {
-            control.Widget.Margin = 4;
+            control.Widget.SetMargin(4);
             control.Widget.Valign = Align.Start;
             control.Widget.Halign = Align.Start;
             control.Widget.Hexpand = false;

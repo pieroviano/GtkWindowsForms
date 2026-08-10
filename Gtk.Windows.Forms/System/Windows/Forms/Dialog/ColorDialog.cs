@@ -194,17 +194,11 @@ public class ColorDialog : CommonDialog
         ColorChooserDialog? colorChooserDialog = null;
         if (owner != null && owner is Form ownerform)
         {
-            colorChooserDialog = new Gtk.ColorChooserDialog(System.Properties.Resources.Gtk_ColorDialog_RunDialog_Choose_color, ownerform.self)
-            {
-                WindowPosition = 0
-            };
+            colorChooserDialog = new Gtk.ColorChooserDialog(System.Properties.Resources.Gtk_ColorDialog_RunDialog_Choose_color, ownerform.self);
         }
         else
         {
-            colorChooserDialog = new Gtk.ColorChooserDialog(System.Properties.Resources.Gtk_ColorDialog_RunDialog_Choose_color, null)
-            {
-                WindowPosition = 0
-            };
+            colorChooserDialog = new Gtk.ColorChooserDialog(System.Properties.Resources.Gtk_ColorDialog_RunDialog_Choose_color, null);
         }
         colorChooserDialog.IconName = "image-x-generic";
         if (Color.Name != "0")

@@ -142,17 +142,11 @@ public class FontDialog : CommonDialog
         FontChooserDialog? fontChooserDialog = null;
         if (owner != null && owner is Form ownerform)
         {
-            fontChooserDialog = new Gtk.FontChooserDialog(System.Properties.Resources.Gtk_FontDialog_RunDialog_Select_Font, ownerform.self)
-            {
-                WindowPosition = 0
-            };
+            fontChooserDialog = new Gtk.FontChooserDialog(System.Properties.Resources.Gtk_FontDialog_RunDialog_Select_Font, ownerform.self);
         }
         else
         {
-            fontChooserDialog = new Gtk.FontChooserDialog(System.Properties.Resources.Gtk_FontDialog_RunDialog_Select_Font, null)
-            {
-                WindowPosition = 0
-            };
+            fontChooserDialog = new Gtk.FontChooserDialog(System.Properties.Resources.Gtk_FontDialog_RunDialog_Select_Font, null);
         }
         fontChooserDialog.IconName = "font-x-generic";
         if (null != _font)

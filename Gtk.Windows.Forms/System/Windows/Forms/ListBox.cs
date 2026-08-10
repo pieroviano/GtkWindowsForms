@@ -819,7 +819,7 @@ public partial class ListBox : ListControl
     /// </returns>
     public override bool Focus()
     {
-        self.ListBox.IsFocus = true;
+        self.ListBox.GrabFocus();
         return self.ListBox.IsFocus;
     }
 

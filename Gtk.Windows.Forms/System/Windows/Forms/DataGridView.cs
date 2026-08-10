@@ -788,7 +788,7 @@ public partial class DataGridView : ScrollableControl
     {
         self.Override.sender = this;
         this.BorderStyle = BorderStyle.FixedSingle;
-        self.GridView.Margin = 0;
+        self.GridView.SetMargin(0);
         self.GridView.MarginStart = 0;
         self.GridView.MarginEnd = 0;
         self.GridView.Selection.Mode = Gtk.SelectionMode.Multiple;

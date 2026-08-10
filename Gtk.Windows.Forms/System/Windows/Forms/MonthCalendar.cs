@@ -155,8 +155,8 @@ public partial class MonthCalendar : Control
     /// </value>
     public DateTime TodayDate
     {
-        get { return self.Date; }
-        set { self.Date = value; }
+        get { return self.Date.ToDateTime(); }
+        set { self.Date = value.ToGLibDateTime(); }
     }
 
     /// <summary>

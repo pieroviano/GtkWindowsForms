@@ -28,7 +28,7 @@ public sealed class SplitterPanel : Panel
     {
         self.Override.sender = this;
         self.StyleContext.AddClass("SplitterPanel");
-        self.Margin = 0;
+        self.SetMargin(0);
         self.Halign = Gtk.Align.Fill;
         self.Valign = Gtk.Align.Fill;
         self.Hexpand = false;

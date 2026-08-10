@@ -20,7 +20,7 @@ public sealed class PanelBase : ScrollableBoxBase
     public PanelBase() : base()
     {
         this.StyleContext.AddClass("Panel");
-        contaner.Margin = 0;
+        contaner.SetMargin(0);
         contaner.Halign = Align.Fill;
         contaner.Valign = Align.Fill;
         contaner.Hexpand = false;

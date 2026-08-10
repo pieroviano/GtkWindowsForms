@@ -293,10 +293,10 @@ public partial class DateTimePicker : MaskedTextBox
     private void Calendar_DaySelected(object sender, EventArgs e)
     {
         var calendar = sender as Gtk.Calendar;
-        var dt = calendar?.GetDate() ?? throw new InvalidOperationException();
+        var dt = calendar?.Date.ToDateTime() ?? throw new InvalidOperationException();
         if (dt > MaxDate || dt < MinDate)
         {
-            calendar?.Date = Value;
+            calendar.Date = Value.ToGLibDateTime();
             MessageBox.Show($" the selected date is out of the allowed range \n maximum time：{MaxDate.ToString("yyyy/MM/dd HH:mm:ss")}\n minimum time：{MinDate.ToString("yyyy/MM/dd HH:mm:ss")}", System.Properties.Resources.Gtk_DateTimePicker_Calendar_DaySelected_Date_restrictions);
         }
         else
@@ -308,33 +308,33 @@ public partial class DateTimePicker : MaskedTextBox
 
     private void Calendar_NextMonth(object sender, EventArgs e)
     {
-        if (calendar.GetDate() > MaxDate)
+        if (calendar.Date.ToDateTime() > MaxDate)
         {
-            calendar.Date = MaxDate.Date.AddDays(-1);
+            calendar.Date = (MaxDate.Date.AddDays(-1)).ToGLibDateTime();
         }
     }
 
     private void Calendar_NextYear(object sender, EventArgs e)
     {
-        if (calendar.GetDate() > MaxDate)
+        if (calendar.Date.ToDateTime() > MaxDate)
         {
-            calendar.Date = MaxDate.Date.AddDays(-1);
+            calendar.Date = (MaxDate.Date.AddDays(-1)).ToGLibDateTime();
         }
     }
 
     private void Calendar_PrevMonth(object sender, EventArgs e)
     {
-        if (calendar.GetDate() < MinDate)
+        if (calendar.Date.ToDateTime() < MinDate)
         {
-            calendar.Date = MinDate.Date.AddDays(1);
+            calendar.Date = (MinDate.Date.AddDays(1)).ToGLibDateTime();
         }
     }
 
     private void Calendar_PrevYear(object sender, EventArgs e)
     {
-        if (calendar.GetDate() < MinDate)
+        if (calendar.Date.ToDateTime() < MinDate)
         {
-            calendar.Date = MinDate.Date.AddDays(1);
+            calendar.Date = (MinDate.Date.AddDays(1)).ToGLibDateTime();
         }
     }
 
@@ -343,15 +343,15 @@ public partial class DateTimePicker : MaskedTextBox
         var current = Value;
         if (current >= MaxDate)
         {
-            calendar.Date = MaxDate.Date.AddDays(-1);
+            calendar.Date = (MaxDate.Date.AddDays(-1)).ToGLibDateTime();
         }
         else if (current <= MinDate)
         {
-            calendar.Date = MinDate.AddDays(1);
+            calendar.Date = (MinDate.AddDays(1)).ToGLibDateTime();
         }
         else
         {
-            calendar.Date = Value;
+            calendar.Date = (Value).ToGLibDateTime();
         }
         popver.Show();
     }

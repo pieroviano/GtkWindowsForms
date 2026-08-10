@@ -19,7 +19,7 @@ public sealed class TreeViewBase : ScrollableBoxBase
         this.Override.AddClass("TreeView");
         this.TreeView.Valign = Align.Fill;
         this.TreeView.Halign = Align.Fill;
-        this.TreeView.Margin = 0;
+        this.TreeView.SetMargin(0);
         this.TreeView.EnableGridLines = Gtk.TreeViewGridLines.None;
         this.TreeView.EnableTreeLines = true;
         this.TreeView.HeadersVisible = false;

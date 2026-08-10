@@ -2327,7 +2327,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         if (this.Widget != null)
         {
-            this.Widget.IsFocus = true;
+            this.Widget.GrabFocus();
             return this.Widget.IsFocus;
         }
         else

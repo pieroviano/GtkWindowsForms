@@ -139,6 +139,50 @@ using Gtk;
         }
 
         /// <summary>
+        /// Sets all four Gtk 4 per-edge margins at once. Gtk 3's single <c>Widget.Margin</c> shorthand
+        /// (all edges) was removed in favour of <c>MarginStart/End/Top/Bottom</c>.
+        /// </summary>
+        /// <param name="widget">The widget to set margins on.</param>
+        /// <param name="value">The margin, in pixels, applied to every edge.</param>
+        public static void SetMargin(this Widget widget, int value)
+        {
+            widget.MarginStart = value;
+            widget.MarginEnd = value;
+            widget.MarginTop = value;
+            widget.MarginBottom = value;
+        }
+
+        /// <summary>
+        /// Converts the <see cref="GLib.DateTime"/> that Gtk 4's <c>Gtk.Calendar.Date</c> exposes into a
+        /// <see cref="System.DateTime"/> (Gtk 3 used <c>System.DateTime</c> directly). Null maps to
+        /// <see cref="System.DateTime.MinValue"/>.
+        /// </summary>
+        /// <param name="value">The GLib date-time to convert.</param>
+        /// <returns>The equivalent managed <see cref="System.DateTime"/>.</returns>
+        public static System.DateTime ToDateTime(this GLib.DateTime value)
+        {
+            if (value == null)
+            {
+                return System.DateTime.MinValue;
+            }
+
+            return new System.DateTime(value.Year, value.Month, value.DayOfMonth,
+                value.Hour, value.Minute, value.Second);
+        }
+
+        /// <summary>
+        /// Converts a <see cref="System.DateTime"/> into the <see cref="GLib.DateTime"/> that Gtk 4's
+        /// <c>Gtk.Calendar.Date</c> now requires.
+        /// </summary>
+        /// <param name="value">The managed date-time to convert.</param>
+        /// <returns>The equivalent <see cref="GLib.DateTime"/> in local time.</returns>
+        public static GLib.DateTime ToGLibDateTime(this System.DateTime value)
+        {
+            return new GLib.DateTime(value.Year, value.Month, value.Day,
+                value.Hour, value.Minute, value.Second);
+        }
+
+        /// <summary>
         /// Synchronous replacement for Gtk 3's <c>Gtk.Dialog.Run()</c>, which Gtk 4 removed in favour
         /// of the async present/response model. WinForms <c>ShowDialog()</c> must block and return a
         /// result, so this spins a nested <see cref="GLib.MainLoop"/> that quits on the dialog's

@@ -21,7 +21,7 @@ public sealed class TabPageBase : ScrollableBoxBase
     {
         this.Override = new GtkControlOverride(this);
         this.Override.AddClass("TabPage");
-        this.Content.Margin = 0;
+        this.Content.SetMargin(0);
         this.Content.Halign = Align.Fill;
         this.Content.Valign = Align.Fill;
         this.Content.Hexpand = false;

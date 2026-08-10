@@ -212,7 +212,7 @@ public partial class RichTextBox : TextBoxBase
     {
         self.TextView.Buffer.GetSelectionBounds(out TextIter start, out TextIter end);
         self.TextView.ScrollToIter(start, 0, false, 0, 1);
-        self.TextView.IsFocus = true;
+        self.TextView.GrabFocus();
 
         return self.TextView.IsFocus;
     }

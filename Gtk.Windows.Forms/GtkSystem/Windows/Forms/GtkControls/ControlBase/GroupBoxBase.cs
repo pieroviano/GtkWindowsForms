@@ -41,13 +41,13 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
         contaner.Halign = Align.Fill;
         contaner.Valign = Align.Fill;
         var background = new Gtk.DrawingArea();
-        background.Events |= Gdk.EventMask.ButtonPressMask;
-        background.Events |= Gdk.EventMask.ButtonReleaseMask;
+        // Gtk4-removed: background.Events |= Gdk.EventMask.ButtonPressMask;
+        // Gtk4-removed: background.Events |= Gdk.EventMask.ButtonReleaseMask;
         background.DrawFunc = Background_DrawFunc;
         contaner.AddChild(background);
-        fixedcontaner.Events &= EventMask.PointerMotionMask;
-        fixedcontaner.Events &= EventMask.ButtonMotionMask;
-        fixedcontaner.Events &= EventMask.ScrollMask;
+        // Gtk4-removed: fixedcontaner.Events &= EventMask.PointerMotionMask;
+        // Gtk4-removed: fixedcontaner.Events &= EventMask.ButtonMotionMask;
+        // Gtk4-removed: fixedcontaner.Events &= EventMask.ScrollMask;
         fixedcontaner.HscrollbarPolicy = PolicyType.Never;
         fixedcontaner.VscrollbarPolicy = PolicyType.External;
         fixedcontaner.AddChild(contaner);

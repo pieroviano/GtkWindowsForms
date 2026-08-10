@@ -990,7 +990,7 @@ public class ListView : ContainerControl
             flowitem.Data.Add("ItemId", item.Index);
             flowitem.Halign = Gtk.Align.Start;
             flowitem.Valign = Gtk.Align.Start;
-            flowitem.Margin = 0;
+            flowitem.SetMargin(0);
             flowitem.HeightRequest = FontSize + 10;
             item._flowBoxChild = flowitem;
             var hBox = new BoxBase(Gtk.Orientation.Horizontal, 0);
@@ -1067,8 +1067,8 @@ public class ListView : ContainerControl
             else
                 fistcell.AddOverlay(checkboxself);
 
-            checkboxself.Xalign = 0.0f;
-            checkboxself.Yalign = 0.5f;
+            // Gtk4-removed: checkboxself.Xalign = 0.0f;
+            // Gtk4-removed: checkboxself.Yalign = 0.5f;
             Gtk.Viewport viewport = new Viewport();
             viewport.AddChild(fistcell);
             hBox.Append(viewport);

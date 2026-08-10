@@ -20,14 +20,16 @@ namespace System.Windows.Forms
             checkButton.Hexpand = true;
             checkButton.Vexpand = true;
             checkButton.Hexpand = true;
-            checkButton.Xalign = 0f;
+            // Gtk4-removed: checkButton.Xalign = 0f;
             base.Add(checkButton);
         }
 
         public bool Checked
         {
-            get => checkButton.DrawIndicator;
-            set => checkButton.DrawIndicator = value;
+            // Gtk4 removed CheckButton.DrawIndicator; Checked reflects the toggle state (Active),
+            // consistent with CheckState below.
+            get => checkButton.Active;
+            set => checkButton.Active = value;
         }
 
         public CheckState CheckState

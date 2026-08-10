@@ -284,10 +284,7 @@ public sealed class PrintDialog : CommonDialog
         }
         catch (Exception ex)
         {
-            var messageDialog = new MessageDialog(owner == null ? null : ((Form)owner).self, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, "")
-            {
-                WindowPosition = owner == null ? 0 : 0
-            };
+            var messageDialog = new MessageDialog(owner == null ? null : ((Form)owner).self, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, "");
             if (ex.Message.ToLower().Contains("doc"))
                 messageDialog.Text = System.Properties.Resources.Gtk_PrintDialog_RunPrint_File_is_in_use_and_cannot_be_overwritten;
             else

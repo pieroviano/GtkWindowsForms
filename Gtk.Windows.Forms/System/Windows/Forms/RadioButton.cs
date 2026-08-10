@@ -47,10 +47,13 @@ public partial class RadioButton : ButtonBase
     /// <value>
     /// The appearance.
     /// </value>
+    // Gtk4 removed CheckButton.DrawIndicator; back Appearance with a field (see CheckBox).
+    private bool _appearanceNormal = true;
+
     public System.Windows.Forms.Appearance Appearance
     {
-        get => self.DrawIndicator ? Appearance.Normal : Appearance.Button;
-        set { self.DrawIndicator = value == Appearance.Normal; }
+        get => _appearanceNormal ? Appearance.Normal : Appearance.Button;
+        set { _appearanceNormal = value == Appearance.Normal; }
     }
 
     /// <summary>
@@ -99,8 +102,8 @@ public partial class RadioButton : ButtonBase
     /// <param name="yAlign">The vertical alignment factor.</param>
     protected override void SetContentAlignmentCore(float xAlign, float yAlign)
     {
-        self.Xalign = xAlign;
-        self.Yalign = yAlign;
+        // Gtk4-removed: self.Xalign = xAlign;
+        // Gtk4-removed: self.Yalign = yAlign;
     }
 
     /// <summary>

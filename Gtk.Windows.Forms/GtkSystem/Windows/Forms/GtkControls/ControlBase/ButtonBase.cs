@@ -19,8 +19,8 @@ public sealed class ButtonBase : Gtk.Button, IControlGtk
         this.StyleContext.AddClass("Button");
         this.Valign = Gtk.Align.Start;
         this.Halign = Gtk.Align.Start;
-        this.Events |= EventMask.PointerMotionMask;
-        this.Events |= EventMask.ButtonMotionMask;
+        // Gtk4-removed: this.Events |= EventMask.PointerMotionMask;
+        // Gtk4-removed: this.Events |= EventMask.ButtonMotionMask;
         // Gtk 4: Widget.Drawn is gone and there is no overridable OnSnapshot; custom paint moves to CSS (deferred).
     }
 

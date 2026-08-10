@@ -725,17 +725,11 @@ public abstract class FileDialog : CommonDialog
         FileChooserDialog? fileDialog = null;
         if (owner != null && owner is Form ownerform)
         {
-            fileDialog = new Gtk.FileChooserDialog(System.Properties.Resources.Gtk_FileDialog_RunDialog_Select_File, ownerform.self, ActionType)
-            {
-                WindowPosition = 0
-            };
+            fileDialog = new Gtk.FileChooserDialog(System.Properties.Resources.Gtk_FileDialog_RunDialog_Select_File, ownerform.self, ActionType);
         }
         else
         {
-            fileDialog = new Gtk.FileChooserDialog(System.Properties.Resources.Gtk_FileDialog_RunDialog_Select_File, null, ActionType)
-            {
-                WindowPosition = 0
-            };
+            fileDialog = new Gtk.FileChooserDialog(System.Properties.Resources.Gtk_FileDialog_RunDialog_Select_File, null, ActionType);
         }
         fileDialog.IconName = "document-open";
         fileDialog.AddButton(System.Properties.Resources.Gtk_FileDialog_RunDialog_OK, Gtk.ResponseType.Ok);
