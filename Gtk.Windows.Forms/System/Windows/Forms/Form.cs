@@ -195,8 +195,8 @@ public partial class Form : ContainerControl, IWin32Window
             _acceptButton = value;
             if (value is Control control && control.Widget is Gtk.Widget widget)
             {
-                widget.CanDefault = true;
-                self.Default = widget;
+                // Gtk4: Widget.CanDefault removed; the default widget is set on the window.
+                self.DefaultWidget = widget;
             }
         }
     }
@@ -843,7 +843,7 @@ public partial class Form : ContainerControl, IWin32Window
             {
                 self.Resizable = false;
             }
-            self.Resize(self.DefaultWidth, self.DefaultHeight);
+            self.SetDefaultSize(self.DefaultWidth, self.DefaultHeight); // Gtk4: Window.Resize removed
             try
             {
                 if (this.ShowIcon)
@@ -1023,8 +1023,8 @@ public partial class Form : ContainerControl, IWin32Window
         self.CloseWindowEvent += Self_CloseWindowEvent;
         // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
         // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
-        self.FocusInEvent += (o, a) => OnActivated(EventArgs.Empty);
-        self.FocusOutEvent += (o, a) => OnDeactivate(EventArgs.Empty);
+        // Gtk4: Widget.FocusInEvent/FocusOutEvent removed. Form Activated/Deactivate should be wired via
+        // a Gtk.EventControllerFocus (Enter/Leave) - deferred to the input-controller pass (migration #11).
     }
 
     /// <summary>

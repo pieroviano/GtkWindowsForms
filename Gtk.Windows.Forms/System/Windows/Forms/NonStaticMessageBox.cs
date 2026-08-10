@@ -268,7 +268,7 @@ internal class NonStaticMessageBox : IMessageBox
         var dia = new Dialog(caption, owner, DialogFlags.DestroyWithParent);
         OnDialogAvailable(new DialogEventArgs(dia));
         // Gtk4-removed: dia.KeepBelow = false;
-        dia.TypeHint = Gdk.WindowTypeHint.Dialog;
+        // Gtk4-removed: dia.TypeHint = Gdk.WindowTypeHint.Dialog;
         dia.StyleContext.AddClass("DefaultThemeStyle");
         dia.StyleContext.AddClass("MessageBox");
         dia.SetSizeRequest(300, 100);
@@ -297,9 +297,9 @@ internal class NonStaticMessageBox : IMessageBox
         content.Halign = Align.Fill;
         content.Valign = Align.Start;
         var maxwidth = 300;
-        if (Gdk.Screen.Default.Display.NMonitors > 0)
+        if (Gdk.Display.Default.Monitors.NItems > 0)
         {
-            var rectangle = Gdk.Screen.Default.Display.GetMonitor(0).Workarea;
+            var rectangle = ((Gdk.Monitor)Gdk.Display.Default.Monitors.GetObject(0)).Geometry;
             maxwidth = rectangle.Width / 2;
         }
         var pag = content.CreatePangoLayout(text);

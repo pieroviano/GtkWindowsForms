@@ -105,7 +105,7 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
             this.menu = gmenu;
             isToolStripDropDown = true;
         }
-        else if (owner.Widget?.ToolItem is Gtk.MenuToolButton tmenu)
+        else if (owner.Widget?.ToolItem is StripMenuToolButton tmenu)
         {
             this.menu = new Gtk.Popover();
             tmenu.Menu = this.menu;
@@ -156,7 +156,7 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     public new ToolStripItem this[int index]
     {
         get { return base[index]; }
-        set { menu?.Insert(value.Widget.MenuItem, index); base[index] = value; }
+        set { menu?.AddChild(value.Widget.MenuItem); base[index] = value; } // Gtk4: Popover has no indexed Insert; menu layout deferred
     }
 
     /// <summary>
@@ -272,10 +272,11 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
         }
         else
         {
-            if (owner?.MenuItem != null && owner.MenuItem.Submenu == null)
+            if (owner?.MenuItem != null && this.menu == null)
             {
+                // Gtk4: Gtk.MenuItem.Submenu removed; a submenu is a Popover parented to the item.
+                // Popup wiring is deferred to the menu-behavior pass (migration #11).
                 this.menu = new Gtk.Popover();
-                owner.MenuItem.Submenu = this.menu;
             }
             menu?.AddChild(item.Widget.MenuItem);
         }

@@ -57,7 +57,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         if (Titlebar is Gtk.HeaderBar headerbar)
         {
             headerbar.DecorationLayout = "menu:close";
-            headerbar.ShowCloseButton = false;
+            headerbar.ShowTitleButtons = false; // Gtk4: HeaderBar.ShowCloseButton -> ShowTitleButtons
             var close = new Gtk.Button()
             {
                 IconName = "window-close-symbolic",
@@ -182,12 +182,16 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     /// <summary>
     /// Gets or sets the window icon shown in the header bar.
     /// </summary>
+    // Gtk4 removed Gtk.Window.Icon (window icons come from the theme by icon-name). Keep the pixbuf in a
+    // field so the WinForms API round-trips; still mirror it into the header bar as a small image.
+    private Gdk.Pixbuf? _icon;
+
     public new Gdk.Pixbuf Icon
     {
-        get => base.Icon;
+        get => _icon!;
         set
         {
-            base.Icon = value;
+            _icon = value;
             if (value != null && base.Titlebar != null && base.Titlebar is Gtk.HeaderBar titlebar)
             {
                 var flag = new Gtk.Image(value.ScaleSimple(24, 24, Gdk.InterpType.Bilinear));
@@ -309,7 +313,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         }
         else if (isResponse == true) // Gtk4: TypeHint removed; FormBase is a Gtk.Dialog
         {
-            Run();
+            this.RunDialog();
             isCloseWindow = true;
         }
 

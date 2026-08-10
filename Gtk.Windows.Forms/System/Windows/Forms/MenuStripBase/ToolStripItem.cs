@@ -164,16 +164,9 @@ public partial class ToolStripItem : Component, IDropTarget, ISupportOleDropSour
         {
             widget.Clicked += Widget_Clicked;
         }
-        else if (_widget is Gtk.MenuToolButton widget2)
-        {
-            widget2.Clicked += Widget_Clicked;
-        }
-        else if (_widget is StripMenuItem widget3)
-        {
-            // Gtk4: Gtk.MenuItem.Selected signal removed; hover is handled via CSS in the widget model.
-            widget3.Deselected += Widget3_Deselected;
-            widget3.Activated += Widget3_Activated;
-        }
+        // Gtk4: Gtk.MenuToolButton was removed and StripMenuItem is now a Gtk.Box, so neither exposes
+        // Clicked/Deselected/Activated signals. Item activation flows through the GestureClick controller
+        // wired above; richer menu activation/hover is deferred to the menu-behavior pass (migration #11).
     }
 
     /// <summary>
@@ -1590,7 +1583,8 @@ public partial class ToolStripItem : Component, IDropTarget, ISupportOleDropSour
             css.AppendLine($".{styleClassName}>button{{{style.ToString()}}}");
             css.AppendLine($".{styleClassName}>checkbutton{{{style.ToString()}}}");
 
-            if (provider.LoadFromData(css.ToString()))
+            // Gtk4: CssProvider.LoadFromData returns void (was bool). Load, then apply.
+            provider.LoadFromData(css.ToString());
             {
                 if (widget.StyleContext.HasClass(styleClassName))
                 {
