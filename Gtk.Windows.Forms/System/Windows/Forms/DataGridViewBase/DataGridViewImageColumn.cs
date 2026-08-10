@@ -43,7 +43,7 @@ public class DataGridViewImageColumn : DataGridViewColumn
             Height = RowHeight,
             Editable = false
         };
-        base.Append(renderer);
+        base.PackStart(renderer, false);
         _cellRenderer = renderer;
     }
 

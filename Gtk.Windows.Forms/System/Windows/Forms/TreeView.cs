@@ -93,7 +93,7 @@ public partial class TreeView : ScrollableControl
         renderercheckbox.Toggled += CellName_Toggled;
 
         renderercheckbox.Visible = false;
-        column.Append(renderercheckbox);
+        column.PackStart(renderercheckbox, false);
         column.AddAttribute(renderercheckbox, "active", 1);
 
         rendererPixbuf = new CellRendererIcon(this)
@@ -101,13 +101,13 @@ public partial class TreeView : ScrollableControl
             IsExpanded = true,
             Visible = false
         };
-        column.Append(rendererPixbuf);
+        column.PackStart(rendererPixbuf, false);
         var renderertext = new Gtk.CellRendererText
         {
             IsExpanded = true,
             PlaceholderText = "---"
         };
-        column.Append(renderertext);
+        column.PackStart(renderertext, true);
         column.AddAttribute(renderertext, "text", 0);
         self.TreeView.AppendColumn(column);
     }

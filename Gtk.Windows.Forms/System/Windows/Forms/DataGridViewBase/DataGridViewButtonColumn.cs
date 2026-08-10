@@ -44,7 +44,7 @@ public class DataGridViewButtonColumn : DataGridViewColumn
             Height = RowHeight
         };
         renderer.SetAlignment(0.5f, 0.5f);
-        base.Append(renderer);
+        base.PackStart(renderer, false);
         base.SortMode = DataGridViewColumnSortMode.NotSortable;
         base.Sizing = TreeViewColumnSizing.GrowOnly;
         _cellRenderer = renderer;

@@ -53,7 +53,7 @@ public class DataGridViewComboBoxColumn : DataGridViewColumn
         renderer.TextColumn = 0;
         renderer.Height = RowHeight;
         renderer.Model = model;
-        base.Append(renderer);
+        base.PackStart(renderer, true);
         _cellRenderer = renderer;
     }
 

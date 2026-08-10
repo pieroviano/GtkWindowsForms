@@ -69,7 +69,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
             close.StyleContext.AddClass("close");
             close.StyleContext.AddClass("titlebutton");
             close.Clicked += Close_Clicked;
-            headerbar.Append(close);
+            headerbar.PackEnd(close);
 
             maximize = new Gtk.Button("window-maximize-symbolic", IconSize.SmallToolbar)
             {
@@ -82,7 +82,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
             maximize.StyleContext.AddClass("maximize");
             maximize.StyleContext.AddClass("titlebutton");
             maximize.Clicked += maximize_Clicked;
-            headerbar.Append(maximize);
+            headerbar.PackEnd(maximize);
             minimize = new Gtk.Button("window-minimize-symbolic", IconSize.SmallToolbar)
             {
                 Name = "minimize",
@@ -94,7 +94,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
             minimize.StyleContext.AddClass("minimize");
             minimize.StyleContext.AddClass("titlebutton");
             minimize.Clicked += minimize_Clicked;
-            headerbar.Append(minimize);
+            headerbar.PackEnd(minimize);
         }
 
         this.SetDefaultSize(100, 10);
@@ -189,7 +189,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
             {
                 var flag = new Gtk.Image(value.ScaleSimple(24, 24, Gdk.InterpType.Bilinear));
                 flag.Visible = true;
-                titlebar.Append(flag);
+                titlebar.PackStart(flag);
             }
         }
     }

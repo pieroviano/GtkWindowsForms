@@ -66,7 +66,7 @@ internal sealed partial class PropertyGridView
         {
             CellBackgroundRgba = new RGBA() { Alpha = 0.6, Red = 0.9, Green = 0.9, Blue = 0.9 }
         };
-        column1.Append(expander);
+        column1.PackStart(expander, false);
         column1.AddAttribute(expander, "icon", 0);
 
         var expanderColumn = new Gtk.TreeViewColumn
@@ -97,7 +97,7 @@ internal sealed partial class PropertyGridView
             Editable = false
         };
         expanderColumn.SortColumnId = 0;
-        expanderColumn.Append(names);
+        expanderColumn.PackStart(names, false);
         expanderColumn.AddAttribute(names, "otext", 0);
 
         var column3 = new Gtk.TreeViewColumn
@@ -114,7 +114,7 @@ internal sealed partial class PropertyGridView
         {
             Editable = true
         };
-        column3.Append(values);
+        column3.PackStart(values, false);
         column3.AddAttribute(values, "ovalue", 0);
 
         tree.AppendColumn(column1);

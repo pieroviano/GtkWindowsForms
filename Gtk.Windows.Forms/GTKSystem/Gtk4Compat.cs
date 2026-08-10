@@ -1,9 +1,14 @@
 using System.Collections.Generic;
+using Gtk;
 
-namespace Gtk
-{
-    /// <summary>
-    /// Backend-only helpers that bridge the Gtk 3 <c>Gtk.Container</c> API this shim was
+// Deliberately declared in the GLOBAL namespace: some GTK-backing files reference Gtk types
+// fully-qualified (e.g. Gtk.Overlay) without a `using Gtk;`, so an extension class inside
+// `namespace Gtk` would not be imported there. Extension methods declared in the global
+// namespace are always in scope, so these helpers resolve everywhere without adding a
+// `using Gtk;` to WinForms files (which would collide with Image/Label/Button/Panel/...).
+
+/// <summary>
+/// Backend-only helpers that bridge the Gtk 3 <c>Gtk.Container</c> API this shim was
     /// originally written against to Gtk 4's per-widget child model. Gtk 4 removed
     /// <c>Container.Add</c>/<c>Remove</c>/<c>Children</c>; each container type now exposes its
     /// own child API (<c>Append</c>, a <c>Child</c> property, <c>Put</c>, <c>Attach</c>, ...).
@@ -216,4 +221,3 @@ namespace Gtk
             }
         }
     }
-}

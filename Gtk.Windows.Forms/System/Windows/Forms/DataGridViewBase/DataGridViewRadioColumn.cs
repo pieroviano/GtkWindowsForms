@@ -42,7 +42,7 @@ public class DataGridViewRadioColumn : DataGridViewColumn
             Height = RowHeight
         };
         renderer.Toggled += CellName_Toggled;
-        base.Append(renderer);
+        base.PackStart(renderer, true);
         _cellRenderer = renderer;
     }
 

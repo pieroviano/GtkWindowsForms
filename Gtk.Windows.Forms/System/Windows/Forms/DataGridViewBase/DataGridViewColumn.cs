@@ -116,7 +116,7 @@ public class DataGridViewColumn : TreeViewColumn
         renderer.EditingStarted += Renderer_EditingStarted;
         renderer.PlaceholderText = "";
         renderer.Height = RowHeight;
-        base.Append(renderer);
+        base.PackStart(renderer, true);
         _cellRenderer = renderer as ICellRenderer;
     }
 
