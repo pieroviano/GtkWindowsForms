@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing;
 using Gtk;
 
@@ -30,7 +30,6 @@ public class ToolStripProgressBar : ToolStripItem
         progressBar.MinValue = 0;
         progressBar.Orientation = Gtk.Orientation.Horizontal;
         progressBar.Valign = Align.Center;
-        self.BorderWidth = 0;
         self.Add(progressBar);
     }
 

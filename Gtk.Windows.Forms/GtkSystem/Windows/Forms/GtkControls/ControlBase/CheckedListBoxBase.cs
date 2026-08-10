@@ -13,6 +13,5 @@ public sealed class CheckedListBoxBase : ScrollableBoxBase
     public CheckedListBoxBase() : base()
     {
         this.StyleContext.AddClass("CheckedListBox");
-        this.BorderWidth = 1;
     }
 }

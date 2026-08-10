@@ -346,13 +346,13 @@ public partial class PrintPreviewDialog : ScrollableControl
         previewForm.ClientSize = new Size(formwidth, formheight);
         box = new Gtk.Box(Gtk.Orientation.Vertical, 15);
         var header = new Gtk.Box(Gtk.Orientation.Horizontal, 20);
-        header.PackStart(new Gtk.Label(System.Properties.Resources.Gtk_Print_preview), false, false, 0);
+        header.Append(new Gtk.Label(System.Properties.Resources.Gtk_Print_preview));
         var printbutton = new Gtk.Button(System.Properties.Resources.Gtk_Print) { WidthRequest = 200 };
         // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
         // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
-        header.PackEnd(printbutton, false, false, 0);
-        box.PackStart(header, false, true, 0);
-        box.PackStart(_previewControl.Widget, false, true, 0);
+        header.Append(printbutton);
+        box.Append(header);
+        box.Append(_previewControl.Widget);
         box.MarginTop = 20;
         box.MarginStart = (previewForm.Width - _previewControl.Width) / 2;
         previewForm.Controls?.Add(box);

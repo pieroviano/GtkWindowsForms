@@ -41,7 +41,6 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
         contaner.Halign = Align.Fill;
         contaner.Valign = Align.Fill;
         var background = new Gtk.DrawingArea();
-        background.Events = Gdk.EventMask.EnterNotifyMask;
         background.Events |= Gdk.EventMask.ButtonPressMask;
         background.Events |= Gdk.EventMask.ButtonReleaseMask;
         background.DrawFunc = Background_DrawFunc;
@@ -149,7 +148,8 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     {
         child.Valign = align;
         child.Halign = align;
-        child.Expand = expand;
+        child.Hexpand = expand;
+        child.Vexpand = expand;
         base.Add(child);
     }
 

@@ -1,4 +1,4 @@
-﻿using Gtk;
+using Gtk;
 using Image = System.Drawing.Image;
 
 namespace System.Windows.Forms;
@@ -156,27 +156,22 @@ public class ToolStripMenuItem : ToolStripItem
             if (value == TextImageRelation.ImageAboveText)
             {
                 checkButton.Halign = Align.Fill;
-                checkButton.ImagePosition = PositionType.Top;
             }
             else if (value == TextImageRelation.TextAboveImage)
             {
                 checkButton.Halign = Align.Fill;
-                checkButton.ImagePosition = PositionType.Bottom;
             }
             else if (value == TextImageRelation.ImageBeforeText)
             {
                 checkButton.Halign = Align.Start;
-                checkButton.ImagePosition = PositionType.Left;
             }
             else if (value == TextImageRelation.TextBeforeImage)
             {
                 checkButton.Halign = Align.Start;
-                checkButton.ImagePosition = PositionType.Right;
             }
             else
             {
                 checkButton.Halign = Align.Start;
-                checkButton.ImagePosition = PositionType.Left;
             }
         }
     }

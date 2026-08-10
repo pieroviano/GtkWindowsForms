@@ -35,11 +35,8 @@ public sealed class PictureBoxBase : Gtk.Viewport, IControlGtk
     {
         this.Override = new GtkControlOverride(this);
         this.StyleContext.AddClass("PictureBox");
-        this.BorderWidth = 0;
-        this.ShadowType = Gtk.ShadowType.None;
         this.Halign = Gtk.Align.Start;
         this.Valign = Gtk.Align.Start;
-        this.Events = Gdk.EventMask.AllEventsMask;
         this.Realized += PictureBoxBase_Realized;
         var drawingArea = new Gtk.DrawingArea();
         drawingArea.DrawFunc = DrawingArea_DrawFunc;

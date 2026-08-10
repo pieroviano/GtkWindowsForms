@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using Gtk;
 
 namespace System.Windows.Forms;
@@ -78,8 +78,6 @@ public class TableLayoutControlCollection : Control.ControlCollection
                 {
                     Vexpand = false, Hexpand = false, Valign = Align.Fill,
                     Halign = Align.Fill,
-                    BorderWidth = 0,
-                    ShadowType = ShadowType.In,
                     Child = control.Widget
                 };
                 Container?.grid.Attach(viewport, column, row, 1, 1);

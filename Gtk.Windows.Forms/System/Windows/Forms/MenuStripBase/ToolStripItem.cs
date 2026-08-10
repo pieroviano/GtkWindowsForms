@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms.Layout;
@@ -1018,8 +1018,7 @@ public partial class ToolStripItem : Component, IDropTarget, ISupportOleDropSour
         set
         {
             var widget = GetWidget();
-            widget.NoShowAll = value == false;
-            if (value == true) { widget.ShowAll(); } else { widget.Visible = value; }
+            if (value == true) { widget.Show(); } else { widget.Visible = value; }
         }
     }
 

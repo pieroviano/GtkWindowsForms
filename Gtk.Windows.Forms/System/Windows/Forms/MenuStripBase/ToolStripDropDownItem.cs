@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing;
 
 namespace System.Windows.Forms;
@@ -224,11 +224,9 @@ public abstract class ToolStripDropDownItem : ToolStripItem
     {
         if (displayStyle == ToolStripItemDisplayStyle.Text)
         {
-            self.IsImportant = false;
         }
         else if (displayStyle == ToolStripItemDisplayStyle.Image)
         {
-            self.IsImportant = false;
             if (this.Image?.Pixbuf != null)
             {
                 if (self.IconSize == Gtk.IconSize.LargeToolbar)
@@ -247,7 +245,6 @@ public abstract class ToolStripDropDownItem : ToolStripItem
         }
         else if (displayStyle == ToolStripItemDisplayStyle.ImageAndText)
         {
-            self.IsImportant = true;
             if (this.Image?.Pixbuf != null)
             {
                 if (self.IconSize == Gtk.IconSize.LargeToolbar)
@@ -266,7 +263,6 @@ public abstract class ToolStripDropDownItem : ToolStripItem
         }
         else
         {
-            self.IsImportant = true;
             if (this.Image?.Pixbuf != null)
             {
                 if (self.IconSize == Gtk.IconSize.LargeToolbar)

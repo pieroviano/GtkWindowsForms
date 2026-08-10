@@ -20,15 +20,12 @@ public sealed class PanelBase : ScrollableBoxBase
     public PanelBase() : base()
     {
         this.StyleContext.AddClass("Panel");
-        this.ShadowType = Gtk.ShadowType.None;
-        this.BorderWidth = 0;
         contaner.Margin = 0;
         contaner.Halign = Align.Fill;
         contaner.Valign = Align.Fill;
         contaner.Hexpand = false;
         contaner.Vexpand = false;
         var background = new Gtk.DrawingArea();
-        background.Events = Gdk.EventMask.EnterNotifyMask;
         background.DrawFunc = Background_DrawFunc;
         contaner.Add(background);
         this.Add(contaner);

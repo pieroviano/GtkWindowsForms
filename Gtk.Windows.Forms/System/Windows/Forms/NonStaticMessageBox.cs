@@ -1,4 +1,4 @@
-﻿using Gtk;
+using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms;
@@ -267,20 +267,18 @@ internal class NonStaticMessageBox : IMessageBox
     {
         var dia = new Dialog(caption, owner, DialogFlags.DestroyWithParent);
         OnDialogAvailable(new DialogEventArgs(dia));
-        dia.KeepAbove = true;
         dia.KeepBelow = false;
         dia.TypeHint = Gdk.WindowTypeHint.Dialog;
-        dia.SetPosition(position);
         dia.StyleContext.AddClass("DefaultThemeStyle");
         dia.StyleContext.AddClass("MessageBox");
         dia.SetSizeRequest(300, 100);
         dia.SetDefaultSize(300, 100);
         dia.Response += Dia_Response;
         dia.ContentArea.Spacing = 10;
-        dia.ContentArea.Expand = false;
+        dia.ContentArea.Hexpand = false;
+        dia.ContentArea.Vexpand = false;
         dia.ContentArea.Halign = Align.Fill;
         dia.ContentArea.Valign = Align.Start;
-        dia.BorderWidth = 20;
         dia.Valign = Align.Fill;
         dia.Halign = Align.Fill;
         var msgbox = new Box(Gtk.Orientation.Horizontal, 10);
@@ -288,13 +286,13 @@ internal class NonStaticMessageBox : IMessageBox
         msgbox.Halign = Align.Fill;
 
         if (icon == MessageBoxIcon.Question)
-            msgbox.PackStart(Image.LoadFromResource("Resources.System.dialog-question.png"), false, false, 5);
+            msgbox.Append(Image.LoadFromResource("Resources.System.dialog-question.png"));
         else if (icon == MessageBoxIcon.Warning || icon == MessageBoxIcon.Exclamation)
-            msgbox.PackStart(Image.LoadFromResource("Resources.System.dialog-warning.png"), false, false, 5);
+            msgbox.Append(Image.LoadFromResource("Resources.System.dialog-warning.png"));
         else if (icon == MessageBoxIcon.Information || icon == MessageBoxIcon.Asterisk)
-            msgbox.PackStart(Image.LoadFromResource("Resources.System.dialog-information.png"), false, false, 5);
+            msgbox.Append(Image.LoadFromResource("Resources.System.dialog-information.png"));
         else if (icon == MessageBoxIcon.Error || icon == MessageBoxIcon.Stop || icon == MessageBoxIcon.Hand)
-            msgbox.PackStart(Image.LoadFromResource("Resources.System.dialog-error.png"), false, false, 5);
+            msgbox.Append(Image.LoadFromResource("Resources.System.dialog-error.png"));
         var content = new Gtk.Label(text) { MarginEnd = 30 };
         content.Halign = Align.Fill;
         content.Valign = Align.Start;
@@ -314,8 +312,8 @@ internal class NonStaticMessageBox : IMessageBox
             content.LineWrap = true;
             content.LineWrapMode = Pango.WrapMode.Word;
         }
-        msgbox.PackStart(content, false, true, 5);
-        dia.ContentArea?.PackStart(msgbox, false, true, 0);
+        msgbox.Append(content);
+        dia.ContentArea?.Append(msgbox);
 
         dia.Icon = new Gdk.Pixbuf(typeof(MessageBox).Assembly, "Resources.System.help-faq.png");
         if (buttons == MessageBoxButtons.OK)
@@ -353,7 +351,7 @@ internal class NonStaticMessageBox : IMessageBox
             dia.AddButton(Properties.MessageBoxResources.Gtk_MessageBox_ShowCore_Cancel,
                 ResponseType.Cancel);
         }
-        dia.ShowAll();
+        dia.Show();
 
         return dia.Run();
     }
@@ -375,11 +373,8 @@ internal class NonStaticMessageBox : IMessageBox
             buttonsType = ButtonsType.OkCancel;
 
         var dia = new MessageDialog(owner, DialogFlags.DestroyWithParent, MessageType.Info, buttonsType, text);
-        dia.SetPosition(position);
         dia.StyleContext.AddClass("DefaultThemeStyle");
         dia.StyleContext.AddClass("MessageBox");
-        dia.BorderWidth = 10;
-        dia.KeepAbove = true;
         dia.KeepBelow = false;
         dia.Title = caption;
         dia.Response += Dia_Response;

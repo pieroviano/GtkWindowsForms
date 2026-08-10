@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
@@ -241,11 +241,9 @@ public class ToolStripButton : ToolStripItem
     {
         if (displayStyle == ToolStripItemDisplayStyle.Text)
         {
-            self.IsImportant = false;
         }
         else if (displayStyle == ToolStripItemDisplayStyle.Image)
         {
-            self.IsImportant = false;
             if (this.Image?.Pixbuf != null)
             {
                 if (self.Parent is ToolStripBase toolbar)
@@ -256,7 +254,6 @@ public class ToolStripButton : ToolStripItem
         }
         else if (displayStyle == ToolStripItemDisplayStyle.ImageAndText)
         {
-            self.IsImportant = true;
             if (this.Image?.Pixbuf != null)
             {
                 if (self.Parent is ToolStripBase toolbar)
@@ -267,7 +264,6 @@ public class ToolStripButton : ToolStripItem
         }
         else
         {
-            self.IsImportant = false;
         }
     }
 }

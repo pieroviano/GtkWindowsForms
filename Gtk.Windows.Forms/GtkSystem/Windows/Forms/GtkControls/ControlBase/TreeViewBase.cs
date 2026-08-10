@@ -1,4 +1,4 @@
-﻿using Gtk;
+using Gtk;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
@@ -19,7 +19,6 @@ public sealed class TreeViewBase : ScrollableBoxBase
         this.Override.AddClass("TreeView");
         this.TreeView.Valign = Align.Fill;
         this.TreeView.Halign = Align.Fill;
-        this.TreeView.BorderWidth = 1;
         this.TreeView.Margin = 0;
         this.TreeView.EnableGridLines = Gtk.TreeViewGridLines.None;
         this.TreeView.EnableTreeLines = true;

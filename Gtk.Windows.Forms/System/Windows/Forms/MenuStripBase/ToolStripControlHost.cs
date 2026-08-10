@@ -201,7 +201,7 @@ public class ToolStripControlHost : ToolStripItem
         if (widget.Parent == null)
         {
             _self.Add(widget);
-            widget.ShowAll();
+            widget.Show();
         }
     }
 }

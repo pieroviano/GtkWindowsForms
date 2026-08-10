@@ -388,7 +388,7 @@ public partial class Form : ContainerControl, IWin32Window
 
                 if (_MdiParent.MdiContainer == null)
                 {
-                    _MdiParent.MdiContainer2 = new Gtk.Overlay() { NoShowAll = true, WidthRequest = 0, HeightRequest = 0 };
+                    _MdiParent.MdiContainer2 = new Gtk.Overlay() { WidthRequest = 0, HeightRequest = 0 };
                     _MdiParent.Controls.Add(_MdiParent.MdiContainer2);
                     _MdiParent.MdiContainer = new Gtk.Overlay();
                     _MdiParent.scrolledWindow = new Gtk.ScrolledWindow();
@@ -426,7 +426,6 @@ public partial class Form : ContainerControl, IWin32Window
                     }
                 }
                 this.self.CanFocus = true;
-                this.self.BorderWidth = 2;
                 this.self.StyleContext.AddClass("MDIForm");
                 this.Size = new Size(self.DefaultWidth, self.DefaultHeight);
                 this.self.Halign = Align.Start;
@@ -567,7 +566,6 @@ public partial class Form : ContainerControl, IWin32Window
         set
         {
             _topMost = value;
-            self.KeepAbove = value;
             if (self.Window != null)
                 if (self.IsVisible == false || self.IsActive == false || self.Window.State.HasFlag(Gdk.WindowState.Iconified))
                     self.Present();
@@ -837,15 +835,8 @@ public partial class Form : ContainerControl, IWin32Window
             {
                 Owner = parent;
             }
-            if (StartPosition == FormStartPosition.CenterScreen)
-                self.WindowPosition = WindowPosition.Center;
-            else if (StartPosition == FormStartPosition.Manual)
-                self.WindowPosition = WindowPosition.Mouse;
-            else if (this.Parent != null && StartPosition == FormStartPosition.CenterParent)
-                self.WindowPosition = WindowPosition.CenterOnParent;
-            else
-                self.WindowPosition = WindowPosition.Center;
-
+            // Gtk 4 removed programmatic window positioning (Gtk.WindowPosition); placement is WM-managed.
+            // CenterParent is approximated by TransientFor + modality; other StartPositions no-op here.
             if (this.MaximizeBox == false)
             {
                 self.Resizable = false;
@@ -882,10 +873,10 @@ public partial class Form : ContainerControl, IWin32Window
             foreach (var item in this.self.Group.ListWindows())
             {
                 item.Deiconify();
-                item.ShowAll();
+                item.Show();
             }
         }
-        self.ShowAll();
+        self.Show();
     }
 
     /// <summary>

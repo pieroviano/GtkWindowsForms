@@ -95,7 +95,7 @@ public partial class ToolStripDropDown
 
         try
         {
-            self.ShowAll();
+            self.Show();
             self.Popup();
         }
         catch (Exception ex)

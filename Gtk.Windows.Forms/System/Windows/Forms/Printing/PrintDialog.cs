@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing.Printing;
 using Gtk;
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
@@ -286,14 +286,14 @@ public sealed class PrintDialog : CommonDialog
         {
             var messageDialog = new MessageDialog(owner == null ? null : ((Form)owner).self, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Ok, "")
             {
-                WindowPosition = owner == null ? WindowPosition.Center : WindowPosition.CenterOnParent
+                WindowPosition = owner == null ? 0 : 0
             };
             if (ex.Message.ToLower().Contains("doc"))
                 messageDialog.Text = System.Properties.Resources.Gtk_PrintDialog_RunPrint_File_is_in_use_and_cannot_be_overwritten;
             else
                 messageDialog.Text = ex.Message;
             messageDialog.Response += MessageDialog_Response;
-            messageDialog.ShowAll();
+            messageDialog.Show();
             return false;
         }
     }

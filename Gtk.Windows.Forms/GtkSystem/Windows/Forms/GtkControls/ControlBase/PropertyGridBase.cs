@@ -39,12 +39,11 @@ public sealed class PropertyGridBase : Gtk.Paned, IControlGtk
         this.Valign = Gtk.Align.Start;
         this.Halign = Gtk.Align.Start;
         this.WideHandle = true;
-        child2.BorderWidth = 1;
         var attrList = new Pango.AttrList();
         attrList.Insert(new Pango.AttrWeight(Pango.Weight.Bold));
         titleLabel.Attributes = attrList;
-        child2.PackStart(titleLabel, false, true, 2);
-        child2.PackStart(descriptionLabel, true, true, 2);
+        child2.Append(titleLabel);
+        child2.Append(descriptionLabel);
 
         this.Pack1(child1, true, true);
         this.Pack2(child2, false, true);

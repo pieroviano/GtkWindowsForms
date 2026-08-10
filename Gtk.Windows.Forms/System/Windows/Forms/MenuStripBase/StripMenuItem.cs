@@ -1,4 +1,4 @@
-﻿using Gtk;
+using Gtk;
 
 namespace System.Windows.Forms
 {
@@ -16,12 +16,11 @@ namespace System.Windows.Forms
         public StripMenuItem() : base()
         {
             base.Visible = true;
-            checkButton.ImagePosition = PositionType.Left;
             checkButton.Halign = Align.Start;
-            checkButton.Expand = true;
+            checkButton.Hexpand = true;
+            checkButton.Vexpand = true;
             checkButton.Hexpand = true;
             checkButton.Xalign = 0f;
-            checkButton.DrawIndicator = false;
             base.Add(checkButton);
         }
 
@@ -51,13 +50,9 @@ namespace System.Windows.Forms
                 _Image = value;
                 if (value == null)
                 {
-                    checkButton.DrawIndicator = false;
-                    checkButton.AlwaysShowImage = false;
                 }
                 else
                 {
-                    checkButton.DrawIndicator = false;
-                    checkButton.AlwaysShowImage = true;
                     checkButton.Image = new Gtk.Image(value);
                 }
             }

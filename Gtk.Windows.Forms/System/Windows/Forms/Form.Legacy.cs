@@ -78,13 +78,11 @@ public partial class Form
     /// <summary>Centers the position of the form within the bounds of the screen.</summary>
     protected void CenterToScreen()
     {
-        self.SetPosition(Gtk.WindowPosition.Center);
     }
 
     /// <summary>Centers the position of the form within the bounds of its parent form.</summary>
     protected void CenterToParent()
     {
-        self.SetPosition(Gtk.WindowPosition.CenterOnParent);
     }
 
     /// <summary>Raises the <see cref="E:System.Windows.Forms.Form.Closing" /> event.</summary>

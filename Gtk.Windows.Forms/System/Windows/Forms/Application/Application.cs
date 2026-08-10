@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
@@ -643,7 +643,6 @@ tooltip label {padding: 0px 10px; color: #555555;}
             settings.EnableTooltips = true;
             var iconpath = Path.Combine(appdirectory, "icon.png");
             if (File.Exists(iconpath))
-                Gtk.Window.SetDefaultIconFromFile(iconpath);
 
             var css = new Gtk.CssProvider();
             var cssBuilder=new StringBuilder();
@@ -846,11 +845,9 @@ tooltip label {padding: 0px 10px; color: #555555;}
         if (mainForm.ShowInTaskbar == false)
         {
             var pw = new Gtk.Window(Gtk.WindowType.Toplevel);
-            pw.WindowPosition = Gtk.WindowPosition.Center;
             pw.Decorated = false;
             pw.WidthRequest = 1;
             pw.HeightRequest = 1;
-            pw.SkipTaskbarHint = true;
             mainForm.self.TransientFor = pw;
             pw.Shown += Pw_Shown;
             pw.Show();

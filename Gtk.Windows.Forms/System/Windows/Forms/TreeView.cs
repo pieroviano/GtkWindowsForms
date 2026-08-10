@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -93,7 +93,7 @@ public partial class TreeView : ScrollableControl
         renderercheckbox.Toggled += CellName_Toggled;
 
         renderercheckbox.Visible = false;
-        column.PackStart(renderercheckbox, false);
+        column.Append(renderercheckbox);
         column.AddAttribute(renderercheckbox, "active", 1);
 
         rendererPixbuf = new CellRendererIcon(this)
@@ -101,13 +101,13 @@ public partial class TreeView : ScrollableControl
             IsExpanded = true,
             Visible = false
         };
-        column.PackStart(rendererPixbuf, false);
+        column.Append(rendererPixbuf);
         var renderertext = new Gtk.CellRendererText
         {
             IsExpanded = true,
             PlaceholderText = "---"
         };
-        column.PackStart(renderertext, true);
+        column.Append(renderertext);
         column.AddAttribute(renderertext, "text", 0);
         self.TreeView.AppendColumn(column);
     }

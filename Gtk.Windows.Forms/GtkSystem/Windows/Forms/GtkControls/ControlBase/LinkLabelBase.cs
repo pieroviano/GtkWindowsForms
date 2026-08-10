@@ -15,7 +15,6 @@ public sealed class LinkLabelBase : Gtk.LinkButton, IControlGtk
     {
         this.Override = new GtkControlOverride(this);
         this.StyleContext.AddClass("LinkLabel");
-        this.BorderWidth = 0;
         this.Valign = Gtk.Align.Start;
         this.Halign = Gtk.Align.Start;
         // Gtk 4: Widget.Drawn is gone and there is no overridable OnSnapshot; custom paint moves to CSS (deferred).

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -44,7 +44,7 @@ public class DataGridViewButtonColumn : DataGridViewColumn
             Height = RowHeight
         };
         renderer.SetAlignment(0.5f, 0.5f);
-        base.PackStart(renderer, false);
+        base.Append(renderer);
         base.SortMode = DataGridViewColumnSortMode.NotSortable;
         base.Sizing = TreeViewColumnSizing.GrowOnly;
         _cellRenderer = renderer;

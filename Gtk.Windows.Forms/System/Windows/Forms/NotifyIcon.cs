@@ -136,11 +136,9 @@ namespace System.Windows.Forms
         // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
         // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
             statuswin = new Gtk.Window(WindowType.Toplevel);
-            statuswin.WindowPosition = Gtk.WindowPosition.Center;
             statuswin.Decorated = false;
             statuswin.WidthRequest = 1;
             statuswin.HeightRequest = 1;
-            statuswin.SkipTaskbarHint = true;
             statuswin.Shown += statuswin_Shown;
             statuswin.Show();
         }
@@ -310,14 +308,11 @@ namespace System.Windows.Forms
         {
             var balloonTip = new Gtk.Window(WindowType.Toplevel);
             balloonTip.DestroyWithParent = true;
-            balloonTip.SetPosition(WindowPosition.None);
             balloonTip.TypeHint = Gdk.WindowTypeHint.Dialog;
             balloonTip.TransientFor = statuswin;
-            balloonTip.SkipTaskbarHint = true;
             balloonTip.WidthRequest = 200;
             balloonTip.HeightRequest = 50;
             balloonTip.Decorated = true;
-            balloonTip.KeepAbove = true;
             balloonTip.Title = tipTitle ?? "";
             var balloonTipText = new Gtk.Label(tipText) { Xpad = 20, Ypad = 20, Halign = Align.Start };
             balloonTip.Add(balloonTipText);
@@ -333,7 +328,6 @@ namespace System.Windows.Forms
 
         // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
         // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
-            balloonTip.Move(-1000, -1000);
 
             uint handler = GLib.Timeout.Add((uint)timeout, () =>
             {
@@ -355,8 +349,7 @@ namespace System.Windows.Forms
                 return false;
             });
             balloonTip.Data.Add("Timeout", handler);
-            balloonTip.ShowAll();
-            balloonTip.NoShowAll = true;
+            balloonTip.Show();
             Gdk.Monitor monitor = Gdk.Display.Default.GetMonitorAtWindow(balloonTip.Window);
             int width = monitor.Workarea.Width;
             int height = monitor.Workarea.Height;
@@ -365,7 +358,6 @@ namespace System.Windows.Forms
             {
                 offset_bottom = 0;
             }
-            balloonTip.Move(width - balloonTip.AllocatedWidth - 30, offsetY);
             offset_bottom += balloonTip.AllocatedHeight;
             offset_index += 1;
         }

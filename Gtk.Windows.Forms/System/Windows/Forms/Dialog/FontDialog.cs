@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Drawing;
 using Gtk;
 
@@ -144,18 +144,17 @@ public class FontDialog : CommonDialog
         {
             fontChooserDialog = new Gtk.FontChooserDialog(System.Properties.Resources.Gtk_FontDialog_RunDialog_Select_Font, ownerform.self)
             {
-                WindowPosition = Gtk.WindowPosition.CenterOnParent
+                WindowPosition = 0
             };
         }
         else
         {
             fontChooserDialog = new Gtk.FontChooserDialog(System.Properties.Resources.Gtk_FontDialog_RunDialog_Select_Font, null)
             {
-                WindowPosition = Gtk.WindowPosition.Center
+                WindowPosition = 0
             };
         }
         fontChooserDialog.IconName = "font-x-generic";
-        fontChooserDialog.KeepAbove = true;
         if (null != _font)
             fontChooserDialog.Font = _font.Name + " " + (int)_font.Size;
         if (FullOpen && AllowFullOpen)

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -55,7 +55,6 @@ public partial class DateTimePicker : MaskedTextBox
 
         popver = new Gtk.Popover(self)
         {
-            BorderWidth = 5,
             Modal = true,
             Position = PositionType.Bottom,
             ConstrainTo = PopoverConstraint.Window
@@ -354,7 +353,7 @@ public partial class DateTimePicker : MaskedTextBox
         {
             calendar.Date = Value;
         }
-        popver.ShowAll();
+        popver.Show();
     }
 
     private void Self_Changed(object sender, EventArgs e)

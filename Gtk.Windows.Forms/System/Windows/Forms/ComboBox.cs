@@ -401,10 +401,8 @@ public partial class ComboBox : ListControl
                 {
                     self.Entry.IsEditable = false;
                     self.Entry.CanFocus = false;
-                    self.Entry.NoShowAll = true;
                     self.Entry.WidthRequest = 1;
                     ws.WidthRequest = Math.Max(self.WidthRequest, self.AllocatedWidth);
-                    ws.DrawIndicator = true;
         // Gtk 4: Widget.Drawn is gone and there is no overridable OnSnapshot; custom paint moves to CSS (deferred).
                 }
             }

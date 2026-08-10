@@ -22,9 +22,6 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
     public ScrollableBoxBase() : base()
     {
         this.Override = new GtkControlOverride(this);
-        this.ShadowType = Gtk.ShadowType.None;
-        this.BorderWidth = 1;
-        this.Events = Gdk.EventMask.AllEventsMask;
         base.Halign = Gtk.Align.Start;
         base.Valign = Gtk.Align.Start;
         base.Hexpand = false;

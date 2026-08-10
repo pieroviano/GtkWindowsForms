@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -39,7 +39,6 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
         self.MinChildrenPerLine = 1;
         self.MaxChildrenPerLine = 999;
         self.ColumnSpacing = 0;
-        self.BorderWidth = 0;
         _controls = new ObjectCollection(this);
     }
 
@@ -178,8 +177,7 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
             var box = new FlowBoxChild
             {
                 Valign = Align.Start,
-                Halign = Align.Start,
-                Expand = false
+                Halign = Align.Start, Hexpand = false, Vexpand = false
             };
             control?.Location = new Drawing.Point(0, 0);
             control?.LockLocation = true;
@@ -189,7 +187,8 @@ public partial class FlowLayoutPanel : Control, IExtenderProvider
             {
                 widg.Valign = Align.Start;
                 widg.Halign = Align.Start;
-                widg.Expand = false;
+                widg.Hexpand = false;
+                widg.Vexpand = false;
                 box.Add(widg);
             }
 

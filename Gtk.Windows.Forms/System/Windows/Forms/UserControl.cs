@@ -57,7 +57,6 @@ public partial class UserControl : ContainerControl
         {
             MarginStart = 0,
             MarginTop = 0,
-            BorderWidth = 0,
             Halign = Align.Fill,
             Valign = Align.Fill,
             Hexpand = false,

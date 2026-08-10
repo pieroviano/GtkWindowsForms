@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -104,7 +104,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
                 {
                     if (grid.GetChildAt(c, r) == null)
                     {
-                        grid.Attach(new Gtk.Viewport() { Vexpand = true, Hexpand = true, BorderWidth = 0, Valign = Gtk.Align.Fill, Halign = Gtk.Align.Fill }, c, r, 1, 1);
+                        grid.Attach(new Gtk.Viewport() { Vexpand = true, Hexpand = true, Valign = Gtk.Align.Fill, Halign = Gtk.Align.Fill }, c, r, 1, 1);
                     }
                 }
             }
@@ -189,7 +189,7 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
                 {
                     if (grid.GetChildAt(c, r) == null)
                     {
-                        grid.Attach(new Gtk.Viewport() { Vexpand = true, Hexpand = true, BorderWidth = 0, Valign = Gtk.Align.Fill, Halign = Gtk.Align.Fill }, c, r, 1, 1);
+                        grid.Attach(new Gtk.Viewport() { Vexpand = true, Hexpand = true, Valign = Gtk.Align.Fill, Halign = Gtk.Align.Fill }, c, r, 1, 1);
                     }
                 }
             }

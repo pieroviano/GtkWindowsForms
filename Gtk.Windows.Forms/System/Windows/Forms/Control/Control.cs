@@ -1712,10 +1712,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             if (this.Widget != null)
             {
-                this.Widget.NoShowAll = value == false;
                 if (value == true)
                 {
-                    this.Widget.ShowAll();
+                    this.Widget.Show();
                 }
                 else
                 {
@@ -3109,7 +3108,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual void Show()
     {
-        this.Widget?.ShowAll();
+        this.Widget?.Show();
     }
 
     /// <summary>

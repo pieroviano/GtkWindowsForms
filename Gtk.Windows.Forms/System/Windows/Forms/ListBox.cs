@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -707,7 +707,7 @@ public partial class ListBox : ListControl
     public void EndUpdate()
     {
         IsUpdateing = false;
-        self.ListBox.ShowAll();
+        self.ListBox.Show();
     }
 
     /// <summary>
@@ -935,7 +935,7 @@ public partial class ListBox : ListControl
     /// </summary>
     public override void Refresh()
     {
-        self.ListBox.ShowAll();
+        self.ListBox.Show();
     }
 
     /// <summary>
@@ -993,7 +993,7 @@ public partial class ListBox : ListControl
         var row = new Gtk.ListBoxRow();
         row.HeightRequest = ItemHeight > 0 ? ItemHeight : DefaultItemHeight;
         row.Visible = true;
-        row.Add(new Gtk.Label(item.ToString()) { Valign = Align.Center, Halign = Align.Start, Expand = true, Visible = !IsUpdateing });
+        row.Add(new Gtk.Label(item.ToString()) { Valign = Align.Center, Halign = Align.Start, Hexpand = true, Vexpand = true, Visible = !IsUpdateing });
         self.ListBox.Add(row);
     }
 
@@ -1041,7 +1041,7 @@ public partial class ListBox : ListControl
         var row = new Gtk.ListBoxRow();
         row.HeightRequest = ItemHeight > 0 ? ItemHeight : DefaultItemHeight;
         row.Visible = true;
-        row.Add(new Gtk.Label(item.ToString()) { Valign = Align.Center, Halign = Align.Start, Expand = true, Visible = !IsUpdateing });
+        row.Add(new Gtk.Label(item.ToString()) { Valign = Align.Center, Halign = Align.Start, Hexpand = true, Vexpand = true, Visible = !IsUpdateing });
         self.ListBox.Insert(row, index);
     }
 

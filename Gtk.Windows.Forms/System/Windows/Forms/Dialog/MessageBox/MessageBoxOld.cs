@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -281,21 +281,19 @@ public class MessageBoxOld
     {
         var dia = new Gtk.Dialog(caption, owner, Gtk.DialogFlags.DestroyWithParent)
         {
-            KeepAbove = true,
             KeepBelow = false,
             TypeHint = Gdk.WindowTypeHint.Dialog
         };
-        dia.SetPosition(position);
         dia.StyleContext.AddClass("DefaultThemeStyle");
         dia.StyleContext.AddClass("MessageBox");
         dia.SetSizeRequest(300, 100);
         dia.SetDefaultSize(300, 100);
         dia.Response += Dia_Response;
         dia.ContentArea.Spacing = 10;
-        dia.ContentArea.Expand = false;
+        dia.ContentArea.Hexpand = false;
+        dia.ContentArea.Vexpand = false;
         dia.ContentArea.Halign = Align.Fill;
         dia.ContentArea.Valign = Align.Start;
-        dia.BorderWidth = 20;
         dia.Valign = Align.Fill;
         dia.Halign = Align.Fill;
         var msgbox = new Box(Gtk.Orientation.Horizontal, 10)
@@ -335,8 +333,8 @@ public class MessageBoxOld
             content.LineWrap = true;
             content.LineWrapMode = Pango.WrapMode.Word;
         }
-        msgbox.PackStart(content, false, true, 5);
-        dia.ContentArea.PackStart(msgbox, false, true, 0);
+        msgbox.Append(content);
+        dia.ContentArea.Append(msgbox);
 
         dia.Icon = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("help-faq.png"));
         if (buttons == MessageBoxButtons.OK)
@@ -370,7 +368,7 @@ public class MessageBoxOld
             dia.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_Help, Gtk.ResponseType.Help);
             dia.AddButton(System.Properties.Resources.Gtk_MessageBox_ShowCore_Cancel, Gtk.ResponseType.Cancel);
         }
-        dia.ShowAll();
+        dia.Show();
 
         return dia.Run();
     }
@@ -392,11 +390,8 @@ public class MessageBoxOld
             buttonsType = Gtk.ButtonsType.OkCancel;
 
         var dia = new Gtk.MessageDialog(owner, Gtk.DialogFlags.DestroyWithParent, Gtk.MessageType.Info, buttonsType, text);
-        dia.SetPosition(position);
         dia.StyleContext.AddClass("DefaultThemeStyle");
         dia.StyleContext.AddClass("MessageBox");
-        dia.BorderWidth = 10;
-        dia.KeepAbove = true;
         dia.KeepBelow = false;
         dia.Title = caption;
         dia.Response += Dia_Response;

@@ -556,19 +556,20 @@ public partial class Control
                         {
                             statusbar.self.Halign = Gtk.Align.Fill;
                             statusbar.self.Valign = Gtk.Align.Start;
-                            statusbar.self.Expand = false;
+                            statusbar.self.Hexpand = false;
+                            statusbar.self.Vexpand = false;
                             statusbar.self.MarginStart = 0;
                             statusbar.self.MarginTop = 0;
                             statusbar.self.MarginEnd = 0;
                             statusbar.self.MarginBottom = 0;
                             if (lay.IsRealized)
-                                statusbar.self.ShowAll();
+                                statusbar.self.Show();
                             var overlay = new Gtk.Overlay
                             {
                                 HeightRequest = statusbar.Height
                             };
                             overlay.AddOverlay(statusbar.self);
-                            form.self.ContentArea.PackEnd(overlay, false, false, 0);
+                            form.self.ContentArea.Append(overlay);
                         }
                     }
                     else if (item is Control control)
@@ -614,9 +615,9 @@ public partial class Control
                 if (_ownerControl?.IsRealized == true)
                 {
                     if (item is Control con)
-                        con.Widget?.ShowAll();
+                        con.Widget?.Show();
                     else if (item is Gtk.Widget widget)
-                        widget.ShowAll();
+                        widget.Show();
                 }
             }
         }

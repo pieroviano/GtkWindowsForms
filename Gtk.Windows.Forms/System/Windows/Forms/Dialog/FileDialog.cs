@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -727,14 +727,14 @@ public abstract class FileDialog : CommonDialog
         {
             fileDialog = new Gtk.FileChooserDialog(System.Properties.Resources.Gtk_FileDialog_RunDialog_Select_File, ownerform.self, ActionType)
             {
-                WindowPosition = Gtk.WindowPosition.CenterOnParent
+                WindowPosition = 0
             };
         }
         else
         {
             fileDialog = new Gtk.FileChooserDialog(System.Properties.Resources.Gtk_FileDialog_RunDialog_Select_File, null, ActionType)
             {
-                WindowPosition = Gtk.WindowPosition.Center
+                WindowPosition = 0
             };
         }
         fileDialog.IconName = "document-open";
@@ -744,7 +744,6 @@ public abstract class FileDialog : CommonDialog
         fileDialog.Title = this.Title ?? string.Empty;
         fileDialog.TooltipText = this.Description ?? string.Empty;
 
-        fileDialog.KeepAbove = true;
         if (!string.IsNullOrWhiteSpace(this.SelectedDirectory))
             fileDialog.SetCurrentFolder(this.SelectedDirectory);
         else if (!string.IsNullOrWhiteSpace(this.InitialDirectory))

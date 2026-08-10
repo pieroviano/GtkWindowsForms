@@ -17,7 +17,6 @@ public sealed class RichTextBoxBase : ScrollableBoxBase
     public RichTextBoxBase() : base()
     {
         this.StyleContext.AddClass("RichTextBox");
-        this.TextView.BorderWidth = 1;
         this.TextView.Margin = 0;
         this.TextView.WrapMode = Gtk.WrapMode.Char;
         this.TextView.Halign = Gtk.Align.Fill;

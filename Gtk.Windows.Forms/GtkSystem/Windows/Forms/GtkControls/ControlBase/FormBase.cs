@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms;
+using System.Windows.Forms;
 using Gdk;
 using Gtk;
 using ScrollEventHandler = System.Windows.Forms.ScrollEventHandler;
@@ -52,8 +52,6 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     public FormBase() : base("title", null, DialogFlags.UseHeaderBar | DialogFlags.DestroyWithParent)
     {
         this.Override = new GtkControlOverride(this);
-        this.WindowPosition = Gtk.WindowPosition.Center;
-        this.BorderWidth = 0;
         this.Valign = Gtk.Align.Start;
         this.Halign = Gtk.Align.Start;
         if (Titlebar is Gtk.HeaderBar headerbar)
@@ -66,13 +64,12 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
                 Visible = true,
                 Relief = ReliefStyle.None,
                 Valign = Align.Center,
-                Halign = Align.Center,
-                AlwaysShowImage = true
+                Halign = Align.Center
             };
             close.StyleContext.AddClass("close");
             close.StyleContext.AddClass("titlebutton");
             close.Clicked += Close_Clicked;
-            headerbar.PackEnd(close);
+            headerbar.Append(close);
 
             maximize = new Gtk.Button("window-maximize-symbolic", IconSize.SmallToolbar)
             {
@@ -80,26 +77,24 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
                 Visible = true,
                 Relief = ReliefStyle.None,
                 Valign = Align.Center,
-                Halign = Align.Center,
-                AlwaysShowImage = true
+                Halign = Align.Center
             };
             maximize.StyleContext.AddClass("maximize");
             maximize.StyleContext.AddClass("titlebutton");
             maximize.Clicked += maximize_Clicked;
-            headerbar.PackEnd(maximize);
+            headerbar.Append(maximize);
             minimize = new Gtk.Button("window-minimize-symbolic", IconSize.SmallToolbar)
             {
                 Name = "minimize",
                 Visible = true,
                 Relief = ReliefStyle.None,
                 Valign = Align.Center,
-                Halign = Align.Center,
-                AlwaysShowImage = true
+                Halign = Align.Center
             };
             minimize.StyleContext.AddClass("minimize");
             minimize.StyleContext.AddClass("titlebutton");
             minimize.Clicked += minimize_Clicked;
-            headerbar.PackEnd(minimize);
+            headerbar.Append(minimize);
         }
 
         this.SetDefaultSize(100, 10);
@@ -112,7 +107,6 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         this.CloseRequest += FormBase_CloseRequest;
         // Gtk 4 removed WindowStateEvent; external maximize/restore no longer re-skins the button here
         // (the maximize button itself still toggles its icon). TODO(gtk4): observe notify::maximized.
-        ScrolledView.BorderWidth = 0;
         ScrolledView.Valign = Gtk.Align.Fill;
         ScrolledView.Halign = Gtk.Align.Fill;
         ScrolledView.Hexpand = true;
@@ -121,10 +115,9 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         ScrolledView.VscrollbarPolicy = PolicyType.Automatic;
         ScrolledView.Hadjustment.ValueChanged += Hadjustment_ValueChanged;
         ScrolledView.Vadjustment.ValueChanged += Vadjustment_ValueChanged;
-        this.ContentArea.BorderWidth = 0;
         this.ContentArea.Spacing = 0;
         this.ContentArea.Homogeneous = false;
-        this.ContentArea.PackStart(ScrolledView, true, true, 0);
+        this.ContentArea.Append(ScrolledView);
         this.ContentArea.StyleContext.AddClass("Form");
         contaner.Valign = Gtk.Align.Fill;
         contaner.Halign = Gtk.Align.Fill;
@@ -196,7 +189,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
             {
                 var flag = new Gtk.Image(value.ScaleSimple(24, 24, Gdk.InterpType.Bilinear));
                 flag.Visible = true;
-                titlebar.PackStart(flag);
+                titlebar.Append(flag);
             }
         }
     }
@@ -211,7 +204,6 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         {
             if (maximize != null)
             {
-                maximize.NoShowAll = true;
                 maximize.Visible = value;
             }
         }
@@ -227,7 +219,6 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         {
             if (minimize != null)
             {
-                minimize.NoShowAll = true;
                 minimize.Visible = value;
             }
         }
