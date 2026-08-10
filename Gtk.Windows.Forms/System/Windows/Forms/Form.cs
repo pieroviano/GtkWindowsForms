@@ -919,7 +919,7 @@ public partial class Form : ContainerControl, IWin32Window
         // disposed/null dialog.
         if (self != null)
         {
-            var irun = self.Run();
+            var irun = self.RunDialog();
         }
 
         return this.DialogResult;

@@ -211,7 +211,7 @@ public class ColorDialog : CommonDialog
             colorChooserDialog.Rgba = new Gdk.RGBA() { Alpha = (double)Color.A / 255, Red = (double)Color.R / 255, Green = (double)Color.G / 255, Blue = (double)Color.B / 255 };
         if (FullOpen && AllowFullOpen)
             colorChooserDialog.Fullscreen();
-        var res = colorChooserDialog.Run();
+        var res = colorChooserDialog.RunDialog();
         var colorSelection = colorChooserDialog.Rgba;
         this.Color = Color.FromArgb((int)(colorSelection.Alpha * 255), (int)Math.Round(colorSelection.Red * 255, 0), (int)Math.Round(colorSelection.Green * 255, 0), (int)Math.Round(colorSelection.Blue * 255, 0));
         colorChooserDialog.Dispose();

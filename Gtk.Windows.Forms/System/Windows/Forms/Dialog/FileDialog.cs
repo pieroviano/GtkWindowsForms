@@ -795,7 +795,7 @@ public abstract class FileDialog : CommonDialog
                 }
             }
         }
-        var response = fileDialog.Run();
+        var response = fileDialog.RunDialog();
         this.FileName = fileDialog.Filename;
         this.FileNames = fileDialog.Filenames.Clone() as string[];
         this.SelectedDirectory = fileDialog.Filename;

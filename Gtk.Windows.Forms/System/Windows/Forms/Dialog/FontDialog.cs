@@ -159,7 +159,7 @@ public class FontDialog : CommonDialog
             fontChooserDialog.Font = _font.Name + " " + (int)_font.Size;
         if (FullOpen && AllowFullOpen)
             fontChooserDialog.Fullscreen();
-        var res = fontChooserDialog.Run();
+        var res = fontChooserDialog.RunDialog();
         var fontStyle = FontStyle.Regular;
         switch (fontChooserDialog.FontDesc.Weight)
         {

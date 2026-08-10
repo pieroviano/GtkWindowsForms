@@ -372,7 +372,7 @@ public class MessageBoxOld
         }
         dia.Show();
 
-        return dia.Run();
+        return dia.RunDialog();
     }
 
     private static int ShowMessageDialogCore(Gtk.Window owner, int position, string text, string caption, MessageBoxButtons buttons, params object[] icon)
@@ -398,6 +398,6 @@ public class MessageBoxOld
         dia.Title = caption;
         dia.Response += Dia_Response;
 
-        return dia.Run();
+        return dia.RunDialog();
     }
 }

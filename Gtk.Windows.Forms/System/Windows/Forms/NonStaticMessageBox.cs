@@ -353,7 +353,7 @@ internal class NonStaticMessageBox : IMessageBox
         }
         dia.Show();
 
-        return dia.Run();
+        return dia.RunDialog();
     }
 
     private int ShowMessageDialogCore(Window owner, int position, string text, string caption, MessageBoxButtons buttons, params object[] icon)
@@ -379,6 +379,6 @@ internal class NonStaticMessageBox : IMessageBox
         dia.Title = caption;
         dia.Response += Dia_Response;
 
-        return dia.Run();
+        return dia.RunDialog();
     }
 }

@@ -139,6 +139,54 @@ using Gtk;
         }
 
         /// <summary>
+        /// Synchronous replacement for Gtk 3's <c>Gtk.Dialog.Run()</c>, which Gtk 4 removed in favour
+        /// of the async present/response model. WinForms <c>ShowDialog()</c> must block and return a
+        /// result, so this spins a nested <see cref="GLib.MainLoop"/> that quits on the dialog's
+        /// <c>response</c> (or <c>close</c>) signal — the documented Gtk 4 port of <c>Run()</c>.
+        /// </summary>
+        /// <param name="dialog">The dialog to present modally and wait on.</param>
+        /// <returns>The <see cref="Gtk.ResponseType"/> id (as int) the dialog closed with.</returns>
+        public static int RunDialog(this Gtk.Dialog dialog)
+        {
+            var response = (int)Gtk.ResponseType.None;
+            var loop = new GLib.MainLoop();
+
+            void OnResponse(object o, Gtk.ResponseArgs args)
+            {
+                // The generated ResponseArgs.Response getter casts Args[0] to string (a binding quirk);
+                // the raw signal parameter is the int response id, so read it directly.
+                if (args.Args != null && args.Args.Length > 0 && args.Args[0] != null)
+                {
+                    response = System.Convert.ToInt32(args.Args[0]);
+                }
+
+                if (loop.IsRunning)
+                {
+                    loop.Quit();
+                }
+            }
+
+            void OnClose(object o, System.EventArgs args)
+            {
+                if (loop.IsRunning)
+                {
+                    loop.Quit();
+                }
+            }
+
+            dialog.Response += OnResponse;
+            dialog.Close += OnClose;
+            dialog.Modal = true;
+            dialog.Present();
+
+            loop.Run();
+
+            dialog.Response -= OnResponse;
+            dialog.Close -= OnClose;
+            return response;
+        }
+
+        /// <summary>
         /// Adds <paramref name="child"/> to <paramref name="parent"/>, dispatching to the
         /// Gtk 4 child API appropriate to the container's runtime type. Replaces Gtk 3's
         /// universal <c>Container.Add</c>.
