@@ -299,6 +299,18 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     /// false
     /// </c>.
     /// </returns>
+    /// <summary>
+    /// The nested <see cref="GLib.MainLoop"/> currently driving this window as a modal dialog (set by
+    /// <c>Gtk4Compat.RunDialog</c>), or <see langword="null"/> when the window is not modal.
+    /// </summary>
+    internal GLib.MainLoop? ModalLoop;
+
+    /// <summary>
+    /// The form whose dispose/destroy was deferred out of a modal loop (see <see cref="CloseWindow"/>).
+    /// <c>Gtk4Compat.RunDialog</c> completes it once <see cref="ModalLoop"/> has unwound.
+    /// </summary>
+    internal Form? PendingModalClose;
+
     public bool CloseWindow(bool isResponse = false)
     {
         isCloseWindow = false;
@@ -306,8 +318,21 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         {
             if (this.Data["Control"] is Form from1)
             {
-                from1.Dispose();
-                this.Destroy();
+                // Gtk4 crashes on a re-entrant Window.Destroy() — i.e. destroying this window while it is
+                // running its own nested modal loop (ShowDialog + a Load handler that calls Close()). End
+                // the modal loop and hand the dispose/destroy to RunDialog, which performs it right after
+                // the loop unwinds (on this same thread, not on top of the loop and not at process teardown).
+                var loop = ModalLoop;
+                if (loop != null && loop.IsRunning)
+                {
+                    PendingModalClose = from1;
+                    loop.Quit();
+                }
+                else
+                {
+                    from1.Dispose();
+                    this.Destroy();
+                }
             }
             isCloseWindow = true;
         }

@@ -537,7 +537,7 @@ public sealed partial class Application
 .DefaultThemeStyle button{padding:4px 3px;}
 .titlebar{border-radius: 0px; border-bottom: solid 1px #cfcfcf;}
 .ButtonNone{padding:0px;margin:0px;border-radius:0px;border-style:none;box-shadow:none;}
-.ButtonNone.check,.ButtonNone check{padding-top:0px;padding-bottom:0px;;margin-top:0px;margin-bottom:0px;}
+.ButtonNone.check,.ButtonNone check{padding-top:0px;padding-bottom:0px;margin-top:0px;margin-bottom:0px;}
 .BorderNone{border-style:none;box-shadow:none;}
 .BorderFixedSingle{border-width:0px;border-style:none;padding:1px;box-shadow: 0px 0px 0px 1px @frame_color;}
 .BorderFixed3D{border-width:0px;border-style:none; padding:2px 1px 1px 2px;box-shadow: 0px 0px 0px 1px @frame3d_color, inset 2px 2px 0px 0px @frame3d_color5;}
@@ -545,7 +545,7 @@ public sealed partial class Application
 .DataGridView {margin:0px;}
 .GridViewCell-Button{ color:@theme_text_color; border:solid 1px @frame_color; background-color: shade(@theme_bg_color, 0.7);}
 .GridViewCell-Button:hover{background-color: shade(@theme_bg_color, 0.8);}
-.GridViewCell-Button:selected{ color:blue}
+.GridViewCell-Button:selected{ color:blue;}
 
 .LinkLabel{border-style:none;}
 .TextBox{}
@@ -640,7 +640,9 @@ tooltip label {padding: 0px 10px; color: #555555;}
             var settings = Gtk.Settings.Default;
             settings.SplitCursor = true;
             settings.EnableAnimations = true;
-            settings.EnableTooltips = true;
+            // Gtk4 removed the "gtk-enable-tooltips" GtkSettings property (tooltips are always enabled and
+            // controlled per-widget). The GtkSharp C# property still exists but setting it raises a runtime
+            // GLib-GObject-CRITICAL ('has no property named gtk-enable-tooltips'), so it is omitted.
             var iconpath = Path.Combine(appdirectory, "icon.png");
             // Gtk4 removed the file-based default window icon (SetDefaultIconFromFile); only a themed
             // icon-name is supported now. TODO(gtk4): install icon.png into the theme and set IconName.

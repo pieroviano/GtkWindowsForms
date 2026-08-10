@@ -3937,6 +3937,14 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </param>
     protected virtual void SetStyle(Gtk.Widget widget)
     {
+        // Gtk4: applying CSS touches native GTK (StyleContext / CssProvider). If the widget's native
+        // instance is gone (a deferred style pass on a torn-down control), those calls would crash the
+        // process, so skip.
+        if (widget == null || widget.Handle == IntPtr.Zero)
+        {
+            return;
+        }
+
         var style = new StringBuilder();
         if (widget is Gtk.Image) { }
         else
@@ -4457,10 +4465,19 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
     private void Widget_Realized(object sender, EventArgs e)
     {
+        // Gtk4: this handler can also be reached from a deferred main-loop callback (e.g. a Load handler
+        // that called Form.Close() leaves a 100 ms close timer + a queued realize). If the widget's native
+        // instance is already gone by then, styling/handle work would dereference freed memory and crash the
+        // process, so bail out when it is no longer alive.
+        if (sender is not Gtk.Widget realizedWidget || realizedWidget.Handle == IntPtr.Zero)
+        {
+            return;
+        }
+
         if (WidgetRealized == false)
         {
             WidgetRealized = true;
-            InitStyle((Gtk.Widget)sender);
+            InitStyle(realizedWidget);
             // Nothing ever raised HandleCreated/HandleDestroyed, so every consumer of them was dead code -
             // including ApplicationContext, which detects its main form closing by subscribing to
             // HandleDestroyed. Realize is the point at which the widget has a real GDK handle.
