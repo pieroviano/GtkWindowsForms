@@ -35,8 +35,8 @@ Branch: `gtk4`. Milestones are committed individually; error counts are `dotnet 
 | 2 | Package swap (§1) | ✅ done | `f12e69e5` | `GtkSharp`→`Net4x.GtkSharp` (5 refs); `GtkSharpLatestVersion` 3.24.24→4.22.4, floats `.*` |
 | 3 | `Gtk.Drawing` (Cairo/Gdk/Pango) | ✅ done — **0 errors** | `384c96b5` | `CairoSurfacePixbuf.ToPixbuf`; `FontFamily` via `CairoHelper`; `SystemIcons` IconTheme/LookupIcon |
 | 4 | `Gtk.Windows.Forms` — Control.cs input core | ✅ done — Control.cs **0 errors** | `ec1320a3` | 241-line dispatch → 5 EventControllers; styling/Container/Atk fixes. **Forms 236→222** |
-| 5 | `FormBase` (window/dialog lifecycle) | ⏳ next | — | `Gtk.Dialog`, `DeleteEvent`→`CloseRequest` (inverted veto), `Drawn`, `WindowState` (26 errors) |
-| 6 | Menus/toolbars → GMenu/PopoverMenu | ☐ todo | — | `Menu`/`MenuBar`/`MenuItem`/`Toolbar`/`StatusIcon`; `IToolMenuItem`; ContextMenuStrip popup (TODO left in Control.cs) |
+| 5 | `FormBase` (window/dialog lifecycle) | ✅ done — FormBase **0 errors** | _this commit_ | `EventArgs` alias; `DeleteEvent`→`CloseRequest`; `Drawn`→`DrawFunc`; `WindowStateEvent` removed. **Forms 222→200**. Found: Net4x.GtkSharp **kept** `PackStart`/`Add`/`StyleContext`/`Events`/`BorderWidth` compat → remaining work is removed *types*, not container churn |
+| 6 | Menus/toolbars → GMenu/PopoverMenu | ⏳ next | — | `Menu`/`MenuBar`/`MenuItem`/`Toolbar`/`StatusIcon`; `IToolMenuItem`; ContextMenuStrip popup (TODO left in Control.cs) |
 | 7 | Containers/layout (`Gtk.Layout`→§5.1) | ☐ todo | — | `LayoutBase`, `RadioButton`, scrollbars, `IScrollableBoxBase.Add`; restores `SizeAllocated`/`ParentSet` re-layout deferred in #4 |
 | 8 | Accessibility (`Atk`→`Gtk.Accessible`) | ☐ todo | — | `AtkPeer` stubbed null in #4; `AccessibleObject.cs` |
 | 9 | Drawing/override (`OnDrawn`→snapshot) | ☐ todo | — | `GtkControlOverride`, remaining `Drawn` overrides |
@@ -47,6 +47,7 @@ Branch: `gtk4`. Milestones are committed individually; error counts are `dotnet 
 - Runtime re-layout on resize/parent-change (`SizeAllocated`/`ParentSet`) — deferred in #4 → restore in #7 via the `*Base` allocate cycle.
 - `ContextMenuStrip` right-click popup — TODO in `Control.cs` → wire in #6.
 - Accessibility — `AtkPeer` returns null → migrate in #8.
+- Window maximize/restore icon on *external* state change (`WindowStateEvent`) — removed in #5 → restore via `notify::maximized` (or fold into #7).
 
 ---
 
