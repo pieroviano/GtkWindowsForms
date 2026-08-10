@@ -18,7 +18,7 @@ public class HScrollBar : ScrollBar
     /// <summary>
     /// The self
     /// </summary>
-    public ScrollbarBase<Gtk.HScrollbar> self = new(Gtk.Orientation.Horizontal);
+    public ScrollbarBase self = new(Gtk.Orientation.Horizontal);
 
     /// <summary>
     /// Initializes a new instance of the

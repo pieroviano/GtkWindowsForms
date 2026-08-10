@@ -7,7 +7,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 /// </summary>
 /// <seealso cref="Gtk.Layout" />
 /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
-public sealed class LayoutBase : Gtk.Layout, IControlGtk
+public sealed class LayoutBase : Gtk.Fixed, IControlGtk
 {
     /// <summary>
     /// Initializes a new instance of the
@@ -19,7 +19,7 @@ public sealed class LayoutBase : Gtk.Layout, IControlGtk
     /// <param name="vadjustment">
     /// The vadjustment.
     /// </param>
-    public LayoutBase(Adjustment hadjustment, Adjustment vadjustment) : base(hadjustment, vadjustment)
+    public LayoutBase(Adjustment hadjustment, Adjustment vadjustment) : base()
     {
         this.Override = new GtkControlOverride(this);
         base.Valign = Gtk.Align.Start;
@@ -50,11 +50,6 @@ public sealed class LayoutBase : Gtk.Layout, IControlGtk
     /// </param>
     /// <returns>
     /// </returns>
-    protected override bool OnDrawn(Cairo.Context cr)
-    {
-        var rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
-        Override.DrawnBackColor(cr, rec);
-
-        return base.OnDrawn(cr);
-    }
+    // Gtk 4 removed the OnDrawn draw vfunc and exposes no overridable OnSnapshot; the WinForms
+    // BackColor/background is rendered via CSS in the styling migration instead of a draw override.
 }

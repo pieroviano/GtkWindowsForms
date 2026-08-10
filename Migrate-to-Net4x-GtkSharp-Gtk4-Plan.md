@@ -37,8 +37,8 @@ Branch: `gtk4`. Milestones are committed individually; error counts are `dotnet 
 | 4 | `Gtk.Windows.Forms` — Control.cs input core | ✅ done — Control.cs **0 errors** | `ec1320a3` | 241-line dispatch → 5 EventControllers; styling/Container/Atk fixes. **Forms 236→222** |
 | 5 | `FormBase` (window/dialog lifecycle) | ✅ done — FormBase **0 errors** | _this commit_ | `EventArgs` alias; `DeleteEvent`→`CloseRequest`; `Drawn`→`DrawFunc`; `WindowStateEvent` removed. **Forms 222→200**. Found: Net4x.GtkSharp **kept** `PackStart`/`Add`/`StyleContext`/`Events`/`BorderWidth` compat → remaining work is removed *types*, not container churn |
 | 6 | Menus/toolbars → **custom widgets** (§5.3) | ✅ compiles — menu tree **0 errors** | _this commit_ | Bases → `Popover`/`Box`/`Button`/`MenuButton`; items are Gtk4 widgets w/ `GestureClick`; `ShowAll`→`Show` (netstandard2.0, no default-interface); `ActivateCurrent` retyped. **Forms 200→138.** ⚠ compiles only — dropdown **popup/activation** behavior still to wire + verify at runtime |
-| 7 | Containers/layout (`Gtk.Layout`→§5.1) | ⏳ next | — | `LayoutBase`, `RadioButton`, scrollbars, `IScrollableBoxBase.Add`; restores `SizeAllocated`/`ParentSet` re-layout deferred in #4 |
-| 8 | Accessibility (`Atk`→`Gtk.Accessible`) | ☐ todo | — | `AtkPeer` stubbed null in #4; `AccessibleObject.cs` |
+| 7 | Containers/layout (`Gtk.Layout`→`Gtk.Fixed`) | ✅ base classes compile | _this commit_ | `LayoutBase`→`Gtk.Fixed` (§5.1 A); `RadioButtonBase`→`Gtk.CheckButton`+`Group`; `ScrollbarBase` de-generic'd→`Gtk.Scrollbar`; explicit `Add(Widget)` on Scrollable/GroupBox; **6 `OnDrawn` overrides removed** (no overridable `OnSnapshot` — BackColor→CSS, deferred); `Drawn`→`DrawFunc`, `ParentSet`/`SizeAllocated`/`WidgetEventAfter` deferred, `ButtonRelease`→`GestureClick`. **Forms 138→98** |
+| 8 | Accessibility (`Atk`→`Gtk.Accessible`) | ⏳ next | — | `AtkPeer` stubbed null in #4; `AccessibleObject.cs` |
 | 9 | Drawing/override (`OnDrawn`→snapshot) | ☐ todo | — | `GtkControlOverride`, remaining `Drawn` overrides |
 | 10 | Sample apps + tests | ☐ todo | — | swap already applied to samples; fix any direct GtkSharp use; update Gtk3-specific test assertions |
 | 11 | **Run on Gtk 4.22 runtime** (acceptance) | ☐ todo | — | Windows + WSL Debian available; verify input mapping (wheel ×120, scroll sign, click counting, `CloseRequest` veto) |
@@ -49,6 +49,8 @@ Branch: `gtk4`. Milestones are committed individually; error counts are `dotnet 
 - Accessibility — `AtkPeer` returns null → migrate in #8.
 - Window maximize/restore icon on *external* state change (`WindowStateEvent`) — removed in #5 → restore via `notify::maximized` (or fold into #7).
 - **Menu popup + activation behavior** (#6) — the custom-widget menu tree *compiles* but the dropdown popup (`Popover.Popup`/`PopupAt`), menu-bar layout (Box of `MenuButton`s), item activation, and `ContextMenuStrip` right-click are **not yet wired**; do this + verify on Gtk4 in #11 (runtime). Menu-item hover-highlight (removed `Gtk.MenuItem.Selected`) → CSS.
+- **Container BackColor/background rendering** (#7) — the 6 `OnDrawn` overrides were removed (Gtk4 exposes no overridable `OnSnapshot`); WinForms `BackColor`/background image must be re-expressed as a CSS provider in the styling step (fold into #9 or a styling pass). Affects `BoxBase`/`LayoutBase`/`ScrollableBoxBase`/`Tab*`/`TableLayoutPanelBase`/`Panel`/`PictureBox`/`GroupBox`.
+- **RadioButton auto-grouping by shared parent** (#7) — the `ParentSet` walk (removed `Container.Children`+`Gtk.RadioButton`) is dropped; reimplement over `CheckButton.Group` + `FirstChild`/`NextSibling`, or require explicit `RadioButtonBase(group)`. GroupBox scroll-offset tweaks (`Fixedcontaner` `SizeAllocated`/`WidgetEventAfter`) also deferred.
 
 ---
 

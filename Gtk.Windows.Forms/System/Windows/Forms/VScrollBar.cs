@@ -18,7 +18,7 @@ public class VScrollBar : ScrollBar
     /// <summary>
     /// The self
     /// </summary>
-    public ScrollbarBase<Gtk.VScrollbar> self=new(Gtk.Orientation.Vertical);
+    public ScrollbarBase self=new(Gtk.Orientation.Vertical);
 
     /// <summary>
     /// Initializes a new instance of the

@@ -29,13 +29,13 @@ public sealed class PanelBase : ScrollableBoxBase
         contaner.Vexpand = false;
         var background = new Gtk.DrawingArea();
         background.Events = Gdk.EventMask.EnterNotifyMask;
-        background.Drawn += Background_Drawn;
+        background.DrawFunc = Background_DrawFunc;
         contaner.Add(background);
         this.Add(contaner);
     }
 
-    private void Background_Drawn(object o, DrawnArgs args)
+    private void Background_DrawFunc(Gtk.DrawingArea area, Cairo.Context cr, int width, int height)
     {
-        Override.OnPaint(args.Cr);
+        Override.OnPaint(cr);
     }
 }

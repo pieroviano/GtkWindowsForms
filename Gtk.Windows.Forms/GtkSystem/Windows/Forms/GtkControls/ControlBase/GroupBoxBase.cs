@@ -1,4 +1,4 @@
-﻿using Gdk;
+using Gdk;
 using Gtk;
 using ScrollEventHandler = System.Windows.Forms.ScrollEventHandler;
 
@@ -44,13 +44,11 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
         background.Events = Gdk.EventMask.EnterNotifyMask;
         background.Events |= Gdk.EventMask.ButtonPressMask;
         background.Events |= Gdk.EventMask.ButtonReleaseMask;
-        background.Drawn += Background_Drawn;
+        background.DrawFunc = Background_DrawFunc;
         contaner.Add(background);
         fixedcontaner.Events &= EventMask.PointerMotionMask;
         fixedcontaner.Events &= EventMask.ButtonMotionMask;
         fixedcontaner.Events &= EventMask.ScrollMask;
-        fixedcontaner.SizeAllocated += Fixedcontaner_SizeAllocated;
-        fixedcontaner.WidgetEventAfter += Fixedcontaner_WidgetEventAfter;
         fixedcontaner.HscrollbarPolicy = PolicyType.Never;
         fixedcontaner.VscrollbarPolicy = PolicyType.External;
         fixedcontaner.Add(contaner);
@@ -171,21 +169,15 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
         return false;
     }
 
-    private void Background_Drawn(object o, DrawnArgs args)
+    private void Background_DrawFunc(Gtk.DrawingArea area, Cairo.Context cr, int width, int height)
     {
-        Override.OnPaint(args.Cr);
+        Override.OnPaint(cr);
     }
 
-    private void Fixedcontaner_SizeAllocated(object o, SizeAllocatedArgs args)
-    {
-        contaner.HeightRequest = Math.Max(1, this.HeightRequest - fixedcontaner.MarginStart - fixedcontaner.MarginEnd);
-        fixedcontaner.Vadjustment.Value = 24;
-    }
+    // Gtk 4: IScrollableBoxBase.Add is explicit now that Gtk.Container.Add is not inherited.
+    public void Add(Gtk.Widget child) => base.Add(child);
 
-    private void Fixedcontaner_WidgetEventAfter(object o, WidgetEventAfterArgs args)
-    {
-        fixedcontaner.Vadjustment.Value = 24;
-    }
+
 
     /// <summary>
     /// Raises the Scroll event.

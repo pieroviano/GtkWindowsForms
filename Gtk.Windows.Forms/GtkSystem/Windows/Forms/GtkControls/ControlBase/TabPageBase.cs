@@ -1,4 +1,4 @@
-﻿using Gtk;
+using Gtk;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
@@ -40,13 +40,8 @@ public sealed class TabPageBase : ScrollableBoxBase
     /// </param>
     /// <returns>
     /// </returns>
-    protected override bool OnDrawn(Cairo.Context cr)
-    {
-        var rec = new Gdk.Rectangle(0, 0, this.AllocatedWidth, this.AllocatedHeight);
-        Override.OnPaint(cr, rec);
-
-        return base.OnDrawn(cr);
-    }
+    // Gtk 4 removed the OnDrawn draw vfunc and exposes no overridable OnSnapshot; the WinForms
+    // BackColor/background is rendered via CSS in the styling migration instead of a draw override.
 
     /// <summary>
     /// Called when the control is shown.

@@ -5,16 +5,16 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 /// </summary>
 /// <seealso cref="Gtk.RadioButton" />
 /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
-public sealed class RadioButtonBase : Gtk.RadioButton, IControlGtk
+public sealed class RadioButtonBase : Gtk.CheckButton, IControlGtk
 {
     /// <summary>
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.RadioButtonBase" /> class.
     /// </summary>
-    public RadioButtonBase() : base(new Gtk.RadioButton("baseradio"))
+    public RadioButtonBase() : base()
     {
         this.Override = new GtkControlOverride(this);
-        this.StyleContext.AddClass("RadioButton");
+        this.AddCssClass("RadioButton");
         base.Valign = Gtk.Align.Start;
         base.Halign = Gtk.Align.Start;
     }
@@ -26,10 +26,12 @@ public sealed class RadioButtonBase : Gtk.RadioButton, IControlGtk
     /// <param name="radio_group_member">
     /// The radio group member.
     /// </param>
-    public RadioButtonBase(Gtk.RadioButton radio_group_member) : base(radio_group_member)
+    public RadioButtonBase(Gtk.CheckButton radio_group_member) : base()
     {
+        // Gtk 4 removed Gtk.RadioButton; a CheckButton becomes a radio by joining a group.
+        this.Group = radio_group_member;
         this.Override = new GtkControlOverride(this);
-        this.StyleContext.AddClass("RadioButton");
+        this.AddCssClass("RadioButton");
         base.Valign = Gtk.Align.Start;
         base.Halign = Gtk.Align.Start;
     }

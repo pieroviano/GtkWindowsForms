@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms;
+using System.Windows.Forms;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
@@ -165,6 +165,9 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
     /// <param name="cssClass">
     /// The CSS class.
     /// </param>
+    // Gtk 4: ScrolledWindow takes a single Child rather than Container.Add.
+    public void Add(Gtk.Widget child) => Child = child;
+
     public void AddClass(string cssClass)
     {
         this.Override.AddClass(cssClass);
@@ -188,13 +191,8 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
     /// </param>
     /// <returns>
     /// </returns>
-    protected override bool OnDrawn(Cairo.Context cr)
-    {
-        var rec = GetDrawRectangle();
-        Override.OnPaint(cr, rec);
-
-        return base.OnDrawn(cr);
-    }
+    // Gtk 4 removed the OnDrawn draw vfunc and exposes no overridable OnSnapshot; the WinForms
+    // BackColor/background is rendered via CSS in the styling migration instead of a draw override.
 
     /// <summary>
     /// Raises the Scroll event.

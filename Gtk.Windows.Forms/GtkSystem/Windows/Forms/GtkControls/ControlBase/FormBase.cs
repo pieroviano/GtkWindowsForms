@@ -2,6 +2,8 @@
 using Gdk;
 using Gtk;
 using ScrollEventHandler = System.Windows.Forms.ScrollEventHandler;
+// Gdk and Gtk both define an EventArgs; the WinForms handler pattern here always means System.EventArgs.
+using EventArgs = System.EventArgs;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
@@ -106,8 +108,10 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         this.Decorated = true;
         this.Close += FormBase_Close;
         this.Response += FormBase_Response;
-        this.DeleteEvent += FormBase_DeleteEvent;
-        this.WindowStateEvent += FormBase_WindowStateEvent;
+        // Gtk 4: DeleteEvent -> CloseRequest (RetVal=true now VETOES the close, matching !isCloseWindow).
+        this.CloseRequest += FormBase_CloseRequest;
+        // Gtk 4 removed WindowStateEvent; external maximize/restore no longer re-skins the button here
+        // (the maximize button itself still toggles its icon). TODO(gtk4): observe notify::maximized.
         ScrolledView.BorderWidth = 0;
         ScrolledView.Valign = Gtk.Align.Fill;
         ScrolledView.Halign = Gtk.Align.Fill;
@@ -125,8 +129,8 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         contaner.Valign = Gtk.Align.Fill;
         contaner.Halign = Gtk.Align.Fill;
         var background = new Gtk.DrawingArea();
-        background.Events = Gdk.EventMask.EnterNotifyMask;
-        background.Drawn += Background_Drawn;
+        // Gtk 4: DrawingArea renders through a DrawFunc rather than the removed Drawn signal.
+        background.DrawFunc = Background_DrawFunc;
         contaner.Add(background);
         ScrolledView.Child = contaner;
     }
@@ -352,9 +356,9 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         return res;
     }
 
-    private void Background_Drawn(object o, DrawnArgs args)
+    private void Background_DrawFunc(Gtk.DrawingArea area, Cairo.Context cr, int width, int height)
     {
-        Override.OnPaint(args.Cr);
+        Override.OnPaint(cr);
     }
 
     private void Close_Clicked(object? sender, EventArgs e)
@@ -371,8 +375,9 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         }
     }
 
-    private void FormBase_DeleteEvent(object o, DeleteEventArgs args)
+    private void FormBase_CloseRequest(object o, Gtk.CloseRequestArgs args)
     {
+        // Gtk 4 CloseRequest: RetVal = true vetoes the close. Veto unless we are the ones closing it.
         args.RetVal = !isCloseWindow;
     }
 
@@ -381,28 +386,6 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         if (args.ResponseId == ResponseType.DeleteEvent)
         {
             this.CloseWindow(true);
-        }
-    }
-
-    private void FormBase_WindowStateEvent(object o, WindowStateEventArgs args)
-    {
-        if (args.Event.NewWindowState.HasFlag(Gdk.WindowState.Maximized))
-        {
-            if (maximize != null)
-            {
-                maximize.Image = Gtk.Image.NewFromIconName("window-restore-symbolic", IconSize.SmallToolbar);
-                maximize.Name = "restore";
-                maximize.StyleContext.AddClass("restore");
-            }
-        }
-        else
-        {
-            if (maximize != null)
-            {
-                maximize.Image = Gtk.Image.NewFromIconName("window-maximize-symbolic", IconSize.SmallToolbar);
-                maximize.Name = "maximize";
-                maximize.StyleContext.RemoveClass("restore");
-            }
         }
     }
 

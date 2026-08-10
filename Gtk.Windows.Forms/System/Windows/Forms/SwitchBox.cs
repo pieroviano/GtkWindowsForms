@@ -36,7 +36,9 @@ public partial class SwitchBox : Control
         self.Override.sender = this;
 
         // React to native button release events (mouse/touch) coming from GTK
-        self.ButtonReleaseEvent += Self_ButtonReleaseEvent;
+        var releaseClick = new Gtk.GestureClick();
+        releaseClick.Released += (o, a) => Self_Released();
+        self.AddController(releaseClick);
 
         // Ensure we observe native toggles so programmatic changes to `self.Active`
         // update the managed event path. This addresses tests that flip `self.Active`
@@ -98,7 +100,7 @@ public partial class SwitchBox : Control
         CheckedChanged?.Invoke(this, e);
     }
 
-    private void Self_ButtonReleaseEvent(object o, Gtk.ButtonReleaseEventArgs args)
+    private void Self_Released()
     {
         // Fire CheckedChanged when control is part of UI. Use parent/mapped/realized checks
         // so tests that simulate the native release during Form.Load still see the event.

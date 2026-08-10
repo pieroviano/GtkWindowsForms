@@ -9,7 +9,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 /// </summary>
 /// <seealso cref="Gtk.MenuBar" />
 /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
-public sealed class ToolStripBase : Gtk.MenuBar, IControlGtk
+public sealed class ToolStripBase : Gtk.Box, IControlGtk
 {
     /// <summary>
     /// Initializes a new instance of the
@@ -24,16 +24,14 @@ public sealed class ToolStripBase : Gtk.MenuBar, IControlGtk
         this.Valign = Gtk.Align.Start;
         this.Halign = Gtk.Align.Fill;
         this.HeightRequest = 20;
-        base.ActivateCurrent += (s, e) =>
-        {
-            ActivateCurrent?.Invoke(this, e);
-        };
+        // Gtk 4 removed Gtk.MenuBar and its ActivateCurrent signal. In the custom-widget menu model the
+        // contained item buttons drive activation, invoking ActivateCurrent via RaiseActivateCurrent.
     }
 
-    public new event ActivateCurrentHandler? ActivateCurrent;
+    public event System.EventHandler? ActivateCurrent;
 
     internal void RaiseActivateCurrent(ToolStrip toolStrip) =>
-        ActivateCurrent?.Invoke(toolStrip, new ActivateCurrentArgs());
+        ActivateCurrent?.Invoke(toolStrip, System.EventArgs.Empty);
 
     /// <summary>
     /// Gets or sets the size used to scale the images of the contained items.

@@ -42,7 +42,7 @@ public sealed class PictureBoxBase : Gtk.Viewport, IControlGtk
         this.Events = Gdk.EventMask.AllEventsMask;
         this.Realized += PictureBoxBase_Realized;
         var drawingArea = new Gtk.DrawingArea();
-        drawingArea.Drawn += DrawingArea_Drawn;
+        drawingArea.DrawFunc = DrawingArea_DrawFunc;
         contaner.Add(drawingArea);
         this.Add(contaner);
     }
@@ -250,9 +250,8 @@ public sealed class PictureBoxBase : Gtk.Viewport, IControlGtk
     /// <param name="args">
     /// The <see cref="Gtk.DrawnArgs" /> instance containing the Cairo context.
     /// </param>
-    private void DrawingArea_Drawn(object o, Gtk.DrawnArgs args)
+    private void DrawingArea_DrawFunc(Gtk.DrawingArea area, Cairo.Context cr, int width, int height)
     {
-        Cairo.Context cr = args.Cr;
         if (_drawBackgroundImage != null)
         {
             cr.Save();

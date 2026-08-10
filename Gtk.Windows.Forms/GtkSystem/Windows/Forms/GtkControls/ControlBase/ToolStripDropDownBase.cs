@@ -5,7 +5,7 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 /// </summary>
 /// <seealso cref="Gtk.Menu" />
 /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
-public sealed class ToolStripDropDownBase : Gtk.Menu, IControlGtk
+public sealed class ToolStripDropDownBase : Gtk.Popover, IControlGtk
 {
     /// <summary>
     /// Initializes a new instance of the

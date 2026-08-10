@@ -21,10 +21,8 @@ public sealed class SwitchBoxBase : Gtk.Switch, IControlGtk
         base.Halign = Gtk.Align.Start;
     }
 
-    internal new bool OnButtonReleaseEvent(EventButton evnt)
-    {
-        return base.OnButtonReleaseEvent(evnt);
-    }
+    // Gtk 4 removed the OnButtonReleaseEvent vfunc and Gdk.EventButton; a Gtk.Switch is toggled through
+    // its own state signals, so this Gtk 3 passthrough is gone.
 
     /// <summary>
     /// Gets or sets the

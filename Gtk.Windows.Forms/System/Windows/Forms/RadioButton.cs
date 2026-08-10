@@ -36,7 +36,9 @@ public partial class RadioButton : ButtonBase
     public RadioButton() : base()
     {
         self.Override.sender = this;
-        self.ParentSet += Self_ParentSet;
+        // Gtk4 (deferred): auto-grouping radios by shared parent used Gtk.Container.Children +
+        // Gtk.RadioButton (removed). Group explicitly via RadioButtonBase(group) until reimplemented
+        // over CheckButton.Group + FirstChild/NextSibling traversal.
     }
 
     /// <summary>
@@ -109,20 +111,6 @@ public partial class RadioButton : ButtonBase
         CheckedChanged?.Invoke(this, e);
     }
 
-    private void Self_ParentSet(object o, Gtk.ParentSetArgs args)
-    {
-        var con = self.Parent as Gtk.Container;
-        foreach (var widget in con?.Children ?? [])
-        {
-            if (widget is Gtk.RadioButton group)
-            {
-                ((Gtk.RadioButton)o).JoinGroup(group);
-                break;
-            }
-        }
-        self.Active = _Checked;
-        self.Toggled += Self_Toggled;
-    }
 
     private void Self_Toggled(object sender, EventArgs e)
     {
