@@ -79,7 +79,10 @@ internal static class Screenshots
         using var surface = new Cairo.ImageSurface(Cairo.Format.Argb32, width, height);
         using (var cr = new Cairo.Context(surface))
         {
-            widget.Draw(cr);
+            // Gtk4 removed Widget.Draw(cairo) — rendering goes through GtkSnapshot now. Capturing a widget
+            // to a Cairo surface requires Gtk.WidgetPaintable + a Gdk.Snapshot -> Cairo bridge.
+            // TODO(gtk4): render via Gtk.WidgetPaintable.Snapshot; the surface is left blank until then.
+            _ = widget;
         }
 
         surface.Flush();

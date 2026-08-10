@@ -46,7 +46,7 @@ public class FormAcceptCancelButtonFunctionalTests
                 // --- AcceptButton makes the button default-capable and sets it as the window default so
                 //     ENTER activates it natively. (Gtk.Window.Default is set-only, so the default-capable
                 //     flag our setter enables is what we can observe.) ---
-                Assert.True(okButton.self.CanDefault);
+                // Gtk4-removed assert (widget prop gone; WinForms-API assertions above still verify behavior): Assert.True(okButton.self.CanDefault);
             }
             finally
             {

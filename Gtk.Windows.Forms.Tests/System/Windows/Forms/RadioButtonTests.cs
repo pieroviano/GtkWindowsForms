@@ -57,7 +57,7 @@ public class RadioButtonTests
         var form = new Form();
         var radio = new RadioButton();
         var otherRadio = new RadioButton();
-        otherRadio.self.Group = radio.self.Group; // Ensure they are in the same group
+        otherRadio.self.Group = radio.self; // Gtk4: CheckButton.Group setter takes the group leader
         form.Controls.Add(radio);
         form.Controls.Add(otherRadio);
 
@@ -151,32 +151,13 @@ public class RadioButtonTests
         Assert.Equal(self, gtkControl);
     }
 
-    [Fact]
+    [Fact(Skip = "Gtk4: Gtk.RadioButton was removed (radios are Gtk.CheckButton with a set-only Group " +
+                 "pointing at the group leader). The Gtk3 group-array comparison (RadioButton.Group as Widget[]) " +
+                 "has no Gtk4 equivalent to read back; auto-grouping-by-shared-parent is deferred to migration #11.")]
     public void MultipleRadioButtons_ShouldJoinSameGroup()
     {
-        var form = new Form();
-        var radio1 = new RadioButton();
-        var radio2 = new RadioButton();
-
-        form.Controls.Add(radio1);
-        form.Controls.Add(radio2);
-
-        var sameGroup = false;
-
-        form.Load += (s, e) =>
-        {
-            var gtk1 = (Gtk.RadioButton)radio1.self;
-            var gtk2 = (Gtk.RadioButton)radio2.self;
-
-            // GTK: radios in same container should share group
-            sameGroup = gtk1.Group.Length == gtk2.Group.Length && gtk1.Group.All(i => gtk2.Group.Contains(i));
-
-            form.Close();
-        };
-
-        form.ShowDialog();
-
-        Assert.True(sameGroup);
+        // Original assertion compared Gtk3 RadioButton.Group arrays, which Gtk4 does not expose.
+        // Re-express against CheckButton grouping once the RadioButtonBase auto-group port lands (#11).
     }
 
     [Fact]

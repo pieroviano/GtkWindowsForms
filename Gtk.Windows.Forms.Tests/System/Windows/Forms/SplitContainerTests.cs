@@ -148,11 +148,9 @@ public class SplitContainerTests
 
             var gtk = (Gtk.Paned)split.self;
 
-            var child1 = (Gtk.Paned.PanedChild)gtk[split.Panel1.Widget];
-            var child2 = (Gtk.Paned.PanedChild)gtk[split.Panel2.Widget];
-
-            panel1Resize = child1.Resize;
-            panel2Resize = child2.Resize;
+            // Gtk4: Paned.PanedChild + child indexer removed; per-child resize is ResizeStart/EndChild.
+            panel1Resize = gtk.ResizeStartChild;
+            panel2Resize = gtk.ResizeEndChild;
 
             form.Close();
         };

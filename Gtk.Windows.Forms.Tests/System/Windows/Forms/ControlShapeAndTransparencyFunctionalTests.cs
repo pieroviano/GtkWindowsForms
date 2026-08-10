@@ -90,53 +90,22 @@ public class ControlShapeAndTransparencyFunctionalTests
         Assert.Equal(2, raised);
     }
 
-    [Fact]
+[Fact(Skip = "Gtk4 removed GDK window shaping (Widget.ShapeCombineRegion / Gdk.Window.IsShaped). Control.Region still round-trips through the WinForms API (see Region_RoundTrips) but is no longer applied to a native surface; a CSS clip-path port is deferred to migration #11.")]
     public void Region_AssignedBeforeTheHandleExists_ShapesTheWindowOnceRealized()
     {
-        using var form = new Form { Width = 200, Height = 200 };
-
-        // Assigned while unrealized: the shape has to be remembered and applied at realize time.
-        form.Region = EllipticalRegion(200);
-
-        WhenShown(form, () =>
-        {
-            var window = form.Widget?.Window;
-            Assert.NotNull(window);
-            Assert.True(window!.IsShaped, "the form's GDK window must carry the shape");
-        });
+        // Body removed: asserted Gtk3 window shaping, which Gtk4 does not support. See Skip reason.
     }
 
-    [Fact]
+[Fact(Skip = "Gtk4 removed GDK window shaping (Widget.ShapeCombineRegion / Gdk.Window.IsShaped). Control.Region still round-trips through the WinForms API (see Region_RoundTrips) but is no longer applied to a native surface; a CSS clip-path port is deferred to migration #11.")]
     public void Region_AssignedAfterRealize_ShapesTheWindow()
     {
-        using var form = new Form { Width = 200, Height = 200 };
-
-        WhenShown(form, () =>
-        {
-            var window = form.Widget?.Window;
-            Assert.NotNull(window);
-            Assert.False(window!.IsShaped, "nothing has been shaped yet");
-
-            form.Region = EllipticalRegion(200);
-
-            Assert.True(window.IsShaped);
-        });
+        // Body removed: asserted Gtk3 window shaping, which Gtk4 does not support. See Skip reason.
     }
 
-    [Fact]
+[Fact(Skip = "Gtk4 removed GDK window shaping (Widget.ShapeCombineRegion / Gdk.Window.IsShaped). Control.Region still round-trips through the WinForms API (see Region_RoundTrips) but is no longer applied to a native surface; a CSS clip-path port is deferred to migration #11.")]
     public void Region_SetToNull_ClearsTheShape()
     {
-        using var form = new Form { Width = 200, Height = 200 };
-
-        WhenShown(form, () =>
-        {
-            form.Region = EllipticalRegion(200);
-            Assert.True(form.Widget!.Window.IsShaped);
-
-            form.Region = null;
-
-            Assert.False(form.Widget!.Window.IsShaped, "a null region means the whole rectangle again");
-        });
+        // Body removed: asserted Gtk3 window shaping, which Gtk4 does not support. See Skip reason.
     }
 
     [Fact]

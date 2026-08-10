@@ -63,8 +63,9 @@ namespace GtkWinFormsApp
             var url = new Uri(enImage).AbsoluteUri;
             var provider = new Gtk.CssProvider();
             provider.LoadFromData($"#Test1 .Form {{ background-image: url(\"{url}\"); }}");
-            Gtk.StyleContext.AddProviderForScreen(
-                Gdk.Screen.Default, provider, (uint)Gtk.StyleProviderPriority.User);
+            // Gtk4: Gdk.Screen + AddProviderForScreen removed -> AddProviderForDisplay(Gdk.Display).
+            Gtk.StyleContext.AddProviderForDisplay(
+                Gdk.Display.Default, provider, (uint)Gtk.StyleProviderPriority.User);
         }
 
         private void Test1_FormClosing(object sender, FormClosingEventArgs e)

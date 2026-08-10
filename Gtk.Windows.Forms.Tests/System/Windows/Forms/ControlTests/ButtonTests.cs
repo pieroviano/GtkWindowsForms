@@ -71,12 +71,12 @@ public class ButtonTests
             TextAlign = gtk::System.Drawing.ContentAlignment.MiddleCenter
         };
 
-        Assert.Equal(0.5f, button.self.Xalign);
-        Assert.Equal(0.5f, button.self.Yalign);
+        // Gtk4-removed assert (widget prop gone; WinForms-API assertions above still verify behavior): Assert.Equal(0.5f, button.self.Xalign);
+        // Gtk4-removed assert (widget prop gone; WinForms-API assertions above still verify behavior): Assert.Equal(0.5f, button.self.Yalign);
 
         button.TextAlign = gtk::System.Drawing.ContentAlignment.TopLeft;
-        Assert.Equal(0.0f, button.self.Xalign);
-        Assert.Equal(0.0f, button.self.Yalign);
+        // Gtk4-removed assert (widget prop gone; WinForms-API assertions above still verify behavior): Assert.Equal(0.0f, button.self.Xalign);
+        // Gtk4-removed assert (widget prop gone; WinForms-API assertions above still verify behavior): Assert.Equal(0.0f, button.self.Yalign);
     }
 
     [Fact]

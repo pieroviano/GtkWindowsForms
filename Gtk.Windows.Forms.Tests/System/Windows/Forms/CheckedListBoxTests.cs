@@ -37,7 +37,7 @@ public class CheckedListBoxTests
             clbItem = clb.Items[0];
             item = clb.Items.GetCheckedListBoxItem(0);
             text = item?.Text;
-            length = clb._flow.Children.Length;
+            length = clb._flow.GetChildrenArray().Length;
             form.Close();
         };
         form.ShowDialog();
@@ -105,12 +105,12 @@ public class CheckedListBoxTests
         clb.Items.Add("one");
         clb.Items.Add("two");
         Assert.Equal(2, clb.Items.Count);
-        Assert.Equal(2, clb._flow.Children.Length);
+        Assert.Equal(2, clb._flow.GetChildrenArray().Length);
 
         clb.Items.Clear();
 
         Assert.Equal(0, clb.Items.Count);
-        Assert.Equal(0, clb._flow.Children.Length);
+        Assert.Equal(0, clb._flow.GetChildrenArray().Length);
     }
 
     [Fact]

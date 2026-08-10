@@ -32,7 +32,7 @@ public class FlowLayoutPanelTests
             actualMinChildren = panel.self.MinChildrenPerLine;
             actualMaxChildren = panel.self.MaxChildrenPerLine;
             actualColumnSpacing = panel.self.ColumnSpacing;
-            actualBorderWidth = panel.self.BorderWidth;
+            // Gtk4-removed assert (widget prop gone; WinForms-API assertions above still verify behavior): actualBorderWidth = panel.self.BorderWidth;
             controlsObj = panel.Controls;
             form.Close();
         };
@@ -46,7 +46,7 @@ public class FlowLayoutPanelTests
         Assert.Equal((uint)1, actualMinChildren);
         Assert.Equal((uint)999, actualMaxChildren);
         Assert.Equal(0u, actualColumnSpacing);
-        Assert.Equal((uint)0, actualBorderWidth);
+        // Gtk4-removed assert (widget prop gone; WinForms-API assertions above still verify behavior): Assert.Equal((uint)0, actualBorderWidth);
         Assert.NotNull(controlsObj);
     }
 

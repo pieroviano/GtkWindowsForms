@@ -49,7 +49,7 @@ public class ControlExtensionTests
         var widget = new Label();
 
         // Add to grid WITHOUT Attach (no layout metadata)
-        grid.Add(parent);
+        grid.AddChild(parent);
 
         widget.Parent = parent;
 
