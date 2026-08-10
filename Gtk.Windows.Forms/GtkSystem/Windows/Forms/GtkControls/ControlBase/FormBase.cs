@@ -311,6 +311,26 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     /// </summary>
     internal Form? PendingModalClose;
 
+    /// <summary>
+    /// Set once this window has been destroyed, so a second close path (e.g. a stale close timer firing at
+    /// teardown, or an explicit Dispose plus a Close) does not call <c>Window.Destroy()</c> again — Gtk4
+    /// crashes on a destroy of an already-freed window, and GtkSharp does not zero <c>Handle</c> to let a
+    /// handle check detect it.
+    /// </summary>
+    private bool _destroyed;
+
+    /// <summary>Destroys the native window at most once.</summary>
+    private void DestroyOnce()
+    {
+        if (_destroyed)
+        {
+            return;
+        }
+
+        _destroyed = true;
+        this.Destroy();
+    }
+
     public bool CloseWindow(bool isResponse = false)
     {
         isCloseWindow = false;
@@ -336,7 +356,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
             else if (owningForm != null)
             {
                 owningForm.Dispose();
-                this.Destroy();
+                DestroyOnce();
             }
             isCloseWindow = true;
         }
