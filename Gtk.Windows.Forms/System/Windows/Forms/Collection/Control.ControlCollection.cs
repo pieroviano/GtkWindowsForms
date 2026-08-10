@@ -576,7 +576,7 @@ public partial class Control
                     {
                         lay.AddOverlay(control.Widget);
                         if (control.Widget is Gtk.Label || control.Widget is Gtk.Button || control.Widget is Gtk.Entry || control.Widget is Gtk.TextView || control.Widget is Gtk.ScrolledWindow)
-                            lay.SetOverlayPassThrough(control.Widget, true);
+                            { } // Gtk4-removed: Overlay.SetOverlayPassThrough (pass-through is default)
                     }
                     else if (item is Gtk.Widget widget)
                     {
@@ -594,7 +594,7 @@ public partial class Control
                         lay2.Put(widget, 0, 0);
                     }
                 }
-                else if (_ownerControl is Gtk.Layout lay3)
+                else if (_ownerControl is Gtk.Fixed lay3)
                 {
                     if (item is Control con)
                     {
@@ -649,7 +649,7 @@ public partial class Control
                 var tabs = InnerList.OfType<Control>().ToList();
                 tabs.Sort((a, b) => a.TabIndex.CompareTo(b.TabIndex));
                 lay.ChildFocus(Gtk.DirectionType.TabForward);
-                lay.FocusChain = tabs.Select(o => o.Widget).OfType<Gtk.Widget>().ToArray();
+                // Gtk4-removed: Container.FocusChain (tab order via widget order / focus API). TODO(gtk4).
             }
         }
     }

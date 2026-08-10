@@ -63,8 +63,9 @@ public partial class SplitContainer : ContainerControl
         {
             _fixedPanel = value;
             var resize = value == FixedPanel.Panel2;
-            ((Paned.PanedChild)self[_panel1.Widget]).Resize = resize;
-            ((Paned.PanedChild)self[_panel2.Widget]).Resize = !resize;
+            // Gtk4: Paned.PanedChild/indexer removed; per-child resize is ResizeStart/EndChild.
+            self.ResizeStartChild = resize;
+            self.ResizeEndChild = !resize;
         }
     }
 

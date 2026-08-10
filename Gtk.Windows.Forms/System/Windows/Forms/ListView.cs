@@ -117,7 +117,7 @@ public class ListView : ContainerControl
         scrolledWindow.AddChild(flowBoxContainer);
         scrolledWindow.Hadjustment.ValueChanged += Hadjustment_ValueChanged;
 
-        header.LayoutStyle = ButtonBoxStyle.Expand;
+        // Gtk4-removed: header.LayoutStyle = ButtonBoxStyle.Expand; (ButtonBox gone; header is a Box)
         header.Homogeneous = false;
         header.Spacing = 0;
         header.Halign = Gtk.Align.Start;
@@ -1044,7 +1044,7 @@ public class ListView : ContainerControl
             CheckBoxBase checkboxself = checkBox.self;
             checkboxself.Halign = Gtk.Align.Start;
             checkboxself.Valign = Gtk.Align.Center;
-            checkboxself.Relief = ReliefStyle.None;
+            checkboxself.HasFrame = false; // Gtk4: Relief/ReliefStyle -> HasFrame
             checkboxself.StyleContext.AddClass("ButtonNone");
             checkboxself.Label = item.Text;
             checkboxself.Active = item.Checked;
@@ -1377,11 +1377,11 @@ public class ListView : ContainerControl
     {
         if (self.IsRealized)
         {
-            var label = new Gtk.Label(col.Text) { Xalign = 0, Xpad = 5, MaxWidthChars = 0, Halign = Gtk.Align.Fill, Valign = Gtk.Align.End, Ellipsize = Pango.EllipsizeMode.End, Wrap = false, LineWrap = false };
+            var label = new Gtk.Label(col.Text) { Xalign = 0, MaxWidthChars = 0, Halign = Gtk.Align.Fill, Valign = Gtk.Align.End, Ellipsize = Pango.EllipsizeMode.End, Wrap = false, LineWrap = false };
             label.TooltipText = col.Text;
             label.Name = $"column_t_{col.Index}";
         // Gtk 4: Widget.Drawn is gone and there is no overridable OnSnapshot; custom paint moves to CSS (deferred).
-            var columbt = new Gtk.Button(label) { MarginStart = 0, WidthRequest = col.Width, Halign = Gtk.Align.Fill, Valign = Gtk.Align.Fill };
+            var columbt = new Gtk.Button() { Child = label, MarginStart = 0, WidthRequest = col.Width, Halign = Gtk.Align.Fill, Valign = Gtk.Align.Fill };
             columbt.Name = $"column_b_{col.Index}";
             columbt.ActionTargetValue = new GLib.Variant(col.Index);
             header.Append(columbt);

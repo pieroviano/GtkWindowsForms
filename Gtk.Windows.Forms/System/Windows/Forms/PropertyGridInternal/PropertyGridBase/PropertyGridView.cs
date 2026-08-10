@@ -64,7 +64,7 @@ internal sealed partial class PropertyGridView
 
         var expander = new CellRendererExpander(this)
         {
-            CellBackgroundRgba = new RGBA() { Alpha = 0.6, Red = 0.9, Green = 0.9, Blue = 0.9 }
+            CellBackgroundRgba = new RGBA() { Alpha = 0.6f, Red = 0.9f, Green = 0.9f, Blue = 0.9f }
         };
         column1.PackStart(expander, false);
         column1.AddAttribute(expander, "icon", 0);
@@ -90,7 +90,7 @@ internal sealed partial class PropertyGridView
             };
             box.Append(img);
             box.ReorderChildAfter(img, null);
-            box.SetChildPacking(box.GetChildrenArray()[2], false, true, 0, PackType.End);
+            // Gtk4-removed: Box.SetChildPacking (per-child pack options gone; use halign/hexpand). TODO(gtk4).
         }
         CellRendererText names = new CellRendererProperty(this)
         {
