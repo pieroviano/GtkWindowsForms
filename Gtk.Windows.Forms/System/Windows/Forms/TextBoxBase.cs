@@ -291,7 +291,7 @@ public abstract class TextBoxBase : Control
         var selected = SelectedText;
         if (!string.IsNullOrEmpty(selected))
         {
-            Gtk.Clipboard.Get(Gdk.Selection.Clipboard).Text = selected;
+            Gtk4Compat.SetClipboardText(selected);
         }
     }
 
@@ -303,7 +303,7 @@ public abstract class TextBoxBase : Control
         var selected = SelectedText;
         if (!string.IsNullOrEmpty(selected))
         {
-            Gtk.Clipboard.Get(Gdk.Selection.Clipboard).Text = selected;
+            Gtk4Compat.SetClipboardText(selected);
             PushUndo();
             ReplaceSelectedTextCore(string.Empty);
             MarkModified();
@@ -315,7 +315,7 @@ public abstract class TextBoxBase : Control
     /// </summary>
     public virtual void Paste()
     {
-        var text = Gtk.Clipboard.Get(Gdk.Selection.Clipboard).WaitForText();
+        var text = Gtk4Compat.GetClipboardTextSync();
         if (!string.IsNullOrEmpty(text))
         {
             PushUndo();

@@ -139,6 +139,39 @@ using Gtk;
         }
 
         /// <summary>
+        /// Puts text on the default display clipboard. Replaces Gtk 3's
+        /// <c>Gtk.Clipboard.Get(Gdk.Selection.Clipboard).Text = ...</c> (both types removed in Gtk 4)
+        /// with Gtk 4's <see cref="Gdk.Clipboard.SetContent"/> over a text
+        /// <see cref="Gdk.ContentProvider"/>. Writing is synchronous, matching WinForms Copy/Cut.
+        /// </summary>
+        /// <param name="text">The text to place on the clipboard.</param>
+        public static void SetClipboardText(string text)
+        {
+            try
+            {
+                using var value = new GLib.Value(text ?? string.Empty);
+                var provider = new Gdk.ContentProvider(value);
+                Gdk.Display.Default.Clipboard.SetContent(provider);
+            }
+            catch (System.Exception ex)
+            {
+                System.Diagnostics.GtkLogger.Debug("Unexpected exception setting clipboard text", ex);
+            }
+        }
+
+        /// <summary>
+        /// Synchronous clipboard read placeholder. Gtk 4's clipboard read
+        /// (<c>Gdk.Clipboard.ReadTextAsync</c>) is asynchronous with no synchronous equivalent, so the
+        /// WinForms <c>Paste</c>/<c>WaitForText</c> path cannot block for it here. Returns <c>null</c>.
+        /// TODO(gtk4): route Paste through the async read + a nested main loop (as with dialogs).
+        /// </summary>
+        /// <returns><c>null</c>.</returns>
+        public static string? GetClipboardTextSync()
+        {
+            return null;
+        }
+
+        /// <summary>
         /// Returns the top-level ancestor of a widget. Replaces Gtk 3's <c>Widget.Toplevel</c>
         /// (removed in Gtk 4) by walking the <see cref="Widget.Parent"/> chain to the root.
         /// </summary>

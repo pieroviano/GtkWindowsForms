@@ -162,8 +162,8 @@ public class MaskedTextBox : TextBox
     {
         if (self.IsRealized && isBackspace == false)
         {
-            var position = args.Position;
-            var new_text = args.NewText;
+            var position = System.Runtime.InteropServices.Marshal.ReadInt32(args.Position);
+            var new_text = args.Text;
             if (IsMaskPassword == true)
             {
                 if (new_text.Length > 1 || self.Text.Length != correctText?.Length + 1)

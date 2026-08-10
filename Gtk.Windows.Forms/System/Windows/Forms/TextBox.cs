@@ -353,8 +353,8 @@ public partial class TextBox : TextBoxBase
     {
         if (KeyDown != null && this.GetType().Name == "TextBox")
         {
-            var keytext = args.NewText.ToUpper();
-            if (char.IsNumber(args.NewText[0]))
+            var keytext = args.Text.ToUpper();
+            if (char.IsNumber(args.Text[0]))
                 keytext = "D" + keytext;
             var keyv = Enum.GetValues(typeof(Keys)).Cast<Keys>().Where(k =>
             {
