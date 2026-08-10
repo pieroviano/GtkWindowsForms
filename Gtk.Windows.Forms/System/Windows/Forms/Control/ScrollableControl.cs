@@ -209,8 +209,8 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
         {
             if (this.Widget != null)
             {
-                activeControl.Widget.Window.GetOrigin(out var sx, out var sy);
-                this.Widget.Window.GetOrigin(out var px, out var py);
+                activeControl.Widget.GetOrigin(out var sx, out var sy);
+                this.Widget.GetOrigin(out var px, out var py);
                 var hvalue = HScroll ? sx - px : -1;
                 var vvalue = VScroll ? sy - py : -1;
                 if (this.Widget is Gtk.Window win)

@@ -35,6 +35,44 @@ namespace Gtk
         }
 
         /// <summary>
+        /// Best-effort replacement for Gtk 3's <c>widget.Window.GetOrigin(out x, out y)</c>
+        /// (Gtk 4 removed <c>Gdk.Window</c> and, on Wayland, has no global screen coordinates).
+        /// Returns the widget origin translated into its top-level root's coordinate space,
+        /// falling back to the widget allocation. Used by the WinForms <c>PointToScreen</c> /
+        /// caret / tooltip anchor code paths, whose signatures are unchanged.
+        /// </summary>
+        /// <param name="widget">The widget whose origin is requested.</param>
+        /// <param name="x">Receives the X origin.</param>
+        /// <param name="y">Receives the Y origin.</param>
+        public static void GetOrigin(this Widget widget, out int x, out int y)
+        {
+            x = 0;
+            y = 0;
+            if (widget == null)
+            {
+                return;
+            }
+
+            var root = widget;
+            while (root.Parent != null)
+            {
+                root = root.Parent;
+            }
+
+            if (!ReferenceEquals(root, widget) &&
+                widget.TranslateCoordinates(root, 0, 0, out var dx, out var dy))
+            {
+                x = (int)dx;
+                y = (int)dy;
+                return;
+            }
+
+            var allocation = widget.Allocation;
+            x = allocation.X;
+            y = allocation.Y;
+        }
+
+        /// <summary>
         /// Adds <paramref name="child"/> to <paramref name="parent"/>, dispatching to the
         /// Gtk 4 child API appropriate to the container's runtime type. Replaces Gtk 3's
         /// universal <c>Container.Add</c>.

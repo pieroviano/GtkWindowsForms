@@ -316,11 +316,13 @@ public class MessageBoxOld
             Valign = Align.Start
         };
         var maxwidth = 300;
-        if (Gdk.Display.Default.NMonitors > 0)
+        // Gtk4: Gdk.Display.NMonitors/GetMonitor/GetMonitorAtWindow removed; Monitor has only Geometry.
+        if (Gdk.Display.Default.Monitors.NItems > 0)
         {
-            var rectangle = Gdk.Display.Default.GetMonitor(0).Workarea;
-            if (owner != null && Gdk.Display.Default.GetMonitorAtWindow(owner.Window) is Gdk.Monitor monitor)
-                rectangle = monitor.Workarea;
+            var rectangle = ((Gdk.Monitor)Gdk.Display.Default.Monitors.GetObject(0)).Geometry;
+            if (owner != null && owner.Surface is Gdk.Surface ownerSurface &&
+                Gdk.Display.Default.GetMonitorAtSurface(ownerSurface) is Gdk.Monitor monitor)
+                rectangle = monitor.Geometry;
             maxwidth = rectangle.Width / 2;
         }
         var pag = content.CreatePangoLayout(text);

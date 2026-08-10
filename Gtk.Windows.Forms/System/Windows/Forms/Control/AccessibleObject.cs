@@ -72,9 +72,9 @@ public class AccessibleObject
             var y = allocation.Y;
 
             // Translate to screen coordinates when the widget has a window to translate against.
-            if (_widget.Window != null)
+            if (_widget.IsRealized)
             {
-                _widget.Window.GetOrigin(out var originX, out var originY);
+                _widget.GetOrigin(out var originX, out var originY);
                 x += originX;
                 y += originY;
             }

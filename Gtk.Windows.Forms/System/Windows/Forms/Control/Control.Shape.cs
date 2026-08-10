@@ -72,25 +72,12 @@ public partial class Control
             return;
         }
 
-        if (!widget.HasWindow || widget.Window == null)
-        {
-            // A shape lives on a GDK window, and lightweight GTK widgets (buttons, labels) do not own one -
-            // they draw onto their parent's. There is nothing to combine the shape with, so the region is
-            // kept and reported but has no effect. See the remarks on Region.
-            Diagnostics.GtkLogger.Debug(
-                $"Control.Region has no effect on {GetType().Name}: its GTK widget owns no window to shape.");
-
-            return;
-        }
-
-        try
-        {
-            widget.ShapeCombineRegion(ToCairoRegion(_region));
-        }
-        catch (Exception ex)
-        {
-            Diagnostics.GtkLogger.Debug("Unexpected exception applying the control region", ex);
-        }
+        // Gtk4 removed GDK windows and window shaping (Gdk.Window / Widget.HasWindow /
+        // Widget.ShapeCombineRegion). Control.Region is still stored and reported through the
+        // WinForms API, but it can no longer be applied to a native surface, so it has no visual
+        // effect. A future port could approximate non-rectangular shapes with a CSS clip-path.
+        Diagnostics.GtkLogger.Debug(
+            $"Control.Region has no effect on {GetType().Name}: Gtk4 removed GDK window shaping.");
     }
 
     /// <summary>

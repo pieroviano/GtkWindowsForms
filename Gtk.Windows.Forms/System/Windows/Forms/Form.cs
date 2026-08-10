@@ -566,9 +566,9 @@ public partial class Form : ContainerControl, IWin32Window
         set
         {
             _topMost = value;
-            if (self.Window != null)
-                if (self.IsVisible == false || self.IsActive == false || self.Window.State.HasFlag(Gdk.WindowState.Iconified))
-                    self.Present();
+            // Gtk4 removed Gdk.Window/WindowState; the iconified check is no longer queryable.
+            if (self.IsVisible == false || self.IsActive == false)
+                self.Present();
             self.Activate();
         }
     }
@@ -583,15 +583,13 @@ public partial class Form : ContainerControl, IWin32Window
     {
         get
         {
-            if (self.Window != null)
-            {
-                if (self.Window.State.HasFlag(Gdk.WindowState.Iconified))
-                    _WindowState = FormWindowState.Minimized;
-                else if (self.Window.State.HasFlag(Gdk.WindowState.Maximized) || self.Window.State.HasFlag(Gdk.WindowState.Fullscreen))
-                    _WindowState = FormWindowState.Maximized;
-                else
-                    _WindowState = FormWindowState.Normal;
-            }
+            // Gtk4 removed Gdk.Window/WindowState. IsMaximized/IsFullscreen are queryable;
+            // the iconified (minimized) state is not, so an external minimize is not reflected
+            // here - _WindowState keeps whatever was last set programmatically in that case.
+            if (self.IsMaximized || self.IsFullscreen)
+                _WindowState = FormWindowState.Maximized;
+            else if (_WindowState != FormWindowState.Minimized)
+                _WindowState = FormWindowState.Normal;
 
             return _WindowState;
         }

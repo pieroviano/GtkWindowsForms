@@ -895,7 +895,7 @@ tooltip label {padding: 0px 10px; color: #555555;}
     private static void Pw_Shown(object? sender, EventArgs e)
     {
         var pw = (Gtk.Window)sender!;
-        pw.Window.Hide();
+        pw.Hide();
     }
 
     private static void QuitActivated(object sender, EventArgs e)

@@ -350,9 +350,13 @@ namespace System.Windows.Forms
             });
             balloonTip.Data.Add("Timeout", handler);
             balloonTip.Show();
-            Gdk.Monitor monitor = Gdk.Display.Default.GetMonitorAtWindow(balloonTip.Window);
-            int width = monitor.Workarea.Width;
-            int height = monitor.Workarea.Height;
+            // Gtk4: GetMonitorAtWindow removed; resolve via the window's surface, Monitor has only Geometry.
+            Gdk.Monitor monitor = (balloonTip.Surface is Gdk.Surface balloonSurface
+                    ? Gdk.Display.Default.GetMonitorAtSurface(balloonSurface)
+                    : null)
+                ?? (Gdk.Monitor)Gdk.Display.Default.Monitors.GetObject(0);
+            int width = monitor.Geometry.Width;
+            int height = monitor.Geometry.Height;
             int offsetY = height - balloonTip.AllocatedHeight - 50 - offset_bottom;
             if (offsetY < 0)
             {
@@ -413,7 +417,7 @@ namespace System.Windows.Forms
         private static void statuswin_Shown(object? sender, EventArgs e)
         {
             var pw = (Gtk.Window?)sender;
-            pw?.Window.Hide();
+            pw?.Hide();
         }
     }
 

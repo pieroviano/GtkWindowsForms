@@ -2032,7 +2032,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         Parent?.Controls?.SetChildIndex(this, 0);
 
         var widget = Widget;
-        if (widget == null || !widget.IsRealized || widget.Window == null)
+        if (widget == null || !widget.IsRealized)
         {
             return;
         }
@@ -2045,7 +2045,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             }
             else
             {
-                widget.Window.Raise();
+                widget.QueueDraw(); // Gtk4: no child z-order raise (Gdk.Window removed); parent child-index already set above
             }
         }
         catch (Exception ex)
@@ -2519,7 +2519,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         if (this.Widget != null)
         {
-            this.Widget.Window?.InvalidateRect(new Gdk.Rectangle(rc.X, rc.Y, rc.Width, rc.Height), invalidateChildren);
+            this.Widget?.QueueDraw();
             this.Widget.SetStateFlags(StateFlags.Backdrop, true);
             GLib.Timeout.Add(50, () =>
             {
@@ -2697,9 +2697,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual Point PointToClient(Point p)
     {
-        if (Widget != null && this.Widget.Window != null)
+        if (Widget != null)
         {
-            this.Widget.Window.GetOrigin(out var x, out var y);
+            this.Widget.GetOrigin(out var x, out var y);
             return new Point(p.X - x, p.Y - y);
         }
 
@@ -2717,9 +2717,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual Point PointToScreen(Point p)
     {
-        if (Widget != null && this.Widget.Window != null)
+        if (Widget != null)
         {
-            this.Widget.Window.GetOrigin(out var x, out var y);
+            this.Widget.GetOrigin(out var x, out var y);
             return new Point(p.X + x, p.Y + y);
         }
 
@@ -2765,9 +2765,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual Rectangle RectangleToClient(Rectangle r)
     {
-        if (Widget != null && this.Widget.Window != null)
+        if (Widget != null)
         {
-            this.Widget.Window.GetOrigin(out var x, out var y);
+            this.Widget.GetOrigin(out var x, out var y);
             if (r.X > x && r.Y > y)
                 return new Rectangle(r.X - x, r.Y - y, r.Width, r.Height);
         }
@@ -2786,9 +2786,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual Rectangle RectangleToScreen(Rectangle r)
     {
-        if (Widget != null && this.Widget.Window != null)
+        if (Widget != null)
         {
-            this.Widget.Window.GetOrigin(out var x, out var y);
+            this.Widget.GetOrigin(out var x, out var y);
             if (r.X < x && r.Y < y)
                 return new Rectangle(r.X + x, r.Y + y, r.Width, r.Height);
         }
@@ -3010,7 +3010,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         siblings?.SetChildIndex(this, siblings.Count - 1);
 
         var widget = Widget;
-        if (widget == null || !widget.IsRealized || widget.Window == null)
+        if (widget == null || !widget.IsRealized)
         {
             return;
         }
@@ -3019,11 +3019,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             if (widget is Gtk.Window)
             {
-                widget.Window.KeepBelow = true;
+                // Gtk4: Gdk.Window.KeepBelow removed; child z-order is not programmatically settable
             }
             else
             {
-                widget.Window.Lower();
+                widget.QueueDraw(); // Gtk4: no child z-order lower (Gdk.Window removed)
             }
         }
         catch (Exception ex)
@@ -3124,9 +3124,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual void Update()
     {
-        if (this.Widget != null && this.Widget.Window != null)
+        if (this.Widget != null)
         {
-            this.Widget.Window.ProcessUpdates(true);
+            this.Widget.QueueDraw();
             this.Widget.QueueDraw();
         }
     }
@@ -4344,20 +4344,20 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     private void SetCursorStyle()
     {
         var widget = this.Widget;
-        if (widget != null && widget.IsRealized && widget.Window != null)
+        if (widget != null && widget.IsRealized)
         {
             if (_Cursor == null)
             {
-                if (widget.Window.Cursor != null)
-                    widget.Window.Cursor = null;
+                if (widget.Cursor != null)
+                    widget.Cursor = null;
             }
             else if (_Cursor.CursorType == Gdk.CursorType.CursorIsPixmap)
             {
-                widget.Window.Cursor = new Gdk.Cursor(widget.Display, _Cursor.CursorPixbuf, _Cursor.CursorsXY.X, _Cursor.CursorsXY.Y);
+                widget.Cursor = new Gdk.Cursor(widget.Display, _Cursor.CursorPixbuf, _Cursor.CursorsXY.X, _Cursor.CursorsXY.Y);
             }
             else
             {
-                widget.Window.Cursor = new Gdk.Cursor(widget.Display, _Cursor.CursorType);
+                widget.Cursor = new Gdk.Cursor(widget.Display, _Cursor.CursorType);
             }
         }
     }
