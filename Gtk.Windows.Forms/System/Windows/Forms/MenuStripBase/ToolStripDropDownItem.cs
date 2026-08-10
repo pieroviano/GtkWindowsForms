@@ -225,58 +225,16 @@ public abstract class ToolStripDropDownItem : ToolStripItem
         if (displayStyle == ToolStripItemDisplayStyle.Text)
         {
         }
-        else if (displayStyle == ToolStripItemDisplayStyle.Image)
+        else if (displayStyle == ToolStripItemDisplayStyle.Image
+                 || displayStyle == ToolStripItemDisplayStyle.ImageAndText
+                 || displayStyle == ToolStripItemDisplayStyle.None)
         {
+            // Gtk4 removed per-widget IconSize (LargeToolbar/Dialog/SmallToolbar); the toolbar host is
+            // gone too, so the icon can no longer be scaled to a toolbar size. Use the default 20x20.
+            // TODO(gtk4): drive icon scale from the item's requested size / CSS instead.
             if (this.Image?.Pixbuf != null)
             {
-                if (self.IconSize == Gtk.IconSize.LargeToolbar)
-                {
-                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 30, 30);
-                }
-                else if (self.IconSize == Gtk.IconSize.Dialog)
-                {
-                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 50, 50);
-                }
-                else
-                {
-                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 20, 20);
-                }
-            }
-        }
-        else if (displayStyle == ToolStripItemDisplayStyle.ImageAndText)
-        {
-            if (this.Image?.Pixbuf != null)
-            {
-                if (self.IconSize == Gtk.IconSize.LargeToolbar)
-                {
-                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 30, 30);
-                }
-                else if (self.IconSize == Gtk.IconSize.Dialog)
-                {
-                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 50, 50);
-                }
-                else
-                {
-                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 20, 20);
-                }
-            }
-        }
-        else
-        {
-            if (this.Image?.Pixbuf != null)
-            {
-                if (self.IconSize == Gtk.IconSize.LargeToolbar)
-                {
-                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 30, 30);
-                }
-                else if (self.IconSize == Gtk.IconSize.Dialog)
-                {
-                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 50, 50);
-                }
-                else
-                {
-                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 20, 20);
-                }
+                self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 20, 20);
             }
         }
     }

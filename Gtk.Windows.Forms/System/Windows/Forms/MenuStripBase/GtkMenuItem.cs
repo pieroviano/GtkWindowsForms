@@ -57,7 +57,8 @@ public class GtkMenuItem : Gtk.Box
         }
     }
 
-    internal Gtk.Image DefaultImage { get; set; } = new("image-missing", Gtk.IconSize.SmallToolbar);
+    // Gtk4: Image(name, IconSize) ctor removed; NewFromIconName(name) has no size (icon theme decides).
+    internal Gtk.Image DefaultImage { get; set; } = Gtk.Image.NewFromIconName("image-missing");
 
     [GLib.Property("Image")]
     internal Widget? IcoImage

@@ -121,7 +121,7 @@ public class ImageUtility
             {
                 using (var surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, width, height))
                 {
-                    var showpix = new Gdk.Pixbuf(surface, 0, 0, width, height);
+                    var showpix = surface.ToPixbuf(0, 0, width, height);
                     if (sizeMode == PictureBoxSizeMode.Normal && backgroundMode == ImageLayout.None)
                     {
                         pix.CopyArea(0, 0, Math.Min(pix.Width, showpix.Width), Math.Min(pix.Height, showpix.Height), showpix, 0, 0);
@@ -164,7 +164,7 @@ public class ImageUtility
                         {
                             using (var imageSurface = new Cairo.ImageSurface(Cairo.Format.ARGB32, width, height))
                             {
-                                var backgroundpix = new Gdk.Pixbuf(imageSurface, 0, 0, width, height);
+                                var backgroundpix = imageSurface.ToPixbuf(0, 0, width, height);
                                 for (var y = 0; y < height; y += pix.Height)
                                 {
                                     for (var x = 0; x < width; x += pix.Width)
@@ -225,7 +225,7 @@ public class ImageUtility
     {
         using (var surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, width, height))
         {
-            destImage = new Gdk.Pixbuf(surface, 0, 0, width, height);
+            destImage = surface.ToPixbuf(0, 0, width, height);
 
             if (layoutMode == ImageLayout.None)
             {
@@ -266,7 +266,7 @@ public class ImageUtility
                 {
                     using (var surface2 = new Cairo.ImageSurface(Cairo.Format.ARGB32, width, height))
                     {
-                        var backgroundpix = new Gdk.Pixbuf(surface2, 0, 0, width, height);
+                        var backgroundpix = surface2.ToPixbuf(0, 0, width, height);
                         for (var y = 0; y < height; y += srcPixbuf.Height)
                         {
                             for (var x = 0; x < width; x += srcPixbuf.Width)
@@ -322,7 +322,7 @@ public class ImageUtility
     {
         using (var surface = new Cairo.ImageSurface(Cairo.Format.ARGB32, width, height))
         {
-            destImage = new Gdk.Pixbuf(surface, 0, 0, width, height);
+            destImage = surface.ToPixbuf(0, 0, width, height);
 
             if (sizeMode == PictureBoxSizeMode.Normal)
             {

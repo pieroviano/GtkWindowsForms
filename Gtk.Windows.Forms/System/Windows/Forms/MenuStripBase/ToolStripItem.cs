@@ -915,46 +915,16 @@ public partial class ToolStripItem : Component, IDropTarget, ISupportOleDropSour
         {
             textImageRelation = value;
             var widget = GetWidget();
-            if (widget?.Parent is Gtk.Toolbar toolbar)
+            // Gtk4 removed Gtk.Toolbar / Gtk.MenuBar / ToolbarStyle / PackDirection / IconSize.Dialog.
+            // The toolstrip/menustrip host is now a plain Box (see the menu redesign), so the old
+            // parent-configuration branches are dead. Approximate TextImageRelation by orienting the
+            // item's own image+text box: image-above/below-text -> vertical, otherwise horizontal.
+            // TODO(gtk4): finer image/text ordering + spacing via the item box child order / CSS.
+            if (widget is Gtk.Box itemBox)
             {
-                if (value == TextImageRelation.ImageAboveText || value == TextImageRelation.TextAboveImage)
-                {
-                    toolbar.ToolbarStyle = Gtk.ToolbarStyle.Both;
-                    toolbar.IconSize = Gtk.IconSize.Dialog;
-                }
-                else if (value == TextImageRelation.ImageBeforeText || value == TextImageRelation.TextBeforeImage)
-                {
-                    toolbar.ToolbarStyle = Gtk.ToolbarStyle.BothHoriz;
-                    toolbar.IconSize = Gtk.IconSize.SmallToolbar;
-                }
-                else
-                {
-                    toolbar.ToolbarStyle = Gtk.ToolbarStyle.BothHoriz;
-                    toolbar.IconSize = Gtk.IconSize.SmallToolbar;
-                }
-            }
-            else if (widget?.Parent is Gtk.MenuBar menubar)
-            {
-                if (value == TextImageRelation.ImageAboveText)
-                {
-                    widget.Halign = Gtk.Align.Center;
-                    menubar.ChildPackDirection = Gtk.PackDirection.Ttb;
-                }
-                else if (value == TextImageRelation.TextAboveImage)
-                {
-                    widget.Halign = Gtk.Align.Center;
-                    menubar.ChildPackDirection = Gtk.PackDirection.Ttb;
-                }
-                else if (value == TextImageRelation.ImageBeforeText || value == TextImageRelation.TextBeforeImage)
-                {
-                    widget.Halign = Gtk.Align.Start;
-                    menubar.ChildPackDirection = Gtk.PackDirection.Ltr;
-                }
-                else
-                {
-                    widget.Halign = Gtk.Align.Start;
-                    menubar.ChildPackDirection = Gtk.PackDirection.Ltr;
-                }
+                var vertical = value == TextImageRelation.ImageAboveText || value == TextImageRelation.TextAboveImage;
+                itemBox.Orientation = vertical ? Gtk.Orientation.Vertical : Gtk.Orientation.Horizontal;
+                widget.Halign = vertical ? Gtk.Align.Center : Gtk.Align.Start;
             }
         }
     }

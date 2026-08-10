@@ -2225,7 +2225,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         }
 
         surface.Flush();
-        bitmap.Pixbuf = new Gdk.Pixbuf(surface, 0, 0, width, height);
+        bitmap.Pixbuf = surface.ToPixbuf(0, 0, width, height);
     }
 
     /// <summary>

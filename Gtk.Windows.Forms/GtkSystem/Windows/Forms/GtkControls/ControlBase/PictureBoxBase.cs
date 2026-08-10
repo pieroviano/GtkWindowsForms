@@ -194,7 +194,7 @@ public sealed class PictureBoxBase : Gtk.Viewport, IControlGtk
             int offsetx = (width - image.Width) / 2;
             int offsety = (height - image.Height) / 2;
             var imageSurface = new Cairo.ImageSurface(Cairo.Format.Argb32, width, height);
-            result = new Gdk.Pixbuf(imageSurface, 0, 0, width, height);
+            result = imageSurface.ToPixbuf(0, 0, width, height);
             int copy_width = offsetx > 0 ? image.Width : width;
             int copy_height = offsety > 0 ? image.Height : height;
             image.CopyArea(Math.Max(0, -offsetx), Math.Max(0, -offsety), copy_width, copy_height, result, Math.Max(0, offsetx), Math.Max(0, offsety));
@@ -217,7 +217,7 @@ public sealed class PictureBoxBase : Gtk.Viewport, IControlGtk
         else if (layoutMode == ImageLayout.Tile)
         {
             var imageSurface = new Cairo.ImageSurface(Cairo.Format.Argb32, width, height);
-            result = new Gdk.Pixbuf(imageSurface, 0, 0, width, height);
+            result = imageSurface.ToPixbuf(0, 0, width, height);
             int copywidth = Math.Min(width, image.Width);
             int copyheight = Math.Min(height, image.Height);
             // tile background image, fill with original image
@@ -330,7 +330,7 @@ public sealed class PictureBoxBase : Gtk.Viewport, IControlGtk
             int offsetx = (width - image.Width) / 2;
             int offsety = (height - image.Height) / 2;
             var imageSurface = new Cairo.ImageSurface(Cairo.Format.Argb32, width, height);
-            result = new Gdk.Pixbuf(imageSurface, 0, 0, width, height);
+            result = imageSurface.ToPixbuf(0, 0, width, height);
             int copy_width = offsetx > 0 ? image.Width : width;
             int copy_height = offsety > 0 ? image.Height : height;
             image.CopyArea(Math.Max(0, -offsetx), Math.Max(0, -offsety), copy_width, copy_height, result, Math.Max(0, offsetx), Math.Max(0, offsety));
@@ -377,7 +377,7 @@ public sealed class PictureBoxBase : Gtk.Viewport, IControlGtk
         else if (sizeMode == PictureBoxSizeMode.Tile)
         {
             var imageSurface = new Cairo.ImageSurface(Cairo.Format.Argb32, width, height);
-            result = new Gdk.Pixbuf(imageSurface, 0, 0, width, height);
+            result = imageSurface.ToPixbuf(0, 0, width, height);
             int copywidth = Math.Min(width, image.Width);
             int copyheight = Math.Min(height, image.Height);
             // tile background image, fill with original image

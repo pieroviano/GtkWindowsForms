@@ -58,11 +58,12 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         {
             headerbar.DecorationLayout = "menu:close";
             headerbar.ShowCloseButton = false;
-            var close = new Gtk.Button("window-close-symbolic", IconSize.SmallToolbar)
+            var close = new Gtk.Button()
             {
+                IconName = "window-close-symbolic",
                 Name = "close",
                 Visible = true,
-                Relief = ReliefStyle.None,
+                HasFrame = false,
                 Valign = Align.Center,
                 Halign = Align.Center
             };
@@ -71,11 +72,12 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
             close.Clicked += Close_Clicked;
             headerbar.PackEnd(close);
 
-            maximize = new Gtk.Button("window-maximize-symbolic", IconSize.SmallToolbar)
+            maximize = new Gtk.Button()
             {
+                IconName = "window-maximize-symbolic",
                 Name = "maximize",
                 Visible = true,
-                Relief = ReliefStyle.None,
+                HasFrame = false,
                 Valign = Align.Center,
                 Halign = Align.Center
             };
@@ -83,11 +85,12 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
             maximize.StyleContext.AddClass("titlebutton");
             maximize.Clicked += maximize_Clicked;
             headerbar.PackEnd(maximize);
-            minimize = new Gtk.Button("window-minimize-symbolic", IconSize.SmallToolbar)
+            minimize = new Gtk.Button()
             {
+                IconName = "window-minimize-symbolic",
                 Name = "minimize",
                 Visible = true,
-                Relief = ReliefStyle.None,
+                HasFrame = false,
                 Valign = Align.Center,
                 Halign = Align.Center
             };
@@ -98,7 +101,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         }
 
         this.SetDefaultSize(100, 10);
-        this.TypeHint = Gdk.WindowTypeHint.Normal;
+        // Gtk4: Gdk.WindowTypeHint / Window.TypeHint removed (WM decides window type).
         this.Deletable = true;
         this.Decorated = true;
         this.Close += FormBase_Close;
@@ -434,7 +437,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         }
         else
         {
-            maximize!.Image = Gtk.Image.NewFromIconName("window-restore-symbolic", IconSize.SmallToolbar);
+            maximize!.IconName = "window-restore-symbolic";
             maximize.Name = "restore";
             prevSize.Width = this.AllocatedWidth;
             prevSize.Height = this.AllocatedHeight;

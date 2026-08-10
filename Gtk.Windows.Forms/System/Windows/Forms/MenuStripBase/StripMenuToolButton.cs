@@ -11,7 +11,7 @@ namespace System.Windows.Forms
 
         private Gdk.Pixbuf _image = null!;
 
-        public StripMenuToolButton() : base(null, "") { this.Homogeneous = false; }
+        public StripMenuToolButton() : base() { } // Gtk4: MenuButton/Button ctor takes no (label,?) pair; Homogeneous removed
 
         public bool Checked
         {
@@ -37,7 +37,7 @@ namespace System.Windows.Forms
             set
             {
                 _image = value;
-                this.IconWidget = new Gtk.Image(value) { Visible = true };
+                this.Child = new Gtk.Image(value) { Visible = true }; // Gtk4: Button/MenuButton use Child, not IconWidget
             }
         }
 
