@@ -4566,6 +4566,13 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         };
         widget.AddController(motion);
 
+        // A Gtk.Button (Button/CheckBox/RadioButton/LinkLabel widgets) drives the click sequence with its
+        // OWN internal gesture to emit the Clicked signal; that gesture claims the pointer sequence and
+        // cancels any GestureClick we add, so the Released below never runs for those widgets - which is why
+        // WinForms Click was dead on every button in Gtk4. For them, Click is raised from the native Clicked
+        // signal instead (see below), so the gesture must not also try to raise it here.
+        var isButtonWidget = widget is Gtk.Button;
+
         var click = new Gtk.GestureClick { Button = 0 };
         click.Pressed += (o, a) =>
         {
@@ -4586,7 +4593,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             var button = GtkButtonToWinForms(click.CurrentButton);
             _pressedButtons &= ~button;
-            if (button == MouseButtons.Left && Is_DoubleButtonPress == false)
+            if (!isButtonWidget && button == MouseButtons.Left && Is_DoubleButtonPress == false)
             {
                 OnClick(EventArgs.Empty);
                 OnMouseClick(new MouseEventArgs(button, 1, (int)a.X, (int)a.Y, 0));
@@ -4600,6 +4607,19 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             Is_DoubleButtonPress = false;
         };
         widget.AddController(click);
+
+        // Raise WinForms Click from the button's native Clicked signal (also covers keyboard activation via
+        // Space/Enter). LinkLabel already wires its own LinkButton.Clicked -> OnClick, so exclude LinkButton
+        // to avoid raising Click twice; CheckBox/RadioButton keep their state via Toggled and additionally
+        // fire Click here, exactly as WinForms does.
+        if (widget is Gtk.Button clickable && widget is not Gtk.LinkButton)
+        {
+            clickable.Clicked += (o, a) =>
+            {
+                OnClick(EventArgs.Empty);
+                OnMouseClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
+            };
+        }
 
         var key = new Gtk.EventControllerKey();
         key.KeyPressed += (o, a) =>

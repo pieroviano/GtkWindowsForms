@@ -102,4 +102,36 @@ public class StripMenuItemRenderingTests
 
         Assert.False(child.self.checkButton.StyleContext.HasClass("MenuBarItem"));
     }
+
+    [Fact]
+    public void MenuItemClick_FiresWhenCheckButtonToggledByUser()
+    {
+        // Regression: the item's GestureClick is starved by the inner CheckButton, and Gtk4's GtkCheckButton
+        // has no Clicked signal - so menu items never raised Click (clicking a menu did nothing, mirroring
+        // the dead "Open Main Window" button). A user toggle now bridges to WinForms Click.
+        var item = new ToolStripMenuItem("Open");
+        var clicks = 0;
+        item.Click += (s, e) => clicks++;
+
+        GLib.Signal.Emit(item.checkButton, "toggled"); // exactly what a pointer click / Space does
+
+        Assert.Equal(1, clicks);
+    }
+
+    [Fact]
+    public void SettingCheckedInCode_DoesNotRaiseClick()
+    {
+        // The Toggled->Click bridge must fire only for user activation. Setting Checked/CheckState in code
+        // also toggles the underlying CheckButton (firing Toggled), but that must NOT be reported as a click
+        // - otherwise initializing a checked menu item would run its Click handler.
+        var item = new ToolStripMenuItem("Toggle");
+        var clicks = 0;
+        item.Click += (s, e) => clicks++;
+
+        item.Checked = true;
+        item.Checked = false;
+        item.CheckState = CheckState.Checked;
+
+        Assert.Equal(0, clicks);
+    }
 }

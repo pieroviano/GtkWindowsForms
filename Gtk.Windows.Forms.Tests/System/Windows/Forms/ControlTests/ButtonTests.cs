@@ -95,4 +95,24 @@ public class ButtonTests
 
         Assert.True(invoked);
     }
+
+    [Fact]
+    public void NativeClickedSignal_Raises_WinFormsClick_ExactlyOnce()
+    {
+        // Regression: a Gtk.Button drives clicks with its own internal gesture (to emit the Clicked
+        // signal); that gesture claims the pointer sequence and cancels the GestureClick the shim adds, so
+        // Released never fired and WinForms Button.Click was dead in Gtk4 - clicking "Open Main Window" did
+        // nothing. Click is now raised from the native Clicked signal. Activating the underlying Gtk.Button
+        // must raise WinForms Click exactly once (not zero - the bug - and not twice - double-wired).
+        Application.Init();
+        var button = new Button();
+        var clicks = 0;
+        button.Click += (s, e) => clicks++;
+
+        // Emitting 'clicked' is exactly what a real pointer release (or Space/Enter) does to a Gtk.Button;
+        // before the fix nothing bridged that signal to WinForms Click, so this stayed 0.
+        GLib.Signal.Emit(button.self, "clicked");
+
+        Assert.Equal(1, clicks);
+    }
 }

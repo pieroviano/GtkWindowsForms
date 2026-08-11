@@ -164,9 +164,23 @@ public partial class ToolStripItem : Component, IDropTarget, ISupportOleDropSour
         {
             widget.Clicked += Widget_Clicked;
         }
-        // Gtk4: Gtk.MenuToolButton was removed and StripMenuItem is now a Gtk.Box, so neither exposes
-        // Clicked/Deselected/Activated signals. Item activation flows through the GestureClick controller
-        // wired above; richer menu activation/hover is deferred to the menu-behavior pass (migration #11).
+        // Gtk4: a StripMenuItem is a Box wrapping a CheckButton, which claims the pointer sequence - so the
+        // item's GestureClick above is starved and menu items never activated (Click / DropDownItemClicked
+        // never fired, the same dead-click bug plain Buttons had). Gtk4's GtkCheckButton has no Clicked
+        // signal, so StripMenuItem exposes an Activated event (user toggle, programmatic changes suppressed)
+        // that we bridge to the WinForms activation path.
+        if (_widget is StripMenuItem menuItem)
+        {
+            menuItem.Activated += Widget_MenuItemClicked;
+        }
+        // Richer menu activation/hover (opening a submenu popover on click) is deferred to the
+        // menu-behavior pass (migration #11).
+    }
+
+    private void Widget_MenuItemClicked(object? sender, EventArgs e)
+    {
+        OnClick(EventArgs.Empty);
+        OnDropDownItemClicked(new ToolStripItemClickedEventArgs(this));
     }
 
     /// <summary>

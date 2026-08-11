@@ -25,6 +25,17 @@ namespace System.Windows.Forms
 
         private Gdk.Pixbuf _Image = null!;
 
+        // Guards the Toggled->Activated bridge so that programmatic Checked/CheckState changes do not look
+        // like a user click.
+        private bool _suppressActivation;
+
+        /// <summary>
+        /// Raised when the user activates the item (pointer click or Space/Enter). Gtk4's GtkCheckButton
+        /// derives from GtkWidget and has NO Clicked signal - only Toggled - so this is the click surface a
+        /// ToolStripItem bridges to WinForms Click. Programmatic Checked/CheckState changes are suppressed.
+        /// </summary>
+        public event EventHandler? Activated;
+
         public StripMenuItem() : base()
         {
             base.Visible = true;
@@ -35,6 +46,15 @@ namespace System.Windows.Forms
             contentBox.Append(textLabel);
             checkButton.Child = contentBox; // Gtk4: Box.Add -> Append; the button's content is the icon+label box
             base.Append(checkButton); // Gtk4: Box.Add -> Append
+            checkButton.Toggled += CheckButton_Toggled;
+        }
+
+        private void CheckButton_Toggled(object? sender, EventArgs e)
+        {
+            if (!_suppressActivation)
+            {
+                Activated?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public bool Checked
@@ -42,13 +62,29 @@ namespace System.Windows.Forms
             // Gtk4 removed CheckButton.DrawIndicator; Checked reflects the toggle state (Active),
             // consistent with CheckState below.
             get => checkButton.Active;
-            set => checkButton.Active = value;
+            set => SetActiveSuppressed(value);
         }
 
         public CheckState CheckState
         {
             get => checkButton.Active == true ? CheckState.Checked : CheckState.Unchecked;
-            set => checkButton.Active = value == CheckState.Checked;
+            set => SetActiveSuppressed(value == CheckState.Checked);
+        }
+
+        // Setting Active fires Toggled; when we do it in code (not a user click) that must not be reported as
+        // an activation, or e.g. initializing a menu item's Checked would fire its Click handler.
+        private void SetActiveSuppressed(bool active)
+        {
+            var previous = _suppressActivation;
+            _suppressActivation = true;
+            try
+            {
+                checkButton.Active = active;
+            }
+            finally
+            {
+                _suppressActivation = previous;
+            }
         }
 
         public ToolStripItemDisplayStyle DisplayStyle
