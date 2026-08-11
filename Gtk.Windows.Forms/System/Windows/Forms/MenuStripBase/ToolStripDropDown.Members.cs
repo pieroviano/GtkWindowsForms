@@ -50,13 +50,13 @@ public partial class ToolStripDropDown
     /// <summary>Displays the drop-down relative to the given control.</summary>
     /// <param name="control">The control the drop-down is positioned against.</param>
     /// <param name="position">The position relative to <paramref name="control" />.</param>
-    public void Show(Control control, Point position) => ShowCore();
+    public void Show(Control control, Point position) => ShowCore(control?.Widget, position.X, position.Y);
 
     /// <summary>Displays the drop-down relative to the given control.</summary>
     /// <param name="control">The control the drop-down is positioned against.</param>
     /// <param name="x">The horizontal position relative to <paramref name="control" />.</param>
     /// <param name="y">The vertical position relative to <paramref name="control" />.</param>
-    public void Show(Control control, int x, int y) => ShowCore();
+    public void Show(Control control, int x, int y) => ShowCore(control?.Widget, x, y);
 
     /// <summary>Displays the drop-down at the given location, expanding in the given direction.</summary>
     /// <param name="position">The screen position at which to display the drop-down.</param>
@@ -67,7 +67,7 @@ public partial class ToolStripDropDown
     /// <param name="control">The control the drop-down is positioned against.</param>
     /// <param name="position">The position relative to <paramref name="control" />.</param>
     /// <param name="direction">The direction in which the drop-down expands.</param>
-    public void Show(Control control, Point position, ToolStripDropDownDirection direction) => ShowCore();
+    public void Show(Control control, Point position, ToolStripDropDownDirection direction) => ShowCore(control?.Widget, position.X, position.Y);
 
     /// <summary>Closes the drop-down.</summary>
     public void Close() => CloseCore();
@@ -84,7 +84,7 @@ public partial class ToolStripDropDown
     /// <param name="e">An <see cref="EventArgs" /> that contains the event data.</param>
     protected virtual void OnOpened(EventArgs e) => Opened?.Invoke(this, e);
 
-    private void ShowCore()
+    private void ShowCore(Gtk.Widget? relativeTo = null, int x = 0, int y = 0)
     {
         var opening = new CancelEventArgs();
         OnOpening(opening);
@@ -95,8 +95,34 @@ public partial class ToolStripDropDown
 
         try
         {
-            self.Show();
-            self.Popup();
+            // Gtk4: a popover must be parented (gtk_widget_set_parent) before Popup(), and points at a
+            // rectangle in the parent's coordinate space. Anchor to the control the menu is shown against
+            // (e.g. the right-clicked control) at the requested point; without a parent Popup() aborts, which
+            // is why context menus never appeared.
+            if (relativeTo != null)
+            {
+                if (self.Parent != relativeTo)
+                {
+                    if (self.Parent != null)
+                    {
+                        self.Unparent();
+                    }
+
+                    self.Parent = relativeTo;
+                }
+
+                self.Autohide = true;
+                self.HasArrow = false;
+                self.Position = Gtk.PositionType.Bottom;
+                self.PointingTo = new Gdk.Rectangle(x, y, 1, 1);
+            }
+
+            // Popup() creates a GDK popup surface anchored to the parent's surface, so the parent must be
+            // realized and on screen; on an unmapped parent GDK aborts (not a catchable managed exception).
+            if (self.Parent != null && self.Parent.IsMapped)
+            {
+                self.Popup();
+            }
         }
         catch (Exception ex)
         {

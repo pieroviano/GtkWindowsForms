@@ -4601,8 +4601,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             OnMouseUp(new MouseEventArgs(button, 1, (int)a.X, (int)a.Y, 0));
             if (button == MouseButtons.Right && ContextMenuStrip != null)
             {
-                // TODO(gtk4-menus): pop up ContextMenuStrip via a PopoverMenu at (a.X, a.Y) once the
-                // Gtk.Menu-based drop-down is migrated to the GMenu/PopoverMenu model.
+                // Pop the shortcut menu up at the click point, anchored to this control's widget.
+                ContextMenuStrip.Show(this, (int)a.X, (int)a.Y);
             }
             Is_DoubleButtonPress = false;
         };

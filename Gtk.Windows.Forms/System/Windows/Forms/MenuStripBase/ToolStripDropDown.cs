@@ -28,7 +28,10 @@ public partial class ToolStripDropDown : ToolStrip
     /// </summary>
     public ToolStripDropDown() : base()
     {
-
+        // The base ToolStrip ctor built an Items collection that targets its (here hidden) toolbar box, so a
+        // drop-down's items went nowhere visible - its ToolItem is null and the popover stayed empty. Rebuild
+        // the collection against this drop-down so items are added into the popover (self) instead.
+        toolStripItemCollection = new ToolStripItemCollection(this);
     }
 
     /// <summary>
