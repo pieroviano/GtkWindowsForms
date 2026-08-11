@@ -49,7 +49,18 @@ public partial class DateTimePicker : MaskedTextBox
 
         self.SecondaryIconActivatable = true;
         self.SetIconFromIconName(Gtk.EntryIconPosition.Secondary, "open-menu"); // Gtk4: SecondaryIconStock removed
-        self.SetIconFromPaintable(Gtk.EntryIconPosition.Secondary, new Gdk.Texture(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("MonthCalendar.ico")))); // Gtk4: SecondaryIconPixbuf -> paintable
+        try
+        {
+            // The calendar drop-down icon ships as a Windows .ico, which GdkPixbuf cannot decode on some
+            // Gtk4 runtimes (PixbufLoader.Close throws "Unrecognized image file format"). This escaped the
+            // ctor and crashed every form that hosts a DateTimePicker (e.g. clicking "Open Main Window" ->
+            // Form1). Keep the "open-menu" named icon set just above as the fallback.
+            self.SetIconFromPaintable(Gtk.EntryIconPosition.Secondary, new Gdk.Texture(new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("MonthCalendar.ico")))); // Gtk4: SecondaryIconPixbuf -> paintable
+        }
+        catch (GLib.GException ex)
+        {
+            System.Diagnostics.GtkLogger.Debug("Unable to decode MonthCalendar.ico; keeping the named calendar icon.", ex);
+        }
         self.IconRelease += DateTimePicker_IconRelease;
         self.Shown += Self_Shown;
 
