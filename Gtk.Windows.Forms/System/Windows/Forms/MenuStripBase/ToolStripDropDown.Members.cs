@@ -114,6 +114,7 @@ public partial class ToolStripDropDown
                 self.Autohide = true;
                 self.HasArrow = false;
                 self.Position = Gtk.PositionType.Bottom;
+                self.Halign = Gtk.Align.Start; // left-align the menu's edge with the click point, not centred on it
                 self.PointingTo = new Gdk.Rectangle(x, y, 1, 1);
             }
 

@@ -202,6 +202,10 @@ namespace System.Windows.Forms
                     Position = Gtk.PositionType.Bottom,
                     Child = _dropDownBox,
                     HasArrow = false,
+                    // A bottom popover centres on its parent by default, so a drop-down wider than a narrow
+                    // menu item spilled to the left. Halign.Start left-aligns the popover's edge with the
+                    // item's left edge, matching WinForms/Gtk3.
+                    Halign = Gtk.Align.Start,
                 };
                 // Gtk4: gtk_widget_set_parent anchors the popover to the item's button; Popup() then shows it
                 // relative to that widget.
@@ -213,6 +217,9 @@ namespace System.Windows.Forms
 
         /// <summary>Whether this item has a populated drop-down to show.</summary>
         public bool HasDropDown => _dropDownBox != null && _dropDownBox.FirstChild != null;
+
+        /// <summary>The horizontal alignment of the drop-down popover relative to this item (for tests).</summary>
+        public Gtk.Align DropDownAlign => _dropDown?.Halign ?? Gtk.Align.Fill;
 
         /// <summary>
         /// Pops the drop-down open (no-op if the item has no drop-down, or is not yet on screen - Popup on an

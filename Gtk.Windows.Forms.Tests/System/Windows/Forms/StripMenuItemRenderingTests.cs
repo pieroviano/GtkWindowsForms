@@ -201,6 +201,10 @@ public class StripMenuItemRenderingTests
         }
 
         Assert.Equal(3, count);
+
+        // The drop-down popover left-aligns with the parent item (Halign.Start) rather than centring on it
+        // and spilling to the left.
+        Assert.Equal(Gtk.Align.Start, top.self.DropDownAlign);
     }
 
     [Fact]
