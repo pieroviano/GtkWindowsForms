@@ -87,7 +87,21 @@ public sealed class Cursor : IDisposable, ISerializable
     {
         _freeHandle = true;
         CursorType = null;
-        CursorPixbuf = new Gdk.Pixbuf(stream).ScaleSimple(38, 38, Gdk.InterpType.Hyper);
+        try
+        {
+            CursorPixbuf = new Gdk.Pixbuf(stream).ScaleSimple(38, 38, Gdk.InterpType.Hyper);
+        }
+        catch (GLib.GException ex)
+        {
+            // The stock WinForms cursors ship as Windows .cur resources, and GdkPixbuf has no loader for
+            // that format ("Unrecognized image file format") - so decoding one throws. This runs from a
+            // static Cursors.* property initializer, where an escaping exception takes down the whole app on
+            // the first form that touches a cursor. Degrade gracefully: no custom pixbuf (the cursor falls
+            // back to the platform default until named Gdk cursors are wired). See TODO(gtk4) in
+            // Control.SetCursorStyle.
+            System.Diagnostics.GtkLogger.Debug("Unable to decode cursor image; falling back to the default cursor.", ex);
+            CursorPixbuf = null;
+        }
     }
 
     internal Cursor(string resource, string cursorsProperty)
