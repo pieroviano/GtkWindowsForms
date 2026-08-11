@@ -134,6 +134,53 @@ namespace System.Windows.Forms
 
         public Gtk.Widget ToolItem { get; } = null!;
 
+        /// <summary>
+        /// Lays the icon and caption out according to a WinForms <see cref="TextImageRelation" />: the
+        /// *AboveText / TextAbove* relations stack them vertically (the Gtk3 top-level "icon above text"
+        /// look), the *BeforeText / TextBefore* relations keep them side by side; the order follows which of
+        /// text/image comes first.
+        /// </summary>
+        public void SetTextImageRelation(TextImageRelation relation)
+        {
+            var vertical = relation == TextImageRelation.ImageAboveText || relation == TextImageRelation.TextAboveImage;
+            var textFirst = relation == TextImageRelation.TextAboveImage || relation == TextImageRelation.TextBeforeImage;
+
+            contentBox.Orientation = vertical ? Gtk.Orientation.Vertical : Gtk.Orientation.Horizontal;
+
+            // Gtk4 Box has no reorder-child; remove and re-append in the wanted order.
+            contentBox.Remove(iconImage);
+            contentBox.Remove(textLabel);
+            if (textFirst)
+            {
+                contentBox.Append(textLabel);
+                contentBox.Append(iconImage);
+            }
+            else
+            {
+                contentBox.Append(iconImage);
+                contentBox.Append(textLabel);
+            }
+
+            var align = vertical ? Align.Center : Align.Start;
+            contentBox.Halign = align;
+            iconImage.Halign = align;
+            textLabel.Halign = align;
+        }
+
+        /// <summary>
+        /// Configures this item as a top-level menu-bar entry: it packs tightly at the start of the bar
+        /// rather than stretching across it. (checkButton.Hexpand propagates up and would spread the items
+        /// evenly, which is why Menu 1 / Menu 2 drifted apart on Gtk4.) A right-aligned item opts back into
+        /// expansion via <see cref="ToolStripItem.Alignment" /> = Right.
+        /// </summary>
+        public void ConfigureAsMenuBarItem()
+        {
+            checkButton.Hexpand = false;
+            checkButton.Vexpand = false;
+            this.Hexpand = false;
+            this.Halign = Align.Start;
+        }
+
         // Gtk4 removed Gtk.Menu/Gtk.MenuItem.Submenu; a drop-down is a Gtk.Popover parented to the item and
         // holding its child items in a vertical box. Created lazily the first time a sub-item is added.
         private Gtk.Popover? _dropDown;

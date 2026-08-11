@@ -252,8 +252,12 @@ public partial class ToolStripItem : Component, IDropTarget, ISupportOleDropSour
             if (value == ToolStripItemAlignment.Right)
             {
                 if (widget is StripMenuItem item)
+                {
+                    // Expand to fill the bar's free space and sit at its far end - the other (tightly packed)
+                    // menu-bar items stay at the start, giving the WinForms left-group / right-item layout.
                     item.Halign = Gtk.Align.End;
-
+                    item.Hexpand = true;
+                }
             }
         }
     }

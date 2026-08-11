@@ -109,6 +109,64 @@ public class StripMenuItemRenderingTests
     }
 
     [Fact]
+    public void TextImageRelation_ImageAboveText_StacksIconAboveCaption()
+    {
+        // Regression: the demo's top-level items set TextImageRelation.ImageAboveText, but the setter only
+        // tweaked Halign, so the icon stayed on the same row as the text. It must stack them vertically with
+        // the icon first (above).
+        var item = new ToolStripMenuItem("Menu 1") { TextImageRelation = TextImageRelation.ImageAboveText };
+
+        var content = (Gtk.Box)item.checkButton.Child;
+        Assert.Equal(Gtk.Orientation.Vertical, content.Orientation);
+        Assert.IsType<Gtk.Image>(content.FirstChild); // icon is the first (top) child
+    }
+
+    [Fact]
+    public void TextImageRelation_ImageBeforeText_KeepsIconBesideCaption()
+    {
+        var item = new ToolStripMenuItem("Edit") { TextImageRelation = TextImageRelation.ImageBeforeText };
+
+        var content = (Gtk.Box)item.checkButton.Child;
+        Assert.Equal(Gtk.Orientation.Horizontal, content.Orientation);
+    }
+
+    [Fact]
+    public void MenuBarItems_PackTight_NotHexpanded()
+    {
+        // Regression: checkButton.Hexpand=true propagated up and stretched each item, so Menu 1 / Menu 2
+        // drifted apart across the bar. Menu-bar items must not expand (they pack at the start).
+        var menu = new MenuStrip();
+        var m1 = new ToolStripMenuItem("Menu 1");
+        var m2 = new ToolStripMenuItem("Menu 2");
+        menu.Items.Add(m1);
+        menu.Items.Add(m2);
+
+        Assert.False(m1.self.Hexpand);
+        Assert.False(m1.self.checkButton.Hexpand);
+        Assert.Equal(Gtk.Align.Start, m1.self.Halign);
+        Assert.False(m2.self.Hexpand);
+    }
+
+    [Fact]
+    public void RightAlignedMenuItem_ExpandsToTheEnd()
+    {
+        // A right-aligned item (set after Add, mirroring the designer) opts back into expansion so it sits at
+        // the far end while the others stay packed at the start.
+        var menu = new MenuStrip();
+        var normal = new ToolStripMenuItem("Menu 1");
+        var right = new ToolStripMenuItem("A right-aligned menu");
+        menu.Items.Add(normal);
+        menu.Items.Add(right);
+
+        right.Alignment = ToolStripItemAlignment.Right;
+
+        Assert.Equal(Gtk.Align.End, right.self.Halign);
+        Assert.True(right.self.Hexpand);
+        // The ordinary item is unaffected.
+        Assert.False(normal.self.Hexpand);
+    }
+
+    [Fact]
     public void MenuItemClick_FiresWhenCheckButtonToggledByUser()
     {
         // Regression: the item's GestureClick is starved by the inner CheckButton, and Gtk4's GtkCheckButton

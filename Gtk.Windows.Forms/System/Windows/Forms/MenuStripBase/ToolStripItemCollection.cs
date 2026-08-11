@@ -309,6 +309,7 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
             if (item.Widget is StripMenuItem menuBarItem)
             {
                 menuBarItem.checkButton.StyleContext.AddClass("MenuBarItem");
+                menuBarItem.ConfigureAsMenuBarItem();
             }
 
             AppendIfWidget(toolStrip?.self, item.Widget?.MenuItem);

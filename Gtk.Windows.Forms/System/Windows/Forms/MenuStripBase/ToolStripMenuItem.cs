@@ -153,26 +153,10 @@ public class ToolStripMenuItem : ToolStripItem
         set
         {
             base.TextImageRelation = value;
-            if (value == TextImageRelation.ImageAboveText)
-            {
-                checkButton.Halign = Align.Fill;
-            }
-            else if (value == TextImageRelation.TextAboveImage)
-            {
-                checkButton.Halign = Align.Fill;
-            }
-            else if (value == TextImageRelation.ImageBeforeText)
-            {
-                checkButton.Halign = Align.Start;
-            }
-            else if (value == TextImageRelation.TextBeforeImage)
-            {
-                checkButton.Halign = Align.Start;
-            }
-            else
-            {
-                checkButton.Halign = Align.Start;
-            }
+            // Stack or place the icon/caption per the relation (e.g. ImageAboveText -> icon over text, the
+            // Gtk3 top-level menu look). Previously only checkButton.Halign was tweaked, so the icon always
+            // stayed on the same row as the text.
+            self.SetTextImageRelation(value);
         }
     }
 
