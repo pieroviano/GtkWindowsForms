@@ -16,6 +16,11 @@ public class StripMenuItemRenderingTests
 
     private static Gdk.Pixbuf NewPixbuf() => new(Gdk.Colorspace.Rgb, true, 8, 8, 8);
 
+    // A real pointer click / Space flips the CheckButton's Active state, which fires 'toggled'. (Emitting
+    // 'toggled' alone would not change Active, so it cannot exercise the click-toggle/revert behaviour.)
+    private static void SimulateUserClick(ToolStripMenuItem item)
+        => item.checkButton.Active = !item.checkButton.Active;
+
     private static System.Collections.Generic.List<Gtk.Widget> ChildrenOf(Gtk.Widget parent)
     {
         var list = new System.Collections.Generic.List<Gtk.Widget>();
@@ -113,7 +118,7 @@ public class StripMenuItemRenderingTests
         var clicks = 0;
         item.Click += (s, e) => clicks++;
 
-        GLib.Signal.Emit(item.checkButton, "toggled"); // exactly what a pointer click / Space does
+        SimulateUserClick(item);
 
         Assert.Equal(1, clicks);
     }
@@ -153,7 +158,7 @@ public class StripMenuItemRenderingTests
         top.Click += (s, e) => topClicks++;
         top.DropDownOpened += (s, e) => dropDownOpened++;
 
-        GLib.Signal.Emit(top.checkButton, "toggled"); // user activates the top-level item
+        SimulateUserClick(top);
 
         Assert.Equal(0, topClicks);
         Assert.Equal(1, dropDownOpened);
@@ -168,10 +173,51 @@ public class StripMenuItemRenderingTests
         leaf.Click += (s, e) => clicks++;
         leaf.DropDownOpened += (s, e) => opened++;
 
-        GLib.Signal.Emit(leaf.checkButton, "toggled");
+        SimulateUserClick(leaf);
 
         Assert.Equal(1, clicks);
         Assert.Equal(0, opened);
+    }
+
+    [Fact]
+    public void ClickingLeafItem_DoesNotChangeChecked()
+    {
+        // WinForms default (CheckOnClick=false): clicking a menu command must not leave it checked. The
+        // Gtk4 CheckButton toggles on click, so without the revert a command item would show a stray
+        // checkmark and stay "checked".
+        var leaf = new ToolStripMenuItem("New");
+        Assert.False(leaf.Checked);
+
+        SimulateUserClick(leaf);
+
+        Assert.False(leaf.Checked);
+    }
+
+    [Fact]
+    public void ProgrammaticallyCheckedItem_StaysCheckedAfterClick()
+    {
+        // A checkable item is driven via the Checked property (e.g. the demo's cMenu). Clicking it must not
+        // flip that state off.
+        var item = new ToolStripMenuItem("cMenu") { Checked = true };
+        Assert.True(item.Checked);
+
+        SimulateUserClick(item);
+
+        Assert.True(item.Checked);
+    }
+
+    [Fact]
+    public void ClickingLeafItem_ClosingMenu_DoesNotThrow()
+    {
+        // The leaf-selected path walks up to close the containing popover; with no popover ancestor it must
+        // be a safe no-op (and it must not throw when there is one, either).
+        var top = new ToolStripMenuItem("File");
+        var leaf = new ToolStripMenuItem("New");
+        top.DropDownItems.Add(leaf);
+
+        var ex = Record.Exception(() => SimulateUserClick(leaf));
+
+        Assert.Null(ex);
     }
 
     [Fact]

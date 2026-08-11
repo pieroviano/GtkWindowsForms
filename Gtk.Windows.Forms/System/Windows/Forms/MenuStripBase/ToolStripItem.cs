@@ -190,6 +190,12 @@ public partial class ToolStripItem : Component, IDropTarget, ISupportOleDropSour
 
         OnClick(EventArgs.Empty);
         OnDropDownItemClicked(new ToolStripItemClickedEventArgs(this));
+
+        // Selecting a leaf command closes the menu it was chosen from.
+        if (GetWidget() is StripMenuItem leaf)
+        {
+            leaf.CloseContainingPopover();
+        }
     }
 
     /// <summary>

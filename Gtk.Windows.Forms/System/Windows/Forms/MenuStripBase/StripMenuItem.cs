@@ -51,10 +51,17 @@ namespace System.Windows.Forms
 
         private void CheckButton_Toggled(object? sender, EventArgs e)
         {
-            if (!_suppressActivation)
+            if (_suppressActivation)
             {
-                Activated?.Invoke(this, EventArgs.Empty);
+                return;
             }
+
+            // WinForms: a menu item's Checked does NOT change when the user clicks it (CheckOnClick defaults
+            // false; checkable items - e.g. the demo's cMenu - are driven programmatically via Checked). Undo
+            // the toggle GtkCheckButton just applied so clicking a command never leaves a stray checkmark or
+            // a permanently "checked" item, then report the activation.
+            SetActiveSuppressed(!checkButton.Active);
+            Activated?.Invoke(this, EventArgs.Empty);
         }
 
         public bool Checked
@@ -174,6 +181,22 @@ namespace System.Windows.Forms
 
         /// <summary>Closes the drop-down if it is open.</summary>
         public void HideDropDown() => _dropDown?.Popdown();
+
+        /// <summary>
+        /// Dismisses the drop-down/context popover(s) this item lives in - selecting a WinForms menu command
+        /// closes the whole open menu chain. Walks the parent chain (item -> content box -> popover, and on
+        /// up through any parent menus) and pops each popover down.
+        /// </summary>
+        public void CloseContainingPopover()
+        {
+            for (Gtk.Widget? w = Parent; w != null; w = w.Parent)
+            {
+                if (w is Gtk.Popover popover)
+                {
+                    popover.Popdown();
+                }
+            }
+        }
 
         protected override void Dispose(bool disposing)
         {
