@@ -180,7 +180,13 @@ public class ResourceManager : System.Resources.ResourceManager
                     _formName = "";
 
                 var directory = Path.Combine("Resources", _formName);
-                var files = Directory.GetFiles(directory, $"{fileName}.*", SearchOption.TopDirectoryOnly);
+                // The on-disk "Resources/<Form>" folder is optional - a form with no external resource
+                // files has none. Directory.GetFiles throws DirectoryNotFoundException on a missing folder,
+                // which used to escape straight out of InitializeComponent and crash the app; treat a
+                // missing folder as "no files".
+                var files = Directory.Exists(directory)
+                    ? Directory.GetFiles(directory, $"{fileName}.*", SearchOption.TopDirectoryOnly)
+                    : Array.Empty<string>();
                 if (files != null && files.Length > 0)
                 {
                     fileName = files[0];

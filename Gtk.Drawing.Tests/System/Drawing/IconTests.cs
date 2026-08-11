@@ -49,6 +49,26 @@ public class IconTests
     }
 
     [Fact]
+    public void Constructor_Stream_WithUndecodableData_DoesNotThrow_AndKeepsRawBytes()
+    {
+        // Regression: GdkPixbuf on some Gtk4 runtimes has no loader for the Windows .ico format that
+        // WinForms designer icon resources ship as, so new Gdk.Pixbuf(bytes) throws GLib.GException
+        // 'Unrecognized image file format'. The Icon(Stream) ctor used to let that escape, crashing
+        // Form.InitializeComponent (repro: GtkWinFormsApp/Form3 loading its Panel.ico fallback). It must
+        // keep the raw bytes and leave the pixbuf empty instead, matching Bitmap(Stream).
+        var undecodable = new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09 };
+        using var stream = new MemoryStream(undecodable);
+
+        Icon icon = null!;
+        var exception = Record.Exception(() => icon = new Icon(stream));
+
+        Assert.Null(exception);
+        Assert.NotNull(icon);
+        Assert.Null(icon.Pixbuf);
+        Assert.NotNull(icon.PixbufData);
+    }
+
+    [Fact]
     public void Dispose_ClearsPixbuf()
     {
         var icon = new Icon("test.ico");

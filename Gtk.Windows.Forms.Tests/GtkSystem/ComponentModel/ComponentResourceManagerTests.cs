@@ -12,11 +12,19 @@ public class ComponentResourceManagerTests
     }
 
     [Fact]
-    public void GetObject_WithName_ThrowsOrReturns()
+    public void GetObject_WithMissingResourcesFolder_DoesNotThrow_AndFallsBackToPlaceholder()
     {
+        // Regression: GetObject(name) (no culture) falls through to
+        // Directory.GetFiles(Path.Combine("Resources", <form>), ...) to look for a loose resource file.
+        // Directory.GetFiles throws DirectoryNotFoundException when that optional folder does not exist,
+        // which used to escape straight out of Form.InitializeComponent and crash the app
+        // (repro: GtkWinFormsApp/Form3 -> "Could not find a part of the path '...\\Resources\\Form3'").
+        // A missing folder must now be treated as "no files", returning the built-in placeholder image.
         var mgr = new ComponentResourceManager(typeof(DummyForm));
-        // Will throw because no resources exist, but covers the code path
-        Assert.ThrowsAny<Exception>(() => mgr.GetObject("any"));
+
+        var value = mgr.GetObject("any");
+
+        Assert.NotNull(value);
     }
 
     [Fact]

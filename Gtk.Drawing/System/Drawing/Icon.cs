@@ -103,12 +103,26 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
         {
             byte[] bytes = reader.ReadBytes((int)stream.Length);
             this.PixbufData = bytes;
-            if (width > 0 && height > 0)
-                this.Pixbuf = new Gdk.Pixbuf(bytes, width, height);
-            else
-                this.Pixbuf = new Gdk.Pixbuf(bytes);
-            this.Width = this.Pixbuf.Width;
-            this.Height = this.Pixbuf.Height;
+            try
+            {
+                if (width > 0 && height > 0)
+                    this.Pixbuf = new Gdk.Pixbuf(bytes, width, height);
+                else
+                    this.Pixbuf = new Gdk.Pixbuf(bytes);
+                this.Width = this.Pixbuf.Width;
+                this.Height = this.Pixbuf.Height;
+            }
+            catch (GLib.GException ex)
+            {
+                // GdkPixbuf has no loader for the Windows .ico/.cur formats on some Gtk4 runtimes
+                // ("Unrecognized image file format"). Icons in WinForms designer resources are .ico, so an
+                // escaping exception here crashes Form.InitializeComponent. Keep the raw bytes and leave the
+                // pixbuf empty instead of throwing - the same tolerance the Bitmap(Stream) ctor already has.
+                System.Diagnostics.GtkLogger.Debug("Unable to decode icon image; keeping raw bytes only.", ex);
+                this.Pixbuf = null;
+                this.Width = 0;
+                this.Height = 0;
+            }
         }
     }
 

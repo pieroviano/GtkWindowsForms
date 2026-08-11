@@ -104,18 +104,69 @@ public sealed class Cursor : IDisposable, ISerializable
         }
     }
 
-    internal Cursor(string resource, string cursorsProperty)
-        : this(typeof(Cursors).Assembly.GetManifestResourceStream(resource))
+    // Gtk4/GdkPixbuf has no loader for the Windows .cur format the stock cursors ship as, so decoding one
+    // into a Gdk.Pixbuf aborts. Instead the stock cursors resolve to a Gtk4 named cursor, which is applied
+    // directly with Gdk.Cursor(name, fallback) - no image decoding involved.
+    private static readonly System.Collections.Generic.Dictionary<string, string> s_gdkCursorNames =
+        new System.Collections.Generic.Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["arrow"] = "default",
+            ["default"] = "default",
+            ["hand"] = "pointer",
+            ["help"] = "help",
+            ["cross"] = "crosshair",
+            ["move"] = "move",
+            ["size_all"] = "move",
+            ["xterm"] = "text",
+            ["circle"] = "progress",
+            ["not-allowed"] = "not-allowed",
+            ["wait_i"] = "wait",
+            ["size_ver"] = "ns-resize",
+            ["size_hor"] = "ew-resize",
+            ["sb_up_arrow"] = "n-resize",
+        };
+
+    /// <summary>
+    /// The Gtk4 named-cursor this cursor maps to (for the stock <see cref="Cursors" />), or
+    /// <see langword="null" /> for an image-backed custom cursor.
+    /// </summary>
+    internal string? GdkCursorName { get; private set; }
+
+    /// <summary>Maps a stock cursor resource name (e.g. <c>Resources.Cursors.hand.cur</c>) to a Gdk cursor name.</summary>
+    private static string GdkNameForResource(string resource)
     {
-        CursorsProperty = cursorsProperty;
+        var parts = resource.Split('.');
+        // ".../hand.cur" -> the segment before the "cur" extension.
+        var key = parts.Length >= 2 ? parts[parts.Length - 2] : resource;
+        if (s_gdkCursorNames.TryGetValue(key, out var name))
+        {
+            return name;
+        }
+
+        // The directional pan/size cursors already ship under their Gtk4/CSS names (e.g. "ns-resize",
+        // "nwse-resize", "e-resize"), so pass those straight through.
+        if (key.EndsWith("-resize", StringComparison.OrdinalIgnoreCase))
+        {
+            return key;
+        }
+
+        return "default";
+    }
+
+    internal Cursor(string resource, string cursorsProperty)
+    {
         _freeHandle = false;
+        CursorType = null;
+        CursorsProperty = cursorsProperty;
+        GdkCursorName = GdkNameForResource(resource);
     }
 
     internal Cursor(string resource, int x, int y)
-        : this(typeof(Cursors).Assembly.GetManifestResourceStream(resource))
     {
-        CursorsXY = new Point(x, y);
         _freeHandle = false;
+        CursorType = null;
+        CursorsXY = new Point(x, y);
+        GdkCursorName = GdkNameForResource(resource);
     }
 
     /// <summary>

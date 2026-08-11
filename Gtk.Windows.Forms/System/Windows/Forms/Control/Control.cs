@@ -4360,12 +4360,23 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                 if (widget.Cursor != null)
                     widget.Cursor = null;
             }
+            else if (!string.IsNullOrEmpty(_Cursor.GdkCursorName))
+            {
+                // Gtk4 removed Gdk.CursorType and the pixbuf cursor ctors; stock cursors map to a Gtk4
+                // named cursor (see Cursor.GdkCursorName). Image-backed custom cursors (.cur) are not
+                // supported yet and fall back to the default. TODO(gtk4): custom cursor via Gdk.Texture.
+                try
+                {
+                    widget.Cursor = new Gdk.Cursor(_Cursor.GdkCursorName, null);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.GtkLogger.Debug($"Unable to set named cursor '{_Cursor.GdkCursorName}'", ex);
+                    widget.Cursor = null;
+                }
+            }
             else
             {
-                // Gtk4 removed Gdk.CursorType and the (display, pixbuf, x, y) / (display, type) cursor
-                // ctors. Cursors are now named (Gdk.Cursor.NewFromName) or texture-backed
-                // (Gdk.Cursor.NewFromTexture). Custom WinForms cursors fall back to the default until the
-                // .cur -> Gdk.Texture path lands. TODO(gtk4): map _Cursor to a named/texture Gdk.Cursor.
                 widget.Cursor = null;
             }
         }
