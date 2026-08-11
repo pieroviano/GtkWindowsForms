@@ -23,7 +23,7 @@
   <!--
     Package versions the shipped libraries reference.
 
-    The binding is now Net4x.GtkSharp (Gtk 4), consumed as "$(GtkSharpLatestVersion).*" = 4.22.4.*.
+    The binding is now Net4x.GtkSharp (Gtk 4), consumed as "$(GtkSharp4LatestVersion).*" = 4.22.4.*.
     Its revision is a date-based build suffix (e.g. 4.22.4.26222) produced by GtkSharp.sln into the local
     Packages/ feed, so both Release and Debug float on the revision for now - a fixed pin (as the Gtk 3
     package used, .95) cannot name a build that will still exist after the next GtkSharp.sln rebuild.
@@ -32,10 +32,10 @@
     Override on the command line (-p:GtkSharpPackageVersion=...) to move a pin deliberately.
   -->
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <GtkSharpPackageVersion Condition="'$(GtkSharpPackageVersion)' == ''">$(GtkSharpLatestVersion).*</GtkSharpPackageVersion>
+    <GtkSharpPackageVersion Condition="'$(GtkSharpPackageVersion)' == ''">$(GtkSharp4LatestVersion).*</GtkSharpPackageVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' != 'Release'">
-    <GtkSharpPackageVersion Condition="'$(GtkSharpPackageVersion)' == ''">$(GtkSharpLatestVersion).*</GtkSharpPackageVersion>
+    <GtkSharpPackageVersion Condition="'$(GtkSharpPackageVersion)' == ''">$(GtkSharp4LatestVersion).*</GtkSharpPackageVersion>
   </PropertyGroup>
   <PropertyGroup>
     <!--

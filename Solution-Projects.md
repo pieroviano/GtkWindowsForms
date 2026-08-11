@@ -25,7 +25,7 @@ Common conventions across the shippable libraries: `TargetFramework` = `netstand
 
 The core library: a WinForms-compatible API surface implemented on top of GtkSharp. Public types mirror `System.Windows.Forms`; GTK-backed implementations live under `GtkControls/` and `GtkSystem/`. Image assets are `EmbeddedResource`s under `Resources/System/`; localized message/resource strings are compiled from `.resx` (zh-Hans, en, it, fr, de, es).
 
-- **References:** `GtkSharp` ($(GtkSharpLatestVersion).*), `System.Memory`, `System.Resources.Extensions` (the `Gtk.Resources.Extensions` package), `xunit.extensibility.core`; project references to `Gtk.Drawing` and `Gtk.Windows.FormsDesigner`.
+- **References:** `GtkSharp` ($(GtkSharp4LatestVersion).*), `System.Memory`, `System.Resources.Extensions` (the `Gtk.Resources.Extensions` package), `xunit.extensibility.core`; project references to `Gtk.Drawing` and `Gtk.Windows.FormsDesigner`.
 - **Packaging extras:** ships MSBuild `build/` props+targets (`Gtk.Windows.Forms.props`/`.targets`), `content/` source files (`System.ComponentModel.cs`, `System.Resources.ResourceManager.cs`), and bundles the built `ResxProcessor` under `tools/`.
 - `InternalsVisibleTo` → `Gtk.Windows.Forms.Tests`.
 
