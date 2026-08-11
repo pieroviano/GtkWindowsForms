@@ -879,6 +879,10 @@ public partial class Form : ContainerControl, IWin32Window
             }
         }
         self.Show();
+        // Gtk4: Show() maps the window but does not raise it, so a newly opened form (e.g. Form4 via
+        // "Split Container Layout") could appear behind its owner. Present() raises and focuses it - it must
+        // follow Show() because presenting an unrealized window aborts (gdk_toplevel_present).
+        self.Present();
     }
 
     /// <summary>

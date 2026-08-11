@@ -213,6 +213,37 @@ public class FormTests
     }
 
     [Fact]
+    public void Show_WithOwner_PresentsChild_AsAVisibleTransientOfTheOwner()
+    {
+        // Regression: opening a form with Show(owner) (e.g. "Split Container Layout" -> Form4.Show(this))
+        // only called self.Show(), which maps but does not raise the window, so it appeared BEHIND the main
+        // window. Show now also Present()s it. Front-raising is WM-driven and not assertable headlessly, so
+        // this pins the prerequisites: the child comes up visible and transient-for its owner, without
+        // throwing (Present must run after Show, or presenting an unrealized window aborts).
+        var owner = new Form();
+        var child = new Form();
+
+        Exception? showEx = null;
+        Gtk.Window? transientFor = null;
+        var childVisible = false;
+
+        owner.Load += (s, e) =>
+        {
+            showEx = Record.Exception(() => child.Show(owner));
+            transientFor = child.self.TransientFor;
+            childVisible = child.self.Visible;
+            child.Close();
+            owner.Close();
+        };
+
+        owner.ShowDialog();
+
+        Assert.Null(showEx);
+        Assert.Same(owner.self, transientFor);
+        Assert.True(childVisible);
+    }
+
+    [Fact]
     public void ShowInTaskbar_Toggle_Works()
     {
         var form = new Form
