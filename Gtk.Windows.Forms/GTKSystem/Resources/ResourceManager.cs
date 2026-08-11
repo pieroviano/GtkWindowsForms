@@ -223,6 +223,22 @@ public class ResourceManager : System.Resources.ResourceManager
         }
         else
         {
+            // The resx may hand back the raw serialized bytes of an image/icon rather than a materialized
+            // object: the shim's reader cannot reconstruct the real System.Drawing.Icon/Bitmap the entry is
+            // typed as, so it yields the underlying byte[]. The designer, however, casts the result straight
+            // to the shim's Icon/Bitmap (e.g. `(Icon)resources.GetObject("notifyIcon1.Icon")`), which threw
+            // InvalidCastException: Byte[] -> Icon. Materialize the shim type from the bytes here, mirroring
+            // the file-fallback path above (both Icon and Bitmap tolerate undecodable bytes on Gtk4).
+            if (obj is byte[] rawBytes)
+            {
+                if (name.EndsWith(".Icon"))
+                {
+                    return new System.Drawing.Icon(new MemoryStream(rawBytes));
+                }
+
+                return new System.Drawing.Bitmap(new MemoryStream(rawBytes));
+            }
+
             return obj;
         }
     }
