@@ -587,7 +587,13 @@ public sealed partial class Application
 .ToolStrip levelbar,.MenuStrip levelbar{padding:0px;min-height:6px;min-width:6px;border-radius:0px;border-width:0px;}
 .StatusStrip {border-top:solid 1px @frame_color;}
 .MenuItemButton {background-color:transparent;background:none; border:none; border-radius:0px;border-width:0px; padding:0px;box-shadow:none; min-width:1px;min-height:1px;}
-.ToolStrip checkbutton,.MenuStrip checkbutton{margin-left:-20px; padding:0px; } 
+.ToolStrip checkbutton,.MenuStrip checkbutton{padding:0px; }
+/* Gtk3 hid the CheckButton indicator with checkbutton.DrawIndicator=false; Gtk4 removed that property and
+   the old margin-left:-20px clip no longer hides Gtk4's separate 'check' node, so menu items rendered as
+   checkboxes. Collapse the indicator node instead: always for top-level menu-bar items (.MenuBarItem), and
+   for ordinary menu items only while unchecked (keeping the checkmark that a Checked item must show). */
+.MenuItemButton:not(:checked) check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}
+.MenuBarItem check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}
 .ToolStrip menu button image,.MenuStrip menu button image{margin-left:-22px;}
 .ToolStrip menu button image+label,.MenuStrip menu button image+label{margin-left:-2px; }
 .ToolStrip>separator,.MenuStrip>separator{padding:0px;margin:2px;}

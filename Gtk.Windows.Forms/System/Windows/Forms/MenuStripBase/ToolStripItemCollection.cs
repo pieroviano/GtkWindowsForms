@@ -264,6 +264,14 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
         }
         else if (isMenuStrip == true)
         {
+            // Top-level menu-bar items must never show a check-indicator square (they open submenus, they
+            // are not toggles). Tag them so the .MenuBarItem CSS collapses the indicator unconditionally -
+            // unlike ordinary drop-down items, which keep it to render a checkmark when Checked.
+            if (item.Widget is StripMenuItem menuBarItem)
+            {
+                menuBarItem.checkButton.StyleContext.AddClass("MenuBarItem");
+            }
+
             toolStrip?.self.AddChild(item.Widget.MenuItem);
         }
         else if (isToolStripDropDown == true)
