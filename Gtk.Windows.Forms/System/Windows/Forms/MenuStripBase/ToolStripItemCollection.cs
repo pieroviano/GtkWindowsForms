@@ -23,6 +23,14 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     // 'Menu' here would bind to it rather than to Gtk's.
     private Gtk.Popover? menu;
 
+    // Set when this collection is the DropDownItems of a ToolStripMenuItem: child items are appended into
+    // that item's own drop-down popover instead of a standalone Gtk.Popover.
+    private readonly StripMenuItem? menuItemOwner;
+
+    // Vertical content box for a standalone popover (menu != null): a Gtk.Popover holds a single Child, so
+    // items are appended into this box rather than overwriting each other.
+    private Gtk.Box? menuContent;
+
     private readonly ToolStripItem? owner;
 
     private readonly StatusStrip? statusStrip;
@@ -110,6 +118,12 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
             this.menu = new Gtk.Popover();
             tmenu.Popover = this.menu; // Gtk4: MenuButton.Menu -> Popover
             isToolStripDropDown = true;
+        }
+        else if (owner.Widget?.MenuItem is StripMenuItem smi)
+        {
+            // A ToolStripMenuItem's drop-down: its child items live in the item's own popover (built lazily
+            // on first add and anchored to the item), so clicking the item can pop them up.
+            this.menuItemOwner = smi;
         }
     }
 
@@ -251,16 +265,41 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
     /// <returns>
     /// System.Int32.
     /// </returns>
+    // Returns the vertical box that holds a standalone popover's items, creating the popover (for the legacy
+    // owner path) and the box on first use. Null only when there is no popover and no owner to build one for.
+    private Gtk.Box? GetOrCreatePopoverContent()
+    {
+        if (menu == null)
+        {
+            if (owner?.MenuItem == null)
+            {
+                return null;
+            }
+
+            // Gtk4: Gtk.MenuItem.Submenu removed; a submenu is a Popover. (Anchoring/pop-up for this legacy
+            // fallback path is still deferred to migration #11.)
+            menu = new Gtk.Popover { Autohide = true, Position = Gtk.PositionType.Bottom, HasArrow = false };
+        }
+
+        if (menuContent == null)
+        {
+            menuContent = new Gtk.Box(Gtk.Orientation.Vertical, 0) { Visible = true };
+            menu.Child = menuContent;
+        }
+
+        return menuContent;
+    }
+
     public int AddMemu(ToolStripItem item)
     {
         item.Parent = owner;
         if (isToolStrip == true)
         {
-            toolStrip?.self.AddChild(item.Widget.ToolItem);
+            AppendIfWidget(toolStrip?.self, item.Widget?.ToolItem);
         }
         else if (isStatusStrip == true)
         {
-            statusStrip?.self.AddChild(item.Widget.ToolItem);
+            AppendIfWidget(statusStrip?.self, item.Widget?.ToolItem);
         }
         else if (isMenuStrip == true)
         {
@@ -272,26 +311,34 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
                 menuBarItem.checkButton.StyleContext.AddClass("MenuBarItem");
             }
 
-            toolStrip?.self.AddChild(item.Widget.MenuItem);
+            AppendIfWidget(toolStrip?.self, item.Widget?.MenuItem);
         }
-        else if (isToolStripDropDown == true)
+        else if (menuItemOwner != null)
         {
-            menu?.AddChild(item.Widget.MenuItem);
+            // Append into the owning menu item's drop-down popover (created/anchored on first add).
+            AppendIfWidget(menuItemOwner.EnsureDropDownContent(), item.Widget?.MenuItem);
         }
         else
         {
-            if (owner?.MenuItem != null && this.menu == null)
-            {
-                // Gtk4: Gtk.MenuItem.Submenu removed; a submenu is a Popover parented to the item.
-                // Popup wiring is deferred to the menu-behavior pass (migration #11).
-                this.menu = new Gtk.Popover();
-            }
-            menu?.AddChild(item.Widget.MenuItem);
+            // A standalone popover (ContextMenuStrip / ToolStripDropDown, or the legacy owner path) hosts its
+            // items in a vertical box rather than a single Child, so multiple items are not overwritten.
+            AppendIfWidget(GetOrCreatePopoverContent(), item.Widget?.MenuItem);
         }
 
         base.Add(item);
 
         return Count;
+    }
+
+    // Appends a child to a GTK container, skipping when either is null. Some ToolStripItem kinds expose only
+    // a ToolItem or only a MenuItem (the other is null); appending null tripped Gtk-CRITICAL
+    // "gtk_box_append: assertion 'GTK_IS_WIDGET (child)' failed".
+    private static void AppendIfWidget(Gtk.Widget? parent, Gtk.Widget? child)
+    {
+        if (parent != null && child != null)
+        {
+            parent.AddChild(child);
+        }
     }
 
     /// <summary>

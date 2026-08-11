@@ -127,10 +127,65 @@ namespace System.Windows.Forms
 
         public Gtk.Widget ToolItem { get; } = null!;
 
+        // Gtk4 removed Gtk.Menu/Gtk.MenuItem.Submenu; a drop-down is a Gtk.Popover parented to the item and
+        // holding its child items in a vertical box. Created lazily the first time a sub-item is added.
+        private Gtk.Popover? _dropDown;
+
+        private Gtk.Box? _dropDownBox;
+
+        /// <summary>
+        /// Returns the vertical content box of this item's drop-down popover, creating and anchoring the
+        /// popover to the item's clickable surface on first use. Sub-items are appended to the returned box.
+        /// </summary>
+        public Gtk.Box EnsureDropDownContent()
+        {
+            if (_dropDown == null)
+            {
+                _dropDownBox = new Gtk.Box(Gtk.Orientation.Vertical, 0) { Visible = true };
+                _dropDown = new Gtk.Popover
+                {
+                    Autohide = true,
+                    Position = Gtk.PositionType.Bottom,
+                    Child = _dropDownBox,
+                    HasArrow = false,
+                };
+                // Gtk4: gtk_widget_set_parent anchors the popover to the item's button; Popup() then shows it
+                // relative to that widget.
+                _dropDown.Parent = checkButton;
+            }
+
+            return _dropDownBox!;
+        }
+
+        /// <summary>Whether this item has a populated drop-down to show.</summary>
+        public bool HasDropDown => _dropDownBox != null && _dropDownBox.FirstChild != null;
+
+        /// <summary>
+        /// Pops the drop-down open (no-op if the item has no drop-down, or is not yet on screen - Popup on an
+        /// unmapped popover would abort in GTK).
+        /// </summary>
+        public void ShowDropDown()
+        {
+            if (_dropDown != null && checkButton.IsMapped)
+            {
+                _dropDown.Popup();
+            }
+        }
+
+        /// <summary>Closes the drop-down if it is open.</summary>
+        public void HideDropDown() => _dropDown?.Popdown();
+
         protected override void Dispose(bool disposing)
         {
             _Image?.Dispose();
             checkButton.Dispose();
+            if (_dropDown != null)
+            {
+                // A popover parented via set_parent must be explicitly unparented before disposal.
+                _dropDown.Unparent();
+                _dropDown.Dispose();
+            }
+
             base.Dispose(disposing);
         }
     }

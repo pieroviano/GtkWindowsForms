@@ -179,6 +179,15 @@ public partial class ToolStripItem : Component, IDropTarget, ISupportOleDropSour
 
     private void Widget_MenuItemClicked(object? sender, EventArgs e)
     {
+        // An item that owns a drop-down opens it instead of acting as a command (WinForms behaviour: a
+        // top-level "Menu 1" or a submenu parent shows its children rather than raising a leaf Click).
+        if (dropDownItems.Count > 0 && GetWidget() is StripMenuItem menuItem)
+        {
+            menuItem.ShowDropDown();
+            OnDropDownOpened(EventArgs.Empty);
+            return;
+        }
+
         OnClick(EventArgs.Empty);
         OnDropDownItemClicked(new ToolStripItemClickedEventArgs(this));
     }

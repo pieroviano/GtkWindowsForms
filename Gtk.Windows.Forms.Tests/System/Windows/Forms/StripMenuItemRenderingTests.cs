@@ -119,6 +119,62 @@ public class StripMenuItemRenderingTests
     }
 
     [Fact]
+    public void DropDownItems_AllAppearInPopover_NotOverwritten()
+    {
+        // Regression: a Gtk.Popover holds a single Child, and the old code did popover.Child = item for each
+        // add, so only the last drop-down entry survived. Items now go into a vertical box - all appear.
+        var top = new ToolStripMenuItem("File");
+        top.DropDownItems.Add(new ToolStripMenuItem("New"));
+        top.DropDownItems.Add(new ToolStripMenuItem("Open"));
+        top.DropDownItems.Add(new ToolStripMenuItem("Save"));
+
+        Assert.True(top.self.HasDropDown);
+
+        var box = top.self.EnsureDropDownContent();
+        var count = 0;
+        for (var c = box.FirstChild; c != null; c = c.NextSibling)
+        {
+            count++;
+        }
+
+        Assert.Equal(3, count);
+    }
+
+    [Fact]
+    public void ClickingItemWithDropDown_OpensIt_WithoutRaisingLeafClick()
+    {
+        // A top-level item that owns a drop-down opens it rather than firing a command; its own Click must
+        // not be raised (WinForms behaviour). The popover only actually pops up once on screen, but the
+        // branch (open vs. leaf-click) is what this pins.
+        var top = new ToolStripMenuItem("File");
+        top.DropDownItems.Add(new ToolStripMenuItem("New"));
+        var topClicks = 0;
+        var dropDownOpened = 0;
+        top.Click += (s, e) => topClicks++;
+        top.DropDownOpened += (s, e) => dropDownOpened++;
+
+        GLib.Signal.Emit(top.checkButton, "toggled"); // user activates the top-level item
+
+        Assert.Equal(0, topClicks);
+        Assert.Equal(1, dropDownOpened);
+    }
+
+    [Fact]
+    public void ClickingLeafItem_RaisesClick_NotDropDown()
+    {
+        var leaf = new ToolStripMenuItem("New"); // no children
+        var clicks = 0;
+        var opened = 0;
+        leaf.Click += (s, e) => clicks++;
+        leaf.DropDownOpened += (s, e) => opened++;
+
+        GLib.Signal.Emit(leaf.checkButton, "toggled");
+
+        Assert.Equal(1, clicks);
+        Assert.Equal(0, opened);
+    }
+
+    [Fact]
     public void SettingCheckedInCode_DoesNotRaiseClick()
     {
         // The Toggled->Click bridge must fire only for user activation. Setting Checked/CheckState in code
