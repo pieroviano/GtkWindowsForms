@@ -103,23 +103,14 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
         {
             byte[] bytes = reader.ReadBytes((int)stream.Length);
             this.PixbufData = bytes;
-            try
+            this.Pixbuf = DecodePixbuf(bytes, width, height);
+            if (this.Pixbuf != null)
             {
-                if (width > 0 && height > 0)
-                    this.Pixbuf = new Gdk.Pixbuf(bytes, width, height);
-                else
-                    this.Pixbuf = new Gdk.Pixbuf(bytes);
                 this.Width = this.Pixbuf.Width;
                 this.Height = this.Pixbuf.Height;
             }
-            catch (GLib.GException ex)
+            else
             {
-                // GdkPixbuf has no loader for the Windows .ico/.cur formats on some Gtk4 runtimes
-                // ("Unrecognized image file format"). Icons in WinForms designer resources are .ico, so an
-                // escaping exception here crashes Form.InitializeComponent. Keep the raw bytes and leave the
-                // pixbuf empty instead of throwing - the same tolerance the Bitmap(Stream) ctor already has.
-                System.Diagnostics.GtkLogger.Debug("Unable to decode icon image; keeping raw bytes only.", ex);
-                this.Pixbuf = null;
                 this.Width = 0;
                 this.Height = 0;
             }
@@ -185,11 +176,48 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
         this.Height = height;
         if (System.IO.File.Exists(fileName))
         {
-            this.Pixbuf = new Gdk.Pixbuf(fileName);
-            this.Width = this.Pixbuf.Width;
-            this.Height = this.Pixbuf.Height;
-            this.PixbufData = this.Pixbuf.SaveToBuffer("png");
+            // Read the bytes and decode via the native-then-managed path so .ico files still load when the
+            // Gtk4 runtime lacks the ICO pixbuf loader (new Gdk.Pixbuf(fileName) would just throw).
+            var bytes = System.IO.File.ReadAllBytes(fileName);
+            this.PixbufData = bytes;
+            this.Pixbuf = DecodePixbuf(bytes, width, height);
+            if (this.Pixbuf != null)
+            {
+                this.Width = this.Pixbuf.Width;
+                this.Height = this.Pixbuf.Height;
+            }
         }
+    }
+
+    /// <summary>
+    /// Decodes image bytes to a <see cref="Gdk.Pixbuf" />, scaling to <paramref name="width" /> x
+    /// <paramref name="height" /> when both are positive. Falls back to the managed
+    /// <see cref="IcoImageDecoder" /> when the native loader cannot handle the data (the Gtk4 runtime often
+    /// has no ICO loader); returns <see langword="null" /> when neither can decode it, so callers degrade
+    /// gracefully instead of throwing.
+    /// </summary>
+    private static Gdk.Pixbuf? DecodePixbuf(byte[] bytes, int width, int height)
+    {
+        Gdk.Pixbuf? pixbuf = null;
+        try
+        {
+            pixbuf = width > 0 && height > 0 ? new Gdk.Pixbuf(bytes, width, height) : new Gdk.Pixbuf(bytes);
+        }
+        catch (GLib.GException ex)
+        {
+            System.Diagnostics.GtkLogger.Debug("Native pixbuf load failed; trying the managed ICO/CUR decoder.", ex);
+            var decoded = IcoImageDecoder.TryDecode(bytes);
+            if (decoded != null && width > 0 && height > 0 && (decoded.Width != width || decoded.Height != height))
+            {
+                var scaled = decoded.ScaleSimple(width, height, Gdk.InterpType.Bilinear);
+                decoded.Dispose();
+                decoded = scaled;
+            }
+
+            pixbuf = decoded;
+        }
+
+        return pixbuf;
     }
 
     /// <summary>
@@ -218,9 +246,12 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
         if (bytes != null)
         {
             this.PixbufData = bytes;
-            this.Pixbuf = new Gdk.Pixbuf(bytes);
-            this.Width = this.Pixbuf.Width;
-            this.Height = this.Pixbuf.Height;
+            this.Pixbuf = DecodePixbuf(bytes, 0, 0);
+            if (this.Pixbuf != null)
+            {
+                this.Width = this.Pixbuf.Width;
+                this.Height = this.Pixbuf.Height;
+            }
         }
     }
 

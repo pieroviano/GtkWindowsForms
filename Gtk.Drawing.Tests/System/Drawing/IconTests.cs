@@ -1,12 +1,29 @@
 ﻿extern alias gtk;
 
 using Icon = gtk::System.Drawing.Icon;
+using IcoImageDecoder = gtk::System.Drawing.IcoImageDecoder;
 
 namespace System.Drawing;
 
 [Collection("NonParallelCollection")]
 public class IconTests
 {
+    [Fact]
+    public void IcoImageDecoder_DecodesTestIco_WithoutTheNativeLoader()
+    {
+        // Regression: the Gtk4 runtime often has no gdk-pixbuf ICO loader, so new Gdk.Pixbuf(icoBytes) throws
+        // "Unrecognized image file format" and every .ico (icons, cursors, designer resources) failed to
+        // load. The managed decoder must turn the .ico into a pixbuf regardless of the native loader.
+        var bytes = File.ReadAllBytes("test.ico");
+
+        var pixbuf = IcoImageDecoder.TryDecode(bytes);
+
+        Assert.NotNull(pixbuf);
+        Assert.Equal(16, pixbuf!.Width);
+        Assert.Equal(16, pixbuf.Height);
+        Assert.True(pixbuf.HasAlpha, "A 32bpp .ico frame carries an alpha channel.");
+    }
+
     [Fact]
     public void Clone_ReturnsNewIcon()
     {
