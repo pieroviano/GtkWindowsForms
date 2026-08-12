@@ -376,6 +376,37 @@ public static class Gtk4Compat
     }
 
     /// <summary>
+    /// Renders a widget's current appearance into a Cairo context. Replaces Gtk 3's
+    /// <c>Widget.Draw(cairo)</c> (removed in Gtk 4, where rendering goes through GtkSnapshot): take a
+    /// <see cref="Gtk.WidgetPaintable"/> of the widget, snapshot it to a <see cref="Gsk.RenderNode"/>, and
+    /// draw that node into the target context. Used by DrawToBitmap and the UITests screenshot capture.
+    /// </summary>
+    /// <param name="widget">The widget to render.</param>
+    /// <param name="cr">The destination Cairo context (already translated/clipped by the caller).</param>
+    /// <param name="width">Render width in pixels.</param>
+    /// <param name="height">Render height in pixels.</param>
+    public static void RenderWidgetToCairo(this Gtk.Widget widget, Cairo.Context cr, int width, int height)
+    {
+        if (widget == null || cr == null || width <= 0 || height <= 0)
+        {
+            return;
+        }
+
+        try
+        {
+            var paintable = new Gtk.WidgetPaintable(widget);
+            var snapshot = new Gtk.Snapshot();
+            ((Gdk.IPaintable)paintable).Snapshot(snapshot, width, height);
+            var node = snapshot.ToNode();
+            node?.Draw(cr);
+        }
+        catch (System.Exception ex)
+        {
+            System.Diagnostics.GtkLogger.Debug("Rendering widget to Cairo (GtkSnapshot) failed", ex);
+        }
+    }
+
+    /// <summary>
     /// Returns the top-level ancestor of a widget. Replaces Gtk 3's <c>Widget.Toplevel</c>
     /// (removed in Gtk 4) by walking the <see cref="Widget.Parent"/> chain to the root.
     /// </summary>
@@ -406,21 +437,42 @@ public static class Gtk4Compat
     }
 
     /// <summary>
-    /// Best-effort replacement for Gtk 3's <c>Gdk.Display.GetPointer(out x, out y, out mask)</c>,
-    /// removed in Gtk 4 (Wayland exposes no global pointer position). Returns the origin and no
-    /// modifiers; callers use this for <c>Cursor.Position</c>/<c>MousePosition</c> style queries,
+    /// Best-effort replacement for Gtk 3's <c>Gdk.Display.GetPointer(out x, out y, out mask)</c>, removed in
+    /// Gtk 4. Reads the default seat's pointer device: modifier state is always available, and the position
+    /// is surface-relative (Wayland exposes no global screen coordinate, so this is the best a portable
+    /// query can do). Feeds <c>Cursor.Position</c>/<c>MousePosition</c>/<c>ModifierKeys</c>/<c>MouseButtons</c>,
     /// whose signatures are unchanged.
     /// </summary>
-    /// <param name="display">The display (ignored; kept for call-site shape).</param>
-    /// <param name="x">Receives 0.</param>
-    /// <param name="y">Receives 0.</param>
-    /// <param name="mask">Receives no modifiers.</param>
+    /// <param name="display">The display whose default seat is queried.</param>
+    /// <param name="x">Receives the pointer x, surface-relative (0 when unavailable).</param>
+    /// <param name="y">Receives the pointer y, surface-relative (0 when unavailable).</param>
+    /// <param name="mask">Receives the active keyboard/button modifiers.</param>
     public static void GetPointer(this Gdk.Display display, out int x, out int y, out Gdk.ModifierType mask)
     {
-        // TODO(gtk4): approximate via the default seat's pointer device where a surface is available.
         x = 0;
         y = 0;
         mask = 0;
+
+        try
+        {
+            var device = display?.DefaultSeat?.Pointer;
+            if (device == null)
+            {
+                return;
+            }
+
+            mask = device.ModifierState;
+            var surface = device.GetSurfaceAtPosition(out var winX, out var winY);
+            if (surface != null)
+            {
+                x = (int)winX;
+                y = (int)winY;
+            }
+        }
+        catch (System.Exception ex)
+        {
+            System.Diagnostics.GtkLogger.Debug("GetPointer via the default seat failed", ex);
+        }
     }
 
     /// <summary>

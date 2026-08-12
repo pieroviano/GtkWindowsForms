@@ -2409,7 +2409,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             if (widget != null && widget.IsRealized)
             {
                 cairo.Translate(-targetBounds.X, -targetBounds.Y);
-                widget.QueueDraw(); // Gtk4: Widget.Draw(cairo) removed (snapshot rendering). TODO(gtk4): render via GtkSnapshot
+                // Gtk4 removed Widget.Draw(cairo); render the widget's current appearance through GtkSnapshot
+                // into this (background-filled, translated) context.
+                widget.RenderWidgetToCairo(cairo, targetBounds.Width, targetBounds.Height);
             }
         }
 

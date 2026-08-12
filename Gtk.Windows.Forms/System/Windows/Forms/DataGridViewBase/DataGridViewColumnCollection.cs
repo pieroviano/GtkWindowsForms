@@ -230,9 +230,15 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
         {
             if (_owner.GridView.Model == null)
             {
-                // Gtk4: Gtk.TreeModelFilter(model, root) ctor removed (TreeView/TreeModel deprecated).
-                // Row-visibility filtering is deferred; bind the store directly. TODO(gtk4).
-                _owner.GridView.Model = _owner.Store;
+                // Gtk4 dropped the Gtk.TreeModelFilter(model, root) constructor, but ITreeModel.FilterNew (the
+                // bound form of gtk_tree_model_filter_new) still creates one. Wrap the store in a filter whose
+                // visible predicate reads the row (store column 0) and honours DataGridViewRow.Visible, so
+                // hiding a row is non-destructive (it stays in the store and is filtered out) rather than
+                // physically removed - which is what DataGridViewRow.Visible's Refilter path expects.
+                var filter = (Gtk.TreeModelFilter)((Gtk.ITreeModel)_owner.Store).FilterNew(null);
+                filter.SetVisibleFunc((model, iter) =>
+                    model.GetValue(iter, 0) is DataGridViewRow row ? row.Visible : true);
+                _owner.GridView.Model = filter;
             }
             foreach (var column in this)
             {
