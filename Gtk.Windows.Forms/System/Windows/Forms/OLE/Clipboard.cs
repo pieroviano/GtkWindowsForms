@@ -39,13 +39,18 @@ namespace System.Windows.Forms
             dataObject.SetData(DataFormats.Serializable, true, data);
         }
 
-        public static void SetImage(Drawing.Image image) => SetDataObject(new DataObject(image), copy: true);
+        public static void SetImage(Drawing.Image image) => Gtk4Compat.SetClipboardImage(image);
 
         public static void SetText(string text) => SetText(text, TextDataFormat.UnicodeText);
 
         public static void SetText(string text, TextDataFormat format)
         {
-            // TODO(gtk4): write to the async Gdk.Clipboard (Display.Clipboard.SetText) — deferred.
+            // Text and unicode text go to the system clipboard as UTF-8; the RTF/HTML/CSV variants have no
+            // plain-text-clipboard equivalent here, so they are a best-effort no-op (as before).
+            if (format == TextDataFormat.Text || format == TextDataFormat.UnicodeText)
+            {
+                Gtk4Compat.SetClipboardText(text);
+            }
         }
 
         private static object? GetData(string format, bool autoConvert)
@@ -67,7 +72,8 @@ namespace System.Windows.Forms
 
         public partial class DataObject : IDataObject
         {
-            // TODO(gtk4): system clipboard is now the async Gdk.Clipboard; this is stubbed inert.
+            // Backed by the Gtk4 async Gdk.Clipboard, bridged to WinForms' synchronous surface through the
+            // nested-loop helpers in Gtk4Compat (GetClipboardTextSync/GetClipboardImageSync/Set*/Has*).
 
             public DataObject()
             {
@@ -87,15 +93,15 @@ namespace System.Windows.Forms
             {
                 if (format == DataFormats.Text || format == DataFormats.UnicodeText)
                 {
-                    return string.Empty; // TODO(gtk4): async Gdk.Clipboard read
+                    return Gtk4Compat.GetClipboardTextSync() ?? string.Empty;
                 }
                 else if (format == DataFormats.Bitmap)
                 {
-                    return null; // TODO(gtk4): async Gdk.Clipboard read
+                    return Gtk4Compat.GetClipboardImageSync();
                 }
                 else
                 {
-                    return null; // TODO(gtk4): async Gdk.Clipboard read
+                    return null;
                 }
             }
 
@@ -163,7 +169,7 @@ namespace System.Windows.Forms
             {
                 var formats = new List<string>();
 
-                if (false) // TODO(gtk4): query Gdk.Clipboard formats
+                if (Gtk4Compat.ClipboardHasText())
                 {
                     formats.Add(DataFormats.Text);
                     formats.Add(DataFormats.UnicodeText);
@@ -173,13 +179,13 @@ namespace System.Windows.Forms
                     }
                 }
 
-                if (false) // TODO(gtk4): query Gdk.Clipboard formats
+                if (Gtk4Compat.ClipboardHasImage())
                 {
                     formats.Add(DataFormats.Bitmap);
                 }
 
-                // Only the formats GetData can actually return are reported; the GtkSharp WaitForTargets
-                // binding cannot be called from managed code, so the advertised target list is unavailable.
+                // Reported from the GTK clipboard's advertised formats (ContainMimeType/ContainGtype);
+                // the full target list is not otherwise enumerable from managed code.
                 if (formats.Count > 0 && autoConvert && !formats.Contains(DataFormats.Serializable))
                 {
                     formats.Add(DataFormats.Serializable);
@@ -200,15 +206,22 @@ namespace System.Windows.Forms
             {
                 if (format == DataFormats.Text || format == DataFormats.UnicodeText)
                 {
-                    /* TODO(gtk4): Gdk.Clipboard.SetText */
+                    if (data is string text)
+                    {
+                        Gtk4Compat.SetClipboardText(text);
+                    }
                 }
                 else if (format == DataFormats.Bitmap)
                 {
-                    /* TODO(gtk4): Gdk.Clipboard set image */
+                    if (data is Drawing.Image image)
+                    {
+                        Gtk4Compat.SetClipboardImage(image);
+                    }
                 }
                 else
                 {
-                    /* TODO(gtk4): Gdk.Clipboard.SetContent with a ContentProvider — deferred */
+                    // Arbitrary serializable formats have no system-clipboard representation here (a
+                    // ContentProvider would need a per-type serializer); left as a no-op, as before.
                 }
             }
 

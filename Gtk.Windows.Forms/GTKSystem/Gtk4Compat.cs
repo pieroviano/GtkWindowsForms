@@ -160,15 +160,219 @@ public static class Gtk4Compat
     }
 
     /// <summary>
-    /// Synchronous clipboard read placeholder. Gtk 4's clipboard read
-    /// (<c>Gdk.Clipboard.ReadTextAsync</c>) is asynchronous with no synchronous equivalent, so the
-    /// WinForms <c>Paste</c>/<c>WaitForText</c> path cannot block for it here. Returns <c>null</c>.
-    /// TODO(gtk4): route Paste through the async read + a nested main loop (as with dialogs).
+    /// Reads text off the default display clipboard synchronously. Gtk 4's clipboard read
+    /// (<see cref="Gdk.Clipboard.ReadTextAsync"/>) is asynchronous with no synchronous equivalent, so - as
+    /// the modal dialog path does for async present/response - this spins a nested <see cref="GLib.MainLoop"/>
+    /// and quits it from the finish callback, giving WinForms' synchronous <c>Paste</c>/<c>GetText</c> a value
+    /// to return. A watchdog bounds the wait so a clipboard with no text owner cannot hang the thread.
     /// </summary>
-    /// <returns><c>null</c>.</returns>
+    /// <returns>The clipboard text, or <c>null</c> when there is none (or no display).</returns>
     public static string? GetClipboardTextSync()
     {
-        return null;
+        var clipboard = Gdk.Display.Default?.Clipboard;
+        if (clipboard == null)
+        {
+            return null;
+        }
+
+        string? result = null;
+        var loop = new GLib.MainLoop();
+        var watchdog = GLib.Timeout.Add(2000, () => { if (loop.IsRunning) { loop.Quit(); } return false; });
+
+        try
+        {
+            // The callback is the raw GAsyncReadyCallback shape (source, result, user_data); pass it inline so
+            // the delegate type is inferred, then drive it to completion on a nested loop.
+            clipboard.ReadTextAsync(null, (source, res, data) =>
+            {
+                try
+                {
+                    result = clipboard.ReadTextFinish(res);
+                }
+                catch (System.Exception ex)
+                {
+                    System.Diagnostics.GtkLogger.Debug("Clipboard text read failed", ex);
+                }
+                finally
+                {
+                    if (loop.IsRunning)
+                    {
+                        loop.Quit();
+                    }
+                }
+            });
+            loop.Run();
+        }
+        catch (System.Exception ex)
+        {
+            System.Diagnostics.GtkLogger.Debug("Clipboard text read failed", ex);
+        }
+        finally
+        {
+            try { GLib.Source.Remove(watchdog); } catch { /* already removed */ }
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Reads an image off the default display clipboard synchronously, using the same nested-loop trick as
+    /// <see cref="GetClipboardTextSync"/> over <see cref="Gdk.Clipboard.ReadTextureAsync"/>.
+    /// </summary>
+    /// <returns>The clipboard image, or <c>null</c> when there is none (or no display).</returns>
+    public static System.Drawing.Image? GetClipboardImageSync()
+    {
+        var clipboard = Gdk.Display.Default?.Clipboard;
+        if (clipboard == null)
+        {
+            return null;
+        }
+
+        Gdk.Texture? texture = null;
+        var loop = new GLib.MainLoop();
+        var watchdog = GLib.Timeout.Add(2000, () => { if (loop.IsRunning) { loop.Quit(); } return false; });
+
+        try
+        {
+            clipboard.ReadTextureAsync(null, (source, res, data) =>
+            {
+                try
+                {
+                    texture = clipboard.ReadTextureFinish(res);
+                }
+                catch (System.Exception ex)
+                {
+                    System.Diagnostics.GtkLogger.Debug("Clipboard image read failed", ex);
+                }
+                finally
+                {
+                    if (loop.IsRunning)
+                    {
+                        loop.Quit();
+                    }
+                }
+            });
+            loop.Run();
+        }
+        catch (System.Exception ex)
+        {
+            System.Diagnostics.GtkLogger.Debug("Clipboard image read failed", ex);
+        }
+        finally
+        {
+            try { GLib.Source.Remove(watchdog); } catch { /* already removed */ }
+        }
+
+        return texture == null ? null : TextureToBitmap(texture);
+    }
+
+    /// <summary>Puts an image on the default display clipboard as a Gdk.Texture.</summary>
+    /// <param name="image">The image to place on the clipboard.</param>
+    public static void SetClipboardImage(System.Drawing.Image image)
+    {
+        var pixbuf = image?.Pixbuf;
+        if (pixbuf == null)
+        {
+            return;
+        }
+
+        try
+        {
+            var texture = new Gdk.Texture(pixbuf);
+            // Mirror SetClipboardText: wrap the texture (a GObject) in a GLib.Value and hand it to the
+            // clipboard as a ContentProvider, rather than the SetTexture convenience method.
+            using var value = new GLib.Value(texture);
+            var provider = new Gdk.ContentProvider(value);
+            Gdk.Display.Default?.Clipboard.SetContent(provider);
+        }
+        catch (System.Exception ex)
+        {
+            System.Diagnostics.GtkLogger.Debug("Unexpected exception setting clipboard image", ex);
+        }
+    }
+
+    /// <summary>Whether the default clipboard currently advertises a text format.</summary>
+    public static bool ClipboardHasText()
+    {
+        try
+        {
+            var formats = Gdk.Display.Default?.Clipboard.Formats;
+            return formats != null &&
+                (formats.ContainMimeType("text/plain;charset=utf-8") || formats.ContainMimeType("text/plain") ||
+                 formats.ContainGtype(GLib.GType.String));
+        }
+        catch (System.Exception ex)
+        {
+            System.Diagnostics.GtkLogger.Debug("Clipboard text-format query failed", ex);
+            return false;
+        }
+    }
+
+    /// <summary>Whether the default clipboard currently advertises an image format.</summary>
+    public static bool ClipboardHasImage()
+    {
+        try
+        {
+            var formats = Gdk.Display.Default?.Clipboard.Formats;
+            return formats != null &&
+                (formats.ContainGtype(Gdk.Texture.GType) || formats.ContainMimeType("image/png"));
+        }
+        catch (System.Exception ex)
+        {
+            System.Diagnostics.GtkLogger.Debug("Clipboard image-format query failed", ex);
+            return false;
+        }
+    }
+
+    /// <summary>Converts a Gdk.Texture (premultiplied BGRA download) to a System.Drawing.Bitmap.</summary>
+    private static System.Drawing.Image? TextureToBitmap(Gdk.Texture texture)
+    {
+        try
+        {
+            var width = texture.Width;
+            var height = texture.Height;
+            if (width <= 0 || height <= 0)
+            {
+                return null;
+            }
+
+            var src = texture.Download(); // premultiplied B,G,R,A, tightly packed
+            var stride = width * 4;
+            var pixbuf = new Gdk.Pixbuf(Gdk.Colorspace.Rgb, true, 8, width, height); // straight R,G,B,A
+            var rowstride = pixbuf.Rowstride;
+            var dest = pixbuf.Pixels;
+            var row = new byte[width * 4];
+
+            for (var y = 0; y < height; y++)
+            {
+                var s = y * stride;
+                for (var x = 0; x < width; x++, s += 4)
+                {
+                    byte b = src[s + 0], g = src[s + 1], r = src[s + 2], a = src[s + 3];
+                    if (a != 0 && a != 255)
+                    {
+                        r = (byte)(r * 255 / a);
+                        g = (byte)(g * 255 / a);
+                        b = (byte)(b * 255 / a);
+                    }
+
+                    var d = x * 4;
+                    row[d + 0] = r;
+                    row[d + 1] = g;
+                    row[d + 2] = b;
+                    row[d + 3] = a;
+                }
+
+                Marshal.Copy(row, 0, dest + (y * rowstride), width * 4);
+            }
+
+            return new System.Drawing.Bitmap(1, 1) { Pixbuf = pixbuf };
+        }
+        catch (System.Exception ex)
+        {
+            System.Diagnostics.GtkLogger.Debug("Converting clipboard texture to bitmap failed", ex);
+            return null;
+        }
     }
 
     /// <summary>
