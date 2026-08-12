@@ -582,33 +582,25 @@ public static class Gtk4Compat
         // Gtk3's Dialog.Run() quit the nested loop when the dialog was destroyed. Gtk4 has no widget
         // "destroy" signal, so also quit on "unrealize". FormBase modal dialogs additionally quit the loop
         // directly from FormBase.CloseWindow() (which then defers the destroy to after the loop unwinds —
-        // see PendingModalClose), so no timer-based watchdog is needed. Avoiding a polling watchdog is
-        // important: once a window is natively freed, GtkSharp does not zero its Handle, so polling it (e.g.
-        // IsMapped) would spam "GTK_IS_WIDGET failed" and can crash the process.
+        // see PendingModalClose), so the watchdog below is only a backstop. Net4x.GtkSharp now zeros a
+        // wrapper's Handle when the native object is freed, so a liveness poll (Handle != Zero) is safe and
+        // no longer risks reading freed memory.
         dialog.Unrealized += OnGone;
 
-        // Backstop watchdog. Ends the loop as soon as the dialog's native handle is gone. It deliberately
-        // does NOT poll widget state (e.g. IsMapped): once a window is natively freed GtkSharp does not zero
-        // its Handle, so touching it spams "GTK_IS_WIDGET failed" and can crash.
+        // Backstop watchdog: quit the loop once the dialog's native instance is gone. The normal quit is the
+        // Response/Close/Unrealize/CloseRequest signals plus FormBase.CloseWindow -> ModalLoop.Quit (which is
+        // what a Load handler calling Form.Close() drives); this is only a safety net for a dialog destroyed
+        // out from under the loop. It carries NO arbitrary time cap - an untouched modal stays open until it
+        // is actually closed, which is the WinForms-correct behaviour.
         //
-        // TODO(gtk4) — MODAL DIALOG REDESIGN (deferred): the interim time cap below is a known limitation.
-        // FormBase is still a (Gtk4-deprecated) Gtk.Dialog driven by a nested GLib loop; a Load handler that
-        // calls Form.Close() (and some realize timing) can leave the loop with no clean quit, so as a safety
-        // net the loop is bounded. Real dialogs closed by the user (response / window close button) quit via
-        // their signals long before the cap; a modal dialog left completely untouched will auto-close at the
-        // cap, which is NOT WinForms-correct. The proper fix is to move FormBase off Gtk.Dialog to a plain
-        // Gtk.Window modal design (async present + response) and drop the cap.
-        var ticks = 0;
+        // The IsAlive poll is now reliable: Net4x.GtkSharp zeros a wrapper's Handle when the native object is
+        // freed, so IsAlive (Handle != Zero) detects an externally-destroyed dialog instead of reading freed
+        // memory and spamming "GTK_IS_WIDGET failed". That handle-zeroing is what let the old fixed 5-second
+        // cap - a stand-in for the then-unreliable liveness check - be removed; the FormBase Gtk.Dialog design
+        // is retained (Gtk.Dialog is deprecated but functional and the modal loop is deterministic without it).
         var watchdog = GLib.Timeout.Add(100, () =>
         {
             if (!IsAlive(dialog))
-            {
-                Quit();
-                return false;
-            }
-
-            ticks++;
-            if (ticks >= 50)
             {
                 Quit();
                 return false;
