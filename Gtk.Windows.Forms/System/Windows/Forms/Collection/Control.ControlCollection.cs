@@ -649,6 +649,12 @@ public partial class Control
         {
             if (sender is Gtk.Overlay lay)
             {
+                // The overlay is now mapped and has its real allocation. The realize-time dock/anchor pass
+                // ran before that allocation existed and returned early, so run it here where the container
+                // is finally sized - this is what places docked/anchored children on first show. Later
+                // resizes are re-driven by the background DrawingArea.Resize hook (HookLayoutParent).
+                _owner.PerformDockAnchorLayout();
+
                 if (_owner is ScrollableControl scrollableControl)
                 {
                     scrollableControl.PerformLayout(scrollableControl, nameof(scrollableControl.AutoScroll));

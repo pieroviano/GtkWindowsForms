@@ -685,8 +685,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             }
             // Gtk 4 input model: raw event signals (WidgetEvent) are gone; mouse/keyboard/scroll/focus
             // arrive through event controllers attached to the widget. See AttachInputControllers.
-            // (SizeAllocated / ParentSet signals were also removed; dock/anchor layout runs on Realize
-            //  and is re-driven by the *Base widgets' allocate cycle in the layout migration.)
+            // (SizeAllocated / ParentSet signals were also removed; dock/anchor layout runs on Realize and
+            //  is re-driven by the container background's Gtk.DrawingArea.Resize - see HookLayoutParent.)
             AttachInputControllers(widget);
             this.CursorChanged += Control_CursorChanged;
             this.DockChanged += Control_DockChanged;

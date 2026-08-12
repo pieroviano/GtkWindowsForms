@@ -84,7 +84,11 @@ public partial class Control
             }
         }
 
-        return ClientSize;
+        // No real container allocation (an unmapped window, or the display-less test host where the window
+        // never maps). Use the requested Width/Height, which reflect the assigned Size, rather than
+        // ClientSize: a Form's ClientSize falls back to its GTK default size, whose height is not updated by
+        // the Height setter and so would report a stale, too-small client area here.
+        return new Size(Width, Height);
     }
 
     /// <summary>The container size the last pass ran against; anchoring follows the delta from it.</summary>
@@ -129,6 +133,15 @@ public partial class Control
         var client = new Size(overlay.AllocatedWidth, overlay.AllocatedHeight);
         if (client.Width <= 1 || client.Height <= 1)
         {
+            // No real allocation yet - the window is realized but not mapped (the state at Form.Load, and the
+            // permanent state in a display-less test host where the window never maps). Fall back through
+            // LayoutClientSize so the arrangement uses exactly the same client size DisplayRectangle does;
+            // the two must agree, since a Fill child is asserted to cover the display rectangle exactly.
+            client = LayoutClientSize();
+        }
+
+        if (client.Width <= 1 || client.Height <= 1)
+        {
             return;
         }
 
@@ -159,7 +172,18 @@ public partial class Control
         }
 
         _layoutParentHooked = true;
-        // Gtk4-removed: overlay.SizeAllocated (re-layout on resize). TODO(gtk4): notify::default-width or a size-allocate override.
+
+        // Gtk4 removed the container size-allocate signal that used to re-run this pass on every resize. Every
+        // dock/anchor container carries a Gtk.DrawingArea as its main child (the WinForms background), and
+        // Gtk.DrawingArea raises Resize on each re-allocation. Subscribing here - which happens at realize
+        // time, before the real allocation exists - means the pass runs again once the overlay is actually
+        // sized (the realize-time call returns early at the client.Width <= 1 guard) and on every later
+        // resize, which is what makes docked children track the container and anchored children follow its
+        // size delta. Re-entrancy from the margins/size-requests the pass sets is guarded by _inLayoutPass.
+        if (overlay.Child is Gtk.DrawingArea background)
+        {
+            background.Resize += (_, _) => PerformDockAnchorLayout();
+        }
     }
 
     /// <summary>
