@@ -143,10 +143,14 @@ public partial class Form : ContainerControl, IWin32Window
     {
         get
         {
-            if (self.IsRealized)
+            // Gtk4 allocates asynchronously: at Form.Load the window is realized but not yet mapped, so the
+            // content area's allocation is still 0. Fall back to the requested (default) size until a real
+            // allocation exists, so ClientSize round-trips the value set before Show (as WinForms does)
+            // instead of momentarily reporting 0.
+            if (self.IsRealized && self.ContentArea.AllocatedWidth > 0)
                 return new Size(self.ContentArea.AllocatedWidth, self.ContentArea.AllocatedHeight);
-            else
-                return new Size(self.DefaultWidth, self.DefaultHeight);
+
+            return new Size(self.DefaultWidth, self.DefaultHeight);
         }
         set
         {
