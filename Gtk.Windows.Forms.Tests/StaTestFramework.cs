@@ -63,6 +63,27 @@ public sealed class StaExecutor : XunitTestFrameworkExecutor
             SynchronizationContext.SetSynchronizationContext(context);
             try
             {
+                // Initialise GTK once, on this STA thread, as the FIRST pumped action - before any test runs.
+                // Constructing a GTK widget needs the type system initialised; most test classes do NOT call
+                // Application.Init(), so whichever widget-constructing class xUnit happens to run first would
+                // otherwise hard-crash the host (0xC0000005) and abort the whole assembly. It must be posted
+                // (run inside Pump), not called directly here: Application.Init blocks on GApplication
+                // registration, which only completes once the pump is draining. Idempotent, so classes that
+                // also call it are unaffected.
+                context.Post(
+                    _ =>
+                    {
+                        try
+                        {
+                            global::System.Windows.Forms.Application.Init();
+                        }
+                        catch (Exception initEx)
+                        {
+                            global::System.Diagnostics.Debug.WriteLine("GTK init in StaTestFramework failed: " + initEx);
+                        }
+                    },
+                    null);
+
                 using var runner = new XunitTestAssemblyRunner(TestAssembly, testCases, DiagnosticMessageSink,
                     executionMessageSink, executionOptions);
                 var task = runner.RunAsync();
