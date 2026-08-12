@@ -1,0 +1,10 @@
+image: mcr.microsoft.com/dotnet/sdk:10.0
+
+pipelines:
+  default:
+    - step:
+        name: Build and Test Gtk.Windows.Forms
+        script:
+          - dotnet restore Gtk.Windows.Forms.sln
+          - dotnet build Gtk.Windows.Forms.sln --no-restore
+          - dotnet test Gtk.Windows.Forms.sln --no-build
