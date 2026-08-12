@@ -105,24 +105,16 @@ public class Bitmap : Image
         using (BinaryReader reader = new BinaryReader(stream))
         {
             var bytes = reader.ReadBytes((int)stream.Length);
+
+            // Setting PixbufData decodes the bytes - through the native gdk-pixbuf loader, or the managed
+            // ICO/BMP decoders when the Gtk4 runtime lacks those loaders - and neither that setter nor the
+            // Pixbuf getter throws on unsupported data (invalid images must not throw out of the constructor;
+            // callers like ImageConverter.ConvertFrom rely on a Bitmap still being produced). Read the
+            // dimensions back from the decoded pixbuf. The previous eager re-decode here re-threw for BMP/ICO
+            // and reset the pixbuf/size to empty, discarding a perfectly good managed decode.
             this.PixbufData = bytes;
-            try
-            {
-                this.Pixbuf = new Gdk.Pixbuf(bytes);
-                this.Width = this.Pixbuf.Width;
-                this.Height = this.Pixbuf.Height;
-            }
-            catch (GLib.GException ex)
-            {
-                // Invalid/unsupported image data must not throw out of the constructor: System.Drawing
-                // still produces a Bitmap, and callers (e.g. ImageConverter.ConvertFrom) rely on that.
-                // Keep the raw bytes in PixbufData and leave the pixbuf empty. See
-                // .github/copilot-instructions.md. (Upstream's eager ctor dropped this tolerance.)
-                System.Diagnostics.GtkLogger.Debug("Failed to create Pixbuf from stream bytes", ex);
-                this.Pixbuf = null;
-                this.Width = 0;
-                this.Height = 0;
-            }
+            this.Width = this.Pixbuf?.Width ?? 0;
+            this.Height = this.Pixbuf?.Height ?? 0;
         }
     }
 

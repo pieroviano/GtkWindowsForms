@@ -287,9 +287,22 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
                 }
                 catch (GLib.GException ex)
                 {
-                    System.Diagnostics.GtkLogger.Debug("Failed to create Pixbuf from PixbufData in setter", ex);
-                    _Pixbuf = null;
-                    _PixbufData = null;
+                    // The Gtk4 runtime often lacks the ICO/BMP gdk-pixbuf loaders, so decode those managedly
+                    // (as the Pixbuf getter does) instead of discarding the data. Keep _PixbufData - clearing
+                    // it here previously lost a valid BMP/ICO whose dimensions then read back as 0.
+                    System.Diagnostics.GtkLogger.Debug("Failed to create Pixbuf from PixbufData; trying the managed ICO/BMP decoders.", ex);
+                    var decoded = IcoImageDecoder.TryDecode(value) ?? BmpImageCodec.TryDecode(value);
+                    if (decoded != null)
+                    {
+                        _Pixbuf = decoded;
+                        Width = decoded.Width;
+                        Height = decoded.Height;
+                    }
+                    else
+                    {
+                        _Pixbuf = null;
+                        _PixbufData = null;
+                    }
                 }
             }
             else
