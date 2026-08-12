@@ -874,14 +874,12 @@ public partial class Form : ContainerControl, IWin32Window
                 self.Icon = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("image-missing16.png"));
             }
         }
-        else
-        {
-            foreach (var item in this.self.Group.ListWindows())
-            {
-                item.Present();
-                item.Show();
-            }
-        }
+
+        // Re-showing an already-created form must only show THIS window. A previous version iterated
+        // self.Group.ListWindows() and Present()/Show()'d every window in the group - but that is the shared
+        // default group, which accumulates every window opened in the process, and presenting a
+        // torn-down/leaked one faults (gtk_window_present / gtk_widget_get_realized: GTK_IS_WIDGET failed).
+        // self.Show()/Present() below already handle this window; the group sweep was both wrong and unsafe.
         self.Show();
         // Gtk4: Show() maps the window but does not raise it, so a newly opened form (e.g. Form4 via
         // "Split Container Layout") could appear behind its owner. Present() raises and focuses it - it must

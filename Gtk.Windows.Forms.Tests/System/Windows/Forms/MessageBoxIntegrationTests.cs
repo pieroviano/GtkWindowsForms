@@ -5,42 +5,30 @@ namespace System.Windows.Forms;
 [Collection("NonParallelCollection")]
 public class MessageBoxIntegrationTests
 {
-    // Constructing/showing a Form needs GTK initialised; do it up front so this class is safe to run first.
-    public MessageBoxIntegrationTests() => Application.Init();
-
     [Fact]
     public void MessageBox_Show_LogsMessage_WhenFormRuns()
     {
         // Arrange
         var mockMessageBox = MockMessageBox.ReplaceMessageBoxWithMock();
 
+        // Call MessageBox.Show from a form's Load handler - the "message box shown while a form is running"
+        // scenario - and drive it with ShowDialog's short, scoped modal loop.
+        //
+        // The original test used Application.Run(form), whose GLOBAL Gtk main loop runs until Application
+        // .Exit. In the shared multi-thousand-test process that loop pumps GLib sources left behind by
+        // earlier tests (timers referencing torn-down windows), which crashes the host
+        // (gtk_widget_get_realized: GTK_IS_WIDGET failed / 0xC0000005). ShowDialog closed immediately from
+        // Load runs only a brief nested loop - like every other modal test in the suite - so it does not sit
+        // pumping that leftover state. The mock makes the logged message deterministic.
         var form = new Form();
-
-        // Drive the sequence on the GTK main loop that Application.Run pumps (on THIS - the harness's - STA
-        // thread), via GLib timeouts. The previous version spun a second STA thread AND used async/await +
-        // Task.Delay in the Load handler; the continuations then resumed on a thread-pool thread and touched
-        // GTK off its owning thread, racing with the rest of the suite and crashing the host
-        // (gtk_window_present: GTK_IS_WINDOW failed ... 0xC0000005). Keeping everything on the one GTK thread
-        // makes it deterministic.
         form.Load += (s, e) =>
         {
-            GLib.Timeout.Add(200, () =>
-            {
-                MessageBox.Show("Test message");
-                GLib.Timeout.Add(100, () =>
-                {
-                    Application.DontQuit = false;
-                    Application.Exit();
-                    Application.DontQuit = true;
-                    return false;
-                });
-
-                return false;
-            });
+            MessageBox.Show("Test message");
+            form.Close();
         };
 
         // Act
-        Application.Run(form);
+        form.ShowDialog();
 
         // Assert
         Assert.Contains(mockMessageBox.LoggedMessages, msg => msg.Contains("Test message"));
