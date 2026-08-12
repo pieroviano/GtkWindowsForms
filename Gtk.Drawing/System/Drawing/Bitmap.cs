@@ -48,8 +48,19 @@ public class Bitmap : Image
     public Bitmap(string filename, bool useIcm)
     {
         this.FileName = filename;
-        this.Pixbuf = new Gdk.Pixbuf(filename);
-        this.PixbufData = this.Pixbuf.SaveToBuffer("png");
+        var bytes = System.IO.File.ReadAllBytes(filename);
+        this.PixbufData = bytes;
+        try
+        {
+            this.Pixbuf = new Gdk.Pixbuf(filename);
+        }
+        catch (GLib.GException ex)
+        {
+            // The Gtk4 runtime may lack the ICO/BMP loaders; decode those formats ourselves so the file
+            // still loads (e.g. Image.FromFile on a .bmp/.ico) instead of throwing.
+            System.Diagnostics.GtkLogger.Debug($"Native load of '{filename}' failed; trying managed ICO/BMP decoders.", ex);
+            this.Pixbuf = IcoImageDecoder.TryDecode(bytes) ?? BmpImageCodec.TryDecode(bytes);
+        }
     }
 
     /// <summary>

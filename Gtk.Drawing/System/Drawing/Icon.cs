@@ -205,8 +205,8 @@ public sealed class Icon : MarshalByRefObject, ICloneable, IDisposable, ISeriali
         }
         catch (GLib.GException ex)
         {
-            System.Diagnostics.GtkLogger.Debug("Native pixbuf load failed; trying the managed ICO/CUR decoder.", ex);
-            var decoded = IcoImageDecoder.TryDecode(bytes);
+            System.Diagnostics.GtkLogger.Debug("Native pixbuf load failed; trying the managed ICO/BMP decoders.", ex);
+            var decoded = IcoImageDecoder.TryDecode(bytes) ?? BmpImageCodec.TryDecode(bytes);
             if (decoded != null && width > 0 && height > 0 && (decoded.Width != width || decoded.Height != height))
             {
                 var scaled = decoded.ScaleSimple(width, height, Gdk.InterpType.Bilinear);

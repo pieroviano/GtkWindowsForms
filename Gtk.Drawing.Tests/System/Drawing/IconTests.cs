@@ -2,6 +2,7 @@
 
 using Icon = gtk::System.Drawing.Icon;
 using IcoImageDecoder = gtk::System.Drawing.IcoImageDecoder;
+using BmpImageCodec = gtk::System.Drawing.BmpImageCodec;
 
 namespace System.Drawing;
 
@@ -30,6 +31,27 @@ public class IconTests
         Assert.NotNull(scaled);
         var png = pixbuf.SaveToBuffer("png");
         Assert.True(png.Length > 0);
+    }
+
+    [Fact]
+    public void BmpImageCodec_RoundTripsDimensions_WithoutTheNativeLoader()
+    {
+        // Regression: the Gtk4 runtime often has neither a BMP saver nor loader, so Image.Save(".bmp") threw
+        // "Image type bmp is not supported" and Image.FromFile(".bmp") couldn't read it back. Encode+decode
+        // must round-trip purely in managed code.
+        var source = IcoImageDecoder.TryDecode(File.ReadAllBytes("test.ico"));
+        Assert.NotNull(source);
+
+        var bmp = BmpImageCodec.Encode(source!);
+        Assert.True(bmp.Length > 54);
+        Assert.Equal((byte)'B', bmp[0]);
+        Assert.Equal((byte)'M', bmp[1]);
+
+        var decoded = BmpImageCodec.TryDecode(bmp);
+        Assert.NotNull(decoded);
+        Assert.Equal(source!.Width, decoded!.Width);
+        Assert.Equal(source.Height, decoded.Height);
+        Assert.True(decoded.SaveToBuffer("png").Length > 0, "decoded BMP must be a valid, readable pixbuf");
     }
 
     [Fact]

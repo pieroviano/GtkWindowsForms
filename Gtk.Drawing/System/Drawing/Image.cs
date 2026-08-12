@@ -201,8 +201,8 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
                 {
                     // The Gtk4 runtime may lack the ICO loader; fall back to the managed .ico/.cur decoder so
                     // icon-format images still display (e.g. menu-item icons).
-                    System.Diagnostics.GtkLogger.Debug("Failed to create Pixbuf from PixbufData; trying the managed ICO/CUR decoder.", ex);
-                    _Pixbuf = IcoImageDecoder.TryDecode(_PixbufData);
+                    System.Diagnostics.GtkLogger.Debug("Failed to create Pixbuf from PixbufData; trying the managed ICO/BMP decoders.", ex);
+                    _Pixbuf = IcoImageDecoder.TryDecode(_PixbufData) ?? BmpImageCodec.TryDecode(_PixbufData);
                     if (_Pixbuf == null)
                     {
                         // Neither loader could read it; clear the data to avoid repeated failures.
@@ -669,7 +669,22 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
     /// </summary>
     public void Save(string filename, ImageCodecInfo encoder, EncoderParameters? encoderParams)
     {
-        Pixbuf?.Save(filename, encoder.MimeType?.Trim('.').ToLower());
+        var type = encoder.MimeType?.Trim('.').ToLower();
+        if (Pixbuf == null)
+        {
+            return;
+        }
+
+        // The Gtk4 runtime often has no gdk-pixbuf BMP saver, so write BMP ourselves; other formats go
+        // through GdkPixbuf as before.
+        if (type == "bmp")
+        {
+            System.IO.File.WriteAllBytes(filename, BmpImageCodec.Encode(Pixbuf));
+        }
+        else
+        {
+            Pixbuf.Save(filename, type);
+        }
     }
 
     /// <summary>
@@ -934,8 +949,8 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
         }
         catch (GLib.GException)
         {
-            // Fall back to the managed .ico/.cur decoder when the native loader can't read the data.
-            Pixbuf = IcoImageDecoder.TryDecode(bytes);
+            // Fall back to the managed .ico/.cur/.bmp decoders when the native loader can't read the data.
+            Pixbuf = IcoImageDecoder.TryDecode(bytes) ?? BmpImageCodec.TryDecode(bytes);
         }
 
         return Pixbuf?.Handle ?? IntPtr.Zero;
