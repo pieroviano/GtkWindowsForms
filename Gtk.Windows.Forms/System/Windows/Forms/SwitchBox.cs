@@ -35,15 +35,11 @@ public partial class SwitchBox : Control
     {
         self.Override.sender = this;
 
-        // React to native button release events (mouse/touch) coming from GTK
-        var releaseClick = new Gtk.GestureClick();
-        releaseClick.Released += (o, a) => Self_Released();
-        self.AddController(releaseClick);
-
-        // Ensure we observe native toggles so programmatic changes to `self.Active`
-        // update the managed event path. This addresses tests that flip `self.Active`
-        // directly and expect CheckedChanged to fire.
-        // Gtk4-removed: self.ButtonPressEvent (button-press signal). CheckedChanged is driven by the toggled/Active path. TODO(gtk4): GestureClick.
+        // Gtk4 removed the button-press signal the old code toggled on; observe the switch's active state
+        // directly instead. notify::active fires for both a user toggle (mouse/touch/keyboard) and a
+        // programmatic Active change, so it is the single source for CheckedChanged - no separate click
+        // gesture, and no manual raise in the Checked setter (which would double-fire on a physical toggle).
+        self.AddNotification("active", Self_ActiveNotify);
     }
 
     /// <summary>
@@ -61,15 +57,9 @@ public partial class SwitchBox : Control
     public bool Checked
     {
         get { return self.Active; }
-        set
-        {
-            // set native state first; Self_Toggled (subscribed above) runs whenever native toggles,
-            // but when setting programmatically we also raise CheckedChanged while visible to
-            // preserve previous behavior (and tests that depend on it).
-            self.Active = value;
-            if (CheckedChanged != null && (self.IsVisible || self.IsMapped || self.IsRealized || self.Parent != null))
-                OnCheckedChanged(EventArgs.Empty);
-        }
+        // notify::active (wired in the ctor) raises CheckedChanged when the value actually changes; setting
+        // it here is all that is needed.
+        set { self.Active = value; }
     }
 
     /// <summary>
@@ -100,24 +90,15 @@ public partial class SwitchBox : Control
         CheckedChanged?.Invoke(this, e);
     }
 
-    private void Self_Released()
+    private void Self_ActiveNotify(object o, GLib.NotifyArgs args)
     {
-        // Fire CheckedChanged when control is part of UI. Use parent/mapped/realized checks
-        // so tests that simulate the native release during Form.Load still see the event.
-        var hasParent = self.Parent != null;
-        var isMappedOrVisible = self.IsMapped || self.IsVisible || self.IsRealized;
-
-        if (CheckedChanged != null && (hasParent || isMappedOrVisible))
-            OnCheckedChanged(EventArgs.Empty);
-    }
-
-    private void Self_Toggled(object? sender, EventArgs e)
-    {
-        // Keep managed state/handlers in sync when GTK toggles the underlying switch,
-        // including when tests manipulate `self.Active` directly.
-        if (CheckedChanged != null && (self.IsVisible || self.IsMapped || self.IsRealized || self.Parent != null))
+        // Only surface the change while the switch is actually part of a shown UI. A Gtk4 widget is
+        // "visible" by default even before it is added to anything, so IsVisible cannot be the test -
+        // being parented (or mapped/realized) is the WinForms "is on a form" condition, and an unparented
+        // switch whose Checked is set programmatically must stay silent.
+        if (CheckedChanged != null && (self.Parent != null || self.IsMapped || self.IsRealized))
         {
-            OnCheckedChanged(e);
+            OnCheckedChanged(EventArgs.Empty);
         }
     }
 }

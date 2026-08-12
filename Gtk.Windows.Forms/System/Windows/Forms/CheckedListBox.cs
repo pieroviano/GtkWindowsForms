@@ -285,9 +285,24 @@ public partial class CheckedListBox : ContainerControl
                 this.ItemCheck(this, new ItemCheckEventArgs(item.Index, checkButton.Active == true ? CheckState.Checked : CheckState.Unchecked, checkButton.Active == false ? CheckState.Checked : CheckState.Unchecked));
             }
         };
-        // Gtk4 removed Widget.WidgetEvent / Gdk.EventButton / EventType. The intent (select the item's
-        // FlowBoxChild on a left button-release when not check-on-click) must be re-wired via a
-        // Gtk.GestureClick controller in the input-controller pass (migration #11). TODO(gtk4).
+        // Gtk4 removed Widget.WidgetEvent / Gdk.EventButton / EventType, so the old select-vs-toggle
+        // arbitration (a first left click on an unselected item selects the row instead of toggling its
+        // check, unless CheckOnClick) is re-wired through a Gtk.GestureClick. Claiming the primary-button
+        // press in the capture phase cancels the CheckButton's own click gesture for that press - the Gtk4
+        // equivalent of the old event.RetVal = true - so the check is not toggled; when the row is already
+        // selected (or CheckOnClick is set) we neither claim nor select, and the toggle proceeds normally.
+        var selectGesture = new Gtk.GestureClick();
+        selectGesture.Button = 1; // primary button only
+        selectGesture.PropagationPhase = Gtk.PropagationPhase.Capture; // run before the CheckButton's bubble-phase gesture
+        selectGesture.Pressed += (o, a) =>
+        {
+            if (checkbox.self.Parent is Gtk.FlowBoxChild item && !item.IsSelected && this.CheckOnClick == false)
+            {
+                selectGesture.SetState(Gtk.EventSequenceState.Claimed);
+                this._flow.SelectChild(item);
+            }
+        };
+        checkbox.self.AddController(selectGesture);
 
         checkbox.self.Visible = true;
         var boxitem = new Gtk.FlowBoxChild();
