@@ -16,6 +16,10 @@ public class MaskedTextBox : TextBox
 
     internal bool IsMasking = true;
 
+    // Re-entrancy guard: the mask handler edits self.Text/InsertText/DeleteText, each of which re-fires the
+    // TextInserted signal; without this the handler re-invoked itself forever (stack overflow).
+    private bool _handlingInsert;
+
     string? correctText;
 
     bool isBackspace = false;
@@ -160,35 +164,50 @@ public class MaskedTextBox : TextBox
 
     private void Control_TextInserted(object o, Gtk.TextInsertedArgs args)
     {
+        // Ignore the TextInserted signals our own edits below raise, or the handler recurses without end.
+        if (_handlingInsert)
+        {
+            return;
+        }
+
         if (self.IsRealized && isBackspace == false)
         {
-            var position = System.Runtime.InteropServices.Marshal.ReadInt32(args.Position);
-            var new_text = args.Text;
-            if (IsMaskPassword == true)
+            _handlingInsert = true;
+            try
             {
-                if (new_text.Length > 1 || self.Text.Length != correctText?.Length + 1)
+                var position = System.Runtime.InteropServices.Marshal.ReadInt32(args.Position);
+                var new_text = args.Text;
+                if (IsMaskPassword == true)
                 {
-                    if (correctText != null)
-                        self.Text = correctText;
-                }
-                else if (correctText?.Length > position && new_text.Length == 1)
-                {
-                    if (IsNumberText(correctText.Substring(position - 1, 1)) && IsNumberText(new_text))
+                    if (new_text.Length > 1 || self.Text.Length != correctText?.Length + 1)
                     {
-                        // normal
-                        self.DeleteText(position, position + 1);
+                        if (correctText != null)
+                            self.Text = correctText;
+                    }
+                    else if (correctText?.Length > position && new_text.Length == 1)
+                    {
+                        if (IsNumberText(correctText.Substring(position - 1, 1)) && IsNumberText(new_text))
+                        {
+                            // normal
+                            self.DeleteText(position, position + 1);
+                        }
+                        else
+                        {
+                            self.Text = correctText;
+                        }
                     }
                     else
                     {
-                        self.Text = correctText;
+                        self.DeleteText(position - 1, position);
                     }
                 }
-                else
-                {
-                    self.DeleteText(position - 1, position);
-                }
+            }
+            finally
+            {
+                _handlingInsert = false;
             }
         }
+
         isBackspace = false;
         correctText = self.Text;
     }
