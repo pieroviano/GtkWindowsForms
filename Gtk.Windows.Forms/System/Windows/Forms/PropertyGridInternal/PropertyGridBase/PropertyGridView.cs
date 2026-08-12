@@ -90,7 +90,11 @@ internal sealed partial class PropertyGridView
             };
             box.Append(img);
             box.ReorderChildAfter(img, null);
-            // Gtk4-removed: Box.SetChildPacking (per-child pack options gone; use halign/hexpand). TODO(gtk4).
+            // Gtk4 removed Box.SetChildPacking; the per-child expand/fill it set is expressed directly on the
+            // child in Gtk4. The icon should sit at the start and not grow, so the sibling label takes the
+            // slack.
+            img.Halign = Gtk.Align.Start;
+            img.Hexpand = false;
         }
         CellRendererText names = new CellRendererProperty(this)
         {

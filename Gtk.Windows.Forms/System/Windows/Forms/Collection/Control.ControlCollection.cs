@@ -660,10 +660,29 @@ public partial class Control
                     scrollableControl.PerformLayout(scrollableControl, nameof(scrollableControl.AutoScroll));
                 }
 
+                // Gtk4 removed Container.FocusChain; keyboard tab order now follows child widget order, so
+                // re-thread the child widgets into TabIndex order with gtk_widget_insert_after. They are kept
+                // after the overlay's background child (prev starts at lay.Child) so the background stays at
+                // the bottom of the z-order. Seed focus at the lowest TabIndex.
                 var tabs = InnerList.OfType<Control>().ToList();
                 tabs.Sort((a, b) => a.TabIndex.CompareTo(b.TabIndex));
+                Gtk.Widget? prev = lay.Child;
+                foreach (var control in tabs)
+                {
+                    var childWidget = control.Widget;
+                    if (childWidget != null && ReferenceEquals(childWidget.Parent, lay))
+                    {
+                        childWidget.InsertAfter(lay, prev);
+                        prev = childWidget;
+                    }
+                }
+
+                if (tabs.Count > 0 && tabs[0].Widget is { } firstWidget)
+                {
+                    lay.FocusChild = firstWidget;
+                }
+
                 lay.ChildFocus(Gtk.DirectionType.TabForward);
-                // Gtk4-removed: Container.FocusChain (tab order via widget order / focus API). TODO(gtk4).
             }
         }
     }
