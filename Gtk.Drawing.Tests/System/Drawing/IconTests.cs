@@ -22,6 +22,14 @@ public class IconTests
         Assert.Equal(16, pixbuf!.Width);
         Assert.Equal(16, pixbuf.Height);
         Assert.True(pixbuf.HasAlpha, "A 32bpp .ico frame carries an alpha channel.");
+
+        // Exercise the actual pixel buffer the way GTK would when rendering: a bad rowstride/length would
+        // fault here (Rowstride must be the full row, ScaleSimple + SaveToBuffer read every pixel).
+        Assert.Equal(pixbuf.Width * 4, pixbuf.Rowstride);
+        using var scaled = pixbuf.ScaleSimple(32, 32, Gdk.InterpType.Bilinear);
+        Assert.NotNull(scaled);
+        var png = pixbuf.SaveToBuffer("png");
+        Assert.True(png.Length > 0);
     }
 
     [Fact]
