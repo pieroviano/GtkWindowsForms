@@ -175,6 +175,17 @@ internal static class IcoImageDecoder
             }
         }
 
-        return new Gdk.Pixbuf(new GLib.Bytes(pixels), Gdk.Colorspace.Rgb, true, 8, width, height, width * 4);
+        // Copy into a pixbuf that owns its buffer (via its own rowstride), rather than handing GDK a
+        // GLib.Bytes to alias - this keeps the pixel memory alive for the pixbuf's whole lifetime with no
+        // ownership ambiguity, and respects any row padding GdkPixbuf applies.
+        var pixbuf = new Gdk.Pixbuf(Gdk.Colorspace.Rgb, true, 8, width, height);
+        var stride = pixbuf.Rowstride;
+        var dest = pixbuf.Pixels;
+        for (var y = 0; y < height; y++)
+        {
+            System.Runtime.InteropServices.Marshal.Copy(pixels, y * width * 4, dest + y * stride, width * 4);
+        }
+
+        return pixbuf;
     }
 }
