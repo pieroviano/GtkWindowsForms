@@ -8,6 +8,12 @@ namespace GtkWinForms.Tests.System.Windows.Forms;
 [Collection("NonParallelCollection")]
 public class ToolStripNotifyIconFunctionalTests
 {
+    // Constructing GTK widgets (the ToolStripMenuItems these tests build) needs the type system
+    // initialised. Without this, when this class runs before any Form/Application-touching test - in
+    // isolation, or by ordering in the full suite - the host hard-crashes with an access violation. Match
+    // the other widget-constructing test classes and init GTK up front (idempotent).
+    public ToolStripNotifyIconFunctionalTests() => Application.Init();
+
     [Fact]
     public void MenuItem_TextAndNameRoundTrip()
     {

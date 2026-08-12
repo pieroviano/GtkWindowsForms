@@ -207,9 +207,6 @@ namespace System.Windows.Forms
                     // item's left edge, matching WinForms/Gtk3.
                     Halign = Gtk.Align.Start,
                 };
-                // Gtk4: gtk_widget_set_parent anchors the popover to the item's button; Popup() then shows it
-                // relative to that widget.
-                _dropDown.Parent = checkButton;
             }
 
             return _dropDownBox!;
@@ -229,6 +226,14 @@ namespace System.Windows.Forms
         {
             if (_dropDown != null && checkButton.IsMapped)
             {
+                // Gtk4: anchor the popover to the item's button (gtk_widget_set_parent) only now that the item
+                // is realized and on screen. Parenting it at construction time - while the button is still
+                // unrealized and not in a window - crashes the process.
+                if (_dropDown.Parent == null)
+                {
+                    _dropDown.Parent = checkButton;
+                }
+
                 _dropDown.Popup();
             }
         }
@@ -258,8 +263,13 @@ namespace System.Windows.Forms
             checkButton.Dispose();
             if (_dropDown != null)
             {
-                // A popover parented via set_parent must be explicitly unparented before disposal.
-                _dropDown.Unparent();
+                // A popover parented via set_parent must be explicitly unparented before disposal; if it was
+                // never shown it has no parent, and unparenting it then would trip a GTK-CRITICAL.
+                if (_dropDown.Parent != null)
+                {
+                    _dropDown.Unparent();
+                }
+
                 _dropDown.Dispose();
             }
 
