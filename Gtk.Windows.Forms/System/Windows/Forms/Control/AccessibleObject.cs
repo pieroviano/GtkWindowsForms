@@ -21,8 +21,13 @@ public class AccessibleObject
     /// <summary>
     /// The ATK peer this object reflects, when it was created for a live widget.
     /// </summary>
-    // Gtk 4 removed Atk; accessibility is inert until a Gtk.Accessible port. Name/Description
-    // round-trip through backing fields so the WinForms AccessibleObject API still works.
+    // When this object belongs to a Control, name/description/role are served from and written to that
+    // control's WinForms state (as real WinForms' ControlAccessibleObject does), which is what the values
+    // round-trip through - GTK4 exposes no getter for the accessible label/description. The control's setters
+    // additionally push the values onto the widget's Gtk.Accessible interface for AT-SPI. The _name/
+    // _description fields back the ownerless path (the public parameterless ctor, used by subclasses that
+    // call base.Name = ...).
+    private readonly Control? _owner;
     private string? _name;
     private string? _description;
 
@@ -44,15 +49,13 @@ public class AccessibleObject
     /// Initializes a new instance of the <see cref="T:System.Windows.Forms.AccessibleObject" /> class
     /// backed by the supplied ATK peer.
     /// </summary>
-    /// <param name="peer">
-    /// The ATK object exposed by the GTK widget.
+    /// <param name="owner">
+    /// The control this accessible object reflects.
     /// </param>
-    /// <param name="widget">
-    /// The widget the peer belongs to, when known.
-    /// </param>
-    internal AccessibleObject(object? peer, Gtk.Widget? widget = null)
+    internal AccessibleObject(Control owner)
     {
-        _widget = widget; // 'peer' (former Atk.Object) is ignored under Gtk 4.
+        _owner = owner;
+        _widget = owner.Widget;
     }
 
     /// <summary>
@@ -88,8 +91,18 @@ public class AccessibleObject
     /// </summary>
     public virtual string? Description
     {
-        get => _description;
-        set => _description = value;
+        get => _owner != null ? _owner.AccessibleDescription : _description;
+        set
+        {
+            if (_owner != null)
+            {
+                _owner.AccessibleDescription = value;
+            }
+            else
+            {
+                _description = value;
+            }
+        }
     }
 
     /// <summary>
@@ -97,25 +110,30 @@ public class AccessibleObject
     /// </summary>
     public virtual string? Name
     {
-        get => _name;
-        set => _name = value;
+        // Coalesce to empty for an owner with no name set, matching WinForms (AccessibleName defaults to "").
+        get => _owner != null ? (_owner.AccessibleName ?? string.Empty) : _name;
+        set
+        {
+            if (_owner != null)
+            {
+                _owner.AccessibleName = value;
+            }
+            else
+            {
+                _name = value;
+            }
+        }
     }
 
     /// <summary>
     /// Gets the parent of this accessible object.
     /// </summary>
-    public virtual AccessibleObject? Parent
-    {
-        get
-        {
-            return null; // Gtk 4: no Atk parent traversal.
-        }
-    }
+    public virtual AccessibleObject? Parent => _owner?.Parent?.AccessibilityObject;
 
     /// <summary>
     /// Gets the role of this accessible object.
     /// </summary>
-    public virtual AccessibleRole Role => AccessibleRole.None; // Gtk 4: no Atk role.
+    public virtual AccessibleRole Role => _owner?.AccessibleRole ?? AccessibleRole.None;
 
     /// <summary>
     /// Retrieves the accessible child at the specified index.
@@ -128,7 +146,13 @@ public class AccessibleObject
     /// </returns>
     public virtual AccessibleObject? GetChild(int index)
     {
-        return null; // Gtk 4: no Atk child enumeration.
+        var controls = _owner?.Controls;
+        if (controls == null || index < 0 || index >= controls.Count)
+        {
+            return null;
+        }
+
+        return (controls[index] as Control)?.AccessibilityObject;
     }
 
     /// <summary>
@@ -137,7 +161,7 @@ public class AccessibleObject
     /// <returns>
     /// The child count.
     /// </returns>
-    public virtual int GetChildCount() => 0; // Gtk 4: no Atk child enumeration.
+    public virtual int GetChildCount() => _owner?.Controls?.Count ?? 0;
 
     /// <summary>
     /// Returns the name of this accessible object.

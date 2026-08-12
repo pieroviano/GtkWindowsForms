@@ -703,27 +703,19 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// accessibility surface was inert. It now reflects the GTK widget's ATK peer, which is what AT-SPI
     /// and the platform accessibility bridges read.
     /// </remarks>
-    public virtual AccessibleObject? AccessibilityObject =>
-        AtkPeer is { } peer ? _accessibilityObject ??= new AccessibleObject(peer, this.Widget) : null;
+    public virtual AccessibleObject? AccessibilityObject => _accessibilityObject ??= CreateAccessibilityInstance();
 
     /// <summary>
-    /// Cached wrapper over the widget's ATK peer.
+    /// Cached accessible object for this control.
     /// </summary>
     private AccessibleObject? _accessibilityObject;
 
     /// <summary>
-    /// The widget's ATK peer, or <c>null</c> when there is no widget to expose.
+    /// Creates the accessible object for this control. Overridable so a control can supply a specialized
+    /// <see cref="AccessibleObject" /> (as WinForms does).
     /// </summary>
-    private object? AtkPeer
-    {
-        get
-        {
-            // TODO(gtk4-a11y): Gtk 4 removed the Atk.Object peer (Widget.Accessible); widgets implement
-            // Gtk.Accessible directly. Accessibility is inert until its own migration wires AccessibleObject
-            // onto Gtk.Accessible. Returning null keeps every AtkPeer consumer a no-op meanwhile.
-            return null;
-        }
-    }
+    /// <returns>A new accessible object bound to this control.</returns>
+    protected virtual AccessibleObject CreateAccessibilityInstance() => new AccessibleObject(this);
 
     /// <summary>
     /// Gets or sets the default action description for accessibility.
@@ -747,7 +739,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             _accessibleDescription = value;
-            // Gtk 4: Atk peer is inert; the value is stored locally above (a11y -> Gtk.Accessible later).
+            PushAccessibleDescription();
         }
     }
 
@@ -762,7 +754,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             _accessibleName = value;
-            // Gtk 4: Atk peer is inert; the value is stored locally above (a11y -> Gtk.Accessible later).
+            PushAccessibleName();
         }
     }
 
@@ -777,11 +769,131 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             _accessibleRole = value;
-            // Gtk 4: Atk peer is inert; the value is stored locally above (a11y -> Gtk.Accessible later).
+            PushAccessibleRole();
         }
     }
 
     private AccessibleRole _accessibleRole = AccessibleRole.Default;
+
+    /// <summary>
+    /// Pushes the current accessible name/description/role onto the widget's Gtk.Accessible interface, so
+    /// AT-SPI (screen readers) sees values set before the widget was created. Best-effort.
+    /// </summary>
+    private protected void ApplyAccessible()
+    {
+        PushAccessibleName();
+        PushAccessibleDescription();
+        PushAccessibleRole();
+    }
+
+    /// <summary>
+    /// Pushes <see cref="AccessibleName" /> onto the widget's Gtk.Accessible label property (AT-SPI reads it).
+    /// Gtk4 exposes no getter for it, so the value still round-trips through <see cref="AccessibleName" />;
+    /// this is the write-through to the platform. Best-effort - the read path never depends on it.
+    /// </summary>
+    private void PushAccessibleName()
+    {
+        if (this.Widget is not Gtk.IAccessible accessible)
+        {
+            return;
+        }
+
+        try
+        {
+            if (string.IsNullOrEmpty(_accessibleName))
+            {
+                accessible.ResetProperty(Gtk.AccessibleProperty.Label);
+            }
+            else
+            {
+                using var value = new GLib.Value(_accessibleName);
+                accessible.UpdateProperty(Gtk.AccessibleProperty.Label, value);
+            }
+        }
+        catch (Exception ex)
+        {
+            Diagnostics.GtkLogger.Debug("Pushing accessible name failed", ex);
+        }
+    }
+
+    /// <summary>Pushes <see cref="AccessibleDescription" /> onto the widget's Gtk.Accessible description.</summary>
+    private void PushAccessibleDescription()
+    {
+        if (this.Widget is not Gtk.IAccessible accessible)
+        {
+            return;
+        }
+
+        try
+        {
+            if (string.IsNullOrEmpty(_accessibleDescription))
+            {
+                accessible.ResetProperty(Gtk.AccessibleProperty.Description);
+            }
+            else
+            {
+                using var value = new GLib.Value(_accessibleDescription);
+                accessible.UpdateProperty(Gtk.AccessibleProperty.Description, value);
+            }
+        }
+        catch (Exception ex)
+        {
+            Diagnostics.GtkLogger.Debug("Pushing accessible description failed", ex);
+        }
+    }
+
+    /// <summary>
+    /// Pushes <see cref="AccessibleRole" /> onto the widget's Gtk accessible role, when it maps to a GTK
+    /// role. GtkWidget's accessible-role is a construct property some widgets refuse to change afterwards, so
+    /// this is wrapped and best-effort; the WinForms role still round-trips through the property itself.
+    /// </summary>
+    private void PushAccessibleRole()
+    {
+        if (this.Widget is not Gtk.IAccessible accessible || !TryMapAccessibleRole(_accessibleRole, out var gtkRole))
+        {
+            return;
+        }
+
+        try
+        {
+            accessible.AccessibleRole = gtkRole;
+        }
+        catch (Exception ex)
+        {
+            Diagnostics.GtkLogger.Debug("Pushing accessible role failed", ex);
+        }
+    }
+
+    /// <summary>Maps a WinForms <see cref="AccessibleRole" /> to the nearest Gtk4 accessible role.</summary>
+    /// <param name="role">The WinForms role.</param>
+    /// <param name="gtkRole">The mapped GTK role, when one exists.</param>
+    /// <returns><see langword="true" /> when a mapping exists; otherwise <see langword="false" />.</returns>
+    private static bool TryMapAccessibleRole(AccessibleRole role, out Gtk.AccessibleRole gtkRole)
+    {
+        switch (role)
+        {
+            case AccessibleRole.PushButton: gtkRole = Gtk.AccessibleRole.Button; return true;
+            case AccessibleRole.CheckButton: gtkRole = Gtk.AccessibleRole.Checkbox; return true;
+            case AccessibleRole.RadioButton: gtkRole = Gtk.AccessibleRole.Radio; return true;
+            case AccessibleRole.ComboBox: gtkRole = Gtk.AccessibleRole.ComboBox; return true;
+            case AccessibleRole.Text: gtkRole = Gtk.AccessibleRole.TextBox; return true;
+            case AccessibleRole.StaticText: gtkRole = Gtk.AccessibleRole.Label; return true;
+            case AccessibleRole.List: gtkRole = Gtk.AccessibleRole.List; return true;
+            case AccessibleRole.ListItem: gtkRole = Gtk.AccessibleRole.ListItem; return true;
+            case AccessibleRole.MenuItem: gtkRole = Gtk.AccessibleRole.MenuItem; return true;
+            case AccessibleRole.MenuBar: gtkRole = Gtk.AccessibleRole.MenuBar; return true;
+            case AccessibleRole.ProgressBar: gtkRole = Gtk.AccessibleRole.ProgressBar; return true;
+            case AccessibleRole.ScrollBar: gtkRole = Gtk.AccessibleRole.Scrollbar; return true;
+            case AccessibleRole.Slider: gtkRole = Gtk.AccessibleRole.Slider; return true;
+            case AccessibleRole.Dialog: gtkRole = Gtk.AccessibleRole.Dialog; return true;
+            case AccessibleRole.Window: gtkRole = Gtk.AccessibleRole.Window; return true;
+            case AccessibleRole.Row: gtkRole = Gtk.AccessibleRole.Row; return true;
+            case AccessibleRole.Cell: gtkRole = Gtk.AccessibleRole.Cell; return true;
+            case AccessibleRole.ColumnHeader: gtkRole = Gtk.AccessibleRole.ColumnHeader; return true;
+            case AccessibleRole.Grouping: gtkRole = Gtk.AccessibleRole.Group; return true;
+            default: gtkRole = Gtk.AccessibleRole.Generic; return false;
+        }
+    }
 
     /// <summary>
     /// Gets or sets a value indicating whether the control allows drag-and-drop operations.
