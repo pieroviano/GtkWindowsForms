@@ -707,8 +707,20 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
         }
 
         var type = (format?.GetMimeType() ?? ".png").TrimStart('.');
+
+        // BMP has no gdk-pixbuf saver on the Gtk4 runtime, so SaveToBuffer("bmp") throws and the format is
+        // lost (the image would be re-encoded as PNG, and a round-trip would then report RawFormat Png). Use
+        // the managed BMP encoder instead - the same one the file overload uses - so Save(stream, Bmp)
+        // actually writes a BMP.
+        if (type == "bmp")
+        {
+            var bmpBytes = BmpImageCodec.Encode(pixbuf);
+            stream.Write(bmpBytes, 0, bmpBytes.Length);
+            return;
+        }
+
         // gdk-pixbuf can only encode this set; anything else falls back to png.
-        if (type != "png" && type != "jpeg" && type != "bmp" && type != "tiff" && type != "ico")
+        if (type != "png" && type != "jpeg" && type != "tiff" && type != "ico")
         {
             type = "png";
         }
