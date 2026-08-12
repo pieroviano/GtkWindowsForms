@@ -118,6 +118,29 @@ public class CellRendererButtonValue : CellRendererText, ICellRenderer
         get;
         set;
     }
-    // TODO(gtk4): custom cell rendering used removed OnRender(Cairo)/StyleContext.Render*;
-    // re-express via CellRenderer.Snapshot + CSS in the styling pass. Deferred.
+
+    protected override void OnSnapshot(Gtk.Snapshot snapshot, Widget widget, Gdk.Rectangle background_area, Gdk.Rectangle cell_area, CellRendererState flags)
+    {
+        // Gtk4 snapshot vfunc replacing the removed OnRender(Cairo)/StyleContext.Render*. Draw the button
+        // chrome (frame + background under the "GridViewCell-Button" style class) inset a few pixels, then
+        // let the base text renderer draw the caption inside that inset rect.
+        var styleContext = widget.StyleContext;
+        var areaX = cell_area.X + 5;
+        var width = Math.Max(1, cell_area.Width - 10);
+
+        styleContext.Save();
+        styleContext.AddClass("GridViewCell-Button");
+        var rect = Graphene.Rect.Alloc();
+        rect.Init(areaX, cell_area.Y, width, cell_area.Height);
+        using (var cr = snapshot.AppendCairo(rect))
+        {
+            styleContext.RenderBackground(cr, areaX, cell_area.Y, width, cell_area.Height);
+            styleContext.RenderFrame(cr, areaX, cell_area.Y, width, cell_area.Height);
+        }
+
+        styleContext.Restore();
+
+        var inset = new Gdk.Rectangle { X = areaX, Y = cell_area.Y, Width = width, Height = cell_area.Height };
+        base.OnSnapshot(snapshot, widget, background_area, inset, flags);
+    }
 }

@@ -449,7 +449,18 @@ internal sealed partial class PropertyGridView
 
             return re;
         }
-        // TODO(gtk4): OnRender(Cairo)/StyleContext.Render* removed; cell drawing -> Snapshot+CSS (deferred).
+
+        protected override void OnSnapshot(Gtk.Snapshot snapshot, Widget widget, Gdk.Rectangle background_area, Gdk.Rectangle cell_area, CellRendererState flags)
+        {
+            // Gtk4 replaced CellRenderer.OnRender(Cairo) with the snapshot vfunc. Append a Cairo context over
+            // the cell and paint the expand/collapse arrow (the removed Gtk3 body drew only the icon, not the
+            // toggle's checkbox, so base is deliberately not chained).
+            var rect = Graphene.Rect.Alloc();
+            rect.Init(background_area.X, background_area.Y, background_area.Width, background_area.Height);
+            using var cr = snapshot.AppendCairo(rect);
+            Gdk.CairoHelper.SetSourcePixbuf(cr, IsExpanded ? godownixbuf : gonextpixbuf, background_area.X + 10, background_area.Y + 5);
+            cr.Paint();
+        }
     }
 
     public class CellRendererProperty : Gtk.CellRendererCombo
@@ -505,7 +516,22 @@ internal sealed partial class PropertyGridView
 
             get { return _value; }
         }
-        // TODO(gtk4): OnRender(Cairo)/StyleContext.Render* removed; cell drawing -> Snapshot+CSS (deferred).
+
+        protected override void OnSnapshot(Gtk.Snapshot snapshot, Widget widget, Gdk.Rectangle background_area, Gdk.Rectangle cell_area, CellRendererState flags)
+        {
+            // Gtk4 snapshot vfunc replacing the removed OnRender(Cairo). Top-level (category) rows get a
+            // translucent grey wash behind their text; the base renderer then draws the text itself.
+            if (_value?.Level == 0)
+            {
+                var rect = Graphene.Rect.Alloc();
+                rect.Init(background_area.X, background_area.Y, background_area.Width, background_area.Height);
+                using var cr = snapshot.AppendCairo(rect);
+                cr.SetSourceRGBA(0.9, 0.9, 0.9, 0.5);
+                cr.Paint();
+            }
+
+            base.OnSnapshot(snapshot, widget, background_area, cell_area, flags);
+        }
 
         private void CellRendererText_EditingCanceled(object? o, EventArgs args)
         {
