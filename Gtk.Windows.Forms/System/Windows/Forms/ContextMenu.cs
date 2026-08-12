@@ -83,11 +83,13 @@ public class ContextMenu : Menu
         SourceControl = control;
         OnPopup(EventArgs.Empty);
 
-        // ContextMenuStrip derives from ToolStripItem rather than Control in this shim, so it exposes no
-        // Show(control, position) and no Location - explicit placement is not expressible. The menu is
-        // made visible and GTK positions it. SourceControl, the item contents and the Popup event are all
-        // exact; only the placement is out of reach.
-        Strip.Visible = true;
+        // Route through ContextMenuStrip.Show(control, position) -> ToolStripDropDown.ShowCore, which parents
+        // the drop-down popover to the source control (gtk_widget_set_parent) and only calls Popup() once that
+        // control is realized and on screen. Setting Strip.Visible = true instead reached Control.Visible ->
+        // gtk_widget_show(), which realizes the popover outside any toplevel window ("gtk_widget_get_native ...
+        // GTK_IS_NATIVE failed") and aborts the process. Showing over a control that has no surface yet (e.g.
+        // one not added to a form) is a safe no-op there - SourceControl and the Popup event above still hold.
+        Strip.Show(control, pos);
     }
 
     /// <summary>
