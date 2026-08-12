@@ -199,10 +199,15 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
                 }
                 catch (GLib.GException ex)
                 {
-                    System.Diagnostics.GtkLogger.Debug("Failed to create Pixbuf from PixbufData", ex);
-                    // If pixbuf creation fails, clear the underlying data to avoid repeated failures.
-                    _PixbufData = null;
-                    _Pixbuf = null;
+                    // The Gtk4 runtime may lack the ICO loader; fall back to the managed .ico/.cur decoder so
+                    // icon-format images still display (e.g. menu-item icons).
+                    System.Diagnostics.GtkLogger.Debug("Failed to create Pixbuf from PixbufData; trying the managed ICO/CUR decoder.", ex);
+                    _Pixbuf = IcoImageDecoder.TryDecode(_PixbufData);
+                    if (_Pixbuf == null)
+                    {
+                        // Neither loader could read it; clear the data to avoid repeated failures.
+                        _PixbufData = null;
+                    }
                 }
             }
 
@@ -911,9 +916,29 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
 
     private IntPtr InitializeFromStream(Stream stream)
     {
-        Pixbuf = new Gdk.Pixbuf(stream);
+        byte[] bytes;
+        if (stream is MemoryStream memory)
+        {
+            bytes = memory.ToArray();
+        }
+        else
+        {
+            using var copy = new MemoryStream();
+            stream.CopyTo(copy);
+            bytes = copy.ToArray();
+        }
 
-        return Pixbuf.Handle;
+        try
+        {
+            Pixbuf = new Gdk.Pixbuf(bytes);
+        }
+        catch (GLib.GException)
+        {
+            // Fall back to the managed .ico/.cur decoder when the native loader can't read the data.
+            Pixbuf = IcoImageDecoder.TryDecode(bytes);
+        }
+
+        return Pixbuf?.Handle ?? IntPtr.Zero;
     }
 
     private void Save(MemoryStream stream)
