@@ -650,8 +650,26 @@ tooltip label {padding: 0px 10px; color: #555555;}
             // controlled per-widget). The GtkSharp C# property still exists but setting it raises a runtime
             // GLib-GObject-CRITICAL ('has no property named gtk-enable-tooltips'), so it is omitted.
             var iconpath = Path.Combine(appdirectory, "icon.png");
-            // Gtk4 removed the file-based default window icon (SetDefaultIconFromFile); only a themed
-            // icon-name is supported now. TODO(gtk4): install icon.png into the theme and set IconName.
+            // Gtk4 removed the file-based default window icon (SetDefaultIconFromFile); a default icon is now
+            // resolved by name from the icon theme. Add the app directory to the theme's search path and set
+            // "icon" as the default window icon-name, so an icon.png shipped beside the app is picked up
+            // (best-effort; reliable resolution expects a hicolor layout under the search path).
+            if (File.Exists(iconpath))
+            {
+                try
+                {
+                    var display = Gdk.Display.Default;
+                    if (display != null)
+                    {
+                        Gtk.IconTheme.GetForDisplay(display).AddSearchPath(appdirectory);
+                        Gtk.Window.DefaultIconName = "icon";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.GtkLogger.Debug("Unable to register the default window icon", ex);
+                }
+            }
 
             var css = new Gtk.CssProvider();
             var cssBuilder=new StringBuilder();

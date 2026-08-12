@@ -229,12 +229,13 @@ public abstract class ToolStripDropDownItem : ToolStripItem
                  || displayStyle == ToolStripItemDisplayStyle.ImageAndText
                  || displayStyle == ToolStripItemDisplayStyle.None)
         {
-            // Gtk4 removed per-widget IconSize (LargeToolbar/Dialog/SmallToolbar); the toolbar host is
-            // gone too, so the icon can no longer be scaled to a toolbar size. Use the default 20x20.
-            // TODO(gtk4): drive icon scale from the item's requested size / CSS instead.
+            // Gtk4 removed per-widget IconSize (LargeToolbar/Dialog/SmallToolbar) and the toolbar host, so
+            // scale the icon to the item's own realized height (less its vertical margins) instead of a fixed
+            // toolbar size, with a 16px floor; fall back to 20px before the button has been allocated.
             if (this.Image?.Pixbuf != null)
             {
-                self.Image = new Gdk.Pixbuf(this.Image.PixbufData, 20, 20);
+                var px = self.AllocatedHeight > 0 ? Math.Max(16, self.AllocatedHeight - (self.MarginTop * 2)) : 20;
+                self.Image = new Gdk.Pixbuf(this.Image.PixbufData, px, px);
             }
         }
     }

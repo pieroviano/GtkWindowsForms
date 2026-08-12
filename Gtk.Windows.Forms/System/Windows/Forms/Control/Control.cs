@@ -4554,9 +4554,8 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             }
             else if (!string.IsNullOrEmpty(_Cursor.GdkCursorName))
             {
-                // Gtk4 removed Gdk.CursorType and the pixbuf cursor ctors; stock cursors map to a Gtk4
-                // named cursor (see Cursor.GdkCursorName). Image-backed custom cursors (.cur) are not
-                // supported yet and fall back to the default. TODO(gtk4): custom cursor via Gdk.Texture.
+                // Gtk4 removed Gdk.CursorType and the pixbuf cursor ctors; stock cursors map to a Gtk4 named
+                // cursor (see Cursor.GdkCursorName), applied directly with no image decoding.
                 try
                 {
                     widget.Cursor = new Gdk.Cursor(_Cursor.GdkCursorName, null);
@@ -4564,6 +4563,22 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                 catch (Exception ex)
                 {
                     System.Diagnostics.GtkLogger.Debug($"Unable to set named cursor '{_Cursor.GdkCursorName}'", ex);
+                    widget.Cursor = null;
+                }
+            }
+            else if (_Cursor.CursorPixbuf != null)
+            {
+                // Image-backed custom cursor: Gtk4 cursors are texture-backed, so wrap the decoded pixbuf in a
+                // Gdk.Texture and build the cursor from it at the control's hotspot (gdk_texture_new_for_pixbuf
+                // + gdk_cursor_new_from_texture).
+                try
+                {
+                    var texture = new Gdk.Texture(_Cursor.CursorPixbuf);
+                    widget.Cursor = new Gdk.Cursor(texture, _Cursor.HotSpot.X, _Cursor.HotSpot.Y, null);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.GtkLogger.Debug("Unable to set custom texture cursor", ex);
                     widget.Cursor = null;
                 }
             }

@@ -941,12 +941,15 @@ public partial class ToolStripItem : Component, IDropTarget, ISupportOleDropSour
         {
             textImageRelation = value;
             var widget = GetWidget();
-            // Gtk4 removed Gtk.Toolbar / Gtk.MenuBar / ToolbarStyle / PackDirection / IconSize.Dialog.
-            // The toolstrip/menustrip host is now a plain Box (see the menu redesign), so the old
-            // parent-configuration branches are dead. Approximate TextImageRelation by orienting the
-            // item's own image+text box: image-above/below-text -> vertical, otherwise horizontal.
-            // TODO(gtk4): finer image/text ordering + spacing via the item box child order / CSS.
-            if (widget is Gtk.Box itemBox)
+            // Gtk4 removed Gtk.Toolbar / Gtk.MenuBar / ToolbarStyle / PackDirection / IconSize.Dialog, so the
+            // old parent-configuration branches are dead. A StripMenuItem already lays its icon and label out
+            // in an inner content box, so it can honour the full relation (child order + alignment) - defer to
+            // it. For any other host widget, approximate by orienting the item's own image+text box.
+            if (widget is StripMenuItem menuItem)
+            {
+                menuItem.SetTextImageRelation(value);
+            }
+            else if (widget is Gtk.Box itemBox)
             {
                 var vertical = value == TextImageRelation.ImageAboveText || value == TextImageRelation.TextAboveImage;
                 itemBox.Orientation = vertical ? Gtk.Orientation.Vertical : Gtk.Orientation.Horizontal;

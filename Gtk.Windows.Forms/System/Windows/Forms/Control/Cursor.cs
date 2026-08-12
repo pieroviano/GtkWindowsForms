@@ -39,9 +39,25 @@ public sealed class Cursor : IDisposable, ISerializable
     {
         _freeHandle = false;
         _handle = handle;
-        // Gtk4: Gdk.Cursor is texture-backed (no .Image Pixbuf); pixel extraction from a native
-        // cursor handle is not available. TODO(gtk4): read via Gdk.Texture when a source is known.
-        _cursorData = null;
+
+        // Gtk4 cursors are texture-backed: read the pixels back through the cursor's Gdk.Texture when it has
+        // one (named/themed cursors have no texture, so this stays null and the cursor falls back to default).
+        try
+        {
+            if (handle != IntPtr.Zero)
+            {
+                var texture = new Gdk.Cursor(handle).Texture;
+                _cursorData = texture?.Download();
+            }
+            else
+            {
+                _cursorData = null;
+            }
+        }
+        catch (GLib.GException)
+        {
+            _cursorData = null;
+        }
     }
 
     /// <summary>
@@ -96,9 +112,9 @@ public sealed class Cursor : IDisposable, ISerializable
             // The stock WinForms cursors ship as Windows .cur resources, and GdkPixbuf has no loader for
             // that format ("Unrecognized image file format") - so decoding one throws. This runs from a
             // static Cursors.* property initializer, where an escaping exception takes down the whole app on
-            // the first form that touches a cursor. Degrade gracefully: no custom pixbuf (the cursor falls
-            // back to the platform default until named Gdk cursors are wired). See TODO(gtk4) in
-            // Control.SetCursorStyle.
+            // the first form that touches a cursor. Degrade gracefully: no custom pixbuf, so the stock cursor
+            // resolves to its Gtk4 named cursor instead (Control.SetCursorStyle uses GdkCursorName); a custom
+            // cursor loaded from a decodable image is applied as a Gdk.Texture cursor there.
             System.Diagnostics.GtkLogger.Debug("Unable to decode cursor image; falling back to the default cursor.", ex);
             CursorPixbuf = null;
         }
