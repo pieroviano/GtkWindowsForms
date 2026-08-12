@@ -1713,9 +1713,23 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual Control? Parent
     {
-        get;
-        set;
+        get => _parent;
+        set
+        {
+            // Was an auto-property, so assigning it (which Controls.Add does) stored the new parent silently
+            // and never raised ParentChanged - the WinForms notification a control relies on to react to
+            // being added to or removed from a container. Raise it on a real change.
+            if (ReferenceEquals(_parent, value))
+            {
+                return;
+            }
+
+            _parent = value;
+            OnParentChanged(EventArgs.Empty);
+        }
     }
+
+    private Control? _parent;
 
     /// <summary>
     /// Gets a value indicating whether the control participates in the layout.

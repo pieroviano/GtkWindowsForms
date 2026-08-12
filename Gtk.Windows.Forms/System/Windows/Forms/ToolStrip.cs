@@ -54,8 +54,24 @@ public partial class ToolStrip : ScrollableControl
     public ToolStrip() : base()
     {
         toolStripItemCollection = new ToolStripItemCollection(this);
-        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
-        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
+        WireActivateCurrent();
+    }
+
+    /// <summary>
+    /// Bridges the backing widget's activation to the WinForms event surface. Gtk4 removed Gtk.MenuBar and
+    /// its ActivateCurrent signal; the custom menu widget re-raises activation through
+    /// <see cref="ToolStripBase.RaiseActivateCurrent" />, and this maps a single activation onto the click /
+    /// check / drop-down events a ToolStrip consumer subscribes to.
+    /// </summary>
+    private void WireActivateCurrent()
+    {
+        self.ActivateCurrent += (_, _) =>
+        {
+            OnClick(System.EventArgs.Empty);
+            OnCheckedChanged(System.EventArgs.Empty);
+            OnCheckStateChanged(System.EventArgs.Empty);
+            OnDropDownItemClicked(new ToolStripItemClickedEventArgs(null!));
+        };
     }
 
     /// <summary>
@@ -72,6 +88,7 @@ public partial class ToolStrip : ScrollableControl
         self.Valign = Gtk.Align.Start;
         self.Halign = Gtk.Align.Start;
         toolStripItemCollection = new ToolStripItemCollection(this, owner);
+        WireActivateCurrent();
     }
 
     /// <summary>
