@@ -1038,8 +1038,24 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         get
         {
-            if (Widget != null) return new Size(Widget.AllocatedWidth, this.Widget.AllocatedHeight);
-            else return Size.Empty;
+            var widget = this.Widget;
+            if (widget == null)
+            {
+                return Size.Empty;
+            }
+
+            // The real GTK allocation is only meaningful once the widget is laid out. Before that (an
+            // unrealized/unmapped control, e.g. one measured in a headless host or read before its form is
+            // shown) allocation is 0, which is not what WinForms reports: a borderless control's client area
+            // equals its requested size. Fall back to the requested Width/Height - the same requested-size
+            // fallback Form.ClientSize uses - so ClientSize/ClientRectangle track the assigned Size until a
+            // real allocation exists.
+            if (widget.IsMapped && widget.AllocatedWidth > 0)
+            {
+                return new Size(widget.AllocatedWidth, widget.AllocatedHeight);
+            }
+
+            return new Size(Width, Height);
         }
         set { this.Widget?.SetSizeRequest(value.Width, value.Height); }
     }
@@ -1178,7 +1194,54 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Gets a value indicating whether the control has input focus.
     /// </summary>
-    public virtual bool Focused { get { return this.Widget?.IsFocus ?? false; } }
+    public virtual bool Focused
+    {
+        get
+        {
+            var widget = this.Widget;
+            return widget != null && IsFocusWithin(widget);
+        }
+    }
+
+    /// <summary>
+    /// Whether the containing window's focus widget is <paramref name="widget" /> or a native descendant of
+    /// it.
+    /// </summary>
+    /// <remarks>
+    /// Gtk4 composite widgets (a <see cref="!:Gtk.Entry" /> delegates key focus to an internal
+    /// <c>GtkText</c>, a spin button to its entry, and so on) never become the window's focus widget
+    /// themselves, so <c>Widget.IsFocus</c>/<c>HasFocus</c> stay false even after <c>GrabFocus</c> succeeds.
+    /// WinForms <see cref="Focused" /> is true whenever focus is anywhere inside the control, so the root's
+    /// current focus widget is walked up its parent chain looking for this widget. Handles are compared
+    /// because GtkSharp may hand back different managed wrappers for the same native pointer.
+    /// </remarks>
+    private static bool IsFocusWithin(Gtk.Widget widget)
+    {
+        if (widget.Handle == IntPtr.Zero)
+        {
+            return false;
+        }
+
+        // The widget is itself the focus (Focused), or GTK has set the focus-within state because a
+        // descendant (an Entry's internal GtkText, say) holds it. This is the direct signal and does not
+        // depend on the window being mapped/active.
+        if ((widget.StateFlags & (Gtk.StateFlags.FocusWithin | Gtk.StateFlags.Focused)) != 0)
+        {
+            return true;
+        }
+
+        // Fallback: walk the containing window's current focus widget up to this one. Handles are compared
+        // because GtkSharp may hand back different managed wrappers for the same native pointer.
+        for (Gtk.Widget? focus = widget.Root?.Focus; focus != null; focus = focus.Parent)
+        {
+            if (focus.Handle == widget.Handle)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /// <summary>
     /// Gets or sets the font of the control.
@@ -2325,15 +2388,18 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </returns>
     public virtual bool Focus()
     {
-        if (this.Widget != null)
-        {
-            this.Widget.GrabFocus();
-            return this.Widget.IsFocus;
-        }
-        else
+        var widget = this.Widget;
+        if (widget == null)
         {
             return false;
         }
+
+        // GrabFocus returns whether GTK accepted the focus request (false for a non-focusable control),
+        // which is the WinForms Focus() contract. IsFocusWithin is the belt-and-braces confirmation that
+        // focus actually landed on this widget or a descendant (a composite Entry's internal GtkText never
+        // makes the Entry itself IsFocus, so the old IsFocus check always returned false here).
+        var grabbed = widget.GrabFocus();
+        return grabbed || IsFocusWithin(widget);
     }
 
     /// <summary>
