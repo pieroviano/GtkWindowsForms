@@ -24,6 +24,12 @@ public class TabPage : ContainerControl
 
     internal Gtk.Label _tabLabel = new();
 
+    /// <summary>
+    /// The owner-draw tab widget, when this page's tab is rendered through the WinForms
+    /// <see cref="TabControl.DrawItem" /> handler (DrawMode OwnerDrawFixed) rather than the plain label.
+    /// </summary>
+    internal Gtk.DrawingArea? _tabDrawArea;
+
     private readonly ControlCollection _controls;
 
     /// <summary>

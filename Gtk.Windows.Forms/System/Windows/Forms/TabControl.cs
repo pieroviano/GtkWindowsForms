@@ -273,10 +273,13 @@ public partial class TabControl : ContainerControl
     /// <summary>
     /// Raises the DrawItem event.
     /// </summary>
-    protected virtual void OnDrawItem(System.Windows.Forms.DrawItemEventArgs e)
+    protected internal virtual void OnDrawItem(System.Windows.Forms.DrawItemEventArgs e)
     {
         DrawItem?.Invoke(this, e);
     }
+
+    /// <summary>Whether a <see cref="DrawItem" /> handler is attached (event null-checks are only legal here).</summary>
+    internal bool HasDrawItemHandler => DrawItem != null;
 
     /// <summary>
     /// Raises the SelectedIndexChanged event.
@@ -340,11 +343,35 @@ public partial class TabControl : ContainerControl
                     item._tabLabel.Halign = Align.End;
                 }
                 base.Add(item);
-                // Gtk4 removed Widget.Drawn / DrawnArgs. Owner-draw tab labels (TabDrawMode.OwnerDrawFixed
-                // -> OnDrawItem) must be re-expressed via a Gtk.DrawingArea + DrawFunc, part of the deferred
-                // custom-paint pass (migration #11). The DrawItem event still exists on the WinForms API.
-                // TODO(gtk4): route OnDrawItem through a DrawFunc-backed label.
-                return _owner.self.AppendPage(item.self, item.TabLabel);
+
+                // Gtk4 removed Widget.Drawn/DrawnArgs. For owner-drawn tabs (DrawMode OwnerDrawFixed with a
+                // DrawItem handler) use a Gtk.DrawingArea whose DrawFunc raises OnDrawItem - the WinForms
+                // owner-draw contract - instead of the plain label. Normal tabs keep the label so native tab
+                // appearance/ellipsize/alignment is preserved.
+                Gtk.Widget tabWidget = item.TabLabel;
+                if (_owner.DrawMode == TabDrawMode.OwnerDrawFixed && _owner.HasDrawItemHandler)
+                {
+                    var index = base.Count - 1;
+                    var drawArea = new Gtk.DrawingArea
+                    {
+                        WidthRequest = _owner.ItemSize.Width,
+                        HeightRequest = _owner.ItemSize.Height,
+                        Name = item.TabLabel.Name,
+                    };
+                    drawArea.DrawFunc = (area, cr, w, h) =>
+                    {
+                        var graphics = new Drawing.Graphics(area, cr, new Gdk.Rectangle(0, 0, w, h))
+                        {
+                            diff_left = -12,
+                            diff_top = -2,
+                        };
+                        _owner.OnDrawItem(new DrawItemEventArgs(graphics, _owner.Font, new Drawing.Rectangle(0, 0, w, h), index, DrawItemState.Default));
+                    };
+                    item._tabDrawArea = drawArea;
+                    tabWidget = drawArea;
+                }
+
+                return _owner.self.AppendPage(item.self, tabWidget);
             }
             catch
             {
