@@ -131,7 +131,8 @@ public partial class Control
         HookLayoutParent(overlay);
 
         var client = new Size(overlay.AllocatedWidth, overlay.AllocatedHeight);
-        if (client.Width <= 1 || client.Height <= 1)
+        var isRealAllocation = client.Width > 1 && client.Height > 1;
+        if (!isRealAllocation)
         {
             // No real allocation yet - the window is realized but not mapped (the state at Form.Load, and the
             // permanent state in a display-less test host where the window never maps). Fall back through
@@ -148,7 +149,7 @@ public partial class Control
         _inLayoutPass = true;
         try
         {
-            Arrange(children, client);
+            Arrange(children, client, isRealAllocation);
         }
         catch (Exception ex)
         {
@@ -216,7 +217,14 @@ public partial class Control
     /// </summary>
     /// <param name="children">The participating children, in collection order.</param>
     /// <param name="client">The container's current client size.</param>
-    private void Arrange(List<Control> children, Size client)
+    /// <param name="isRealAllocation">
+    /// Whether <paramref name="client" /> is the container overlay's real GTK allocation rather than the
+    /// requested-size fallback. Anchoring is measured only between real allocations: the fallback is the
+    /// container's outer requested size, which does not match the real client area, so letting it seed the
+    /// anchor baseline would make the first real pass compute a bogus size delta and shove
+    /// bottom/right-anchored controls off their designed positions (e.g. over a fixed neighbour).
+    /// </param>
+    private void Arrange(List<Control> children, Size client, bool isRealAllocation)
     {
         var padding = Padding;
         var remaining = new Rectangle(
@@ -225,12 +233,20 @@ public partial class Control
             Math.Max(0, client.Width - padding.Horizontal),
             Math.Max(0, client.Height - padding.Vertical));
 
-        // The first pass establishes the baseline; anchoring is relative to a previous size, and there is
-        // none yet.
-        var delta = _lastLayoutSize.IsEmpty
-            ? Size.Empty
-            : new Size(client.Width - _lastLayoutSize.Width, client.Height - _lastLayoutSize.Height);
-        _lastLayoutSize = client;
+        // Anchoring follows the delta from the previous *real* client size. A fallback-sized pass neither
+        // establishes nor consumes that baseline (delta stays zero, so anchored children keep their designed
+        // positions); the first real allocation becomes the baseline (still zero delta) and only later real
+        // resizes move anchored children.
+        var delta = Size.Empty;
+        if (isRealAllocation)
+        {
+            if (!_lastLayoutSize.IsEmpty)
+            {
+                delta = new Size(client.Width - _lastLayoutSize.Width, client.Height - _lastLayoutSize.Height);
+            }
+
+            _lastLayoutSize = client;
+        }
 
         // WinForms docks from the end of the collection towards the start: the control added last is
         // docked first and takes its edge from the full display rectangle, and Fill gets whatever is left
