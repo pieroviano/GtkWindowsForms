@@ -108,8 +108,18 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         this.Response += FormBase_Response;
         // Gtk 4: DeleteEvent -> CloseRequest (RetVal=true now VETOES the close, matching !isCloseWindow).
         this.CloseRequest += FormBase_CloseRequest;
-        // Gtk 4 removed WindowStateEvent; external maximize/restore no longer re-skins the button here
-        // (the maximize button itself still toggles its icon). TODO(gtk4): observe notify::maximized.
+        // Gtk4 removed WindowStateEvent; observe notify::maximized instead so a maximize/restore driven by the
+        // window manager (titlebar double-click, keyboard) re-skins the header button too - not just the
+        // in-app maximize_Clicked path. Idempotent with that handler.
+        this.AddNotification("maximized", (o, a) =>
+        {
+            if (maximize != null)
+            {
+                var isMax = this.IsMaximized;
+                maximize.IconName = isMax ? "window-restore-symbolic" : "window-maximize-symbolic";
+                maximize.Name = isMax ? "restore" : "maximize";
+            }
+        });
         ScrolledView.Valign = Gtk.Align.Fill;
         ScrolledView.Halign = Gtk.Align.Fill;
         ScrolledView.Hexpand = true;
@@ -463,6 +473,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
                 this.SetSizeRequest(prevSize.Width, prevSize.Height);
             }
             maximize.Name = "maximize";
+            maximize.IconName = "window-maximize-symbolic";
         }
         else
         {
@@ -479,6 +490,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
                 this.SetSizeRequest(-1, -1);
             }
             maximize.Name = "restore";
+            maximize.IconName = "window-restore-symbolic";
         }
     }
 
