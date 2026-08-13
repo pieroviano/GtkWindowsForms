@@ -581,7 +581,9 @@ public sealed partial class Application
 .ToolStrip,.MenuStrip{padding:0px;border-radius:0px;min-height:6px;min-width:6px;}
 .ToolStrip>toolbutton,.ToolStrip>toolbutton label{padding:0px;margin:0px;}
 .MenuStrip>menuitem,.MenuStrip>menuitem label{padding:0px;margin:0px;}
-.ToolStrip button,.MenuStrip button{padding-top:0px;padding-bottom:0px; min-height:6px;min-width:6px;border-radius:0px;border-width:1px;}
+.ToolStrip button,.MenuStrip button{padding-top:0px;padding-bottom:0px; min-height:6px;min-width:6px;border-radius:0px;border-width:0px;background:none;background-image:none;box-shadow:none;}
+.ToolStrip button:hover,.MenuStrip button:hover{background-color:shade(@theme_bg_color,0.9);}
+.ToolStrip button:active,.ToolStrip button:checked,.MenuStrip button:active,.MenuStrip button:checked{background-color:shade(@theme_bg_color,0.82);}
 .ToolStrip combox,.MenuStrip combox{padding-top:0px;padding-bottom:0px; min-height:6px;min-width:6px;border-radius:0px;border-width:0px;}
 .ToolStrip entry,.MenuStrip entry{padding-top:0px;padding-bottom:0px; min-height:6px;min-width:6px;border-radius:0px;border-width:1px;}
 .ToolStrip levelbar,.MenuStrip levelbar{padding:0px;min-height:6px;min-width:6px;border-radius:0px;border-width:0px;}
