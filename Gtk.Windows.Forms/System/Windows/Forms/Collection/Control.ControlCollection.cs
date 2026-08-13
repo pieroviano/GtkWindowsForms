@@ -576,7 +576,12 @@ public partial class Control
                             {
                                 HeightRequest = statusbar.Height
                             };
-                            overlay.AddOverlay(statusbar.self);
+                            // Gtk4: the strip must be the overlay's MAIN child (set_child), not an overlay
+                            // layer (add_overlay). An overlay with no main child does not allocate its overlay
+                            // layers in Gtk4, so AddOverlay here left the status bar sized to nothing and it
+                            // vanished; the main content overlay works only because it has a background main
+                            // child. Setting it as the child sizes the overlay to the strip and shows it.
+                            overlay.AddChild(statusbar.self);
                             form.self.ContentArea.Append(overlay);
                         }
                     }
