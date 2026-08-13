@@ -203,6 +203,17 @@ public partial class Control
 
         foreach (var entry in controls)
         {
+            // A StatusStrip is not laid out in this container's overlay: a Form docks it into the dialog
+            // content area (below the scrolled content) itself. Its widget therefore lives in a different
+            // GTK parent, so feeding it to the arrangement here would (a) let it be picked as children[0] and
+            // drive the whole pass off the wrong overlay's (tiny) allocation, and (b) stamp margins/sizes
+            // meant for this overlay's coordinate space onto a widget in another container - which collapsed
+            // the real content once the strip became visible. Skip it; the content area positions it.
+            if (entry is StatusStrip)
+            {
+                continue;
+            }
+
             if (entry is Control child && child.Visible && child.Widget != null)
             {
                 result.Add(child);
