@@ -1,4 +1,5 @@
 using System.Windows.Forms;
+using Mocks;
 
 namespace GtkWinForms.Tests.System.Windows.Forms;
 
@@ -82,6 +83,27 @@ public class ApplicationLifecycleFunctionalTests
         Application.DoEvents();
 
         Assert.True(raised > 0, "HandleDestroyed must fire - ApplicationContext detects main-form close through it");
+    }
+
+    [Fact]
+    public void Close_IsSynchronous_WhicheverMessageBoxIsInstalled()
+    {
+        // Regression: Close() handed itself to a 100 ms timer whenever MessageBox.Instance was not the
+        // default NonStaticMessageBox, so installing any custom IMessageBox - something an app does once at
+        // startup, and something other tests in this assembly do - silently made every form's close
+        // asynchronous. HandleDestroyed then fired long after Close() returned, which is how
+        // ApplicationContext learns its main form closed. Closing a form does not depend on message boxes.
+        using var mock = MockMessageBox.ReplaceMessageBoxWithMock();
+
+        var form = new Form();
+        var destroyed = 0;
+        form.HandleDestroyed += (_, _) => destroyed++;
+
+        form.Show();
+        Application.DoEvents();
+        form.Close(); // deliberately no DoEvents afterwards: the close must already have happened
+
+        Assert.True(destroyed > 0, "Close() must destroy the handle before it returns");
     }
 
     [Fact]

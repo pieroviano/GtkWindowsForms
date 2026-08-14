@@ -4686,12 +4686,28 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     }
 
 
+    /// <summary>
+    /// Realize callbacks currently on the stack (the UI is single-threaded, so a plain counter is enough).
+    /// While this is non-zero GTK is part-way through showing/realizing a widget, and destroying that
+    /// widget's window from user code re-enters GTK in a state it does not support - see
+    /// <see cref="InRealizeCallback" />.
+    /// </summary>
+    private static int _realizeCallbackDepth;
+
+    /// <summary>
+    /// Gets a value indicating whether a realize callback - and therefore the <see cref="Load" /> handler it
+    /// raises - is currently running. User code called from Load may close its form, but the native window
+    /// cannot be destroyed until GTK has finished showing it, so the destroy is deferred to the next
+    /// main-loop iteration instead (<c>Form.CloseImmediately</c>).
+    /// </summary>
+    internal static bool InRealizeCallback => _realizeCallbackDepth > 0;
+
     private void Widget_Realized(object sender, EventArgs e)
     {
-        // Gtk4: this handler can also be reached from a deferred main-loop callback (e.g. a Load handler
-        // that called Form.Close() leaves a 100 ms close timer + a queued realize). If the widget's native
-        // instance is already gone by then, styling/handle work would dereference freed memory and crash the
-        // process, so bail out when it is no longer alive.
+        // Gtk4: this handler can also be reached from a deferred main-loop callback (e.g. a queued realize
+        // for a window that has since been closed). If the widget's native instance is already gone by then,
+        // styling/handle work would dereference freed memory and crash the process, so bail out when it is
+        // no longer alive.
         if (sender is not Gtk.Widget realizedWidget || realizedWidget.Handle == IntPtr.Zero)
         {
             return;
@@ -4709,7 +4725,25 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             // it has to happen before Load so user code sees an already-shaped control.
             ApplyRegion();
             PerformDockAnchorLayout();
-            OnLoad(e);
+
+            _realizeCallbackDepth++;
+            try
+            {
+                OnLoad(e);
+            }
+            finally
+            {
+                _realizeCallbackDepth--;
+            }
+
+            // Load is user code and is allowed to close/dispose the control it is loading (Form.Close() from
+            // Load is a documented WinForms pattern). Everything below touches the widget, so stop here
+            // rather than styling a control whose native instance has just been freed.
+            if (IsDisposed || realizedWidget.Handle == IntPtr.Zero)
+            {
+                return;
+            }
+
             OnCursorChanged(EventArgs.Empty);
             InitDockAnchorStyle();
         }

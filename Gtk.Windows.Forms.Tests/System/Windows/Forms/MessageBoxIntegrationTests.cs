@@ -9,7 +9,9 @@ public class MessageBoxIntegrationTests
     public void MessageBox_Show_LogsMessage_WhenFormRuns()
     {
         // Arrange
-        var mockMessageBox = MockMessageBox.ReplaceMessageBoxWithMock();
+        // `using`: the mock is installed in the process-global MessageBox.Instance, so leaving it in place
+        // would mock MessageBox.Show for every test that runs after this one.
+        using var mockMessageBox = MockMessageBox.ReplaceMessageBoxWithMock();
 
         // Call MessageBox.Show from a form's Load handler - the "message box shown while a form is running"
         // scenario - and drive it with ShowDialog's short, scoped modal loop.

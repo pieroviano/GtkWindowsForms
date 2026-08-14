@@ -8,7 +8,9 @@ extern alias gtk;
 
 public class MockMessageBox : IMessageBox, IDisposable
 {
-    private static IMessageBox? _oldInstance;
+    // Per-instance, not static: MessageBox.Instance is process-global, so a static "previous" field is
+    // overwritten by a second mock and restores the wrong implementation (or the mock itself) on dispose.
+    private IMessageBox? _oldInstance;
 
     /// <summary>
     ///     Stores all log messages captured by the custom GtkLogger action.
@@ -19,6 +21,7 @@ public class MockMessageBox : IMessageBox, IDisposable
     {
         gtk::System.Diagnostics.GtkLogger.SetCustomLogAction(null);
         MessageBox.Instance = _oldInstance;
+        GC.SuppressFinalize(this);
     }
 
 #pragma warning disable CS0067 // The event is never used
@@ -112,6 +115,8 @@ public class MockMessageBox : IMessageBox, IDisposable
 
     /// <summary>
     ///     Replaces MessageBox.Instance with a new MockMessageBox for testing and captures GtkLogger.Info output.
+    ///     The caller must dispose the returned mock (<c>using</c>): it installs process-global state that every
+    ///     later test in the assembly would otherwise inherit.
     /// </summary>
     public static MockMessageBox ReplaceMessageBoxWithMock()
     {
@@ -123,7 +128,7 @@ public class MockMessageBox : IMessageBox, IDisposable
             var formatted = $"[{level}] {message}" + (exception != null ? $" Exception: {exception}" : "");
             mockMessageBox.LoggedMessages.Add(formatted);
         });
-        _oldInstance = MessageBox.Instance;
+        mockMessageBox._oldInstance = MessageBox.Instance;
         MessageBox.Instance = mockMessageBox;
         return mockMessageBox;
     }

@@ -850,7 +850,16 @@ tooltip label {padding: 0px 10px; color: #555555;}
         var previousContext = CurrentContext;
         CurrentContext = context;
 
-        void OnContextThreadExit(object? sender, EventArgs e) => Quit();
+        // Set when the context asks to exit. Quit() is a no-op while no loop is running, so an exit that
+        // arrives before the loop starts has to be remembered rather than issued and lost.
+        var exitRequested = false;
+
+        void OnContextThreadExit(object? sender, EventArgs e)
+        {
+            exitRequested = true;
+            Quit();
+        }
+
         context.ThreadExit += OnContextThreadExit;
 
         try
@@ -862,7 +871,16 @@ tooltip label {padding: 0px 10px; color: #555555;}
             }
 
             MessageLoop = true;
-            Gtk.Application.Run();
+
+            // Showing the main form runs user code - Load, and anything it calls - and that code is allowed
+            // to close the form again straight away (an app that only puts up a message box from Load, then
+            // closes, is the canonical case). The close then reaches ExitThread before there is a loop to
+            // quit, so entering one here would block forever on a quit that already happened. WinForms
+            // returns from Run in exactly this situation.
+            if (!exitRequested)
+            {
+                Gtk.Application.Run();
+            }
         }
         finally
         {

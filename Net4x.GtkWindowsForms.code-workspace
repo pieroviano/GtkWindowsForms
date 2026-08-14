@@ -4,6 +4,9 @@
 			"path": "."
 		},
 		{
+			"path": "../Net4x.GtkWindowsForms_Gtk3"
+		},
+		{
 			"path": "../GtkSharp"
 		}
 	],

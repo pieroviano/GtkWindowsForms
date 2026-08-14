@@ -652,40 +652,58 @@ public partial class Form : ContainerControl, IWin32Window
     }
 
     /// <summary>
-    /// Closes the form. Uses a short timer to defer actual close so UI handlers can complete.
+    /// Closes the form. The close is synchronous, as in WinForms: when this returns the form has raised
+    /// <see cref="FormClosing" />/<see cref="FormClosed" /> and given up its handle.
     /// </summary>
+    /// <remarks>
+    /// This used to hand the close to a 100 ms timer whenever <c>MessageBox.Instance</c> was not the default
+    /// <c>NonStaticMessageBox</c>, which made <c>Close()</c> asynchronous - and made whether it was
+    /// asynchronous depend on an unrelated global: installing any custom <see cref="IMessageBox" /> silently
+    /// turned every form's close into a deferred one, so <see cref="Control.HandleDestroyed" /> (and
+    /// everything built on it, e.g. <see cref="ApplicationContext" /> ending its loop) no longer fired by the
+    /// time the caller looked. Closing a form has nothing to do with message boxes. The one case that really
+    /// needs deferral - closing a form while it is running its own nested modal loop, which Gtk4 cannot
+    /// survive re-entrantly - is handled where it belongs, in <c>FormBase.CloseWindow</c>, which quits the
+    /// loop and lets <c>RunDialog</c> perform the destroy once the loop has unwound.
+    /// </remarks>
     public void Close()
     {
-        if (MessageBox.Instance is NonStaticMessageBox nonStaticMessageBox)
-        {
-            CloseImmediately();
-            return;
-        }
-        var timer = new System.Windows.Forms.Timer
-        {
-            Interval = 100
-        };
-
-        timer.Tick += (s, e) =>
-        {
-            timer.Stop();
-            CloseImmediately();
-        };
-
-        timer.Start();
+        CloseImmediately();
     }
 
     /// <summary>
     /// Immediately closes the native window backing this form.
     /// </summary>
+    /// <remarks>
+    /// The one exception is a close issued from a <see cref="Control.Load" /> handler: GTK is then part-way
+    /// through showing/realizing this very window, and tearing it down underneath that call leaves GTK
+    /// asserting on a half-shown toplevel (<c>gdk_toplevel_present</c> / <c>gtk_widget_map</c>). The close is
+    /// then handed to the next main-loop iteration, which is the first moment the show has unwound - the same
+    /// shape of deferral <c>FormBase.CloseWindow</c> already uses for a close issued from inside the form's
+    /// own modal loop.
+    /// </remarks>
     public void CloseImmediately()
     {
-        if (self != null)
+        if (self == null)
         {
-            if (self.CloseWindow())
+            return;
+        }
+
+        if (Control.InRealizeCallback)
+        {
+            GLib.Idle.Add(() =>
             {
-                this.Dispose(true);
-            }
+                CloseImmediately();
+
+                return false;
+            });
+
+            return;
+        }
+
+        if (self.CloseWindow())
+        {
+            this.Dispose(true);
         }
     }
 
@@ -884,7 +902,13 @@ public partial class Form : ContainerControl, IWin32Window
         // Gtk4: Show() maps the window but does not raise it, so a newly opened form (e.g. Form4 via
         // "Split Container Layout") could appear behind its owner. Present() raises and focuses it - it must
         // follow Show() because presenting an unrealized window aborts (gdk_toplevel_present).
-        self.Present();
+        // Show() also realizes the window, which is what raises Load - and Load is user code that may close
+        // the form again right away. Raising a window that has just been destroyed trips
+        // gdk_toplevel_present/gtk_window_present assertions, so only present one that is still there.
+        if (!IsDisposed && self.Handle != IntPtr.Zero)
+        {
+            self.Present();
+        }
     }
 
     /// <summary>
