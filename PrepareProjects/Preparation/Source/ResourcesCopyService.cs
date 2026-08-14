@@ -31,5 +31,23 @@ public static class ResourcesCopyService
         LogUtility.FileCopyAndLog(RepoPaths.At(@"Resources\NonStaticMessageBox.cs"), Path.Combine(targetDir, @"GTKControls\NonStaticMessageBox.cs"));
         LogUtility.FileCopyAndLog(RepoPaths.At(@"Resources\GridCell.cs"), Path.Combine(targetDir, @"GTKControls\GridCell.cs"));
         LogUtility.FileCopyAndLog(RepoPaths.At(@"Resources\PaintGraphicsEventHandler.cs"), Path.Combine(targetDir, @"GtkControls\ControlBase\PaintGraphicsEventHandler.cs"));
+
+        // The system tray backends behind NotifyIcon. Copied into GTKControls and relocated to
+        // System\Windows\Forms by the later namespace-driven reorganisation, exactly as the message box
+        // overlays above are. They are overlays rather than a patch because they are wholly new files with
+        // no upstream counterpart; only the NotifyIcon rewrite that consumes them is a patch.
+        foreach (var trayFile in new[]
+                 {
+                     "NotifyIconBackend.cs",
+                     "TrayMenuModel.cs",
+                     "NotifyIconBackend.Win32.cs",
+                     "NotifyIconBackend.StatusNotifier.cs",
+                     "NotifyIconBackend.DBusMenu.cs",
+                     "NotifyIconBackend.Quartz.cs"
+                 })
+        {
+            LogUtility.FileCopyAndLog(RepoPaths.At(Path.Combine("Resources", trayFile)),
+                Path.Combine(targetDir, "GTKControls", trayFile));
+        }
     }
 }

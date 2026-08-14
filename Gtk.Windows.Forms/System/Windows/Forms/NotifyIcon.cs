@@ -5,8 +5,6 @@
  * author:chenhongjin
  */
 using System.ComponentModel;
-using Gtk;
-using GtkSystem.Windows.Forms.Resources;
 
 namespace System.Windows.Forms
 {
@@ -19,14 +17,12 @@ namespace System.Windows.Forms
 
         internal const int MaxTextSize = 127;
 
-        int offset_bottom = 0;
-
-        int offset_index = 0;
-
-        // Gtk 4 removed Gtk.StatusIcon with no replacement (no system-tray API). NotifyIcon is inert.
-        object? statusIcon = null;
-
-        Gtk.Window statuswin;
+        /// <summary>
+        /// The platform half of this component. Gtk 4 removed <c>GtkStatusIcon</c>, so the system tray is
+        /// reached through the native protocol of each platform instead - see
+        /// <see cref="INotifyIconBackend" />.
+        /// </summary>
+        private readonly INotifyIconBackend _backend;
 
         private ToolTipIcon _balloonTipIcon;
 
@@ -130,17 +126,18 @@ namespace System.Windows.Forms
 
         public NotifyIcon()
         {
-            statusIcon = null; // Gtk 4: system tray unsupported (StatusIcon removed).
-        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
-        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
-        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
-        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
-            statuswin = new Gtk.Window();
-            statuswin.Decorated = false;
-            statuswin.WidthRequest = 1;
-            statuswin.HeightRequest = 1;
-            statuswin.Shown += statuswin_Shown;
-            statuswin.Show();
+            _backend = NotifyIconBackendFactory.Create();
+
+            _backend.Activated += OnBackendActivated;
+            _backend.PointerDown += (_, e) => OnMouseDown(ToMouseEventArgs(e));
+            _backend.PointerUp += (_, e) => OnMouseUp(ToMouseEventArgs(e));
+            _backend.PointerMove += (_, e) => OnMouseMove(ToMouseEventArgs(e));
+            _backend.BalloonShown += (_, _) =>
+                ((EventHandler?)Events[EVENT_BALLOONTIPSHOWN])?.Invoke(this, EventArgs.Empty);
+            _backend.BalloonClicked += (_, _) =>
+                ((EventHandler?)Events[EVENT_BALLOONTIPCLICKED])?.Invoke(this, EventArgs.Empty);
+            _backend.BalloonClosed += (_, _) =>
+                ((EventHandler?)Events[EVENT_BALLOONTIPCLOSED])?.Invoke(this, EventArgs.Empty);
         }
 
         public NotifyIcon(IContainer container) : this()
@@ -208,8 +205,33 @@ namespace System.Windows.Forms
             set
             {
                 _contextMenuStrip = value;
+                _backend.SetMenu(value);
             }
         }
+
+        /// <summary>
+        /// Gets a value indicating whether this platform and desktop session actually provide a system
+        /// tray.
+        /// </summary>
+        /// <value>
+        /// <see langword="true" /> when a tray icon can be shown; otherwise <see langword="false" />.
+        /// </value>
+        /// <remarks>
+        /// <para>
+        /// When this is <see langword="false" /> the component is inert: every property still round-trips,
+        /// but no icon appears and no input event is ever raised. The common cause is GNOME Shell without
+        /// the AppIndicator extension, which registers no <c>StatusNotifierWatcher</c> for the tray
+        /// protocol to talk to; a headless session behaves the same way.
+        /// </para>
+        /// <para>
+        /// This member has no counterpart in the Microsoft implementation. It exists because a tray is
+        /// optional on Linux in a way it never was on Windows, and silently doing nothing would otherwise
+        /// be indistinguishable from a bug.
+        /// </para>
+        /// </remarks>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public bool IsSystemTrayAvailable => _backend.IsAvailable;
 
         [Localizable(true)]
         [DefaultValue(null)]
@@ -224,13 +246,7 @@ namespace System.Windows.Forms
                 if (_icon != value)
                 {
                     _icon = value;
-                    if (statusIcon != null && _icon != null)
-                    {
-                        using (MemoryStream ms = new MemoryStream())
-                        {
-                            _icon.Save(ms);
-                        }
-                    }
+                    _backend.SetIcon(value);
                 }
             }
         }
@@ -271,11 +287,7 @@ namespace System.Windows.Forms
                     }
 
                     _text = value;
-
-                    if (statusIcon != null)
-                    {
-
-                    }
+                    _backend.SetToolTip(_text);
                 }
             }
         }
@@ -292,9 +304,10 @@ namespace System.Windows.Forms
             {
                 if (_visible != value)
                 {
-                    // Gtk4 removed Gtk.StatusIcon (no system tray), so there is no native icon to show/hide;
-                    // the WinForms Visible property still round-trips through the backing field.
+                    // The property round-trips whatever the platform does: where no tray exists the
+                    // backend is inert, and IsSystemTrayAvailable - not Visible - is what reports that.
                     _visible = value;
+                    _backend.SetVisible(value);
                 }
             }
         }
@@ -304,80 +317,57 @@ namespace System.Windows.Forms
             ShowBalloonTip(timeout, _balloonTipTitle, _balloonTipText, _balloonTipIcon);
         }
 
+        /// <summary>
+        /// Displays a balloon tip with the given title, text and icon for the specified time.
+        /// </summary>
+        /// <param name="timeout">
+        /// The time, in milliseconds, the balloon should remain visible. Honoured on Linux; ignored on
+        /// Windows, where notification duration has been a systemwide accessibility setting since Windows
+        /// Vista.
+        /// </param>
+        /// <param name="tipTitle">The title of the balloon tip.</param>
+        /// <param name="tipText">The text of the balloon tip.</param>
+        /// <param name="tipIcon">The severity, mapped to the platform's standard notification glyph.</param>
+        /// <remarks>
+        /// This posts a real desktop notification through the platform's notification service, so it works
+        /// on Linux even where no system tray host exists. On macOS it is a no-op outside a signed
+        /// application bundle, which is the only context in which that platform permits notifications.
+        /// </remarks>
         public void ShowBalloonTip(int timeout, string tipTitle, string tipText, ToolTipIcon tipIcon)
         {
-            var balloonTip = new Gtk.Window();
-            balloonTip.DestroyWithParent = true;
-            // Gtk4-removed: balloonTip.TypeHint = Gdk.WindowTypeHint.Dialog;
-            balloonTip.TransientFor = statuswin;
-            balloonTip.WidthRequest = 200;
-            balloonTip.HeightRequest = 50;
-            balloonTip.Decorated = true;
-            balloonTip.Title = tipTitle ?? "";
-            var balloonTipText = new Gtk.Label(tipText) { Halign = Align.Start };
-            balloonTip.AddChild(balloonTipText);
-
-            // Gtk4 removed Gtk.Window.Icon (a Pixbuf); a window icon is now a themed icon-name. Map the
-            // ToolTipIcon severity to the standard freedesktop dialog icon so the balloon still carries the
-            // Info/Warning/Error glyph.
-            var balloonIconName = tipIcon switch
-            {
-                ToolTipIcon.Info => "dialog-information",
-                ToolTipIcon.Warning => "dialog-warning",
-                ToolTipIcon.Error => "dialog-error",
-                _ => null,
-            };
-            if (balloonIconName != null)
-            {
-                balloonTip.IconName = balloonIconName;
-            }
-
-        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
-        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
-
-            uint handler = GLib.Timeout.Add((uint)timeout, () =>
-            {
-                try
-                {
-                    if (balloonTip != null)
-                    {
-                        offset_index -= 1;
-                        if (offset_index <= 0)
-                            offset_bottom = 0;
-                        balloonTip.Dispose();
-                        balloonTip.Destroy();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.GtkLogger.Debug($"Unexpected exception in ShowBalloonTip", ex);
-                }
-                return false;
-            });
-            balloonTip.Data.Add("Timeout", handler);
-            balloonTip.Show();
-            // Gtk4: GetMonitorAtWindow removed; resolve via the window's surface, Monitor has only Geometry.
-            Gdk.Monitor monitor = (balloonTip.Surface is Gdk.Surface balloonSurface
-                    ? Gdk.Display.Default.GetMonitorAtSurface(balloonSurface)
-                    : null)
-                ?? (Gdk.Monitor)Gdk.Display.Default.Monitors.GetObject(0);
-            int width = monitor.Geometry.Width;
-            int height = monitor.Geometry.Height;
-            int offsetY = height - balloonTip.AllocatedHeight - 50 - offset_bottom;
-            if (offsetY < 0)
-            {
-                offset_bottom = 0;
-            }
-            offset_bottom += balloonTip.AllocatedHeight;
-            offset_index += 1;
+            _backend.ShowBalloonTip(timeout, tipTitle ?? string.Empty, tipText ?? string.Empty, tipIcon);
         }
 
         protected override void Dispose(bool disposing)
         {
             _contextMenuStrip = null;
-            statuswin?.Dispose();
-            statuswin?.Destroy();
+            _backend.Dispose();
             base.Dispose(disposing);
+        }
+
+        /// <summary>
+        /// Translates a backend activation into the WinForms click events, in the order the Microsoft
+        /// implementation raises them.
+        /// </summary>
+        /// <param name="sender">The backend.</param>
+        /// <param name="e">The normalised pointer information.</param>
+        private void OnBackendActivated(object? sender, TrayPointerEventArgs e)
+        {
+            var args = ToMouseEventArgs(e);
+
+            OnClick(EventArgs.Empty);
+            OnMouseClick(args);
+
+            if (e.Clicks > 1)
+            {
+                OnDoubleClick(EventArgs.Empty);
+                OnMouseDoubleClick(args);
+            }
+        }
+
+        private static MouseEventArgs ToMouseEventArgs(TrayPointerEventArgs e)
+        {
+            return new MouseEventArgs(e.Button, e.Clicks, e.X, e.Y, 0);
         }
 
         private void OnClick(EventArgs e)
@@ -415,16 +405,6 @@ namespace System.Windows.Forms
             ((MouseEventHandler?)Events[EVENT_MOUSEUP])?.Invoke(this, e);
         }
 
-        private void StatusIcon_Activate(object sender, EventArgs e)
-        {
-            OnClick(EventArgs.Empty);
-        }
-
-        private static void statuswin_Shown(object? sender, EventArgs e)
-        {
-            var pw = (Gtk.Window?)sender;
-            pw?.Hide();
-        }
     }
 
 }
