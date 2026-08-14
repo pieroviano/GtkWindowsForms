@@ -513,6 +513,28 @@ public sealed partial class Application
     /// </summary>
     /// <returns>
     /// </returns>
+    /// <summary>
+    /// Rules that have to beat the theme's own, so they are loaded through a separate provider at
+    /// <see cref="Gtk.StyleProviderPriority.User" /> rather than with the bulk stylesheet.
+    /// </summary>
+    /// <remarks>
+    /// The menu-row hover rules live here because the theme's own <c>button:hover</c> would otherwise win.
+    /// Note how the two halves are scoped: the background goes on the row's button, the foreground only on
+    /// <c>&gt;box</c>, its caption row. A drop-down popover is parented to the button, so an inheritable
+    /// colour on the button itself cascades into the submenu it opens and repaints every caption there in
+    /// the selected foreground - white on white, which reads as an empty menu.
+    /// </remarks>
+    internal static string UserPriorityCss =>
+        ".ToolStripButtonFlat,.ToolStripButtonFlat>button{border:none;border-width:0px;border-style:none;outline:none;background:none;background-image:none;box-shadow:none;border-radius:0px;padding:1px 4px;min-height:6px;min-width:6px;}\n"
+        + ".ToolStripButtonFlat:hover,.ToolStripButtonFlat>button:hover{background-color:shade(@theme_bg_color,0.9);}\n"
+        + ".ToolStripButtonFlat:active,.ToolStripButtonFlat:checked,.ToolStripButtonFlat>button:active,.ToolStripButtonFlat>button:checked{background-color:shade(@theme_bg_color,0.82);}\n"
+        // Gtk3 drew the hovered menu row in the theme's selection colours, courtesy of GtkMenuItem. Gtk4 has
+        // no menu-item widget, so a drop-down row was left with the theme's plain button hover and the menu
+        // gave no feedback about which entry the pointer was on. Menu-bar entries keep the strip's own
+        // hover, which is why the rules exclude them.
+        + ".MenuItemButton:not(.MenuBarItem):hover{background-color:@theme_selected_bg_color;}\n"
+        + ".MenuItemButton:not(.MenuBarItem):hover>box label{color:@theme_selected_fg_color;}";
+
     public static Gtk.Application Init()
     {
         if (App == null)
@@ -787,10 +809,7 @@ tooltip label {padding: 0px 10px; color: #555555;}
             // Application priority, so force the flat, borderless look via a dedicated User-priority provider
             // (the same priority the per-item style overrides use, which is proven to take effect here).
             var toolStripFlat = new Gtk.CssProvider();
-            toolStripFlat.LoadFromData(
-                ".ToolStripButtonFlat,.ToolStripButtonFlat>button{border:none;border-width:0px;border-style:none;outline:none;background:none;background-image:none;box-shadow:none;border-radius:0px;padding:1px 4px;min-height:6px;min-width:6px;}\n"
-                + ".ToolStripButtonFlat:hover,.ToolStripButtonFlat>button:hover{background-color:shade(@theme_bg_color,0.9);}\n"
-                + ".ToolStripButtonFlat:active,.ToolStripButtonFlat:checked,.ToolStripButtonFlat>button:active,.ToolStripButtonFlat>button:checked{background-color:shade(@theme_bg_color,0.82);}");
+            toolStripFlat.LoadFromData(UserPriorityCss);
             Gtk.StyleContext.AddProviderForDisplay(Gdk.Display.Default, toolStripFlat, (uint)StyleProviderPriority.User);
         }
 

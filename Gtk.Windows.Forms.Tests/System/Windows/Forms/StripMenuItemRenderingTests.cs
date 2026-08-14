@@ -239,6 +239,34 @@ public class StripMenuItemRenderingTests
     }
 
     [Fact]
+    public void HoveredMenuRow_IsStyledWithTheSelectionColours_ButNotMenuBarEntries()
+    {
+        // Gtk3 drew the hovered menu row in the theme's selection colours via GtkMenuItem; Gtk4 has no
+        // menu-item widget, so a drop-down row was left with the theme's plain button hover and gave no
+        // feedback about which entry the pointer was on. The rules must sit at User priority, or the
+        // theme's own button:hover wins.
+        var css = Application.UserPriorityCss;
+
+        Assert.Contains(".MenuItemButton:not(.MenuBarItem):hover", css);
+        Assert.Contains("@theme_selected_bg_color", css);
+    }
+
+    [Fact]
+    public void HoverForeground_IsScopedToTheCaptionRow_SoItCannotCascadeIntoAnOpenSubmenu()
+    {
+        // The drop-down popover is parented to the row's button, so an inheritable colour on the button
+        // reaches every caption inside the submenu it opens and paints them white on white - the menu then
+        // renders empty. The foreground rule must therefore target the caption row, never the button.
+        foreach (var rule in Application.UserPriorityCss.Split('\n'))
+        {
+            if (rule.Contains("@theme_selected_fg_color"))
+            {
+                Assert.Contains(">box", rule);
+            }
+        }
+    }
+
+    [Fact]
     public void MenuBarItem_DropsItsMenuDownwards()
     {
         var menu = new MenuStrip();
