@@ -318,17 +318,30 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
         {
             // Append into the owning menu item's drop-down popover (created/anchored on first add).
             AppendIfWidget(menuItemOwner.EnsureDropDownContent(), item.Widget?.MenuItem);
+            ConfigureAsDropDownItem(item);
         }
         else
         {
             // A standalone popover (ContextMenuStrip / ToolStripDropDown, or the legacy owner path) hosts its
             // items in a vertical box rather than a single Child, so multiple items are not overwritten.
             AppendIfWidget(GetOrCreatePopoverContent(), item.Widget?.MenuItem);
+            ConfigureAsDropDownItem(item);
         }
 
         base.Add(item);
 
         return Count;
+    }
+
+    // A menu row spans the full width of the menu it sits in, unlike a menu-bar entry which hugs its
+    // caption. This drives both the hover highlight and where a submenu opens - see
+    // StripMenuItem.ConfigureAsDropDownItem.
+    private static void ConfigureAsDropDownItem(ToolStripItem item)
+    {
+        if (item.Widget is StripMenuItem menuItem)
+        {
+            menuItem.ConfigureAsDropDownItem();
+        }
     }
 
     // Appends a child to a GTK container, skipping when either is null. Some ToolStripItem kinds expose only

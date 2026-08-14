@@ -23,6 +23,17 @@ namespace System.Windows.Forms
 
         private readonly Gtk.Label textLabel = new Gtk.Label() { Visible = false, Halign = Align.Start, Valign = Align.Center };
 
+        // Gtk3 got the "this item opens a submenu" triangle for free from GtkMenuItem's theming; Gtk4 has no
+        // menu-item widget, so the indicator is drawn here. A Label rather than a themed Gtk.Image because a
+        // missing icon name would silently render nothing, and the arrow is load-bearing information.
+        private readonly Gtk.Label submenuArrow = new Gtk.Label("▸")
+        {
+            Visible = false,
+            Halign = Align.End,
+            Valign = Align.Center,
+            Hexpand = true,
+        };
+
         private Gdk.Pixbuf _Image = null!;
 
         // Guards the Toggled->Activated bridge so that programmatic Checked/CheckState changes do not look
@@ -44,6 +55,8 @@ namespace System.Windows.Forms
             checkButton.Vexpand = true;
             contentBox.Append(iconImage);
             contentBox.Append(textLabel);
+            contentBox.Append(submenuArrow);
+            submenuArrow.StyleContext.AddClass("SubmenuArrow");
             checkButton.Child = contentBox; // Gtk4: Box.Add -> Append; the button's content is the icon+label box
             base.Append(checkButton); // Gtk4: Box.Add -> Append
             checkButton.Toggled += CheckButton_Toggled;
@@ -150,6 +163,7 @@ namespace System.Windows.Forms
             // Gtk4 Box has no reorder-child; remove and re-append in the wanted order.
             contentBox.Remove(iconImage);
             contentBox.Remove(textLabel);
+            contentBox.Remove(submenuArrow);
             if (textFirst)
             {
                 contentBox.Append(textLabel);
@@ -161,10 +175,16 @@ namespace System.Windows.Forms
                 contentBox.Append(textLabel);
             }
 
+            // The submenu indicator always trails the caption, whatever relation icon and text are in.
+            contentBox.Append(submenuArrow);
+
             var align = vertical ? Align.Center : Align.Start;
             contentBox.Halign = align;
             iconImage.Halign = align;
             textLabel.Halign = align;
+
+            // Re-assert the indicator layout, which needs the row to span the item's full width.
+            ApplyDropDownPlacement();
         }
 
         /// <summary>
@@ -175,10 +195,92 @@ namespace System.Windows.Forms
         /// </summary>
         public void ConfigureAsMenuBarItem()
         {
+            _isMenuBarItem = true;
             checkButton.Hexpand = false;
             checkButton.Vexpand = false;
             this.Hexpand = false;
             this.Halign = Align.Start;
+
+            // A drop-down may already have been built (the designer commonly fills DropDownItems before
+            // adding the item to the MenuStrip), so re-place it now that we know this is a bar entry.
+            ApplyDropDownPlacement();
+        }
+
+        /// <summary>
+        /// Whether this item is a top-level entry of a menu bar, as opposed to an entry inside a drop-down
+        /// or context menu. Set by <see cref="ConfigureAsMenuBarItem" /> when the item is added to a
+        /// <see cref="MenuStrip" />.
+        /// </summary>
+        private bool _isMenuBarItem;
+
+        /// <summary>
+        /// Configures this item as an entry inside a drop-down or context menu, where rows span the whole
+        /// width of the menu.
+        /// </summary>
+        /// <remarks>
+        /// The clickable surface is left-hugging by default, which suits a menu bar but not a menu row. In a
+        /// drop-down it has two visible consequences: only the caption highlights on hover instead of the
+        /// whole row, and - because a popover anchors to the widget it is attached to - a submenu opened to
+        /// the right started at the end of the caption rather than at the menu's edge, overlapping the menu
+        /// it came from.
+        /// </remarks>
+        public void ConfigureAsDropDownItem()
+        {
+            checkButton.Halign = Align.Fill;
+            checkButton.Hexpand = true;
+            this.Halign = Align.Fill;
+            this.Hexpand = true;
+        }
+
+        /// <summary>
+        /// Positions this item's drop-down the way WinForms and Gtk3 do, and shows or hides the submenu
+        /// indicator to match.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// A menu-bar entry drops its menu <em>downwards</em>, left-aligned with the entry. Every other item
+        /// that owns a drop-down is a submenu parent, and its menu must cascade to the <em>right</em> with
+        /// its top edge level with the item.
+        /// </para>
+        /// <para>
+        /// Gtk3 never needed this: <c>GtkMenuItem.Submenu</c> placed cascading menus itself. Gtk4 removed
+        /// the menu widgets, and a <see cref="Gtk.Popover" /> defaults to dropping downwards - so a submenu
+        /// opened on top of the menu it came from, hiding the items below its parent.
+        /// </para>
+        /// </remarks>
+        private void ApplyDropDownPlacement()
+        {
+            // Only a submenu parent gets an arrow; a menu-bar entry never shows one.
+            submenuArrow.Visible = _dropDown != null && !_isMenuBarItem;
+
+            if (submenuArrow.Visible)
+            {
+                // The arrow sits at the item's trailing edge, so the content row has to span the whole item
+                // rather than hugging its caption.
+                contentBox.Hexpand = true;
+                contentBox.Halign = Align.Fill;
+            }
+
+            if (_dropDown == null)
+            {
+                return;
+            }
+
+            if (_isMenuBarItem)
+            {
+                _dropDown.Position = Gtk.PositionType.Bottom;
+                // A bottom popover centres on its parent by default, so a drop-down wider than a narrow menu
+                // item spilled to the left. Start left-aligns the popover with the item's left edge.
+                _dropDown.Halign = Align.Start;
+                _dropDown.Valign = Align.Fill;
+            }
+            else
+            {
+                _dropDown.Position = Gtk.PositionType.Right;
+                _dropDown.Halign = Align.Fill;
+                // Level the submenu's top edge with its parent item instead of centring it on the item.
+                _dropDown.Valign = Align.Start;
+            }
         }
 
         // Gtk4 removed Gtk.Menu/Gtk.MenuItem.Submenu; a drop-down is a Gtk.Popover parented to the item and
@@ -199,14 +301,13 @@ namespace System.Windows.Forms
                 _dropDown = new Gtk.Popover
                 {
                     Autohide = true,
-                    Position = Gtk.PositionType.Bottom,
                     Child = _dropDownBox,
                     HasArrow = false,
-                    // A bottom popover centres on its parent by default, so a drop-down wider than a narrow
-                    // menu item spilled to the left. Halign.Start left-aligns the popover's edge with the
-                    // item's left edge, matching WinForms/Gtk3.
-                    Halign = Gtk.Align.Start,
                 };
+
+                // Direction and alignment depend on whether this item is a menu-bar entry or a submenu
+                // parent - see ApplyDropDownPlacement.
+                ApplyDropDownPlacement();
             }
 
             return _dropDownBox!;
@@ -217,6 +318,21 @@ namespace System.Windows.Forms
 
         /// <summary>The horizontal alignment of the drop-down popover relative to this item (for tests).</summary>
         public Gtk.Align DropDownAlign => _dropDown?.Halign ?? Gtk.Align.Fill;
+
+        /// <summary>The vertical alignment of the drop-down popover relative to this item (for tests).</summary>
+        public Gtk.Align DropDownValign => _dropDown?.Valign ?? Gtk.Align.Fill;
+
+        /// <summary>
+        /// The side of this item its drop-down opens on: <see cref="Gtk.PositionType.Bottom" /> for a
+        /// menu-bar entry, <see cref="Gtk.PositionType.Right" /> for a submenu parent.
+        /// </summary>
+        public Gtk.PositionType DropDownPosition => _dropDown?.Position ?? Gtk.PositionType.Bottom;
+
+        /// <summary>Whether the "opens a submenu" arrow is currently shown on this item.</summary>
+        public bool ShowsSubmenuArrow => submenuArrow.Visible;
+
+        /// <summary>The submenu indicator widget, so its position in the content row can be asserted.</summary>
+        public Gtk.Widget SubmenuArrowWidget => submenuArrow;
 
         /// <summary>
         /// Pops the drop-down open (no-op if the item has no drop-down, or is not yet on screen - Popup on an

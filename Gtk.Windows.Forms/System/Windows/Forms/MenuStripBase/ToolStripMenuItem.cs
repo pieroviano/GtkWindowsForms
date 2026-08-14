@@ -183,15 +183,33 @@ public class ToolStripMenuItem : ToolStripItem
         SetIconImage(this.Image);
     }
 
+    /// <summary>
+    /// Pushes the WinForms <see cref="Image" /> down to the backing widget, scaled for a menu icon.
+    /// </summary>
+    /// <param name="image">The image to show, or <see langword="null" /> to clear the icon.</param>
+    /// <remarks>
+    /// Assignment must not depend on the widget being realized. It used to, so an item whose icon was set
+    /// by the Designer - which runs long before anything is on screen - showed no icon at all unless it
+    /// happened to be realized again afterwards; that is why the sample's "b Menu" lost the image its Gtk3
+    /// counterpart shows. Realization still matters for one thing only: the allocated height is what a tall
+    /// top-level entry is scaled against, and that is unknown until then, so <see cref="Self_Realized" />
+    /// re-runs this to refine the size.
+    /// </remarks>
     private void SetIconImage(Image? image)
     {
-        if (self.IsRealized && image?.Pixbuf != null)
+        var source = image?.Pixbuf;
+        if (source == null)
         {
-            var x = 20;
-            if (self.Parent is Gtk.Box) // Gtk4: Toolbar/MenuBar removed; host is a Box
-                x = Math.Max(20, self.AllocatedHeight / 2);
-            Gdk.Pixbuf pixbuf = image.Pixbuf.ScaleSimple(x, x, Gdk.InterpType.Bilinear);
-            self.Image = pixbuf;
+            self.Image = null!;
+            return;
         }
+
+        var size = 20;
+        if (self.IsRealized && self.Parent is Gtk.Box) // Gtk4: Toolbar/MenuBar removed; host is a Box
+        {
+            size = Math.Max(20, self.AllocatedHeight / 2);
+        }
+
+        self.Image = source.ScaleSimple(size, size, Gdk.InterpType.Bilinear);
     }
 }

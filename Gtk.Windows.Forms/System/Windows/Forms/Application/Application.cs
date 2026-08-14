@@ -599,6 +599,9 @@ public sealed partial class Application
    for ordinary menu items only while unchecked (keeping the checkmark that a Checked item must show). */
 .MenuItemButton:not(:checked) check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}
 .MenuBarItem check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}
+/* The 'opens a submenu' arrow. Gtk3 got this from GtkMenuItem's theming; Gtk4 has no menu-item widget, so
+   StripMenuItem draws it and this keeps it clear of the caption and slightly dimmed, as themes do. */
+.SubmenuArrow{margin-left:12px;opacity:0.65;}
 .ToolStrip menu button image,.MenuStrip menu button image{margin-left:-22px;}
 .ToolStrip menu button image+label,.MenuStrip menu button image+label{margin-left:-2px; }
 .ToolStrip>separator,.MenuStrip>separator{padding:0px;margin:2px;}

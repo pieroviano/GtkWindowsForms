@@ -186,7 +186,11 @@ public class StripMenuItemRenderingTests
     {
         // Regression: a Gtk.Popover holds a single Child, and the old code did popover.Child = item for each
         // add, so only the last drop-down entry survived. Items now go into a vertical box - all appear.
+        // The item is put on a MenuStrip because the left-spill assertion below is about a menu-bar entry's
+        // drop-down; a submenu parent is placed by a different rule (see the cascade tests).
+        var menu = new MenuStrip();
         var top = new ToolStripMenuItem("File");
+        menu.Items.Add(top);
         top.DropDownItems.Add(new ToolStripMenuItem("New"));
         top.DropDownItems.Add(new ToolStripMenuItem("Open"));
         top.DropDownItems.Add(new ToolStripMenuItem("Save"));
@@ -205,6 +209,167 @@ public class StripMenuItemRenderingTests
         // The drop-down popover left-aligns with the parent item (Halign.Start) rather than centring on it
         // and spilling to the left.
         Assert.Equal(Gtk.Align.Start, top.self.DropDownAlign);
+    }
+
+    [Fact]
+    public void MenuItemImage_AppearsWithoutWaitingForRealization()
+    {
+        // Regression: SetIconImage was gated on self.IsRealized, but the Designer assigns Image during
+        // InitializeComponent - long before anything is on screen - so the icon was dropped on the floor.
+        // In the sample this left "b Menu" with no image where Gtk3 shows one.
+        var item = new ToolStripMenuItem("b Menu") { Image = new gtk::System.Drawing.Bitmap(8, 8) { Pixbuf = NewPixbuf() } };
+
+        Assert.NotNull(item.self.Image);
+
+        var content = (Gtk.Box)item.checkButton.Child;
+        var icon = ChildrenOf(content).OfType<Gtk.Image>().First();
+        Assert.True(icon.Visible, "the icon must be visible as soon as Image is assigned");
+    }
+
+    [Fact]
+    public void ClearingMenuItemImage_HidesTheIcon()
+    {
+        var item = new ToolStripMenuItem("b Menu") { Image = new gtk::System.Drawing.Bitmap(8, 8) { Pixbuf = NewPixbuf() } };
+
+        item.Image = null;
+
+        var content = (Gtk.Box)item.checkButton.Child;
+        var icon = ChildrenOf(content).OfType<Gtk.Image>().First();
+        Assert.False(icon.Visible, "clearing Image must clear the icon, not leave the old one on screen");
+    }
+
+    [Fact]
+    public void MenuBarItem_DropsItsMenuDownwards()
+    {
+        var menu = new MenuStrip();
+        var top = new ToolStripMenuItem("Menu 2");
+        menu.Items.Add(top);
+        top.DropDownItems.Add(new ToolStripMenuItem("a Menu"));
+
+        Assert.Equal(Gtk.PositionType.Bottom, top.self.DropDownPosition);
+    }
+
+    [Fact]
+    public void SubmenuParent_CascadesToTheRight_NotOverItsOwnMenu()
+    {
+        // Regression: every drop-down popover was created at PositionType.Bottom, so a submenu opened
+        // downwards on top of the menu it came from - hiding the entries below its parent (in the sample,
+        // "b Menu"'s submenu covered the separator and "c Menu"). Gtk3 got this right because
+        // GtkMenuItem.Submenu placed cascading menus itself; Gtk4 has no menu widgets, so we place them.
+        var menu = new MenuStrip();
+        var top = new ToolStripMenuItem("Menu 2");
+        menu.Items.Add(top);
+
+        var parent = new ToolStripMenuItem("b Menu");
+        top.DropDownItems.Add(parent);
+        parent.DropDownItems.Add(new ToolStripMenuItem("bb Menu"));
+        parent.DropDownItems.Add(new ToolStripMenuItem("bb Menu 2"));
+
+        Assert.Equal(Gtk.PositionType.Right, parent.self.DropDownPosition);
+        // Top edge level with the parent item, rather than centred on it.
+        Assert.Equal(Gtk.Align.Start, parent.self.DropDownValign);
+    }
+
+    [Fact]
+    public void SubmenuParent_ShowsAnArrow_AndMenuBarItemDoesNot()
+    {
+        var menu = new MenuStrip();
+        var top = new ToolStripMenuItem("Menu 2");
+        menu.Items.Add(top);
+
+        var parent = new ToolStripMenuItem("b Menu");
+        top.DropDownItems.Add(parent);
+        parent.DropDownItems.Add(new ToolStripMenuItem("bb Menu"));
+
+        Assert.True(parent.self.ShowsSubmenuArrow, "a submenu parent must indicate that it opens a submenu");
+        Assert.False(top.self.ShowsSubmenuArrow, "a menu-bar entry never shows a submenu arrow");
+    }
+
+    [Fact]
+    public void LeafItem_ShowsNoSubmenuArrow()
+    {
+        var top = new ToolStripMenuItem("File");
+        var leaf = new ToolStripMenuItem("New");
+        top.DropDownItems.Add(leaf);
+
+        Assert.False(leaf.self.ShowsSubmenuArrow);
+    }
+
+    [Fact]
+    public void SubmenuPlacement_SurvivesItemsBeingFilledBeforeTheBarIsBuilt()
+    {
+        // The Designer routinely populates DropDownItems before adding the item to the MenuStrip, so the
+        // placement cannot be decided once at popover-construction time.
+        var top = new ToolStripMenuItem("Menu 2");
+        top.DropDownItems.Add(new ToolStripMenuItem("a Menu"));
+
+        var menu = new MenuStrip();
+        menu.Items.Add(top);
+
+        Assert.Equal(Gtk.PositionType.Bottom, top.self.DropDownPosition);
+        Assert.False(top.self.ShowsSubmenuArrow);
+    }
+
+    [Fact]
+    public void DropDownRows_SpanTheMenuWidth_UnlikeMenuBarEntries()
+    {
+        // A menu row must fill the menu, both so the whole row highlights on hover and so a submenu opened
+        // to the right starts at the menu's edge: a popover anchors to the widget it is attached to, so a
+        // caption-width button pushed the submenu back over the menu it came from. A menu-bar entry keeps
+        // hugging its caption, otherwise the bar's entries spread out across it.
+        var menu = new MenuStrip();
+        var top = new ToolStripMenuItem("Menu 2");
+        menu.Items.Add(top);
+
+        var row = new ToolStripMenuItem("a Menu");
+        top.DropDownItems.Add(row);
+
+        Assert.Equal(Gtk.Align.Fill, row.self.checkButton.Halign);
+        Assert.True(row.self.checkButton.Hexpand);
+        Assert.Equal(Gtk.Align.Start, top.self.checkButton.Halign);
+    }
+
+    [Fact]
+    public void ContextMenuRows_AlsoSpanTheMenuWidth()
+    {
+        var context = new ContextMenuStrip();
+        var row = new ToolStripMenuItem("Cut");
+        context.Items.Add(row);
+
+        Assert.Equal(Gtk.Align.Fill, row.self.checkButton.Halign);
+    }
+
+    [Fact]
+    public void ContextMenuSubmenu_AlsoCascadesToTheRight()
+    {
+        // A context menu has no menu bar, so every one of its items that owns a drop-down is a submenu
+        // parent and must cascade sideways.
+        var context = new ContextMenuStrip();
+        var parent = new ToolStripMenuItem("More");
+        context.Items.Add(parent);
+        parent.DropDownItems.Add(new ToolStripMenuItem("Deeper"));
+
+        Assert.Equal(Gtk.PositionType.Right, parent.self.DropDownPosition);
+        Assert.True(parent.self.ShowsSubmenuArrow);
+    }
+
+    [Fact]
+    public void SubmenuArrow_StaysTrailing_WhenTextImageRelationChanges()
+    {
+        // SetTextImageRelation rebuilds the content row; the arrow must end up last whatever the order of
+        // icon and caption, or it would appear in the middle of the item.
+        var top = new ToolStripMenuItem("Menu 2");
+        var parent = new ToolStripMenuItem("b Menu");
+        top.DropDownItems.Add(parent);
+        parent.DropDownItems.Add(new ToolStripMenuItem("bb Menu"));
+
+        parent.TextImageRelation = TextImageRelation.TextBeforeImage;
+
+        var content = (Gtk.Box)parent.checkButton.Child;
+        var children = ChildrenOf(content);
+
+        Assert.Same(parent.self.SubmenuArrowWidget, children[^1]);
+        Assert.True(parent.self.ShowsSubmenuArrow);
     }
 
     [Fact]
