@@ -94,6 +94,14 @@ public partial class Control
     /// <summary>The container size the last pass ran against; anchoring follows the delta from it.</summary>
     private Size _lastLayoutSize = Size.Empty;
 
+    /// <summary>
+    /// Forgets the anchor baseline so the next layout pass re-seeds it (with a zero delta) instead of treating
+    /// the change as a user resize. Used when the content-fit pass grows the window to reveal clipped controls:
+    /// that growth compensates for the GTK4 viewport being squeezed by the header/status bar, so it must keep
+    /// every control at its designed position rather than sliding anchored ones by the size delta.
+    /// </summary>
+    internal void ResetLayoutBaseline() => _lastLayoutSize = Size.Empty;
+
     /// <summary>Guards against a pass re-entering through the size changes it makes.</summary>
     private bool _inLayoutPass;
 

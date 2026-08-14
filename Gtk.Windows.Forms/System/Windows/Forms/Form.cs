@@ -1105,6 +1105,10 @@ public partial class Form : ContainerControl, IWin32Window
             // minimum content height is what forces the (resizable) window to grow to contain the controls.
             if (maxBottom > self.ScrolledView.MinContentHeight)
                 self.ScrolledView.MinContentHeight = maxBottom;
+            // The grow compensates for the squeezed viewport, not a user resize: forget the anchor baseline so
+            // the re-layout keeps controls at their designed positions instead of sliding bottom/right-anchored
+            // ones by the delta (which otherwise pushed e.g. a bottom-anchored label down onto the control below).
+            ResetLayoutBaseline();
         }
         else if (_contentFitMax > 0)
         {
