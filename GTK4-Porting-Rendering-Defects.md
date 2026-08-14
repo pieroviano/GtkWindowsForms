@@ -81,6 +81,22 @@ Ordered descending by severity. These are **layout/paint** differences, not cont
   *"honour ToolStrip/MenuStrip explicit Size instead of clamping to 30px"*. (A minor residual remains: the
   icon-over-text menu items are top-aligned within the 62px strip rather than filling it — cosmetic.)
 
+#### R5. The "Slider Value" label is clipped and overlaps the progress bar
+- **GTK3:** the `滑块数值` (Slider Value) label sits clearly above the bottom progress bar with a gap between
+  them, and both are fully visible.
+- **GTK4:** the "Slider Value" label is pushed down onto the progress bar — its lower half is clipped where
+  the two overlap. (New snapshot `snap-now.png`, bottom-right.)
+- **Root cause:** `label1` is `Bottom|Right`-anchored and designed *above* `progressBar1` (which is
+  `Top|Left`). The content-fit pass raises the ScrolledView's height **after** the first layout, so the
+  re-layout sees a size delta and moves bottom-anchored controls *down* — `label1` descends into the
+  progress bar below it. The grow is legitimate (it compensates for the GTK4 ScrolledView being squeezed by
+  the header/status bar), but it must not re-anchor controls that are already placed; the anchor baseline
+  should be re-seeded so the grow keeps every control at its designed position.
+- **✅ FIXED** — the content-fit pass now forgets the anchor baseline (`ResetLayoutBaseline`) whenever it
+  grows the ScrolledView, so the re-layout applies a zero delta and every control stays at its designed
+  position. "Slider Value" now sits clearly above the progress bar, both fully visible. Commit
+  *"content-fit grow must not re-anchor already-placed controls"*.
+
 ### LOW
 
 #### R3. Vertical TrackBar sits on a grey box
@@ -128,6 +144,7 @@ so they are **not** counted as porting defects (per the content caveat above):
 |---|---|---|---|
 | R1 | "Open Main Window" button overlaps the toolbar's right items | Medium | ✅ Fixed (Anchor default Top\|Left) |
 | R2 | Empty gap between the menu strip and the toolbar | Medium | ✅ Fixed (honour Size; drop force-30) |
+| R5 | "Slider Value" label clipped / overlaps the progress bar | Medium | ✅ Fixed (re-seed anchor baseline on grow) |
 | R3 | Vertical TrackBar sits on a grey box | Low | ⏸ Not a defect (WinForms `BackColor`) |
 | R4 | Window ~35 px shorter than Gtk3 | Low | ⏸ Not a defect (cosmetic slack) |
 
