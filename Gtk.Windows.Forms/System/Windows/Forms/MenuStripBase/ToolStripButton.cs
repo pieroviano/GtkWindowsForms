@@ -239,31 +239,15 @@ public class ToolStripButton : ToolStripItem
 
     private void SetIcon(ToolStripItemDisplayStyle displayStyle)
     {
-        if (displayStyle == ToolStripItemDisplayStyle.Text)
+        // Gtk4: the backing button composes image+label from its Text/Image/DisplayStyle, so propagate the
+        // display style first, then hand it the (scaled) pixbuf; the widget rebuilds its child content.
+        self.DisplayStyle = displayStyle;
+        if ((displayStyle == ToolStripItemDisplayStyle.Image
+             || displayStyle == ToolStripItemDisplayStyle.ImageAndText)
+            && this.Image?.Pixbuf != null
+            && self.Parent is ToolStripBase toolbar)
         {
-        }
-        else if (displayStyle == ToolStripItemDisplayStyle.Image)
-        {
-            if (this.Image?.Pixbuf != null)
-            {
-                if (self.Parent is ToolStripBase toolbar)
-                {
-                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, toolbar.ImageScalingSize.Width, toolbar.ImageScalingSize.Height);
-                }
-            }
-        }
-        else if (displayStyle == ToolStripItemDisplayStyle.ImageAndText)
-        {
-            if (this.Image?.Pixbuf != null)
-            {
-                if (self.Parent is ToolStripBase toolbar)
-                {
-                    self.Image = new Gdk.Pixbuf(this.Image.PixbufData, toolbar.ImageScalingSize.Width, toolbar.ImageScalingSize.Height);
-                }
-            }
-        }
-        else
-        {
+            self.Image = new Gdk.Pixbuf(this.Image.PixbufData, toolbar.ImageScalingSize.Width, toolbar.ImageScalingSize.Height);
         }
     }
 }

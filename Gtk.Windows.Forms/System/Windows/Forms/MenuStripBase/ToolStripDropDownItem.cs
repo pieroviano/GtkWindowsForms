@@ -222,12 +222,12 @@ public abstract class ToolStripDropDownItem : ToolStripItem
 
     private void SetIcon(ToolStripItemDisplayStyle displayStyle)
     {
-        if (displayStyle == ToolStripItemDisplayStyle.Text)
-        {
-        }
-        else if (displayStyle == ToolStripItemDisplayStyle.Image
-                 || displayStyle == ToolStripItemDisplayStyle.ImageAndText
-                 || displayStyle == ToolStripItemDisplayStyle.None)
+        // Gtk4: the backing MenuButton composes image+label from its Text/Image/DisplayStyle (and keeps the
+        // dropdown arrow via AlwaysShowArrow), so propagate the display style first, then hand it the scaled pixbuf.
+        self.DisplayStyle = displayStyle;
+        if (displayStyle == ToolStripItemDisplayStyle.Image
+            || displayStyle == ToolStripItemDisplayStyle.ImageAndText
+            || displayStyle == ToolStripItemDisplayStyle.None)
         {
             // Gtk4 removed per-widget IconSize (LargeToolbar/Dialog/SmallToolbar) and the toolbar host, so
             // scale the icon to the item's own realized height (less its vertical margins) instead of a fixed
