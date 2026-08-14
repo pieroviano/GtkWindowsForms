@@ -602,6 +602,14 @@ public sealed partial class Application
 /* The 'opens a submenu' arrow. Gtk3 got this from GtkMenuItem's theming; Gtk4 has no menu-item widget, so
    StripMenuItem draws it and this keeps it clear of the caption and slightly dimmed, as themes do. */
 .SubmenuArrow{margin-left:12px;opacity:0.65;}
+/* The item whose drop-down is currently open reads as selected. A GtkMenuItem did this itself on Gtk3;
+   with no menu-item widget on Gtk4 the entry stayed unpainted, so it was impossible to tell which one the
+   open submenu belonged to. Uses the theme's selection colours rather than a hardcoded blue.
+   The background sits on the button and the foreground on the caption row, never both on the button: the
+   drop-down popover is parented to the button, so an inheritable colour there cascades into the menu it
+   opens and paints its captions white on white - the drop-down then looks empty. */
+.MenuItemOpen,.MenuItemOpen:hover{background-color:@theme_selected_bg_color;}
+.MenuItemOpenRow,.MenuItemOpenRow label{color:@theme_selected_fg_color;}
 .ToolStrip menu button image,.MenuStrip menu button image{margin-left:-22px;}
 .ToolStrip menu button image+label,.MenuStrip menu button image+label{margin-left:-2px; }
 .ToolStrip>separator,.MenuStrip>separator{padding:0px;margin:2px;}

@@ -1,0 +1,449 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Subject: [PATCH] Gtk4: open forms at their designed ClientSize; menu icon size and open-item highlight
+
+Three visual differences against the Gtk3 build, all rooted in Gtk4 API changes.
+
+1. A form's client area was short by the height of the client-side-decoration
+   titlebar. ClientSize maps onto gtk_window_set_default_size, which in Gtk4
+   sizes the whole window, titlebar included. The content-fit pass could not
+   make it up: its measurement is self-referential wherever a control is docked
+   to an edge, because a bottom-docked StatusStrip sits at the bottom of
+   whatever the client currently is. The visible symptom was the designed gap
+   between the last control and the status strip vanishing. The client box now
+   carries a height request until its first allocation, then releases it so the
+   window stays freely resizable.
+
+2. Menu icons rendered smaller than on Gtk3. Two causes: the scale was computed
+   inside the "realized" callback, but Gtk4 realizes before allocating, so the
+   item height was still 0; and Gtk4's GtkImage draws at the theme icon size
+   whatever the pixbuf measures, so scaling the pixbuf alone had no effect
+   without PixelSize.
+
+3. The item whose drop-down is open was not painted as selected. A GtkMenuItem
+   did that itself on Gtk3; Gtk4 has no menu-item widget. The selected
+   background goes on the item's button and the foreground on its caption row,
+   never both on the button: the popover is parented to the button, so an
+   inheritable colour there cascades into the menu it opens and paints every
+   caption white on white.
+
+Screenshot baselines are regenerated: forms are now taller by the titlebar
+height they were previously losing.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+index d90ff287..bd4a0406 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+@@ -602,6 +602,14 @@ public sealed partial class Application
+ /* The 'opens a submenu' arrow. Gtk3 got this from GtkMenuItem's theming; Gtk4 has no menu-item widget, so
+    StripMenuItem draws it and this keeps it clear of the caption and slightly dimmed, as themes do. */
+ .SubmenuArrow{margin-left:12px;opacity:0.65;}
++/* The item whose drop-down is currently open reads as selected. A GtkMenuItem did this itself on Gtk3;
++   with no menu-item widget on Gtk4 the entry stayed unpainted, so it was impossible to tell which one the
++   open submenu belonged to. Uses the theme's selection colours rather than a hardcoded blue.
++   The background sits on the button and the foreground on the caption row, never both on the button: the
++   drop-down popover is parented to the button, so an inheritable colour there cascades into the menu it
++   opens and paints its captions white on white - the drop-down then looks empty. */
++.MenuItemOpen,.MenuItemOpen:hover{background-color:@theme_selected_bg_color;}
++.MenuItemOpenRow,.MenuItemOpenRow label{color:@theme_selected_fg_color;}
+ .ToolStrip menu button image,.MenuStrip menu button image{margin-left:-22px;}
+ .ToolStrip menu button image+label,.MenuStrip menu button image+label{margin-left:-2px; }
+ .ToolStrip>separator,.MenuStrip>separator{padding:0px;margin:2px;}
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+index d87afc70..1e60948c 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+@@ -154,10 +154,27 @@ public partial class Form : ContainerControl, IWin32Window
+         }
+         set
+         {
++            _designedClientSize = value;
+             self.SetDefaultSize(value.Width, value.Height);
++            // Gtk4's default size covers the whole window, client-side-decoration titlebar included, so on
++            // its own it leaves the client area short by the height of that titlebar. Requesting the height
++            // on the content box is what actually makes the *client* open at the designed size; the request
++            // is released again after the first allocation (see ApplyDesignedClientShortfall) so the window
++            // stays freely resizable, as a WinForms form is. Height only - constraining the width here also
++            // perturbs the scroller's width negotiation.
++            self.ContentArea.SetSizeRequest(-1, value.Height);
+         }
+     }
+ 
++    /// <summary>
++    /// The client size the form was given before being shown, which the content-fit pass treats as a floor.
++    /// </summary>
++    /// <remarks>
++    /// <see cref="Size.Empty" /> for a form that never sets <see cref="ClientSize" />, which leaves the fit
++    /// pass free to size purely from content, as before.
++    /// </remarks>
++    private Size _designedClientSize;
++
+     /// <summary>
+     /// Gets or sets a value indicating whether a control box is displayed in the caption bar of the form.
+     /// </summary>
+@@ -1118,6 +1135,8 @@ public partial class Form : ContainerControl, IWin32Window
+             maxBottom = Math.Max(maxBottom, w.MarginTop + w.AllocatedHeight);
+         }
+ 
++        ApplyDesignedClientShortfall();
++
+         if (maxBottom > _contentFitMax)
+         {
+             // More of the layout has resolved - raise the request and reset the settle counter.
+@@ -1143,6 +1162,48 @@ public partial class Form : ContainerControl, IWin32Window
+         return _contentFitStableTicks < 10 && ++_contentFitTotalTicks < 120;
+     }
+ 
++    /// <summary>
++    /// Grows the window once so its client area is at least the form's designed
++    /// <see cref="ClientSize" />.
++    /// </summary>
++    /// <remarks>
++    /// <para>
++    /// WinForms opens a form at exactly its <see cref="ClientSize" />. Gtk4's
++    /// <c>gtk_window_set_default_size</c>, which the setter maps onto, sizes the whole window <em>including
++    /// the client-side-decoration titlebar</em> - so the client area came out short by the height of that
++    /// titlebar on every form. The content-fit pass could not make it up either: its measurement is
++    /// self-referential wherever a control is docked to an edge, because a bottom-docked StatusStrip sits at
++    /// the bottom of whatever the client currently is and therefore always measures exactly as tall as the
++    /// client already is. The visible symptom was the designed gap between the last control and the strip
++    /// vanishing - the strip sat flush against the content.
++    /// </para>
++    /// <para>
++    /// The correction is applied to the window rather than to the scrolled view's minimum content height.
++    /// Raising that minimum also perturbs the scroller's width negotiation, which was enough to push a
++    /// TreeView in another form below its own minimum width and abort in GTK's measure pass.
++    /// </para>
++    /// </remarks>
++    private void ApplyDesignedClientShortfall()
++    {
++        if (_clientShortfallApplied || _designedClientSize.Height <= 0)
++        {
++            return;
++        }
++
++        // Wait for the client box to reach the requested height, then drop the request so the window can be
++        // resized freely - including smaller than its designed size, as a WinForms form can be.
++        if (self.ContentArea.AllocatedHeight < _designedClientSize.Height)
++        {
++            return;
++        }
++
++        _clientShortfallApplied = true;
++        self.ContentArea.SetSizeRequest(-1, -1);
++    }
++
++    /// <summary>Whether the designed-client-size correction has already been applied to this window.</summary>
++    private bool _clientShortfallApplied;
++
+     private bool Self_CloseWindowEvent(object sender, EventArgs e)
+     {
+         var closing = new FormClosingEventArgs(CloseReason.UserClosing, false);
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs
+index c3b2f29a..22fd1e5b 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs
+@@ -128,6 +128,11 @@ namespace System.Windows.Forms
+                     // Update the persistent icon widget instead of replacing the button child, so the
+                     // caption Label sitting next to it survives.
+                     iconImage.Pixbuf = value;
++                    // Gtk3's GtkImage drew a pixbuf at its natural size. Gtk4's renders it at the theme's
++                    // icon size (16px) whatever the pixbuf measures, so scaling the pixbuf alone had no
++                    // visible effect and every menu icon came out smaller than on Gtk3. PixelSize is what
++                    // makes the widget honour the size we scaled to.
++                    iconImage.PixelSize = Math.Max(value.Width, value.Height);
+                     iconImage.Visible = true;
+                 }
+             }
+@@ -334,6 +339,12 @@ namespace System.Windows.Forms
+         /// <summary>The submenu indicator widget, so its position in the content row can be asserted.</summary>
+         public Gtk.Widget SubmenuArrowWidget => submenuArrow;
+ 
++        /// <summary>
++        /// The size, in pixels, the icon is actually rendered at - as opposed to the size of the pixbuf
++        /// behind it, which Gtk4 ignores unless the widget is told otherwise.
++        /// </summary>
++        public int IconPixelSize => iconImage.PixelSize;
++
+         /// <summary>
+         /// Pops the drop-down open (no-op if the item has no drop-down, or is not yet on screen - Popup on an
+         /// unmapped popover would abort in GTK).
+@@ -348,14 +359,71 @@ namespace System.Windows.Forms
+                 if (_dropDown.Parent == null)
+                 {
+                     _dropDown.Parent = checkButton;
++                    _dropDown.Closed += (_, _) => SetDropDownOpenAppearance(false);
+                 }
+ 
+                 _dropDown.Popup();
++                SetDropDownOpenAppearance(true);
++            }
++        }
++
++        /// <summary>
++        /// Marks this item as the open one while its drop-down is showing, so it reads as selected.
++        /// </summary>
++        /// <param name="open">Whether the drop-down is open.</param>
++        /// <remarks>
++        /// Gtk3 needed nothing here: a <c>GtkMenuItem</c> whose submenu is open puts itself in the selected
++        /// state and the theme paints it. Gtk4 has no menu-item widget - a drop-down is a plain popover
++        /// anchored to a button - so the item stayed unpainted and it was impossible to tell which entry the
++        /// open submenu belonged to. Gtk4's own <c>GtkPopoverMenu</c> highlights the row the same way, so
++        /// this restores standard behaviour rather than emulating a Gtk3 quirk.
++        /// </remarks>
++        public void SetDropDownOpenAppearance(bool open)
++        {
++            if (open)
++            {
++                checkButton.StyleContext.AddClass(DropDownOpenClass);
++                contentBox.StyleContext.AddClass(DropDownOpenRowClass);
++            }
++            else
++            {
++                checkButton.StyleContext.RemoveClass(DropDownOpenClass);
++                contentBox.StyleContext.RemoveClass(DropDownOpenRowClass);
+             }
+         }
+ 
++        /// <summary>
++        /// The style class carrying the selected <em>background</em>, applied to the item's button.
++        /// </summary>
++        public const string DropDownOpenClass = "MenuItemOpen";
++
++        /// <summary>
++        /// The style class carrying the selected <em>foreground</em>, applied to the caption row only.
++        /// </summary>
++        /// <remarks>
++        /// The two are deliberately separate. The drop-down popover is parented to the button (that is what
++        /// positions it), so anything inheritable set on the button cascades into the menu it opens - a
++        /// selected foreground colour there repainted every caption in the drop-down white on white and the
++        /// menu appeared empty. Background does not inherit, so it can stay on the button; the foreground
++        /// goes on the caption row, which is not an ancestor of the popover.
++        /// </remarks>
++        public const string DropDownOpenRowClass = "MenuItemOpenRow";
++
++        /// <summary>Whether this item is currently painted as the open one (for tests).</summary>
++        public bool IsDropDownOpenStyled => checkButton.StyleContext.HasClass(DropDownOpenClass);
++
++        /// <summary>
++        /// The widget the drop-down popover is parented to. Exposed so tests can assert that nothing
++        /// inheritable is styled on it.
++        /// </summary>
++        public Gtk.Widget DropDownHost => checkButton;
++
+         /// <summary>Closes the drop-down if it is open.</summary>
+-        public void HideDropDown() => _dropDown?.Popdown();
++        public void HideDropDown()
++        {
++            _dropDown?.Popdown();
++            SetDropDownOpenAppearance(false);
++        }
+ 
+         /// <summary>
+         /// Dismisses the drop-down/context popover(s) this item lives in - selecting a WinForms menu command
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
+index 78f3b86b..d8f5874b 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
+@@ -181,6 +181,23 @@ public class ToolStripMenuItem : ToolStripItem
+     private void Self_Realized(object? sender, EventArgs e)
+     {
+         SetIconImage(this.Image);
++
++        // Gtk4 realizes a widget before it is allocated, so AllocatedHeight is still 0 here and the icon
++        // would be stuck at the minimum size - noticeably smaller than the Gtk3 build, whose menu-bar icons
++        // scale to half the item height. Re-apply once the first allocation has run.
++        GLib.Idle.Add(() =>
++        {
++            // The item's window can be torn down before the idle runs - a short-lived form in a test does
++            // exactly that - and touching a widget whose native object has been freed takes the process
++            // down with no managed exception. GtkSharp zeroes the wrapper's Handle when that happens, so it
++            // is a reliable liveness check.
++            if (self.Handle != IntPtr.Zero)
++            {
++                SetIconImage(this.Image);
++            }
++
++            return false;
++        });
+     }
+ 
+     /// <summary>
+@@ -210,6 +227,21 @@ public class ToolStripMenuItem : ToolStripItem
+             size = Math.Max(20, self.AllocatedHeight / 2);
+         }
+ 
++        // Rescaling is not free and this runs again on every allocation pass, so skip it when nothing about
++        // the result would change.
++        if (size == _appliedIconSize && ReferenceEquals(source, _appliedIconSource))
++        {
++            return;
++        }
++
++        _appliedIconSize = size;
++        _appliedIconSource = source;
+         self.Image = source.ScaleSimple(size, size, Gdk.InterpType.Bilinear);
+     }
++
++    /// <summary>The edge length the icon was last scaled to, so an unchanged size is not rescaled.</summary>
++    private int _appliedIconSize;
++
++    /// <summary>The pixbuf the icon was last scaled from, paired with <see cref="_appliedIconSize" />.</summary>
++    private Gdk.Pixbuf? _appliedIconSource;
+ }
+diff --git a/GtkWinFormsApp.UITests/Forms/MenuAndStripRenderingTests.cs b/GtkWinFormsApp.UITests/Forms/MenuAndStripRenderingTests.cs
+new file mode 100644
+index 00000000..66d0e7e4
+--- /dev/null
++++ b/GtkWinFormsApp.UITests/Forms/MenuAndStripRenderingTests.cs
+@@ -0,0 +1,149 @@
++using GtkWinFormsApp.UITests.Infrastructure;
++using System.Drawing;
++using System.Windows.Forms;
++
++namespace GtkWinFormsApp.UITests.Forms;
++
++/// <summary>
++/// Rendering regressions that are only decidable once a form is actually on screen: the client area the
++/// window settles at, the size an icon is scaled to from its allocation, and the selected state of the
++/// menu entry whose drop-down is open. Each pins a difference the Gtk4 build had against the Gtk3 build.
++/// </summary>
++public class MenuAndStripRenderingTests
++{
++    [Fact]
++    public void Form_OpensAtItsDesignedClientSize_SoADockedStripDoesNotEatTheContentGap()
++    {
++        // Regression: the content-fit pass sized the client to the measured extent of the children, which
++        // is self-referential once anything is docked to an edge - a bottom-docked StatusStrip sits at the
++        // bottom of whatever the client currently is, so it always measures exactly as tall as the client
++        // already is. The client never reached its designed height and the designed gap between the last
++        // control and the strip disappeared.
++        const int designedHeight = 320;
++
++        UiDriver.Run(
++            () =>
++            {
++                var form = new Form { ClientSize = new Size(420, designedHeight) };
++                form.Controls.Add(new StatusStrip { Dock = DockStyle.Bottom, AutoSize = false, Size = new Size(420, 30) });
++                form.Controls.Add(new Button { Text = "content", Location = new Point(10, 10), Size = new Size(80, 24) });
++
++                return form;
++            },
++            ctx =>
++            {
++                UiDriver.Pump(40);
++
++                Assert.Equal(designedHeight, ctx.Form.ClientSize.Height);
++            });
++    }
++
++    [Fact]
++    public void Form_StillGrowsBeyondTheDesignedClientSize_WhenAControlWouldBeClipped()
++    {
++        // The floor must not turn into a ceiling: a control below the designed client area still has to
++        // force the window to grow, which is the whole reason the content-fit pass exists.
++        UiDriver.Run(
++            () =>
++            {
++                var form = new Form { ClientSize = new Size(420, 200) };
++                form.Controls.Add(new Button { Text = "low", Location = new Point(10, 320), Size = new Size(80, 24) });
++
++                return form;
++            },
++            ctx =>
++            {
++                UiDriver.Pump(40);
++
++                Assert.True(ctx.Form.ClientSize.Height > 200,
++                    $"expected the window to grow past its designed height to reveal the control, got {ctx.Form.ClientSize.Height}");
++            });
++    }
++
++    [Fact]
++    public void MenuBarIcon_ScalesFromTheItemHeight_NotTheMinimum()
++    {
++        // Regression: the icon was scaled inside the "realized" callback, but Gtk4 realizes a widget before
++        // it is allocated, so AllocatedHeight was still 0 and every menu-bar icon came out at the 20px
++        // minimum - visibly smaller than the Gtk3 build, which scales to half the item height.
++        UiDriver.Run(() => new Form3(), ctx =>
++        {
++            var form = (Form3)ctx.Form;
++            UiDriver.Pump(40);
++
++            var item = FirstMenuItemWithIcon(form.menuStrip1);
++            Assert.NotNull(item);
++
++            var height = item!.self.MenuItem.AllocatedHeight;
++            Assert.True(height > 40, $"expected a tall icon-over-text menu-bar item, got {height}px");
++            Assert.NotNull(item.self.Image);
++            Assert.True(item.self.Image!.Height > 20,
++                $"a {height}px item should scale its icon above the 20px minimum, got {item.self.Image.Height}px");
++
++            // Scaling the pixbuf is not enough on Gtk4: GtkImage renders at the theme icon size (16px)
++            // regardless of the pixbuf, so without PixelSize the icon still drew small.
++            Assert.Equal(item.self.Image.Height, item.self.IconPixelSize);
++        });
++    }
++
++    [Fact]
++    public void OpeningASubmenu_MarksItsParentItemAsSelected()
++    {
++        // Regression: on Gtk3 a GtkMenuItem whose submenu is open puts itself in the selected state and the
++        // theme paints it. Gtk4 has no menu-item widget, so the entry stayed unpainted and there was no way
++        // to tell which item the open submenu belonged to.
++        UiDriver.Run(() => new Form3(), ctx =>
++        {
++            var form = (Form3)ctx.Form;
++            UiDriver.Pump(40);
++
++            var parent = FirstMenuItemWithSubmenu(form.menuStrip1);
++            Assert.NotNull(parent);
++            Assert.False(parent!.self.IsDropDownOpenStyled, "nothing is open yet");
++
++            parent.self.ShowDropDown();
++            UiDriver.Pump(20);
++
++            Assert.True(parent.self.IsDropDownOpenStyled,
++                "the item whose drop-down is showing must read as selected");
++
++            // The popover is parented to the button, so anything inheritable styled there cascades into
++            // the menu it opens. That is exactly what happened once: the selected foreground colour reached
++            // every caption in the drop-down and painted it white on white, so the menu rendered empty. The
++            // foreground must live on the caption row, which is not an ancestor of the popover.
++            Assert.False(parent.self.DropDownHost.StyleContext.HasClass(StripMenuItem.DropDownOpenRowClass),
++                "the popover's host must not carry an inheritable foreground colour");
++
++            parent.self.HideDropDown();
++            UiDriver.Pump(20);
++
++            Assert.False(parent.self.IsDropDownOpenStyled, "closing the drop-down clears the selection");
++        });
++    }
++
++    private static ToolStripMenuItem? FirstMenuItemWithIcon(MenuStrip strip)
++    {
++        foreach (var item in strip.Items)
++        {
++            if (item is ToolStripMenuItem menuItem && menuItem.Image != null)
++            {
++                return menuItem;
++            }
++        }
++
++        return null;
++    }
++
++    private static ToolStripMenuItem? FirstMenuItemWithSubmenu(MenuStrip strip)
++    {
++        foreach (var item in strip.Items)
++        {
++            if (item is ToolStripMenuItem menuItem && menuItem.DropDownItems.Count > 0)
++            {
++                return menuItem;
++            }
++        }
++
++        return null;
++    }
++}

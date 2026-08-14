@@ -128,6 +128,11 @@ namespace System.Windows.Forms
                     // Update the persistent icon widget instead of replacing the button child, so the
                     // caption Label sitting next to it survives.
                     iconImage.Pixbuf = value;
+                    // Gtk3's GtkImage drew a pixbuf at its natural size. Gtk4's renders it at the theme's
+                    // icon size (16px) whatever the pixbuf measures, so scaling the pixbuf alone had no
+                    // visible effect and every menu icon came out smaller than on Gtk3. PixelSize is what
+                    // makes the widget honour the size we scaled to.
+                    iconImage.PixelSize = Math.Max(value.Width, value.Height);
                     iconImage.Visible = true;
                 }
             }
@@ -335,6 +340,12 @@ namespace System.Windows.Forms
         public Gtk.Widget SubmenuArrowWidget => submenuArrow;
 
         /// <summary>
+        /// The size, in pixels, the icon is actually rendered at - as opposed to the size of the pixbuf
+        /// behind it, which Gtk4 ignores unless the widget is told otherwise.
+        /// </summary>
+        public int IconPixelSize => iconImage.PixelSize;
+
+        /// <summary>
         /// Pops the drop-down open (no-op if the item has no drop-down, or is not yet on screen - Popup on an
         /// unmapped popover would abort in GTK).
         /// </summary>
@@ -348,14 +359,71 @@ namespace System.Windows.Forms
                 if (_dropDown.Parent == null)
                 {
                     _dropDown.Parent = checkButton;
+                    _dropDown.Closed += (_, _) => SetDropDownOpenAppearance(false);
                 }
 
                 _dropDown.Popup();
+                SetDropDownOpenAppearance(true);
             }
         }
 
+        /// <summary>
+        /// Marks this item as the open one while its drop-down is showing, so it reads as selected.
+        /// </summary>
+        /// <param name="open">Whether the drop-down is open.</param>
+        /// <remarks>
+        /// Gtk3 needed nothing here: a <c>GtkMenuItem</c> whose submenu is open puts itself in the selected
+        /// state and the theme paints it. Gtk4 has no menu-item widget - a drop-down is a plain popover
+        /// anchored to a button - so the item stayed unpainted and it was impossible to tell which entry the
+        /// open submenu belonged to. Gtk4's own <c>GtkPopoverMenu</c> highlights the row the same way, so
+        /// this restores standard behaviour rather than emulating a Gtk3 quirk.
+        /// </remarks>
+        public void SetDropDownOpenAppearance(bool open)
+        {
+            if (open)
+            {
+                checkButton.StyleContext.AddClass(DropDownOpenClass);
+                contentBox.StyleContext.AddClass(DropDownOpenRowClass);
+            }
+            else
+            {
+                checkButton.StyleContext.RemoveClass(DropDownOpenClass);
+                contentBox.StyleContext.RemoveClass(DropDownOpenRowClass);
+            }
+        }
+
+        /// <summary>
+        /// The style class carrying the selected <em>background</em>, applied to the item's button.
+        /// </summary>
+        public const string DropDownOpenClass = "MenuItemOpen";
+
+        /// <summary>
+        /// The style class carrying the selected <em>foreground</em>, applied to the caption row only.
+        /// </summary>
+        /// <remarks>
+        /// The two are deliberately separate. The drop-down popover is parented to the button (that is what
+        /// positions it), so anything inheritable set on the button cascades into the menu it opens - a
+        /// selected foreground colour there repainted every caption in the drop-down white on white and the
+        /// menu appeared empty. Background does not inherit, so it can stay on the button; the foreground
+        /// goes on the caption row, which is not an ancestor of the popover.
+        /// </remarks>
+        public const string DropDownOpenRowClass = "MenuItemOpenRow";
+
+        /// <summary>Whether this item is currently painted as the open one (for tests).</summary>
+        public bool IsDropDownOpenStyled => checkButton.StyleContext.HasClass(DropDownOpenClass);
+
+        /// <summary>
+        /// The widget the drop-down popover is parented to. Exposed so tests can assert that nothing
+        /// inheritable is styled on it.
+        /// </summary>
+        public Gtk.Widget DropDownHost => checkButton;
+
         /// <summary>Closes the drop-down if it is open.</summary>
-        public void HideDropDown() => _dropDown?.Popdown();
+        public void HideDropDown()
+        {
+            _dropDown?.Popdown();
+            SetDropDownOpenAppearance(false);
+        }
 
         /// <summary>
         /// Dismisses the drop-down/context popover(s) this item lives in - selecting a WinForms menu command

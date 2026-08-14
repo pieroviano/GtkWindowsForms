@@ -154,9 +154,26 @@ public partial class Form : ContainerControl, IWin32Window
         }
         set
         {
+            _designedClientSize = value;
             self.SetDefaultSize(value.Width, value.Height);
+            // Gtk4's default size covers the whole window, client-side-decoration titlebar included, so on
+            // its own it leaves the client area short by the height of that titlebar. Requesting the height
+            // on the content box is what actually makes the *client* open at the designed size; the request
+            // is released again after the first allocation (see ApplyDesignedClientShortfall) so the window
+            // stays freely resizable, as a WinForms form is. Height only - constraining the width here also
+            // perturbs the scroller's width negotiation.
+            self.ContentArea.SetSizeRequest(-1, value.Height);
         }
     }
+
+    /// <summary>
+    /// The client size the form was given before being shown, which the content-fit pass treats as a floor.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="Size.Empty" /> for a form that never sets <see cref="ClientSize" />, which leaves the fit
+    /// pass free to size purely from content, as before.
+    /// </remarks>
+    private Size _designedClientSize;
 
     /// <summary>
     /// Gets or sets a value indicating whether a control box is displayed in the caption bar of the form.
@@ -1118,6 +1135,8 @@ public partial class Form : ContainerControl, IWin32Window
             maxBottom = Math.Max(maxBottom, w.MarginTop + w.AllocatedHeight);
         }
 
+        ApplyDesignedClientShortfall();
+
         if (maxBottom > _contentFitMax)
         {
             // More of the layout has resolved - raise the request and reset the settle counter.
@@ -1142,6 +1161,48 @@ public partial class Form : ContainerControl, IWin32Window
         // Keep watching until the extent has been stable for a short spell, then stop (hard-capped at ~2s).
         return _contentFitStableTicks < 10 && ++_contentFitTotalTicks < 120;
     }
+
+    /// <summary>
+    /// Grows the window once so its client area is at least the form's designed
+    /// <see cref="ClientSize" />.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// WinForms opens a form at exactly its <see cref="ClientSize" />. Gtk4's
+    /// <c>gtk_window_set_default_size</c>, which the setter maps onto, sizes the whole window <em>including
+    /// the client-side-decoration titlebar</em> - so the client area came out short by the height of that
+    /// titlebar on every form. The content-fit pass could not make it up either: its measurement is
+    /// self-referential wherever a control is docked to an edge, because a bottom-docked StatusStrip sits at
+    /// the bottom of whatever the client currently is and therefore always measures exactly as tall as the
+    /// client already is. The visible symptom was the designed gap between the last control and the strip
+    /// vanishing - the strip sat flush against the content.
+    /// </para>
+    /// <para>
+    /// The correction is applied to the window rather than to the scrolled view's minimum content height.
+    /// Raising that minimum also perturbs the scroller's width negotiation, which was enough to push a
+    /// TreeView in another form below its own minimum width and abort in GTK's measure pass.
+    /// </para>
+    /// </remarks>
+    private void ApplyDesignedClientShortfall()
+    {
+        if (_clientShortfallApplied || _designedClientSize.Height <= 0)
+        {
+            return;
+        }
+
+        // Wait for the client box to reach the requested height, then drop the request so the window can be
+        // resized freely - including smaller than its designed size, as a WinForms form can be.
+        if (self.ContentArea.AllocatedHeight < _designedClientSize.Height)
+        {
+            return;
+        }
+
+        _clientShortfallApplied = true;
+        self.ContentArea.SetSizeRequest(-1, -1);
+    }
+
+    /// <summary>Whether the designed-client-size correction has already been applied to this window.</summary>
+    private bool _clientShortfallApplied;
 
     private bool Self_CloseWindowEvent(object sender, EventArgs e)
     {

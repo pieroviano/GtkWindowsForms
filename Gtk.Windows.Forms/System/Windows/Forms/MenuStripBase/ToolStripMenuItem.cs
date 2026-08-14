@@ -181,6 +181,23 @@ public class ToolStripMenuItem : ToolStripItem
     private void Self_Realized(object? sender, EventArgs e)
     {
         SetIconImage(this.Image);
+
+        // Gtk4 realizes a widget before it is allocated, so AllocatedHeight is still 0 here and the icon
+        // would be stuck at the minimum size - noticeably smaller than the Gtk3 build, whose menu-bar icons
+        // scale to half the item height. Re-apply once the first allocation has run.
+        GLib.Idle.Add(() =>
+        {
+            // The item's window can be torn down before the idle runs - a short-lived form in a test does
+            // exactly that - and touching a widget whose native object has been freed takes the process
+            // down with no managed exception. GtkSharp zeroes the wrapper's Handle when that happens, so it
+            // is a reliable liveness check.
+            if (self.Handle != IntPtr.Zero)
+            {
+                SetIconImage(this.Image);
+            }
+
+            return false;
+        });
     }
 
     /// <summary>
@@ -210,6 +227,21 @@ public class ToolStripMenuItem : ToolStripItem
             size = Math.Max(20, self.AllocatedHeight / 2);
         }
 
+        // Rescaling is not free and this runs again on every allocation pass, so skip it when nothing about
+        // the result would change.
+        if (size == _appliedIconSize && ReferenceEquals(source, _appliedIconSource))
+        {
+            return;
+        }
+
+        _appliedIconSize = size;
+        _appliedIconSource = source;
         self.Image = source.ScaleSimple(size, size, Gdk.InterpType.Bilinear);
     }
+
+    /// <summary>The edge length the icon was last scaled to, so an unchanged size is not rescaled.</summary>
+    private int _appliedIconSize;
+
+    /// <summary>The pixbuf the icon was last scaled from, paired with <see cref="_appliedIconSize" />.</summary>
+    private Gdk.Pixbuf? _appliedIconSource;
 }
