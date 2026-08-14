@@ -612,6 +612,8 @@ public sealed partial class Application
 .NumericUpDown.horizontal entry{margin:1px;border-width:0px;padding:2px 3px; min-height:6px;min-width:6px;} 
 .NumericUpDown.vertical entry{margin:1px;border-width:0px;padding:2px 3px; min-height:6px;min-width:6px;} 
 .TrackBar {border-width:0px;box-shadow:none;}
+.TrackBar scale trough{min-width:5px;min-height:5px;border-radius:2px;}
+.TrackBar scale slider{min-width:16px;min-height:16px;margin:-6px;}
 .PrintPreviewBack{background-color:#cccccc; border-radius:0px;}
 .Paper{box-shadow: 0px 0px 3px 1px #999999;background:#ffffff; border-radius:0px;}
 .PropertyGrid {box-shadow:0px 0px 0px 1px @frame_color; background:#eeeeee;}
