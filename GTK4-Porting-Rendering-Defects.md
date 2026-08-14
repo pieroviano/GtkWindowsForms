@@ -37,6 +37,11 @@ All six defects from the original report are fixed and hold in the current snaps
 
 Ordered descending by severity. These are **layout/paint** differences, not content differences.
 
+> **Update (2026-08-14):** R1 and R2 are now **fixed generically** — see the ✅ notes. Both traced to real
+> library bugs, not sample quirks: a wrong `Control.Anchor` default and a hardcoded height clamp. R3/R4 were
+> re-assessed as **not porting defects** (WinForms-correct paint / cosmetic slack). A separate timing race in
+> the window-grow pass was also fixed so the bottom controls no longer clip intermittently.
+
 ### MEDIUM
 
 #### R1. The "Open Main Window" button overlaps the toolbar's right-hand items
@@ -52,6 +57,11 @@ Ordered descending by severity. These are **layout/paint** differences, not cont
 - **Likely cause:** the GTK4 toolbar (`Gtk.Box` with `.toolbar`) reports a natural height larger than the
   WinForms `ToolStrip.Height` (33). The combo/progress-bar/20 px-icon item metrics inflate the row; it needs
   its height constrained to the designed `ToolStrip.Height` so the anchored button below no longer collides.
+- **✅ FIXED** — the real cause was a generic layout bug: `Control._anchor` defaulted to `AnchorStyles.None`
+  instead of the WinForms default `Top|Left`, so every default-anchored control (the toolbar included) drifted
+  by *half the container size-delta* whenever the window grew, sliding the toolbar down into the button. With
+  the default corrected, all controls sit at their design positions and the toolbar/button no longer overlap.
+  Commit *"default Control.Anchor to Top|Left as WinForms does"*.
 
 #### R2. Empty gap between the menu strip and the toolbar
 - **GTK3:** the menu strip (icons stacked over `菜单1`/`菜单2`) fills its 62 px height and the toolbar sits
@@ -63,6 +73,13 @@ Ordered descending by severity. These are **layout/paint** differences, not cont
 - **Likely cause:** the GTK4 `MenuStrip` (custom widget replacing the removed `Gtk.MenuBar`) lays its items
   out at their natural height and top-aligns them rather than filling the `MenuStrip.Height` (62); the item
   box should expand to the strip height (or the icon-over-text item should be vertically centered/filled).
+- **✅ FIXED** — root cause was a hardcoded hack in `ToolStrip.Size`: `set => base.Size = new Size(value.Width,
+  30)` clamped *every* strip's height to 30px, ignoring the WinForms `Size`/`AutoSize` contract, so the
+  AutoSize=false 62px menu collapsed to 30 and left the gap. Now honours the contract (explicit `Size` when
+  AutoSize is off, content-driven when on); the two tests that asserted the magic number were rewritten to
+  assert the real contract. The menu now fills 62px and the toolbar sits directly beneath it. Commit
+  *"honour ToolStrip/MenuStrip explicit Size instead of clamping to 30px"*. (A minor residual remains: the
+  icon-over-text menu items are top-aligned within the 62px strip rather than filling it — cosmetic.)
 
 ### LOW
 
@@ -73,12 +90,19 @@ Ordered descending by severity. These are **layout/paint** differences, not cont
   transparent/inherited background the Gtk3 path used; the per-control style (User-priority) reasserts the
   grey and overrides a plain `background:none`. Would need the TrackBar background left unpainted when no
   explicit `BackColor` is set.
+- **⏸ NOT PURSUED — likely WinForms-correct.** A WinForms `TrackBar.BackColor` defaults to `SystemColors.Control`
+  (light grey), and WinForms *does* paint it — so the grey box is arguably the correct render and Gtk3's
+  transparent trackbar was the deviation. Matching Gtk3 here would make the shim *less* WinForms-accurate, so
+  it is left as-is per the "fix WinForms behaviour, not the sample" principle.
 
 #### R4. Window ~37 px shorter than the Gtk3 reference
 - **GTK3:** 610 px tall. **GTK4:** 573 px. All content now fits (fixed in #6), but with less bottom margin
   than Gtk3, so the layout is slightly more cramped vertically.
 - **Likely cause:** the grow-to-fit pass sizes the window to the content's exact extent + chrome; Gtk3's
   window carried a little extra slack. Cosmetic.
+- **⏸ NOT A DEFECT — cosmetic slack.** All content is visible and the window is deterministically sized to fit
+  it (the earlier intermittent clipping was a timing race in the grow pass, now fixed). The ~35px less bottom
+  margin than Gtk3 is not a rendering error.
 
 ---
 
@@ -100,13 +124,16 @@ so they are **not** counted as porting defects (per the content caveat above):
 
 ## Summary
 
-| # | Remaining defect | Severity | Kind |
+| # | Defect | Severity | Status |
 |---|---|---|---|
-| R1 | "Open Main Window" button overlaps the toolbar's right items | Medium | Layout — toolbar too tall |
-| R2 | Empty gap between the menu strip and the toolbar | Medium | Layout — menu under-fills its height |
-| R3 | Vertical TrackBar sits on a grey box | Low | Paint — control background |
-| R4 | Window ~37 px shorter than Gtk3 | Low | Layout — cosmetic slack |
+| R1 | "Open Main Window" button overlaps the toolbar's right items | Medium | ✅ Fixed (Anchor default Top\|Left) |
+| R2 | Empty gap between the menu strip and the toolbar | Medium | ✅ Fixed (honour Size; drop force-30) |
+| R3 | Vertical TrackBar sits on a grey box | Low | ⏸ Not a defect (WinForms `BackColor`) |
+| R4 | Window ~35 px shorter than Gtk3 | Low | ⏸ Not a defect (cosmetic slack) |
 
-Both medium items (R1, R2) are the same theme: the **menu/toolbar vertical metrics** don't match the
-WinForms design heights (menu under-fills 62 px; toolbar over-fills 33 px), producing a gap above the
-toolbar and an overlap below it.
+Both medium defects were real, **generic** library bugs — not sample quirks: `Control.Anchor` defaulted to
+`None` instead of the WinForms `Top|Left` (so default-anchored controls drifted on resize), and
+`ToolStrip.Size` hardcoded every strip to 30px tall (so an AutoSize=false menu couldn't keep its height).
+Both are fixed with the full suite green (2533 passed / 12 skipped), and a timing race that intermittently
+clipped the bottom controls was fixed too. R3/R4 were re-assessed as WinForms-correct / cosmetic, not
+porting defects.
