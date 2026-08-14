@@ -18,6 +18,9 @@ namespace System.Windows.Forms
             // Gtk4: MenuButton/Button ctor takes no (label,?) pair; Homogeneous removed.
             // A custom Child otherwise suppresses the built-in dropdown arrow, so force it to stay.
             this.AlwaysShowArrow = true;
+            // Flatten via a direct class on this node (see StripToolButton for why the ancestor selector
+            // is not enough); the rule also targets the MenuButton's inner >button node.
+            this.StyleContext.AddClass("ToolStripButtonFlat");
         }
 
         public bool Checked

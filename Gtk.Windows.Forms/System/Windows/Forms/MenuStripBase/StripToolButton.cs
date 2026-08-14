@@ -13,7 +13,13 @@ namespace System.Windows.Forms
         private string _text = string.Empty;
         private ToolStripItemDisplayStyle _displayStyle = ToolStripItemDisplayStyle.ImageAndText;
 
-        public StripToolButton() : base() { } // Gtk4: MenuButton/Button ctor takes no (label,?) pair; Homogeneous removed
+        public StripToolButton() : base()
+        {
+            // Gtk4: MenuButton/Button ctor takes no (label,?) pair; Homogeneous removed.
+            // Flatten via a direct class on this node (the ancestor ".ToolStrip button" selector does not
+            // reliably override the theme's button frame the way a direct class does — cf. .MenuItemButton).
+            this.StyleContext.AddClass("ToolStripButtonFlat");
+        }
 
         public bool Checked
         {
