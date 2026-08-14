@@ -1056,27 +1056,32 @@ public partial class Form : ContainerControl, IWin32Window
         // short - the lowest controls (e.g. a bottom progress bar) scroll off. Gtk3 grew the window to fit its
         // content; reproduce that by sizing the overlay's background child to the controls' real extent once
         // they have been allocated, which raises the ScrolledView's requested height and grows the window.
-        _contentFitRetries = 0;
+        _contentFitMax = 0;
+        _contentFitStableTicks = 0;
+        _contentFitTotalTicks = 0;
         GLib.Timeout.Add(16, EnsureContentFits);
     }
 
-    /// <summary>Set once the one-shot content-fit grow has been applied, so it never re-enters.</summary>
-    private bool _contentFitApplied;
+    /// <summary>The largest content extent seen so far; the fit request only ever grows to this.</summary>
+    private int _contentFitMax;
 
-    /// <summary>Bounds the wait for a first real child allocation so the fit timeout cannot spin forever.</summary>
-    private int _contentFitRetries;
+    /// <summary>Consecutive ticks the extent has not grown; the watch stops once it has settled.</summary>
+    private int _contentFitStableTicks;
+
+    /// <summary>Hard cap on total ticks so a never-mapped window (display-less test host) cannot spin forever.</summary>
+    private int _contentFitTotalTicks;
 
     /// <summary>
-    /// Grows the form window (once) so all of its controls are visible. The content lives in an
+    /// Grows the form window so all of its controls are visible. The content lives in an
     /// <see cref="Gtk.Overlay" /> whose size follows its background main child; that child requests nothing, so
     /// GTK gives the ScrolledView only the leftover space after the header and status bar and clips the lower
-    /// controls. Measuring the laid-out children and requesting their bottom/right extent on the background
-    /// makes the (resizable) window grow to contain them, matching the Gtk3 render.
+    /// controls. This watches the children's bottom extent as the async layout fills in and raises the
+    /// ScrolledView's requested height to match, so the (resizable) window grows to contain them - matching
+    /// the Gtk3 render. It is monotonic (only grows) and keeps watching until the extent settles, so it cannot
+    /// latch onto a half-laid-out snapshot (a one-shot measured too early left the bottom controls clipped).
     /// </summary>
     private bool EnsureContentFits()
     {
-        if (_contentFitApplied)
-            return false;
         var overlay = self.contaner;
         if (overlay.Child is not Gtk.Widget background)
             return false;
@@ -1089,19 +1094,25 @@ public partial class Form : ContainerControl, IWin32Window
             maxBottom = Math.Max(maxBottom, w.MarginTop + w.AllocatedHeight);
         }
 
-        // Nothing allocated yet - try again on the next tick until the children have a real allocation,
-        // but give up after ~1s so a never-mapped window (e.g. a display-less test host) cannot spin forever.
-        if (maxBottom <= 0)
-            return ++_contentFitRetries < 60;
+        if (maxBottom > _contentFitMax)
+        {
+            // More of the layout has resolved - raise the request and reset the settle counter.
+            _contentFitMax = maxBottom;
+            _contentFitStableTicks = 0;
+            if (maxBottom > background.HeightRequest)
+                background.HeightRequest = maxBottom;
+            // The ScrolledView can scroll, so a bigger child alone would only add a scrollbar; raising its own
+            // minimum content height is what forces the (resizable) window to grow to contain the controls.
+            if (maxBottom > self.ScrolledView.MinContentHeight)
+                self.ScrolledView.MinContentHeight = maxBottom;
+        }
+        else if (_contentFitMax > 0)
+        {
+            _contentFitStableTicks++;
+        }
 
-        _contentFitApplied = true;
-        if (maxBottom > background.HeightRequest)
-            background.HeightRequest = maxBottom;
-        // The ScrolledView can scroll, so a bigger child alone would only add a scrollbar; raising its own
-        // minimum content height is what forces the (resizable) window to grow to contain the controls.
-        if (maxBottom > self.ScrolledView.MinContentHeight)
-            self.ScrolledView.MinContentHeight = maxBottom;
-        return false;
+        // Keep watching until the extent has been stable for a short spell, then stop (hard-capped at ~2s).
+        return _contentFitStableTicks < 10 && ++_contentFitTotalTicks < 120;
     }
 
     private bool Self_CloseWindowEvent(object sender, EventArgs e)
