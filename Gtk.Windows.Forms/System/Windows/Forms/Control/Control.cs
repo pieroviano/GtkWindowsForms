@@ -59,7 +59,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     // NullReferenceException out of Gtk.Dialog.Run(). See RegionTests.
     ImageSurface? image;
 
-    private AnchorStyles _anchor;
+    // WinForms default is Top|Left, not None. With the (wrong) None default, an undocked control with no
+    // explicit Anchor was treated as anchored to neither edge and moved by half the container's size delta on
+    // every resize, drifting from its designed position; Top|Left keeps it pinned as WinForms does.
+    private AnchorStyles _anchor = AnchorStyles.Top | AnchorStyles.Left;
 
     private bool _autoSize;
 
