@@ -59,10 +59,11 @@ public class StatusStripTests
     }
 
     [Fact]
-    public void Size_ShouldApplyHeightOffset()
+    public void Size_WhenAutoSizeOff_HonoursExplicitHeight()
     {
+        // WinForms: with AutoSize off the strip keeps the height it is given (it is not clamped).
         var form = new Form();
-        var statusStrip = new StatusStrip();
+        var statusStrip = new StatusStrip { AutoSize = false };
         form.Controls.Add(statusStrip);
 
         Size result = Size.Empty;
@@ -78,7 +79,7 @@ public class StatusStripTests
 
         form.ShowDialog();
 
-        Assert.Equal(result, new Size(100, 30));
+        Assert.Equal(new Size(100, 50), result);
     }
 
     [Fact]

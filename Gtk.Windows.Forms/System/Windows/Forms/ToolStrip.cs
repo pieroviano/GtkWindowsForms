@@ -186,7 +186,10 @@ public partial class ToolStrip : ScrollableControl
     public override Size Size
     {
         get => base.Size;
-        set => base.Size = new Size(value.Width, 30);
+        // WinForms contract: a strip with AutoSize off uses its explicit Size; with AutoSize on it is sized
+        // by its content. The previous code clamped every strip's height to a hardcoded 30px, ignoring both -
+        // so an AutoSize=false MenuStrip/ToolStrip (e.g. a tall icon-over-text menu) collapsed to 30px.
+        set => base.Size = AutoSize ? new Size(value.Width, -1) : value;
     }
 
     /// <summary>

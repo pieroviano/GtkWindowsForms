@@ -97,15 +97,17 @@ public class ToolStripTests
     }
 
     [Fact]
-    public void Size_ShouldForceHeightTo30()
+    public void Size_WhenAutoSizeOff_HonoursExplicitHeight()
     {
+        // WinForms: with AutoSize off the strip keeps the height it is given (it is not clamped).
         var toolStrip = new ToolStrip
         {
+            AutoSize = false,
             Size = new Size(200, 100)
         };
 
         Assert.Equal(200, toolStrip.Size.Width);
-        Assert.Equal(30, toolStrip.Size.Height);
+        Assert.Equal(100, toolStrip.Size.Height);
     }
 
     [Fact]
