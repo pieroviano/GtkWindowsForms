@@ -27,7 +27,7 @@ never a finding below. Window sizes differ slightly and are not findings either.
 | # | Difference | Forms | Impact |
 |---|---|---|---|
 | [D1](#d1) | `ListView` items render without their text | Form2 | **High** — list looks empty |
-| ~~[D2](#d2)~~ | ~~`BackgroundImage` not painted~~ — **FIXED**: the custom-paint path was disabled on every widget; restored via `OnSnapshot` | Form2, Form4 | **High** |
+| ~~[D2](#d2)~~ | ~~`BackgroundImage` not painted~~ — **FIXED**, two causes: the custom-paint path was disabled on every widget, *and* the CSS `url()` was relative | Form2, Form4 | **High** |
 | [D3](#d3) | Test1's button icons missing — **theme CSS**, not `Button.Image` (diagnosis corrected) | Test1 | **High** |
 | [D4](#d4) | Custom `Paint` geometry rotated ~180° | Test1 | **High** — charts point the wrong way |
 | [D5](#d5) | Custom `Paint` fill level wrong | Test1 | **High** — a 50% gauge renders ~5% |
@@ -62,8 +62,18 @@ at all, and why item creation stops at two.
   Button` and a chevron bitmap. The port draws plain radio buttons with a circle and a label — see also
   [D3](#d3).
 
-**Where to look:** `Control.BackgroundImage` / `BackgroundImageLayout` — it appears not to reach the Gtk4
-draw path for any control type.
+> **Fixed — and it took two independent changes**, which is why the first one alone showed no effect on
+> Form2:
+>
+> 1. **The custom-paint path was disabled on every widget** (see the commit restoring `OnSnapshot`). That
+>    covered controls painted through the override — Form4's *Test Button 1* came back at this point.
+> 2. **`BackgroundImage` is actually rendered through CSS, not that path.** `UpdateStyle` writes the image
+>    to a PNG under `Resources/` and emits `background-image:url(...)` — with a **relative** path. Gtk3
+>    resolved that against the process working directory; Gtk4 loads the stylesheet from a *string*, which
+>    has no base URI, so the relative `url()` resolved to nothing and every form and panel background
+>    silently vanished. It now emits an absolute `file:///` URI.
+>
+> Verified: Form2's photograph and Form4's gradient button both render, matching the reference.
 
 ## D3 — Test1's button icons are missing (theme CSS, not `Button.Image`) {#d3}
 

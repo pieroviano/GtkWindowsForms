@@ -4247,7 +4247,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                         Directory.CreateDirectory(bgimgdir);
                     bgpixbuf.Savev(bgimguri, "png", new string[] { }, new string[] { });
                 }
-                style.AppendFormat("background-image:url(\"{0}\");", bgimguri);
+                // Absolute file URI, not the relative path Gtk3 emitted. Gtk3 resolved a relative url()
+                // against the process working directory; Gtk4 loads this stylesheet from a string, which
+                // has no base URI, so a relative url() resolves to nothing and the image silently never
+                // appears - which is exactly what happened to every form and panel background.
+                style.AppendFormat("background-image:url(\"{0}\");", ToCssUri(bgimguri));
                 if (this.BackgroundImageLayout == ImageLayout.Tile)
                 {
                     style.Append("background-repeat:repeat;");
@@ -4412,6 +4416,25 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// <summary>
     /// Updates the CSS/style for the control when mapped.
     /// </summary>
+    /// <summary>
+    /// Turns a path into a URI usable from a stylesheet loaded out of a string.
+    /// </summary>
+    /// <param name="path">A relative or absolute filesystem path.</param>
+    /// <returns>An absolute <c>file:///</c> URI, or the original path if it cannot be resolved.</returns>
+    internal static string ToCssUri(string path)
+    {
+        try
+        {
+            return new Uri(Path.GetFullPath(path)).AbsoluteUri;
+        }
+        catch (Exception ex)
+        {
+            Diagnostics.GtkLogger.Debug("Unable to build a CSS URI for " + path, ex);
+
+            return path;
+        }
+    }
+
     protected virtual void UpdateStyle()
     {
         GLib.Timeout.Add(1, () =>

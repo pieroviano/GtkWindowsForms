@@ -70,6 +70,19 @@ public class CustomPaintPathTests
         Assert.Equal(0, handled);
     }
 
+    [Fact]
+    public void BackgroundImageCssUri_IsAbsolute()
+    {
+        // Gtk3 emitted a relative url() and resolved it against the process working directory. Gtk4 loads
+        // this stylesheet from a string, which has no base URI, so a relative url() resolves to nothing and
+        // the image silently never appeared - on every form and panel background in the sample.
+        var uri = Control.ToCssUri(Path.Combine("Resources", "x", "y_bgimage.png"));
+
+        Assert.StartsWith("file:///", uri, StringComparison.Ordinal);
+        Assert.DoesNotContain("\\", uri);
+        Assert.EndsWith("y_bgimage.png", uri, StringComparison.Ordinal);
+    }
+
     private static bool DeclaresSnapshotOverride(Type type)
     {
         return type.GetMethod(
