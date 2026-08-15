@@ -625,7 +625,7 @@ public sealed partial class Application
    the old margin-left:-20px clip no longer hides Gtk4's separate 'check' node, so menu items rendered as
    checkboxes. Collapse the indicator node instead: always for top-level menu-bar items (.MenuBarItem), and
    for ordinary menu items only while unchecked (keeping the checkmark that a Checked item must show). */
-.MenuItemButton:not(:checked) check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}
+.MenuItemButton:not(:checked):not(:indeterminate) check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}
 .MenuBarItem check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}
 /* The 'opens a submenu' arrow. Gtk3 got this from GtkMenuItem's theming; Gtk4 has no menu-item widget, so
    StripMenuItem draws it and this keeps it clear of the caption and slightly dimmed, as themes do. */

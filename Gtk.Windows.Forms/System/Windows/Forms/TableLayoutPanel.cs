@@ -48,6 +48,9 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     public TableLayoutPanel() : base()
     {
         _controls = new TableLayoutControlCollection(this);
+        // Also publish it as the base Control.Controls, or anything walking the tree through a Control
+        // reference sees an empty collection and skips every control nested in the table.
+        RegisterControlCollection(_controls);
         _columnStyles = new TableLayoutColumnStyleCollection();
         _rowStyles = new TableLayoutRowStyleCollection();
     }
@@ -136,6 +139,13 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
     /// <value>
     /// The controls.
     /// </value>
+    /// <remarks>
+    /// <c>new</c> rather than <c>override</c> because the collection type is more specific than the base's
+    /// and netstandard2.0 has no covariant return types. On its own that hides the table's children from
+    /// anything reaching them through a <see cref="Control" /> reference, so the constructor also registers
+    /// this same instance as the base collection - see
+    /// <see cref="M:System.Windows.Forms.Control.RegisterControlCollection(System.Windows.Forms.Control.ControlCollection)" />.
+    /// </remarks>
     [Browsable(false)]
     public new TableLayoutControlCollection Controls
     {

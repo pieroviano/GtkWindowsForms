@@ -22,17 +22,27 @@ internal static class KnownDivergences
     /// <summary>Scenario ids whose traces are not yet expected to match.</summary>
     /// <remarks>
     /// <para>
-    /// <c>test1.structure</c> - <b>DEFECT, unresolved.</b> Walking <c>Controls</c> recursively reports 54
-    /// controls on the reference (16 Labels, 5 Panels, 8 PictureBoxes) but only 29 on the port (2 Labels,
-    /// 1 Panel, 1 PictureBox). The two designers declare exactly the same controls - 16, 5 and 8
-    /// respectively - so this is not a difference in what the form contains. <c>Test1</c> nests most of its
-    /// controls inside Panels, and <c>Form3</c>, which does not, agrees exactly (24 on both), so the likely
-    /// cause is that a container's <c>Controls</c> collection does not expose its children on the Gtk4 side.
-    /// That would affect any consumer enumerating a container, not just this test.
+    /// Currently empty: the port matches the reference on every scenario in the catalogue.
     /// </para>
+    /// <para>
+    /// The first entry this list ever held is a good example of what belongs here.
+    /// <c>test1.structure</c> reported 54 controls on the reference but only 29 on the port, because
+    /// <see cref="TableLayoutPanel" /> declared its <c>Controls</c> property with <c>new</c> while the base
+    /// kept a second, empty collection - so every control nested in a table was invisible to a walk over
+    /// <c>Control.Controls</c>. It was a defect, it was fixed, and the entry was removed rather than left
+    /// to rot.
+    /// </para>
+    /// </remarks>
+    /// <remarks>
+    /// <c>form1.checkboxes.toggle</c> - <b>DEFECT, unresolved.</b> Form1 declares three check boxes and the
+    /// reference reaches all three; the port reaches only two. The missing one, <c>checkBox3</c>, is the
+    /// only one held by <c>flowLayoutPanel1</c> - the other two sit elsewhere - so this looks like the same
+    /// family as the TableLayoutPanel defect above: a container whose children are not fully visible
+    /// through <c>Control.Controls</c>. <c>FlowLayoutPanel</c> does declare its <c>Controls</c> with
+    /// <c>override</c>, so the cause is not identical and needs its own diagnosis.
     /// </remarks>
     public static readonly IReadOnlySet<string> Scenarios = new HashSet<string>(StringComparer.Ordinal)
     {
-        "test1.structure",
+        "form1.checkboxes.toggle",
     };
 }

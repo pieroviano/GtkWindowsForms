@@ -27,11 +27,210 @@ internal static class ScenarioCatalogue
         var scenarios = new List<Scenario>();
 
         AddStructure(scenarios);
+        AddForm1(scenarios);
         AddForm2(scenarios);
         AddForm3(scenarios);
+        AddForm4(scenarios);
         AddForm5(scenarios);
+        AddTest1(scenarios);
 
         return scenarios;
+    }
+
+    /// <summary>
+    /// Clicks a control and records what the click did, without assuming the handler exists.
+    /// </summary>
+    /// <param name="ctx">The scenario context.</param>
+    /// <param name="address">The control to click.</param>
+    /// <param name="observed">Controls whose text is watched across the click.</param>
+    /// <remarks>
+    /// Text is compared as a change token rather than a literal, because the reference sample renders
+    /// Chinese and the port English - see <see cref="ScenarioContext.Text" />.
+    /// </remarks>
+    private static void ClickAndObserve(ScenarioContext ctx, string address, params string[] observed)
+    {
+        var before = observed.Select(a => ControlLocator.FindControl(ctx.Form, a)?.Text).ToArray();
+        var windowsBefore = Gtk.Window.ListToplevels().Length;
+
+        ctx.Click(address);
+
+        for (var i = 0; i < observed.Length; i++)
+        {
+            var after = ControlLocator.FindControl(ctx.Form, observed[i])?.Text;
+            ctx.State(observed[i], "Text", ScenarioContext.Text(before[i], after));
+        }
+
+        // Whether the click opened a window, not how many exist: the absolute count is an artefact of how
+        // each engine retains hidden and already-closed toplevels, and differs wildly between them.
+        ctx.Window("openedAWindow", Gtk.Window.ListToplevels().Length > windowsBefore ? 1 : 0);
+    }
+
+    private static void AddForm1(List<Scenario> scenarios)
+    {
+        // Form1's button Click handlers are deliberately absent for now: several open modal dialogs or
+        // secondary windows, and an unattended harness that clicks them accumulates toplevels and can be
+        // re-prompted indefinitely. Driving those safely needs a per-scenario window quarantine (close
+        // whatever the click spawned before the next scenario), which the RequiresPointer tier will need
+        // anyway. The state-driven handlers below are deterministic and are covered here.
+
+        scenarios.Add(new Scenario("form1.checkedlistbox.itemcheck", "Form1", ctx =>
+        {
+            if (ctx.Control("name:checkedListBox1") is not CheckedListBox list)
+            {
+                return;
+            }
+
+            ctx.State("checkedListBox1", "ItemCount", Count(list.Items.Count));
+
+            if (list.Items.Count > 0)
+            {
+                list.SetItemChecked(0, true);
+                ctx.Pump();
+                ctx.State("checkedListBox1", "CheckedCount", Count(list.CheckedIndices.Count));
+            }
+        }));
+
+        scenarios.Add(new Scenario("form1.textbox1.text", "Form1", ctx =>
+        {
+            if (ctx.Control("name:textBox1") is not TextBox box)
+            {
+                return;
+            }
+
+            box.Text = "parity";
+            ctx.Pump();
+            ctx.State("textBox1", "Text", box.Text);
+        }));
+
+        scenarios.Add(new Scenario("form1.treeview.select", "Form1", ctx =>
+        {
+            if (ctx.Control("name:treeView1") is not TreeView tree)
+            {
+                return;
+            }
+
+            ctx.State("treeView1", "TopLevelNodeCount", Count(tree.Nodes.Count));
+
+            if (tree.Nodes.Count > 0)
+            {
+                tree.SelectedNode = tree.Nodes[0];
+                ctx.Pump();
+                ctx.State("treeView1", "SelectedNodeIsFirst",
+                    ReferenceEquals(tree.SelectedNode, tree.Nodes[0]) ? "true" : "false");
+                ctx.State("treeView1", "FirstNodeChildCount", Count(tree.Nodes[0].Nodes.Count));
+            }
+        }));
+
+        scenarios.Add(new Scenario("form1.tabcontrol.select", "Form1", ctx =>
+        {
+            if (ctx.Control("name:tabControl1") is not TabControl tabs)
+            {
+                return;
+            }
+
+            ctx.State("tabControl1", "TabCount", Count(tabs.TabCount));
+
+            for (var i = 0; i < Math.Min(3, tabs.TabCount); i++)
+            {
+                tabs.SelectedIndex = i;
+                ctx.Pump();
+                ctx.State("tabControl1", "SelectedIndex", Count(tabs.SelectedIndex));
+            }
+        }));
+
+        scenarios.Add(new Scenario("form1.checkboxes.toggle", "Form1", ctx =>
+        {
+            foreach (var box in ControlLocator.AllReachableControls(ctx.Form).OfType<CheckBox>()
+                         .OrderBy(c => c.Name, StringComparer.Ordinal))
+            {
+                box.Checked = true;
+                ctx.Pump();
+                ctx.State(box.Name, "Checked", box.Checked ? "true" : "false");
+            }
+        }));
+
+        scenarios.Add(new Scenario("form1.radios.exclusive", "Form1", ctx =>
+        {
+            var radios = ControlLocator.AllReachableControls(ctx.Form).OfType<RadioButton>()
+                .OrderBy(c => c.Name, StringComparer.Ordinal).ToList();
+
+            if (radios.Count == 0)
+            {
+                return;
+            }
+
+            radios[0].Checked = true;
+            ctx.Pump();
+
+            // Selecting one must clear the others in the same container - the behaviour a tester checks.
+            foreach (var radio in radios)
+            {
+                ctx.State(radio.Name, "Checked", radio.Checked ? "true" : "false");
+            }
+        }));
+    }
+
+    private static void AddForm4(List<Scenario> scenarios)
+    {
+        // As on Form1, the button Click handlers open windows and are left to the quarantined tier.
+
+        scenarios.Add(new Scenario("form4.treeview.select", "Form4", ctx =>
+        {
+            if (ctx.Control("name:treeView1") is not TreeView tree)
+            {
+                return;
+            }
+
+            ctx.State("treeView1", "TopLevelNodeCount", Count(tree.Nodes.Count));
+
+            for (var i = 0; i < Math.Min(3, tree.Nodes.Count); i++)
+            {
+                tree.SelectedNode = tree.Nodes[i];
+                ctx.Pump();
+                ctx.State("treeView1", "SelectedNodeIndex", Count(i));
+                ctx.State("treeView1", "SelectedNodeChildCount", Count(tree.Nodes[i].Nodes.Count));
+            }
+        }));
+    }
+
+    private static void AddTest1(List<Scenario> scenarios)
+    {
+        scenarios.Add(new Scenario("test1.radios.exclusive", "Test1", ctx =>
+        {
+            var radios = ControlLocator.AllReachableControls(ctx.Form).OfType<RadioButton>()
+                .OrderBy(c => c.Name, StringComparer.Ordinal).ToList();
+
+            if (radios.Count == 0)
+            {
+                return;
+            }
+
+            radios[0].Checked = true;
+            ctx.Pump();
+
+            foreach (var radio in radios)
+            {
+                ctx.State(radio.Name, "Checked", radio.Checked ? "true" : "false");
+            }
+        }));
+
+        scenarios.Add(new Scenario("test1.grid.shape", "Test1", ctx =>
+        {
+            if (ctx.Control("name:dataGridView1") is not DataGridView grid)
+            {
+                return;
+            }
+
+            // Shape only. The sample seeds this grid from DateTime.Now.Ticks, so cell values are not
+            // comparable between two runs, let alone two engines.
+            ctx.State("dataGridView1", "ColumnCount", Count(grid.Columns.Count));
+            ctx.State("dataGridView1", "RowCount", Count(grid.Rows.Count));
+        }));
+    }
+
+    private static string Count(int value)
+    {
+        return value.ToString(CultureInfo.InvariantCulture);
     }
 
     /// <summary>

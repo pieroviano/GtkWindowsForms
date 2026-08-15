@@ -267,6 +267,32 @@ public class StripMenuItemRenderingTests
     }
 
     [Fact]
+    public void IndeterminateMenuItem_KeepsAnIndicator()
+    {
+        // Regression: CheckState.Indeterminate collapsed to unchecked, so the sample's "c Menu" drew no
+        // indicator at all where the Gtk3 build shows one. Gtk4 models the third state as Inconsistent.
+        var item = new ToolStripMenuItem("c Menu") { Checked = true, CheckState = CheckState.Indeterminate };
+
+        Assert.Equal(CheckState.Indeterminate, item.CheckState);
+        Assert.True(item.self.checkButton.Inconsistent, "the indicator must render in its third state");
+
+        // WinForms reports an indeterminate item as checked.
+        Assert.True(item.Checked);
+    }
+
+    [Fact]
+    public void ClearingAnIndeterminateItem_ReturnsItToUnchecked()
+    {
+        var item = new ToolStripMenuItem("c Menu") { CheckState = CheckState.Indeterminate };
+
+        item.CheckState = CheckState.Unchecked;
+
+        Assert.Equal(CheckState.Unchecked, item.CheckState);
+        Assert.False(item.self.checkButton.Inconsistent);
+        Assert.False(item.Checked);
+    }
+
+    [Fact]
     public void MenuBarItem_DropsItsMenuDownwards()
     {
         var menu = new MenuStrip();

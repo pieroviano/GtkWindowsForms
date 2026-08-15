@@ -1123,8 +1123,15 @@ public partial class Form : ContainerControl, IWin32Window
     /// </summary>
     private bool EnsureContentFits()
     {
+        // The watch is a GLib timeout, so it outlives the form if the window is closed before the extent
+        // settles - a short-lived form, or an application closing one straight after showing it. Touching a
+        // torn-down window from here throws (or crashes natively), so stop the watch instead. GtkSharp
+        // zeroes a wrapper's Handle when the native object is freed, which is the reliable liveness check.
+        if (self == null || self.Handle == IntPtr.Zero)
+            return false;
+
         var overlay = self.contaner;
-        if (overlay.Child is not Gtk.Widget background)
+        if (overlay == null || overlay.Child is not Gtk.Widget background)
             return false;
 
         int maxBottom = 0;
@@ -1191,14 +1198,16 @@ public partial class Form : ContainerControl, IWin32Window
         }
 
         // Wait for the client box to reach the requested height, then drop the request so the window can be
-        // resized freely - including smaller than its designed size, as a WinForms form can be.
-        if (self.ContentArea.AllocatedHeight < _designedClientSize.Height)
+        // resized freely - including smaller than its designed size, as a WinForms form can be. The content
+        // area can already be gone if the form is closing while this pass is still running.
+        var content = self.ContentArea;
+        if (content == null || content.AllocatedHeight < _designedClientSize.Height)
         {
             return;
         }
 
         _clientShortfallApplied = true;
-        self.ContentArea.SetSizeRequest(-1, -1);
+        content.SetSizeRequest(-1, -1);
     }
 
     /// <summary>Whether the designed-client-size correction has already been applied to this window.</summary>

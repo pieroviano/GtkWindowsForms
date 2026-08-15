@@ -62,7 +62,11 @@ public class TabPage : ContainerControl
     /// <value>
     /// The controls.
     /// </value>
-    public new ControlCollection Controls => _controls;
+    /// <remarks>
+    /// <c>override</c>, not <c>new</c>: the collection type matches the base's, and hiding it would leave a
+    /// page's children unreachable through a <see cref="Control" /> reference.
+    /// </remarks>
+    public override ControlCollection Controls => _controls;
 
     /// <summary>
     /// Gets or sets the dock.

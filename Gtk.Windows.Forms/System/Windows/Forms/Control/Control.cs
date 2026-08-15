@@ -657,8 +657,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         this.unique_key = Guid.NewGuid().ToString().ToLower();
 
         // Initialize the child collection so tests using `control.Controls` work
-        // (tests expect Controls to be non-null).
-        Controls = new ControlCollection(this);
+        // (tests expect Controls to be non-null). A container that keeps its children in a more specific
+        // collection replaces this via RegisterControlCollection, so the two views cannot disagree.
+        RegisterControlCollection(new ControlCollection(this));
 
         var widget = this.Widget;
         if (widget != null)
@@ -1213,10 +1214,31 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set;
     }
 
+    private ControlCollection? _registeredControls;
+
     /// <summary>
     /// Gets the collection of child controls.
     /// </summary>
-    public virtual ControlCollection? Controls { get; }
+    public virtual ControlCollection? Controls => _registeredControls;
+
+    /// <summary>
+    /// Registers the collection this control's children live in, so that
+    /// <see cref="P:System.Windows.Forms.Control.Controls" /> returns it.
+    /// </summary>
+    /// <param name="collection">The control's own child collection.</param>
+    /// <remarks>
+    /// For a control that exposes a <em>more specific</em> collection type - a
+    /// <see cref="TableLayoutPanel" /> whose collection also indexes by column and row - the derived
+    /// property has to be declared <c>new</c> rather than <c>override</c>, because covariant return types
+    /// need a runtime this library does not target (netstandard2.0). Declared that way alone, the children
+    /// become invisible through a <see cref="Control" /> reference: the base property returns its own empty
+    /// collection, so a recursive walk silently skips everything nested in that container. Registering the
+    /// same instance here keeps both views agreeing.
+    /// </remarks>
+    protected void RegisterControlCollection(ControlCollection collection)
+    {
+        _registeredControls = collection;
+    }
 
     /// <summary>
     /// Gets a value indicating whether the control has been created.

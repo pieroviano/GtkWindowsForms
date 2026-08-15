@@ -36,7 +36,27 @@ internal sealed class Gtk4SampleForms : ISampleForms
     public void InstallModalGuard()
     {
         AutoClosingMessageBox.Install(AutoCloseMessageBoxMs);
+
+        // AutoClosingMessageBox only covers the library's own MessageBox. Sample buttons also open plain
+        // GtkDialogs - file and colour choosers, print dialogs - which nothing dismisses, and the harness
+        // then waits forever for a user who is not there. The reference harness needs a generic reaper for
+        // the same reason, so both sides sweep any modal toplevel that is not a form under test.
+        GLib.Timeout.Add(ModalGuardIntervalMs, () =>
+        {
+            foreach (var window in Gtk.Window.ListToplevels())
+            {
+                if (window is Gtk.Dialog dialog && dialog.Visible)
+                {
+                    dialog.Destroy();
+                }
+            }
+
+            return true;
+        });
     }
+
+    /// <summary>How often to look for a modal dialog to dismiss.</summary>
+    private const uint ModalGuardIntervalMs = 250;
 
     /// <inheritdoc />
     public Form? Create(string logicalName)

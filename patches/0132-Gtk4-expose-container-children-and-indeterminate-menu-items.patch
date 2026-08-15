@@ -1,0 +1,360 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Subject: [PATCH] Gtk4: expose container children; render indeterminate menu items
+
+Two defects the sample parity suite surfaced, plus a crash it triggered.
+
+1. A container that keeps its children in a more specific collection hid them
+   from Control.Controls. TableLayoutPanel declared its Controls property with
+   `new` (netstandard2.0 has no covariant returns) while the base constructor
+   had already created a second, empty collection - so every control nested in a
+   table was invisible to anything walking the tree through a Control reference.
+   Measured on the sample: Test1 exposed 54 controls on Gtk3 but 29 on Gtk4.
+   Control now lets a container register its own collection, and TabPage - whose
+   collection type matches the base - simply overrides instead of hiding.
+
+2. CheckState.Indeterminate collapsed to unchecked, so the sample's "c Menu"
+   drew no indicator where the Gtk3 build shows one. Gtk4 models the third state
+   as GtkCheckButton.Inconsistent; the CSS that collapses the indicator now
+   spares :indeterminate as well as :checked.
+
+3. The content-fit watch is a GLib timeout, so it outlived a form closed before
+   the extent settled and dereferenced a torn-down window. It now stops instead.
+   The parity harness, which opens and closes six forms in a row, hit this
+   immediately.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/ContainerControlsExposureTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ContainerControlsExposureTests.cs
+new file mode 100644
+index 00000000..44a30f43
+--- /dev/null
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/ContainerControlsExposureTests.cs
+@@ -0,0 +1,95 @@
++namespace System.Windows.Forms;
++
++extern alias gtk;
++
++/// <summary>
++/// A container that keeps its children in a more specific collection must still expose them through
++/// <see cref="Control.Controls" />.
++/// </summary>
++/// <remarks>
++/// Found by the Gtk3/Gtk4 sample parity suite: walking <c>Controls</c> recursively reported 54 controls on
++/// the reference build but only 29 on the port, because <see cref="TableLayoutPanel" /> declared its
++/// <c>Controls</c> property with <c>new</c> and the base kept a second, empty collection. Anything reaching
++/// a container through a <see cref="Control" /> reference - a recursive search, serialization, a designer -
++/// silently skipped everything nested inside it.
++/// </remarks>
++[Collection("NonParallelCollection")]
++public class ContainerControlsExposureTests
++{
++    // Constructing these controls builds GTK widgets, which needs the type system initialised.
++    public ContainerControlsExposureTests() => Application.Init();
++
++    [Fact]
++    public void TableLayoutPanel_ExposesItsChildrenThroughTheBaseControlsProperty()
++    {
++        var table = new TableLayoutPanel { ColumnCount = 2, RowCount = 1 };
++        var child = new Button { Name = "nested" };
++
++        table.Controls.Add(child, 0, 0);
++
++        // Reached as a Control, exactly as a generic tree walk would.
++        Control asControl = table;
++
++        Assert.NotNull(asControl.Controls);
++        Assert.Equal(1, asControl.Controls!.Count);
++        Assert.Same(child, asControl.Controls[0]);
++    }
++
++    [Fact]
++    public void TableLayoutPanel_TypedAndBaseCollectionsAreTheSameInstance()
++    {
++        // The two views must not be allowed to drift apart again; same instance is the invariant that
++        // guarantees it.
++        var table = new TableLayoutPanel();
++        Control asControl = table;
++
++        Assert.Same(table.Controls, asControl.Controls);
++    }
++
++    [Fact]
++    public void TabPage_ExposesItsChildrenThroughTheBaseControlsProperty()
++    {
++        var page = new TabPage("page");
++        var child = new Button { Name = "onPage" };
++
++        page.Controls.Add(child);
++
++        Control asControl = page;
++
++        Assert.NotNull(asControl.Controls);
++        Assert.Contains(child, asControl.Controls!.Cast<Control>());
++    }
++
++    [Fact]
++    public void NestedContainers_AreFullyWalkable()
++    {
++        // The shape the parity suite tripped over: controls inside panels inside a table.
++        var table = new TableLayoutPanel { ColumnCount = 1, RowCount = 1 };
++        var panel = new Panel { Name = "panel" };
++        var deep = new Button { Name = "deep" };
++
++        panel.Controls.Add(deep);
++        table.Controls.Add(panel, 0, 0);
++
++        Assert.Equal(2, Walk(table).Count());
++        Assert.Contains(Walk(table), c => ReferenceEquals(c, deep));
++    }
++
++    private static IEnumerable<Control> Walk(Control root)
++    {
++        if (root.Controls == null)
++        {
++            yield break;
++        }
++
++        foreach (Control child in root.Controls)
++        {
++            yield return child;
++
++            foreach (var descendant in Walk(child))
++            {
++                yield return descendant;
++            }
++        }
++    }
++}
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/StripMenuItemRenderingTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/StripMenuItemRenderingTests.cs
+index 2d1dedff..22b138dd 100644
+--- a/Gtk.Windows.Forms.Tests/System/Windows/Forms/StripMenuItemRenderingTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/StripMenuItemRenderingTests.cs
+@@ -266,6 +266,32 @@ public class StripMenuItemRenderingTests
+         }
+     }
+ 
++    [Fact]
++    public void IndeterminateMenuItem_KeepsAnIndicator()
++    {
++        // Regression: CheckState.Indeterminate collapsed to unchecked, so the sample's "c Menu" drew no
++        // indicator at all where the Gtk3 build shows one. Gtk4 models the third state as Inconsistent.
++        var item = new ToolStripMenuItem("c Menu") { Checked = true, CheckState = CheckState.Indeterminate };
++
++        Assert.Equal(CheckState.Indeterminate, item.CheckState);
++        Assert.True(item.self.checkButton.Inconsistent, "the indicator must render in its third state");
++
++        // WinForms reports an indeterminate item as checked.
++        Assert.True(item.Checked);
++    }
++
++    [Fact]
++    public void ClearingAnIndeterminateItem_ReturnsItToUnchecked()
++    {
++        var item = new ToolStripMenuItem("c Menu") { CheckState = CheckState.Indeterminate };
++
++        item.CheckState = CheckState.Unchecked;
++
++        Assert.Equal(CheckState.Unchecked, item.CheckState);
++        Assert.False(item.self.checkButton.Inconsistent);
++        Assert.False(item.Checked);
++    }
++
+     [Fact]
+     public void MenuBarItem_DropsItsMenuDownwards()
+     {
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+index 61aad835..97d0fc17 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+@@ -625,7 +625,7 @@ public sealed partial class Application
+    the old margin-left:-20px clip no longer hides Gtk4's separate 'check' node, so menu items rendered as
+    checkboxes. Collapse the indicator node instead: always for top-level menu-bar items (.MenuBarItem), and
+    for ordinary menu items only while unchecked (keeping the checkmark that a Checked item must show). */
+-.MenuItemButton:not(:checked) check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}
++.MenuItemButton:not(:checked):not(:indeterminate) check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}
+ .MenuBarItem check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}
+ /* The 'opens a submenu' arrow. Gtk3 got this from GtkMenuItem's theming; Gtk4 has no menu-item widget, so
+    StripMenuItem draws it and this keeps it clear of the caption and slightly dimmed, as themes do. */
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+index dee31c55..43238322 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+@@ -657,8 +657,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+         this.unique_key = Guid.NewGuid().ToString().ToLower();
+ 
+         // Initialize the child collection so tests using `control.Controls` work
+-        // (tests expect Controls to be non-null).
+-        Controls = new ControlCollection(this);
++        // (tests expect Controls to be non-null). A container that keeps its children in a more specific
++        // collection replaces this via RegisterControlCollection, so the two views cannot disagree.
++        RegisterControlCollection(new ControlCollection(this));
+ 
+         var widget = this.Widget;
+         if (widget != null)
+@@ -1213,10 +1214,31 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+         set;
+     }
+ 
++    private ControlCollection? _registeredControls;
++
+     /// <summary>
+     /// Gets the collection of child controls.
+     /// </summary>
+-    public virtual ControlCollection? Controls { get; }
++    public virtual ControlCollection? Controls => _registeredControls;
++
++    /// <summary>
++    /// Registers the collection this control's children live in, so that
++    /// <see cref="P:System.Windows.Forms.Control.Controls" /> returns it.
++    /// </summary>
++    /// <param name="collection">The control's own child collection.</param>
++    /// <remarks>
++    /// For a control that exposes a <em>more specific</em> collection type - a
++    /// <see cref="TableLayoutPanel" /> whose collection also indexes by column and row - the derived
++    /// property has to be declared <c>new</c> rather than <c>override</c>, because covariant return types
++    /// need a runtime this library does not target (netstandard2.0). Declared that way alone, the children
++    /// become invisible through a <see cref="Control" /> reference: the base property returns its own empty
++    /// collection, so a recursive walk silently skips everything nested in that container. Registering the
++    /// same instance here keeps both views agreeing.
++    /// </remarks>
++    protected void RegisterControlCollection(ControlCollection collection)
++    {
++        _registeredControls = collection;
++    }
+ 
+     /// <summary>
+     /// Gets a value indicating whether the control has been created.
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+index 1e60948c..a405ecd3 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Form.cs
+@@ -1123,8 +1123,15 @@ public partial class Form : ContainerControl, IWin32Window
+     /// </summary>
+     private bool EnsureContentFits()
+     {
++        // The watch is a GLib timeout, so it outlives the form if the window is closed before the extent
++        // settles - a short-lived form, or an application closing one straight after showing it. Touching a
++        // torn-down window from here throws (or crashes natively), so stop the watch instead. GtkSharp
++        // zeroes a wrapper's Handle when the native object is freed, which is the reliable liveness check.
++        if (self == null || self.Handle == IntPtr.Zero)
++            return false;
++
+         var overlay = self.contaner;
+-        if (overlay.Child is not Gtk.Widget background)
++        if (overlay == null || overlay.Child is not Gtk.Widget background)
+             return false;
+ 
+         int maxBottom = 0;
+@@ -1191,14 +1198,16 @@ public partial class Form : ContainerControl, IWin32Window
+         }
+ 
+         // Wait for the client box to reach the requested height, then drop the request so the window can be
+-        // resized freely - including smaller than its designed size, as a WinForms form can be.
+-        if (self.ContentArea.AllocatedHeight < _designedClientSize.Height)
++        // resized freely - including smaller than its designed size, as a WinForms form can be. The content
++        // area can already be gone if the form is closing while this pass is still running.
++        var content = self.ContentArea;
++        if (content == null || content.AllocatedHeight < _designedClientSize.Height)
+         {
+             return;
+         }
+ 
+         _clientShortfallApplied = true;
+-        self.ContentArea.SetSizeRequest(-1, -1);
++        content.SetSizeRequest(-1, -1);
+     }
+ 
+     /// <summary>Whether the designed-client-size correction has already been applied to this window.</summary>
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs
+index 22fd1e5b..edf277a8 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs
+@@ -79,16 +79,37 @@ namespace System.Windows.Forms
+ 
+         public bool Checked
+         {
+-            // Gtk4 removed CheckButton.DrawIndicator; Checked reflects the toggle state (Active),
+-            // consistent with CheckState below.
+-            get => checkButton.Active;
+-            set => SetActiveSuppressed(value);
++            // Gtk4 removed CheckButton.DrawIndicator; Checked reflects the toggle state (Active).
++            // WinForms treats Indeterminate as checked too, which is why the inconsistent state counts here.
++            get => checkButton.Active || checkButton.Inconsistent;
++            set
++            {
++                SetActiveSuppressed(value);
++                if (!value)
++                {
++                    checkButton.Inconsistent = false;
++                }
++            }
+         }
+ 
++        /// <summary>
++        /// The item's tri-state check state.
++        /// </summary>
++        /// <remarks>
++        /// <see cref="CheckState.Indeterminate" /> maps to <c>GtkCheckButton.Inconsistent</c>. Without that
++        /// mapping the state collapsed to unchecked and an indeterminate item - the sample's "c Menu" -
++        /// drew no indicator at all, where the Gtk3 build shows one.
++        /// </remarks>
+         public CheckState CheckState
+         {
+-            get => checkButton.Active == true ? CheckState.Checked : CheckState.Unchecked;
+-            set => SetActiveSuppressed(value == CheckState.Checked);
++            get => checkButton.Inconsistent
++                ? CheckState.Indeterminate
++                : checkButton.Active ? CheckState.Checked : CheckState.Unchecked;
++            set
++            {
++                SetActiveSuppressed(value == CheckState.Checked);
++                checkButton.Inconsistent = value == CheckState.Indeterminate;
++            }
+         }
+ 
+         // Setting Active fires Toggled; when we do it in code (not a user click) that must not be reported as
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TabControlBase/TabPage.cs b/Gtk.Windows.Forms/System/Windows/Forms/TabControlBase/TabPage.cs
+index 31449dfa..96af0b73 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TabControlBase/TabPage.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TabControlBase/TabPage.cs
+@@ -62,7 +62,11 @@ public class TabPage : ContainerControl
+     /// <value>
+     /// The controls.
+     /// </value>
+-    public new ControlCollection Controls => _controls;
++    /// <remarks>
++    /// <c>override</c>, not <c>new</c>: the collection type matches the base's, and hiding it would leave a
++    /// page's children unreachable through a <see cref="Control" /> reference.
++    /// </remarks>
++    public override ControlCollection Controls => _controls;
+ 
+     /// <summary>
+     /// Gets or sets the dock.
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TableLayoutPanel.cs b/Gtk.Windows.Forms/System/Windows/Forms/TableLayoutPanel.cs
+index ef0a0728..797ca69f 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TableLayoutPanel.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TableLayoutPanel.cs
+@@ -48,6 +48,9 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
+     public TableLayoutPanel() : base()
+     {
+         _controls = new TableLayoutControlCollection(this);
++        // Also publish it as the base Control.Controls, or anything walking the tree through a Control
++        // reference sees an empty collection and skips every control nested in the table.
++        RegisterControlCollection(_controls);
+         _columnStyles = new TableLayoutColumnStyleCollection();
+         _rowStyles = new TableLayoutRowStyleCollection();
+     }
+@@ -136,6 +139,13 @@ public partial class TableLayoutPanel : ContainerControl, IExtenderProvider
+     /// <value>
+     /// The controls.
+     /// </value>
++    /// <remarks>
++    /// <c>new</c> rather than <c>override</c> because the collection type is more specific than the base's
++    /// and netstandard2.0 has no covariant return types. On its own that hides the table's children from
++    /// anything reaching them through a <see cref="Control" /> reference, so the constructor also registers
++    /// this same instance as the base collection - see
++    /// <see cref="M:System.Windows.Forms.Control.RegisterControlCollection(System.Windows.Forms.Control.ControlCollection)" />.
++    /// </remarks>
+     [Browsable(false)]
+     public new TableLayoutControlCollection Controls
+     {

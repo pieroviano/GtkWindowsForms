@@ -79,16 +79,37 @@ namespace System.Windows.Forms
 
         public bool Checked
         {
-            // Gtk4 removed CheckButton.DrawIndicator; Checked reflects the toggle state (Active),
-            // consistent with CheckState below.
-            get => checkButton.Active;
-            set => SetActiveSuppressed(value);
+            // Gtk4 removed CheckButton.DrawIndicator; Checked reflects the toggle state (Active).
+            // WinForms treats Indeterminate as checked too, which is why the inconsistent state counts here.
+            get => checkButton.Active || checkButton.Inconsistent;
+            set
+            {
+                SetActiveSuppressed(value);
+                if (!value)
+                {
+                    checkButton.Inconsistent = false;
+                }
+            }
         }
 
+        /// <summary>
+        /// The item's tri-state check state.
+        /// </summary>
+        /// <remarks>
+        /// <see cref="CheckState.Indeterminate" /> maps to <c>GtkCheckButton.Inconsistent</c>. Without that
+        /// mapping the state collapsed to unchecked and an indeterminate item - the sample's "c Menu" -
+        /// drew no indicator at all, where the Gtk3 build shows one.
+        /// </remarks>
         public CheckState CheckState
         {
-            get => checkButton.Active == true ? CheckState.Checked : CheckState.Unchecked;
-            set => SetActiveSuppressed(value == CheckState.Checked);
+            get => checkButton.Inconsistent
+                ? CheckState.Indeterminate
+                : checkButton.Active ? CheckState.Checked : CheckState.Unchecked;
+            set
+            {
+                SetActiveSuppressed(value == CheckState.Checked);
+                checkButton.Inconsistent = value == CheckState.Indeterminate;
+            }
         }
 
         // Setting Active fires Toggled; when we do it in code (not a user click) that must not be reported as

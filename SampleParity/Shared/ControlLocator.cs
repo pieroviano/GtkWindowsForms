@@ -58,6 +58,52 @@ internal static class ControlLocator
     }
 
     /// <summary>
+    /// Enumerates every control reachable from a form, including those a container keeps outside its
+    /// <c>Controls</c> collection.
+    /// </summary>
+    /// <param name="form">The form to walk.</param>
+    /// <returns>Every reachable control.</returns>
+    /// <remarks>
+    /// Used for <em>lookup</em>, not for the structural census. A <c>SplitContainer</c> keeps its content in
+    /// <c>Panel1</c>/<c>Panel2</c> and a <c>TabControl</c> in <c>TabPages</c>, and neither shim surfaces
+    /// those through <c>Controls</c> - so most of Form1 and Form4 is unaddressable without following them.
+    /// The census deliberately does not, because walking that deep also enumerates the internal sub-widgets
+    /// of composite controls, which differ between the two engines for reasons that are not defects.
+    /// </remarks>
+    public static IEnumerable<Control> AllReachableControls(Form form)
+    {
+        return WalkDeep(form.Controls);
+    }
+
+    private static IEnumerable<Control> WalkDeep(Control.ControlCollection? controls)
+    {
+        if (controls == null)
+        {
+            yield break;
+        }
+
+        foreach (var entry in (System.Collections.IEnumerable)controls)
+        {
+            if (entry is not Control child)
+            {
+                continue;
+            }
+
+            yield return child;
+
+            foreach (var descendant in WalkDeep(child.Controls))
+            {
+                yield return descendant;
+            }
+
+            foreach (var descendant in WalkSideContainers(child))
+            {
+                yield return descendant;
+            }
+        }
+    }
+
+    /// <summary>
     /// Finds a strip item (menu entry, tool button) on a form.
     /// </summary>
     /// <param name="form">The form to search.</param>
@@ -144,9 +190,11 @@ internal static class ControlLocator
             yield break;
         }
 
-        foreach (Control child in controls)
+        foreach (var entry in (System.Collections.IEnumerable)controls)
         {
-            if (child == null)
+            // Defensive: a collection may hold something that is not a Control (or a null), and a hard cast
+            // in the enumerator would abort the whole scenario with an InvalidCastException.
+            if (entry is not Control child)
             {
                 continue;
             }
@@ -160,33 +208,98 @@ internal static class ControlLocator
         }
     }
 
-    private static Control? FindControlByName(Control.ControlCollection? controls, string name)
+    /// <summary>
+    /// Follows containers that hold their children somewhere other than <c>Controls</c>.
+    /// </summary>
+    /// <param name="control">The control to inspect.</param>
+    /// <returns>The children reachable only through those properties, and their descendants.</returns>
+    /// <remarks>
+    /// A <c>SplitContainer</c> keeps its content in <c>Panel1</c>/<c>Panel2</c> and a <c>TabControl</c> in
+    /// <c>TabPages</c>; neither shim surfaces those through <c>Controls</c>, so a plain recursive walk stops
+    /// at the container and everything inside it is invisible. That is a shared limitation rather than a
+    /// port regression - it behaves identically on both engines - but without following these the catalogue
+    /// could not address most of Form1 and Form4 at all.
+    /// </remarks>
+    private static IEnumerable<Control> WalkSideContainers(Control control)
     {
-        if (controls == null)
+        foreach (var name in new[] { "Panel1", "Panel2" })
         {
-            return null;
-        }
+            var property = control.GetType().GetProperty(name);
 
-        foreach (Control child in controls)
-        {
-            if (child == null)
+            if (property == null || !typeof(Control).IsAssignableFrom(property.PropertyType))
             {
                 continue;
             }
 
-            if (Matches(child.Name, name))
+            Control? panel = null;
+            try
             {
-                return child;
+                panel = property.GetValue(control) as Control;
+            }
+            catch (Exception)
+            {
+                // A container that cannot produce its panel simply contributes nothing.
             }
 
-            var found = FindControlByName(child.Controls, name);
-            if (found != null)
+            if (panel == null)
             {
-                return found;
+                continue;
+            }
+
+            yield return panel;
+
+            foreach (var descendant in WalkDeep(panel.Controls))
+            {
+                yield return descendant;
             }
         }
 
-        return null;
+        foreach (var page in TabPagesOf(control))
+        {
+            yield return page;
+
+            foreach (var descendant in WalkDeep(page.Controls))
+            {
+                yield return descendant;
+            }
+        }
+    }
+
+    private static IEnumerable<Control> TabPagesOf(Control control)
+    {
+        var property = control.GetType().GetProperty("TabPages");
+        if (property == null)
+        {
+            yield break;
+        }
+
+        object? value = null;
+        try
+        {
+            value = property.GetValue(control);
+        }
+        catch (Exception)
+        {
+            yield break;
+        }
+
+        if (value is not System.Collections.IEnumerable pages)
+        {
+            yield break;
+        }
+
+        foreach (var page in pages)
+        {
+            if (page is Control child)
+            {
+                yield return child;
+            }
+        }
+    }
+
+    private static Control? FindControlByName(Control.ControlCollection? controls, string name)
+    {
+        return WalkDeep(controls).FirstOrDefault(c => Matches(c.Name, name));
     }
 
     private static ToolStripItem? FindItemByName(ToolStripItemCollection? items, string name)
