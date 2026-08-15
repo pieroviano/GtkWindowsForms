@@ -533,7 +533,13 @@ public sealed partial class Application
         // gave no feedback about which entry the pointer was on. Menu-bar entries keep the strip's own
         // hover, which is why the rules exclude them.
         + ".MenuItemButton:not(.MenuBarItem):hover{background-color:@theme_selected_bg_color;}\n"
-        + ".MenuItemButton:not(.MenuBarItem):hover>box label{color:@theme_selected_fg_color;}";
+        + ".MenuItemButton:not(.MenuBarItem):hover>box label{color:@theme_selected_fg_color;}\n"
+        // A ToolStripTextBox is a bare GtkEntry, and Adwaita gives an entry a 34px minimum height plus
+        // padding. A size request cannot pull it below that - a request is a minimum - so the entry ended up
+        // 42px tall, taller than the strip it lives in, and being the tallest item it inflated the whole
+        // toolstrip past its designed height and pushed the trailing items off the right edge. Collapsing
+        // the theme's minimum lets the item's designed Size govern, as it does in WinForms.
+        + ".ToolStripEntry,.ToolStripEntry>text{min-height:0;padding-top:0;padding-bottom:0;}";
 
     public static Gtk.Application Init()
     {

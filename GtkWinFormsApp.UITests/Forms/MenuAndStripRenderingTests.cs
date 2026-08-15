@@ -121,6 +121,48 @@ public class MenuAndStripRenderingTests
         });
     }
 
+    [Fact]
+    public void ToolStripTextBox_IsSizedByItsDesignedSize_NotTheThemesEntryMetrics()
+    {
+        // Regression: a ToolStripTextBox is a bare GtkEntry and nothing passed the item's Size down to it,
+        // so it fell back to natural sizing - a couple of characters wide - while Adwaita's entry metrics
+        // made it 42px tall. Being the tallest item it inflated the whole strip past its designed height
+        // and pushed the trailing items off the right edge. ToolStripComboBox had always applied its size;
+        // the text box was missing the counterpart.
+        const int width = 120;
+        const int height = 33;
+
+        ToolStripTextBox? box = null;
+        ToolStrip? strip = null;
+
+        UiDriver.Run(
+            () =>
+            {
+                var form = new Form { ClientSize = new Size(500, 200) };
+                strip = new ToolStrip { Dock = DockStyle.Top, AutoSize = false, Size = new Size(500, height) };
+                box = new ToolStripTextBox { Size = new Size(width, height) };
+                strip.Items.Add(box);
+                form.Controls.Add(strip);
+
+                return form;
+            },
+            ctx =>
+            {
+                UiDriver.Pump(40);
+
+                var widget = box!.Widget.ToolItem;
+                Assert.Equal(width, widget.AllocatedWidth);
+
+                widget.Measure(Gtk.Orientation.Vertical, -1, out var min, out _, out _, out _);
+                Assert.True(min <= height,
+                    $"the text box must not demand more than its designed {height}px height, got {min}px");
+
+                strip!.self.Measure(Gtk.Orientation.Vertical, -1, out var stripMin, out _, out _, out _);
+                Assert.True(stripMin <= height + 2,
+                    $"the strip must not be inflated past its designed {height}px height, got {stripMin}px");
+            });
+    }
+
     private static ToolStripMenuItem? FirstMenuItemWithIcon(MenuStrip strip)
     {
         foreach (var item in strip.Items)
