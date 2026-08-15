@@ -30,6 +30,11 @@ internal static class HarnessMain
 
         Application.Init();
 
+        if (args.Contains("--showall"))
+        {
+            return ShowAll(forms, ReadOption(args, "--hold"));
+        }
+
         // Before any form is shown: teardown closes every form, and a sample handler that pops a modal
         // dialog on FormClosing would otherwise block the harness forever.
         forms.InstallModalGuard();
@@ -48,6 +53,62 @@ internal static class HarnessMain
 
         trace.Save(output);
         Console.WriteLine($"{trace.Records.Count} records -> {output}");
+
+        return 0;
+    }
+
+    /// <summary>
+    /// Opens every form and holds them on screen, so an external tool can photograph each window.
+    /// </summary>
+    /// <param name="forms">The sample's form factory.</param>
+    /// <param name="hold">How many seconds to hold, as text; defaults to 60.</param>
+    /// <returns>0.</returns>
+    /// <remarks>
+    /// Snapshots are taken from the real windows rather than in-process, because rendering a widget to a
+    /// Cairo surface is a Gtk3 facility: Gtk4 replaced <c>gtk_widget_draw</c> with the snapshot API, and the
+    /// existing in-process capture is still a stub there. Photographing the actual toplevels is also the
+    /// only way to compare what the two engines really put on screen.
+    /// </remarks>
+    private static int ShowAll(ISampleForms forms, string? hold)
+    {
+        var seconds = int.TryParse(hold, out var parsed) ? parsed : 60;
+        var opened = new List<Form>();
+
+        foreach (var name in forms.Names)
+        {
+            try
+            {
+                var form = forms.Create(name);
+                if (form == null)
+                {
+                    continue;
+                }
+
+                form.Text = name + " :: " + form.Text;
+                form.Show();
+                opened.Add(form);
+
+                for (var i = 0; i < 40; i++)
+                {
+                    Application.DoEvents();
+                }
+
+                Console.WriteLine($"shown {name}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"FAILED {name}: {ex.GetType().Name}: {ex.Message}");
+            }
+        }
+
+        Console.WriteLine($"holding {opened.Count} form(s) for {seconds}s");
+
+        var deadline = DateTime.UtcNow.AddSeconds(seconds);
+        while (DateTime.UtcNow < deadline)
+        {
+            Application.DoEvents();
+            Thread.Sleep(10);
+        }
 
         return 0;
     }
