@@ -432,11 +432,21 @@ Assuming the three spikes pass: Win32 ≈ 1 day, Quartz ≈ 1.5 days, SNI+dbusme
   `NIM_DELETE` both returned true against that window, and `Marshal.SizeOf<NOTIFYICONDATAW>()` came back
   as 976 on x64, matching `NOTIFYICONDATA_V4_SIZE`. The dedicated-thread fallback is therefore not needed.
   Incidental finding: Gtk on Windows requires an STA main thread (`OleInitialize failed` otherwise).
-- **V2 (GDBus object export) — NOT RUN; designed around instead.** It cannot be answered from Windows, so
-  rather than leave the Linux backend resting on an unverified assumption, the export path was written
-  against hand-declared `DllImport`s for `g_dbus_connection_register_object` and `GDBusInterfaceVTable` —
-  which was V2's own documented fallback. The generated GioSharp binding is not used for the vtable, so
-  its marshalling behaviour no longer matters. Delegate rooting is explicit in both exporters.
+- **V2 (GDBus object export) — VERIFIED on Linux (WSL, Ubuntu 22.04).** The export path was written against
+  hand-declared `DllImport`s for `g_dbus_connection_register_object` and `GDBusInterfaceVTable` - V2's own
+  documented fallback - and a harness has now run it end to end under `dbus-run-session`: both objects
+  export, the item announces itself to a `StatusNotifierWatcher`, every `org.kde.StatusNotifierItem`
+  property reads back with the signature GDBus expects (including `IconPixmap` as `a(iiay)` and `ToolTip`
+  as `(sa(iiay)ss)`), and `com.canonical.dbusmenu`'s `GetLayout`, `AboutToShow` and `Version` all answer -
+  `GetLayout` returning a well-formed `(u(ia{sv}av))`. **All checks passed.**
+
+  It also found a real defect, since fixed: the `GetPropertyFunc` delegate declared the `GError**` argument
+  as `out IntPtr`, which makes the runtime dereference it to store a value - that faulted with a
+  `NullReferenceException` the first time any property was read, taking the process down. The pointer is
+  now taken opaquely and never written through; returning `IntPtr.Zero` is how a getter declines anyway.
+
+  Not covered: translating a real `ContextMenuStrip` and the icon pixmap, both of which need GTK widgets
+  rather than just the D-Bus layer.
 - **V3 (macOS `objc_msgSend` and the quartz backend) — NOT RUN.** Cannot be answered from Windows. The
   code follows the per-signature rule V3 exists to protect (no variadic `objc_msgSend`), and a failure to
   initialise degrades to `NullNotifyIconBackend`, so the risk is confined to macOS.

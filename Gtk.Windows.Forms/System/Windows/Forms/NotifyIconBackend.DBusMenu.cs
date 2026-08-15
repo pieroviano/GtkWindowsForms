@@ -270,10 +270,8 @@ internal sealed class DBusMenuExporter : IDisposable
     }
 
     private IntPtr OnGetProperty(IntPtr connection, IntPtr sender, IntPtr objectPath, IntPtr interfaceName,
-        IntPtr propertyName, out IntPtr error, IntPtr userData)
+        IntPtr propertyName, IntPtr error, IntPtr userData)
     {
-        error = IntPtr.Zero;
-
         try
         {
             switch (GDBusNative.FromUtf8(propertyName))

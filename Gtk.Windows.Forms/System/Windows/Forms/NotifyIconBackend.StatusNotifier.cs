@@ -307,12 +307,16 @@ internal static class GDBusNative
     /// <param name="objectPath">The object path queried.</param>
     /// <param name="interfaceName">The interface queried.</param>
     /// <param name="propertyName">The property queried.</param>
-    /// <param name="error">Set on failure; left alone here.</param>
+    /// <param name="error">
+    /// The <c>GError**</c> GDBus supplies. Taken as an opaque pointer and never written through: declared
+    /// as an <c>out</c> parameter the runtime dereferences it to store a value, which faults outright when
+    /// GDBus passes null there. Returning <see cref="IntPtr.Zero" /> is how a getter declines anyway.
+    /// </param>
     /// <param name="userData">Unused.</param>
     /// <returns>A <c>GVariant*</c> GDBus takes ownership of, or <see cref="IntPtr.Zero" />.</returns>
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate IntPtr GetPropertyFunc(IntPtr connection, IntPtr sender, IntPtr objectPath,
-        IntPtr interfaceName, IntPtr propertyName, out IntPtr error, IntPtr userData);
+        IntPtr interfaceName, IntPtr propertyName, IntPtr error, IntPtr userData);
 
     /// <summary>Signature of <c>GDBusSignalCallback</c>.</summary>
     /// <param name="connection">The connection the signal arrived on.</param>
@@ -679,10 +683,8 @@ internal sealed class StatusNotifierItemBackend : NotifyIconBackendBase
     }
 
     private IntPtr OnGetProperty(IntPtr connection, IntPtr sender, IntPtr objectPath, IntPtr interfaceName,
-        IntPtr propertyName, out IntPtr error, IntPtr userData)
+        IntPtr propertyName, IntPtr error, IntPtr userData)
     {
-        error = IntPtr.Zero;
-
         try
         {
             switch (GDBusNative.FromUtf8(propertyName))
