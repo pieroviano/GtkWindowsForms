@@ -1,6 +1,6 @@
 # Plan — Gtk3↔Gtk4 sample parity UI tests
 
-**Status:** plan only, not implemented.
+**Status:** **infrastructure implemented and green; catalogue is an initial slice.** See §9.
 **Goal:** drive every interactive control on every form of the sample application, first against the
 **Gtk3 sample in the `gtksystem-windows-forms` submodule** (the reference), then against the **Gtk4 sample**
 (`GtkWinFormsApp`), and assert the two behave the same — so that porting Gtk3 → Gtk4 cannot introduce a
@@ -291,6 +291,65 @@ closes without error. Worth keeping precisely because an empty form is where siz
 Screenshot baselines (D3, and the existing suite covers the Gtk4 sample's pixels); the second sample pair
 (`GTKSystemWinFormsApp11` / `GtkSystemWinFormsApp11`); designer-time behaviour; localisation beyond the
 normalization in B3.
+
+## 9. Implementation record
+
+### Delivered
+
+| Artefact | Location |
+|---|---|
+| Trace format and writer | [SampleParity/Shared/Trace.cs](SampleParity/Shared/Trace.cs) |
+| Control/strip locator | [SampleParity/Shared/ControlLocator.cs](SampleParity/Shared/ControlLocator.cs) |
+| Scenario model, context and input verbs | [SampleParity/Shared/Scenario.cs](SampleParity/Shared/Scenario.cs) |
+| Scenario catalogue | [SampleParity/Shared/ScenarioCatalogue.cs](SampleParity/Shared/ScenarioCatalogue.cs) |
+| Shared harness body | [SampleParity/Shared/HarnessMain.cs](SampleParity/Shared/HarnessMain.cs) |
+| Reference (Gtk3) harness | [SampleParity/Gtk3Harness](SampleParity/Gtk3Harness) |
+| Ported (Gtk4) harness | [SampleParity/Gtk4Harness](SampleParity/Gtk4Harness) |
+| Parity tests | [SampleParity/SampleParity.Tests](SampleParity/SampleParity.Tests) |
+| Divergence backlog | [KnownDivergences.cs](SampleParity/SampleParity.Tests/KnownDivergences.cs) |
+
+Both harnesses and the test project are in `Gtk.Windows.Forms.sln`, under the `SampleParity` solution
+folder; the three upstream projects needed to build the reference sample are under `Submodules`.
+
+### Blocking constraints — outcomes
+
+- **B1 — CONFIRMED, and the design holds.** The reference sample builds and is drivable from a harness we
+  own. Both harnesses run to completion and emit 85 records each with zero errors.
+- **B2 — implemented as planned**, with one correction: the divergent names are addressed by `path:`
+  (structural position) rather than an alias table, because on the Gtk4 side several are localized resource
+  lookups rather than literals, so there is no fixed string to alias.
+- **B3 — implemented.** `ScenarioContext.Text` reduces captions to `<text:changed>` / `<text:unchanged>` /
+  `<text:cleared>`.
+- **B4 — confirmed.** The reference sample's forms are `public` but its Designer fields are `private`, so
+  the recursive name lookup is required, as anticipated.
+- **B5 — implemented.** Geometry is recorded as invariants, never pixel counts.
+
+### Deviations from the plan as written
+
+- **Strips are found by having an `Items` collection, not by base class.** The plan assumed
+  `OfType<ToolStrip>()`. That is wrong: upstream declares `MenuStrip : Control` while the port declares
+  `MenuStrip : ToolStrip`, so the filter silently dropped the menu bar on the Gtk3 side only - every menu
+  scenario would have passed vacuously there.
+- **Modal dialogs are defused per engine, via a new `ISampleForms.InstallModalGuard`.** The plan assumed the
+  auto-closing MessageBox could be reused on both sides. It cannot: upstream's `MessageBox` is a static
+  class with no replaceable instance, and the submodule must not be modified. It blocks in
+  `Gtk.Dialog.Run()`, which spins a nested main loop, so the Gtk3 harness dismisses it from a GLib timer
+  instead. Without this the harness hung on `Form2`'s `FormClosing`.
+
+### What the suite found on its first run
+
+- **`Test1` exposes 54 controls on Gtk3 but 29 on Gtk4** (Labels 16→2, Panels 5→1, PictureBoxes 8→1). The
+  two designers declare identical counts, and `Form3` - which does not nest controls in panels - agrees
+  exactly at 24. The likely cause is that a container's `Controls` collection does not expose its children
+  on the Gtk4 side, which would affect any consumer enumerating a container. Recorded in
+  `KnownDivergences` and **unresolved**.
+
+### Still to do
+
+The catalogue is an initial slice: the structural census of all six forms plus `Form2`, `Form3` and `Form5`
+behaviour. The remaining per-handler scenarios in §4 - Form1's 14 wired events, Form4's 8, Test1's 12,
+UserControl11 - and the whole `RequiresPointer` tier are not yet written. The infrastructure they need is
+in place.
 
 ## 8. Open question for the operator
 

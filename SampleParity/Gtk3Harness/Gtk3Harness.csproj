@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>SampleParity</RootNamespace>
+    <AssemblyName>SampleParity.Gtk3Harness</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <UseWindowsForms>False</UseWindowsForms>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <!-- The upstream sample and library are vendored third-party code; their warnings are not ours to fix. -->
+    <NoWarn>$(NoWarn);CS8002;CS0436;CS0612;CS0618;NU1603</NoWarn>
+  </PropertyGroup>
+
+  <!-- The scenario catalogue is compiled in as source, not referenced as an assembly: this harness binds
+       upstream's Gtk3 System.Windows.Forms, the Gtk4 harness binds this repo's, and a shared library could
+       only bind one of them. -->
+  <ItemGroup>
+    <Compile Include="..\Shared\**\*.cs" LinkBase="Shared" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\gtksystem-windows-forms\Samples\GTKWinFormsApp\GTKWinFormsApp.csproj" />
+  </ItemGroup>
+
+</Project>
