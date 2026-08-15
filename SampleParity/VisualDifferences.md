@@ -27,11 +27,11 @@ never a finding below. Window sizes differ slightly and are not findings either.
 | # | Difference | Forms | Impact |
 |---|---|---|---|
 | [D1](#d1) | `ListView` items render without their text | Form2 | **High** — list looks empty |
-| [D2](#d2) | `BackgroundImage` not painted | Form2, Form4, Test1 | **High** — whole visual identity lost |
-| [D3](#d3) | `Button.Image` not painted | Test1 | **High** — icon buttons become text-only |
+| ~~[D2](#d2)~~ | ~~`BackgroundImage` not painted~~ — **FIXED**: the custom-paint path was disabled on every widget; restored via `OnSnapshot` | Form2, Form4 | **High** |
+| [D3](#d3) | Test1's button icons missing — **theme CSS**, not `Button.Image` (diagnosis corrected) | Test1 | **High** |
 | [D4](#d4) | Custom `Paint` geometry rotated ~180° | Test1 | **High** — charts point the wrong way |
 | [D5](#d5) | Custom `Paint` fill level wrong | Test1 | **High** — a 50% gauge renders ~5% |
-| [D6](#d6) | `PasswordChar` ignored | Form1 | **High** — password shown in clear |
+| ~~[D6](#d6)~~ | ~~`PasswordChar` ignored~~ — **FIXED**: masking hung off `GtkWidget::show`, a signal Gtk4 removed | Form1 | **High** |
 | [D7](#d7) | `\r\n` in a grid header rendered literally | Form1 | Medium |
 | [D8](#d8) | `FlowLayoutPanel` wraps too early | Form1 | Medium |
 | [D9](#d9) | List/grid rows over-tall; content clipped | Form1, Form2, Test1 | Medium |
@@ -65,16 +65,25 @@ at all, and why item creation stops at two.
 **Where to look:** `Control.BackgroundImage` / `BackgroundImageLayout` — it appears not to reach the Gtk4
 draw path for any control type.
 
-## D3 — `Button.Image` is not painted {#d3}
+## D3 — Test1's button icons are missing (theme CSS, not `Button.Image`) {#d3}
 
 **Test1.** Every button down the right edge (*Stop*, *Log out*, *Stop sampling*, *Emergency mode*, *Alarm*,
 *Print*, *Start*) has an icon above its caption in the reference — a red stop sign, a clock, a warning
-triangle, a printer, a green check. The port renders **text only**. The captions are also truncated
-(*"Stop samp…"*, *"Emergenc…"*), because without the icon the layout budget differs.
+triangle, a printer, a green check. The port renders **text only**, and the captions are truncated
+(*"Stop samp…"*, *"Emergenc…"*) because without the icon the layout budget differs.
 
-**Where to look:** `Button.Image` with `TextImageRelation.ImageAboveText`. Note the menu-item icon path was
-recently fixed (Gtk4's `GtkImage` ignores a pixbuf's size unless `PixelSize` is set) — the same trap very
-likely applies here.
+> **Corrected diagnosis.** This first looked like `Button.Image` not reaching the draw path. It is not:
+> `Test1.Designer.cs` sets **no `Image` and no `BackgroundImage` at all** — grep both, there are zero
+> assignments. The icons come from the sample's own CSS theme, `theme/Test1.css` with the PNGs under
+> `theme/Test1/`, which the csproj copies next to the binary.
+>
+> The theme-loading code in `Application.Init` is line-for-line the same on both engines, so the theme *is*
+> being read. What differs is Gtk4's CSS support: it dropped and changed several of the properties a Gtk3
+> stylesheet relies on to attach an image to a widget. So this is a **CSS-compatibility** item — translate
+> or replace the unsupported declarations — not a missing code path.
+>
+> Note this makes D3 independent of [D2](#d2): restoring the paint path fixed `BackgroundImage` (verified on
+> Form4) without changing Test1 at all, which is what pointed at the theme in the first place.
 
 ## D4 — Custom `Paint` geometry is rotated by about 180° {#d4}
 
@@ -157,11 +166,15 @@ grid — where the reference either shows a slim one or none. Partly a consequen
 
 ## Suggested order
 
-1. **[D6](#d6)** — a password rendered in clear is the only one with a security flavour, and it is a
-   one-property fix.
-2. **[D2](#d2)** and **[D3](#d3)** — one root area (images reaching the draw path) that accounts for the
-   largest share of the visual gap, across three forms.
-3. **[D1](#d1)** — a list that renders no text reads as broken.
+1. ~~**[D6](#d6)**~~ — **done.** Masking was applied from a handler wired to `GtkWidget::show`, which Gtk4
+   removed, so neither `PasswordChar` nor `Mask` ever ran; both now apply on assignment.
+2. ~~**[D2](#d2)**~~ — **done, and it was bigger than one property.** WinForms custom painting had been
+   disabled on *every* widget on the premise that Gtk4 offers no overridable `OnSnapshot`. It does; the
+   drawing code was intact and only needed calling. `BackgroundImage` and every `Paint` handler were dead
+   until this.
+3. **[D3](#d3)** — now known to be CSS compatibility, independent of D2. Needs the Gtk3 stylesheet's
+   image declarations translated to what Gtk4 accepts.
+4. **[D1](#d1)** — a list that renders no text reads as broken.
 4. **[D4](#d4)** / **[D5](#d5)** — both in the `System.Drawing` shim's arc/rect painting; diagnose together.
 5. **[D8](#d8)** / **[D9](#d9)** — shared "Gtk4 minimum metrics vs designed size" family, with a known
    remedy already applied once to `ToolStripTextBox`.
