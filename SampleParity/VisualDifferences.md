@@ -128,8 +128,31 @@ Worth diagnosing together with [D4](#d4): both are custom `Paint` handlers drawi
 **Form1.** The date column header is two lines (`日期` / `时间`) in the reference. The port prints
 `Date\r\nTime` — the escape sequence itself, on one line.
 
-Two things to check: that the header text is being *unescaped* when read from resources, and that the cell
-renderer honours embedded newlines at all.
+> **Root cause found, and it is not in the library.** The reference sample has the C# literal
+> `CreateDate.HeaderText = "日期
+时间";` — where `
+` is a real escape the compiler turns into CR LF.
+> The sample transform lifts that string into a resx, and
+> [SampleGlobalizationEnricher.cs:331-333](../Prepare.Common/Languages/SampleGlobalizationEnricher.cs#L331-L333)
+> captures the literal's **raw source text** rather than its decoded value. So the resx ends up holding two
+> literal characters, backslash and `r`, and the runtime dutifully prints them:
+>
+> ```xml
+> <data name="Gtk_Date_r_nTime" xml:space="preserve">
+>   <value>Date
+Time</value>
+> </data>
+> ```
+>
+> The key name `Gtk_Date_r_nTime` is itself derived from the escaped text, which is a second tell.
+>
+> **Fix in two parts.** The durable one is in the pipeline: decode C# escape sequences when a literal
+> becomes a resource value, with a `Prepare.Tests` case. The already-generated `.resx` files also need
+> correcting (both the invariant and `zh-Hans` entries) for the sample to render correctly before the next
+> regeneration — a hand edit alone would be lost, so the pipeline fix has to come first.
+>
+> Worth checking separately whether the cell renderer honours an embedded newline at all, since that has
+> never been exercised.
 
 ## D8 — `FlowLayoutPanel` wraps too early {#d8}
 
