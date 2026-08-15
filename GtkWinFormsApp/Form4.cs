@@ -10,6 +10,7 @@ public partial class Form4 : Form
     public Form4()
     {
         InitializeComponent();
+        Width += 100;
         this.Shown += Form4_Shown;
 
         button4.Click += Button4_Click;

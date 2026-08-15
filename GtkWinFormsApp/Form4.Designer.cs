@@ -1,4 +1,4 @@
- 
+﻿ 
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -368,7 +368,7 @@ namespace GtkWinFormsApp
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1218, 679);
+            ClientSize = new Size(1300, 679);
             Controls.Add(splitContainer1);
             Controls.Add(label1);
             Name = "Form4";
