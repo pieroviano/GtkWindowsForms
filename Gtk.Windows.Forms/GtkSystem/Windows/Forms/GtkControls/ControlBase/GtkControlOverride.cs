@@ -60,6 +60,16 @@ public sealed class GtkControlOverride : IControlOverride
     public event PaintEventHandler? Paint;
 
     /// <summary>
+    /// Gets a value indicating whether anything is listening for <see cref="Paint" />.
+    /// </summary>
+    /// <value><see langword="true" /> when a handler is attached.</value>
+    /// <remarks>
+    /// Exposed so a test can assert that a control's <c>Paint</c> subscription actually reaches the object
+    /// the snapshot bridge invokes - the link that was missing while custom painting was disabled.
+    /// </remarks>
+    public bool HasPaintSubscribers => Paint != null || PaintGraphics != null;
+
+    /// <summary>
     /// Occurs when paint graphics.
     /// </summary>
     public event PaintGraphicsEventHandler? PaintGraphics;

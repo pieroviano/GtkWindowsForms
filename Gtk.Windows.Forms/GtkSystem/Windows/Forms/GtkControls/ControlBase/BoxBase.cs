@@ -52,4 +52,21 @@ public sealed class BoxBase : Gtk.Box, IControlGtk
     /// </returns>
     // Gtk 4 removed the OnDrawn draw vfunc and exposes no overridable OnSnapshot; the WinForms
     // BackColor/background is rendered via CSS in the styling migration instead of a draw override.
+
+    /// <summary>
+    /// Draws the WinForms background and raises <c>Paint</c> around GTK's own rendering.
+    /// </summary>
+    /// <param name="snapshot">The snapshot GTK is building.</param>
+    /// <remarks>
+    /// Gtk4 removed <c>Widget.Drawn</c>, but the <c>snapshot</c> vfunc is overridable and
+    /// <see cref="Gtk.Snapshot.AppendCairo" /> yields a Cairo context - so the existing drawing code runs
+    /// unchanged. Without this the control's <c>BackgroundImage</c> was never painted and its <c>Paint</c>
+    /// handlers never ran.
+    /// </remarks>
+    protected override void OnSnapshot(Gtk.Snapshot snapshot)
+    {
+        ButtonBase.DrawOverride(snapshot, this, Override, background: true);
+        base.OnSnapshot(snapshot);
+        ButtonBase.DrawOverride(snapshot, this, Override, background: false);
+    }
 }

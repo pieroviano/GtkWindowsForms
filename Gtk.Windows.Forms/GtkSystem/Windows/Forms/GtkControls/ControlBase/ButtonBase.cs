@@ -22,7 +22,71 @@ public sealed class ButtonBase : Gtk.Button, IControlGtk
         this.Halign = Gtk.Align.Start;
         // Gtk4-removed: this.Events |= EventMask.PointerMotionMask;
         // Gtk4-removed: this.Events |= EventMask.ButtonMotionMask;
-        // Gtk 4: Widget.Drawn is gone and there is no overridable OnSnapshot; custom paint moves to CSS (deferred).
+    }
+
+    /// <summary>
+    /// Draws the WinForms background and raises <c>Paint</c> around GTK's own rendering of the button.
+    /// </summary>
+    /// <param name="snapshot">The snapshot GTK is building.</param>
+    /// <remarks>
+    /// <para>
+    /// Gtk4 removed <c>Widget.Drawn</c>, and the port took that to mean custom painting had to be dropped
+    /// until it could move to CSS. It does not: <c>GtkWidget</c>'s <c>snapshot</c> vfunc is overridable from
+    /// C# as <see cref="Gtk.Widget.OnSnapshot" />, and <see cref="Gtk.Snapshot.AppendCairo" /> hands back a
+    /// Cairo context - so the existing drawing code, which is unchanged from the Gtk3 build, can simply be
+    /// called again. Without this a control's <c>BackgroundImage</c> was never painted and its
+    /// <c>Paint</c> handlers never ran.
+    /// </para>
+    /// <para>
+    /// Order matches WinForms: background first, then the control's own appearance, then user paint on top.
+    /// </para>
+    /// </remarks>
+    protected override void OnSnapshot(Gtk.Snapshot snapshot)
+    {
+        DrawOverride(snapshot, this, Override, background: true);
+        base.OnSnapshot(snapshot);
+        DrawOverride(snapshot, this, Override, background: false);
+    }
+
+    /// <summary>
+    /// Bridges a snapshot to the Cairo-based override drawing.
+    /// </summary>
+    /// <param name="snapshot">The snapshot being built.</param>
+    /// <param name="widget">The widget being drawn.</param>
+    /// <param name="paintOverride">The control's drawing override.</param>
+    /// <param name="background">
+    /// <see langword="true" /> to paint the WinForms background, <see langword="false" /> to raise Paint.
+    /// </param>
+    internal static void DrawOverride(Gtk.Snapshot snapshot, Gtk.Widget widget,
+        GtkControlOverride? paintOverride, bool background)
+    {
+        if (paintOverride == null)
+        {
+            return;
+        }
+
+        var width = widget.AllocatedWidth;
+        var height = widget.AllocatedHeight;
+
+        if (width <= 0 || height <= 0)
+        {
+            return;
+        }
+
+        var rect = Graphene.Rect.Alloc();
+        rect.Init(0, 0, width, height);
+
+        using var cr = snapshot.AppendCairo(rect);
+        var area = new Gdk.Rectangle(0, 0, width, height);
+
+        if (background)
+        {
+            paintOverride.OnDrawnBackground(cr, area);
+        }
+        else
+        {
+            paintOverride.OnPaint(cr, area);
+        }
     }
 
     /// <summary>
