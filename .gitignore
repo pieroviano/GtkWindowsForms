@@ -306,3 +306,4 @@ obfuscar.xml
 # AlignSamples determinism self-check trees
 /AlignSamples/build-selfcheck/
 /api-diff
+/Net4x.GtkWindowsForms.code-workspace

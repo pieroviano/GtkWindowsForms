@@ -1,5 +1,0 @@
-     10 error CS1503: Argument 2: cannot convert from 'int' to 'bool'
-     10 error CS1503: Argument 1: cannot convert from 'Cairo.ImageSurface' to 'Gdk.Colorspace'
-      2 error CS0117: 'PangoHelper' does not contain a definition for 'ContextGet'
-      2 error CS0117: 'IconTheme' does not contain a definition for 'Default'
-      2 error CS0117: 'IconLookupFlags' does not contain a definition for 'UseBuiltin'
