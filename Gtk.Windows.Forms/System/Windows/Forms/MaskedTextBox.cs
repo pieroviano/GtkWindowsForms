@@ -53,11 +53,22 @@ public class MaskedTextBox : TextBox
     /// <value>
     /// The mask.
     /// </value>
+    /// <remarks>
+    /// Applying the mask on assignment matters on Gtk4: the formatting used to run only from
+    /// <see cref="Control_Shown" />, and Gtk4 removed the <c>GtkWidget::show</c> signal that handler is
+    /// wired to, so a masked box was never formatted at all.
+    /// </remarks>
     public string? Mask
     {
-        get;
-        set;
+        get => _mask;
+        set
+        {
+            _mask = value;
+            ApplyMaskState();
+        }
     }
+
+    private string? _mask;
 
     /// <summary>
     /// Gets or sets the password character.
@@ -65,10 +76,21 @@ public class MaskedTextBox : TextBox
     /// <value>
     /// The password character.
     /// </value>
+    /// <remarks>
+    /// The masking is applied here rather than only from <see cref="Control_Shown" />. Gtk4 removed the
+    /// <c>GtkWidget::show</c> signal that handler hangs off, so on Gtk4 it never ran and a box with a
+    /// password character rendered its contents in clear text. Applying it on assignment also matches
+    /// WinForms, which masks as soon as the property is set rather than when the control is first shown.
+    /// </remarks>
     public override char PasswordChar
     {
         get => _PasswordChar;
-        set { _PasswordChar = value; self.InvisibleChar = value; }
+        set
+        {
+            _PasswordChar = value;
+            self.InvisibleChar = value;
+            self.Visibility = value == '\0';
+        }
     }
 
     /// <summary>
@@ -138,6 +160,18 @@ public class MaskedTextBox : TextBox
     }
 
     private void Control_Shown(object sender, EventArgs e)
+    {
+        ApplyMaskState();
+    }
+
+    /// <summary>
+    /// Applies whichever of the password character or the mask is in force.
+    /// </summary>
+    /// <remarks>
+    /// Called from the property setters as well as from <see cref="Control_Shown" />, because Gtk4 removed
+    /// the <c>GtkWidget::show</c> signal that handler is wired to - so on Gtk4 it never runs.
+    /// </remarks>
+    private void ApplyMaskState()
     {
         if (_PasswordChar != '\0')
         {

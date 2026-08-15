@@ -1,0 +1,145 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Subject: [PATCH] Gtk4: mask a MaskedTextBox when told, not when shown
+
+Comparing snapshots of the sample on both engines showed the password box
+rendering as ******* on Gtk3 and in clear text on Gtk4.
+
+Both the password character and the mask formatting were applied from a handler
+wired to GtkWidget::show - a signal Gtk4 removed - so on Gtk4 neither ever ran.
+They are now applied when the property is assigned, which is also what WinForms
+does; the handler is kept and delegates to the same method.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/MaskedTextBoxMaskingTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/MaskedTextBoxMaskingTests.cs
+new file mode 100644
+index 00000000..c47fd240
+--- /dev/null
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/MaskedTextBoxMaskingTests.cs
+@@ -0,0 +1,55 @@
++namespace System.Windows.Forms;
++
++extern alias gtk;
++
++/// <summary>
++/// A <see cref="MaskedTextBox" /> must mask as soon as it is told to, not when it is first shown.
++/// </summary>
++/// <remarks>
++/// Found by comparing snapshots of the sample on both engines: the reference rendered the password box as
++/// <c>*******</c> and the Gtk4 port showed the text in clear. Masking was applied from a handler wired to
++/// <c>GtkWidget::show</c>, a signal Gtk4 removed, so on Gtk4 it never ran at all.
++/// </remarks>
++[Collection("NonParallelCollection")]
++public class MaskedTextBoxMaskingTests
++{
++    // Constructing the control builds GTK widgets, which needs the type system initialised.
++    public MaskedTextBoxMaskingTests() => Application.Init();
++
++    [Fact]
++    public void SettingPasswordChar_HidesTheTextImmediately()
++    {
++        var box = new MaskedTextBox { Text = "sdfdf43" };
++
++        Assert.True(box.self.Visibility, "text is visible before a password character is set");
++
++        box.PasswordChar = '*';
++
++        Assert.False(box.self.Visibility, "assigning PasswordChar must mask the entry there and then");
++        Assert.Equal('*', box.self.InvisibleChar);
++        Assert.Equal('*', box.PasswordChar);
++    }
++
++    [Fact]
++    public void ClearingPasswordChar_RevealsTheTextAgain()
++    {
++        var box = new MaskedTextBox { Text = "secret", PasswordChar = '*' };
++        Assert.False(box.self.Visibility);
++
++        box.PasswordChar = '\0';
++
++        Assert.True(box.self.Visibility, "clearing PasswordChar must unmask the entry");
++    }
++
++    [Fact]
++    public void SettingAMask_FormatsTheTextImmediately()
++    {
++        // The mask formatting hung off the same dead signal, so a masked box was never formatted either.
++        var box = new MaskedTextBox { Text = "7" };
++
++        box.Mask = "00/00";
++
++        Assert.Equal("00/00", box.Mask);
++        Assert.Contains("_", box.Text);
++    }
++}
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
+index 38045397..d4e62d36 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MaskedTextBox.cs
+@@ -53,22 +53,44 @@ public class MaskedTextBox : TextBox
+     /// <value>
+     /// The mask.
+     /// </value>
++    /// <remarks>
++    /// Applying the mask on assignment matters on Gtk4: the formatting used to run only from
++    /// <see cref="Control_Shown" />, and Gtk4 removed the <c>GtkWidget::show</c> signal that handler is
++    /// wired to, so a masked box was never formatted at all.
++    /// </remarks>
+     public string? Mask
+     {
+-        get;
+-        set;
++        get => _mask;
++        set
++        {
++            _mask = value;
++            ApplyMaskState();
++        }
+     }
+ 
++    private string? _mask;
++
+     /// <summary>
+     /// Gets or sets the password character.
+     /// </summary>
+     /// <value>
+     /// The password character.
+     /// </value>
++    /// <remarks>
++    /// The masking is applied here rather than only from <see cref="Control_Shown" />. Gtk4 removed the
++    /// <c>GtkWidget::show</c> signal that handler hangs off, so on Gtk4 it never ran and a box with a
++    /// password character rendered its contents in clear text. Applying it on assignment also matches
++    /// WinForms, which masks as soon as the property is set rather than when the control is first shown.
++    /// </remarks>
+     public override char PasswordChar
+     {
+         get => _PasswordChar;
+-        set { _PasswordChar = value; self.InvisibleChar = value; }
++        set
++        {
++            _PasswordChar = value;
++            self.InvisibleChar = value;
++            self.Visibility = value == '\0';
++        }
+     }
+ 
+     /// <summary>
+@@ -138,6 +160,18 @@ public class MaskedTextBox : TextBox
+     }
+ 
+     private void Control_Shown(object sender, EventArgs e)
++    {
++        ApplyMaskState();
++    }
++
++    /// <summary>
++    /// Applies whichever of the password character or the mask is in force.
++    /// </summary>
++    /// <remarks>
++    /// Called from the property setters as well as from <see cref="Control_Shown" />, because Gtk4 removed
++    /// the <c>GtkWidget::show</c> signal that handler is wired to - so on Gtk4 it never runs.
++    /// </remarks>
++    private void ApplyMaskState()
+     {
+         if (_PasswordChar != '\0')
+         {
