@@ -1,0 +1,100 @@
+{
+  "title": "Snapshot fixture",
+  "url": "https://example.com/fixture",
+  "charset": "utf-8",
+  "cookie": "a=1",
+  "domain": "example.com",
+  "docType": "html",
+  "backColor": "#FFFFFF",
+  "foreColor": "#102030",
+  "linkColor": "rgb(0, 0, 238)",
+  "activeLinkColor": "#FF0000",
+  "visitedLinkColor": "#551A8B",
+  "documentElement": 1,
+  "body": 2,
+  "activeElement": 5,
+  "nodes": [
+    {
+      "handle": 1,
+      "tagName": "HTML",
+      "attributes": { "dir": "ltr" },
+      "innerText": "Fixture heading Go elsewhere",
+      "innerHtml": "<body id=\"main\">…</body>",
+      "outerHtml": "<html dir=\"ltr\"><body id=\"main\">…</body></html>",
+      "parent": -1,
+      "children": [2]
+    },
+    {
+      "handle": 2,
+      "tagName": "BODY",
+      "attributes": { "id": "main" },
+      "innerText": "Fixture heading Go elsewhere",
+      "innerHtml": "<h1 id=\"heading\">Fixture heading</h1>",
+      "outerHtml": "<body id=\"main\"><h1 id=\"heading\">Fixture heading</h1></body>",
+      "clientWidth": 800,
+      "clientHeight": 600,
+      "offsetLeft": 0,
+      "offsetTop": 0,
+      "offsetWidth": 800,
+      "offsetHeight": 600,
+      "scrollWidth": 800,
+      "scrollHeight": 1200,
+      "parent": 1,
+      "children": [3, 4, 6, 7]
+    },
+    {
+      "handle": 3,
+      "tagName": "H1",
+      "attributes": { "id": "heading", "class": "title" },
+      "innerText": "Fixture heading",
+      "innerHtml": "Fixture heading",
+      "outerHtml": "<h1 id=\"heading\" class=\"title\">Fixture heading</h1>",
+      "style": "color: red",
+      "tabIndex": 3,
+      "offsetLeft": 10,
+      "offsetTop": 10,
+      "offsetWidth": 200,
+      "offsetHeight": 40,
+      "parent": 2,
+      "children": []
+    },
+    {
+      "handle": 4,
+      "tagName": "A",
+      "attributes": { "href": "https://example.org/", "name": "away" },
+      "innerText": "Go elsewhere",
+      "outerHtml": "<a href=\"https://example.org/\" name=\"away\">Go elsewhere</a>",
+      "offsetLeft": 10,
+      "offsetTop": 60,
+      "offsetWidth": 100,
+      "offsetHeight": 20,
+      "parent": 2,
+      "children": []
+    },
+    {
+      "handle": 5,
+      "tagName": "INPUT",
+      "attributes": { "id": "field", "name": "field", "type": "text" },
+      "outerHtml": "<input id=\"field\" name=\"field\" type=\"text\">",
+      "disabled": true,
+      "parent": 6,
+      "children": []
+    },
+    {
+      "handle": 6,
+      "tagName": "FORM",
+      "attributes": { "id": "form1", "name": "form1" },
+      "outerHtml": "<form id=\"form1\" name=\"form1\"></form>",
+      "parent": 2,
+      "children": [5]
+    },
+    {
+      "handle": 7,
+      "tagName": "IMG",
+      "attributes": { "id": "picture", "src": "logo.png" },
+      "outerHtml": "<img id=\"picture\" src=\"logo.png\">",
+      "parent": 2,
+      "children": []
+    }
+  ]
+}

@@ -360,6 +360,8 @@ public sealed class DomSnapshot
 {
     private readonly Dictionary<int, DomNode> _nodes;
 
+    private int _nextDetachedHandle = -2;
+
     /// <summary>
     /// Initializes a new, empty instance of the
     /// <see cref="GtkSystem.Windows.Forms.WebBrowsing.DomSnapshot" /> class.
@@ -649,6 +651,18 @@ public sealed class DomSnapshot
         }
 
         return snapshot;
+    }
+
+    /// <summary>
+    /// Reserves a handle for a node the client is about to create.
+    /// </summary>
+    /// <returns>
+    /// A fresh handle. Client-created handles run negative from -2 downwards, so that they can never
+    /// collide with the positive keys the page's own registry hands out.
+    /// </returns>
+    public int AllocateDetachedHandle()
+    {
+        return _nextDetachedHandle--;
     }
 
     /// <summary>

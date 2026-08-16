@@ -57,7 +57,12 @@ public static class ResourcesCopyService
         // replaced by IWebViewBackend; the reorganisation step files them by namespace.
         foreach (var webFile in new[]
                  {
+                     "WebBrowser.cs", "WebBrowserBase.cs", "WebBrowserSiteBase.cs",
                      "WebBrowserReadyState.cs", "WebBrowserRefreshOption.cs", "WebBrowserEncryptionLevel.cs",
+                     "HtmlDocument.cs", "HtmlElement.cs", "HtmlElementCollection.cs",
+                     "HtmlWindow.cs", "HtmlWindowCollection.cs", "HtmlHistory.cs",
+                     "HtmlElementEventArgs.cs", "HtmlElementErrorEventArgs.cs",
+                     "HtmlElementEventHandler.cs", "HtmlElementErrorEventHandler.cs",
                      "HtmlElementInsertionOrientation.cs",
                      "IWebViewBackend.cs", "IHtmlDomBridge.cs", "DomSnapshot.cs",
                      "WebViewBackendFactory.cs", "NullWebViewBackend.cs", "WebViewBase.cs"
