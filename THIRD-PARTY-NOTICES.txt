@@ -1,0 +1,66 @@
+THIRD-PARTY NOTICES
+===================
+
+Gtk.Windows.Forms and its companion packages incorporate third-party material. The notices below are
+reproduced as the respective licences require. This file does not replace the package licence
+(LICENSE.txt); it records the terms attaching to specific incorporated code.
+
+
+-------------------------------------------------------------------------------
+1. Mono - System.Windows.Forms
+-------------------------------------------------------------------------------
+
+The following types are derived from the Mono Project's implementation of System.Windows.Forms
+(mcs/class/System.Windows.Forms/System.Windows.Forms), vendored in this repository as the "mono"
+submodule. The DOM layer beneath them was rewritten - the original addressed an in-process Mozilla/XPCOM
+DOM through Mono.WebBrowser, which no longer exists - but the public surface and much of the logic are
+Mono's.
+
+    System.Windows.Forms.WebBrowser
+    System.Windows.Forms.WebBrowserBase
+    System.Windows.Forms.WebBrowserSiteBase
+    System.Windows.Forms.WebBrowserReadyState
+    System.Windows.Forms.WebBrowserRefreshOption
+    System.Windows.Forms.WebBrowserEncryptionLevel
+    System.Windows.Forms.HtmlDocument
+    System.Windows.Forms.HtmlElement
+    System.Windows.Forms.HtmlElementCollection
+    System.Windows.Forms.HtmlWindow
+    System.Windows.Forms.HtmlWindowCollection
+    System.Windows.Forms.HtmlHistory
+    System.Windows.Forms.HtmlElementEventArgs
+    System.Windows.Forms.HtmlElementErrorEventArgs
+    System.Windows.Forms.HtmlElementEventHandler
+    System.Windows.Forms.HtmlElementErrorEventHandler
+    System.Windows.Forms.HtmlElementInsertionOrientation
+
+Copyright (c) 2006, 2007, 2008 Novell, Inc.
+Authors: Andreia Gaita <avidigal@novell.com>, Jonathan Pobst <monkey@jpobst.com>
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+-------------------------------------------------------------------------------
+2. Mono - System.Drawing
+-------------------------------------------------------------------------------
+
+Types substituted from the same submodule's System.Drawing implementation by the prepare pipeline (see
+CLAUDE.md, "Replacing unimplemented classes with mono equivalent") carry the same permission grant,
+under the copyrights stated in their own file headers.

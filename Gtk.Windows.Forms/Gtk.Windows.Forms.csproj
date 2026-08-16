@@ -287,6 +287,7 @@ Based on GTKSystem.Windows.Forms:
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
+        <None Include="..\THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="\" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="obj\Debug\" />

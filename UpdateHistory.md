@@ -1,4 +1,18 @@
-## Update History
+﻿## Update History
+
+ #### 2026/8/16
+   	1. Added the WebBrowser control and the Html* DOM layer (WebBrowser, WebBrowserBase,
+	   WebBrowserSiteBase, HtmlDocument, HtmlElement, HtmlWindow, HtmlHistory, the two collections,
+	   their event args and handlers, and three enums) - ported from the mono submodule with the
+	   Mozilla/XPCOM DOM replaced by a JavaScript bridge.
+	2. Engines: WebKitGTK 6.0 on Linux and macOS, in the library; Microsoft Edge WebView2 on
+	   Windows, in the new companion package Gtk.Windows.Forms.WebView2. Where neither is installed
+	   the control still constructs and still raises its navigation events.
+	3. 【!】Both engines run the page out of process, so Html* getters read a cached snapshot and
+	   InvokeScript/InvokeMember post the call and return null. Gtk.Windows.Extensions carries the
+	   asynchronous siblings that return a value. See EMULATION-GAPS.md 2.8.
+	4. Fixed Library.Webkit, which named the GTK 3 webkit2gtk-4.0 binding and could only ever fail
+	   to load on this branch (patch 0147).
 
  #### 2026/7/10
    	1. Updated Control base functionality, PropertyGrid, GroupBox, Label

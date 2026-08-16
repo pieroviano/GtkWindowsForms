@@ -77,6 +77,7 @@
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
+        <None Include="..\THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="\" />
     </ItemGroup>
     <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets')" />
 </Project>

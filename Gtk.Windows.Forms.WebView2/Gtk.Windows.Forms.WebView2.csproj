@@ -43,9 +43,9 @@
         <PackageReference Include="Microsoft.Web.WebView2" Version="$(WebView2Version)" />
         <PackageReference Include="Net4x.NuGetUtility" Version="$(NuGetUtilityVersion)" PrivateAssets="All" />
     </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+    <ItemGroup>
         <!-- HttpClient for the opt-in runtime bootstrapper; part of the framework from net5 onwards. -->
-        <Reference Include="System.Net.Http" />
+        <Reference Include="System.Net.Http" Condition="'$(TargetFramework)' == 'net462'" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Gtk.Windows.Forms\Gtk.Windows.Forms.csproj" />
@@ -53,6 +53,7 @@
     <ItemGroup>
         <Content Include="README.md" Link="README.md" Pack="true" PackagePath="\README.md" />
         <None Include="..\gtksystem-windows-forms\Source\licenses\LICENSE.txt" Pack="true" PackagePath="\" />
+        <None Include="..\THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="\" />
     </ItemGroup>
     <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets')" />
 </Project>

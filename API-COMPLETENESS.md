@@ -24,7 +24,7 @@ break.
 
 | Side | Assemblies |
 |---|---|
-| Reference (net10) | `System.Windows.Forms.dll` + `.Primitives.dll` (WindowsDesktop.App.Ref **10.0.10**), `System.Drawing.Common.dll` (**10.0.6**) |
+| Reference (net10) | `System.Windows.Forms.dll` + `.Primitives.dll` (WindowsDesktop.App.Ref **10.0.11**), `System.Drawing.Common.dll` (**10.0.6**) |
 | Reference (net48 baseline) | net48 `System.Windows.Forms.dll` / `System.Drawing.dll` |
 | Under test | `Gtk.Windows.Forms.dll` + `Gtk.Drawing.dll`, `bin/Release/netstandard2.0` |
 
@@ -39,11 +39,11 @@ checkable against those files.
 | | Forms (net48) | Forms (net10) | Drawing (net48) | Drawing (net10) |
 |---|---|---|---|---|
 | Public types in reference | 1034 | 1081 | 189 | 183 |
-| Present | **937 (90.6 %)** | **942 (87.1 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
-| Missing types | 97 | 139 | 44 | 41 |
-| Members on present types | 54 529 | 60 356 | 5 543 | 6 604 |
-| …missing | **7 473 (13.7 %)** | **8 469 (14.0 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
-| Types member-incomplete | 172 | 176 | 25 | 15 |
+| Present | **954 (92.3 %)** | **959 (88.7 %)** | **145 (76.7 %)** | **142 (77.6 %)** |
+| Missing types | 80 | 122 | 44 | 41 |
+| Members on present types | 55 864 | 61 799 | 5 543 | 6 604 |
+| …missing | **7 500 (13.4 %)** | **8 516 (13.8 %)** | **68 (1.2 %)** | **97 (1.5 %)** |
+| Types member-incomplete | 174 | 178 | 25 | 15 |
 
 `Gtk.Drawing` is essentially done as an API surface (98.6 % of members present on net48). Every
 `Gtk.Windows.Forms` type still missing on the net48 baseline is a declared non-goal (§2). The net10
@@ -54,13 +54,12 @@ column carries ~40 modern-.NET types (TaskDialog, dark-mode, `FormCornerPreferen
 
 ## 2. Missing types — all declared non-goals
 
-97 missing (net48) / 139 (net10), and each is a deliberate omission, not a backlog item. They are
+80 missing (net48) / 122 (net10), and each is a deliberate omission, not a backlog item. They are
 documented in the package README's "Platform notes and non-goals".
 
 | Family | ~Count | Why it is a non-goal |
 |---|---|---|
 | Legacy `DataGrid` (pre-2.0 `DataGrid`, `DataGridColumnStyle`, `GridTableStylesCollection`, the two `IDataGrid*` interfaces…) | 15 | Superseded by `DataGridView`, deprecated in WinForms itself |
-| `Html*` / `WebBrowser` | 17 | No cross-platform browser engine |
 | `AxHost` / COM / ActiveX (`AxHost`, `WindowsFormsSection`, `IComponentEditorPageSite`) | 3 | COM/ActiveX is Windows-only |
 | Legacy `ToolBar`/`ToolBarButton` | 7 | Superseded by `ToolStrip` |
 | `NativeWindow`, `SendKeys` | 2 | Win32 message model (EMULATION-GAPS.md §1) |

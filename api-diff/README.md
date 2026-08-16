@@ -7,7 +7,7 @@ assemblies. **These files are generated** — regenerate rather than hand-edit.
 
 | Prefix | Comparison |
 |---|---|
-| `wf.*` | `System.Windows.Forms.dll` + `.Primitives.dll` (WindowsDesktop.App.Ref 10.0.10) vs `Gtk.Windows.Forms.dll` |
+| `wf.*` | `System.Windows.Forms.dll` + `.Primitives.dll` (WindowsDesktop.App.Ref 10.0.11) vs `Gtk.Windows.Forms.dll` |
 | `dr.*` | `System.Drawing.Common.dll` (10.0.6) vs `Gtk.Drawing.dll` |
 | `wf48.*` | **net48** `System.Windows.Forms.dll` vs `Gtk.Windows.Forms.dll` |
 | `dr48.*` | **net48** `System.Drawing.dll` vs `Gtk.Drawing.dll` |
@@ -18,8 +18,8 @@ the full .NET 10 surface.
 
 | Baseline | Types present | Members present (on present types) |
 |---|---|---|
-| net48 Forms | 937 / 1034 | 47 056 / 54 529 |
-| net10 Forms | 942 / 1081 | 51 887 / 60 356 |
+| net48 Forms | 954 / 1034 | 48 364 / 55 864 |
+| net10 Forms | 959 / 1081 | 53 283 / 61 799 |
 | net48 Drawing | 145 / 189 | 5 475 / 5 543 |
 | net10 Drawing | 142 / 183 | 6 507 / 6 604 |
 
@@ -38,7 +38,7 @@ Member sigs are prefixed `M:` method, `P:` property, `E:` event, `F:` field, `C:
 dotnet build api-diff/tool/ApiDiff.csproj -c Release
 dotnet build Gtk.Windows.Forms.sln -c Release   # the assemblies under test
 
-REF=/c/'Program Files'/dotnet/packs/Microsoft.WindowsDesktop.App.Ref/10.0.10/ref/net10.0
+REF=/c/'Program Files'/dotnet/packs/Microsoft.WindowsDesktop.App.Ref/10.0.11/ref/net10.0
 IMPL=Gtk.Windows.Forms/bin/Release/netstandard2.0
 TOOL=api-diff/tool/bin/Release/net10.0/ApiDiff.exe
 

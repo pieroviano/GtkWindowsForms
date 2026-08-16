@@ -7,6 +7,58 @@ using System.Reflection;
 // args: <refAssemblyPath> <implAssemblyPath> <implSearchDir> <outPrefix> <namespaceFilter>
 class Program
 {
+    /// <summary>
+    /// Locates the newest installed .NET reference pack of a given family.
+    /// </summary>
+    /// <remarks>
+    /// The version used to be hardcoded, which made this tool - and therefore the numbers in
+    /// API-COMPLETENESS.md - unreproducible on any machine that had a different servicing release. The
+    /// failure was also opaque: MetadataLoadContext reports only "Could not find assembly
+    /// 'System.Runtime'". Versions are ordered numerically, not as strings, so 10.0.9 does not beat
+    /// 10.0.11.
+    /// </remarks>
+    /// <param name="packName">The pack family, e.g. <c>Microsoft.NETCore.App.Ref</c>.</param>
+    /// <returns>The <c>ref/net*</c> directory of the newest install, or an empty string when none is.</returns>
+    static string NewestRefPack(string packName)
+    {
+        var root = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+            "dotnet", "packs", packName);
+
+        if (!Directory.Exists(root))
+        {
+            return string.Empty;
+        }
+
+        var newest = Directory.GetDirectories(root)
+            .Select(directory => (Path: directory, Version: ParseVersion(Path.GetFileName(directory))))
+            .Where(candidate => candidate.Version != null)
+            .OrderByDescending(candidate => candidate.Version)
+            .Select(candidate => candidate.Path)
+            .FirstOrDefault();
+
+        if (newest == null)
+        {
+            return string.Empty;
+        }
+
+        var refRoot = Path.Combine(newest, "ref");
+        if (!Directory.Exists(refRoot))
+        {
+            return string.Empty;
+        }
+
+        return Directory.GetDirectories(refRoot).OrderByDescending(d => d, StringComparer.Ordinal)
+            .FirstOrDefault() ?? string.Empty;
+    }
+
+    static Version ParseVersion(string text)
+    {
+        // Preview folders carry a suffix ("11.0.0-preview.3"); take the numeric head so they still order.
+        var dash = text.IndexOf('-');
+        var head = dash < 0 ? text : text.Substring(0, dash);
+        return Version.TryParse(head, out var version) ? version : null;
+    }
+
     static int Main(string[] argv)
     {
         // --enumdump <refDll> <TypeSimpleName...> : print each enum's members and underlying values, so
@@ -38,8 +90,7 @@ class Program
         // .NET Core ref pack's identities. Detect and pick one core set, not both.
         bool netFx = refAsmPath.IndexOf(".NETFramework", StringComparison.OrdinalIgnoreCase) >= 0;
         string coreAssemblyName = netFx ? "mscorlib" : "System.Runtime";
-        var coreRef = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-            "dotnet", "packs", "Microsoft.NETCore.App.Ref", "10.0.10", "ref", "net10.0");
+        var coreRef = NewestRefPack("Microsoft.NETCore.App.Ref");
         // The impl assemblies are netstandard2.0 and need the .NET Core ref pack to resolve even when
         // the reference side is .NET Framework. Both packs ship an mscorlib.dll facade, so dedupe by
         // file name with earlier entries (reference dir, then impl dir) winning.
@@ -242,8 +293,7 @@ class Program
         if (Directory.Exists(dir)) paths.AddRange(Directory.GetFiles(dir, "*.dll"));
         bool netFx = refAsmPath.IndexOf(".NETFramework", StringComparison.OrdinalIgnoreCase) >= 0;
         string coreAssemblyName = netFx ? "mscorlib" : "System.Runtime";
-        var coreRef = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-            "dotnet", "packs", "Microsoft.NETCore.App.Ref", "10.0.10", "ref", "net10.0");
+        var coreRef = NewestRefPack("Microsoft.NETCore.App.Ref");
         if (Directory.Exists(coreRef)) paths.AddRange(Directory.GetFiles(coreRef, "*.dll"));
 
         var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -275,8 +325,7 @@ class Program
         if (Directory.Exists(dir)) paths.AddRange(Directory.GetFiles(dir, "*.dll"));
         bool netFx = refAsmPath.IndexOf(".NETFramework", StringComparison.OrdinalIgnoreCase) >= 0;
         string coreAssemblyName = netFx ? "mscorlib" : "System.Runtime";
-        var coreRef = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-            "dotnet", "packs", "Microsoft.NETCore.App.Ref", "10.0.10", "ref", "net10.0");
+        var coreRef = NewestRefPack("Microsoft.NETCore.App.Ref");
         if (Directory.Exists(coreRef)) paths.AddRange(Directory.GetFiles(coreRef, "*.dll"));
         var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var resolved = paths.Where(p => seen.Add(Path.GetFileName(p))).ToArray();
