@@ -27,4 +27,9 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Shared, not copied: one STA-thread framework for every test assembly that initialises GTK. -->
+    <Compile Include="..\Gtk.Windows.Forms.Tests\StaTestFramework.cs" Link="StaTestFramework.cs" />
+  </ItemGroup>
+
 </Project>

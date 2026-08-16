@@ -14,7 +14,12 @@ using Xunit.Sdk;
 // This custom test framework runs the entire assembly's test cases on ONE dedicated STA thread with a
 // single-threaded SynchronizationContext, which satisfies both GTK's single-thread rule and GDK4's STA
 // requirement. No per-test attributes are needed.
-[assembly: Xunit.TestFramework("GtkWinForms.Tests.StaTestFramework", "Gtk.Windows.Forms.Tests")]
+//
+// The [assembly: TestFramework] attribute that activates it is NOT here: it names the declaring assembly,
+// and this file is linked into every test project that touches GTK. Each such project carries its own
+// StaTestFrameworkAttribute.cs naming itself. A project that links this file and forgets that attribute
+// gets MTA thread-pool threads and aborts inside GLib, which looks like a flaky failure rather than a
+// missing line.
 
 namespace GtkWinForms.Tests;
 
