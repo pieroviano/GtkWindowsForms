@@ -28,7 +28,11 @@ internal class GLibrary
             [Library.Gtk] = new string[4] { "libgtk-3-0.dll", "libgtk-3.so.0", "libgtk-3.0.dylib", "gtk-3.dll" },
             [Library.PangoCairo] = new string[4] { "libpangocairo-1.0-0.dll", "libpangocairo-1.0.so.0", "libpangocairo-1.0.0.dylib", "pangocairo-1.dll" },
             [Library.GtkSource] = new string[4] { "libgtksourceview-4-0.dll", "libgtksourceview-4.so.0", "libgtksourceview-4.0.dylib", "gtksourceview-4.dll" },
-            [Library.Webkit] = new[] { "libwebkit2gtk-4.0.dll", "libwebkit2gtk-4.0.so.37", "libwebkit2gtk-4.0.dylib", "libwebkit2gtk-4.0.0.dll" }
+            // WebKitGTK for GTK 4 is a different library from the GTK 3 one: the GTK 3 binding is
+            // webkit2gtk-4.0/4.1 (soname libwebkit2gtk-4.0.so.37), the GTK 4 binding is webkitgtk-6.0
+            // (soname libwebkitgtk-6.0.so.4, WebKitGTK >= 2.44). Loading the 4.0 library into a GTK 4
+            // process pulls in GTK 3 alongside GTK 4 and aborts, so naming it here could only ever fail.
+            [Library.Webkit] = new[] { "libwebkitgtk-6.0-4.dll", "libwebkitgtk-6.0.so.4", "libwebkitgtk-6.0.4.dylib", "webkitgtk-6.0.dll" }
         };
     }
 
