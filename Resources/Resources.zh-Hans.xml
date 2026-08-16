@@ -225,4 +225,7 @@
   <data name="Print" xml:space="preserve">
     <value>打印</value>
   </data>
+  <data name="WebBrowser_Placeholder_No_web_engine_available" xml:space="preserve">
+    <value>没有可用的 Web 引擎。请在 Linux 或 macOS 上安装 WebKitGTK 6.0，或在 Windows 上安装 Microsoft Edge WebView2 运行时。</value>
+  </data>
 </root>

@@ -441,6 +441,17 @@ set
         }
 
         /// <summary>
+        /// Looks up a localized string similar to No web engine is available. Install WebKitGTK 6.0 on Linux or macOS, or the Microsoft Edge WebView2 runtime on Windows..
+        /// </summary>
+        internal static string Gtk_WebBrowser_Placeholder_No_web_engine_available
+        {
+            get
+            {
+                return ResourceManager.GetString("Gtk_WebBrowser_Placeholder_No_web_engine_available", resourceCulture);
+            }
+        }
+
+        /// <summary>
         /// Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]

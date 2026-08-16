@@ -223,4 +223,7 @@
   <data name="Print" xml:space="preserve">
   <value>Imprimer</value>
 </data>
+  <data name="WebBrowser_Placeholder_No_web_engine_available" xml:space="preserve">
+    <value>Aucun moteur web n'est disponible. Installez WebKitGTK 6.0 sur Linux ou macOS, ou le runtime Microsoft Edge WebView2 sur Windows.</value>
+  </data>
 </root>

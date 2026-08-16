@@ -49,5 +49,22 @@ public static class ResourcesCopyService
             LogUtility.FileCopyAndLog(RepoPaths.At(Path.Combine("Resources", trayFile)),
                 Path.Combine(targetDir, "GTKControls", trayFile));
         }
+
+        // The WebBrowser control, its Html* DOM layer and the engine backends. Overlays rather than a
+        // patch for the same reason the tray backends above are: wholly new files with no upstream
+        // counterpart. The public types are ported from the mono submodule
+        // (mono/mcs/class/System.Windows.Forms/System.Windows.Forms) with the Mozilla/XPCOM backend
+        // replaced by IWebViewBackend; the reorganisation step files them by namespace.
+        foreach (var webFile in new[]
+                 {
+                     "WebBrowserReadyState.cs", "WebBrowserRefreshOption.cs", "WebBrowserEncryptionLevel.cs",
+                     "HtmlElementInsertionOrientation.cs",
+                     "IWebViewBackend.cs", "IHtmlDomBridge.cs", "DomSnapshot.cs",
+                     "WebViewBackendFactory.cs", "NullWebViewBackend.cs", "WebViewBase.cs"
+                 })
+        {
+            LogUtility.FileCopyAndLog(RepoPaths.At(Path.Combine("Resources", webFile)),
+                Path.Combine(targetDir, "GTKControls", webFile));
+        }
     }
 }

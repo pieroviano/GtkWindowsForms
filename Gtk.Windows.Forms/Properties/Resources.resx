@@ -223,4 +223,7 @@
   <data name="Gtk_Print" xml:space="preserve">
     <value>Print</value>
   </data>
+  <data name="Gtk_WebBrowser_Placeholder_No_web_engine_available" xml:space="preserve">
+    <value>No web engine is available. Install WebKitGTK 6.0 on Linux or macOS, or the Microsoft Edge WebView2 runtime on Windows.</value>
+  </data>
 </root>
