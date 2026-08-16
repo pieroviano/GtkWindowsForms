@@ -86,7 +86,7 @@ public partial class Button : ButtonBase
     /// <param name="yAlign">The vertical alignment factor.</param>
     protected override void SetContentAlignmentCore(float xAlign, float yAlign)
     {
-        // Gtk4-removed: self.Xalign = xAlign;
-        // Gtk4-removed: self.Yalign = yAlign;
+        // Gtk 4 removed GtkButton's own xalign/yalign; the caption label carries the equivalent.
+        self.AlignCaption(xAlign, yAlign);
     }
 }

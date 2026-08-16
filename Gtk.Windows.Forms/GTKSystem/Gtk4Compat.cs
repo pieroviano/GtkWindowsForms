@@ -716,6 +716,36 @@ public static class Gtk4Compat
     }
 
     /// <summary>
+    /// Positions a caption-bearing widget's text inside the space the widget was given, using the same
+    /// 0.0-1.0 factors Gtk 3 accepted on <c>GtkButton</c>'s <c>xalign</c> / <c>yalign</c>.
+    /// </summary>
+    /// <param name="widget">The caption-bearing widget; may be <c>null</c>.</param>
+    /// <param name="xAlign">The horizontal factor: 0.0 left, 0.5 centre, 1.0 right.</param>
+    /// <param name="yAlign">The vertical factor: 0.0 top, 0.5 middle, 1.0 bottom.</param>
+    /// <remarks>
+    /// Gtk 4 deleted <c>gtk_button_set_alignment()</c> along with the whole <c>GtkMisc</c> alignment
+    /// mechanism, so a button can no longer place its own caption. <c>GtkLabel</c> kept <c>xalign</c> and
+    /// <c>yalign</c> though, and they mean exactly what the button's used to - they just apply to the
+    /// space the label itself holds. Giving the label <see cref="Align.Fill"/> hands it the button's whole
+    /// content box, at which point the two factors reproduce Gtk 3's behaviour. Without the fill the label
+    /// is only as large as its text, both factors have nothing to move within, and every alignment
+    /// collapses to centred.
+    /// </remarks>
+    public static void AlignCaption(this Widget? widget, float xAlign, float yAlign)
+    {
+        var label = widget.GetLabelWidget();
+        if (label == null)
+        {
+            return;
+        }
+
+        label.Halign = Align.Fill;
+        label.Valign = Align.Fill;
+        label.Xalign = xAlign;
+        label.Yalign = yAlign;
+    }
+
+    /// <summary>
     /// Adds <paramref name="child"/> to <paramref name="parent"/>, dispatching to the
     /// Gtk 4 child API appropriate to the container's runtime type. Replaces Gtk 3's
     /// universal <c>Container.Add</c>.
