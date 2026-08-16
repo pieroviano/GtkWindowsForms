@@ -1,59 +1,58 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.props" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.props')" />
-    <PropertyGroup>
-        <DocumentationFile>$(MSBuildProjectDirectory)\$(MSBuildProjectName).xml</DocumentationFile>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <Version>$(VersionPrefix).$(VersionSuffix)</Version>
-        <!--
+  <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.props" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.props')" />
+  <PropertyGroup>
+    <DocumentationFile>$(MSBuildProjectDirectory)\$(MSBuildProjectName).xml</DocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Version>$(VersionPrefix).$(VersionSuffix)</Version>
+    <!--
           Not netstandard2.0, unlike every other shipped project here: Microsoft.Web.WebView2 has no
           netstandard asset. net462 covers .NET Framework consumers and net8.0-windows covers modern
           ones; both bind the same net462 managed assembly from that package.
         -->
-        <TargetFrameworks>net462;net8.0-windows</TargetFrameworks>
-        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <RepositoryUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</RepositoryUrl>
-        <PackAsTool>False</PackAsTool>
-        <SignAssembly>true</SignAssembly>
-        <LangVersion>latest</LangVersion>
-        <ImplicitUsings>disable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <Authors>Piero Viano</Authors>
-        <Company>Piero Viano</Company>
-        <Copyright>Copyright (c) Piero Viano. All right reserved.</Copyright>
-        <Title>Microsoft Edge WebView2 backend for the Gtk.Windows.Forms WebBrowser control</Title>
-        <Description>Companion package of Gtk.Windows.Forms. Gives System.Windows.Forms.WebBrowser a Microsoft Edge WebView2 engine on Windows; without it the control uses WebKitGTK where that is installed and a placeholder otherwise. Referencing the package is the whole opt-in - a module initializer registers the backend. Note the airspace limitation: GTK 4 gives only toplevel windows an HWND, so the browser is a child window painted above all GTK content in that window and is not clipped by overlapping widgets, popovers or menus.</Description>
-        <PackageProjectUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</PackageProjectUrl>
-        <!-- Same licence file the other packages ship: the one the vendored upstream submodule carries. -->
-        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-        <RootNamespace />
-        <PackageOutputPath>$(SolutionDir)Packages/</PackageOutputPath>
-        <AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <NoWarn>$(NoWarn);NU5118;CS8002</NoWarn>
-        <PackageId>Gtk.Windows.Forms.WebView2</PackageId>
-    </PropertyGroup>
-    <ItemGroup>
-        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-            <_Parameter1>Gtk.Windows.Forms.WebView2.Tests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100518ef14d1a0c9efc88ac39397509c94a703ec7a674ed0414a18d3bad86b3618863d9d20204b50c28a13c56df0493d2943f2013a9b4f2bd5a829217698fa2444fbbebd449d6a8942a1278c87fe9ccba10535b9b2b1f47295168308a2b2a85af1fc655f8c736b51fe1d457d1b7be6c807516f58d5d981b112929c5c24f3ff1c0ce</_Parameter1>
-        </AssemblyAttribute>
-    </ItemGroup>
-    <ItemGroup>
-        <PackageReference Include="Microsoft.Web.WebView2" Version="$(WebView2Version)" />
-        <PackageReference Include="Net4x.NuGetUtility" Version="$(NuGetUtilityVersion)" PrivateAssets="All" />
-    </ItemGroup>
-    <ItemGroup>
-        <!-- HttpClient for the opt-in runtime bootstrapper; part of the framework from net5 onwards. -->
-        <Reference Include="System.Net.Http" Condition="'$(TargetFramework)' == 'net462'" />
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\Gtk.Windows.Forms\Gtk.Windows.Forms.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-        <Content Include="README.md" Link="README.md" Pack="true" PackagePath="\README.md" />
-        <None Include="..\gtksystem-windows-forms\Source\licenses\LICENSE.txt" Pack="true" PackagePath="\" />
-        <None Include="..\THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="\" />
-    </ItemGroup>
-    <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets')" />
+    <TargetFrameworks>net462;net8.0-windows</TargetFrameworks>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <RepositoryUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</RepositoryUrl>
+    <PackAsTool>False</PackAsTool>
+    <SignAssembly>true</SignAssembly>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Authors>Piero Viano</Authors>
+    <Company>Piero Viano</Company>
+    <Copyright>Copyright (c) Piero Viano. All right reserved.</Copyright>
+    <Title>Microsoft Edge WebView2 backend for the Gtk.Windows.Forms WebBrowser control</Title>
+    <Description>Companion package of Gtk.Windows.Forms. Gives System.Windows.Forms.WebBrowser a Microsoft Edge WebView2 engine on Windows; without it the control uses WebKitGTK where that is installed and a placeholder otherwise. Referencing the package is the whole opt-in - a module initializer registers the backend. Note the airspace limitation: GTK 4 gives only toplevel windows an HWND, so the browser is a child window painted above all GTK content in that window and is not clipped by overlapping widgets, popovers or menus.</Description>
+    <PackageProjectUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</PackageProjectUrl>
+    <!-- Same licence file the other packages ship: the one the vendored upstream submodule carries. -->
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <RootNamespace />
+    <PackageOutputPath>$(SolutionDir)Packages/</PackageOutputPath>
+    <AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <NoWarn>$(NoWarn);NU5118;CS8002</NoWarn>
+    <PackageId>Gtk.Windows.Forms.WebView2</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Gtk.Windows.Forms.WebView2.Tests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100518ef14d1a0c9efc88ac39397509c94a703ec7a674ed0414a18d3bad86b3618863d9d20204b50c28a13c56df0493d2943f2013a9b4f2bd5a829217698fa2444fbbebd449d6a8942a1278c87fe9ccba10535b9b2b1f47295168308a2b2a85af1fc655f8c736b51fe1d457d1b7be6c807516f58d5d981b112929c5c24f3ff1c0ce</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="$(WebView2Version)" />
+    <PackageReference Include="Net4x.NuGetUtility" Version="$(NuGetUtilityVersion)" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- HttpClient for the opt-in runtime bootstrapper; part of the framework from net5 onwards. -->
+    <Reference Include="System.Net.Http" Condition="'$(TargetFramework)' == 'net462'" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gtk.Windows.Forms\Gtk.Windows.Forms.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="README.md" Link="README.md" Pack="true" PackagePath="\README.md" />
+    <None Include="..\gtksystem-windows-forms\Source\licenses\LICENSE.txt" Pack="true" PackagePath="\" />
+    <None Include="..\THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets')" />
 </Project>
