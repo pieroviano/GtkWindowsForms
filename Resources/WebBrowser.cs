@@ -524,7 +524,17 @@ public class WebBrowser : WebBrowserBase
     /// about:blank
     /// </c>.
     /// </value>
-    public static Uri HomeUrl
+    /// <remarks>
+    /// Internal, and surfaced publicly as
+    /// <c>
+    /// WebBrowserDefaults.HomeUrl
+    /// </c> by the
+    /// <c>
+    /// Gtk.Windows.Extensions
+    /// </c> package: real WinForms has no such member, and this type is a compatibility surface rather
+    /// than a place to add to.
+    /// </remarks>
+    internal static Uri HomeUrl
     {
         get;
         set;
@@ -540,7 +550,11 @@ public class WebBrowser : WebBrowserBase
     /// about:blank
     /// </c>.
     /// </value>
-    public static Uri SearchUrl
+    /// <remarks>
+    /// Internal for the reason given on
+    /// <see cref="P:System.Windows.Forms.WebBrowser.HomeUrl" />.
+    /// </remarks>
+    internal static Uri SearchUrl
     {
         get;
         set;

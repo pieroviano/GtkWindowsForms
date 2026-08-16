@@ -438,6 +438,14 @@ public sealed class HtmlElement
     public string TagName => Node.TagName;
 
     /// <summary>
+    /// Gets the bridge this element reads and writes through.
+    /// </summary>
+    /// <value>
+    /// The DOM bridge.
+    /// </value>
+    internal IHtmlDomBridge Bridge => _bridge;
+
+    /// <summary>
     /// Gets the handle addressing this element in the page.
     /// </summary>
     /// <value>

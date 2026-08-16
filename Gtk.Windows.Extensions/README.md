@@ -24,3 +24,24 @@ MessageBox.ReplaceInstance();
 `MessageBox.ReplaceInstance(int)` in `Gtk.Windows.Forms` used to install this type; it is now obsolete
 and always installs the default blocking message box. Call `AutoClosingMessageBox.Install(timeout)`
 instead.
+
+## WebBrowser: the asynchronous siblings
+
+`System.Windows.Forms.HtmlDocument.InvokeScript` and `HtmlElement.InvokeMember` post the call and return
+`null` in this library: WebKitGTK and WebView2 both run the page in a separate process, so returning the
+value would mean blocking the UI thread on it. `WebBrowserAsyncExtensions` is the way to get the answer.
+
+```csharp
+using System.Windows.Forms;
+
+var title = await browser.InvokeScriptAsync("document.title");
+var markup = await browser.GetDocumentTextAsync();
+var value = await element.InvokeMemberAsync("getAttribute", "href");
+
+// After the page has changed itself, so the synchronous Html* getters see it:
+await browser.RefreshDomAsync();
+```
+
+`WebBrowserDefaults.HomeUrl` and `.SearchUrl` say where `WebBrowser.GoHome()` and `GoSearch()` go. Both
+default to `about:blank`: real WinForms reads Internet Explorer's registry settings for these, which is
+not something a cross-platform library can do, and hard-coding a vendor's page is not something it should.
