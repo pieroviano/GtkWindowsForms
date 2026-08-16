@@ -34,6 +34,10 @@ Mono's.
     System.Windows.Forms.HtmlElementErrorEventHandler
     System.Windows.Forms.HtmlElementInsertionOrientation
 
+The test suite Gtk.Windows.Forms.Tests/System/Windows/Forms/WebBrowserEngineIntegrationTests.cs is not
+a copy of Mono's Test/System.Windows.Forms/WebBrowserTest.cs, but covers the same scenarios and is
+acknowledged here as derived from it in substance.
+
 Copyright (c) 2006, 2007, 2008 Novell, Inc.
 Authors: Andreia Gaita <avidigal@novell.com>, Jonathan Pobst <monkey@jpobst.com>
 
