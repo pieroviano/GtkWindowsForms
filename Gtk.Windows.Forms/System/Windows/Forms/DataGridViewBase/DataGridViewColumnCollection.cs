@@ -236,8 +236,13 @@ public class DataGridViewColumnCollection : List<DataGridViewColumn>
                 // hiding a row is non-destructive (it stays in the store and is filtered out) rather than
                 // physically removed - which is what DataGridViewRow.Visible's Refilter path expects.
                 var filter = (Gtk.TreeModelFilter)((Gtk.ITreeModel)_owner.Store).FilterNew(null);
-                filter.SetVisibleFunc((model, iter) =>
-                    model.GetValue(iter, 0) is DataGridViewRow row ? row.Visible : true);
+                // Assigned, not called: GtkSharp binds gtk_tree_model_filter_set_visible_func as a
+                // settable VisibleFunc property, because its generator emits a property for a
+                // setter-only "set_" entry point. A SetVisibleFunc method existed in one intermediate
+                // GtkSharp build (4.22.4.26229) and is gone again; the property is the stable form and
+                // is what the upstream submodule uses too.
+                filter.VisibleFunc = (model, iter) =>
+                    model.GetValue(iter, 0) is DataGridViewRow row ? row.Visible : true;
                 _owner.GridView.Model = filter;
             }
             foreach (var column in this)
