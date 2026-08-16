@@ -1,4 +1,4 @@
-
+﻿
 
 using System.Drawing;
 using System.Windows.Forms;
@@ -614,7 +614,7 @@ namespace GtkWinFormsApp
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
-            ClientSize = new Size(836, 511);
+            ClientSize = new Size(880, 511);
             ContextMenuStrip = contextMenuStrip1;
             Controls.Add(panel1);
             Controls.Add(button1);
