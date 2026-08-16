@@ -11,6 +11,8 @@
         <!-- Without Authors the SDK packs the project name as the package author. -->
         <Authors>Piero Viano</Authors>
         <Company>Piero Viano</Company>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <Product>Gtk.Windows.FormsDesigner</Product>
         <Description>
 			This is a tool accompanying the Gtk.Windows.Forms framework project,

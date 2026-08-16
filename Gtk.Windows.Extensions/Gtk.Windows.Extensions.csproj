@@ -6,6 +6,8 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Version>$(VersionPrefix).$(VersionSuffix)</Version>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <RepositoryUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</RepositoryUrl>
         <PackAsTool>False</PackAsTool>

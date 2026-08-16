@@ -9,9 +9,9 @@
       silently walks backwards. 1.0.9 cannot parse a multi-line XML comment in Directory.Nuget.Props - it
       crashes with "length ('-2') must be a non-negative value" - which 1.0.10 fixes; do not lower this.
     -->
-    <NuGetUtilityVersion>1.0.10</NuGetUtilityVersion>
+    <NuGetUtilityVersion>1.0.13</NuGetUtilityVersion>
     <VersionPrefix>$(GtkWindowsFormsVersion)</VersionPrefix>
-    <VersionSuffix>26205</VersionSuffix>
+    <VersionSuffix>$([System.DateTime]::Now.ToString("yy"))$([System.DateTime]::Now.DayOfYear.ToString("000"))</VersionSuffix>
     <MinimalDirectoryNuGetProps>true</MinimalDirectoryNuGetProps>
     <SolutionDir Condition="'$(SolutionDir)'==''">$(MSBuildThisFileDirectory)</SolutionDir>
     <IncludeSymbols>true</IncludeSymbols>
