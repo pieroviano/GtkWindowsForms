@@ -828,7 +828,10 @@ tooltip label {padding: 0px 10px; color: #555555;}
             // process working directory, so a user theme that shipped relative references simply stopped
             // applying. Make them absolute first: the working directory keeps the Gtk3 contract, and the
             // application directory covers the case Gtk3 got wrong, an app launched from elsewhere.
-            css.LoadFromData(CssUri.ResolveUrls(cssBuilder.ToString(), Directory.GetCurrentDirectory(), appdirectory));
+            // Imports are inlined rather than left to Gtk, which would open the file itself and drop the
+            // rules around any byte that is not valid UTF-8 - silently. See CssUri.InlineImports.
+            var userCss = CssUri.InlineImports(cssBuilder.ToString(), Directory.GetCurrentDirectory(), appdirectory);
+            css.LoadFromData(CssUri.ResolveUrls(userCss, Directory.GetCurrentDirectory(), appdirectory));
             Gtk.StyleContext.AddProviderForDisplay(Gdk.Display.Default, css, (uint)StyleProviderPriority.Application);
 
             // Gtk4: toolbar/menu-strip buttons keep the theme's rounded frame (box-shadow/border) even at

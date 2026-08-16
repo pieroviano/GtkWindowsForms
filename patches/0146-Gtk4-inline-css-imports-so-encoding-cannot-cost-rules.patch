@@ -1,0 +1,392 @@
+From 2e3dc5e1a8db954ef4c5616a1677527c2a9cfc27 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Sun, 16 Aug 2026 05:03:33 +0300
+Subject: [PATCH] Gtk4: inline @import so a theme's encoding cannot cost it
+ rules
+
+Two buttons on the sample's Test1 lost the icons its stylesheet gives them, while
+every other rule in the same file applied -- which made it look like an image
+problem. It is an encoding problem.
+
+theme/Test1.css is GBK-encoded, and the first byte that is not valid UTF-8 sits
+in the comment immediately above #Test1 #button16. Gtk4's CSS parser requires
+valid UTF-8 and abandons the rules around such a byte; it reports nothing at all,
+so #button16, #button17 and their :hover rule simply did not exist. Dumping the
+provider shows them missing while every image in the surviving rules resolved
+fine. Gtk3's parser did not validate, which is why the file has worked for years.
+
+The library already reads the top-level stylesheet itself, so style.css survives
+this -- .NET's decoder substitutes rather than failing. An @import was left for
+Gtk to follow, and Gtk then opens that file raw. So follow imports here instead:
+inline the imported sheet, decoded tolerantly (strict UTF-8 first, otherwise
+Latin-1, which cannot fail and maps every byte to a character, so a bad byte
+costs at most the comment it sits in and never a rule), with its own relative
+references resolved against its own directory -- which is what Gtk would have
+used, having opened the file there. Inlining also keeps the imported rules in the
+cascade position the import had.
+
+Generic, not keyed to the sample: any user theme that Gtk3 accepted keeps
+working. An import that cannot be resolved, or that carries a scheme, is left
+exactly as before, and nesting is depth-capped so mutually importing sheets
+terminate.
+
+The test's fixture uses the exact byte run from the real file. A hand-rolled
+substitute is not good enough -- Gtk tolerates some invalid sequences and not
+others, and my first approximation passed while proving nothing.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+---
+ .../Windows/Forms/CssImportInliningTests.cs   | 165 ++++++++++++++++++
+ .../Windows/Forms/Application/Application.cs  |   5 +-
+ .../System/Windows/Forms/Control/CssUri.cs    | 147 ++++++++++++++++
+ 3 files changed, 316 insertions(+), 1 deletion(-)
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/CssImportInliningTests.cs
+
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/CssImportInliningTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/CssImportInliningTests.cs
+new file mode 100644
+index 00000000..87047c7a
+--- /dev/null
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/CssImportInliningTests.cs
+@@ -0,0 +1,165 @@
++namespace System.Windows.Forms;
++
++using System.IO;
++using System.Text;
++
++/// <summary>
++/// An <c>@import</c>ed stylesheet must reach Gtk4 whatever encoding it is written in.
++/// </summary>
++/// <remarks>
++/// <para>
++/// Leaving the import for Gtk to follow looks equivalent to inlining it and is not: Gtk then opens the file
++/// itself, and its CSS parser requires valid UTF-8. One byte in a national codepage - in practice a comment
++/// - makes it abandon the rules around that byte, and it says nothing at all: no parsing error, nothing on
++/// stderr, the rules simply do not exist. Gtk3's parser did not validate, so such stylesheets worked.
++/// </para>
++/// <para>
++/// This was found in the sample's own theme: <c>theme/Test1.css</c> is GBK-encoded, and the first invalid
++/// byte sits in the comment immediately above <c>#Test1 #button16</c>. Gtk4 dropped that rule and the two
++/// after it, so two toolbar buttons lost the icons the stylesheet gives them - while every other rule in
++/// the file applied, which is what made it look like an image problem.
++/// </para>
++/// </remarks>
++[Collection("NonParallelCollection")]
++public class CssImportInliningTests : IDisposable
++{
++    private readonly string _root;
++
++    public CssImportInliningTests()
++    {
++        // Widget-free, but the provider tests need GTK's type system.
++        Application.Init();
++
++        _root = Path.Combine(Path.GetTempPath(), "csstest-" + Guid.NewGuid().ToString("N"));
++        Directory.CreateDirectory(Path.Combine(_root, "theme"));
++    }
++
++    public void Dispose()
++    {
++        try
++        {
++            Directory.Delete(_root, recursive: true);
++        }
++        catch (IOException)
++        {
++            // A leaked temp directory is not worth failing a test over.
++        }
++
++        GC.SuppressFinalize(this);
++    }
++
++    [Fact]
++    public void ARuleAfterNonUtf8Bytes_SurvivesInlining()
++    {
++        // The exact shape of the defect: a comment in a national codepage, then the rule that was lost.
++        WriteGbk(Path.Combine(_root, "theme", "sheet.css"),
++            "#a { color: rgb(1,2,3); }", "#b { color: rgb(4,5,6); }");
++
++        var inlined = CssUri.InlineImports("@import url(\"theme/sheet.css\");", _root);
++
++        Assert.Contains("#b", inlined, StringComparison.Ordinal);
++        Assert.DoesNotContain("@import", inlined, StringComparison.Ordinal);
++    }
++
++    [Fact]
++    public void GtkKeepsTheRule_OnlyWhenTheImportIsInlined()
++    {
++        // The oracle that matters: what Gtk ends up holding. Handing Gtk the import directly loses the
++        // rule; handing it the inlined text does not. If this ever stops failing on the left-hand side,
++        // Gtk has become tolerant and the workaround could go.
++        var sheet = Path.Combine(_root, "theme", "sheet.css");
++        WriteGbk(sheet, "#kept { color: rgb(1,2,3); }", "#lost { color: rgb(4,5,6); }");
++
++        var importStatement = $"@import url(\"{new Uri(sheet).AbsoluteUri}\");";
++
++        Assert.DoesNotContain("#lost", DumpOf(importStatement), StringComparison.Ordinal);
++        Assert.Contains("#lost", DumpOf(CssUri.InlineImports("@import url(\"theme/sheet.css\");", _root)),
++            StringComparison.Ordinal);
++    }
++
++    [Fact]
++    public void AnImportedSheetsOwnReferences_ResolveWhereThatSheetLives()
++    {
++        // Gtk would have resolved them against the imported file's directory, because that is where it
++        // opened the file. Inlining has to reproduce that, not resolve them against the outer sheet.
++        Directory.CreateDirectory(Path.Combine(_root, "theme", "img"));
++        File.WriteAllBytes(Path.Combine(_root, "theme", "img", "icon.png"), new byte[] { 1 });
++        File.WriteAllText(
++            Path.Combine(_root, "theme", "sheet.css"),
++            "#a { background-image: url(\"img/icon.png\"); }");
++
++        var inlined = CssUri.InlineImports("@import url(\"theme/sheet.css\");", _root);
++
++        Assert.Contains("theme/img/icon.png", inlined.Replace('\\', '/'), StringComparison.OrdinalIgnoreCase);
++        Assert.Contains("file:///", inlined, StringComparison.Ordinal);
++    }
++
++    [Fact]
++    public void AQuotedImport_IsInlinedToo()
++    {
++        // Both spellings are legal CSS and themes in the wild use each.
++        File.WriteAllText(Path.Combine(_root, "theme", "sheet.css"), "#a { color: rgb(1,2,3); }");
++
++        Assert.Contains("#a", CssUri.InlineImports("@import \"theme/sheet.css\";", _root),
++            StringComparison.Ordinal);
++    }
++
++    [Fact]
++    public void AnImportThatCannotBeFound_IsLeftForTheUrlRewriterToHandle()
++    {
++        const string css = "@import url(\"theme/missing.css\");";
++
++        Assert.Equal(css, CssUri.InlineImports(css, _root));
++    }
++
++    [Fact]
++    public void AnImportCarryingAScheme_IsLeftAlone()
++    {
++        const string css = "@import url(\"resource:///org/example/style.css\");";
++
++        Assert.Equal(css, CssUri.InlineImports(css, _root));
++    }
++
++    [Fact]
++    public void SheetsThatImportEachOther_DoNotRecurseForever()
++    {
++        // Depth is capped rather than cycle-detected; what matters is that it returns.
++        File.WriteAllText(Path.Combine(_root, "theme", "a.css"), "@import url(\"b.css\"); #a { color: red; }");
++        File.WriteAllText(Path.Combine(_root, "theme", "b.css"), "@import url(\"a.css\"); #b { color: blue; }");
++
++        var inlined = CssUri.InlineImports("@import url(\"theme/a.css\");", _root);
++
++        Assert.Contains("#a", inlined, StringComparison.Ordinal);
++        Assert.Contains("#b", inlined, StringComparison.Ordinal);
++    }
++
++    private static string DumpOf(string css)
++    {
++        var provider = new Gtk.CssProvider();
++        provider.LoadFromData(css);
++        return provider.ToString();
++    }
++
++    // The exact byte run from the sample's theme/Test1.css - the GBK encoding of the comment that sits
++    // immediately above #Test1 #button16, which is the rule Gtk4 discards. A hand-rolled substitute is not
++    // good enough: Gtk tolerates some invalid sequences and not others, and an approximation passes while
++    // proving nothing.
++    private static readonly byte[] GbkComment =
++    {
++        0xB0, 0xEF, 0xD6, 0xFA, 0xA3, 0xAC, 0xB4, 0xF2, 0xD3, 0xA1,
++    };
++
++    private static void WriteGbk(string path, string before, string after)
++    {
++        var bytes = new List<byte>();
++        bytes.AddRange(Encoding.ASCII.GetBytes(before + "\r\n/* "));
++        bytes.AddRange(GbkComment);
++        bytes.AddRange(Encoding.ASCII.GetBytes("*/\r\n" + after + "\r\n"));
++
++        File.WriteAllBytes(path, bytes.ToArray());
++
++        // Guard the premise: if this ever became valid UTF-8 the test would pass for the wrong reason.
++        Assert.Throws<DecoderFallbackException>(() =>
++            new UTF8Encoding(false, throwOnInvalidBytes: true).GetString(File.ReadAllBytes(path)));
++    }
++}
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+index fa3a98e4..e19c8d95 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+@@ -828,7 +828,10 @@ tooltip label {padding: 0px 10px; color: #555555;}
+             // process working directory, so a user theme that shipped relative references simply stopped
+             // applying. Make them absolute first: the working directory keeps the Gtk3 contract, and the
+             // application directory covers the case Gtk3 got wrong, an app launched from elsewhere.
+-            css.LoadFromData(CssUri.ResolveUrls(cssBuilder.ToString(), Directory.GetCurrentDirectory(), appdirectory));
++            // Imports are inlined rather than left to Gtk, which would open the file itself and drop the
++            // rules around any byte that is not valid UTF-8 - silently. See CssUri.InlineImports.
++            var userCss = CssUri.InlineImports(cssBuilder.ToString(), Directory.GetCurrentDirectory(), appdirectory);
++            css.LoadFromData(CssUri.ResolveUrls(userCss, Directory.GetCurrentDirectory(), appdirectory));
+             Gtk.StyleContext.AddProviderForDisplay(Gdk.Display.Default, css, (uint)StyleProviderPriority.Application);
+ 
+             // Gtk4: toolbar/menu-strip buttons keep the theme's rounded frame (box-shadow/border) even at
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/CssUri.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/CssUri.cs
+index 1c56ce54..ac5e650c 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/CssUri.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/CssUri.cs
+@@ -39,6 +39,153 @@ internal static class CssUri
+         @"^[a-zA-Z][a-zA-Z0-9+.\-]+:",
+         RegexOptions.CultureInvariant);
+ 
++    /// <summary>
++    /// An <c>@import</c> statement, in either accepted form: <c>@import url("x.css");</c> or
++    /// <c>@import "x.css";</c>.
++    /// </summary>
++    private static readonly Regex ImportStatement = new(
++        @"@import\s+(?:url\(\s*(?<q1>['""]?)(?<t1>[^)'""]*)\k<q1>\s*\)|(?<q2>['""])(?<t2>[^'""]*)\k<q2>)\s*;",
++        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
++
++    /// <summary>How deep a chain of nested imports is followed before giving up.</summary>
++    private const int MaxImportDepth = 8;
++
++    /// <summary>
++    /// Replaces every resolvable <c>@import</c> with the text of the sheet it names, read tolerantly and
++    /// with its own relative references already made absolute.
++    /// </summary>
++    /// <param name="css">The stylesheet text.</param>
++    /// <param name="baseDirectories">The directories an import target is resolved against.</param>
++    /// <returns>The stylesheet with its imports inlined.</returns>
++    /// <remarks>
++    /// <para>
++    /// Leaving the import for Gtk to follow looks equivalent and is not, because Gtk then opens the file
++    /// itself and its CSS parser requires valid UTF-8. A stylesheet in any other encoding - a national
++    /// codepage in its comments is enough - makes the parser abandon the rules around the offending bytes.
++    /// It reports nothing: no parsing error, nothing on stderr, the rules simply do not exist. Gtk3's
++    /// parser did not validate, so those stylesheets worked, and this is the sort of file that has been
++    /// sitting in a theme folder unchanged for years.
++    /// </para>
++    /// <para>
++    /// Reading the sheet here instead keeps that contract: the text is decoded tolerantly, so a byte that
++    /// is not valid UTF-8 can cost at most the character it belongs to - a comment or a label - and never a
++    /// rule. Inlining also puts the imported rules exactly where the import stood, which is the cascade
++    /// order they had.
++    /// </para>
++    /// <para>
++    /// An import that cannot be resolved is left untouched for <see cref="ResolveUrls" /> to absolutise, so
++    /// behaviour is unchanged wherever this cannot help.
++    /// </para>
++    /// </remarks>
++    internal static string InlineImports(string css, params string[] baseDirectories)
++    {
++        return InlineImports(css, baseDirectories, 0);
++    }
++
++    private static string InlineImports(string css, string[] baseDirectories, int depth)
++    {
++        if (string.IsNullOrEmpty(css) || baseDirectories == null || baseDirectories.Length == 0
++            || depth >= MaxImportDepth)
++        {
++            return css;
++        }
++
++        return ImportStatement.Replace(css, match =>
++        {
++            var target = (match.Groups["t1"].Success ? match.Groups["t1"].Value : match.Groups["t2"].Value)
++                .Trim();
++
++            if (target.Length == 0 || SchemePrefix.IsMatch(target))
++            {
++                return match.Value;
++            }
++
++            var path = Locate(target, baseDirectories);
++            if (path == null)
++            {
++                return match.Value;
++            }
++
++            try
++            {
++                var directory = Path.GetDirectoryName(path);
++                if (string.IsNullOrEmpty(directory))
++                {
++                    return match.Value;
++                }
++
++                // The imported sheet's own references are relative to where that sheet lives, which is what
++                // Gtk would have used had it opened the file itself.
++                var imported = InlineImports(ReadTolerantly(path), new[] { directory! }, depth + 1);
++
++                return ResolveUrls(imported, directory!);
++            }
++            catch (Exception ex)
++            {
++                Diagnostics.GtkLogger.Debug($"Unable to inline the stylesheet imported as {target}", ex);
++                return match.Value;
++            }
++        });
++    }
++
++    /// <summary>
++    /// Reads a stylesheet without ever failing on its encoding.
++    /// </summary>
++    /// <param name="path">The file to read.</param>
++    /// <returns>The stylesheet text.</returns>
++    /// <remarks>
++    /// Strict UTF-8 first, so a well-formed sheet is decoded exactly. Failing that the bytes are taken as
++    /// Latin-1, which cannot fail and maps every byte to one character: the rules - which are ASCII - come
++    /// through intact, and only text in some other encoding, in practice a comment, reads as mojibake. That
++    /// is the right trade here, because the alternative Gtk offers is losing the rules.
++    /// </remarks>
++    private static string ReadTolerantly(string path)
++    {
++        var bytes = File.ReadAllBytes(path);
++
++        try
++        {
++            return new Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true)
++                .GetString(bytes);
++        }
++        catch (ArgumentException)
++        {
++            return Text.Encoding.GetEncoding("ISO-8859-1").GetString(bytes);
++        }
++    }
++
++    /// <summary>
++    /// Finds an import target under the candidate base directories.
++    /// </summary>
++    /// <param name="target">The reference as it appears in the stylesheet.</param>
++    /// <param name="baseDirectories">The directories to try, most significant first.</param>
++    /// <returns>The full path of the first directory that holds it, or <see langword="null" />.</returns>
++    private static string? Locate(string target, string[] baseDirectories)
++    {
++        foreach (var directory in baseDirectories)
++        {
++            if (string.IsNullOrEmpty(directory))
++            {
++                continue;
++            }
++
++            try
++            {
++                var full = Path.GetFullPath(Path.Combine(directory, target));
++                if (File.Exists(full))
++                {
++                    return full;
++                }
++            }
++            catch (Exception ex)
++            {
++                Diagnostics.GtkLogger.Debug($"Unable to locate {target} under {directory}", ex);
++            }
++        }
++
++        return null;
++    }
++
+     /// <summary>
+     /// Rewrites every relative <c>url(...)</c> in <paramref name="css" /> as an absolute
+     /// <c>file:///</c> URI.
+-- 
+2.53.0.windows.3
+
