@@ -27,6 +27,8 @@ public sealed class PanelBase : ScrollableBoxBase
         contaner.Vexpand = false;
         var background = new Gtk.DrawingArea();
         background.DrawFunc = Background_DrawFunc;
+        // Paint is raised from this child, not from the scroller, so an invalidation has to land here.
+        Override.PaintSurface = background;
         contaner.AddChild(background);
         this.Add(contaner);
     }

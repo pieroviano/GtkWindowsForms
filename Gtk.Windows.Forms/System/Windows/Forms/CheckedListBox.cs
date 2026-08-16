@@ -374,8 +374,11 @@ public partial class CheckedListBox : ContainerControl
         if (this.MultiColumn && this.ColumnWidth > 0)
         {
             item.WidthRequest = this.ColumnWidth;
-            var checkButton = (Gtk.CheckButton)item.Child;
-            if (checkButton.Child is Gtk.Label label)
+            // Gtk4 keeps the label created by gtk_check_button_set_label() outside the child slot, so
+            // Gtk3's `Child is Gtk.Label` never matches and the clamp below was silently skipped. A width
+            // request alone only raises a minimum; without the ellipsize the label's minimum stays its
+            // natural width and ColumnWidth stops meaning anything.
+            if (item.Child.GetLabelWidget() is Gtk.Label label)
             {
                 label.WidthChars = this.ColumnWidth / 12;
                 label.Ellipsize = Pango.EllipsizeMode.End;

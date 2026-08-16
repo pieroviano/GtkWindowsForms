@@ -34,4 +34,64 @@ public sealed class CheckBoxBase : Gtk.CheckButton, IControlGtk
         get;
         set;
     }
+
+    /// <summary>
+    /// Sets the button's content to an optional icon beside its caption, reproducing the
+    /// <c>image</c> / <c>always-show-image</c> / <c>image-position</c> trio that Gtk 3's
+    /// <see cref="T:Gtk.Button" /> offered and Gtk 4 removed.
+    /// </summary>
+    /// <remarks>
+    /// A Gtk 4 check button has a single content slot: its caption <em>is</em> its
+    /// <see cref="P:Gtk.CheckButton.Child" />, so assigning an image to that slot destroys the label and
+    /// the caption disappears. An icon and a caption therefore have to share one child widget, which is
+    /// what this method builds.
+    /// </remarks>
+    /// <param name="image">The icon to show, or <see langword="null" /> for a caption-only button.</param>
+    /// <param name="text">The caption.</param>
+    /// <param name="imagePosition">Where the icon sits relative to the caption.</param>
+    /// <returns>
+    /// The label that carries <paramref name="text" />, so callers can style it, or
+    /// <see langword="null" /> if the button ended up with no caption widget at all.
+    /// </returns>
+    public Gtk.Label? SetImageAndLabel(Gtk.Image? image, string? text, Gtk.PositionType imagePosition)
+    {
+        if (image == null)
+        {
+            // No icon: the built-in label is the child, exactly as before.
+            base.Label = text ?? string.Empty;
+            return base.Child as Gtk.Label;
+        }
+
+        var vertical = imagePosition == Gtk.PositionType.Top || imagePosition == Gtk.PositionType.Bottom;
+        var label = new Gtk.Label(text ?? string.Empty)
+        {
+            // An icon above or below the caption centres it, the way Gtk 3 laid out a top/bottom image
+            // position; beside the caption the text stays left aligned.
+            Halign = vertical ? Gtk.Align.Center : Gtk.Align.Start,
+            Valign = Gtk.Align.Center,
+            Xalign = vertical ? 0.5f : 0.0f,
+            Yalign = 0.5f,
+            Ellipsize = Pango.EllipsizeMode.End
+        };
+
+        var content = new Gtk.Box(vertical ? Gtk.Orientation.Vertical : Gtk.Orientation.Horizontal, 4)
+        {
+            Halign = Gtk.Align.Start,
+            Valign = Gtk.Align.Center
+        };
+
+        if (imagePosition == Gtk.PositionType.Right || imagePosition == Gtk.PositionType.Bottom)
+        {
+            content.Append(label);
+            content.Append(image);
+        }
+        else
+        {
+            content.Append(image);
+            content.Append(label);
+        }
+
+        base.Child = content;
+        return label;
+    }
 }

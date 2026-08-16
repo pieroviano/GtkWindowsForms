@@ -2738,13 +2738,46 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     {
         if (this.Widget != null)
         {
-            this.Widget?.QueueDraw();
+            this.Widget.QueueDraw();
+            // The widget that raises Paint is often a child drawing area rather than the control widget,
+            // and Gtk4 invalidates only the widget queued and its ancestors - never its children.
+            this.ISelf?.Override.QueueRedraw();
+            if (invalidateChildren)
+            {
+                // Gtk3 honoured this flag by handing it to Gdk.Window.InvalidateRect; the Gtk4 rewrite
+                // dropped it, so an Invalidate never reached a single child.
+                InvalidateChildren(rc);
+            }
+
             this.Widget.SetStateFlags(StateFlags.Backdrop, true);
             GLib.Timeout.Add(50, () =>
             {
                 this.Widget?.SetStateFlags(Gtk.StateFlags.Prelight, true);
                 return false;
             });
+        }
+    }
+
+    /// <summary>
+    /// Invalidates the same rectangle on every child control.
+    /// </summary>
+    /// <param name="rc">
+    /// Rectangle to invalidate, in client coordinates.
+    /// </param>
+    private void InvalidateChildren(Rectangle rc)
+    {
+        var controls = this.Controls;
+        if (controls == null)
+        {
+            return;
+        }
+
+        foreach (var child in controls)
+        {
+            if (child is Control control)
+            {
+                control.Invalidate(rc, true);
+            }
         }
     }
 
@@ -3023,6 +3056,32 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         if (this.Widget != null && this.Widget.IsVisible)
         {
             this.Widget.QueueDraw();
+            // Queueing the control widget alone leaves a child drawing area - the widget that raises
+            // Paint on this port - holding its cached Gtk4 render node, so a custom-painted control
+            // repainted exactly once. WinForms Refresh also repaints the children, which is how Gtk3's
+            // invalidation of the shared GdkWindow behaved.
+            this.ISelf?.Override.QueueRedraw();
+            RefreshChildren();
+        }
+    }
+
+    /// <summary>
+    /// Repaints every child control, the way <see cref="Refresh" /> does in WinForms.
+    /// </summary>
+    private void RefreshChildren()
+    {
+        var controls = this.Controls;
+        if (controls == null)
+        {
+            return;
+        }
+
+        foreach (var child in controls)
+        {
+            if (child is Control control)
+            {
+                control.Refresh();
+            }
         }
     }
 
@@ -3346,7 +3405,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         if (this.Widget != null)
         {
             this.Widget.QueueDraw();
-            this.Widget.QueueDraw();
+            // The second QueueDraw here was a duplicate of the first and could not add anything; what was
+            // missing is the drawing area that raises Paint, which the control widget never invalidates.
+            this.ISelf?.Override.QueueRedraw();
         }
     }
 
@@ -4179,7 +4240,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                     var imagepixbuf = new Gdk.Pixbuf(this._image.PixbufData);
                     imagepixbuf.Save(imguri, "png");
                 }
-                style.AppendFormat("background:url(\"{0}\")", imguri);
+                // Absolute file URI - see the note on the background-image branch below: a relative url()
+                // in a stylesheet loaded from a string resolves to nothing on Gtk4.
+                style.AppendFormat("background:url(\"{0}\")", ToCssUri(imguri));
                 style.Append(" no-repeat");
                 if (this.ImageAlign == ContentAlignment.TopLeft)
                 {
@@ -4230,7 +4293,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                         var bgpixbuf = new Gdk.Pixbuf(this._backgroundImage.PixbufData);
                         bgpixbuf.Savev(bgimguri, "png", new string[] { }, new string[] { });
                     }
-                    style.AppendFormat(",url(\"{0}\") repeat", bgimguri);
+                    style.AppendFormat(",url(\"{0}\") repeat", ToCssUri(bgimguri));
                 }
                 style.Append(";");
                 style.Append("background-origin: padding-box;");

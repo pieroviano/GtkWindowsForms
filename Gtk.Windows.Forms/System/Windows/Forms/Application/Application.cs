@@ -539,7 +539,18 @@ public sealed partial class Application
         // 42px tall, taller than the strip it lives in, and being the tallest item it inflated the whole
         // toolstrip past its designed height and pushed the trailing items off the right edge. Collapsing
         // the theme's minimum lets the item's designed Size govern, as it does in WinForms.
-        + ".ToolStripEntry,.ToolStripEntry>text{min-height:0;padding-top:0;padding-bottom:0;}";
+        + ".ToolStripEntry,.ToolStripEntry>text{min-height:0;padding-top:0;padding-bottom:0;}\n"
+        // A WinForms group box notches its caption out of the top border. Gtk3 drew that with
+        // gtk_render_frame_gap, a primitive Gtk4 deleted, so GroupBoxBase.OnSnapshot draws the notched
+        // border itself and the theme's own uninterrupted rectangle has to go. Making it transparent is not
+        // enough, and the reason is worth recording: Gtk4 gives a widget's own drawing a context whose
+        // origin is its CSS *content box* and clips it there. Adwaita's 1px frame border therefore shifted
+        // the shim's border a pixel in and swallowed its right and bottom edges outright - measured on the
+        // live window, the two remaining edges stopped exactly at the content box. Taking the border and
+        // the padding to zero makes the content box the widget box, which is the only geometry in which a
+        // border drawn at the widget's own edges survives. Nothing touches the background, which is how
+        // GroupBox.BackColor reaches the widget.
+        + ".GroupBox{border-style:none;border-width:0;border-radius:0;box-shadow:none;padding:0;}";
 
     public static Gtk.Application Init()
     {
@@ -808,7 +819,16 @@ tooltip label {padding: 0px 10px; color: #555555;}
                 File.WriteAllText(themesetuppath, setupthemecontent.ToString(), Text.Encoding.UTF8);
             }
 
-            css.LoadFromData(cssBuilder.ToString());
+            // Gtk4 raises no diagnostic for a stylesheet it cannot make sense of beyond this signal, so
+            // surface it - a user theme that stops applying is otherwise completely invisible.
+            css.ParsingError += (_, args) => GtkLogger.Debug($"CSS parsing error in {args.Section}");
+            // A stylesheet loaded from a string has no base directory on Gtk4, and its
+            // gtk_css_parser_resolve_url() then silently drops every relative url() - images and, worse,
+            // @import - with no parsing error and nothing on stderr. Gtk3 resolved those against the
+            // process working directory, so a user theme that shipped relative references simply stopped
+            // applying. Make them absolute first: the working directory keeps the Gtk3 contract, and the
+            // application directory covers the case Gtk3 got wrong, an app launched from elsewhere.
+            css.LoadFromData(CssUri.ResolveUrls(cssBuilder.ToString(), Directory.GetCurrentDirectory(), appdirectory));
             Gtk.StyleContext.AddProviderForDisplay(Gdk.Display.Default, css, (uint)StyleProviderPriority.Application);
 
             // Gtk4: toolbar/menu-strip buttons keep the theme's rounded frame (box-shadow/border) even at

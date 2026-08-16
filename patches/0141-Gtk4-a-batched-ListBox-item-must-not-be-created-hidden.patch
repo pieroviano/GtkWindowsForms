@@ -1,0 +1,62 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Subject: [PATCH] Gtk4: a batched ListBox item must not be created hidden
+
+Comparing the sample on both engines showed Form2's list box rendering six
+captioned rows on Gtk3 and, on Gtk4, a band of blank rows followed by only the
+items appended at run time.
+
+The blank rows were not a spacing problem: they had no visible caption. NativeAdd
+and NativeInsert build each item's Gtk.Label with Visible = !IsUpdateing, on the
+Gtk3 assumption that EndUpdate's ShowAll() would reveal it again - ShowAll was
+recursive and walked into the rows. Gtk4 removed it, and its compatibility
+replacement deliberately does not recurse (resurrecting descendants that were
+hidden on purpose is the bug that got gtk_widget_show_all deleted), so
+EndUpdate's Show() sets Visible on the list box and nothing else. Every caption
+created inside a batch therefore stayed hidden for good - and because
+ObjectCollection.AddRange wraps its whole batch in BeginUpdate/EndUpdate, that
+silently covered every designer-declared item.
+
+The caption is now created visible, which is Gtk4's own doctrine: a widget is
+visible when it is created and hiding one is a deliberate act. There is no
+flicker to suppress in exchange - Gtk4 renders nothing until the frame clock
+ticks, so a batch of added rows is already coalesced into a single layout pass,
+and all EndUpdate has left to do is ask for it.
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+index 38c0fa38..588e7911 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+@@ -707,7 +707,11 @@ public partial class ListBox : ListControl
+     public void EndUpdate()
+     {
+         IsUpdateing = false;
+-        self.ListBox.Show();
++        // Gtk4 has no recursive show: the Gtk3 build ended a batch with ShowAll(), which walked the
++        // rows and revealed the captions it had created hidden. Its replacement only sets Visible on
++        // the widget it is called on, so nothing may be created hidden here (see NativeAdd) and all
++        // that is left to do is ask for the layout the batch made stale.
++        self.ListBox.QueueResize();
+     }
+ 
+     /// <summary>
+@@ -993,7 +997,9 @@ public partial class ListBox : ListControl
+         var row = new Gtk.ListBoxRow();
+         row.HeightRequest = ItemHeight > 0 ? ItemHeight : DefaultItemHeight;
+         row.Visible = true;
+-        row.AddChild(new Gtk.Label(item.ToString()) { Valign = Align.Center, Halign = Align.Start, Hexpand = true, Vexpand = true, Visible = !IsUpdateing });
++        // The caption must be created visible even inside a BeginUpdate/EndUpdate batch: Gtk4 has no
++        // recursive show to reveal it again, so a row hidden here would stay blank for good.
++        row.AddChild(new Gtk.Label(item.ToString()) { Valign = Align.Center, Halign = Align.Start, Hexpand = true, Vexpand = true });
+         self.ListBox.AddChild(row);
+     }
+ 
+@@ -1041,7 +1047,8 @@ public partial class ListBox : ListControl
+         var row = new Gtk.ListBoxRow();
+         row.HeightRequest = ItemHeight > 0 ? ItemHeight : DefaultItemHeight;
+         row.Visible = true;
+-        row.AddChild(new Gtk.Label(item.ToString()) { Valign = Align.Center, Halign = Align.Start, Hexpand = true, Vexpand = true, Visible = !IsUpdateing });
++        // Created visible for the same reason as NativeAdd - nothing reveals it later under Gtk4.
++        row.AddChild(new Gtk.Label(item.ToString()) { Valign = Align.Center, Halign = Align.Start, Hexpand = true, Vexpand = true });
+         self.ListBox.Insert(row, index);
+     }
+ 

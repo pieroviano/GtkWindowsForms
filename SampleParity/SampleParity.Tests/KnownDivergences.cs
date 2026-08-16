@@ -33,16 +33,5 @@ internal static class KnownDivergences
     /// to rot.
     /// </para>
     /// </remarks>
-    /// <remarks>
-    /// <c>form1.checkboxes.toggle</c> - <b>DEFECT, unresolved.</b> Form1 declares three check boxes and the
-    /// reference reaches all three; the port reaches only two. The missing one, <c>checkBox3</c>, is the
-    /// only one held by <c>flowLayoutPanel1</c> - the other two sit elsewhere - so this looks like the same
-    /// family as the TableLayoutPanel defect above: a container whose children are not fully visible
-    /// through <c>Control.Controls</c>. <c>FlowLayoutPanel</c> does declare its <c>Controls</c> with
-    /// <c>override</c>, so the cause is not identical and needs its own diagnosis.
-    /// </remarks>
-    public static readonly IReadOnlySet<string> Scenarios = new HashSet<string>(StringComparer.Ordinal)
-    {
-        "form1.checkboxes.toggle",
-    };
+    public static readonly IReadOnlySet<string> Scenarios = new HashSet<string>(StringComparer.Ordinal);
 }

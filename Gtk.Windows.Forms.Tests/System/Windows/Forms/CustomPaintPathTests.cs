@@ -83,6 +83,75 @@ public class CustomPaintPathTests
         Assert.EndsWith("y_bgimage.png", uri, StringComparison.Ordinal);
     }
 
+    [Fact]
+    public void ControlsPaintingFromAChildArea_RecordItAsTheirPaintSurface()
+    {
+        // A picture box, a panel, a group box and a form all raise Paint from a child Gtk.DrawingArea
+        // inside an overlay. Unless the override knows which widget that is, nothing can invalidate it.
+        var overrides = new (string Name, GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride Override)[]
+        {
+            (nameof(PictureBox), new PictureBox().self.Override),
+            (nameof(Panel), new Panel().self.Override),
+            (nameof(GroupBox), new GroupBox().self.Override),
+            (nameof(Form), new Form().self.Override),
+        };
+
+        var missing = overrides.Where(o => o.Override.PaintSurface == null).Select(o => o.Name).ToList();
+
+        Assert.True(missing.Count == 0,
+            "these controls raise Paint from a child area but do not record it: " + string.Join(", ", missing));
+    }
+
+    [Fact]
+    public void Refresh_QueuesARedrawOnTheWidgetThatRaisesPaint()
+    {
+        // Gtk4 caches a render node per widget and queues a draw only on the widget and its ancestors, so
+        // queueing the control widget left the child drawing area holding its first frame for ever: every
+        // animated custom-painted control froze on the frame it was first mapped.
+        var box = new PictureBox();
+        var drawingOverride = box.self.Override;
+        var before = drawingOverride.RedrawRequests;
+
+        box.Refresh();
+
+        Assert.True(drawingOverride.RedrawRequests > before,
+            "Refresh must invalidate the drawing area that raises Paint, not just the control widget");
+    }
+
+    [Fact]
+    public void Refresh_RepaintsChildControlsToo()
+    {
+        // WinForms Refresh repaints the control and its children; Gtk3 got that for free because the
+        // invalidation went to the shared GdkWindow, which Gtk4 no longer has.
+        var panel = new Panel();
+        var child = new PictureBox();
+        panel.Controls.Add(child);
+        var before = child.self.Override.RedrawRequests;
+
+        panel.Refresh();
+
+        Assert.True(child.self.Override.RedrawRequests > before,
+            "Refresh must reach the children as well, the way the Gtk3 invalidation did");
+    }
+
+    [Fact]
+    public void Invalidate_HonoursTheInvalidateChildrenFlag()
+    {
+        // Gtk3 passed this flag straight to Gdk.Window.InvalidateRect. The Gtk4 rewrite reduced the whole
+        // method to a bare QueueDraw and silently dropped it, so no child was ever invalidated.
+        var panel = new Panel();
+        var child = new PictureBox();
+        panel.Controls.Add(child);
+
+        var beforeExcluded = child.self.Override.RedrawRequests;
+        panel.Invalidate(new global::System.Drawing.Rectangle(0, 0, 10, 10), invalidateChildren: false);
+        Assert.Equal(beforeExcluded, child.self.Override.RedrawRequests);
+
+        panel.Invalidate(new global::System.Drawing.Rectangle(0, 0, 10, 10), invalidateChildren: true);
+        Assert.True(child.self.Override.RedrawRequests > beforeExcluded,
+            "Invalidate(rc, invalidateChildren: true) must reach the children");
+    }
+
     private static bool DeclaresSnapshotOverride(Type type)
     {
         return type.GetMethod(

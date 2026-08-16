@@ -1,0 +1,72 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Subject: [PATCH] Gtk4: a Label is neither focusable nor selectable
+
+Comparing the sample on both engines showed Test1's status label, "XXX item
+analysis in progress...", with an opaque grey box behind its text where the Gtk3
+reference has plain background. It was filed as a lost Label.BackColor, and it is
+not one: the sample assigns no BackColor to any label, Override.BackColor stays
+null unless one is assigned, and the box is one text line tall against a taller
+label allocation and only as wide as the glyph run. Its colour, rgb(184,183,186),
+is the foreground at 25% over the panel background - Adwaita's unfocused
+selection. The reference has the identical artefact on another label, in
+Adwaita's focused blue, which is what identified it as a text selection.
+
+Both builds set Selectable on the label. Under Gtk3 that was only a mouse
+affordance; Gtk4 makes a selectable label focusable, so the window's initial
+focus can land on one, and gtk_label_grab_focus() honours gtk-label-select-on-
+focus by selecting the whole caption - which the theme paints as a solid box.
+
+A WinForms Label has ControlStyles.Selectable clear and TabStop false: it never
+takes focus and its text can never be selected. Both settings are cleared to
+match, which is a deliberate divergence from the vendored Gtk3 build - it costs
+the ability to drag-select a caption with the mouse, and takes labels out of a
+focus chain that WinForms never put them in. Label.Focus() is left alone: with
+Focusable clear, GrabFocus() simply fails and it returns false, as WinForms does.
+
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/LabelBase.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/LabelBase.cs
+index 03e0c2bd..598f976f 100644
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/LabelBase.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/LabelBase.cs
+@@ -22,7 +22,7 @@ public sealed class LabelBase : Gtk.Label, IControlGtk
+         this.Wrap = true;
+         this.Wrap = true;
+         this.LineWrapMode = Pango.WrapMode.WordChar;
+-        this.Selectable = true;
++        MatchWinFormsSelectionBehaviour(this);
+         // Gtk 4: Widget.Drawn is gone and there is no overridable OnSnapshot; custom paint moves to CSS (deferred).
+     }
+ 
+@@ -44,10 +44,31 @@ public sealed class LabelBase : Gtk.Label, IControlGtk
+         this.Wrap = true;
+         this.Wrap = true;
+         this.LineWrapMode = Pango.WrapMode.WordChar;
+-        this.Selectable = true;
++        MatchWinFormsSelectionBehaviour(this);
+         // Gtk4-removed (custom paint -> CSS/DrawFunc, deferred): this.Drawn += LabelBase_Drawn;
+     }
+ 
++    /// <summary>
++    /// Takes a label out of the focus chain and out of the text-selection business, the way WinForms has it.
++    /// </summary>
++    /// <param name="label">
++    /// The label to configure.
++    /// </param>
++    /// <remarks>
++    /// A WinForms <see cref="T:System.Windows.Forms.Label" /> has <c>ControlStyles.Selectable</c> clear and
++    /// <c>TabStop</c> false: it never takes focus and its text can never be selected. Upstream nonetheless
++    /// set <c>Selectable</c>, which under Gtk3 was merely a mouse affordance. Gtk4 makes a selectable label
++    /// focusable, so the window's initial focus could land on one, and
++    /// <c>gtk_label_grab_focus</c> honours <c>gtk-label-select-on-focus</c> by selecting the whole caption -
++    /// which the theme then paints as an opaque selection box behind the text. Clearing both settings is a
++    /// deliberate divergence from the vendored Gtk3 build; it is the WinForms contract that governs here.
++    /// </remarks>
++    private static void MatchWinFormsSelectionBehaviour(Gtk.Label label)
++    {
++        label.Selectable = false;
++        label.Focusable = false;
++    }
++
+     /// <summary>
+     /// Gets or sets the
+     /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride" /> instance that centralizes drawing and styling behavior for this control. This override encapsulates background painting (color and image), image drawing, CSS class management and raises paint events so the control can handle custom painting (both direct Cairo via

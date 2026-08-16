@@ -1,0 +1,237 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Subject: [PATCH] Gtk4: ListView rows must expand and keep their caption
+
+Comparing snapshots of the sample on both engines showed the Gtk3 build drawing
+seven captioned ListView rows where the Gtk4 build drew two rows with an icon
+and no text at all. Two independent porting losses, both in ListView.
+
+1. The rows that never appeared were never missing - they were scrolled out of
+   sight. Gtk3 packed the scroll area with PackStart(scrolledWindow, true, true,
+   0); Gtk4's Box.Append has no expand argument, because expansion is a child
+   property, and the port dropped it. The vertical box then granted the scroller
+   only its natural height (a GtkScrolledWindow reports a tiny minimum and does
+   not propagate its child's natural height): 46px of 154px of rows. Valign.Fill
+   cannot substitute - it only distributes space already granted. The scroll
+   area now sets Vexpand itself; headerView keeps the default false, matching
+   Gtk3's PackStart(headerView, false, true, 0).
+
+2. The missing captions are Gtk.CheckButton.Child overwriting the label. Gtk3's
+   GtkCheckButton derives from GtkButton, which carries an image *and* a label,
+   so upstream set AlwaysShowImage/ImagePosition and assigned .Image. Gtk4
+   removed all three and a check button has exactly one content slot: its
+   caption *is* its Child, so the ported ".Child = new Gtk.Image(...)" destroyed
+   the label outright and every item with a SmallImageList/LargeImageList
+   rendered blank. CheckBoxBase gains SetImageAndLabel, the natural home for the
+   image/always-show-image/image-position trio Gtk4 deleted: it builds one
+   [icon][caption] box (vertical for a Top/Bottom position, as the LargeIcon view
+   uses) and returns the label carrying the text. The same remedy the Gtk4 menu
+   items already needed.
+
+   The item's ForeColor moves with it. It used to be applied to the built-in
+   label immediately before the image assignment destroyed that label, so a
+   coloured item rendered in the default colour; it is now applied once, after
+   the view-specific branches, to whichever label ends up carrying the caption.
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/CheckBoxBase.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/CheckBoxBase.cs
+index 7dfe5eac..2386b13a 100644
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/CheckBoxBase.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/CheckBoxBase.cs
+@@ -34,4 +34,64 @@ public sealed class CheckBoxBase : Gtk.CheckButton, IControlGtk
+         get;
+         set;
+     }
++
++    /// <summary>
++    /// Sets the button's content to an optional icon beside its caption, reproducing the
++    /// <c>image</c> / <c>always-show-image</c> / <c>image-position</c> trio that Gtk 3's
++    /// <see cref="T:Gtk.Button" /> offered and Gtk 4 removed.
++    /// </summary>
++    /// <remarks>
++    /// A Gtk 4 check button has a single content slot: its caption <em>is</em> its
++    /// <see cref="P:Gtk.CheckButton.Child" />, so assigning an image to that slot destroys the label and
++    /// the caption disappears. An icon and a caption therefore have to share one child widget, which is
++    /// what this method builds.
++    /// </remarks>
++    /// <param name="image">The icon to show, or <see langword="null" /> for a caption-only button.</param>
++    /// <param name="text">The caption.</param>
++    /// <param name="imagePosition">Where the icon sits relative to the caption.</param>
++    /// <returns>
++    /// The label that carries <paramref name="text" />, so callers can style it, or
++    /// <see langword="null" /> if the button ended up with no caption widget at all.
++    /// </returns>
++    public Gtk.Label? SetImageAndLabel(Gtk.Image? image, string? text, Gtk.PositionType imagePosition)
++    {
++        if (image == null)
++        {
++            // No icon: the built-in label is the child, exactly as before.
++            base.Label = text ?? string.Empty;
++            return base.Child as Gtk.Label;
++        }
++
++        var vertical = imagePosition == Gtk.PositionType.Top || imagePosition == Gtk.PositionType.Bottom;
++        var label = new Gtk.Label(text ?? string.Empty)
++        {
++            // An icon above or below the caption centres it, the way Gtk 3 laid out a top/bottom image
++            // position; beside the caption the text stays left aligned.
++            Halign = vertical ? Gtk.Align.Center : Gtk.Align.Start,
++            Valign = Gtk.Align.Center,
++            Xalign = vertical ? 0.5f : 0.0f,
++            Yalign = 0.5f,
++            Ellipsize = Pango.EllipsizeMode.End
++        };
++
++        var content = new Gtk.Box(vertical ? Gtk.Orientation.Vertical : Gtk.Orientation.Horizontal, 4)
++        {
++            Halign = Gtk.Align.Start,
++            Valign = Gtk.Align.Center
++        };
++
++        if (imagePosition == Gtk.PositionType.Right || imagePosition == Gtk.PositionType.Bottom)
++        {
++            content.Append(label);
++            content.Append(image);
++        }
++        else
++        {
++            content.Append(image);
++            content.Append(label);
++        }
++
++        base.Child = content;
++        return label;
++    }
+ }
+\ No newline at end of file
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ListView.cs b/Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
+index dcd99d41..3d461595 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
+@@ -114,6 +114,13 @@ public class ListView : ContainerControl
+         flowBoxContainer.Valign = Gtk.Align.Start;
+         scrolledWindow.Halign = Gtk.Align.Fill;
+         scrolledWindow.Valign = Gtk.Align.Fill;
++        // Gtk3 packed the scroll area with PackStart(expand: true, fill: true); Gtk4's Box.Append takes no
++        // expand argument - expansion is a child property - so the scroller has to ask for the leftover
++        // height itself. Without it the vertical box grants only the scroller's natural height (a
++        // GtkScrolledWindow reports a tiny minimum and does not propagate its child's natural height), so
++        // all but the first couple of rows are scrolled out of sight. Valign.Fill cannot substitute: it
++        // only distributes space that has already been granted.
++        scrolledWindow.Vexpand = true;
+         scrolledWindow.AddChild(flowBoxContainer);
+         scrolledWindow.Hadjustment.ValueChanged += Hadjustment_ValueChanged;
+ 
+@@ -1050,16 +1057,14 @@ public class ListView : ContainerControl
+             checkboxself.Active = item.Checked;
+         // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+         // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
+-            if (checkboxself.Child is Gtk.Label label)
++            // Gtk4: a check button's caption *is* its Child, so the view-specific branches below re-home the
++            // text into an [icon][caption] box as soon as the item carries an image. Track which label ends
++            // up carrying the caption and colour it once, after those branches have run.
++            Gtk.Label? captionLabel = checkboxself.Child as Gtk.Label;
++            if (captionLabel != null)
+             {
+-                label.Halign = Gtk.Align.Start;
+-                label.Valign = Gtk.Align.Fill;
+-                if (item.ForeColor.HasValue)
+-                {
+-                    label.Attributes = new Pango.AttrList();
+-                    var fg = new Pango.AttrForeground(Convert.ToUInt16(item.ForeColor.Value.R * 257), Convert.ToUInt16(item.ForeColor.Value.G * 257), Convert.ToUInt16(item.ForeColor.Value.B * 257));
+-                    label.Attributes.Insert(fg);
+-                }
++                captionLabel.Halign = Gtk.Align.Start;
++                captionLabel.Valign = Gtk.Align.Fill;
+             }
+ 
+             if (fistcell.WidthRequest == -1)
+@@ -1083,12 +1088,14 @@ public class ListView : ContainerControl
+                     if (height > flowitem.HeightRequest)
+                         flowitem.HeightRequest = height;
+ 
++                    // Gtk4-removed: AlwaysShowImage / ImagePosition = Left; the icon and the caption now
++                    // share the check button's single content slot.
+                     if (!string.IsNullOrWhiteSpace(item.ImageKey))
+                     {
+                         Drawing.Image? img = this.SmallImageList.GetBitmap(item.ImageKey);
+                         if (img != null)
+                         {
+-                            checkboxself.Child = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
++                            captionLabel = checkboxself.SetImageAndLabel(new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start }, item.Text, Gtk.PositionType.Left) ?? captionLabel;
+                         }
+                     }
+                     else if (item.ImageIndex > -1)
+@@ -1096,7 +1103,7 @@ public class ListView : ContainerControl
+                         Drawing.Image? img = this.SmallImageList.GetBitmap(item.ImageIndex);
+                         if (img != null)
+                         {
+-                            checkboxself.Child = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
++                            captionLabel = checkboxself.SetImageAndLabel(new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start }, item.Text, Gtk.PositionType.Left) ?? captionLabel;
+                         }
+                     }
+                 }
+@@ -1151,12 +1158,14 @@ public class ListView : ContainerControl
+                         flowitem.WidthRequest = width + 40;
+                         flowitem.HeightRequest = height + FontSize + 20;
+ 
++                        // Gtk4-removed: AlwaysShowImage / ImagePosition = Top; a large icon sits above the
++                        // caption inside the check button's single content slot.
+                         if (!string.IsNullOrWhiteSpace(item.ImageKey))
+                         {
+                             Drawing.Image? img = this.LargeImageList.GetBitmap(item.ImageKey);
+                             if (img != null)
+                             {
+-                                checkboxself.Child = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
++                                captionLabel = checkboxself.SetImageAndLabel(new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start }, item.Text, Gtk.PositionType.Top) ?? captionLabel;
+                             }
+                         }
+                         else if (item.ImageIndex > -1)
+@@ -1164,7 +1173,7 @@ public class ListView : ContainerControl
+                             Drawing.Image? img = this.LargeImageList.GetBitmap(item.ImageIndex);
+                             if (img != null)
+                             {
+-                                checkboxself.Child = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
++                                captionLabel = checkboxself.SetImageAndLabel(new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start }, item.Text, Gtk.PositionType.Top) ?? captionLabel;
+                             }
+                         }
+                     }
+@@ -1178,12 +1187,14 @@ public class ListView : ContainerControl
+                         if (height > flowitem.HeightRequest)
+                             flowitem.HeightRequest = height;
+ 
++                        // Gtk4-removed: AlwaysShowImage / ImagePosition = Left; the icon and the caption
++                        // share the check button's single content slot.
+                         if (!string.IsNullOrWhiteSpace(item.ImageKey))
+                         {
+                             var img = this.SmallImageList.GetBitmap(item.ImageKey);
+                             if (img != null)
+                             {
+-                                checkboxself.Child = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
++                                captionLabel = checkboxself.SetImageAndLabel(new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start }, item.Text, Gtk.PositionType.Left) ?? captionLabel;
+                             }
+                         }
+                         else if (item.ImageIndex > -1)
+@@ -1191,12 +1202,23 @@ public class ListView : ContainerControl
+                             var img = this.SmallImageList.GetBitmap(item.ImageIndex);
+                             if (img != null)
+                             {
+-                                checkboxself.Child = new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start };
++                                captionLabel = checkboxself.SetImageAndLabel(new Gtk.Image(img.Pixbuf) { WidthRequest = width, HeightRequest = height, Halign = Align.Start }, item.Text, Gtk.PositionType.Left) ?? captionLabel;
+                             }
+                         }
+                     }
+                 }
+             }
++
++            // Colour the caption last: the view-specific branches above may have replaced the check
++            // button's built-in label with the one inside its [icon][caption] box, and the fore colour has
++            // to land on whichever label actually renders the text.
++            if (item.ForeColor.HasValue && captionLabel != null)
++            {
++                captionLabel.Attributes = new Pango.AttrList();
++                var fg = new Pango.AttrForeground(Convert.ToUInt16(item.ForeColor.Value.R * 257), Convert.ToUInt16(item.ForeColor.Value.G * 257), Convert.ToUInt16(item.ForeColor.Value.B * 257));
++                captionLabel.Attributes.Insert(fg);
++            }
++
+             if (IsCacheUpdate == false)
+                 self.Show();
+         }

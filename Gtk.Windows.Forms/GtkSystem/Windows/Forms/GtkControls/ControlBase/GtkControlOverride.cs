@@ -44,6 +44,42 @@ public sealed class GtkControlOverride : IControlOverride
     private readonly List<string> cssList = new();
 
     /// <summary>
+    /// Gets or sets the widget that actually raises <see cref="Paint" />, when that is not the control
+    /// widget itself.
+    /// </summary>
+    /// <value>
+    /// The child widget whose draw callback calls <see cref="OnPaint(Cairo.Context)" />, or
+    /// <see langword="null" /> when the control paints through its own snapshot.
+    /// </value>
+    /// <remarks>
+    /// Several controls - a picture box, a panel, a group box, a form - host a child
+    /// <see cref="Gtk.DrawingArea" /> inside an overlay and raise the WinForms paint events from that
+    /// child rather than from the control widget. Recording it here is what lets an invalidation reach the
+    /// widget that draws; see <see cref="QueueRedraw" />.
+    /// </remarks>
+    public Widget? PaintSurface
+    {
+        get;
+        set;
+    }
+
+    /// <summary>
+    /// Gets the number of times <see cref="QueueRedraw" /> has asked for a repaint.
+    /// </summary>
+    /// <value>
+    /// A monotonically increasing count.
+    /// </value>
+    /// <remarks>
+    /// Exposed so that the invalidation path can be asserted without a running frame clock, which a test
+    /// host does not have.
+    /// </remarks>
+    public int RedrawRequests
+    {
+        get;
+        private set;
+    }
+
+    /// <summary>
     /// The sender used when raising the paint events.
     /// </summary>
     public object sender;
@@ -332,6 +368,26 @@ public sealed class GtkControlOverride : IControlOverride
             var ce = cr.ClipExtents();
             var clipRect = new Gdk.Rectangle((int)ce.X, (int)ce.Y, (int)ce.Width, (int)ce.Height);
             Paint.Invoke(sender, new PaintEventArgs(new Graphics(container, cr, clipRect), new Rectangle(0, 0, clipRect.Width, clipRect.Height)));
+        }
+    }
+
+    /// <summary>
+    /// Marks the widget that raises <see cref="Paint" /> as needing to be redrawn.
+    /// </summary>
+    /// <remarks>
+    /// Gtk 4 caches a render node per widget and <c>gtk_widget_queue_draw</c> invalidates only the widget
+    /// it is called on and its ancestors. Queueing on the control widget therefore leaves a child
+    /// <see cref="Gtk.DrawingArea" />'s draw callback - and with it the WinForms <c>Paint</c> handler -
+    /// running exactly once, so every animated custom-painted control froze on its first frame. Gtk 3
+    /// redrew such a child because the invalidation went to the shared <c>GdkWindow</c> instead.
+    /// </remarks>
+    public void QueueRedraw()
+    {
+        RedrawRequests++;
+        (PaintSurface ?? container).QueueDraw();
+        if (PaintSurface != null)
+        {
+            container.QueueDraw();
         }
     }
 

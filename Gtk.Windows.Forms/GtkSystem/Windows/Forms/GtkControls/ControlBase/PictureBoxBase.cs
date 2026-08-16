@@ -40,6 +40,8 @@ public sealed class PictureBoxBase : Gtk.Viewport, IControlGtk
         this.Realized += PictureBoxBase_Realized;
         var drawingArea = new Gtk.DrawingArea();
         drawingArea.DrawFunc = DrawingArea_DrawFunc;
+        // Paint is raised from this child, not from the viewport, so an invalidation has to land here.
+        this.Override.PaintSurface = drawingArea;
         contaner.AddChild(drawingArea);
         this.AddChild(contaner);
     }

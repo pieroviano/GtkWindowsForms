@@ -1,0 +1,127 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Subject: [PATCH] Gtk4: reach a button's label, and let Controls hold controls
+
+Form1's check-box grid flowed two columns of full-width captions where the
+reference flows four ellipsized ones. The control is not the FlowLayoutPanel the
+difference was filed against - it is a CheckedListBox with MultiColumn and
+ColumnWidth = 70 - and the entry turned out to merge two unrelated defects.
+
+CheckedListBox enforces ColumnWidth from the item's realize handler by requesting
+the width *and* ellipsizing the caption: a size request only raises a minimum, so
+without the ellipsize the label's minimum stays its natural width and ColumnWidth
+means nothing. The handler reached the caption with Gtk3's idiom,
+`checkButton.Child is Gtk.Label`. In Gtk4 that is always false for a labelled
+button: gtk_check_button_set_label() keeps the label it creates outside the child
+slot, which only gtk_check_button_set_child() fills. The label is a real child,
+reachable through FirstChild/NextSibling - just not through Child. Measured on
+the sample before the change the items' minimum widths were 220/142/70/226px
+instead of 70; after it, exactly 70 each, and the port renders the reference's
+four ellipsized columns. The same idiom was silently dropping ListView item
+ForeColor and alignment, so that call site moves to the new helper too.
+
+Separately, Control.ControlCollection.AddWidget stored an ArrangedElementWidget
+wrapper rather than the Control it was handed. FlowLayoutPanel is its only caller
+today, and the result was that flp.Controls.Count was right while every entry
+failed `is Control` and the indexer threw InvalidCastException - the same shape as
+the already-fixed TableLayoutPanel divergence, and what the parity backlog's
+form1.checkboxes.toggle entry was really about. The collection now records the
+control whenever there is one and falls back to the wrapper only for widget-only
+children; Control implements IArrangedElement, so the collection stays
+type-consistent. FlowLayoutPanel deliberately keeps calling AddWidget rather than
+Add, because its child is already parented inside a FlowBoxChild.
+
+diff --git a/Gtk.Windows.Forms/GTKSystem/Gtk4Compat.cs b/Gtk.Windows.Forms/GTKSystem/Gtk4Compat.cs
+index 8fc05a02..08d73e27 100644
+--- a/Gtk.Windows.Forms/GTKSystem/Gtk4Compat.cs
++++ b/Gtk.Windows.Forms/GTKSystem/Gtk4Compat.cs
+@@ -688,6 +688,33 @@ public static class Gtk4Compat
+         return response;
+     }
+ 
++    /// <summary>
++    /// Returns the <see cref="Label"/> a widget displays, whether that label sits in the widget's
++    /// <c>Child</c> slot or was created by Gtk 4's <c>gtk_button_set_label()</c> /
++    /// <c>gtk_check_button_set_label()</c>. Those setters keep the label they create *outside* the
++    /// child slot, so Gtk 3's idiom <c>Child is Gtk.Label</c> is always false for a labelled button
++    /// and any styling keyed off it is silently dropped. The search is depth-first and returns the
++    /// first match, so it is meant for simple caption-bearing widgets, not arbitrary containers.
++    /// </summary>
++    /// <param name="widget">The widget to search, including itself; may be <c>null</c>.</param>
++    /// <returns>The first label found, or <c>null</c> when the widget displays no label.</returns>
++    public static Label? GetLabelWidget(this Widget? widget)
++    {
++        if (widget == null)
++            return null;
++        if (widget is Label self)
++            return self;
++
++        for (var child = widget.FirstChild; child != null; child = child.NextSibling)
++        {
++            var found = child.GetLabelWidget();
++            if (found != null)
++                return found;
++        }
++
++        return null;
++    }
++
+     /// <summary>
+     /// Adds <paramref name="child"/> to <paramref name="parent"/>, dispatching to the
+     /// Gtk 4 child API appropriate to the container's runtime type. Replaces Gtk 3's
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/CheckedListBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/CheckedListBox.cs
+index ccb8bbf8..28163a19 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/CheckedListBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/CheckedListBox.cs
+@@ -374,8 +374,11 @@ public partial class CheckedListBox : ContainerControl
+         if (this.MultiColumn && this.ColumnWidth > 0)
+         {
+             item.WidthRequest = this.ColumnWidth;
+-            var checkButton = (Gtk.CheckButton)item.Child;
+-            if (checkButton.Child is Gtk.Label label)
++            // Gtk4 keeps the label created by gtk_check_button_set_label() outside the child slot, so
++            // Gtk3's `Child is Gtk.Label` never matches and the clamp below was silently skipped. A width
++            // request alone only raises a minimum; without the ellipsize the label's minimum stays its
++            // natural width and ColumnWidth stops meaning anything.
++            if (item.Child.GetLabelWidget() is Gtk.Label label)
+             {
+                 label.WidthChars = this.ColumnWidth / 12;
+                 label.Ellipsize = Pango.EllipsizeMode.End;
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
+index cd98b4d1..5e9326e2 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Collection/Control.ControlCollection.cs
+@@ -212,7 +212,12 @@ public partial class Control
+         public void AddWidget(Gtk.Widget item, Control? control)
+         {
+             control?.Parent = _owner;
+-            InnerList.Add(new ArrangedElementWidget(item));
++            // Record the control itself whenever there is one - Controls must enumerate controls. A control
++            // parked inside a GTK wrapper widget (a FlowBoxChild, a layout box, ...) would otherwise vanish
++            // from every walk over Control.Controls and make the indexer's cast to Control throw. Control
++            // implements IArrangedElement, so the collection stays type-consistent; the widget wrapper is
++            // still used for the widget-only children that have no WinForms counterpart.
++            InnerList.Add((Layout.IArrangedElement?)control ?? new ArrangedElementWidget(item));
+         }
+ 
+         /// <summary>
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ListView.cs b/Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
+index 3d461595..f51796bd 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ListView.cs
+@@ -1057,10 +1057,11 @@ public class ListView : ContainerControl
+             checkboxself.Active = item.Checked;
+         // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
+         // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
+-            // Gtk4: a check button's caption *is* its Child, so the view-specific branches below re-home the
+-            // text into an [icon][caption] box as soon as the item carries an image. Track which label ends
+-            // up carrying the caption and colour it once, after those branches have run.
+-            Gtk.Label? captionLabel = checkboxself.Child as Gtk.Label;
++            // Gtk4: the view-specific branches below re-home the caption into an [icon][caption] box as soon
++            // as the item carries an image. Track which label ends up carrying the caption and colour it
++            // once, after those branches have run. A caption assigned through CheckButton.Label is kept
++            // outside the child slot, so it has to be reached by search rather than by casting Child.
++            Gtk.Label? captionLabel = checkboxself.GetLabelWidget();
+             if (captionLabel != null)
+             {
+                 captionLabel.Halign = Gtk.Align.Start;

@@ -1,0 +1,333 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Subject: [PATCH] Gtk4: an invalidation must reach the widget that paints
+
+Every animated custom-painted control in the sample was frozen on the frame it
+was first mapped: the chart wedge, the PC1/CC1 gauges. Solving the snapshots for
+the animation counter gives ticks == 0 on Gtk4 against ticks == 1.4957 on Gtk3,
+and the predicted wedge angles (79 deg / 254 deg) match the measured centroids
+(80.2 deg / 253.4 deg) - so the arc primitive draws exactly what WinForms
+prescribes and the "rotated pie" and the "5% gauge" are one frozen frame, not a
+start-angle or Y-flip bug.
+
+The paint event is not raised from the control's own widget. A picture box, a
+panel, a group box and a form each host a child Gtk.DrawingArea inside an
+overlay and raise Paint from that child's draw callback, while Refresh,
+Invalidate and Update only queue a draw on the outer widget. Gtk3 redrew the
+child anyway because the invalidation went to the shared GdkWindow - upstream
+even passed the invalidateChildren flag to Gdk.Window.InvalidateRect. Gtk4
+removed GdkWindow, caches a render node per widget and invalidates only the
+widget queued and its ancestors, so the child kept its cached node and its draw
+callback never ran a second time. The Gtk4 rewrite also dropped the
+invalidateChildren argument when it reduced Invalidate to a bare QueueDraw.
+
+The override now records the widget that raises Paint and exposes QueueRedraw to
+invalidate it; Refresh and Invalidate(rc, true) recurse over the WinForms
+Controls collection, restoring the Gtk3 semantics without walking every internal
+GTK widget on each repaint. Update's duplicated QueueDraw becomes one queue plus
+that redraw.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/CustomPaintPathTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/CustomPaintPathTests.cs
+index 4499f714..f23c24eb 100644
+--- a/Gtk.Windows.Forms.Tests/System/Windows/Forms/CustomPaintPathTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/CustomPaintPathTests.cs
+@@ -83,6 +83,75 @@ public class CustomPaintPathTests
+         Assert.EndsWith("y_bgimage.png", uri, StringComparison.Ordinal);
+     }
+ 
++    [Fact]
++    public void ControlsPaintingFromAChildArea_RecordItAsTheirPaintSurface()
++    {
++        // A picture box, a panel, a group box and a form all raise Paint from a child Gtk.DrawingArea
++        // inside an overlay. Unless the override knows which widget that is, nothing can invalidate it.
++        var overrides = new (string Name, GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride Override)[]
++        {
++            (nameof(PictureBox), new PictureBox().self.Override),
++            (nameof(Panel), new Panel().self.Override),
++            (nameof(GroupBox), new GroupBox().self.Override),
++            (nameof(Form), new Form().self.Override),
++        };
++
++        var missing = overrides.Where(o => o.Override.PaintSurface == null).Select(o => o.Name).ToList();
++
++        Assert.True(missing.Count == 0,
++            "these controls raise Paint from a child area but do not record it: " + string.Join(", ", missing));
++    }
++
++    [Fact]
++    public void Refresh_QueuesARedrawOnTheWidgetThatRaisesPaint()
++    {
++        // Gtk4 caches a render node per widget and queues a draw only on the widget and its ancestors, so
++        // queueing the control widget left the child drawing area holding its first frame for ever: every
++        // animated custom-painted control froze on the frame it was first mapped.
++        var box = new PictureBox();
++        var drawingOverride = box.self.Override;
++        var before = drawingOverride.RedrawRequests;
++
++        box.Refresh();
++
++        Assert.True(drawingOverride.RedrawRequests > before,
++            "Refresh must invalidate the drawing area that raises Paint, not just the control widget");
++    }
++
++    [Fact]
++    public void Refresh_RepaintsChildControlsToo()
++    {
++        // WinForms Refresh repaints the control and its children; Gtk3 got that for free because the
++        // invalidation went to the shared GdkWindow, which Gtk4 no longer has.
++        var panel = new Panel();
++        var child = new PictureBox();
++        panel.Controls.Add(child);
++        var before = child.self.Override.RedrawRequests;
++
++        panel.Refresh();
++
++        Assert.True(child.self.Override.RedrawRequests > before,
++            "Refresh must reach the children as well, the way the Gtk3 invalidation did");
++    }
++
++    [Fact]
++    public void Invalidate_HonoursTheInvalidateChildrenFlag()
++    {
++        // Gtk3 passed this flag straight to Gdk.Window.InvalidateRect. The Gtk4 rewrite reduced the whole
++        // method to a bare QueueDraw and silently dropped it, so no child was ever invalidated.
++        var panel = new Panel();
++        var child = new PictureBox();
++        panel.Controls.Add(child);
++
++        var beforeExcluded = child.self.Override.RedrawRequests;
++        panel.Invalidate(new global::System.Drawing.Rectangle(0, 0, 10, 10), invalidateChildren: false);
++        Assert.Equal(beforeExcluded, child.self.Override.RedrawRequests);
++
++        panel.Invalidate(new global::System.Drawing.Rectangle(0, 0, 10, 10), invalidateChildren: true);
++        Assert.True(child.self.Override.RedrawRequests > beforeExcluded,
++            "Invalidate(rc, invalidateChildren: true) must reach the children");
++    }
++
+     private static bool DeclaresSnapshotOverride(Type type)
+     {
+         return type.GetMethod(
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
+index b19901c8..c403adf9 100644
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/FormBase.cs
+@@ -137,6 +137,8 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
+         var background = new Gtk.DrawingArea();
+         // Gtk 4: DrawingArea renders through a DrawFunc rather than the removed Drawn signal.
+         background.DrawFunc = Background_DrawFunc;
++        // Paint is raised from this child, not from the dialog, so an invalidation has to land here.
++        this.Override.PaintSurface = background;
+         contaner.AddChild(background);
+         ScrolledView.Child = contaner;
+     }
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GroupBoxBase.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GroupBoxBase.cs
+index 840271c7..be5eebe3 100644
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GroupBoxBase.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GroupBoxBase.cs
+@@ -44,6 +44,8 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
+         // Gtk4-removed: background.Events |= Gdk.EventMask.ButtonPressMask;
+         // Gtk4-removed: background.Events |= Gdk.EventMask.ButtonReleaseMask;
+         background.DrawFunc = Background_DrawFunc;
++        // Paint is raised from this child, not from the frame, so an invalidation has to land here.
++        this.Override.PaintSurface = background;
+         contaner.AddChild(background);
+         // Gtk4-removed: fixedcontaner.Events &= EventMask.PointerMotionMask;
+         // Gtk4-removed: fixedcontaner.Events &= EventMask.ButtonMotionMask;
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
+index db94aaff..514e1cde 100644
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GtkControlOverride.cs
+@@ -43,6 +43,42 @@ public sealed class GtkControlOverride : IControlOverride
+ 
+     private readonly List<string> cssList = new();
+ 
++    /// <summary>
++    /// Gets or sets the widget that actually raises <see cref="Paint" />, when that is not the control
++    /// widget itself.
++    /// </summary>
++    /// <value>
++    /// The child widget whose draw callback calls <see cref="OnPaint(Cairo.Context)" />, or
++    /// <see langword="null" /> when the control paints through its own snapshot.
++    /// </value>
++    /// <remarks>
++    /// Several controls - a picture box, a panel, a group box, a form - host a child
++    /// <see cref="Gtk.DrawingArea" /> inside an overlay and raise the WinForms paint events from that
++    /// child rather than from the control widget. Recording it here is what lets an invalidation reach the
++    /// widget that draws; see <see cref="QueueRedraw" />.
++    /// </remarks>
++    public Widget? PaintSurface
++    {
++        get;
++        set;
++    }
++
++    /// <summary>
++    /// Gets the number of times <see cref="QueueRedraw" /> has asked for a repaint.
++    /// </summary>
++    /// <value>
++    /// A monotonically increasing count.
++    /// </value>
++    /// <remarks>
++    /// Exposed so that the invalidation path can be asserted without a running frame clock, which a test
++    /// host does not have.
++    /// </remarks>
++    public int RedrawRequests
++    {
++        get;
++        private set;
++    }
++
+     /// <summary>
+     /// The sender used when raising the paint events.
+     /// </summary>
+@@ -335,6 +371,26 @@ public sealed class GtkControlOverride : IControlOverride
+         }
+     }
+ 
++    /// <summary>
++    /// Marks the widget that raises <see cref="Paint" /> as needing to be redrawn.
++    /// </summary>
++    /// <remarks>
++    /// Gtk 4 caches a render node per widget and <c>gtk_widget_queue_draw</c> invalidates only the widget
++    /// it is called on and its ancestors. Queueing on the control widget therefore leaves a child
++    /// <see cref="Gtk.DrawingArea" />'s draw callback - and with it the WinForms <c>Paint</c> handler -
++    /// running exactly once, so every animated custom-painted control froze on its first frame. Gtk 3
++    /// redrew such a child because the invalidation went to the shared <c>GdkWindow</c> instead.
++    /// </remarks>
++    public void QueueRedraw()
++    {
++        RedrawRequests++;
++        (PaintSurface ?? container).QueueDraw();
++        if (PaintSurface != null)
++        {
++            container.QueueDraw();
++        }
++    }
++
+     /// <summary>
+     /// Removes the class.
+     /// </summary>
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/PanelBase.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/PanelBase.cs
+index a0f0b7c9..41c7881b 100644
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/PanelBase.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/PanelBase.cs
+@@ -27,6 +27,8 @@ public sealed class PanelBase : ScrollableBoxBase
+         contaner.Vexpand = false;
+         var background = new Gtk.DrawingArea();
+         background.DrawFunc = Background_DrawFunc;
++        // Paint is raised from this child, not from the scroller, so an invalidation has to land here.
++        Override.PaintSurface = background;
+         contaner.AddChild(background);
+         this.Add(contaner);
+     }
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/PictureBoxBase.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/PictureBoxBase.cs
+index 24e46d6b..cfd3c32b 100644
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/PictureBoxBase.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/PictureBoxBase.cs
+@@ -40,6 +40,8 @@ public sealed class PictureBoxBase : Gtk.Viewport, IControlGtk
+         this.Realized += PictureBoxBase_Realized;
+         var drawingArea = new Gtk.DrawingArea();
+         drawingArea.DrawFunc = DrawingArea_DrawFunc;
++        // Paint is raised from this child, not from the viewport, so an invalidation has to land here.
++        this.Override.PaintSurface = drawingArea;
+         contaner.AddChild(drawingArea);
+         this.AddChild(contaner);
+     }
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+index 74bf2c2f..625af647 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+@@ -2738,7 +2738,17 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+     {
+         if (this.Widget != null)
+         {
+-            this.Widget?.QueueDraw();
++            this.Widget.QueueDraw();
++            // The widget that raises Paint is often a child drawing area rather than the control widget,
++            // and Gtk4 invalidates only the widget queued and its ancestors - never its children.
++            this.ISelf?.Override.QueueRedraw();
++            if (invalidateChildren)
++            {
++                // Gtk3 honoured this flag by handing it to Gdk.Window.InvalidateRect; the Gtk4 rewrite
++                // dropped it, so an Invalidate never reached a single child.
++                InvalidateChildren(rc);
++            }
++
+             this.Widget.SetStateFlags(StateFlags.Backdrop, true);
+             GLib.Timeout.Add(50, () =>
+             {
+@@ -2748,6 +2758,29 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+         }
+     }
+ 
++    /// <summary>
++    /// Invalidates the same rectangle on every child control.
++    /// </summary>
++    /// <param name="rc">
++    /// Rectangle to invalidate, in client coordinates.
++    /// </param>
++    private void InvalidateChildren(Rectangle rc)
++    {
++        var controls = this.Controls;
++        if (controls == null)
++        {
++            return;
++        }
++
++        foreach (var child in controls)
++        {
++            if (child is Control control)
++            {
++                control.Invalidate(rc, true);
++            }
++        }
++    }
++
+     /// <summary>
+     /// Invalidates the specified region of the control.
+     /// </summary>
+@@ -3023,6 +3056,32 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+         if (this.Widget != null && this.Widget.IsVisible)
+         {
+             this.Widget.QueueDraw();
++            // Queueing the control widget alone leaves a child drawing area - the widget that raises
++            // Paint on this port - holding its cached Gtk4 render node, so a custom-painted control
++            // repainted exactly once. WinForms Refresh also repaints the children, which is how Gtk3's
++            // invalidation of the shared GdkWindow behaved.
++            this.ISelf?.Override.QueueRedraw();
++            RefreshChildren();
++        }
++    }
++
++    /// <summary>
++    /// Repaints every child control, the way <see cref="Refresh" /> does in WinForms.
++    /// </summary>
++    private void RefreshChildren()
++    {
++        var controls = this.Controls;
++        if (controls == null)
++        {
++            return;
++        }
++
++        foreach (var child in controls)
++        {
++            if (child is Control control)
++            {
++                control.Refresh();
++            }
+         }
+     }
+ 
+@@ -3346,7 +3405,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+         if (this.Widget != null)
+         {
+             this.Widget.QueueDraw();
+-            this.Widget.QueueDraw();
++            // The second QueueDraw here was a duplicate of the first and could not add anything; what was
++            // missing is the drawing area that raises Paint, which the control widget never invalidates.
++            this.ISelf?.Override.QueueRedraw();
+         }
+     }
+ 

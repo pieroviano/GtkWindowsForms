@@ -1,0 +1,89 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Subject: [PATCH] Gtk4: cancel the GroupBox caption band so children keep their Location
+
+Comparing the sample on both engines showed the DateTimePicker at the bottom of
+Form1's group box cut off mid-control, and every other child of that box sitting
+a constant offset too low. The offset is the frame's caption band.
+
+A GroupBoxBase is a Gtk.Frame holding a ScrolledWindow (fixedcontaner) holding
+the Overlay (contaner) that children are margin-positioned in. A GtkFrame lays
+its caption out *above* the child, so the overlay starts a whole label band below
+the frame's top-left corner - measured here at 24px, and it follows the caption
+font. WinForms measures a child's Location from the control's corner, caption or
+no caption, so every child was pushed down by that band and the bottom-most one
+was clipped by the scrolled window.
+
+The Gtk3 build cancelled the band by scrolling the viewport back up by exactly
+its height, from a ::size-allocate handler that also kept the scrolled content as
+tall as the whole frame so that the scroll had room to move. Gtk4 removed the
+signal, so both handlers were dropped in the port and only a one-shot assignment
+in GroupBox.Size survived - a no-op, because at that point the adjustment still
+has upper == page-size == 0 and the value clamps straight back to zero.
+
+Both are restored on Gtk4's replacement for the signal, the size-allocate vfunc.
+The band is measured (the child's own allocated origin) rather than assuming
+Gtk3's hardcoded 24, and both writes are guarded by an inequality so that
+assigning from inside an allocation cannot re-enter it.
+diff --git a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GroupBoxBase.cs b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GroupBoxBase.cs
+index 840271c7..d141a47c 100644
+--- a/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GroupBoxBase.cs
++++ b/Gtk.Windows.Forms/GtkSystem/Windows/Forms/GtkControls/ControlBase/GroupBoxBase.cs
+@@ -44,6 +44,8 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
+         // Gtk4-removed: background.Events |= Gdk.EventMask.ButtonPressMask;
+         // Gtk4-removed: background.Events |= Gdk.EventMask.ButtonReleaseMask;
+         background.DrawFunc = Background_DrawFunc;
++        // Paint is raised from this child, not from the frame, so an invalidation has to land here.
++        this.Override.PaintSurface = background;
+         contaner.AddChild(background);
+         // Gtk4-removed: fixedcontaner.Events &= EventMask.PointerMotionMask;
+         // Gtk4-removed: fixedcontaner.Events &= EventMask.ButtonMotionMask;
+@@ -169,6 +171,48 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
+         return false;
+     }
+ 
++    /// <summary>
++    /// Re-applies the caption-band compensation once GTK has allocated the frame.
++    /// </summary>
++    /// <param name="width">
++    /// The width the parent allocated to this frame.
++    /// </param>
++    /// <param name="height">
++    /// The height the parent allocated to this frame.
++    /// </param>
++    /// <param name="baseline">
++    /// The baseline the parent allocated to this frame, or -1.
++    /// </param>
++    /// <remarks>
++    /// A <see cref="Gtk.Frame" /> lays its caption out <em>above</em> the child, so the content overlay
++    /// starts a whole label band below the frame's top-left corner. WinForms places a group box child at
++    /// its <c>Location</c> relative to the control's corner, caption or no caption, so every child would
++    /// otherwise be pushed down by that band and the bottom-most one clipped. The band is cancelled by
++    /// scrolling the viewport back up by exactly its height - the Gtk3 build did the same from the
++    /// <c>::size-allocate</c> signal, which Gtk4 replaced with this vfunc. The height is measured rather
++    /// than assumed because it follows the caption font.
++    /// </remarks>
++    protected override void OnSizeAllocate(int width, int height, int baseline)
++    {
++        base.OnSizeAllocate(width, height, baseline);
++
++        // The child's own origin *is* the band: whatever the frame reserved for border and caption.
++        var band = fixedcontaner.Allocation.Y;
++        if (band <= 0)
++            return;
++
++        // Scrolling only has room to move if the content is at least as tall as the whole frame, which
++        // is also what keeps a child at the designed height from being cut short by the band.
++        var content = Math.Max(1, height - contaner.MarginTop - contaner.MarginBottom);
++        if (contaner.HeightRequest < content)
++            contaner.HeightRequest = content;
++
++        // Guarded so writing the adjustment from inside an allocation cannot re-enter it indefinitely.
++        var vadjustment = fixedcontaner.Vadjustment;
++        if (vadjustment != null && Math.Abs(vadjustment.Value - band) > 0.5)
++            vadjustment.Value = band;
++    }
++
+     private void Background_DrawFunc(Gtk.DrawingArea area, Cairo.Context cr, int width, int height)
+     {
+         Override.OnPaint(cr);

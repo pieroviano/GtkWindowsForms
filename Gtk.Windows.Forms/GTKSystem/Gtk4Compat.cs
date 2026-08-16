@@ -689,6 +689,33 @@ public static class Gtk4Compat
     }
 
     /// <summary>
+    /// Returns the <see cref="Label"/> a widget displays, whether that label sits in the widget's
+    /// <c>Child</c> slot or was created by Gtk 4's <c>gtk_button_set_label()</c> /
+    /// <c>gtk_check_button_set_label()</c>. Those setters keep the label they create *outside* the
+    /// child slot, so Gtk 3's idiom <c>Child is Gtk.Label</c> is always false for a labelled button
+    /// and any styling keyed off it is silently dropped. The search is depth-first and returns the
+    /// first match, so it is meant for simple caption-bearing widgets, not arbitrary containers.
+    /// </summary>
+    /// <param name="widget">The widget to search, including itself; may be <c>null</c>.</param>
+    /// <returns>The first label found, or <c>null</c> when the widget displays no label.</returns>
+    public static Label? GetLabelWidget(this Widget? widget)
+    {
+        if (widget == null)
+            return null;
+        if (widget is Label self)
+            return self;
+
+        for (var child = widget.FirstChild; child != null; child = child.NextSibling)
+        {
+            var found = child.GetLabelWidget();
+            if (found != null)
+                return found;
+        }
+
+        return null;
+    }
+
+    /// <summary>
     /// Adds <paramref name="child"/> to <paramref name="parent"/>, dispatching to the
     /// Gtk 4 child API appropriate to the container's runtime type. Replaces Gtk 3's
     /// universal <c>Container.Add</c>.

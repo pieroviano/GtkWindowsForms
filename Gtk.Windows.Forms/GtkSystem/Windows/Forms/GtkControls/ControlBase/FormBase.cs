@@ -137,6 +137,8 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         var background = new Gtk.DrawingArea();
         // Gtk 4: DrawingArea renders through a DrawFunc rather than the removed Drawn signal.
         background.DrawFunc = Background_DrawFunc;
+        // Paint is raised from this child, not from the dialog, so an invalidation has to land here.
+        this.Override.PaintSurface = background;
         contaner.AddChild(background);
         ScrolledView.Child = contaner;
     }

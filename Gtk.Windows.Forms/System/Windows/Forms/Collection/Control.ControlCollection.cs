@@ -212,7 +212,12 @@ public partial class Control
         public void AddWidget(Gtk.Widget item, Control? control)
         {
             control?.Parent = _owner;
-            InnerList.Add(new ArrangedElementWidget(item));
+            // Record the control itself whenever there is one - Controls must enumerate controls. A control
+            // parked inside a GTK wrapper widget (a FlowBoxChild, a layout box, ...) would otherwise vanish
+            // from every walk over Control.Controls and make the indexer's cast to Control throw. Control
+            // implements IArrangedElement, so the collection stays type-consistent; the widget wrapper is
+            // still used for the widget-only children that have no WinForms counterpart.
+            InnerList.Add((Layout.IArrangedElement?)control ?? new ArrangedElementWidget(item));
         }
 
         /// <summary>

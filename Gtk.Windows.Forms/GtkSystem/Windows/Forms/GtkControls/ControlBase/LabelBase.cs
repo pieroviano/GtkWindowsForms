@@ -22,7 +22,7 @@ public sealed class LabelBase : Gtk.Label, IControlGtk
         this.Wrap = true;
         this.Wrap = true;
         this.LineWrapMode = Pango.WrapMode.WordChar;
-        this.Selectable = true;
+        MatchWinFormsSelectionBehaviour(this);
         // Gtk 4: Widget.Drawn is gone and there is no overridable OnSnapshot; custom paint moves to CSS (deferred).
     }
 
@@ -44,8 +44,29 @@ public sealed class LabelBase : Gtk.Label, IControlGtk
         this.Wrap = true;
         this.Wrap = true;
         this.LineWrapMode = Pango.WrapMode.WordChar;
-        this.Selectable = true;
+        MatchWinFormsSelectionBehaviour(this);
         // Gtk4-removed (custom paint -> CSS/DrawFunc, deferred): this.Drawn += LabelBase_Drawn;
+    }
+
+    /// <summary>
+    /// Takes a label out of the focus chain and out of the text-selection business, the way WinForms has it.
+    /// </summary>
+    /// <param name="label">
+    /// The label to configure.
+    /// </param>
+    /// <remarks>
+    /// A WinForms <see cref="T:System.Windows.Forms.Label" /> has <c>ControlStyles.Selectable</c> clear and
+    /// <c>TabStop</c> false: it never takes focus and its text can never be selected. Upstream nonetheless
+    /// set <c>Selectable</c>, which under Gtk3 was merely a mouse affordance. Gtk4 makes a selectable label
+    /// focusable, so the window's initial focus could land on one, and
+    /// <c>gtk_label_grab_focus</c> honours <c>gtk-label-select-on-focus</c> by selecting the whole caption -
+    /// which the theme then paints as an opaque selection box behind the text. Clearing both settings is a
+    /// deliberate divergence from the vendored Gtk3 build; it is the WinForms contract that governs here.
+    /// </remarks>
+    private static void MatchWinFormsSelectionBehaviour(Gtk.Label label)
+    {
+        label.Selectable = false;
+        label.Focusable = false;
     }
 
     /// <summary>
