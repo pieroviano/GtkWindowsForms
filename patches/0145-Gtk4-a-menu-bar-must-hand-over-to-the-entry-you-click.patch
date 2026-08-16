@@ -1,0 +1,363 @@
+From fa09c6f3f87536502bfe4beb77b658f90a096cac Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Sun, 16 Aug 2026 04:26:11 +0300
+Subject: [PATCH] Gtk4: a menu bar must hand over to the entry you click
+
+With one drop-down open, clicking a different entry on the same bar closed the
+first menu and did nothing else; it took a second click to open the second menu.
+
+Gtk3 got this from GtkMenuShell: the bar stayed active while any of its menus was
+up, so a click on another entry just moved the selection. Gtk4 has no menu shell.
+Each drop-down is an independent Gtk.Popover, and an autohiding popover takes a
+grab, so the click that dismisses it is consumed by the dismissal and never
+reaches the entry underneath. Turning the grab off is not an option -- it is what
+makes a menu behave like a menu -- so the popover being dismissed hands over
+instead: it asks which widget is under the pointer and opens that entry's
+drop-down.
+
+Three things disqualify a candidate, and each is a distinct way the bar
+misbehaves without the check: this item itself (its own button already toggles,
+and handing over would reopen the menu the user just dismissed), an entry with no
+drop-down (the live menu would close and nothing would replace it), and an entry
+belonging to some other menu -- an item inside an open drop-down is parented to
+that popover's content box, not to the bar. A programmatic HideDropDown is
+excluded outright; only a user's click away may hand over.
+
+The hand-off is deferred to an idle callback because GTK is still tearing the
+grab down inside Closed, and popping a second popover up from in there is refused.
+
+The decision is unit-tested; the grab itself needs a display server and a real
+button press, so that half was confirmed by hand on the sample.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+---
+ .../Windows/Forms/MenuBarHandOffTests.cs      | 148 ++++++++++++++++++
+ .../Forms/MenuStripBase/StripMenuItem.cs      | 147 ++++++++++++++++-
+ 2 files changed, 293 insertions(+), 2 deletions(-)
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/MenuBarHandOffTests.cs
+
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/MenuBarHandOffTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/MenuBarHandOffTests.cs
+new file mode 100644
+index 00000000..ef8ca917
+--- /dev/null
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/MenuBarHandOffTests.cs
+@@ -0,0 +1,148 @@
++namespace System.Windows.Forms;
++
++/// <summary>
++/// With one menu open, clicking a sibling entry must close the first menu and open the second.
++/// </summary>
++/// <remarks>
++/// <para>
++/// Gtk3 got this from <c>GtkMenuShell</c>: the whole bar stayed active while any of its menus was up, so a
++/// click on another entry just moved the selection. Gtk4 has no menu shell - every drop-down is an
++/// independent autohiding <see cref="Gtk.Popover" />, and an autohiding popover takes a grab, so the click
++/// that dismisses it is consumed by the dismissal and never reaches the entry underneath. The first click
++/// only closed the open menu; it took a second click to open the other one.
++/// </para>
++/// <para>
++/// The remedy is a hand-off: the popover being dismissed asks what is under the pointer and opens that
++/// entry. The grab itself needs a display server and a real button press, so what these tests drive is the
++/// decision - given the widget the pointer landed on, which entry (if any) should open. Every case below is
++/// a distinct way the menu bar misbehaves when that decision is wrong.
++/// </para>
++/// </remarks>
++[Collection("NonParallelCollection")]
++public class MenuBarHandOffTests
++{
++    // Constructing these controls builds GTK widgets, which needs the type system initialised.
++    public MenuBarHandOffTests() => Application.Init();
++
++    [Fact]
++    public void ClickingASiblingEntry_HandsTheMenuOverToIt()
++    {
++        // The defect itself: this is the click that used to be swallowed by the dismissal.
++        var bar = new Gtk.Box(Gtk.Orientation.Horizontal, 0);
++        var open = NewEntryWithDropDown(bar, "Dropdown List 1");
++        var other = NewEntryWithDropDown(bar, "Button menu");
++
++        // A click lands on a leaf inside the entry - its caption - not on the entry box itself.
++        var target = open.ResolveHandOffTarget(LeafOf(other));
++
++        Assert.Same(other, target);
++    }
++
++    [Fact]
++    public void ClickingTheOpenEntryItself_HandsOverToNobody()
++    {
++        // Clicking the open entry closes its menu, and its own button handles that. Treating it as a
++        // hand-off target would immediately reopen the menu the user just dismissed.
++        var bar = new Gtk.Box(Gtk.Orientation.Horizontal, 0);
++        var open = NewEntryWithDropDown(bar, "Dropdown List 1");
++        NewEntryWithDropDown(bar, "Button menu");
++
++        var target = open.ResolveHandOffTarget(LeafOf(open));
++
++        Assert.Null(target);
++    }
++
++    [Fact]
++    public void ClickingAnEntryWithNoDropDown_HandsOverToNobody()
++    {
++        // A plain command on the bar has nothing to open; handing over would close the live menu and leave
++        // the bar showing nothing at all.
++        var bar = new Gtk.Box(Gtk.Orientation.Horizontal, 0);
++        var open = NewEntryWithDropDown(bar, "Dropdown List 1");
++        var command = new StripMenuItem { Text = "Test" };
++        bar.Append(command);
++
++        var target = open.ResolveHandOffTarget(LeafOf(command));
++
++        Assert.Null(target);
++    }
++
++    [Fact]
++    public void ClickingAnItemInsideSomeOtherMenu_HandsOverToNobody()
++    {
++        // An item in an open drop-down is parented to that popover's content box, not to our bar. Without
++        // the shared-parent test a menu would hand itself over to its own children.
++        var bar = new Gtk.Box(Gtk.Orientation.Horizontal, 0);
++        var open = NewEntryWithDropDown(bar, "Dropdown List 1");
++        var neighbour = NewEntryWithDropDown(bar, "Button menu");
++
++        var insideNeighboursMenu = new StripMenuItem { Text = "Item 1" };
++        neighbour.EnsureDropDownContent().Append(insideNeighboursMenu);
++        insideNeighboursMenu.EnsureDropDownContent().Append(new StripMenuItem { Text = "Nested" });
++
++        var target = open.ResolveHandOffTarget(LeafOf(insideNeighboursMenu));
++
++        Assert.Null(target);
++    }
++
++    [Fact]
++    public void ClickingNothingInParticular_HandsOverToNobody()
++    {
++        // Clicking empty space, or off the window entirely, just closes the menu.
++        var bar = new Gtk.Box(Gtk.Orientation.Horizontal, 0);
++        var open = NewEntryWithDropDown(bar, "Dropdown List 1");
++
++        Assert.Null(open.ResolveHandOffTarget(null));
++        Assert.Null(open.ResolveHandOffTarget(new Gtk.Label("elsewhere")));
++    }
++
++    [Fact]
++    public void WithNothingOnScreen_TheLookupAnswersNullRatherThanThrowing()
++    {
++        // ItemUnderPointer runs from inside the popover's Closed handler; an exception there would take the
++        // menu bar down with it. Nothing here is realized, so there is no pointer position to be had.
++        var bar = new Gtk.Box(Gtk.Orientation.Horizontal, 0);
++        var open = NewEntryWithDropDown(bar, "Dropdown List 1");
++        NewEntryWithDropDown(bar, "Button menu");
++
++        Assert.Null(open.ItemUnderPointer());
++    }
++
++    [Fact]
++    public void ClosingTheDropDownInCode_ClearsTheOpenAppearance()
++    {
++        // HideDropDown is the programmatic path and must never hand over - only a user's click away may.
++        var bar = new Gtk.Box(Gtk.Orientation.Horizontal, 0);
++        var entry = NewEntryWithDropDown(bar, "Dropdown List 1");
++
++        entry.SetDropDownOpenAppearance(true);
++        Assert.True(entry.IsDropDownOpenStyled);
++
++        entry.HideDropDown();
++
++        Assert.False(entry.IsDropDownOpenStyled);
++    }
++
++    // The deepest widget inside an entry, which is what a click actually picks.
++    private static Gtk.Widget LeafOf(StripMenuItem item)
++    {
++        Gtk.Widget widget = item;
++        while (widget.FirstChild != null)
++        {
++            widget = widget.FirstChild;
++        }
++
++        return widget;
++    }
++
++    private static StripMenuItem NewEntryWithDropDown(Gtk.Box bar, string text)
++    {
++        var entry = new StripMenuItem { Text = text };
++        bar.Append(entry);
++
++        // A drop-down only counts as present once it holds an item - an empty popover is nothing to open.
++        entry.EnsureDropDownContent().Append(new StripMenuItem { Text = text + " command" });
++
++        return entry;
++    }
++}
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs
+index edf277a8..60bfee2b 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs
+@@ -380,7 +380,11 @@ namespace System.Windows.Forms
+                 if (_dropDown.Parent == null)
+                 {
+                     _dropDown.Parent = checkButton;
+-                    _dropDown.Closed += (_, _) => SetDropDownOpenAppearance(false);
++                    _dropDown.Closed += (_, _) =>
++                    {
++                        SetDropDownOpenAppearance(false);
++                        HandOffToItemUnderPointer();
++                    };
+                 }
+ 
+                 _dropDown.Popup();
+@@ -442,10 +446,149 @@ namespace System.Windows.Forms
+         /// <summary>Closes the drop-down if it is open.</summary>
+         public void HideDropDown()
+         {
+-            _dropDown?.Popdown();
++            using (SuppressHandOff())
++            {
++                _dropDown?.Popdown();
++            }
++
+             SetDropDownOpenAppearance(false);
+         }
+ 
++        // True while the drop-down is being dismissed by us rather than by the user clicking away. A
++        // programmatic close must never hand the menu over to whatever the pointer happens to rest on.
++        private bool _closingProgrammatically;
++
++        private IDisposable SuppressHandOff()
++        {
++            _closingProgrammatically = true;
++            return new HandOffSuppression(this);
++        }
++
++        private sealed class HandOffSuppression : IDisposable
++        {
++            private readonly StripMenuItem _item;
++
++            internal HandOffSuppression(StripMenuItem item) => _item = item;
++
++            public void Dispose() => _item._closingProgrammatically = false;
++        }
++
++        /// <summary>
++        /// After the drop-down has been dismissed by a click outside it, opens the drop-down of the menu-bar
++        /// entry that click landed on, if it landed on one.
++        /// </summary>
++        /// <remarks>
++        /// <para>
++        /// With one menu open, clicking a sibling entry has to close the first menu and open the second - it
++        /// does on Windows, and it did on Gtk3, where a <c>GtkMenuShell</c> kept the whole bar active while
++        /// any of its menus was up and simply moved the selection.
++        /// </para>
++        /// <para>
++        /// Gtk4 has no menu shell. Each drop-down is an independent <see cref="Gtk.Popover" /> and an
++        /// autohiding popover takes a grab, so the click that dismisses it is consumed by the dismissal and
++        /// never reaches the sibling underneath: the first click closed the open menu and did nothing else,
++        /// and only a second click opened the other one. Turning the grab off is not an option - it is what
++        /// makes a menu behave like a menu - so the dismissed popover hands over instead: it asks which
++        /// widget is under the pointer and, if that is a sibling entry on the same bar, opens it.
++        /// </para>
++        /// <para>
++        /// The hand-off is deferred to an idle callback because GTK is still tearing the grab down inside
++        /// <c>Closed</c>, and popping a second popover up from in there is refused.
++        /// </para>
++        /// </remarks>
++        private void HandOffToItemUnderPointer()
++        {
++            if (_closingProgrammatically)
++            {
++                return;
++            }
++
++            var target = ItemUnderPointer();
++            if (target == null)
++            {
++                return;
++            }
++
++            GLib.Idle.Add(() =>
++            {
++                // The bar may have been torn down between the click and the idle callback.
++                if (target.Handle != IntPtr.Zero && target.HasDropDown)
++                {
++                    target.ShowDropDown();
++                }
++
++                return false;
++            });
++        }
++
++        /// <summary>
++        /// The sibling menu entry the pointer is currently over, or <see langword="null" /> when the pointer
++        /// is elsewhere - including over this item itself, which already toggles on its own.
++        /// </summary>
++        internal StripMenuItem? ItemUnderPointer()
++        {
++            try
++            {
++                if (Native is not Gtk.Widget nativeWidget)
++                {
++                    return null;
++                }
++
++                var pointer = Display?.DefaultSeat?.Pointer;
++                if (pointer == null || Native.Surface == null)
++                {
++                    return null;
++                }
++
++                if (!Native.Surface.GetDevicePosition(pointer, out var x, out var y, out _))
++                {
++                    return null;
++                }
++
++                // GetDevicePosition reports surface coordinates; Pick expects them relative to the native
++                // widget, and the two differ by the surface transform (client-side decorations).
++                Native.GetSurfaceTransform(out var offsetX, out var offsetY);
++
++                return ResolveHandOffTarget(nativeWidget.Pick(x - offsetX, y - offsetY, Gtk.PickFlags.Default));
++            }
++            catch (Exception ex)
++            {
++                Diagnostics.GtkLogger.Debug("Unable to find the menu item under the pointer", ex);
++                return null;
++            }
++        }
++
++        /// <summary>
++        /// Decides whether the widget under the pointer means "open that entry instead".
++        /// </summary>
++        /// <param name="picked">The deepest widget at the pointer, or <see langword="null" />.</param>
++        /// <returns>The sibling entry to open, or <see langword="null" /> to just close.</returns>
++        /// <remarks>
++        /// The pick lands on whatever leaf is under the pointer - a caption label, an icon - so the answer
++        /// comes from walking up to the entry that owns it. Three things disqualify a candidate, and each is
++        /// a distinct way the bar misbehaves without the check: this item itself (its own button already
++        /// toggles, and handing over would fight that), an entry with no drop-down (handing over would close
++        /// the live menu and show nothing), and an entry belonging to some other menu - an item inside an
++        /// open drop-down is parented to that popover's content box, not to our bar.
++        /// </remarks>
++        internal StripMenuItem? ResolveHandOffTarget(Gtk.Widget? picked)
++        {
++            for (var widget = picked; widget != null; widget = widget.Parent)
++            {
++                if (ReferenceEquals(widget, this))
++                {
++                    return null;
++                }
++
++                if (widget is StripMenuItem sibling)
++                {
++                    return sibling.HasDropDown && ReferenceEquals(sibling.Parent, Parent) ? sibling : null;
++                }
++            }
++
++            return null;
++        }
++
+         /// <summary>
+         /// Dismisses the drop-down/context popover(s) this item lives in - selecting a WinForms menu command
+         /// closes the whole open menu chain. Walks the parent chain (item -> content box -> popover, and on
+-- 
+2.53.0.windows.3
+
