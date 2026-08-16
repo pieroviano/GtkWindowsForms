@@ -189,12 +189,13 @@ public static class WebViewBackendFactory
     }
 
     /// <summary>
-    /// Lists the registered backend names, highest priority first.
+    /// Lists the registered backend names, highest priority first - the order
+    /// <see cref="GtkSystem.Windows.Forms.WebBrowsing.WebViewBackendFactory.Create" /> will try them in.
     /// </summary>
     /// <returns>
     /// The names.
     /// </returns>
-    internal static IReadOnlyList<string> RegisteredNames()
+    public static IReadOnlyList<string> RegisteredNames()
     {
         lock (SyncRoot)
         {

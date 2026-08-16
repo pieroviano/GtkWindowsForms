@@ -1,0 +1,422 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Gtk.Windows.Forms.WebView2</name>
+    </assembly>
+    <members>
+        <member name="T:Gtk.Windows.Forms.WebView2.GdkWin32Interop">
+             <summary>
+             Reaches the window handle behind a GTK 4 toplevel on Windows.
+             </summary>
+             <remarks>
+             GTK 4 has no child windows: only a toplevel owns an HWND, and every widget inside it is drawn rather
+             than hosted. A WebView2 controller needs a parent HWND, so it is parented to the toplevel's and
+             positioned by hand over the area the control occupies. That is the airspace deviation recorded in
+             EMULATION-GAPS.md.
+            
+             The entry point is resolved through the already-loaded GTK module rather than by
+             <see cref="T:System.Runtime.InteropServices.DllImportAttribute" />: the GTK 4 runtime ships under
+             different file names depending on how it was built - <c>gtk-4-1.dll</c> for the gvsbuild layout this
+             repository deploys, <c>libgtk-4-1.dll</c> for MSYS2 - and a wrong guess is a hard
+             <see cref="T:System.DllNotFoundException" /> rather than a fallback.
+             </remarks>
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.GdkWin32Interop.IsSupported">
+            <summary>
+            Gets a value indicating whether the GTK 4 runtime on this machine exports the entry point the
+            WebView2 backend needs.
+            </summary>
+            <value>
+            <c>true</c> when the handle can be read.
+            </value>
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.GdkWin32Interop.GetToplevelHandle(Gtk.Widget)">
+            <summary>
+            Reads the window handle of the toplevel that contains a widget.
+            </summary>
+            <param name="widget">The widget.</param>
+            <returns>
+            The window handle, or <see cref="F:System.IntPtr.Zero" /> when the widget is not yet in a realised
+            toplevel - which is the normal state before the form is shown, not an error.
+            </returns>
+        </member>
+        <member name="T:Gtk.Windows.Forms.WebView2.WebView2HtmlDomBridge">
+            <summary>
+            The DOM bridge over a WebView2 browser: the same injected script the WebKitGTK backend uses, driven
+            through <c>ExecuteScriptAsync</c>.
+            </summary>
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2HtmlDomBridge.Snapshot">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2HtmlDomBridge.InvokeMemberAsync(System.Int32,System.String,System.Object[],System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2HtmlDomBridge.Post(GtkSystem.Windows.Forms.WebBrowsing.DomMutation)">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2HtmlDomBridge.RefreshAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.WebView2.WebView2HtmlDomBridge.DomEvent">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.WebView2.WebView2HtmlDomBridge.SnapshotUpdated">
+            <inheritdoc />
+        </member>
+        <member name="T:Gtk.Windows.Forms.WebView2.WebView2Backend">
+             <summary>
+             The Microsoft Edge WebView2 backend: the engine behind
+             <see cref="T:System.Windows.Forms.WebBrowser" /> on Windows.
+             </summary>
+             <remarks>
+             Registers itself above the WebKitGTK backend, so it wins on Windows where both could in principle
+             load. Its probe declines when the runtime is not installed, and the factory then falls through - to
+             WebKitGTK if somebody installed it, otherwise to the placeholder.
+            
+             Initialisation is asynchronous. Commands issued before the browser is ready are queued and replayed,
+             so an application that navigates from a form's constructor is not silently ignored.
+             </remarks>
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2Backend.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Gtk.Windows.Forms.WebView2.WebView2Backend" /> class.
+            </summary>
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.AllowDrop">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.CanGoBack">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.CanGoForward">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.ContextMenuEnabled">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.DocumentTitle">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.Dom">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.EncryptionLevel">
+            <inheritdoc />
+            <remarks>
+            WebView2 reports a server certificate, not a cipher strength, so the Internet-Explorer-era tiers
+            this enumeration names cannot be reproduced. An <c>https</c> document is reported as
+            <see cref="F:System.Windows.Forms.WebBrowserEncryptionLevel.Bit128" /> and anything else as
+            <see cref="F:System.Windows.Forms.WebBrowserEncryptionLevel.Insecure" />.
+            </remarks>
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.IsBusy">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.IsFunctional">
+            <summary>Gets a value indicating whether a real engine is behind this backend.</summary>
+            <value>Always <c>true</c>.</value>
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.Progress">
+            <inheritdoc />
+            <remarks>
+            WebView2 reports no incremental load progress, so this steps from 0 to 100 rather than counting up.
+            Recorded in EMULATION-GAPS.md.
+            </remarks>
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.ReadyState">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.ScriptErrorsSuppressed">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.ScrollBarsEnabled">
+            <inheritdoc />
+            <remarks>WebView2 has no setting for this either; it is applied as injected CSS.</remarks>
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.ShortcutsEnabled">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.StatusText">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.Url">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.Widget">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Backend.PendingCommandCount">
+            <summary>
+            Gets how many commands are waiting for the browser to finish initialising.
+            </summary>
+            <value>
+            The queue depth. Exposed for tests: that a navigation issued before the browser is ready is held
+            rather than dropped is the contract, and it has no other observable effect.
+            </value>
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2Backend.TryCreate">
+            <summary>
+            Probes for a usable WebView2 runtime.
+            </summary>
+            <returns>A backend, or <c>null</c> when Windows, GTK or the runtime cannot provide one.</returns>
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2Backend.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2Backend.GoBack">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2Backend.GoForward">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2Backend.InvokeScriptAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2Backend.LoadHtml(System.String,System.Uri)">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2Backend.Navigate(System.Uri,System.String,System.Byte[],System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2Backend.Reload(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2Backend.Stop">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.WebView2.WebView2Backend.LoadFinished">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.WebView2.WebView2Backend.Navigated">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.WebView2.WebView2Backend.Navigating">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.WebView2.WebView2Backend.NewWindow">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.WebView2.WebView2Backend.ProgressChanged">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.WebView2.WebView2Backend.StatusChanged">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.WebView2.WebView2Backend.TitleChanged">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2Backend.Post(System.Action)">
+            <summary>
+            Queues work until the browser is ready, then runs it. A navigation issued from a form's
+            constructor arrives long before initialisation completes, and dropping it is the failure mode
+            this exists to prevent.
+            </summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2Backend.FromJsonResult(System.String)">
+            <summary>
+            Unwraps what <c>ExecuteScriptAsync</c> answers with.
+            </summary>
+            <param name="json">The result, which WebView2 always encodes as JSON.</param>
+            <returns>
+            The value in the CLR shapes the WebKitGTK backend produces, so that code above the seam cannot
+            tell the two engines apart: <see cref="T:System.Double" /> for a number,
+            <see cref="T:System.Boolean" /> for a boolean, <see cref="T:System.String" /> for a string.
+            </returns>
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2Backend.ReadDomEvent(System.String)">
+            <summary>
+            Reads a DOM event posted by the injected bridge script.
+            </summary>
+            <param name="payload">The message body.</param>
+            <returns>The event, or <c>null</c> when the message did not come from the bridge.</returns>
+        </member>
+        <member name="T:Gtk.Windows.Forms.WebView2.WebView2BackendRegistration">
+            <summary>
+            Puts the WebView2 backend into <see cref="T:GtkSystem.Windows.Forms.WebBrowsing.WebViewBackendFactory" />.
+            </summary>
+            <remarks>
+            Referencing this package is the whole opt-in: a module initializer registers the backend the first
+            time any code in the assembly runs, so an application gets the Windows engine by adding a package
+            reference and nothing else. Priority 100 puts it above the WebKitGTK backend's 50, so it wins on
+            Windows where both could in principle load.
+            </remarks>
+        </member>
+        <member name="F:Gtk.Windows.Forms.WebView2.WebView2BackendRegistration.Name">
+            <summary>The name the backend registers under.</summary>
+        </member>
+        <member name="F:Gtk.Windows.Forms.WebView2.WebView2BackendRegistration.Priority">
+            <summary>Priority above the WebKitGTK backend, which registers at 50.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2BackendRegistration.Register">
+            <summary>
+            Registers the backend. Called automatically when this assembly loads; safe to call again.
+            </summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2BackendRegistration.Unregister">
+            <summary>
+            Removes the backend, so a process can fall back to whatever else is registered.
+            </summary>
+            <returns><c>true</c> when it was registered.</returns>
+        </member>
+        <member name="T:Gtk.Windows.Forms.WebView2.WebView2Bounds">
+            <summary>
+            The geometry that places a WebView2 controller over the area a GTK widget occupies.
+            </summary>
+            <remarks>
+            Pure arithmetic, deliberately separated from the controller it drives, so that it can be tested on a
+            machine with no WebView2 runtime installed. The unit mismatch it exists to resolve is the classic
+            cause of "the browser fills a quarter of the control on a 4K screen": GTK allocations are in logical
+            pixels and WebView2 bounds are in physical ones.
+            </remarks>
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2Bounds.Compute(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Converts a widget's position and size into the controller's bounds.
+            </summary>
+            <param name="x">The widget's left edge, in logical pixels, relative to the toplevel.</param>
+            <param name="y">The widget's top edge, in logical pixels, relative to the toplevel.</param>
+            <param name="width">The widget's width, in logical pixels.</param>
+            <param name="height">The widget's height, in logical pixels.</param>
+            <param name="scaleFactor">
+            The surface's scale factor. Values below one are treated as one: a zero would collapse the view to
+            nothing, and GTK reports zero for a surface that is not yet realised.
+            </param>
+            <returns>The bounds, in physical pixels, never negative in size.</returns>
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2Bounds.IsVisible(System.Boolean,System.Int32,System.Int32)">
+            <summary>
+            Decides whether the controller should be visible.
+            </summary>
+            <param name="mapped">Whether the widget is mapped.</param>
+            <param name="width">The widget's width, in logical pixels.</param>
+            <param name="height">The widget's height, in logical pixels.</param>
+            <returns>
+            <c>true</c> when the browser should be shown. An unmapped widget or an empty allocation hides it:
+            nothing else clips a child HWND, so a controller left visible over a zero-sized widget would keep
+            painting its last frame on top of whatever GTK draws there.
+            </returns>
+        </member>
+        <member name="T:Gtk.Windows.Forms.WebView2.WebView2HostWindow">
+            <summary>
+            Owns the WebView2 controller and keeps it over the area a GTK widget occupies.
+            </summary>
+            <remarks>
+            The controller is a child window of the GTK toplevel's HWND, because GTK 4 gives only toplevels a
+            window handle. That has a consequence worth stating plainly: the browser paints above every GTK
+            widget in the same window. Overlapping widgets, popovers, menus and window opacity do not clip it.
+            Recorded as a Windows-only deviation in EMULATION-GAPS.md.
+            </remarks>
+        </member>
+        <member name="F:Gtk.Windows.Forms.WebView2.WebView2HostWindow.GeometryTickMilliseconds">
+            <summary>
+            How often the geometry is re-read, in milliseconds.
+            </summary>
+            <remarks>
+            A tick rather than a set of signal handlers. GTK 4 removed the <c>size-allocate</c> signal - a
+            widget learns its allocation by overriding a vfunc, which a plain <see cref="T:Gtk.Widget" />
+            obtained from a binding cannot do - and the positions that matter also move for reasons with no
+            signal at all: an ancestor scrolling, the toplevel moving between monitors of different scale.
+            One periodic recomputation covers every case, and it applies nothing when nothing changed.
+            </remarks>
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2HostWindow.Core">
+            <summary>
+            Gets the underlying browser, once it has finished initialising.
+            </summary>
+            <value>The browser, or <c>null</c> before <see cref="E:Gtk.Windows.Forms.WebView2.WebView2HostWindow.Ready" /> is raised.</value>
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2HostWindow.IsReady">
+            <summary>
+            Gets a value indicating whether the browser is ready to be driven.
+            </summary>
+            <value><c>true</c> once initialisation has completed.</value>
+        </member>
+        <member name="E:Gtk.Windows.Forms.WebView2.WebView2HostWindow.Ready">
+            <summary>
+            Occurs once the browser is ready. Navigation requests made before this point are queued by the
+            backend and replayed here: a <c>Navigate</c> that silently vanishes because the control was not
+            ready yet is the failure this exists to prevent.
+            </summary>
+        </member>
+        <member name="E:Gtk.Windows.Forms.WebView2.WebView2HostWindow.MoveFocusRequested">
+            <summary>
+            Occurs when the browser asks to hand keyboard focus back, so Tab does not trap inside the page.
+            </summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2HostWindow.Dispose">
+            <summary>
+            Releases the controller and stops the geometry tick.
+            </summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2HostWindow.Focus">
+            <summary>
+            Gives the browser keyboard focus.
+            </summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2HostWindow.InitializeAsync">
+            <summary>
+            Creates the controller once the widget is in a realised toplevel.
+            </summary>
+            <returns>A task that completes when the browser is ready, or immediately when it cannot be.</returns>
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2HostWindow.UpdateGeometry">
+            <summary>
+            Re-reads the widget's geometry and applies it, if anything moved.
+            </summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.WebView2.WebView2Runtime">
+            <summary>
+            The WebView2 runtime this package needs, and the opt-in that lets an application install it.
+            </summary>
+            <remarks>
+            The opt-in lives here and not on <see cref="T:System.Windows.Forms.WebBrowser" /> deliberately: that
+            type is a WinForms compatibility surface, and a static that real WinForms does not have would be a
+            gratuitous divergence. Companion packages are where this library keeps its own additions.
+            </remarks>
+        </member>
+        <member name="F:Gtk.Windows.Forms.WebView2.WebView2Runtime.BootstrapperUrl">
+            <summary>The Evergreen bootstrapper Microsoft publishes at a stable URL.</summary>
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Runtime.AllowRuntimeBootstrap">
+            <summary>
+            Gets or sets a value indicating whether this package may download and run Microsoft's Evergreen
+            WebView2 bootstrapper when the runtime is missing.
+            </summary>
+            <value>
+            <c>false</c> by default: nothing is downloaded unasked. Setting it to <c>true</c> is an
+            application's statement that fetching an installer from Microsoft on its users' machines is
+            acceptable; the library will not decide that on its behalf.
+            </value>
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Runtime.IsRuntimeAvailable">
+            <summary>
+            Gets a value indicating whether a WebView2 runtime is installed.
+            </summary>
+            <value>
+            <c>true</c> when a browser version can be read.
+            </value>
+        </member>
+        <member name="P:Gtk.Windows.Forms.WebView2.WebView2Runtime.InstalledVersion">
+            <summary>
+            Gets the installed runtime's version.
+            </summary>
+            <value>
+            The version string, or <c>null</c> when no runtime is installed.
+            </value>
+        </member>
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2Runtime.TryBootstrapAsync">
+            <summary>
+            Runs the Evergreen bootstrapper, if the application opted in and the runtime is missing.
+            </summary>
+            <returns>
+            <c>true</c> when a runtime is available afterwards. <c>false</c> when the application did not opt
+            in, when the download or the installer failed, or when the user declined the installer's prompt.
+            </returns>
+            <remarks>
+            Attempted at most once per process: a bootstrapper that failed once will fail again, and retrying
+            on every control that is constructed would download the same installer repeatedly.
+            </remarks>
+        </member>
+    </members>
+</doc>

@@ -47,6 +47,16 @@
       assembly version this library was not compiled against. Move both pins together, never one.
     -->
     <WebKitGtkSharpPackageVersion Condition="'$(WebKitGtkSharpPackageVersion)' == ''">$(GtkSharpPackageVersion)</WebKitGtkSharpPackageVersion>
+    <!--
+      Microsoft's WebView2 SDK, used only by the Gtk.Windows.Forms.WebView2 companion package. Pinned
+      exactly rather than floated: it is a third-party package on nuget.org whose new revisions arrive
+      without warning, and unlike the GtkSharp family nothing here is generated alongside it.
+
+      Pinned here rather than in Directory.Nuget.Props for the reason given above: that file is
+      regenerated on every build and its merge keeps the ordinally greater string, which walks a pin
+      backwards.
+    -->
+    <WebView2Version Condition="'$(WebView2Version)' == ''">1.0.3179.45</WebView2Version>
   </PropertyGroup>
   <PropertyGroup>
     <!--
