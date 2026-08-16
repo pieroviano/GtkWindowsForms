@@ -65,7 +65,8 @@ public static class ResourcesCopyService
                      "HtmlElementEventHandler.cs", "HtmlElementErrorEventHandler.cs",
                      "HtmlElementInsertionOrientation.cs",
                      "IWebViewBackend.cs", "IHtmlDomBridge.cs", "DomSnapshot.cs",
-                     "WebViewBackendFactory.cs", "NullWebViewBackend.cs", "WebViewBase.cs"
+                     "WebViewBackendFactory.cs", "NullWebViewBackend.cs", "WebKitWebViewBackend.cs",
+                     "DomBridgeScript.cs", "WebViewBase.cs"
                  })
         {
             LogUtility.FileCopyAndLog(RepoPaths.At(Path.Combine("Resources", webFile)),

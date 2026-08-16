@@ -39,6 +39,17 @@
   </PropertyGroup>
   <PropertyGroup>
     <!--
+      The WebKitGTK 6.0 binding behind System.Windows.Forms.WebBrowser, and its transitive
+      Net4x.JavaScriptCoreSharp. Note the package id spells it "Webkit", not "WebKit".
+
+      Floated on the same revision as Net4x.GtkSharp, and deliberately so: the two are generated from one
+      GtkSharp.sln run and a WebkitGtkSharp built against a different GtkSharp revision binds a GtkSharp
+      assembly version this library was not compiled against. Move both pins together, never one.
+    -->
+    <WebKitGtkSharpPackageVersion Condition="'$(WebKitGtkSharpPackageVersion)' == ''">$(GtkSharpPackageVersion)</WebKitGtkSharpPackageVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!--
       This is Microsoft's System.Resources.Extensions, not the Gtk.Resources.Extensions project in
       this solution: that project publishes as "Gtk.Resources.Extensions", so a reference to
       "System.Resources.Extensions" never resolved to it. It was requested as "1.3.24.*", which has no match

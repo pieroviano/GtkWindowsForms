@@ -28,6 +28,23 @@ public static class WebViewBackendFactory
     private static readonly object SyncRoot = new object();
 
     /// <summary>
+    /// Registers the backends this assembly ships.
+    /// </summary>
+    /// <remarks>
+    /// A type initializer rather than a module initializer, which
+    /// <c>
+    /// netstandard2.0
+    /// </c> does not have. It runs on the first touch of any member of this class, which is necessarily
+    /// before
+    /// <see cref="GtkSystem.Windows.Forms.WebBrowsing.WebViewBackendFactory.Create" /> can choose
+    /// anything. The WebView2 backend registers itself from its own companion package.
+    /// </remarks>
+    static WebViewBackendFactory()
+    {
+        WebKitWebViewBackend.Register();
+    }
+
+    /// <summary>
     /// Gets the URI a navigation falls back to when the caller names none - the same
     /// <c>
     /// about:blank

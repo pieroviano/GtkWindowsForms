@@ -5,6 +5,12 @@ pipelines:
     - step:
         name: Build and Test Gtk.Windows.Forms
         script:
+          # libwebkitgtk-6.0-4 is the GTK 4 WebKit binding behind System.Windows.Forms.WebBrowser. It is a
+          # different package from the libwebkit2gtk-4.0/4.1 that the GTK 3 branch used; installing that
+          # one instead would pull GTK 3 in alongside GTK 4. Without it the WebBrowser integration tests
+          # skip and the control falls back to its placeholder backend, so the build stays green either
+          # way - it is here so the WebKit path is actually exercised.
+          - apt-get update && apt-get install --no-install-recommends -y libwebkitgtk-6.0-4 || echo "WebKitGTK 6.0 unavailable; WebBrowser integration tests will skip."
           - dotnet restore Gtk.Windows.Forms.sln
           - dotnet build Gtk.Windows.Forms.sln --no-restore
           - dotnet test Gtk.Windows.Forms.sln --no-build
