@@ -91,9 +91,9 @@ public class ToolStripMenuItem : ToolStripItem
         set
         {
             // Do not route through base.Checked: it now derives from CheckState, which this type
-            // overrides, so the two setters would call each other forever.
-            self.Checked = value;
-            self.CheckState = value ? CheckState.Checked : CheckState.Unchecked;
+            // overrides, so the two setters would call each other forever. CheckState is the single
+            // place the state is written, so both setters notify exactly once.
+            CheckState = value ? CheckState.Checked : CheckState.Unchecked;
         }
     }
 
@@ -108,10 +108,43 @@ public class ToolStripMenuItem : ToolStripItem
         get => self.CheckState;
         set
         {
+            var previous = self.CheckState;
+
+            // Only CheckState is written: StripMenuItem.CheckState already drives both the toggle and the
+            // inconsistent flag. Assigning self.Checked afterwards used to switch the toggle back on for
+            // CheckState.Indeterminate, which is "inconsistent, not active".
             self.CheckState = value;
-            self.Checked = value != CheckState.Unchecked;
+
+            if (previous == value)
+            {
+                return;
+            }
+
+            // WinForms raises both events from the state change itself, so a programmatic assignment
+            // notifies just like a user click does.
+            OnCheckedChanged(EventArgs.Empty);
+            OnCheckStateChanged(EventArgs.Empty);
         }
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the item's
+    /// <see cref="Checked" /> state flips each time the item is clicked.
+    /// </summary>
+    /// <value>
+    /// <c>
+    /// true
+    /// </c> if a click toggles the check state; otherwise,
+    /// <c>
+    /// false
+    /// </c> (the WinForms default), in which case the state is only ever set in code.
+    /// </value>
+    /// <remarks>
+    /// The property was missing altogether, so the shim had no way to express a checkable menu item: the
+    /// backing Gtk4 CheckButton's own toggle is always undone (see <see cref="StripMenuItem" />), which
+    /// left an item like the sample's checked "Item 1" impossible to uncheck by clicking it.
+    /// </remarks>
+    public bool CheckOnClick { get; set; }
 
     public override ToolStripItemDisplayStyle DisplayStyle
     {
@@ -161,6 +194,26 @@ public class ToolStripMenuItem : ToolStripItem
     }
 
     public override IToolMenuItem Widget { get => self; }
+
+    /// <summary>
+    /// Raises the Click event, first flipping the check state when
+    /// <see cref="CheckOnClick" /> is set.
+    /// </summary>
+    /// <param name="e">The event data.</param>
+    /// <remarks>
+    /// WinForms toggles a check-on-click item from its click handling and raises CheckedChanged before
+    /// Click, so handlers observe the new state; the order is kept here. Nothing happens for an ordinary
+    /// command item, whose check state stays under the application's control.
+    /// </remarks>
+    protected override void OnClick(EventArgs e)
+    {
+        if (CheckOnClick)
+        {
+            CheckState = CheckState == CheckState.Unchecked ? CheckState.Checked : CheckState.Unchecked;
+        }
+
+        base.OnClick(e);
+    }
 
     /// <summary>
     /// Raises the CheckedChanged event.

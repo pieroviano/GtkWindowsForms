@@ -502,6 +502,92 @@ public class StripMenuItemRenderingTests
     }
 
     [Fact]
+    public void CheckOnClick_DefaultsToFalse()
+    {
+        // WinForms default: an item only becomes checkable when the application opts in.
+        Assert.False(new ToolStripMenuItem("New").CheckOnClick);
+    }
+
+    [Fact]
+    public void CheckOnClickItem_TogglesCheckedOnEveryClick()
+    {
+        // Regression: a checked check-on-click item could not be unchecked by clicking it. The Gtk4 widget
+        // toggle is always reverted, and nothing put the WinForms state back the other way, so the item
+        // stayed checked however often it was clicked (the sample's "Dropdown List 1 / Item 1").
+        var item = new ToolStripMenuItem("Item 1") { CheckOnClick = true, Checked = true };
+
+        SimulateUserClick(item);
+
+        Assert.False(item.Checked);
+        Assert.Equal(CheckState.Unchecked, item.CheckState);
+        Assert.False(item.checkButton.Active); // the indicator follows, so a re-opened menu shows no check
+
+        SimulateUserClick(item);
+
+        Assert.True(item.Checked);
+        Assert.Equal(CheckState.Checked, item.CheckState);
+        Assert.True(item.checkButton.Active);
+    }
+
+    [Fact]
+    public void CheckOnClickItem_RaisesCheckedChangedAndCheckStateChanged_BeforeClick()
+    {
+        // WinForms flips the state from its click handling and notifies before raising Click, so a Click
+        // handler already sees the new state.
+        var item = new ToolStripMenuItem("Item 1") { CheckOnClick = true };
+        var order = new System.Collections.Generic.List<string>();
+        item.CheckedChanged += (s, e) => order.Add("checked");
+        item.CheckStateChanged += (s, e) => order.Add("checkstate");
+        item.Click += (s, e) => order.Add("click:" + item.Checked);
+
+        SimulateUserClick(item);
+
+        Assert.Equal(new[] { "checked", "checkstate", "click:True" }, order);
+    }
+
+    [Fact]
+    public void CheckOnClickItem_PerformClick_TogglesCheckedToo()
+    {
+        // PerformClick is the programmatic form of a click and must behave the same way.
+        var item = new ToolStripMenuItem("Item 1") { CheckOnClick = true, Checked = true };
+
+        item.PerformClick();
+
+        Assert.False(item.Checked);
+    }
+
+    [Fact]
+    public void SettingCheckState_RaisesCheckedChangedAndCheckStateChanged_OnceEach()
+    {
+        // The state used to change silently, so nothing driven off CheckedChanged (a menu mirrored into a
+        // tray icon, an enabled/disabled command) ever heard about a programmatic change.
+        var item = new ToolStripMenuItem("Item 1");
+        var checkedChanged = 0;
+        var stateChanged = 0;
+        item.CheckedChanged += (s, e) => checkedChanged++;
+        item.CheckStateChanged += (s, e) => stateChanged++;
+
+        item.Checked = true;
+        item.Checked = true; // no change - no second notification
+
+        Assert.Equal(1, checkedChanged);
+        Assert.Equal(1, stateChanged);
+    }
+
+    [Fact]
+    public void IndeterminateCheckState_LeavesToggleInactive()
+    {
+        // CheckState.Indeterminate is "inconsistent", not "active"; the state setter used to assign Checked
+        // afterwards as well, which switched the toggle on and drew a full check mark.
+        var item = new ToolStripMenuItem("Item 1") { CheckState = CheckState.Indeterminate };
+
+        Assert.Equal(CheckState.Indeterminate, item.CheckState);
+        Assert.True(item.Checked); // WinForms counts indeterminate as checked
+        Assert.True(item.checkButton.Inconsistent);
+        Assert.False(item.checkButton.Active);
+    }
+
+    [Fact]
     public void SettingCheckedInCode_DoesNotRaiseClick()
     {
         // The Toggled->Click bridge must fire only for user activation. Setting Checked/CheckState in code

@@ -240,6 +240,7 @@ namespace GtkWinFormsApp
             // memnuToolStripMenuItem
             // 
             memnuToolStripMenuItem.Checked = true;
+            memnuToolStripMenuItem.CheckOnClick = true;
             memnuToolStripMenuItem.CheckState = CheckState.Checked;
             memnuToolStripMenuItem.Name = "memnuToolStripMenuItem";
             memnuToolStripMenuItem.Size = new Size(116, 26);

@@ -240,10 +240,10 @@ internal sealed class TrayMenuModel
 
             if (item is ToolStripMenuItem menuItem)
             {
-                // The shim's ToolStripMenuItem exposes no CheckOnClick, so an item is treated as checkable
-                // exactly when it currently carries a check state. An item that is checkable but unchecked
-                // therefore renders without a check box - the only fidelity loss the available surface allows.
-                node.IsCheckable = menuItem.CheckState != CheckState.Unchecked;
+                // An item is checkable when it says so (CheckOnClick) or when it currently carries a check
+                // state - the latter covers items whose check mark the application drives itself, which have
+                // no other way to advertise that they are checkable.
+                node.IsCheckable = menuItem.CheckOnClick || menuItem.CheckState != CheckState.Unchecked;
                 node.Checked = menuItem.CheckState == CheckState.Checked;
             }
 
