@@ -51,6 +51,24 @@ public class FormModelFunctionalTests
     }
 
     [Fact]
+    public void TopMostDoesNotDisplayAFormThatWasNeverShown()
+    {
+        using var form = new Form();
+
+        form.TopMost = true;
+
+        // WinForms allows TopMost on a form that has not been shown, and ShowDialog then refuses an
+        // already-visible form - so assigning it must not map the window.
+        Assert.False(form.Visible);
+        Assert.True(form.TopMost);
+
+        form.TopMost = false;
+
+        Assert.False(form.Visible);
+        Assert.False(form.TopMost);
+    }
+
+    [Fact]
     public void BorderStyleAndStartPositionRoundTrip()
     {
         using var form = new Form

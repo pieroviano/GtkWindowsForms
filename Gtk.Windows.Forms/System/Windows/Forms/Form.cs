@@ -591,6 +591,15 @@ public partial class Form : ContainerControl, IWin32Window
         set
         {
             _topMost = value;
+
+            // Assigning TopMost must never display a form: WinForms lets you set it on a form that
+            // has not been shown, and ShowDialog then refuses an already-visible form. Upstream only
+            // presented a realized window (it guarded on Gdk.Window being non-null); that guard was
+            // lost when Gdk.Window went away in Gtk4, so assigning TopMost mapped an unshown form and
+            // Visible turned true. The recorded value is applied when the form is shown instead.
+            if (!self.IsRealized)
+                return;
+
             // Gtk4 removed Gdk.Window/WindowState; the iconified check is no longer queryable.
             if (self.IsVisible == false || self.IsActive == false)
                 self.Present();
