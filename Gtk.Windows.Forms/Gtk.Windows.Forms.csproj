@@ -352,7 +352,7 @@
     </ItemGroup>
     <PropertyGroup>
         <NoWarn>$(NoWarn);MSB3243;</NoWarn>
-        <PackageId>Gtk.Windows.Forms</PackageId>
+        <PackageId>Gtk.Windows.Forms.Base</PackageId>
     </PropertyGroup>
     <ItemGroup>
         <Compile Update="Properties\MessageBoxResources.Designer.cs">
