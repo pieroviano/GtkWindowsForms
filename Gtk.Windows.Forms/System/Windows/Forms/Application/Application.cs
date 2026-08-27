@@ -552,6 +552,23 @@ public sealed partial class Application
         // GroupBox.BackColor reaches the widget.
         + ".GroupBox{border-style:none;border-width:0;border-radius:0;box-shadow:none;padding:0;}";
 
+    /// <summary>
+    /// Collapses the Gtk4 check-indicator node of the menu items that must not draw one.
+    /// </summary>
+    /// <remarks>
+    /// Gtk3 hid the indicator with <c>checkbutton.DrawIndicator = false</c>; Gtk4 removed that property and
+    /// the old <c>margin-left:-20px</c> clip no longer hides Gtk4's separate <c>check</c> node, so every
+    /// menu item rendered as a checkbox. The node is collapsed instead - but only where an indicator would
+    /// be wrong: a top-level menu-bar entry never shows one, and an ordinary item shows one only while it
+    /// is checked. A checkable item (<see cref="ToolStripMenuItem.CheckOnClick" />, which tags its widget
+    /// <c>.MenuItemCheckable</c>) is excluded from both rules, because its box has to stay visible when it
+    /// is unchecked - otherwise unchecking it makes the item look like a plain command and there is nothing
+    /// left to click to check it again.
+    /// </remarks>
+    internal static string CheckIndicatorCss =>
+        ".MenuItemButton:not(.MenuItemCheckable):not(:checked):not(:indeterminate) check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}\n"
+        + ".MenuBarItem:not(.MenuItemCheckable) check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}\n";
+
     public static Gtk.Application Init()
     {
         if (App == null)
@@ -632,12 +649,6 @@ public sealed partial class Application
 .StatusStrip {border-top:solid 1px @frame_color;}
 .MenuItemButton {background-color:transparent;background:none; border:none; border-radius:0px;border-width:0px; padding:0px;box-shadow:none; min-width:1px;min-height:1px;}
 .ToolStrip checkbutton,.MenuStrip checkbutton{padding:0px; }
-/* Gtk3 hid the CheckButton indicator with checkbutton.DrawIndicator=false; Gtk4 removed that property and
-   the old margin-left:-20px clip no longer hides Gtk4's separate 'check' node, so menu items rendered as
-   checkboxes. Collapse the indicator node instead: always for top-level menu-bar items (.MenuBarItem), and
-   for ordinary menu items only while unchecked (keeping the checkmark that a Checked item must show). */
-.MenuItemButton:not(:checked):not(:indeterminate) check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}
-.MenuBarItem check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}
 /* The 'opens a submenu' arrow. Gtk3 got this from GtkMenuItem's theming; Gtk4 has no menu-item widget, so
    StripMenuItem draws it and this keeps it clear of the caption and slightly dimmed, as themes do. */
 .SubmenuArrow{margin-left:12px;opacity:0.65;}
@@ -675,6 +686,8 @@ tooltip label {padding: 0px 10px; color: #555555;}
 .MDIForm{border-style:solid;border-width:0px 2px 2px 2px;border-color:#cccccc;}
 .MDIPanel{background-color:#c0c0c0; box-shadow: inset 3px 3px 0px 0px #787878;}
 ";
+
+            css_style += CheckIndicatorCss;
 
             var appdirectory = "./";// StartupPath; // becauselinux the system commonly uses environment variable paths， will lead toDirectory/Environment the retrieved current directory is incorrect
             if (!File.Exists($"{appdirectory}/{Assembly.GetExecutingAssembly().GetName().Name}.dll"))

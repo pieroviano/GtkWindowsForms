@@ -530,6 +530,69 @@ public class StripMenuItemRenderingTests
     }
 
     [Fact]
+    public void CheckOnClickItem_KeepsItsCheckBox_WhenUnchecked()
+    {
+        // Regression: the indicator-collapsing CSS keyed on ":not(:checked)", so unchecking a checkable
+        // item made its box disappear entirely - the row then looked like a plain command and there was no
+        // box left to click to check it again. A checkable item is tagged so the CSS skips it, checked or
+        // not; an ordinary command item keeps the tag off and so keeps its indicator collapsed.
+        var checkable = new ToolStripMenuItem("Item 1") { CheckOnClick = true, Checked = true };
+        var command = new ToolStripMenuItem("Open");
+
+        Assert.True(checkable.checkButton.StyleContext.HasClass("MenuItemCheckable"));
+        Assert.False(command.checkButton.StyleContext.HasClass("MenuItemCheckable"));
+
+        SimulateUserClick(checkable);
+
+        Assert.False(checkable.Checked);
+        Assert.True(checkable.checkButton.StyleContext.HasClass("MenuItemCheckable"));
+    }
+
+    [Fact]
+    public void ClearingCheckOnClick_CollapsesTheIndicatorAgain()
+    {
+        var item = new ToolStripMenuItem("Item 1") { CheckOnClick = true };
+
+        item.CheckOnClick = false;
+
+        Assert.False(item.CheckOnClick);
+        Assert.False(item.checkButton.StyleContext.HasClass("MenuItemCheckable"));
+    }
+
+    [Fact]
+    public void IndicatorCollapsingCss_ExemptsCheckableItems()
+    {
+        // Both collapse rules must skip .MenuItemCheckable, or the tag above buys nothing: the drop-down
+        // rule would hide the box of an unchecked checkable item, and the menu-bar rule would hide it even
+        // when checked.
+        foreach (var rule in Application.CheckIndicatorCss.Split('\n'))
+        {
+            if (rule.Contains("check{"))
+            {
+                Assert.Contains(":not(.MenuItemCheckable)", rule);
+            }
+        }
+
+        Assert.Contains(".MenuItemButton:not(.MenuItemCheckable):not(:checked):not(:indeterminate) check{", Application.CheckIndicatorCss);
+        Assert.Contains(".MenuBarItem:not(.MenuItemCheckable) check{", Application.CheckIndicatorCss);
+    }
+
+    [Fact]
+    public void IndicatorCollapsingCss_IsAcceptedByGtk()
+    {
+        // A selector Gtk cannot parse is dropped silently, taking the rule with it - so the collapse would
+        // simply stop working and every menu item would render as a checkbox again. Parse the rules the way
+        // Application does and read back what survived.
+        var provider = new Gtk.CssProvider();
+        provider.LoadFromData(Application.CheckIndicatorCss);
+
+        var parsed = provider.ToString();
+
+        Assert.Contains("MenuItemCheckable", parsed);
+        Assert.Contains("opacity: 0", parsed);
+    }
+
+    [Fact]
     public void CheckOnClickItem_RaisesCheckedChangedAndCheckStateChanged_BeforeClick()
     {
         // WinForms flips the state from its click handling and notifies before raising Click, so a Click

@@ -142,9 +142,15 @@ public class ToolStripMenuItem : ToolStripItem
     /// <remarks>
     /// The property was missing altogether, so the shim had no way to express a checkable menu item: the
     /// backing Gtk4 CheckButton's own toggle is always undone (see <see cref="StripMenuItem" />), which
-    /// left an item like the sample's checked "Item 1" impossible to uncheck by clicking it.
+    /// left an item like the sample's checked "Item 1" impossible to uncheck by clicking it. Setting it
+    /// also keeps the check box drawn while the item is unchecked - a checkable item shows an empty box in
+    /// WinForms, and without it unchecking an item made its box vanish for good.
     /// </remarks>
-    public bool CheckOnClick { get; set; }
+    public bool CheckOnClick
+    {
+        get => self.Checkable;
+        set => self.Checkable = value;
+    }
 
     public override ToolStripItemDisplayStyle DisplayStyle
     {

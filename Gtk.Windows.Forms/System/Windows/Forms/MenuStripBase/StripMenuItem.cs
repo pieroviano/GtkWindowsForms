@@ -40,6 +40,11 @@ namespace System.Windows.Forms
         // like a user click.
         private bool _suppressActivation;
 
+        /// <summary>The style class that exempts an item from the indicator-collapsing CSS.</summary>
+        private const string CheckableStyleClass = "MenuItemCheckable";
+
+        private bool _checkable;
+
         /// <summary>
         /// Raised when the user activates the item (pointer click or Space/Enter). Gtk4's GtkCheckButton
         /// derives from GtkWidget and has NO Clicked signal - only Toggled - so this is the click surface a
@@ -75,6 +80,33 @@ namespace System.Windows.Forms
             // a permanently "checked" item, then report the activation.
             SetActiveSuppressed(!checkButton.Active);
             Activated?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Whether the item always draws a check indicator, checked or not.
+        /// </summary>
+        /// <remarks>
+        /// A menu item's indicator is collapsed by the <c>.MenuItemButton</c> CSS unless it is checked, so
+        /// that an ordinary command does not render as a checkbox. An item the user can toggle
+        /// (<see cref="ToolStripMenuItem.CheckOnClick" />) must escape that rule: unchecking it used to make
+        /// the box disappear altogether, leaving nothing to click and no way to tell the item apart from a
+        /// plain command. The style class is what the CSS keys on.
+        /// </remarks>
+        public bool Checkable
+        {
+            get => _checkable;
+            set
+            {
+                _checkable = value;
+                if (value)
+                {
+                    checkButton.StyleContext.AddClass(CheckableStyleClass);
+                }
+                else
+                {
+                    checkButton.StyleContext.RemoveClass(CheckableStyleClass);
+                }
+            }
         }
 
         public bool Checked
