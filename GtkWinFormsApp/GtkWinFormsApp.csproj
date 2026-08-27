@@ -71,7 +71,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Net4x.GtkSharp" Version="$(GtkSharp4LatestVersion).*" />
+    <PackageReference Include="GtkSharp4" Version="$(GtkSharp4LatestVersion).*" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Form2.cs" />
