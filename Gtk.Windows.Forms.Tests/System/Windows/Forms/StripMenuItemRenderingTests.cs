@@ -21,6 +21,17 @@ public class StripMenuItemRenderingTests
     private static void SimulateUserClick(ToolStripMenuItem item)
         => item.checkButton.Active = !item.checkButton.Active;
 
+    // The width Gtk asks for once the stylesheet has had its say. The indicator-collapsing CSS zeroes the
+    // 'check' node's size, so the reserved check box is exactly what this width does or does not include -
+    // which makes it the oracle for "is there a box?" without going near pixels. Measure each item once and
+    // in its final state: a widget with no frame clock (none of these are in a window) never revalidates,
+    // so a width read before a state change is still the width read after it.
+    private static int NaturalWidth(ToolStripMenuItem item)
+    {
+        item.checkButton.Measure(Gtk.Orientation.Horizontal, -1, out _, out var natural, out _, out _);
+        return natural;
+    }
+
     private static System.Collections.Generic.List<Gtk.Widget> ChildrenOf(Gtk.Widget parent)
     {
         var list = new System.Collections.Generic.List<Gtk.Widget>();
@@ -590,6 +601,50 @@ public class StripMenuItemRenderingTests
 
         Assert.Contains("MenuItemCheckable", parsed);
         Assert.Contains("opacity: 0", parsed);
+    }
+
+    [Fact]
+    public void UncheckedCheckableItem_StillReservesItsCheckBox()
+    {
+        // Regression: unchecking a checkable item made its box vanish - the row then read as a plain
+        // command and there was no box left to click to check it again. The reserved width is the box.
+        // Same caption in both, or the label width - not the indicator - decides the comparison.
+        var command = new ToolStripMenuItem("Item 1");
+        var checkable = new ToolStripMenuItem("Item 1") { CheckOnClick = true };
+
+        Assert.False(checkable.Checked);
+        Assert.True(
+            NaturalWidth(checkable) > NaturalWidth(command),
+            "An unchecked checkable item must reserve its check box; an ordinary command must not.");
+    }
+
+    [Fact]
+    public void UncheckingACheckableItemByClickingIt_KeepsTheBox()
+    {
+        // The user-visible symptom, end to end: click the checked item and it unchecks - and still shows
+        // the box, now empty, exactly as WinForms draws a check-on-click item.
+        var item = new ToolStripMenuItem("Item 1") { CheckOnClick = true, Checked = true };
+
+        SimulateUserClick(item);
+
+        Assert.False(item.Checked);
+        Assert.True(
+            NaturalWidth(item) > NaturalWidth(new ToolStripMenuItem("Item 1")),
+            "An item unchecked by clicking it must keep its (empty) check box.");
+    }
+
+    [Fact]
+    public void OrdinaryCommandItem_CollapsesItsIndicator_UnlessChecked()
+    {
+        // The other half of the rule must survive: without it every menu item renders as a checkbox, which
+        // is the Gtk4 regression the collapsing CSS was written for. An item the application checks itself
+        // still shows its check mark.
+        var command = new ToolStripMenuItem("Open");
+        var checkedCommand = new ToolStripMenuItem("Open") { Checked = true };
+
+        Assert.True(
+            NaturalWidth(command) < NaturalWidth(checkedCommand),
+            "An unchecked command item must not reserve an indicator, a checked one must draw it.");
     }
 
     [Fact]
