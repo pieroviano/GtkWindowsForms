@@ -1,0 +1,269 @@
+From 82cb941700000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Subject: [PATCH] Gtk4: a checkable menu item must keep its check box
+
+The indicator-collapsing CSS keyed on ":not(:checked)", so unchecking a
+checkable item collapsed its box away entirely: the row then read as a plain
+command, with nothing left to click to check it again. The rules now skip an
+item tagged .MenuItemCheckable, which ToolStripMenuItem.CheckOnClick sets, so
+a checkable item shows its box checked or not - as WinForms draws it - while
+an ordinary command keeps its indicator collapsed unless it is checked.
+
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/StripMenuItemRenderingTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/StripMenuItemRenderingTests.cs
+index db8e7da1..cdfbc387 100644
+--- a/Gtk.Windows.Forms.Tests/System/Windows/Forms/StripMenuItemRenderingTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/StripMenuItemRenderingTests.cs
+@@ -21,6 +21,17 @@ public class StripMenuItemRenderingTests
+     private static void SimulateUserClick(ToolStripMenuItem item)
+         => item.checkButton.Active = !item.checkButton.Active;
+ 
++    // The width Gtk asks for once the stylesheet has had its say. The indicator-collapsing CSS zeroes the
++    // 'check' node's size, so the reserved check box is exactly what this width does or does not include -
++    // which makes it the oracle for "is there a box?" without going near pixels. Measure each item once and
++    // in its final state: a widget with no frame clock (none of these are in a window) never revalidates,
++    // so a width read before a state change is still the width read after it.
++    private static int NaturalWidth(ToolStripMenuItem item)
++    {
++        item.checkButton.Measure(Gtk.Orientation.Horizontal, -1, out _, out var natural, out _, out _);
++        return natural;
++    }
++
+     private static System.Collections.Generic.List<Gtk.Widget> ChildrenOf(Gtk.Widget parent)
+     {
+         var list = new System.Collections.Generic.List<Gtk.Widget>();
+@@ -529,6 +540,113 @@ public class StripMenuItemRenderingTests
+         Assert.True(item.checkButton.Active);
+     }
+ 
++    [Fact]
++    public void CheckOnClickItem_KeepsItsCheckBox_WhenUnchecked()
++    {
++        // Regression: the indicator-collapsing CSS keyed on ":not(:checked)", so unchecking a checkable
++        // item made its box disappear entirely - the row then looked like a plain command and there was no
++        // box left to click to check it again. A checkable item is tagged so the CSS skips it, checked or
++        // not; an ordinary command item keeps the tag off and so keeps its indicator collapsed.
++        var checkable = new ToolStripMenuItem("Item 1") { CheckOnClick = true, Checked = true };
++        var command = new ToolStripMenuItem("Open");
++
++        Assert.True(checkable.checkButton.StyleContext.HasClass("MenuItemCheckable"));
++        Assert.False(command.checkButton.StyleContext.HasClass("MenuItemCheckable"));
++
++        SimulateUserClick(checkable);
++
++        Assert.False(checkable.Checked);
++        Assert.True(checkable.checkButton.StyleContext.HasClass("MenuItemCheckable"));
++    }
++
++    [Fact]
++    public void ClearingCheckOnClick_CollapsesTheIndicatorAgain()
++    {
++        var item = new ToolStripMenuItem("Item 1") { CheckOnClick = true };
++
++        item.CheckOnClick = false;
++
++        Assert.False(item.CheckOnClick);
++        Assert.False(item.checkButton.StyleContext.HasClass("MenuItemCheckable"));
++    }
++
++    [Fact]
++    public void IndicatorCollapsingCss_ExemptsCheckableItems()
++    {
++        // Both collapse rules must skip .MenuItemCheckable, or the tag above buys nothing: the drop-down
++        // rule would hide the box of an unchecked checkable item, and the menu-bar rule would hide it even
++        // when checked.
++        foreach (var rule in Application.CheckIndicatorCss.Split('\n'))
++        {
++            if (rule.Contains("check{"))
++            {
++                Assert.Contains(":not(.MenuItemCheckable)", rule);
++            }
++        }
++
++        Assert.Contains(".MenuItemButton:not(.MenuItemCheckable):not(:checked):not(:indeterminate) check{", Application.CheckIndicatorCss);
++        Assert.Contains(".MenuBarItem:not(.MenuItemCheckable) check{", Application.CheckIndicatorCss);
++    }
++
++    [Fact]
++    public void IndicatorCollapsingCss_IsAcceptedByGtk()
++    {
++        // A selector Gtk cannot parse is dropped silently, taking the rule with it - so the collapse would
++        // simply stop working and every menu item would render as a checkbox again. Parse the rules the way
++        // Application does and read back what survived.
++        var provider = new Gtk.CssProvider();
++        provider.LoadFromData(Application.CheckIndicatorCss);
++
++        var parsed = provider.ToString();
++
++        Assert.Contains("MenuItemCheckable", parsed);
++        Assert.Contains("opacity: 0", parsed);
++    }
++
++    [Fact]
++    public void UncheckedCheckableItem_StillReservesItsCheckBox()
++    {
++        // Regression: unchecking a checkable item made its box vanish - the row then read as a plain
++        // command and there was no box left to click to check it again. The reserved width is the box.
++        // Same caption in both, or the label width - not the indicator - decides the comparison.
++        var command = new ToolStripMenuItem("Item 1");
++        var checkable = new ToolStripMenuItem("Item 1") { CheckOnClick = true };
++
++        Assert.False(checkable.Checked);
++        Assert.True(
++            NaturalWidth(checkable) > NaturalWidth(command),
++            "An unchecked checkable item must reserve its check box; an ordinary command must not.");
++    }
++
++    [Fact]
++    public void UncheckingACheckableItemByClickingIt_KeepsTheBox()
++    {
++        // The user-visible symptom, end to end: click the checked item and it unchecks - and still shows
++        // the box, now empty, exactly as WinForms draws a check-on-click item.
++        var item = new ToolStripMenuItem("Item 1") { CheckOnClick = true, Checked = true };
++
++        SimulateUserClick(item);
++
++        Assert.False(item.Checked);
++        Assert.True(
++            NaturalWidth(item) > NaturalWidth(new ToolStripMenuItem("Item 1")),
++            "An item unchecked by clicking it must keep its (empty) check box.");
++    }
++
++    [Fact]
++    public void OrdinaryCommandItem_CollapsesItsIndicator_UnlessChecked()
++    {
++        // The other half of the rule must survive: without it every menu item renders as a checkbox, which
++        // is the Gtk4 regression the collapsing CSS was written for. An item the application checks itself
++        // still shows its check mark.
++        var command = new ToolStripMenuItem("Open");
++        var checkedCommand = new ToolStripMenuItem("Open") { Checked = true };
++
++        Assert.True(
++            NaturalWidth(command) < NaturalWidth(checkedCommand),
++            "An unchecked command item must not reserve an indicator, a checked one must draw it.");
++    }
++
+     [Fact]
+     public void CheckOnClickItem_RaisesCheckedChangedAndCheckStateChanged_BeforeClick()
+     {
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+index e19c8d95..4d2b3c7d 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+@@ -552,6 +552,23 @@ public sealed partial class Application
+         // GroupBox.BackColor reaches the widget.
+         + ".GroupBox{border-style:none;border-width:0;border-radius:0;box-shadow:none;padding:0;}";
+ 
++    /// <summary>
++    /// Collapses the Gtk4 check-indicator node of the menu items that must not draw one.
++    /// </summary>
++    /// <remarks>
++    /// Gtk3 hid the indicator with <c>checkbutton.DrawIndicator = false</c>; Gtk4 removed that property and
++    /// the old <c>margin-left:-20px</c> clip no longer hides Gtk4's separate <c>check</c> node, so every
++    /// menu item rendered as a checkbox. The node is collapsed instead - but only where an indicator would
++    /// be wrong: a top-level menu-bar entry never shows one, and an ordinary item shows one only while it
++    /// is checked. A checkable item (<see cref="ToolStripMenuItem.CheckOnClick" />, which tags its widget
++    /// <c>.MenuItemCheckable</c>) is excluded from both rules, because its box has to stay visible when it
++    /// is unchecked - otherwise unchecking it makes the item look like a plain command and there is nothing
++    /// left to click to check it again.
++    /// </remarks>
++    internal static string CheckIndicatorCss =>
++        ".MenuItemButton:not(.MenuItemCheckable):not(:checked):not(:indeterminate) check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}\n"
++        + ".MenuBarItem:not(.MenuItemCheckable) check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}\n";
++
+     public static Gtk.Application Init()
+     {
+         if (App == null)
+@@ -632,12 +649,6 @@ public sealed partial class Application
+ .StatusStrip {border-top:solid 1px @frame_color;}
+ .MenuItemButton {background-color:transparent;background:none; border:none; border-radius:0px;border-width:0px; padding:0px;box-shadow:none; min-width:1px;min-height:1px;}
+ .ToolStrip checkbutton,.MenuStrip checkbutton{padding:0px; }
+-/* Gtk3 hid the CheckButton indicator with checkbutton.DrawIndicator=false; Gtk4 removed that property and
+-   the old margin-left:-20px clip no longer hides Gtk4's separate 'check' node, so menu items rendered as
+-   checkboxes. Collapse the indicator node instead: always for top-level menu-bar items (.MenuBarItem), and
+-   for ordinary menu items only while unchecked (keeping the checkmark that a Checked item must show). */
+-.MenuItemButton:not(:checked):not(:indeterminate) check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}
+-.MenuBarItem check{min-width:0;min-height:0;-gtk-icon-size:0;margin:0;padding:0;border-width:0;background:none;box-shadow:none;opacity:0;}
+ /* The 'opens a submenu' arrow. Gtk3 got this from GtkMenuItem's theming; Gtk4 has no menu-item widget, so
+    StripMenuItem draws it and this keeps it clear of the caption and slightly dimmed, as themes do. */
+ .SubmenuArrow{margin-left:12px;opacity:0.65;}
+@@ -676,6 +687,8 @@ tooltip label {padding: 0px 10px; color: #555555;}
+ .MDIPanel{background-color:#c0c0c0; box-shadow: inset 3px 3px 0px 0px #787878;}
+ ";
+ 
++            css_style += CheckIndicatorCss;
++
+             var appdirectory = "./";// StartupPath; // becauselinux the system commonly uses environment variable paths， will lead toDirectory/Environment the retrieved current directory is incorrect
+             if (!File.Exists($"{appdirectory}/{Assembly.GetExecutingAssembly().GetName().Name}.dll"))
+             {
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs
+index 60bfee2b..41135c2e 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs
+@@ -40,6 +40,11 @@ namespace System.Windows.Forms
+         // like a user click.
+         private bool _suppressActivation;
+ 
++        /// <summary>The style class that exempts an item from the indicator-collapsing CSS.</summary>
++        private const string CheckableStyleClass = "MenuItemCheckable";
++
++        private bool _checkable;
++
+         /// <summary>
+         /// Raised when the user activates the item (pointer click or Space/Enter). Gtk4's GtkCheckButton
+         /// derives from GtkWidget and has NO Clicked signal - only Toggled - so this is the click surface a
+@@ -77,6 +82,33 @@ namespace System.Windows.Forms
+             Activated?.Invoke(this, EventArgs.Empty);
+         }
+ 
++        /// <summary>
++        /// Whether the item always draws a check indicator, checked or not.
++        /// </summary>
++        /// <remarks>
++        /// A menu item's indicator is collapsed by the <c>.MenuItemButton</c> CSS unless it is checked, so
++        /// that an ordinary command does not render as a checkbox. An item the user can toggle
++        /// (<see cref="ToolStripMenuItem.CheckOnClick" />) must escape that rule: unchecking it used to make
++        /// the box disappear altogether, leaving nothing to click and no way to tell the item apart from a
++        /// plain command. The style class is what the CSS keys on.
++        /// </remarks>
++        public bool Checkable
++        {
++            get => _checkable;
++            set
++            {
++                _checkable = value;
++                if (value)
++                {
++                    checkButton.StyleContext.AddClass(CheckableStyleClass);
++                }
++                else
++                {
++                    checkButton.StyleContext.RemoveClass(CheckableStyleClass);
++                }
++            }
++        }
++
+         public bool Checked
+         {
+             // Gtk4 removed CheckButton.DrawIndicator; Checked reflects the toggle state (Active).
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
+index dffdbde0..6fc209b9 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
+@@ -142,9 +142,15 @@ public class ToolStripMenuItem : ToolStripItem
+     /// <remarks>
+     /// The property was missing altogether, so the shim had no way to express a checkable menu item: the
+     /// backing Gtk4 CheckButton's own toggle is always undone (see <see cref="StripMenuItem" />), which
+-    /// left an item like the sample's checked "Item 1" impossible to uncheck by clicking it.
++    /// left an item like the sample's checked "Item 1" impossible to uncheck by clicking it. Setting it
++    /// also keeps the check box drawn while the item is unchecked - a checkable item shows an empty box in
++    /// WinForms, and without it unchecking an item made its box vanish for good.
+     /// </remarks>
+-    public bool CheckOnClick { get; set; }
++    public bool CheckOnClick
++    {
++        get => self.Checkable;
++        set => self.Checkable = value;
++    }
+ 
+     public override ToolStripItemDisplayStyle DisplayStyle
+     {
