@@ -1,0 +1,42 @@
+From 38956b3e6e72f8c0f7211e8b525db5f6647b93d5 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 25 Sep 2026 07:10:34 +0300
+Subject: [PATCH] Let a CheckedListBox item's checked state be read back
+
+SetItemChecked was here with no GetItemChecked, so code could tick a box
+but never ask whether it was ticked.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+---
+ .../System/Windows/Forms/CheckedListBox.cs        | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/CheckedListBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/CheckedListBox.cs
+index 28163a19..5e35c58b 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/CheckedListBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/CheckedListBox.cs
+@@ -237,6 +237,21 @@ public partial class CheckedListBox : ContainerControl
+         _flow.UnselectAll();
+     }
+ 
++    /// <summary>
++    /// Whether the item at the specified index is checked.
++    /// </summary>
++    /// <param name="index">The zero-based index of the item.</param>
++    /// <returns><see langword="true" /> when the item's box is ticked.</returns>
++    public bool GetItemChecked(int index)
++    {
++        var children = _flow.GetChildrenArray();
++        if (index >= 0 && index < children.Length && children[index] is Gtk.FlowBoxChild child)
++        {
++            return (child.Child.Data["Control"] as CheckBox)?.Checked == true;
++        }
++        return false;
++    }
++
+     /// <summary>
+     /// Sets the checked state of the item at the specified index.
+     /// </summary>
+-- 
+2.53.0.windows.3
+
