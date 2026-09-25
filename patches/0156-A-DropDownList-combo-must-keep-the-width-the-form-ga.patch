@@ -1,0 +1,105 @@
+From 486798aa2b36886b3323d368fec19289f13a283e Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 25 Sep 2026 07:51:39 +0300
+Subject: [PATCH] A DropDownList combo must keep the width the form gave it
+
+On realize, a DropDownList squashed its entry to 1px and set the arrow
+button's width to the whole control. The button then carried the width
+instead of the combo: the arrow tore away from the text, and the combo's
+natural width grew past the size the form asked for - a 155px combo was
+allocated 316px, so a converted VB6 form looked nothing like its WinForms
+counterpart.
+
+A DropDownList only has to be unusable for typing, which the entry
+already is made to be. Without the two width requests the same combo is
+allocated 183px, and the arrow sits back against the text.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+---
+ .../System/Windows/Forms/ComboBox.cs          | 15 +++----
+ .../Forms/MenuAndStripRenderingTests.cs       | 39 ++++++++++++++++++-
+ 2 files changed, 44 insertions(+), 10 deletions(-)
+
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
+index 7a0ae46b..f9cd63e2 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
+@@ -414,15 +414,12 @@ public partial class ComboBox : ListControl
+             OnSetDataSource();
+             if (_DropDownStyle == ComboBoxStyle.DropDownList)
+             {
+-                var box = (Gtk.Box)self.Entry.Parent;
+-                if (box.GetChildrenArray()[1] is Gtk.ToggleButton ws)
+-                {
+-                    self.Entry.IsEditable = false;
+-                    self.Entry.CanFocus = false;
+-                    self.Entry.WidthRequest = 1;
+-                    ws.WidthRequest = Math.Max(self.WidthRequest, self.AllocatedWidth);
+-        // Gtk 4: Widget.Drawn is gone and there is no overridable OnSnapshot; custom paint moves to CSS (deferred).
+-                }
++                // A DropDownList shows its selection and cannot be typed into. Making the entry unusable is
++                // enough; it must keep its width. Squashing it to 1px and widening the arrow button to the
++                // whole control instead made the button, not the combo, carry the width - so the arrow tore
++                // away from the text and the combo's natural width grew past the size the form asked for.
++                self.Entry.IsEditable = false;
++                self.Entry.CanFocus = false;
+             }
+         }
+     }
+diff --git a/GtkWinFormsApp.UITests/Forms/MenuAndStripRenderingTests.cs b/GtkWinFormsApp.UITests/Forms/MenuAndStripRenderingTests.cs
+index 1b22e42a..c359171b 100644
+--- a/GtkWinFormsApp.UITests/Forms/MenuAndStripRenderingTests.cs
++++ b/GtkWinFormsApp.UITests/Forms/MenuAndStripRenderingTests.cs
+@@ -1,4 +1,4 @@
+-using GtkWinFormsApp.UITests.Infrastructure;
++﻿using GtkWinFormsApp.UITests.Infrastructure;
+ using System.Drawing;
+ using System.Windows.Forms;
+ 
+@@ -11,6 +11,43 @@ namespace GtkWinFormsApp.UITests.Forms;
+ /// </summary>
+ public class MenuAndStripRenderingTests
+ {
++    [Fact]
++    public void ADropDownListComboKeepsTheWidthTheFormGaveIt()
++    {
++        // Regression: a DropDownList squashed its entry to 1px and widened the arrow button to the whole
++        // control, so the button carried the width instead of the combo. The arrow tore away from the text
++        // and the combo's natural width grew past the size the form asked for - a 155px combo was allocated
++        // 316px. Making the entry unusable is all a DropDownList needs.
++        UiDriver.Run(
++            () =>
++            {
++                var form = new Form { ClientSize = new Size(417, 120) };
++                var combo = new ComboBox
++                {
++                    DropDownStyle = ComboBoxStyle.DropDownList,
++                    Location = new Point(12, 12),
++                    Size = new Size(155, 21),
++                };
++                combo.Items.Add("Light");
++                combo.SelectedIndex = 0;
++                form.Controls.Add(combo);
++
++                return form;
++            },
++            ctx =>
++            {
++                UiDriver.Pump(60);
++
++                var combo = ctx.Form.Controls[0];
++                combo.Widget.GetPreferredWidth(out _, out var natural);
++
++                // The entry's own minimum still sets a floor, so this is not the designed 155 exactly; what
++                // matters is that it is close to it rather than twice it.
++                Assert.True(natural < 220, $"a 155px combo wants {natural}px");
++                Assert.True(combo.Widget.Allocation.Width < 220, $"a 155px combo got {combo.Widget.Allocation.Width}px");
++            });
++    }
++
+     [Fact]
+     public void Form_OpensAtItsDesignedClientSize_SoADockedStripDoesNotEatTheContentGap()
+     {
+-- 
+2.53.0.windows.3
+
