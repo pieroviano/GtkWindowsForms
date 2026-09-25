@@ -6,9 +6,11 @@
         <VersionBuildSuffix Condition="'$(Configuration)'=='Release'">*</VersionBuildSuffix>
         <NuGetUtilityVersion Condition="'$(NuGetUtilityVersion)' == ''">1.0.0</NuGetUtilityVersion>
         <DirectoryNuGet>true</DirectoryNuGet>
+        <NuGetUtilityVersion Condition="'$(NuGetUtilityVersion)'==''">1.0.17</NuGetUtilityVersion>
         <DirectoryNuGet Condition="'$(DirectoryNuGet)'==''">true</DirectoryNuGet>
         <VersionBuildSuffix Condition="'$(VersionBuildSuffix)'==''">*</VersionBuildSuffix>
         <VersionBuildSuffix>*</VersionBuildSuffix>
+        <NuGetPackageRoot Condition="'$(NuGetPackageRoot)'==''">$(USERPROFILE)\.nuget\packages\</NuGetPackageRoot>
         <GtkSharp4LatestVersion>4.22.4</GtkSharp4LatestVersion>
         <GtkWindowsFormsVersion>1.4.2464</GtkWindowsFormsVersion>
         <Net4xBaseTypesVersion>1.3.1</Net4xBaseTypesVersion>
