@@ -99,6 +99,7 @@ public partial class ComboBox : ListControl
         self.Override.sender = this;
         self.Entry.HasFrame = false;
         self.Entry.WidthChars = 0;
+        self.Entry.MaxWidthChars = 1;
 
         __itemsData = new ObjectCollection(this);
         self.Realized += Self_Realized;

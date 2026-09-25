@@ -17,7 +17,8 @@ public class MenuAndStripRenderingTests
         // Regression: a DropDownList squashed its entry to 1px and widened the arrow button to the whole
         // control, so the button carried the width instead of the combo. The arrow tore away from the text
         // and the combo's natural width grew past the size the form asked for - a 155px combo was allocated
-        // 316px. Making the entry unusable is all a DropDownList needs.
+        // 316px. Making the entry unusable is all a DropDownList needs, and capping the entry's width in
+        // characters keeps the combo's natural width off the caption's length, so the form's size is honoured.
         UiDriver.Run(
             () =>
             {
@@ -39,12 +40,8 @@ public class MenuAndStripRenderingTests
                 UiDriver.Pump(60);
 
                 var combo = ctx.Form.Controls[0];
-                combo.Widget.GetPreferredWidth(out _, out var natural);
 
-                // The entry's own minimum still sets a floor, so this is not the designed 155 exactly; what
-                // matters is that it is close to it rather than twice it.
-                Assert.True(natural < 220, $"a 155px combo wants {natural}px");
-                Assert.True(combo.Widget.Allocation.Width < 220, $"a 155px combo got {combo.Widget.Allocation.Width}px");
+                Assert.Equal(155, combo.Widget.Allocation.Width);
             });
     }
 
