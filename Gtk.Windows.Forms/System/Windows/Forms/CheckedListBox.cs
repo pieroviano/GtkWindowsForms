@@ -238,6 +238,21 @@ public partial class CheckedListBox : ContainerControl
     }
 
     /// <summary>
+    /// Whether the item at the specified index is checked.
+    /// </summary>
+    /// <param name="index">The zero-based index of the item.</param>
+    /// <returns><see langword="true" /> when the item's box is ticked.</returns>
+    public bool GetItemChecked(int index)
+    {
+        var children = _flow.GetChildrenArray();
+        if (index >= 0 && index < children.Length && children[index] is Gtk.FlowBoxChild child)
+        {
+            return (child.Child.Data["Control"] as CheckBox)?.Checked == true;
+        }
+        return false;
+    }
+
+    /// <summary>
     /// Sets the checked state of the item at the specified index.
     /// </summary>
     /// <param name="index">
