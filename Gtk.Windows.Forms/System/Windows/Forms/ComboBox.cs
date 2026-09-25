@@ -307,7 +307,7 @@ public partial class ComboBox : ListControl
     /// <param name="e">The
     /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
-    protected void OnSelectedIndexChanged(EventArgs e) => _selectedIndexChanged?.Invoke(this, e);
+    protected virtual void OnSelectedIndexChanged(EventArgs e) => _selectedIndexChanged?.Invoke(this, e);
 
     /// <summary>
     /// Raises the
@@ -316,7 +316,7 @@ public partial class ComboBox : ListControl
     /// <param name="e">The
     /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
-    protected void OnSelectedItemChanged(EventArgs e) => _selectedItemChanged?.Invoke(this, e);
+    protected virtual void OnSelectedItemChanged(EventArgs e) => _selectedItemChanged?.Invoke(this, e);
 
     /// <summary>
     /// Raises the
@@ -325,7 +325,7 @@ public partial class ComboBox : ListControl
     /// <param name="e">The
     /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
-    protected void OnSelectedValueChanged(EventArgs e) => _selectedValueChanged?.Invoke(this, e);
+    protected virtual void OnSelectedValueChanged(EventArgs e) => _selectedValueChanged?.Invoke(this, e);
 
     private void LoadDataTableSource(DataTable dtable)
     {
