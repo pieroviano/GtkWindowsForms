@@ -1,0 +1,374 @@
+From 8067a79112edb968d4af1ab09810e9bcf9b4ec33 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 25 Sep 2026 07:43:52 +0300
+Subject: [PATCH] A caption's ampersand marks a mnemonic, it is not text
+
+WinForms marks the mnemonic of a caption with '&' and writes a literal
+ampersand as '&&'; GTK marks it with '_' and writes a literal underscore
+as '__'. Nothing converted between them, so a button whose Text was
+"&Run" showed the ampersand instead of underlining the R, and Alt+R did
+nothing.
+
+Button, CheckBox, RadioButton, Label and GroupBox now convert the caption
+on the way to the widget and turn the underline on afterwards, because
+gtk_label_set_text clears the flag. Each keeps the caption as the
+application wrote it, so Text still reads back "&Run": the widget holds
+GTK's spelling, which reports the displayed text instead.
+
+Label gains UseMnemonic, which WinForms has and this did not.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+---
+ .../Windows/Forms/MnemonicFunctionalTests.cs  | 111 ++++++++++++++++++
+ .../System/Windows/Forms/Button.cs            |  14 ++-
+ .../System/Windows/Forms/CheckBox.cs          |  22 +++-
+ .../System/Windows/Forms/GroupBox.cs          |  17 ++-
+ .../System/Windows/Forms/Label.cs             |  17 ++-
+ .../System/Windows/Forms/Mnemonics.cs         |  56 +++++++++
+ .../System/Windows/Forms/RadioButton.cs       |  13 +-
+ 7 files changed, 237 insertions(+), 13 deletions(-)
+ create mode 100644 Gtk.Windows.Forms.Tests/System/Windows/Forms/MnemonicFunctionalTests.cs
+ create mode 100644 Gtk.Windows.Forms/System/Windows/Forms/Mnemonics.cs
+
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/MnemonicFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/MnemonicFunctionalTests.cs
+new file mode 100644
+index 00000000..6d654df5
+--- /dev/null
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/MnemonicFunctionalTests.cs
+@@ -0,0 +1,111 @@
++﻿using System.Windows.Forms;
++
++namespace GtkWinForms.Tests.System.Windows.Forms;
++
++/// <summary>
++/// A WinForms caption marks its mnemonic with <c>&amp;</c>; GTK marks it with <c>_</c>. Nothing converted between
++/// them, so a button whose Text was "&amp;Run" showed the ampersand instead of underlining the R. These tests pin
++/// the conversion and, just as importantly, that the caption reads back as the application wrote it.
++/// </summary>
++[Collection("NonParallelCollection")]
++public class MnemonicFunctionalTests
++{
++    [Fact]
++    public void ButtonText_ReadsBackAsItWasWritten()
++    {
++        using var button = new Button { Text = "&Run" };
++
++        Assert.Equal("&Run", button.Text);
++    }
++
++    [Fact]
++    public void ButtonCaption_UnderlinesTheMnemonicInsteadOfShowingTheAmpersand()
++    {
++        using var button = new Button { Text = "&Run" };
++
++        var label = (global::Gtk.Label)button.self.Child;
++        // With the mnemonic on, GTK reports the displayed caption: the marker consumed, no ampersand in sight.
++        Assert.Equal("Run", label.Text);
++        Assert.True(label.UseUnderline);
++        Assert.Equal('R', (char)label.MnemonicKeyval); // Alt+R activates it, as it did in WinForms
++    }
++
++    [Fact]
++    public void ButtonCaption_KeepsADoubledAmpersandAsOne()
++    {
++        using var button = new Button { Text = "Save && Close" };
++
++        Assert.Equal("Save & Close", ((global::Gtk.Label)button.self.Child).Text);
++        Assert.Equal("Save && Close", button.Text);
++    }
++
++    [Fact]
++    public void ButtonCaption_EscapesAnUnderscoreTheCaptionMeantLiterally()
++    {
++        using var button = new Button { Text = "A_B" };
++
++        // The underscore was the caption's own, so it survives as one instead of marking B
++        Assert.Equal("A_B", ((global::Gtk.Label)button.self.Child).Text);
++        Assert.Equal("A_B", button.Text);
++    }
++
++    [Fact]
++    public void ButtonCaption_ShowsTheAmpersandWhenMnemonicsAreOff()
++    {
++        using var button = new Button { UseMnemonic = false, Text = "&Run" };
++
++        var label = (global::Gtk.Label)button.self.Child;
++        Assert.Equal("&Run", label.Text);
++        Assert.False(label.UseUnderline);
++    }
++
++    [Fact]
++    public void RadioButtonCaption_UnderlinesItsMnemonic()
++    {
++        using var radio = new RadioButton { Text = "&Simple" };
++
++        Assert.Equal("_Simple", radio.self.Label);
++        Assert.True(radio.self.UseUnderline);
++        Assert.Equal("&Simple", radio.Text);
++    }
++
++    [Fact]
++    public void CheckBoxCaption_UnderlinesItsMnemonic()
++    {
++        using var check = new CheckBox { Text = "&Detailed" };
++
++        Assert.Equal("&Detailed", check.Text);
++        Assert.DoesNotContain("&", check.self.Child is global::Gtk.Label label ? label.Text : check.self.Label);
++    }
++
++    [Fact]
++    public void LabelCaption_UnderlinesItsMnemonic()
++    {
++        using var label = new Label { Text = "&Name:" };
++
++        Assert.Equal("Name:", label.self.Text);
++        Assert.True(label.self.UseUnderline);
++        Assert.Equal("&Name:", label.Text);
++    }
++
++    [Fact]
++    public void GroupBoxCaption_UnderlinesItsMnemonic()
++    {
++        using var group = new GroupBox { Text = "&Mode" };
++
++        // The frame reads its caption back through the label widget, which with the mnemonic on reports the
++        // displayed text - the marker consumed, the ampersand gone.
++        Assert.Equal("Mode", group.self.Label);
++        Assert.True(((global::Gtk.Label)group.self.LabelWidget).UseUnderline);
++        Assert.Equal("&Mode", group.Text);
++    }
++
++    [Fact]
++    public void ACaptionWithNoMnemonicIsUntouched()
++    {
++        using var button = new Button { Text = "Close" };
++
++        Assert.Equal("Close", ((global::Gtk.Label)button.self.Child).Text);
++        Assert.Equal("Close", button.Text);
++    }
++}
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Button.cs b/Gtk.Windows.Forms/System/Windows/Forms/Button.cs
+index 410a9a7a..2f8cbd25 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Button.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Button.cs
+@@ -72,10 +72,20 @@ public partial class Button : ButtonBase
+     /// <value>
+     /// The text.
+     /// </value>
++    private string _text = string.Empty;
++
+     public override string Text
+     {
+-        get => ((Gtk.Label)self.Child).Text ?? string.Empty;
+-        set => ((Gtk.Label)self.Child).Text = value;
++        // The caption is kept as WinForms wrote it: the widget holds GTK's spelling of the mnemonic, which would
++        // read back without the ampersand.
++        get => _text;
++        set
++        {
++            _text = value ?? string.Empty;
++            var label = (Gtk.Label)self.Child;
++            label.Text = Mnemonics.ToGtk(_text, UseMnemonic);
++            label.UseUnderline = UseMnemonic; // set_text clears the flag, so it goes on afterwards
++        }
+     }
+ 
+     /// <summary>
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
+index d490d7f6..4a03bf92 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
+@@ -1,4 +1,4 @@
+-/*
++﻿/*
+  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
+  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
+  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
+@@ -106,10 +106,26 @@ public partial class CheckBox : ButtonBase
+     /// <value>
+     /// The text.
+     /// </value>
++    private string _text = string.Empty;
++
+     public override string Text
+     {
+-        get { if (self.Child is Gtk.Label label) { return label.Text; } else return self.Label; }
+-        set { if (self.Child is Gtk.Label label) { label.Text = value; } else self.Label = value; }
++        get => _text;
++        set
++        {
++            _text = value ?? string.Empty;
++            var caption = Mnemonics.ToGtk(_text, UseMnemonic);
++            if (self.Child is Gtk.Label label)
++            {
++                label.Text = caption;
++                label.UseUnderline = UseMnemonic; // set_text clears the flag, so it goes on afterwards
++            }
++            else
++            {
++                self.Label = caption;
++                self.UseUnderline = UseMnemonic;
++            }
++        }
+     }
+ 
+     /// <summary>
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
+index b930e0b6..9f55fd61 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
+@@ -1,4 +1,4 @@
+-/*
++﻿/*
+  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
+  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
+  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
+@@ -97,10 +97,21 @@ public partial class GroupBox : ContainerControl
+     /// <value>
+     /// The text.
+     /// </value>
++    private string _text = string.Empty;
++
+     public override string Text
+     {
+-        get { return self.Label; }
+-        set { self.Label = value; }
++        get => _text;
++        set
++        {
++            _text = value ?? string.Empty;
++            self.Label = Mnemonics.ToGtk(_text);
++            // Setting Label makes the frame build its caption widget; tell that widget the '_' is a marker.
++            if (self.LabelWidget is Gtk.Label caption)
++            {
++                caption.UseUnderline = true;
++            }
++        }
+     }
+ 
+     /// <summary>
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Label.cs b/Gtk.Windows.Forms/System/Windows/Forms/Label.cs
+index e1f29cae..c41db4e6 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Label.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Label.cs
+@@ -83,10 +83,23 @@ public partial class Label : Control
+     /// <value>
+     /// The text.
+     /// </value>
++    private string _text = string.Empty;
++
++    /// <summary>
++    /// Gets or sets a value indicating whether <c>&amp;</c> in <see cref="Text" /> marks a mnemonic.
++    /// </summary>
++    [DefaultValue(true)]
++    public bool UseMnemonic { get; set; } = true;
++
+     public override string Text
+     {
+-        get => self.Text;
+-        set { self.Text = value ?? string.Empty; }
++        get => _text;
++        set
++        {
++            _text = value ?? string.Empty;
++            self.Text = Mnemonics.ToGtk(_text, UseMnemonic);
++            self.UseUnderline = UseMnemonic; // set_text clears the flag, so it goes on afterwards
++        }
+     }
+ 
+     /// <summary>
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Mnemonics.cs b/Gtk.Windows.Forms/System/Windows/Forms/Mnemonics.cs
+new file mode 100644
+index 00000000..6854b841
+--- /dev/null
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Mnemonics.cs
+@@ -0,0 +1,56 @@
++using System.Text;
++
++namespace System.Windows.Forms;
++
++/// <summary>
++/// WinForms marks the mnemonic of a caption with <c>&amp;</c> and writes a literal ampersand as <c>&amp;&amp;</c>;
++/// GTK marks it with <c>_</c> and writes a literal underscore as <c>__</c>. Converting between them is what keeps a
++/// caption written for WinForms - <c>&amp;Run</c> - underlining its R here instead of showing the ampersand.
++/// </summary>
++internal static class Mnemonics
++{
++    /// <summary>
++    /// The caption as GTK spells it.
++    /// </summary>
++    /// <param name="text">The WinForms caption.</param>
++    /// <param name="useMnemonic">
++    /// Whether <c>&amp;</c> marks a mnemonic. When it does not, WinForms shows the ampersand, and so does this.
++    /// </param>
++    public static string ToGtk(string? text, bool useMnemonic = true)
++    {
++        if (string.IsNullOrEmpty(text))
++        {
++            return string.Empty;
++        }
++        if (!useMnemonic)
++        {
++            // Nothing is a marker, so nothing needs escaping; the caller leaves UseUnderline off.
++            return text!;
++        }
++
++        var result = new StringBuilder(text!.Length + 4);
++        for (var i = 0; i < text.Length; i++)
++        {
++            var c = text[i];
++            if (c == '_')
++            {
++                result.Append("__"); // GTK's own marker, which the caption meant literally
++            }
++            else if (c != '&')
++            {
++                result.Append(c);
++            }
++            else if (i + 1 < text.Length && text[i + 1] == '&')
++            {
++                result.Append('&'); // "&&" is a literal ampersand
++                i++;
++            }
++            else if (i + 1 < text.Length)
++            {
++                result.Append('_'); // "&X" marks X
++            }
++            // a trailing '&' marks nothing, and WinForms drops it
++        }
++        return result.ToString();
++    }
++}
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs b/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
+index 60df7b68..0384dbc5 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
+@@ -1,4 +1,4 @@
+-/*
++﻿/*
+  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
+  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
+  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
+@@ -88,10 +88,17 @@ public partial class RadioButton : ButtonBase
+     /// <value>
+     /// The text.
+     /// </value>
++    private string _text = string.Empty;
++
+     public override string Text
+     {
+-        get { return self.Label; }
+-        set { self.Label = value; }
++        get => _text;
++        set
++        {
++            _text = value ?? string.Empty;
++            self.Label = Mnemonics.ToGtk(_text, UseMnemonic);
++            self.UseUnderline = UseMnemonic;
++        }
+     }
+ 
+     /// <summary>
+-- 
+2.53.0.windows.3
+
