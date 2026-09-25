@@ -414,15 +414,12 @@ public partial class ComboBox : ListControl
             OnSetDataSource();
             if (_DropDownStyle == ComboBoxStyle.DropDownList)
             {
-                var box = (Gtk.Box)self.Entry.Parent;
-                if (box.GetChildrenArray()[1] is Gtk.ToggleButton ws)
-                {
-                    self.Entry.IsEditable = false;
-                    self.Entry.CanFocus = false;
-                    self.Entry.WidthRequest = 1;
-                    ws.WidthRequest = Math.Max(self.WidthRequest, self.AllocatedWidth);
-        // Gtk 4: Widget.Drawn is gone and there is no overridable OnSnapshot; custom paint moves to CSS (deferred).
-                }
+                // A DropDownList shows its selection and cannot be typed into. Making the entry unusable is
+                // enough; it must keep its width. Squashing it to 1px and widening the arrow button to the
+                // whole control instead made the button, not the combo, carry the width - so the arrow tore
+                // away from the text and the combo's natural width grew past the size the form asked for.
+                self.Entry.IsEditable = false;
+                self.Entry.CanFocus = false;
             }
         }
     }

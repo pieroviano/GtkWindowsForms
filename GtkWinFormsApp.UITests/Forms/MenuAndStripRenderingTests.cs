@@ -1,4 +1,4 @@
-using GtkWinFormsApp.UITests.Infrastructure;
+﻿using GtkWinFormsApp.UITests.Infrastructure;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -11,6 +11,43 @@ namespace GtkWinFormsApp.UITests.Forms;
 /// </summary>
 public class MenuAndStripRenderingTests
 {
+    [Fact]
+    public void ADropDownListComboKeepsTheWidthTheFormGaveIt()
+    {
+        // Regression: a DropDownList squashed its entry to 1px and widened the arrow button to the whole
+        // control, so the button carried the width instead of the combo. The arrow tore away from the text
+        // and the combo's natural width grew past the size the form asked for - a 155px combo was allocated
+        // 316px. Making the entry unusable is all a DropDownList needs.
+        UiDriver.Run(
+            () =>
+            {
+                var form = new Form { ClientSize = new Size(417, 120) };
+                var combo = new ComboBox
+                {
+                    DropDownStyle = ComboBoxStyle.DropDownList,
+                    Location = new Point(12, 12),
+                    Size = new Size(155, 21),
+                };
+                combo.Items.Add("Light");
+                combo.SelectedIndex = 0;
+                form.Controls.Add(combo);
+
+                return form;
+            },
+            ctx =>
+            {
+                UiDriver.Pump(60);
+
+                var combo = ctx.Form.Controls[0];
+                combo.Widget.GetPreferredWidth(out _, out var natural);
+
+                // The entry's own minimum still sets a floor, so this is not the designed 155 exactly; what
+                // matters is that it is close to it rather than twice it.
+                Assert.True(natural < 220, $"a 155px combo wants {natural}px");
+                Assert.True(combo.Widget.Allocation.Width < 220, $"a 155px combo got {combo.Widget.Allocation.Width}px");
+            });
+    }
+
     [Fact]
     public void Form_OpensAtItsDesignedClientSize_SoADockedStripDoesNotEatTheContentGap()
     {
