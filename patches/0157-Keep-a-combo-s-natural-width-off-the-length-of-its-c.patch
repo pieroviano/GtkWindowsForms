@@ -1,0 +1,65 @@
+From eef04299040be24d6526899479ac557ef2a663d7 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 25 Sep 2026 08:13:20 +0300
+Subject: [PATCH] Keep a combo's natural width off the length of its caption
+
+With the arrow button no longer carrying the width, a 155px combo was
+still allocated 183px: the entry asks to be wide enough for its text, so
+the combo's natural width followed the caption rather than the size the
+form gave it.
+
+Capping the entry at one character, as ToolStripComboBox already does,
+takes the text out of the measurement. The same combo is now allocated
+exactly the 155px it was designed at, editable or not. This is what the
+entry-less widget a DropDownList really wants would have bought, without
+rebuilding the control around GTK's construct-only has-entry.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+---
+ Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs       | 1 +
+ .../Forms/MenuAndStripRenderingTests.cs                  | 9 +++------
+ 2 files changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
+index f9cd63e2..15904065 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
+@@ -99,6 +99,7 @@ public partial class ComboBox : ListControl
+         self.Override.sender = this;
+         self.Entry.HasFrame = false;
+         self.Entry.WidthChars = 0;
++        self.Entry.MaxWidthChars = 1;
+ 
+         __itemsData = new ObjectCollection(this);
+         self.Realized += Self_Realized;
+diff --git a/GtkWinFormsApp.UITests/Forms/MenuAndStripRenderingTests.cs b/GtkWinFormsApp.UITests/Forms/MenuAndStripRenderingTests.cs
+index c359171b..d447530a 100644
+--- a/GtkWinFormsApp.UITests/Forms/MenuAndStripRenderingTests.cs
++++ b/GtkWinFormsApp.UITests/Forms/MenuAndStripRenderingTests.cs
+@@ -17,7 +17,8 @@ public class MenuAndStripRenderingTests
+         // Regression: a DropDownList squashed its entry to 1px and widened the arrow button to the whole
+         // control, so the button carried the width instead of the combo. The arrow tore away from the text
+         // and the combo's natural width grew past the size the form asked for - a 155px combo was allocated
+-        // 316px. Making the entry unusable is all a DropDownList needs.
++        // 316px. Making the entry unusable is all a DropDownList needs, and capping the entry's width in
++        // characters keeps the combo's natural width off the caption's length, so the form's size is honoured.
+         UiDriver.Run(
+             () =>
+             {
+@@ -39,12 +40,8 @@ public class MenuAndStripRenderingTests
+                 UiDriver.Pump(60);
+ 
+                 var combo = ctx.Form.Controls[0];
+-                combo.Widget.GetPreferredWidth(out _, out var natural);
+ 
+-                // The entry's own minimum still sets a floor, so this is not the designed 155 exactly; what
+-                // matters is that it is close to it rather than twice it.
+-                Assert.True(natural < 220, $"a 155px combo wants {natural}px");
+-                Assert.True(combo.Widget.Allocation.Width < 220, $"a 155px combo got {combo.Widget.Allocation.Width}px");
++                Assert.Equal(155, combo.Widget.Allocation.Width);
+             });
+     }
+ 
+-- 
+2.53.0.windows.3
+
