@@ -1,0 +1,87 @@
+From 461919999d905b74684196d02ef4cd032f6be398 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 25 Sep 2026 08:28:09 +0300
+Subject: [PATCH] A group box caption must not eat the room its first child
+ sits in
+
+A child's Location inside a group box is measured from the frame's
+corner, past the caption band, and the band is whatever the frame
+reserved for border and caption. The theme's padding around the caption
+made that 24px where WinForms reserves about the font height, so the
+first radio of a converted VB6 frame - at y=16, which clears a WinForms
+caption - was drawn inside the caption instead of under it.
+
+Taking the caption's padding to zero brings the band to 16px, and the
+child sits where WinForms puts it.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+---
+ .../Windows/Forms/Application/Application.cs  |  8 ++++--
+ .../Forms/MenuAndStripRenderingTests.cs       | 28 +++++++++++++++++++
+ 2 files changed, 34 insertions(+), 2 deletions(-)
+
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+index 4d2b3c7d..232ea94a 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Application/Application.cs
+@@ -1,4 +1,4 @@
+-using System.ComponentModel;
++﻿using System.ComponentModel;
+ using System.Diagnostics;
+ using System.Globalization;
+ using System.Reflection;
+@@ -550,7 +550,11 @@ public sealed partial class Application
+         // the padding to zero makes the content box the widget box, which is the only geometry in which a
+         // border drawn at the widget's own edges survives. Nothing touches the background, which is how
+         // GroupBox.BackColor reaches the widget.
+-        + ".GroupBox{border-style:none;border-width:0;border-radius:0;box-shadow:none;padding:0;}";
++        + ".GroupBox{border-style:none;border-width:0;border-radius:0;box-shadow:none;padding:0;}"
++        // The caption band is what a child's Location is measured past, so a themed padding around the
++        // caption pushes the band well past the font height WinForms reserves - a group box child placed
++        // just below the caption, as a converted VB6 frame places it, then landed inside the caption.
++        + ".GroupBox > label{padding:0;margin:0;min-height:0;}";
+ 
+     /// <summary>
+     /// Collapses the Gtk4 check-indicator node of the menu items that must not draw one.
+diff --git a/GtkWinFormsApp.UITests/Forms/MenuAndStripRenderingTests.cs b/GtkWinFormsApp.UITests/Forms/MenuAndStripRenderingTests.cs
+index d447530a..b39c0d1a 100644
+--- a/GtkWinFormsApp.UITests/Forms/MenuAndStripRenderingTests.cs
++++ b/GtkWinFormsApp.UITests/Forms/MenuAndStripRenderingTests.cs
+@@ -11,6 +11,34 @@ namespace GtkWinFormsApp.UITests.Forms;
+ /// </summary>
+ public class MenuAndStripRenderingTests
+ {
++    [Fact]
++    public void AGroupBoxCaptionLeavesRoomForAChildJustBelowIt()
++    {
++        // Regression: a child's Location inside a group box is measured from the frame's corner, past the
++        // caption band. The themed padding around the caption made that band 24px where WinForms reserves
++        // about the font height, so the first radio of a converted VB6 frame - placed at y=16, which clears
++        // a WinForms caption - was drawn inside the caption instead of under it.
++        UiDriver.Run(
++            () =>
++            {
++                var form = new Form { ClientSize = new Size(417, 220) };
++                var group = new GroupBox { Text = "Mode", Location = new Point(8, 8), Size = new Size(161, 65) };
++                group.Controls.Add(new RadioButton { Text = "Simple", Location = new Point(8, 16), Size = new Size(137, 17) });
++                form.Controls.Add(group);
++
++                return form;
++            },
++            ctx =>
++            {
++                UiDriver.Pump(60);
++
++                var caption = ((global::Gtk.Frame)ctx.Form.Controls[0].Widget).LabelWidget;
++                Assert.NotNull(caption);
++                Assert.True(caption!.Allocation.Height <= 16,
++                    $"the caption band is {caption.Allocation.Height}px, so a child at y=16 lands inside it");
++            });
++    }
++
+     [Fact]
+     public void ADropDownListComboKeepsTheWidthTheFormGaveIt()
+     {
+-- 
+2.53.0.windows.3
+
