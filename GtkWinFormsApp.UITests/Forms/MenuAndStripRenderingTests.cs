@@ -12,6 +12,34 @@ namespace GtkWinFormsApp.UITests.Forms;
 public class MenuAndStripRenderingTests
 {
     [Fact]
+    public void AGroupBoxCaptionLeavesRoomForAChildJustBelowIt()
+    {
+        // Regression: a child's Location inside a group box is measured from the frame's corner, past the
+        // caption band. The themed padding around the caption made that band 24px where WinForms reserves
+        // about the font height, so the first radio of a converted VB6 frame - placed at y=16, which clears
+        // a WinForms caption - was drawn inside the caption instead of under it.
+        UiDriver.Run(
+            () =>
+            {
+                var form = new Form { ClientSize = new Size(417, 220) };
+                var group = new GroupBox { Text = "Mode", Location = new Point(8, 8), Size = new Size(161, 65) };
+                group.Controls.Add(new RadioButton { Text = "Simple", Location = new Point(8, 16), Size = new Size(137, 17) });
+                form.Controls.Add(group);
+
+                return form;
+            },
+            ctx =>
+            {
+                UiDriver.Pump(60);
+
+                var caption = ((global::Gtk.Frame)ctx.Form.Controls[0].Widget).LabelWidget;
+                Assert.NotNull(caption);
+                Assert.True(caption!.Allocation.Height <= 16,
+                    $"the caption band is {caption.Allocation.Height}px, so a child at y=16 lands inside it");
+            });
+    }
+
+    [Fact]
     public void ADropDownListComboKeepsTheWidthTheFormGaveIt()
     {
         // Regression: a DropDownList squashed its entry to 1px and widened the arrow button to the whole

@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
@@ -550,7 +550,11 @@ public sealed partial class Application
         // the padding to zero makes the content box the widget box, which is the only geometry in which a
         // border drawn at the widget's own edges survives. Nothing touches the background, which is how
         // GroupBox.BackColor reaches the widget.
-        + ".GroupBox{border-style:none;border-width:0;border-radius:0;box-shadow:none;padding:0;}";
+        + ".GroupBox{border-style:none;border-width:0;border-radius:0;box-shadow:none;padding:0;}"
+        // The caption band is what a child's Location is measured past, so a themed padding around the
+        // caption pushes the band well past the font height WinForms reserves - a group box child placed
+        // just below the caption, as a converted VB6 frame places it, then landed inside the caption.
+        + ".GroupBox > label{padding:0;margin:0;min-height:0;}";
 
     /// <summary>
     /// Collapses the Gtk4 check-indicator node of the menu items that must not draw one.
