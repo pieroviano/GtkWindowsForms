@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 
 namespace System.Windows.Forms;
@@ -26,7 +26,13 @@ public abstract class ToolStripDropDownItem : ToolStripItem
     /// <summary>
     /// The self
     /// </summary>
-    public StripMenuToolButton self = new StripMenuToolButton();
+    private StripMenuToolButton? _self;
+
+    /// <summary>
+    /// The backing menu button. Created on first use: an item that brings its own widget - a
+    /// <see cref="ToolStripMenuItem" /> - never touches this one, and must not pay for it.
+    /// </summary>
+    public StripMenuToolButton self => _self ??= new StripMenuToolButton();
 
     /// <summary>
     /// Initializes a new instance of the
@@ -92,6 +98,15 @@ public abstract class ToolStripDropDownItem : ToolStripItem
     protected ToolStripDropDownItem(string text, Image? image, EventHandler? onClick, string name) : base(text, image, onClick, name)
     {
         DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+        InitializeWidget();
+    }
+
+    /// <summary>
+    /// Wires the backing widget. A derived item with a widget of its own overrides this and wires that one, so
+    /// the base never creates a second.
+    /// </summary>
+    protected virtual void InitializeWidget()
+    {
         self.Realized += Self_Realized;
     }
 
@@ -220,7 +235,8 @@ public abstract class ToolStripDropDownItem : ToolStripItem
         SetIcon(DisplayStyle);
     }
 
-    private void SetIcon(ToolStripItemDisplayStyle displayStyle)
+    /// <summary>Places the item's icon for a display style, on the widget the item actually uses.</summary>
+    protected virtual void SetIcon(ToolStripItemDisplayStyle displayStyle)
     {
         // Gtk4: the backing MenuButton composes image+label from its Text/Image/DisplayStyle (and keeps the
         // dropdown arrow via AlwaysShowArrow), so propagate the display style first, then hand it the scaled pixbuf.

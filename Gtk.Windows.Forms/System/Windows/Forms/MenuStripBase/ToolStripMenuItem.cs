@@ -1,4 +1,4 @@
-using Gtk;
+﻿using Gtk;
 using Image = System.Drawing.Image;
 
 namespace System.Windows.Forms;
@@ -13,10 +13,14 @@ namespace System.Windows.Forms;
 /// <see cref="!:System.Windows.Forms.MenuItem" />
 /// is retained for both backward compatibility and future use if you choose.
 /// </summary>
-public class ToolStripMenuItem : ToolStripItem
+public class ToolStripMenuItem : ToolStripDropDownItem
 {
 
-    public StripMenuItem self = new StripMenuItem();
+    /// <summary>
+    /// The backing widget. A menu item is a box with its own check button, not the menu button the base class
+    /// uses, so it hides the base's and wires this one instead (see <see cref="InitializeWidget" />).
+    /// </summary>
+    public new StripMenuItem self = new StripMenuItem();
 
     public override event EventHandler? CheckedChanged;
 
@@ -29,8 +33,22 @@ public class ToolStripMenuItem : ToolStripItem
     public ToolStripMenuItem() : base()
     {
         checkButton.StyleContext.AddClass("MenuItemButton");
-        self.Realized += Self_Realized;
         DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+    }
+
+    /// <inheritdoc />
+    protected override void InitializeWidget()
+    {
+        self.Realized += Self_Realized;
+    }
+
+    /// <summary>
+    /// Places the icon on this item's own widget; the base class would place it on the menu button it uses for a
+    /// drop-down button, which a menu item does not have.
+    /// </summary>
+    protected override void SetIcon(ToolStripItemDisplayStyle displayStyle)
+    {
+        SetIconImage(Image);
     }
 
     /// <summary>

@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 
 namespace System.Windows.Forms;
@@ -19,6 +19,12 @@ public partial class ToolStripDropDown
 
     /// <summary>Occurs after the drop-down has opened.</summary>
     public event EventHandler? Opened;
+
+    /// <summary>Occurs as the drop-down is about to close.</summary>
+    public event ToolStripDropDownClosingEventHandler? Closing;
+
+    /// <summary>Occurs after the drop-down has closed.</summary>
+    public event ToolStripDropDownClosedEventHandler? Closed;
 
     /// <summary>
     /// Gets or sets a value indicating whether the drop-down closes automatically when it loses focus or an
@@ -70,11 +76,11 @@ public partial class ToolStripDropDown
     public void Show(Control control, Point position, ToolStripDropDownDirection direction) => ShowCore(control?.Widget, position.X, position.Y);
 
     /// <summary>Closes the drop-down.</summary>
-    public void Close() => CloseCore();
+    public void Close() => CloseCore(ToolStripDropDownCloseReason.CloseCalled);
 
     /// <summary>Closes the drop-down, recording the reason it closed.</summary>
     /// <param name="reason">The reason the drop-down is closing.</param>
-    public void Close(ToolStripDropDownCloseReason reason) => CloseCore();
+    public void Close(ToolStripDropDownCloseReason reason) => CloseCore(reason);
 
     /// <summary>Raises the <see cref="Opening" /> event.</summary>
     /// <param name="e">A <see cref="CancelEventArgs" /> that carries the cancel flag.</param>
@@ -83,6 +89,14 @@ public partial class ToolStripDropDown
     /// <summary>Raises the <see cref="Opened" /> event.</summary>
     /// <param name="e">An <see cref="EventArgs" /> that contains the event data.</param>
     protected virtual void OnOpened(EventArgs e) => Opened?.Invoke(this, e);
+
+    /// <summary>Raises the <see cref="Closing" /> event.</summary>
+    /// <param name="e">The event data, carrying the reason and the cancel flag.</param>
+    protected virtual void OnClosing(ToolStripDropDownClosingEventArgs e) => Closing?.Invoke(this, e);
+
+    /// <summary>Raises the <see cref="Closed" /> event.</summary>
+    /// <param name="e">The event data, carrying the reason it closed.</param>
+    protected virtual void OnClosed(ToolStripDropDownClosedEventArgs e) => Closed?.Invoke(this, e);
 
     private void ShowCore(Gtk.Widget? relativeTo = null, int x = 0, int y = 0)
     {
@@ -133,8 +147,15 @@ public partial class ToolStripDropDown
         OnOpened(EventArgs.Empty);
     }
 
-    private void CloseCore()
+    private void CloseCore(ToolStripDropDownCloseReason reason)
     {
+        var closing = new ToolStripDropDownClosingEventArgs(reason);
+        OnClosing(closing);
+        if (closing.Cancel)
+        {
+            return;
+        }
+
         try
         {
             self.Popdown();
@@ -143,5 +164,7 @@ public partial class ToolStripDropDown
         {
             global::System.Diagnostics.GtkLogger.Debug($"ToolStripDropDown.Close failed: {ex.Message}");
         }
+
+        OnClosed(new ToolStripDropDownClosedEventArgs(reason));
     }
 }
