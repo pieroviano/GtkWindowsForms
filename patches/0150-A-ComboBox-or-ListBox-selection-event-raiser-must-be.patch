@@ -1,0 +1,84 @@
+From 6a0ce9d5e624b69624d975a4015e9fefae063be7 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 25 Sep 2026 06:03:43 +0300
+Subject: [PATCH] A ComboBox or ListBox selection event raiser must be
+ overridable
+
+WinForms declares OnSelectedIndexChanged, OnSelectedItemChanged and
+OnSelectedValueChanged protected virtual on both controls, so a derived
+control raises and observes its own selection changes by overriding them.
+Here the six were plain protected, which a subclass cannot override: the
+library already declares 377 OnXxx virtual against 9 that are not, so
+these were the anomaly.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+---
+ Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs | 6 +++---
+ Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs  | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
+index 66ee999c..f76cc2a2 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ComboBox.cs
+@@ -307,7 +307,7 @@ public partial class ComboBox : ListControl
+     /// <param name="e">The
+     /// <see cref="T:System.EventArgs" /> instance containing the event data.
+     /// </param>
+-    protected void OnSelectedIndexChanged(EventArgs e) => _selectedIndexChanged?.Invoke(this, e);
++    protected virtual void OnSelectedIndexChanged(EventArgs e) => _selectedIndexChanged?.Invoke(this, e);
+ 
+     /// <summary>
+     /// Raises the
+@@ -316,7 +316,7 @@ public partial class ComboBox : ListControl
+     /// <param name="e">The
+     /// <see cref="T:System.EventArgs" /> instance containing the event data.
+     /// </param>
+-    protected void OnSelectedItemChanged(EventArgs e) => _selectedItemChanged?.Invoke(this, e);
++    protected virtual void OnSelectedItemChanged(EventArgs e) => _selectedItemChanged?.Invoke(this, e);
+ 
+     /// <summary>
+     /// Raises the
+@@ -325,7 +325,7 @@ public partial class ComboBox : ListControl
+     /// <param name="e">The
+     /// <see cref="T:System.EventArgs" /> instance containing the event data.
+     /// </param>
+-    protected void OnSelectedValueChanged(EventArgs e) => _selectedValueChanged?.Invoke(this, e);
++    protected virtual void OnSelectedValueChanged(EventArgs e) => _selectedValueChanged?.Invoke(this, e);
+ 
+     private void LoadDataTableSource(DataTable dtable)
+     {
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+index 588e7911..ad972247 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/ListBox.cs
+@@ -1071,7 +1071,7 @@ public partial class ListBox : ListControl
+     /// The
+     /// <see cref="T:System.EventArgs" /> instance containing the event data.
+     /// </param>
+-    protected void OnSelectedIndexChanged(EventArgs e)
++    protected virtual void OnSelectedIndexChanged(EventArgs e)
+     {
+         if (self.ListBox.SelectedRow != null)
+             self.ListBox.SelectRow(self.ListBox.SelectedRow);
+@@ -1085,7 +1085,7 @@ public partial class ListBox : ListControl
+     /// <param name="e">The
+     /// <see cref="T:System.EventArgs" /> instance containing the event data.
+     /// </param>
+-    protected void OnSelectedItemChanged(EventArgs e) => _selectedItemChanged?.Invoke(this, e);
++    protected virtual void OnSelectedItemChanged(EventArgs e) => _selectedItemChanged?.Invoke(this, e);
+ 
+     /// <summary>
+     /// Raises the
+@@ -1094,7 +1094,7 @@ public partial class ListBox : ListControl
+     /// <param name="e">The
+     /// <see cref="T:System.EventArgs" /> instance containing the event data.
+     /// </param>
+-    protected void OnSelectedValueChanged(EventArgs e) => _selectedValueChanged?.Invoke(this, e);
++    protected virtual void OnSelectedValueChanged(EventArgs e) => _selectedValueChanged?.Invoke(this, e);
+ 
+     /// <summary>
+     /// Applies styling to the GTK widget based on control properties.
+-- 
+2.53.0.windows.3
+
