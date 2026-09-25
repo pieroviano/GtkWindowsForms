@@ -72,10 +72,20 @@ public partial class Button : ButtonBase
     /// <value>
     /// The text.
     /// </value>
+    private string _text = string.Empty;
+
     public override string Text
     {
-        get => ((Gtk.Label)self.Child).Text ?? string.Empty;
-        set => ((Gtk.Label)self.Child).Text = value;
+        // The caption is kept as WinForms wrote it: the widget holds GTK's spelling of the mnemonic, which would
+        // read back without the ampersand.
+        get => _text;
+        set
+        {
+            _text = value ?? string.Empty;
+            var label = (Gtk.Label)self.Child;
+            label.Text = Mnemonics.ToGtk(_text, UseMnemonic);
+            label.UseUnderline = UseMnemonic; // set_text clears the flag, so it goes on afterwards
+        }
     }
 
     /// <summary>

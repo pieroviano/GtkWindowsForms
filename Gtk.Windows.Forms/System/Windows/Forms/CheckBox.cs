@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -106,10 +106,26 @@ public partial class CheckBox : ButtonBase
     /// <value>
     /// The text.
     /// </value>
+    private string _text = string.Empty;
+
     public override string Text
     {
-        get { if (self.Child is Gtk.Label label) { return label.Text; } else return self.Label; }
-        set { if (self.Child is Gtk.Label label) { label.Text = value; } else self.Label = value; }
+        get => _text;
+        set
+        {
+            _text = value ?? string.Empty;
+            var caption = Mnemonics.ToGtk(_text, UseMnemonic);
+            if (self.Child is Gtk.Label label)
+            {
+                label.Text = caption;
+                label.UseUnderline = UseMnemonic; // set_text clears the flag, so it goes on afterwards
+            }
+            else
+            {
+                self.Label = caption;
+                self.UseUnderline = UseMnemonic;
+            }
+        }
     }
 
     /// <summary>

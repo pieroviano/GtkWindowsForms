@@ -83,10 +83,23 @@ public partial class Label : Control
     /// <value>
     /// The text.
     /// </value>
+    private string _text = string.Empty;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether <c>&amp;</c> in <see cref="Text" /> marks a mnemonic.
+    /// </summary>
+    [DefaultValue(true)]
+    public bool UseMnemonic { get; set; } = true;
+
     public override string Text
     {
-        get => self.Text;
-        set { self.Text = value ?? string.Empty; }
+        get => _text;
+        set
+        {
+            _text = value ?? string.Empty;
+            self.Text = Mnemonics.ToGtk(_text, UseMnemonic);
+            self.UseUnderline = UseMnemonic; // set_text clears the flag, so it goes on afterwards
+        }
     }
 
     /// <summary>

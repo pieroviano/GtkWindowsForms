@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -97,10 +97,21 @@ public partial class GroupBox : ContainerControl
     /// <value>
     /// The text.
     /// </value>
+    private string _text = string.Empty;
+
     public override string Text
     {
-        get { return self.Label; }
-        set { self.Label = value; }
+        get => _text;
+        set
+        {
+            _text = value ?? string.Empty;
+            self.Label = Mnemonics.ToGtk(_text);
+            // Setting Label makes the frame build its caption widget; tell that widget the '_' is a marker.
+            if (self.LabelWidget is Gtk.Label caption)
+            {
+                caption.UseUnderline = true;
+            }
+        }
     }
 
     /// <summary>
