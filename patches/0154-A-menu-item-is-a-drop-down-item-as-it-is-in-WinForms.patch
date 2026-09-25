@@ -1,0 +1,211 @@
+From 96cdce1ef0b9a4cc4353383652bbf2a6820016d8 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Fri, 25 Sep 2026 07:18:57 +0300
+Subject: [PATCH] A menu item is a drop-down item, as it is in WinForms
+
+ToolStripMenuItem derived straight from ToolStripItem, so it had no
+DropDown: the menu item is the one control that most needs it, since a
+sub-menu hangs off it and a context menu is shown through it.
+
+It now derives from ToolStripDropDownItem, where DropDown already lives.
+The base owned a StripMenuToolButton and placed the icon on it, which a
+menu item - a box with its own check button - does not use, so that
+widget is created on first use only and its wiring and icon placement are
+overridable. A menu item overrides both and the base's widget is never
+created.
+
+ToolStripDropDown gains the other half of its lifecycle, Closing and
+Closed, beside Opening and Opened; Close(reason) now carries the reason
+through both, and a cancelled Closing keeps the drop-down open.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+---
+ .../ToolStripDropDown.Members.cs              | 31 ++++++++++++++++---
+ .../MenuStripBase/ToolStripDropDownItem.cs    | 22 +++++++++++--
+ .../Forms/MenuStripBase/ToolStripMenuItem.cs  | 26 +++++++++++++---
+ 3 files changed, 68 insertions(+), 11 deletions(-)
+
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.Members.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.Members.cs
+index 18a6aae9..3f94b817 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.Members.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDown.Members.cs
+@@ -1,4 +1,4 @@
+-using System.ComponentModel;
++﻿using System.ComponentModel;
+ using System.Drawing;
+ 
+ namespace System.Windows.Forms;
+@@ -20,6 +20,12 @@ public partial class ToolStripDropDown
+     /// <summary>Occurs after the drop-down has opened.</summary>
+     public event EventHandler? Opened;
+ 
++    /// <summary>Occurs as the drop-down is about to close.</summary>
++    public event ToolStripDropDownClosingEventHandler? Closing;
++
++    /// <summary>Occurs after the drop-down has closed.</summary>
++    public event ToolStripDropDownClosedEventHandler? Closed;
++
+     /// <summary>
+     /// Gets or sets a value indicating whether the drop-down closes automatically when it loses focus or an
+     /// item is clicked. Defaults to <see langword="true" />.
+@@ -70,11 +76,11 @@ public partial class ToolStripDropDown
+     public void Show(Control control, Point position, ToolStripDropDownDirection direction) => ShowCore(control?.Widget, position.X, position.Y);
+ 
+     /// <summary>Closes the drop-down.</summary>
+-    public void Close() => CloseCore();
++    public void Close() => CloseCore(ToolStripDropDownCloseReason.CloseCalled);
+ 
+     /// <summary>Closes the drop-down, recording the reason it closed.</summary>
+     /// <param name="reason">The reason the drop-down is closing.</param>
+-    public void Close(ToolStripDropDownCloseReason reason) => CloseCore();
++    public void Close(ToolStripDropDownCloseReason reason) => CloseCore(reason);
+ 
+     /// <summary>Raises the <see cref="Opening" /> event.</summary>
+     /// <param name="e">A <see cref="CancelEventArgs" /> that carries the cancel flag.</param>
+@@ -84,6 +90,14 @@ public partial class ToolStripDropDown
+     /// <param name="e">An <see cref="EventArgs" /> that contains the event data.</param>
+     protected virtual void OnOpened(EventArgs e) => Opened?.Invoke(this, e);
+ 
++    /// <summary>Raises the <see cref="Closing" /> event.</summary>
++    /// <param name="e">The event data, carrying the reason and the cancel flag.</param>
++    protected virtual void OnClosing(ToolStripDropDownClosingEventArgs e) => Closing?.Invoke(this, e);
++
++    /// <summary>Raises the <see cref="Closed" /> event.</summary>
++    /// <param name="e">The event data, carrying the reason it closed.</param>
++    protected virtual void OnClosed(ToolStripDropDownClosedEventArgs e) => Closed?.Invoke(this, e);
++
+     private void ShowCore(Gtk.Widget? relativeTo = null, int x = 0, int y = 0)
+     {
+         var opening = new CancelEventArgs();
+@@ -133,8 +147,15 @@ public partial class ToolStripDropDown
+         OnOpened(EventArgs.Empty);
+     }
+ 
+-    private void CloseCore()
++    private void CloseCore(ToolStripDropDownCloseReason reason)
+     {
++        var closing = new ToolStripDropDownClosingEventArgs(reason);
++        OnClosing(closing);
++        if (closing.Cancel)
++        {
++            return;
++        }
++
+         try
+         {
+             self.Popdown();
+@@ -143,5 +164,7 @@ public partial class ToolStripDropDown
+         {
+             global::System.Diagnostics.GtkLogger.Debug($"ToolStripDropDown.Close failed: {ex.Message}");
+         }
++
++        OnClosed(new ToolStripDropDownClosedEventArgs(reason));
+     }
+ }
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownItem.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownItem.cs
+index 283f488d..ffce72f7 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownItem.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripDropDownItem.cs
+@@ -1,4 +1,4 @@
+-using System.ComponentModel;
++﻿using System.ComponentModel;
+ using System.Drawing;
+ 
+ namespace System.Windows.Forms;
+@@ -26,7 +26,13 @@ public abstract class ToolStripDropDownItem : ToolStripItem
+     /// <summary>
+     /// The self
+     /// </summary>
+-    public StripMenuToolButton self = new StripMenuToolButton();
++    private StripMenuToolButton? _self;
++
++    /// <summary>
++    /// The backing menu button. Created on first use: an item that brings its own widget - a
++    /// <see cref="ToolStripMenuItem" /> - never touches this one, and must not pay for it.
++    /// </summary>
++    public StripMenuToolButton self => _self ??= new StripMenuToolButton();
+ 
+     /// <summary>
+     /// Initializes a new instance of the
+@@ -92,6 +98,15 @@ public abstract class ToolStripDropDownItem : ToolStripItem
+     protected ToolStripDropDownItem(string text, Image? image, EventHandler? onClick, string name) : base(text, image, onClick, name)
+     {
+         DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
++        InitializeWidget();
++    }
++
++    /// <summary>
++    /// Wires the backing widget. A derived item with a widget of its own overrides this and wires that one, so
++    /// the base never creates a second.
++    /// </summary>
++    protected virtual void InitializeWidget()
++    {
+         self.Realized += Self_Realized;
+     }
+ 
+@@ -220,7 +235,8 @@ public abstract class ToolStripDropDownItem : ToolStripItem
+         SetIcon(DisplayStyle);
+     }
+ 
+-    private void SetIcon(ToolStripItemDisplayStyle displayStyle)
++    /// <summary>Places the item's icon for a display style, on the widget the item actually uses.</summary>
++    protected virtual void SetIcon(ToolStripItemDisplayStyle displayStyle)
+     {
+         // Gtk4: the backing MenuButton composes image+label from its Text/Image/DisplayStyle (and keeps the
+         // dropdown arrow via AlwaysShowArrow), so propagate the display style first, then hand it the scaled pixbuf.
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
+index 6fc209b9..adbadafe 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripMenuItem.cs
+@@ -1,4 +1,4 @@
+-using Gtk;
++﻿using Gtk;
+ using Image = System.Drawing.Image;
+ 
+ namespace System.Windows.Forms;
+@@ -13,10 +13,14 @@ namespace System.Windows.Forms;
+ /// <see cref="!:System.Windows.Forms.MenuItem" />
+ /// is retained for both backward compatibility and future use if you choose.
+ /// </summary>
+-public class ToolStripMenuItem : ToolStripItem
++public class ToolStripMenuItem : ToolStripDropDownItem
+ {
+ 
+-    public StripMenuItem self = new StripMenuItem();
++    /// <summary>
++    /// The backing widget. A menu item is a box with its own check button, not the menu button the base class
++    /// uses, so it hides the base's and wires this one instead (see <see cref="InitializeWidget" />).
++    /// </summary>
++    public new StripMenuItem self = new StripMenuItem();
+ 
+     public override event EventHandler? CheckedChanged;
+ 
+@@ -29,10 +33,24 @@ public class ToolStripMenuItem : ToolStripItem
+     public ToolStripMenuItem() : base()
+     {
+         checkButton.StyleContext.AddClass("MenuItemButton");
+-        self.Realized += Self_Realized;
+         DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+     }
+ 
++    /// <inheritdoc />
++    protected override void InitializeWidget()
++    {
++        self.Realized += Self_Realized;
++    }
++
++    /// <summary>
++    /// Places the icon on this item's own widget; the base class would place it on the menu button it uses for a
++    /// drop-down button, which a menu item does not have.
++    /// </summary>
++    protected override void SetIcon(ToolStripItemDisplayStyle displayStyle)
++    {
++        SetIconImage(Image);
++    }
++
+     /// <summary>
+     /// Initializes a new menu item displaying the specified text.
+     /// </summary>
+-- 
+2.53.0.windows.3
+
