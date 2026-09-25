@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -29,6 +29,9 @@ public partial class ComboBox : ListControl
     /// Underlying GTK combo box wrapper used to render and manage the native widget.
     /// </summary>
     public readonly ComboBoxBase self = new();
+
+    /// <summary>Set between <see cref="BeginUpdate" /> and <see cref="EndUpdate" />, as on a list box.</summary>
+    internal bool IsUpdateing;
 
     internal int _selectedIndex;
 
@@ -307,6 +310,21 @@ public partial class ComboBox : ListControl
     /// <param name="e">The
     /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
+    /// <summary>
+    /// Suspends the layout work of adding items, so a batch of them costs one pass instead of one each.
+    /// </summary>
+    public void BeginUpdate()
+    {
+        IsUpdateing = true;
+    }
+
+    /// <summary>Resumes after <see cref="BeginUpdate" /> and asks for the layout the batch made stale.</summary>
+    public void EndUpdate()
+    {
+        IsUpdateing = false;
+        self.QueueResize();
+    }
+
     protected virtual void OnSelectedIndexChanged(EventArgs e) => _selectedIndexChanged?.Invoke(this, e);
 
     /// <summary>

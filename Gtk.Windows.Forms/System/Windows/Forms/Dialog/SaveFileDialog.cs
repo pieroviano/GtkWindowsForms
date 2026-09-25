@@ -4,6 +4,8 @@
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  * author:chenhongjin
  */
+using System.ComponentModel;
+
 namespace System.Windows.Forms;
 
 /// <summary>
@@ -35,6 +37,23 @@ public class SaveFileDialog : FileDialog
         get => true;
         set { }
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the dialog asks for confirmation before an existing file is
+    /// overwritten.
+    /// </summary>
+    /// <remarks>
+    /// GTK's save chooser asks by itself, so this carries the caller's choice for code that reads it back.
+    /// </remarks>
+    [DefaultValue(true)]
+    public bool OverwritePrompt { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the dialog asks for confirmation before a file that does not exist
+    /// is created.
+    /// </summary>
+    [DefaultValue(false)]
+    public bool CreatePrompt { get; set; }
 
     private new string? Description => base.Description;
 

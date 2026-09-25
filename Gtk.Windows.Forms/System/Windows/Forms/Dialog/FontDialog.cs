@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 using Gtk;
 
@@ -90,6 +90,55 @@ public class FontDialog : CommonDialog
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether the dialog offers the strikeout, underline and colour options.
+    /// </summary>
+    /// <remarks>
+    /// GTK's font chooser has no effects section, so this carries the caller's choice without changing the dialog,
+    /// as <see cref="AllowFullOpen" /> does.
+    /// </remarks>
+    [DefaultValue(true)]
+    public virtual bool ShowEffects { get; set; }
+
+    /// <summary>Gets or sets a value indicating whether the dialog offers a colour choice.</summary>
+    [DefaultValue(false)]
+    public virtual bool ShowColor { get; set; }
+
+    /// <summary>Gets or sets a value indicating whether the dialog offers an Apply button.</summary>
+    [DefaultValue(false)]
+    public virtual bool ShowApply { get; set; }
+
+    /// <summary>Gets or sets a value indicating whether the dialog lists fixed-pitch fonts only.</summary>
+    [DefaultValue(false)]
+    public virtual bool FixedPitchOnly { get; set; }
+
+    /// <summary>Gets or sets a value indicating whether the dialog rejects a font that is not installed.</summary>
+    [DefaultValue(true)]
+    public virtual bool FontMustExist { get; set; }
+
+    /// <summary>Gets or sets a value indicating whether the dialog lists vector fonts.</summary>
+    [DefaultValue(true)]
+    public virtual bool AllowVectorFonts { get; set; }
+
+    /// <summary>Gets or sets a value indicating whether the dialog allows a simulated font style.</summary>
+    [DefaultValue(true)]
+    public virtual bool AllowSimulations { get; set; }
+
+    /// <summary>Gets or sets a value indicating whether the dialog allows the character set to be changed.</summary>
+    [DefaultValue(true)]
+    public virtual bool AllowScriptChange { get; set; }
+
+    /// <summary>Gets or sets the colour the dialog reports for the chosen font.</summary>
+    public Color Color { get; set; } = Color.Black;
+
+    /// <summary>Gets or sets the smallest point size the dialog accepts; 0 for no limit.</summary>
+    [DefaultValue(0)]
+    public int MinSize { get; set; }
+
+    /// <summary>Gets or sets the largest point size the dialog accepts; 0 for no limit.</summary>
+    [DefaultValue(0)]
+    public int MaxSize { get; set; }
+
+    /// <summary>
     /// Gets the instance.
     /// </summary>
     /// <value>
@@ -111,6 +160,17 @@ public class FontDialog : CommonDialog
     public override void Reset()
     {
         _font = null;
+        ShowEffects = true;
+        ShowColor = false;
+        ShowApply = false;
+        FixedPitchOnly = false;
+        FontMustExist = true;
+        AllowVectorFonts = true;
+        AllowSimulations = true;
+        AllowScriptChange = true;
+        Color = Color.Black;
+        MinSize = 0;
+        MaxSize = 0;
     }
 
     /// <summary>

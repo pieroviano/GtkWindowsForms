@@ -15,6 +15,37 @@ public class TreeNodeCollection : List<TreeNode>
     }
 
     /// <summary>
+    /// The nodes whose <see cref="TreeNode.Name" /> matches <paramref name="key" />, ignoring case.
+    /// </summary>
+    /// <param name="key">The name to look for.</param>
+    /// <param name="searchAllChildren">Whether to search the nodes below these as well.</param>
+    public TreeNode[] Find(string key, bool searchAllChildren)
+    {
+        if (key == null)
+        {
+            throw new ArgumentNullException(nameof(key));
+        }
+        var found = new List<TreeNode>();
+        Find(this, key, searchAllChildren, found);
+        return found.ToArray();
+    }
+
+    private static void Find(IEnumerable<TreeNode> nodes, string key, bool searchAllChildren, List<TreeNode> found)
+    {
+        foreach (var node in nodes)
+        {
+            if (string.Equals(node.Name, key, StringComparison.OrdinalIgnoreCase))
+            {
+                found.Add(node);
+            }
+            if (searchAllChildren)
+            {
+                Find(node.Nodes, key, true, found);
+            }
+        }
+    }
+
+    /// <summary>
     /// Adds the specified node.
     /// </summary>
     /// <param name="node">

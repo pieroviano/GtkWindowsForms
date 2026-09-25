@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -1430,6 +1430,21 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// Gets the handle of the underlying GTK widget.
     /// </summary>
     public virtual IntPtr Handle { get => this.Widget == null ? IntPtr.Zero : this.Widget.Handle; }
+
+    /// <summary>
+    /// The control that owns <paramref name="handle" />, or <see langword="null" /> when the handle is not a
+    /// widget of this library. Every control records itself on its widget, which is what this reads back.
+    /// </summary>
+    /// <param name="handle">A handle obtained from <see cref="Handle" />.</param>
+    public static Control? FromHandle(IntPtr handle)
+    {
+        if (handle == IntPtr.Zero)
+        {
+            return null;
+        }
+        var widget = GLib.Object.GetObject(handle, false) as Gtk.Widget;
+        return widget != null && widget.Data.ContainsKey("Control") ? widget.Data["Control"] as Control : null;
+    }
 
     /// <summary>
     /// Gets a value indicating whether the control has child controls.

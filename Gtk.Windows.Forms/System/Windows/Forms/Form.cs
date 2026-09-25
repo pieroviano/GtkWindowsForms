@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -255,6 +255,25 @@ public partial class Form : ContainerControl, IWin32Window
     /// <summary>
     /// Gets the underlying GTK control object used by the form.
     /// </summary>
+    /// <summary>
+    /// Gets the form the window manager currently gives the keyboard to, or <see langword="null" /> when none of
+    /// this application's windows has it.
+    /// </summary>
+    public static Form? ActiveForm
+    {
+        get
+        {
+            foreach (var window in Gtk.Window.ListToplevels())
+            {
+                if (window.IsActive && window.Data.ContainsKey("Control") && window.Data["Control"] is Form form)
+                {
+                    return form;
+                }
+            }
+            return null;
+        }
+    }
+
     public override object GtkControl { get => self; }
 
     /// <summary>

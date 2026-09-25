@@ -397,7 +397,8 @@ public partial class TreeNode : MarshalByRefObject, ICloneable, ISerializable
         set;
     }
 
-    internal TreeView? TreeView
+    /// <summary>Gets the tree view the node belongs to, or <see langword="null" /> when it is not in one.</summary>
+    public TreeView? TreeView
     {
         get
         {
