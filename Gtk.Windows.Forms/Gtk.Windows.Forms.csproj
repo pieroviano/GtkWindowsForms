@@ -83,8 +83,12 @@
         </Compile>
         <None Include="Content\System.ComponentModel.cs" Pack="true" PackagePath="content\System.ComponentModel.cs" />
         <None Include="Content\System.Resources.ResourceManager.cs" Pack="true" PackagePath="content\System.Resources.ResourceManager.cs" />
-        <None Include="Gtk.Windows.Forms.props" Pack="true" PackagePath="\build\" />
-        <None Include="Gtk.Windows.Forms.targets" Pack="true" PackagePath="\build\" />
+        <!-- NuGet auto-imports only build/$(PackageId).props|.targets, so these files must be named
+             after the package id (Gtk.Windows.Forms.Base), not after the project. They also go to
+             buildTransitive/ so that a project reaching this package through another package gets
+             them as well: build/ assets do not flow transitively. -->
+        <None Include="Gtk.Windows.Forms.Base.props" Pack="true" PackagePath="\build\;\buildTransitive\" />
+        <None Include="Gtk.Windows.Forms.Base.targets" Pack="true" PackagePath="\build\;\buildTransitive\" />
     </ItemGroup>
     <ItemGroup>
         <Compile Remove="GTKControls\ControlExtensions\ComboBox.Methods.cs" />
@@ -349,6 +353,11 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Gtk.Windows.FormsDesigner\Gtk.Windows.FormsDesigner.csproj" />
+        <!-- Companion package, not a code dependency: it ships an intentionally empty assembly named
+             System.Resources.Extensions that has to displace Microsoft's in a consuming app's output
+             folder. That only happens if it is a real package dependency - a PackageReference declared
+             in this package's build props is invisible to a consumer's restore. -->
+        <ProjectReference Include="..\Gtk.Resources.Extensions\Gtk.Resources.Extensions.csproj" />
     </ItemGroup>
     <PropertyGroup>
         <NoWarn>$(NoWarn);MSB3243;</NoWarn>

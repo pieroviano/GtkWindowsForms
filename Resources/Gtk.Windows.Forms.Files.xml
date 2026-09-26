@@ -3,8 +3,8 @@
   <Item Source="GTKSystem.Windows.Forms.xml" Destination="GTKSystem.Windows.Forms.xml" />
   <Item Source="Gtk.Windows.Forms.csproj" Destination="Gtk.Windows.Forms.csproj" />
   <Item Source="Gtk.Windows.Forms.csproj.user" Destination="Gtk.Windows.Forms.csproj.user" />
-  <Item Source="Gtk.Windows.Forms.props" Destination="Gtk.Windows.Forms.props" />
-  <Item Source="Gtk.Windows.Forms.targets" Destination="Gtk.Windows.Forms.targets" />
+  <Item Source="Gtk.Windows.Forms.Base.props" Destination="Gtk.Windows.Forms.Base.props" />
+  <Item Source="Gtk.Windows.Forms.Base.targets" Destination="Gtk.Windows.Forms.Base.targets" />
   <Item Source="Gtk.Windows.Forms.xml" Destination="Gtk.Windows.Forms.xml" />
   <Item Source="Application\Application.cs" Destination="System\Windows\Forms\Application\Application.cs">C:\Temp\net4x.gtk.windows.forms\Gtk.Windows.Forms.Backup\System\Windows\Forms\Application\Application.cs</Item>
   <Item Source="Application\ApplicationContext.cs" Destination="System\Windows\Forms\Application\ApplicationContext.cs">C:\Temp\net4x.gtk.windows.forms\Gtk.Windows.Forms.Backup\System\Windows\Forms\Application\ApplicationContext.cs</Item>

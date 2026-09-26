@@ -43,6 +43,12 @@ public static class ProjectPatching
         EnsureLocalizedResourcesItemsInProject(csprojPath);
         ReferenceService.EnsureProjectReference(csprojPath, 
             @"..\Gtk.Windows.FormsDesigner\Gtk.Windows.FormsDesigner.csproj");
+        // Companion package, not a code dependency: the empty System.Resources.Extensions it ships
+        // has to displace Microsoft's in a consuming app's output folder, which needs it to be a
+        // real package dependency - a PackageReference in this package's build props is invisible
+        // to a consumer's restore.
+        ReferenceService.EnsureProjectReference(csprojPath,
+            @"..\Gtk.Resources.Extensions\Gtk.Resources.Extensions.csproj");
         return csprojPath;
     }
 
@@ -102,11 +108,11 @@ public static class ProjectPatching
 
         var sourceProps = Path.Combine(
             resourcesDir,
-            "Gtk.Windows.Forms.props");
+            "Gtk.Windows.Forms.Base.props");
 
         var targetProps = Path.Combine(
             targetDir,
-            "Gtk.Windows.Forms.props");
+            "Gtk.Windows.Forms.Base.props");
 
         CopyIfExists(sourceProps, targetProps);
     }
@@ -129,11 +135,11 @@ public static class ProjectPatching
 
         var sourceProps = Path.Combine(
             resourcesDir,
-            "Gtk.Windows.Forms.targets");
+            "Gtk.Windows.Forms.Base.targets");
 
         var targetProps = Path.Combine(
             targetDir,
-            "Gtk.Windows.Forms.targets");
+            "Gtk.Windows.Forms.Base.targets");
 
         CopyIfExists(sourceProps, targetProps);
     }
@@ -385,10 +391,12 @@ public static class ProjectPatching
             ns);
 
         // --- Ensure props file is packed into build folder ---
+        // The name must be the package id, not the project name: NuGet auto-imports only
+        // build/<PackageId>.props|.targets. buildTransitive/ carries it to indirect consumers.
         var hasPropsNone = itemGroup
             .Elements(ns + "None")
             .Any(n => (string?)n.Attribute("Include") ==
-                      "Gtk.Windows.Forms.props");
+                      "Gtk.Windows.Forms.Base.props");
 
         if (!hasPropsNone)
         {
@@ -396,16 +404,16 @@ public static class ProjectPatching
                 new XElement(ns + "None",
                     new XAttribute(
                         "Include",
-                        "Gtk.Windows.Forms.props"),
+                        "Gtk.Windows.Forms.Base.props"),
                     new XAttribute("Pack", "true"),
-                    new XAttribute("PackagePath", @"\build\")));
+                    new XAttribute("PackagePath", @"\build\;\buildTransitive\")));
         }
 
         // --- Ensure props file is packed into build folder ---
         var hasTargetsNone = itemGroup
             .Elements(ns + "None")
             .Any(n => (string?)n.Attribute("Include") ==
-                      "Gtk.Windows.Forms.targets");
+                      "Gtk.Windows.Forms.Base.targets");
 
         if (!hasTargetsNone)
         {
@@ -413,9 +421,9 @@ public static class ProjectPatching
                 new XElement(ns + "None",
                     new XAttribute(
                         "Include",
-                        "Gtk.Windows.Forms.targets"),
+                        "Gtk.Windows.Forms.Base.targets"),
                     new XAttribute("Pack", "true"),
-                    new XAttribute("PackagePath", @"\build\")));
+                    new XAttribute("PackagePath", @"\build\;\buildTransitive\")));
         }
 
         doc.Save(csprojPath);

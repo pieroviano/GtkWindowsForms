@@ -10,6 +10,11 @@
   </ItemGroup>
 	
   <ItemGroup>
+    <PackageReference Include="Gtk.Windows.FormsDesigner" Version="1.4.2464.*" PrivateAssets="all" />
+    <PackageReference Include="Gtk.Resources.Extensions" Version="1.4.2464.*" PrivateAssets="all" />
+  </ItemGroup>
+	
+  <ItemGroup>
 		<Compile Condition="'$(ExcludeResources)'==''"
 		         Include="$(MSBuildThisFileDirectory)../content/System.ComponentModel.cs"
 		         Link="System.ComponentModel.cs" />
