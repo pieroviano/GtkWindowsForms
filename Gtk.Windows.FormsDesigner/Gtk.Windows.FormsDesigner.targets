@@ -1,9 +1,41 @@
-<Project>
-	<Target Name="BeforeCompile" BeforeTargets="Build">
-		<Message Text="$(MSBuildProjectDirectory)\$(IntermediateOutputPath)" Importance="high" />
-		<GtkWindowsForms ObjPath="$(MSBuildProjectDirectory)\$(IntermediateOutputPath)" 
-		                 FileName="$(MSBuildProjectName)" TargetFramework="$(TargetFramework)" 
+﻿<Project>
+	<!-- Resolved inside the targets, not at evaluation time, so a project that redefines
+	     IntermediateOutputPath or AssemblyName later still gets the paths the SDK's own designer
+	     targets use. -->
+	<Target Name="GtkWindowsFormsDesignerConfigPaths">
+		<PropertyGroup>
+			<GtkDesignerConfigDirectory>$(MSBuildProjectDirectory)\$(IntermediateOutputPath)</GtkDesignerConfigDirectory>
+			<GtkDesignerConfigName>$(AssemblyName)</GtkDesignerConfigName>
+			<GtkDesignerConfigName Condition="'$(GtkDesignerConfigName)' == ''">$(MSBuildProjectName)</GtkDesignerConfigName>
+		</PropertyGroup>
+	</Target>
+
+	<!-- A GTK project targets plain netX.0 with UseWindowsForms off, so the SDK writes it a designer
+	     runtimeconfig that asks for Microsoft.NETCore.App alone. The out-of-process designer server is
+	     launched with that file and needs the real System.Windows.Forms, which only
+	     Microsoft.WindowsDesktop.App provides; without this it fails on startup and Visual Studio
+	     reports a ServerProcess failure instead of opening the form. -->
+	<Target Name="GtkWindowsFormsDesignerConfig"
+	        BeforeTargets="Build"
+	        DependsOnTargets="GtkWindowsFormsDesignerConfigPaths">
+		<Message Text="$(GtkDesignerConfigDirectory)" Importance="high" />
+		<GtkWindowsForms ObjPath="$(GtkDesignerConfigDirectory)"
+		                 FileName="$(GtkDesignerConfigName)"
+		                 TargetFramework="$(TargetFramework)"
 		                 ProjectFullPath="$(MSBuildProjectFullPath)"
+		                 TargetFrameworkVersion="$(TargetFrameworkVersion)" />
+	</Target>
+
+	<!-- Visual Studio asks for this output group every time it opens a designer, and the SDK targets
+	     behind it rewrite both files whenever the project or its restore assets are newer. Correct them
+	     again afterwards, otherwise a restore between two builds is enough to break the designer.
+	     ProjectFullPath is deliberately not passed: design time must not rewrite the open project. -->
+	<Target Name="GtkWindowsFormsDesignerConfigAfterOutputGroup"
+	        AfterTargets="DesignerRuntimeImplementationProjectOutputGroup"
+	        DependsOnTargets="GtkWindowsFormsDesignerConfigPaths">
+		<GtkWindowsForms ObjPath="$(GtkDesignerConfigDirectory)"
+		                 FileName="$(GtkDesignerConfigName)"
+		                 TargetFramework="$(TargetFramework)"
 		                 TargetFrameworkVersion="$(TargetFrameworkVersion)" />
 	</Target>
 </Project>

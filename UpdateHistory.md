@@ -1,5 +1,17 @@
 ﻿## Update History
 
+ #### 2026/9/26
+   	1. Fixed the Windows Forms designer for projects that reference Gtk.Windows.Forms.Base: the
+	   Gtk.Windows.FormsDesigner targets never reached them, so the designer runtimeconfig kept the
+	   SDK's Microsoft.NETCore.App-only frameworks, the out-of-process designer server could not load
+	   System.Windows.Forms, and Visual Studio reported a ServerProcess failure. The package now ships
+	   its props/targets in buildTransitive/ as well, and Gtk.Windows.Forms.Base lets its Build assets
+	   flow (its runtime assets no longer do, so Microsoft.Build.* stays out of consumers' output).
+	2. The designer configuration is rewritten after Visual Studio's designer output group too, not
+	   only before a build: a restore between two builds used to be enough to break the designer.
+	3. The project file is rewritten only when a rule actually changes it, and never from the
+	   design-time pass.
+
  #### 2026/8/16
    	1. Added the WebBrowser control and the Html* DOM layer (WebBrowser, WebBrowserBase,
 	   WebBrowserSiteBase, HtmlDocument, HtmlElement, HtmlWindow, HtmlHistory, the two collections,

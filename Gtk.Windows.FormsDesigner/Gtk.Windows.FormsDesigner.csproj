@@ -30,6 +30,9 @@
         <None Include="$(MSBuildProjectName).xml" Pack="true" PackagePath="\Documentation.xml" />
     </ItemGroup>
     <ItemGroup>
+        <InternalsVisibleTo Include="Gtk.Windows.FormsDesigner.Tests" />
+    </ItemGroup>
+    <ItemGroup>
         <SourceRoot Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\'))" />
     </ItemGroup>
     <ItemGroup>
@@ -71,8 +74,10 @@
         </EmbeddedResource>
     </ItemGroup>
     <ItemGroup>
-        <Content Include="Gtk.Windows.FormsDesigner.props" Pack="true" PackagePath="/build/Gtk.Windows.FormsDesigner.props" />
-        <Content Include="Gtk.Windows.FormsDesigner.targets" Pack="true" PackagePath="/build/Gtk.Windows.FormsDesigner.targets" />
+        <!-- buildTransitive as well as build: a converted app references Gtk.Windows.Forms.Base, not this
+             package, and NuGet imports only buildTransitive\ for a package it did not reference directly. -->
+        <Content Include="Gtk.Windows.FormsDesigner.props" Pack="true" PackagePath="\build\;\buildTransitive\" />
+        <Content Include="Gtk.Windows.FormsDesigner.targets" Pack="true" PackagePath="\build\;\buildTransitive\" />
     </ItemGroup>
     <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets')" />
 </Project>

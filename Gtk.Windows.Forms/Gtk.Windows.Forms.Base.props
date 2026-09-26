@@ -10,7 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gtk.Windows.FormsDesigner" Version="1.4.2464.*" PrivateAssets="all" />
+    <!-- Gtk.Windows.FormsDesigner is NOT listed here: a PackageReference declared in a package's
+         build props is invisible to a consumer's restore, and when a restore does pick it up it
+         collides with the nuspec dependency (NU1504). It reaches a consumer as a dependency of
+         this package, with its Build assets flowing, so its design-time targets are imported. -->
     <PackageReference Include="Gtk.Resources.Extensions" Version="1.4.2464.*" PrivateAssets="all" />
   </ItemGroup>
 

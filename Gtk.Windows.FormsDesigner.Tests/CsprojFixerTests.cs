@@ -133,6 +133,47 @@ public class CsprojFixerTests : IDisposable
         Assert.Equal("net8.0", tf);
     }
 
+    /// <summary>
+    ///     The task runs on every build, and now at design time too, so a project that already is
+    ///     GTK-shaped must come out byte for byte the same: rewriting it would make the IDE keep asking
+    ///     to reload the project.
+    /// </summary>
+    [Fact]
+    public void FixProject_ShouldNotRewriteTheFile_WhenNothingNeedsFixing()
+    {
+        // Arrange
+        const string text = @"
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <UseWindowsForms>false</UseWindowsForms>
+  </PropertyGroup>
+</Project>";
+        File.WriteAllText(_tempFile, text);
+
+        // Act
+        var rewritten = CsprojFixer.FixProject(_tempFile);
+
+        // Assert
+        Assert.False(rewritten);
+        Assert.Equal(text, File.ReadAllText(_tempFile));
+    }
+
+    [Fact]
+    public void FixProject_ShouldReportThatItFixedTheFile()
+    {
+        // Arrange
+        File.WriteAllText(_tempFile, @"
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+  </PropertyGroup>
+</Project>");
+
+        // Act & Assert
+        Assert.True(CsprojFixer.FixProject(_tempFile));
+    }
+
     [Fact]
     public void FixProject_ShouldNotFail_WhenElementsMissing()
     {

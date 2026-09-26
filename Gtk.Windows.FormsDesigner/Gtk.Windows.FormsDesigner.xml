@@ -36,7 +36,16 @@
             Fixes the project.
             </summary>
             <param name="projectFullPath">The project full path.</param>
+            <returns><see langword="true" /> when the project needed a fix and was rewritten.</returns>
             <exception cref="T:System.IO.FileNotFoundException">Project file not found.</exception>
+            <remarks>
+            The file is saved only when a rule actually changed it: this runs on every build, and on a
+            project that is already GTK-shaped an unconditional save would keep touching a file the IDE
+            has open, which makes it ask to reload the project over and over.
+            </remarks>
+        </member>
+        <member name="M:Gtk.Windows.FormsDesigner.CsprojFixer.Set(System.Xml.Linq.XElement,System.String)">
+            <summary>Assigns <paramref name="value" /> to <paramref name="element" />, reporting whether it differed.</summary>
         </member>
         <member name="T:Gtk.Windows.FormsDesigner.designer">
             <summary>
@@ -50,6 +59,62 @@
             <remarks>Use this property to specify or retrieve settings that control runtime behavior. The
             available options depend on the definition of the <c>runtimeOptions</c> type. Changing these options may affect
             how the instance operates during execution.</remarks>
+        </member>
+        <member name="T:Gtk.Windows.FormsDesigner.DesignerConfig">
+            <summary>
+                Writes the two files Visual Studio launches the out-of-process Windows Forms designer server with.
+            </summary>
+            <remarks>
+                <para>
+                    A GTK project targets a plain <c>netX.0</c> moniker with <c>UseWindowsForms</c> off, so the SDK
+                    writes it a designer runtimeconfig naming <c>Microsoft.NETCore.App</c> alone. The designer server
+                    is a real Windows Forms process: started that way it cannot load
+                    <c>System.Windows.Forms</c> and dies, and the IDE reports a <c>ServerProcess</c> failure instead
+                    of opening the form. <c>Microsoft.WindowsDesktop.App</c> has to be there as well.
+                </para>
+                <para>
+                    The dependency list stays empty for the opposite reason: with the project's package closure in it
+                    the server resolves <c>System.Windows.Forms</c> from the GTK implementation the project compiles
+                    against rather than from the shared framework. What the designer needs beyond the framework comes
+                    from the shadow-copied output directory, through <c>SetAppPaths</c>.
+                </para>
+                <para>
+                    Kept free of Microsoft.Build so the rules can be tested without an MSBuild host;
+                    <see cref="T:Gtk.Windows.FormsDesigner.GtkWindowsForms" /> is only the task wrapper.
+                </para>
+            </remarks>
+        </member>
+        <member name="M:Gtk.Windows.FormsDesigner.DesignerConfig.Write(System.String,System.String,System.String,System.String)">
+            <summary>Writes both files for one project and target framework.</summary>
+            <param name="objPath">The intermediate output directory, created when it does not exist yet.</param>
+            <param name="fileName">The assembly name the designer derives the two file names from.</param>
+            <param name="targetFramework">The target framework moniker, e.g. <c>net10.0</c>.</param>
+            <param name="targetFrameworkVersion">The MSBuild target framework version, e.g. <c>v10.0</c>.</param>
+        </member>
+        <member name="M:Gtk.Windows.FormsDesigner.DesignerConfig.DependenciesPath(System.String,System.String)">
+            <summary>The path of the dependency list the designer server is launched with.</summary>
+        </member>
+        <member name="M:Gtk.Windows.FormsDesigner.DesignerConfig.RuntimeConfigPath(System.String,System.String)">
+            <summary>The path of the runtime configuration the designer server is launched with.</summary>
+        </member>
+        <member name="M:Gtk.Windows.FormsDesigner.DesignerConfig.WriteDependencies(System.String,System.String)">
+            <summary>
+                Replaces the dependency list with the empty one. The SDK regenerates it from the project's whole
+                package closure whenever the project or its restore assets change, so this overwrites rather than
+                creates.
+            </summary>
+        </member>
+        <member name="M:Gtk.Windows.FormsDesigner.DesignerConfig.WriteRuntimeConfig(System.String,System.String,System.String)">
+            <summary>Adds <see cref="F:Gtk.Windows.FormsDesigner.DesignerConfig.DesktopFramework" /> to the runtime configuration, keeping any it already names.</summary>
+        </member>
+        <member name="M:Gtk.Windows.FormsDesigner.DesignerConfig.FrameworkVersion(System.String)">
+            <summary>The framework version a runtimeconfig names, from an MSBuild target framework version.</summary>
+        </member>
+        <member name="M:Gtk.Windows.FormsDesigner.DesignerConfig.WriteIfDifferent(System.String,System.String)">
+            <summary>
+                Writes <paramref name="contents" /> to <paramref name="path" /> unless the file already holds
+                them, or is read-only because the user pinned it by hand.
+            </summary>
         </member>
         <member name="T:Gtk.Windows.FormsDesigner.framework">
             <summary>
@@ -68,15 +133,13 @@
         </member>
         <member name="T:Gtk.Windows.FormsDesigner.GtkWindowsForms">
             <summary>
-                Represents an MSBuild task that configures runtime dependencies for Windows Forms applications targeting .NET Core
-                or .NET 5+ on GTK platforms.
+                The MSBuild task that writes the configuration Visual Studio launches the out-of-process Windows Forms
+                designer server with, for a project built on the GTK implementation of Windows Forms.
             </summary>
             <remarks>
-                This task generates or updates designer dependency and runtime configuration files required for
-                Windows Forms projects on GTK environments. It ensures that the necessary framework references are present for
-                proper runtime execution. All required properties must be set before execution. This task is typically used in
-                build
-                processes to support cross-platform Windows Forms development.
+                A wrapper over <see cref="T:Gtk.Windows.FormsDesigner.DesignerConfig" />, which holds the rules and the reasons for them. The
+                package's targets run it before a build and again after the designer output group, because the SDK
+                regenerates both files whenever the project or its restore assets change.
             </remarks>
         </member>
         <member name="P:Gtk.Windows.FormsDesigner.GtkWindowsForms.ObjPath">
@@ -94,8 +157,12 @@
             Gets or sets the project full path.
             </summary>
             <value>
-            The project full path.
+            The project full path, or an empty value to leave the project file alone.
             </value>
+            <remarks>
+            Optional on purpose: the design-time pass regenerates only the configuration files, and must not
+            rewrite the project file the IDE has open.
+            </remarks>
         </member>
         <member name="P:Gtk.Windows.FormsDesigner.GtkWindowsForms.TargetFramework">
             <summary>
@@ -118,16 +185,11 @@
         </member>
         <member name="M:Gtk.Windows.FormsDesigner.GtkWindowsForms.Execute">
             <summary>
-                Executes the task to ensure required designer configuration files are present and updated for the specified
-                target framework.
+                Writes the designer configuration files for the project, and brings the project file itself into
+                the shape the designer needs when <see cref="P:Gtk.Windows.FormsDesigner.GtkWindowsForms.ProjectFullPath" /> names one.
             </summary>
-            <remarks>
-                This method creates or updates designer-related JSON configuration files in the specified
-                object path if they do not exist or require modification. It ensures that the configuration reflects the current
-                target framework and includes necessary runtime options. The method always returns true, indicating successful
-                execution, even if some operations are skipped due to existing files or read-only attributes.
-            </remarks>
-            <returns>true if the designer configuration files are successfully created or updated; otherwise, false.</returns>
+            <remarks>See <see cref="T:Gtk.Windows.FormsDesigner.DesignerConfig" /> for what the two files have to say and why.</remarks>
+            <returns>Always true: nothing here is worth failing a build over.</returns>
         </member>
         <member name="T:Gtk.Windows.FormsDesigner.Properties.Resources">
             <summary>

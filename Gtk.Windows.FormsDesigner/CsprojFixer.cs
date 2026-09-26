@@ -15,13 +15,20 @@ public static class CsprojFixer
     /// Fixes the project.
     /// </summary>
     /// <param name="projectFullPath">The project full path.</param>
+    /// <returns><see langword="true" /> when the project needed a fix and was rewritten.</returns>
     /// <exception cref="FileNotFoundException">Project file not found.</exception>
-    public static void FixProject(string projectFullPath)
+    /// <remarks>
+    /// The file is saved only when a rule actually changed it: this runs on every build, and on a
+    /// project that is already GTK-shaped an unconditional save would keep touching a file the IDE
+    /// has open, which makes it ask to reload the project over and over.
+    /// </remarks>
+    public static bool FixProject(string projectFullPath)
     {
         if (!File.Exists(projectFullPath))
             throw new FileNotFoundException("Project file not found.", projectFullPath);
 
         var doc = XDocument.Load(projectFullPath);
+        var changed = false;
 
         // Handle both SDK-style and legacy projects (namespace-safe)
         var ns = doc.Root?.Name.Namespace ?? XNamespace.None;
@@ -31,7 +38,7 @@ public static class CsprojFixer
         {
             if (!string.IsNullOrWhiteSpace(tf.Value))
             {
-                tf.Value = tf.Value.Replace("-windows", "");
+                changed |= Set(tf, tf.Value.Replace("-windows", ""));
             }
         }
 
@@ -40,11 +47,11 @@ public static class CsprojFixer
         {
             if (!string.IsNullOrWhiteSpace(tfs.Value))
             {
-                tfs.Value = string.Join(";",
+                changed |= Set(tfs, string.Join(";",
                     tfs.Value
                         .Split(';').Where(i=>!string.IsNullOrEmpty(i))
                         .Select(v => v.Replace("-windows", ""))
-                );
+                ));
             }
         }
 
@@ -57,10 +64,25 @@ public static class CsprojFixer
                 (value.Equals("true", StringComparison.OrdinalIgnoreCase) ||
                  value.Equals("trur", StringComparison.OrdinalIgnoreCase)))
             {
-                uwf.Value = "false";
+                changed |= Set(uwf, "false");
             }
         }
 
-        doc.Save(projectFullPath);
+        if (changed)
+        {
+            doc.Save(projectFullPath);
+        }
+
+        return changed;
+    }
+
+    /// <summary>Assigns <paramref name="value" /> to <paramref name="element" />, reporting whether it differed.</summary>
+    private static bool Set(XElement element, string value)
+    {
+        if (element.Value == value)
+            return false;
+
+        element.Value = value;
+        return true;
     }
 }
