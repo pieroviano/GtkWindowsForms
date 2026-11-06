@@ -1478,6 +1478,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             var widget = this.Widget;
             widget?.HeightRequest = Math.Max(-1, value);
+            RebaseAnchorBaseline();
         }
     }
 
@@ -1631,6 +1632,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             var widget = this.Widget;
             widget?.MarginStart = Math.Max(0, value);
+            RebaseAnchorBaseline();
         }
     }
 
@@ -1883,6 +1885,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             this.Widget?.MarginTop = Math.Max(0, value);
+            RebaseAnchorBaseline();
         }
     }
 
@@ -1944,6 +1947,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
                 if (value == true)
                 {
                     this.Widget.Show();
+                    // A child hidden during a container resize was skipped by the pass; run one now so it
+                    // catches up (an allocation change may never come).
+                    Parent?.PerformDockAnchorLayout();
                 }
                 else
                 {
@@ -1988,6 +1994,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             this.Widget?.WidthRequest = Math.Max(-1, value);
+            RebaseAnchorBaseline();
         }
     }
 
@@ -3189,6 +3196,9 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     public virtual void ResumeLayout(bool performLayout)
     {
         _Created = true;
+        // Construction is over (the designer's last call): the children are now positioned for the size
+        // this container has, so a size change after this point is a resize they must follow.
+        SeedAnchorBaselines();
     }
 
     /// <summary>
@@ -3402,6 +3412,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     public virtual void Show()
     {
         this.Widget?.Show();
+        Parent?.PerformDockAnchorLayout();
     }
 
     /// <summary>

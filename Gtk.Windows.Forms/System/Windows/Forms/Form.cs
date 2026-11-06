@@ -163,6 +163,12 @@ public partial class Form : ContainerControl, IWin32Window
             // stays freely resizable, as a WinForms form is. Height only - constraining the width here also
             // perturbs the scroller's width negotiation.
             self.ContentArea.SetSizeRequest(-1, value.Height);
+            // Until the shortfall is applied the window grows to this client height after opening; that is
+            // compensation for the titlebar, not a resize, so anchored children must not follow it.
+            if (!_clientShortfallApplied)
+            {
+                AbsorbLayoutGrowth(value.Height);
+            }
         }
     }
 
@@ -174,6 +180,9 @@ public partial class Form : ContainerControl, IWin32Window
     /// pass free to size purely from content, as before.
     /// </remarks>
     private Size _designedClientSize;
+
+    /// <summary>The client size set through <see cref="ClientSize" />, or <see cref="Size.Empty" /> if never set.</summary>
+    internal Size DesignedClientSize => _designedClientSize;
 
     /// <summary>
     /// Gets or sets a value indicating whether a control box is displayed in the caption bar of the form.
@@ -1183,18 +1192,30 @@ public partial class Form : ContainerControl, IWin32Window
             // minimum content height is what forces the (resizable) window to grow to contain the controls.
             if (maxBottom > self.ScrolledView.MinContentHeight)
                 self.ScrolledView.MinContentHeight = maxBottom;
-            // The grow compensates for the squeezed viewport, not a user resize: forget the anchor baseline so
-            // the re-layout keeps controls at their designed positions instead of sliding bottom/right-anchored
-            // ones by the delta (which otherwise pushed e.g. a bottom-anchored label down onto the control below).
-            ResetLayoutBaseline();
         }
         else if (_contentFitMax > 0)
         {
             _contentFitStableTicks++;
         }
 
+        // The grow compensates for the squeezed viewport, not a user resize: let the layout absorb client
+        // growth up to what the content (or the designed ClientSize) needs, so the re-layout keeps controls at
+        // their designed positions instead of sliding bottom/right-anchored ones by the delta (which otherwise
+        // pushed e.g. a bottom-anchored label down onto the control below). Growth beyond that, or in width, is
+        // a real resize (e.g. a saved window size restored in Shown) and moves anchored children.
+        if (_contentFitMax > 0 || _designedClientSize.Height > 0)
+        {
+            AbsorbLayoutGrowth(Math.Max(_contentFitMax, _designedClientSize.Height));
+        }
+
         // Keep watching until the extent has been stable for a short spell, then stop (hard-capped at ~2s).
-        return _contentFitStableTicks < 10 && ++_contentFitTotalTicks < 120;
+        var keepWatching = _contentFitStableTicks < 10 && ++_contentFitTotalTicks < 120;
+        if (!keepWatching)
+        {
+            StopAbsorbingLayoutGrowth();
+        }
+
+        return keepWatching;
     }
 
     /// <summary>
