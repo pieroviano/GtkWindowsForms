@@ -1,0 +1,76 @@
+From 3283fec5326147ed25b4581bf1d51ae6684e0d29 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Sat, 7 Nov 2026 03:35:01 +0200
+Subject: [PATCH] Control.ClientSize: a just-shown widget's 2x2 allocation is
+ not a client size
+
+Found while verifying SplitContainer in an application: sizing against a freshly shown FixedSingle panel's ClientSize gave 2x2, so SplitterDistance was set to 1.
+---
+ .../Forms/SplitContainerDistanceTests.cs      | 34 +++++++++++++++++++
+ .../System/Windows/Forms/Control/Control.cs   |  5 ++-
+ 2 files changed, 38 insertions(+), 1 deletion(-)
+
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/SplitContainerDistanceTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/SplitContainerDistanceTests.cs
+index 9d1ae920..e3cda29f 100644
+--- a/Gtk.Windows.Forms.Tests/System/Windows/Forms/SplitContainerDistanceTests.cs
++++ b/Gtk.Windows.Forms.Tests/System/Windows/Forms/SplitContainerDistanceTests.cs
+@@ -258,6 +258,40 @@ public class SplitContainerDistanceTests
+         }
+     }
+ 
++    // A control made visible reports its size before GTK has laid it out as 2x2 (its borders): code that sizes
++    // against ClientSize right after showing a panel ("panel width minus 50") must see the real size, as it does in
++    // WinForms (a 700x300 panel with a 1 px border has a 698x298 client area; before layout the border is not
++    // yet subtracted, so 698-700 is accepted).
++    [Fact]
++    public void PanelShownBeforeItsFirstLayout_ReportsItsRequestedClientSize()
++    {
++        var form = HostedSplit(out var host, out var split, hostVisible: false);
++        host.BorderStyle = BorderStyle.FixedSingle;
++        var anchor = new Button { Location = new Point(0, 320), Size = new Size(50, 24) };
++        form.Controls.Add(anchor);
++        try
++        {
++            form.Show();
++            Assert.True(PumpUntil(() => anchor.Widget!.AllocatedWidth > 1));
++            Settle(500);
++
++            host.Visible = true;
++            var clientSize = host.ClientSize;
++            // What an application does on showing the panel: size the splitter against the panel.
++            split.SplitterDistance = Math.Min(400, clientSize.Width - 50);
++            Assert.True(PumpUntil(() => Allocated(split)));
++            Settle(1500);
++
++            Assert.InRange(clientSize.Width, 698, 700);
++            Assert.InRange(clientSize.Height, 298, 300);
++            Assert.Equal(400, split.SplitterDistance);
++        }
++        finally
++        {
++            form.Close();
++        }
++    }
++
+     [Fact]
+     public void FixedPanelNone_LetsBothPanelsResize()
+     {
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+index 2216ea0d..1f9fc7fa 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Control/Control.cs
+@@ -1166,7 +1166,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
+             // equals its requested size. Fall back to the requested Width/Height - the same requested-size
+             // fallback Form.ClientSize uses - so ClientSize/ClientRectangle track the assigned Size until a
+             // real allocation exists.
+-            if (widget.IsMapped && widget.AllocatedWidth > 0)
++            // A widget that has just been mapped, before its first layout, reports a 2x2 allocation (its
++            // borders); that is not a client size, and reading it made code sizing against ClientSize (e.g.
++            // "the panel width minus 50") compute nonsense. The requested size stands in until it is laid out.
++            if (widget.IsMapped && widget.AllocatedWidth > 2 && widget.AllocatedHeight > 2)
+             {
+                 return new Size(widget.AllocatedWidth, widget.AllocatedHeight);
+             }
+-- 
+2.55.0.windows.5
+
