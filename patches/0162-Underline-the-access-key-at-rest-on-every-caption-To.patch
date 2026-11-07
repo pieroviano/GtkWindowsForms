@@ -1,0 +1,457 @@
+From 850acef6e36e83c6f4a054517a8c4b2b14d6fe79 Mon Sep 17 00:00:00 2001
+From: pieroviano <piero.viano@gmail.com>
+Date: Sat, 7 Nov 2026 02:49:14 +0200
+Subject: [PATCH] Underline the access key at rest on every caption;
+ ToolStripStatusLabel constructors apply their arguments; tray label drops a
+ trailing ampersand
+
+GTK 4 draws a mnemonic underline only while Alt is held. Mnemonics.Apply sets the caption through
+the label's markup-with-mnemonic path with the key wrapped in <u>, so it is underlined at rest
+and still an Alt access key, with no double underline. Button, CheckBox, RadioButton, Label,
+GroupBox and the menu/tool-strip items all go through it.
+---
+ .../Windows/Forms/MnemonicFunctionalTests.cs  | Bin 8735 -> 15126 bytes
+ .../System/Windows/Forms/Button.cs            |   3 +-
+ .../System/Windows/Forms/CheckBox.cs          |  12 +-
+ .../System/Windows/Forms/GroupBox.cs          |   2 +-
+ .../System/Windows/Forms/Label.cs             |   3 +-
+ .../Forms/MenuStripBase/StripMenuItem.cs      |   3 +-
+ .../MenuStripBase/StripMenuToolButton.cs      |   4 +-
+ .../Forms/MenuStripBase/StripToolButton.cs    |   4 +-
+ .../MenuStripBase/ToolStripStatusLabel.cs     |  15 +--
+ .../System/Windows/Forms/Mnemonics.cs         | 109 ++++++++++++++++++
+ .../System/Windows/Forms/RadioButton.cs       |   6 +
+ .../System/Windows/Forms/TrayMenuModel.cs     |   5 +-
+ 12 files changed, 139 insertions(+), 27 deletions(-)
+
+diff --git a/Gtk.Windows.Forms.Tests/System/Windows/Forms/MnemonicFunctionalTests.cs b/Gtk.Windows.Forms.Tests/System/Windows/Forms/MnemonicFunctionalTests.cs
+index 5f0a6f4f2041d61850c3921bafdac0d37534d3d9..374ca1774377994885ed5631d9e82ab8d7fcd239 100644
+GIT binary patch
+literal 15126
+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
+DeaRw?
+
+delta 60
+zcmbPMHs6Kw{qFsx#hH2O3KRXrHyW{XO2r3f<`(3nD(NT`C8lKN>lLTwr0Mx2CZ*;~
+QJ|HZ<xr+0s1XC>+0LRu9@Bjb+
+
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Button.cs b/Gtk.Windows.Forms/System/Windows/Forms/Button.cs
+index 2f8cbd25..058713d0 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Button.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Button.cs
+@@ -83,8 +83,7 @@ public partial class Button : ButtonBase
+         {
+             _text = value ?? string.Empty;
+             var label = (Gtk.Label)self.Child;
+-            label.Text = Mnemonics.ToGtk(_text, UseMnemonic);
+-            label.UseUnderline = UseMnemonic; // set_text clears the flag, so it goes on afterwards
++            Mnemonics.Apply(label, _text, UseMnemonic);
+         }
+     }
+ 
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
+index 4a03bf92..a8dc6242 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/CheckBox.cs
+@@ -114,16 +114,20 @@ public partial class CheckBox : ButtonBase
+         set
+         {
+             _text = value ?? string.Empty;
+-            var caption = Mnemonics.ToGtk(_text, UseMnemonic);
+             if (self.Child is Gtk.Label label)
+             {
+-                label.Text = caption;
+-                label.UseUnderline = UseMnemonic; // set_text clears the flag, so it goes on afterwards
++                Mnemonics.Apply(label, _text, UseMnemonic);
+             }
+             else
+             {
+-                self.Label = caption;
++                self.Label = Mnemonics.ToGtk(_text, UseMnemonic);
+                 self.UseUnderline = UseMnemonic;
++                // The button's own caption label gets the underlined spelling; Alt+key still toggles the box.
++                if (self.GetLabelWidget() is { } caption)
++                {
++                    Mnemonics.Apply(caption, _text, UseMnemonic);
++                    caption.MnemonicWidget = self;
++                }
+             }
+         }
+     }
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs b/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
+index 0dd5dbf4..ca180248 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/GroupBox.cs
+@@ -109,7 +109,7 @@ public partial class GroupBox : ContainerControl
+             // Setting Label makes the frame build its caption widget; tell that widget the '_' is a marker.
+             if (self.LabelWidget is Gtk.Label caption)
+             {
+-                caption.UseUnderline = true;
++                Mnemonics.Apply(caption, _text);
+             }
+         }
+     }
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Label.cs b/Gtk.Windows.Forms/System/Windows/Forms/Label.cs
+index c41db4e6..2a5076ce 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Label.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Label.cs
+@@ -97,8 +97,7 @@ public partial class Label : Control
+         set
+         {
+             _text = value ?? string.Empty;
+-            self.Text = Mnemonics.ToGtk(_text, UseMnemonic);
+-            self.UseUnderline = UseMnemonic; // set_text clears the flag, so it goes on afterwards
++            Mnemonics.Apply(self, _text, UseMnemonic);
+         }
+     }
+ 
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs
+index cdc81d5d..68e527e8 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuItem.cs
+@@ -205,8 +205,7 @@ namespace System.Windows.Forms
+             set
+             {
+                 _text = value ?? string.Empty;
+-                textLabel.Text = Mnemonics.ToGtk(_text);
+-                textLabel.UseUnderline = true; // set_text clears the flag, so it goes on afterwards
++                Mnemonics.Apply(textLabel, _text);
+                 textLabel.MnemonicWidget = checkButton; // Alt+<key> activates the item, as in WinForms
+                 textLabel.Visible = _text.Length > 0;
+             }
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuToolButton.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuToolButton.cs
+index de927a1b..4c5dbf4c 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuToolButton.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripMenuToolButton.cs
+@@ -78,8 +78,8 @@ namespace System.Windows.Forms
+         private Gtk.Label CreateCaption()
+         {
+             // The caption's '&' marks a mnemonic (see Mnemonics); Alt+<key> activates the button.
+-            var caption = new Gtk.Label(Mnemonics.ToGtk(_text)) { Visible = true };
+-            caption.UseUnderline = true; // the text setter clears the flag, so it goes on afterwards
++            var caption = new Gtk.Label { Visible = true };
++            Mnemonics.Apply(caption, _text);
+             caption.MnemonicWidget = this;
+             return caption;
+         }
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripToolButton.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripToolButton.cs
+index 93286bd0..488fc04f 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripToolButton.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/StripToolButton.cs
+@@ -76,8 +76,8 @@ namespace System.Windows.Forms
+         private Gtk.Label CreateCaption()
+         {
+             // The caption's '&' marks a mnemonic (see Mnemonics); Alt+<key> activates the button.
+-            var caption = new Gtk.Label(Mnemonics.ToGtk(_text)) { Visible = true };
+-            caption.UseUnderline = true; // the text setter clears the flag, so it goes on afterwards
++            var caption = new Gtk.Label { Visible = true };
++            Mnemonics.Apply(caption, _text);
+             caption.MnemonicWidget = this;
+             return caption;
+         }
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripStatusLabel.cs b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripStatusLabel.cs
+index 733b68ef..e398951c 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripStatusLabel.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/MenuStripBase/ToolStripStatusLabel.cs
+@@ -13,9 +13,8 @@ public class ToolStripStatusLabel : ToolStripLabel
+     /// Initializes a new instance of the
+     /// <see cref="T:System.Windows.Forms.ToolStripStatusLabel" /> class.
+     /// </summary>
+-    public ToolStripStatusLabel()
++    public ToolStripStatusLabel() : base()
+     {
+-
+     }
+ 
+     /// <summary>
+@@ -25,9 +24,8 @@ public class ToolStripStatusLabel : ToolStripLabel
+     /// <param name="text">
+     /// The text.
+     /// </param>
+-    public ToolStripStatusLabel(string text)
++    public ToolStripStatusLabel(string text) : base(text)
+     {
+-
+     }
+ 
+     /// <summary>
+@@ -37,9 +35,8 @@ public class ToolStripStatusLabel : ToolStripLabel
+     /// <param name="image">
+     /// The image.
+     /// </param>
+-    public ToolStripStatusLabel(Image image)
++    public ToolStripStatusLabel(Image image) : base(string.Empty, image, null, string.Empty)
+     {
+-
+     }
+ 
+     /// <summary>
+@@ -52,9 +49,8 @@ public class ToolStripStatusLabel : ToolStripLabel
+     /// <param name="image">
+     /// The image.
+     /// </param>
+-    public ToolStripStatusLabel(string text, Image image)
++    public ToolStripStatusLabel(string text, Image image) : base(text, image)
+     {
+-
+     }
+ 
+     /// <summary>
+@@ -70,9 +66,8 @@ public class ToolStripStatusLabel : ToolStripLabel
+     /// <param name="onClick">
+     /// The on click.
+     /// </param>
+-    public ToolStripStatusLabel(string text, Image image, EventHandler onClick)
++    public ToolStripStatusLabel(string text, Image image, EventHandler onClick) : base(text, image, onClick)
+     {
+-
+     }
+ 
+     /// <summary>
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/Mnemonics.cs b/Gtk.Windows.Forms/System/Windows/Forms/Mnemonics.cs
+index 6854b841..a1fba6a6 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/Mnemonics.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/Mnemonics.cs
+@@ -53,4 +53,113 @@ internal static class Mnemonics
+         }
+         return result.ToString();
+     }
++
++    /// <summary>
++    /// The caption as GTK markup whose mnemonic character is explicitly underlined.
++    /// </summary>
++    /// <param name="text">The WinForms caption, with <c>&amp;</c> markers.</param>
++    /// <returns>
++    /// Markup for <c>gtk_label_set_markup_with_mnemonic</c>: the first access key is <c>&lt;u&gt;_X&lt;/u&gt;</c>,
++    /// a literal <c>&amp;&amp;</c> is <c>&amp;amp;</c>, a literal underscore is <c>__</c>, and a trailing
++    /// <c>&amp;</c> is dropped.
++    /// </returns>
++    /// <remarks>
++    /// GTK 4 draws the underline of a mnemonic only while mnemonics are visible (Alt held), whereas WinForms
++    /// menus and captions as this library presents them show it at rest. The underline is therefore also
++    /// asked for as ordinary markup on the same character. While Alt is held GTK adds its own underline on
++    /// the same range, and a Pango attribute of one type over one range draws once, so the two never double up.
++    /// Only the first marker keeps the <c>_</c> (GTK honours a single mnemonic per label); later ones are
++    /// underlined but are not access keys.
++    /// </remarks>
++    public static string ToMarkup(string? text)
++    {
++        if (string.IsNullOrEmpty(text))
++        {
++            return string.Empty;
++        }
++
++        var result = new StringBuilder(text!.Length + 16);
++        var haveKey = false;
++        for (var i = 0; i < text.Length; i++)
++        {
++            var c = text[i];
++            if (c != '&')
++            {
++                AppendEscaped(result, c);
++            }
++            else if (i + 1 < text.Length && text[i + 1] == '&')
++            {
++                result.Append("&amp;");
++                i++;
++            }
++            else if (i + 1 < text.Length)
++            {
++                var next = text[i + 1];
++                var length = char.IsHighSurrogate(next) && i + 2 < text.Length && char.IsLowSurrogate(text[i + 2]) ? 2 : 1;
++                if (next == '_')
++                {
++                    result.Append("__"); // GTK cannot mark an underscore, so it stays a literal one
++                }
++                else
++                {
++                    result.Append("<u>");
++                    if (!haveKey)
++                    {
++                        result.Append('_');
++                        haveKey = true;
++                    }
++
++                    for (var k = 0; k < length; k++)
++                    {
++                        AppendEscaped(result, text[i + 1 + k]);
++                    }
++
++                    result.Append("</u>");
++                    i += length - 1;
++                }
++
++                i++;
++            }
++            // a trailing '&' marks nothing, and WinForms drops it
++        }
++
++        return result.ToString();
++    }
++
++    private static void AppendEscaped(StringBuilder result, char c)
++    {
++        switch (c)
++        {
++            case '_': result.Append("__"); break;
++            case '<': result.Append("&lt;"); break;
++            case '>': result.Append("&gt;"); break;
++            case '&': result.Append("&amp;"); break;
++            default: result.Append(c); break;
++        }
++    }
++
++    /// <summary>
++    /// Shows a WinForms caption on a GTK label: the access key underlined at rest and activatable with Alt.
++    /// </summary>
++    /// <param name="label">The label that displays the caption.</param>
++    /// <param name="text">The WinForms caption.</param>
++    /// <param name="useMnemonic">
++    /// Whether <c>&amp;</c> marks an access key; when it does not the caption is shown verbatim.
++    /// </param>
++    /// <remarks>
++    /// Every caption-bearing control goes through here. <see cref="Gtk.Label.Text" /> afterwards reports the
++    /// displayed text, the markers consumed. Plain <c>set_text</c> would clear the underline flag, so the
++    /// caption is always set through the label's markup-with-mnemonic path instead.
++    /// </remarks>
++    public static void Apply(Gtk.Label label, string? text, bool useMnemonic = true)
++    {
++        if (useMnemonic)
++        {
++            label.MarkupWithMnemonic = ToMarkup(text);
++        }
++        else
++        {
++            label.Text = text ?? string.Empty; // clears the markup and underline flags
++        }
++    }
+ }
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs b/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
+index 0384dbc5..a5ed8433 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/RadioButton.cs
+@@ -98,6 +98,12 @@ public partial class RadioButton : ButtonBase
+             _text = value ?? string.Empty;
+             self.Label = Mnemonics.ToGtk(_text, UseMnemonic);
+             self.UseUnderline = UseMnemonic;
++            // The button's own caption label gets the underlined spelling; Alt+key still selects the button.
++            if (self.GetLabelWidget() is { } caption)
++            {
++                Mnemonics.Apply(caption, _text, UseMnemonic);
++                caption.MnemonicWidget = self;
++            }
+         }
+     }
+ 
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/TrayMenuModel.cs b/Gtk.Windows.Forms/System/Windows/Forms/TrayMenuModel.cs
+index cd65d2c6..5e62aeb8 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/TrayMenuModel.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/TrayMenuModel.cs
+@@ -138,7 +138,7 @@ internal sealed class TrayMenuModel
+     /// <remarks>
+     /// dbusmenu marks mnemonics with <c>_</c>, so a literal underscore in the text has to be escaped as
+     /// <c>__</c> first, or it would silently become a mnemonic. <c>&amp;&amp;</c> is a literal ampersand in
+-    /// WinForms and collapses to one.
++    /// WinForms and collapses to one; a trailing <c>&amp;</c> marks nothing and is dropped.
+     /// </remarks>
+     public static string ToDBusMenuLabel(string? text)
+     {
+@@ -164,10 +164,11 @@ internal sealed class TrayMenuModel
+                     builder.Append('&');
+                     i++;
+                 }
+-                else
++                else if (i + 1 < text.Length)
+                 {
+                     builder.Append('_');
+                 }
++                // a trailing '&' marks nothing, and WinForms drops it
+             }
+             else
+             {
+-- 
+2.55.0.windows.5
+
