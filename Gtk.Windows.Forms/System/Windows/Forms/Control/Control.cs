@@ -1166,7 +1166,10 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
             // equals its requested size. Fall back to the requested Width/Height - the same requested-size
             // fallback Form.ClientSize uses - so ClientSize/ClientRectangle track the assigned Size until a
             // real allocation exists.
-            if (widget.IsMapped && widget.AllocatedWidth > 0)
+            // A widget that has just been mapped, before its first layout, reports a 2x2 allocation (its
+            // borders); that is not a client size, and reading it made code sizing against ClientSize (e.g.
+            // "the panel width minus 50") compute nonsense. The requested size stands in until it is laid out.
+            if (widget.IsMapped && widget.AllocatedWidth > 2 && widget.AllocatedHeight > 2)
             {
                 return new Size(widget.AllocatedWidth, widget.AllocatedHeight);
             }

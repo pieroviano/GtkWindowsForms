@@ -36,7 +36,9 @@
 	   position then and never restores it) and is applied once the control is allocated and again after it is shown;
 	   added the SplitterMoving (cancellable) and SplitterMoved events, raised for user drags and for a changed
 	   SplitterDistance but not for GTK's clamping or a resize; FixedPanel.None now lets both panels resize
-	   (patch 0164).
+	   (patch 0164). Control.ClientSize no longer reports the 2x2 allocation a widget has just after it is
+	   shown (before its first layout) but its requested size, which made code sizing against a freshly shown
+	   panel compute nonsense (patch 0165).
 
  #### 2026/9/26
    	1. Fixed the Windows Forms designer for projects that reference Gtk.Windows.Forms.Base: the

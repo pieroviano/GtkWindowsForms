@@ -258,6 +258,40 @@ public class SplitContainerDistanceTests
         }
     }
 
+    // A control made visible reports its size before GTK has laid it out as 2x2 (its borders): code that sizes
+    // against ClientSize right after showing a panel ("panel width minus 50") must see the real size, as it does in
+    // WinForms (a 700x300 panel with a 1 px border has a 698x298 client area; before layout the border is not
+    // yet subtracted, so 698-700 is accepted).
+    [Fact]
+    public void PanelShownBeforeItsFirstLayout_ReportsItsRequestedClientSize()
+    {
+        var form = HostedSplit(out var host, out var split, hostVisible: false);
+        host.BorderStyle = BorderStyle.FixedSingle;
+        var anchor = new Button { Location = new Point(0, 320), Size = new Size(50, 24) };
+        form.Controls.Add(anchor);
+        try
+        {
+            form.Show();
+            Assert.True(PumpUntil(() => anchor.Widget!.AllocatedWidth > 1));
+            Settle(500);
+
+            host.Visible = true;
+            var clientSize = host.ClientSize;
+            // What an application does on showing the panel: size the splitter against the panel.
+            split.SplitterDistance = Math.Min(400, clientSize.Width - 50);
+            Assert.True(PumpUntil(() => Allocated(split)));
+            Settle(1500);
+
+            Assert.InRange(clientSize.Width, 698, 700);
+            Assert.InRange(clientSize.Height, 298, 300);
+            Assert.Equal(400, split.SplitterDistance);
+        }
+        finally
+        {
+            form.Close();
+        }
+    }
+
     [Fact]
     public void FixedPanelNone_LetsBothPanelsResize()
     {
