@@ -25,6 +25,13 @@
 	   honour, a docked status strip and a form designed maximized no longer shift anchored children), Control.ClientSize
 	   re-bases the anchor, and visibility changes re-run layout only when the visibility changed (deferred while layout
 	   is suspended) (patch 0161).
+	4. Anchoring, second follow-up: a StatusStrip added first no longer corrupts new anchors or DisplayRectangle; a control
+	   removed and re-added or moved to another parent is positioned for its new parent; a hidden AutoSize control is
+	   moved but no longer collapsed to 0x0 (no size request is stamped on an axis the control does not constrain);
+	   ClientSize assigned after the designer, and Height/Width changed on a form designed with Size only, now move the
+	   children; scaling a form (Scale, auto-scale) is no longer counted as a resize; a control added to a runtime
+	   container is positioned for it unless its layout is suspended; a child pushed past an edge is restored when the
+	   container grows back (patch 0163).
 
  #### 2026/9/26
    	1. Fixed the Windows Forms designer for projects that reference Gtk.Windows.Forms.Base: the

@@ -117,7 +117,7 @@ public partial class UserControl : ContainerControl
     /// </param>
     public override void ResumeLayout(bool performLayout)
     {
-        SeedAnchorBaselines();
+        LeaveLayoutSuspension();
     }
 
     /// <summary>
@@ -125,7 +125,7 @@ public partial class UserControl : ContainerControl
     /// </summary>
     public override void SuspendLayout()
     {
-
+        EnterLayoutSuspension();
     }
 
     /// <summary>

@@ -155,6 +155,18 @@ public partial class Form : ContainerControl, IWin32Window
         set
         {
             _designedClientSize = value;
+            // The designer sets ClientSize before the children are positioned for it; a later assignment is a
+            // resize the children must follow, so the size they were positioned for is kept.
+            var afterPositioning = HasAnchorBaselines();
+            if (afterPositioning)
+            {
+                _clientHeightChangedAfterPositioning = true;
+            }
+            else
+            {
+                _anchorDesignedSize = value;
+            }
+
             self.SetDefaultSize(value.Width, value.Height);
             // Gtk4's default size covers the whole window, client-side-decoration titlebar included, so on
             // its own it leaves the client area short by the height of that titlebar. Requesting the height
@@ -165,11 +177,56 @@ public partial class Form : ContainerControl, IWin32Window
             self.ContentArea.SetSizeRequest(-1, value.Height);
             // Until the shortfall is applied the window grows to this client height after opening; that is
             // compensation for the titlebar, not a resize, so anchored children must not follow it.
-            if (!_clientShortfallApplied)
+            if (!_clientShortfallApplied && !afterPositioning)
             {
                 AbsorbLayoutGrowth(value.Height);
             }
         }
+    }
+
+    /// <summary>The client size the children were positioned for (kept when ClientSize is assigned later).</summary>
+    private Size _anchorDesignedSize;
+
+    /// <summary>Whether ClientSize was assigned after the children were positioned.</summary>
+    private bool _clientHeightChangedAfterPositioning;
+
+    /// <summary>The client size the children were positioned for, or empty if ClientSize was never set.</summary>
+    internal Size AnchorDesignedSize => _anchorDesignedSize;
+
+    /// <summary>
+    /// Sets the client size as part of scaling the form and its children together: not a resize, so the
+    /// children are re-based to it.
+    /// </summary>
+    internal void SetClientSizeAsScaling(Size size)
+    {
+        var changed = _clientHeightChangedAfterPositioning;
+        ClientSize = size;
+        _clientHeightChangedAfterPositioning = changed;
+        _anchorDesignedSize = size;
+        RebaseAllChildAnchorBaselines();
+    }
+
+    /// <summary>
+    /// Scales the form and its children. With a designed client size the form is scaled through it, so the
+    /// scaling is not mistaken for a resize by the anchors.
+    /// </summary>
+    public override void Scale(float dx, float dy)
+    {
+        var designed = _anchorDesignedSize;
+        if (designed.Width <= 0 || designed.Height <= 0 || Controls == null)
+        {
+            base.Scale(dx, dy);
+
+            return;
+        }
+
+        for (var i = 0; i < Controls.Count; i++)
+        {
+            Controls[i].Scale(dx, dy);
+        }
+
+        SetClientSizeAsScaling(
+            new Size((int)Math.Round(designed.Width * dx), (int)Math.Round(designed.Height * dy)));
     }
 
     /// <summary>
@@ -181,8 +238,6 @@ public partial class Form : ContainerControl, IWin32Window
     /// </remarks>
     private Size _designedClientSize;
 
-    /// <summary>The client size set through <see cref="ClientSize" />, or <see cref="Size.Empty" /> if never set.</summary>
-    internal Size DesignedClientSize => _designedClientSize;
 
     /// <summary>
     /// Gets or sets a value indicating whether a control box is displayed in the caption bar of the form.
@@ -1152,10 +1207,10 @@ public partial class Form : ContainerControl, IWin32Window
     private bool _absorbThisShow;
 
     /// <inheritdoc />
-    internal override bool TryGetWindowClientSize(out Size client, out bool heightAssigned)
+    internal override bool TryGetWindowClientSize(out Size client, out WindowHeightMode heightMode)
     {
         client = Size.Empty;
-        heightAssigned = false;
+        heightMode = WindowHeightMode.None;
         var content = self.ContentArea;
         if (content == null || content.AllocatedWidth <= 1 || content.AllocatedHeight <= 1)
         {
@@ -1163,9 +1218,14 @@ public partial class Form : ContainerControl, IWin32Window
         }
 
         client = new Size(content.AllocatedWidth, content.AllocatedHeight);
-        // Without a designed client size the units of the baseline are unknown, so the height is left alone.
-        heightAssigned = _designedClientSize.Height > 0
-            && (self.HeightRequest != -1 || WindowState == FormWindowState.Maximized);
+        // With a designed client size the baseline is a client height. Without one (a form designed with Size)
+        // it is the requested window height, so only requests can be compared.
+        heightMode = _anchorDesignedSize.Height > 0
+            ? (self.HeightRequest != -1 || _clientHeightChangedAfterPositioning
+                || WindowState == FormWindowState.Maximized
+                    ? WindowHeightMode.ClientDifference
+                    : WindowHeightMode.None)
+            : WindowHeightMode.RequestDifference;
 
         return true;
     }
@@ -1233,11 +1293,11 @@ public partial class Form : ContainerControl, IWin32Window
         // their designed positions instead of sliding bottom/right-anchored ones by the delta (which otherwise
         // pushed e.g. a bottom-anchored label down onto the control below). Growth beyond that, or in width, is
         // a real resize (e.g. a saved window size restored in Shown) and moves anchored children.
-        if (_absorbThisShow && (_contentFitMax > 0 || _designedClientSize.Height > 0))
+        if (_absorbThisShow && (_contentFitMax > 0 || _anchorDesignedSize.Height > 0))
         {
             // The designed client height includes a docked status strip; the layout overlay (which the cap
             // is compared against) does not.
-            var designedOverlay = _designedClientSize.Height;
+            var designedOverlay = _anchorDesignedSize.Height;
             var content = self.ContentArea;
             if (designedOverlay > 0 && content != null
                 && overlay.AllocatedHeight > 1 && content.AllocatedHeight > overlay.AllocatedHeight)

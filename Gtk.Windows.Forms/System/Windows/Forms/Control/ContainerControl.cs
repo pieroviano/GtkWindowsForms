@@ -124,9 +124,21 @@ public class ContainerControl : ScrollableControl, IContainerControl
             if (includeBounds)
             {
                 var size = ClientSize;
-                ClientSize = new Size(
+                var scaled = new Size(
                     (int)Math.Round(size.Width * factor.Width),
                     (int)Math.Round(size.Height * factor.Height));
+
+                // Scaling is not a resize: the children are scaled with the container, so they are
+                // re-based to its new size instead of following the growth a second time.
+                if (this is Form form)
+                {
+                    form.SetClientSizeAsScaling(scaled);
+                }
+                else
+                {
+                    ClientSize = scaled;
+                    RebaseAllChildAnchorBaselines();
+                }
             }
         }
         finally

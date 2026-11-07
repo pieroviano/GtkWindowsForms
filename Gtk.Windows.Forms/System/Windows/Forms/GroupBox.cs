@@ -134,7 +134,7 @@ public partial class GroupBox : ContainerControl
     public override void ResumeLayout(bool resume)
     {
         _Created = resume == false;
-        SeedAnchorBaselines();
+        LeaveLayoutSuspension();
     }
 
     /// <summary>
@@ -143,5 +143,6 @@ public partial class GroupBox : ContainerControl
     public override void SuspendLayout()
     {
         _Created = false;
+        EnterLayoutSuspension();
     }
 }

@@ -3207,7 +3207,6 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         _Created = true;
         // Construction is over (the designer's last call): the children are now positioned for the size
         // this container has, so a size change after this point is a resize they must follow.
-        SeedAnchorBaselines();
         LeaveLayoutSuspension();
     }
 

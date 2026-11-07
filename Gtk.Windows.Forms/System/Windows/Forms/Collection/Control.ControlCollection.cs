@@ -166,7 +166,8 @@ public partial class Control
             NativeAdd(value);
             InnerList.Add(value);
 
-            // Positioned for the container as it is now (a no-op until the container's layout has started).
+            // Positioned for the container as it is now (deferred while the container's layout is suspended).
+            value.ResetAnchorBaseline();
             _owner.SeedAnchorBaselineFor(value);
 
             // WinForms radio buttons in the same container are mutually exclusive. Gtk4 removed
@@ -232,6 +233,11 @@ public partial class Control
             {
                 foreach (var wid in _ownerControl.GetChildrenArray())
                     _ownerControl.RemoveChild(wid);
+            }
+
+            foreach (var entry in InnerList)
+            {
+                (entry as Control)?.ResetAnchorBaseline();
             }
 
             InnerList.Clear();
@@ -398,6 +404,7 @@ public partial class Control
                 return;
             }
             InnerList.Remove(value);
+            value.ResetAnchorBaseline();
             if (_ownerControl?.GetChildrenArray().Any(o => o.Equals(value.Widget)) == true)
                 _ownerControl.RemoveChild(value.Widget);
         }
