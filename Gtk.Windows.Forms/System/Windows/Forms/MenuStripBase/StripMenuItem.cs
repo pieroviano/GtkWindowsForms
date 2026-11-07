@@ -205,8 +205,7 @@ namespace System.Windows.Forms
             set
             {
                 _text = value ?? string.Empty;
-                textLabel.Text = Mnemonics.ToGtk(_text);
-                textLabel.UseUnderline = true; // set_text clears the flag, so it goes on afterwards
+                Mnemonics.Apply(textLabel, _text);
                 textLabel.MnemonicWidget = checkButton; // Alt+<key> activates the item, as in WinForms
                 textLabel.Visible = _text.Length > 0;
             }

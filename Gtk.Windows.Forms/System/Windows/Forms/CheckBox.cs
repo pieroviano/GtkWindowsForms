@@ -114,16 +114,20 @@ public partial class CheckBox : ButtonBase
         set
         {
             _text = value ?? string.Empty;
-            var caption = Mnemonics.ToGtk(_text, UseMnemonic);
             if (self.Child is Gtk.Label label)
             {
-                label.Text = caption;
-                label.UseUnderline = UseMnemonic; // set_text clears the flag, so it goes on afterwards
+                Mnemonics.Apply(label, _text, UseMnemonic);
             }
             else
             {
-                self.Label = caption;
+                self.Label = Mnemonics.ToGtk(_text, UseMnemonic);
                 self.UseUnderline = UseMnemonic;
+                // The button's own caption label gets the underlined spelling; Alt+key still toggles the box.
+                if (self.GetLabelWidget() is { } caption)
+                {
+                    Mnemonics.Apply(caption, _text, UseMnemonic);
+                    caption.MnemonicWidget = self;
+                }
             }
         }
     }

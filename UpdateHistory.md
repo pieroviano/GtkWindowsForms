@@ -13,6 +13,12 @@
 	   ToolStripLabel, ToolStripStatusLabel, ToolStripDropDownButton and ToolStripSplitButton; Text still
 	   reads back as written. The underline is always drawn (as for Button/Label), and Alt+key activates
 	   the item through GTK's mnemonic mechanism (patch 0160).
+	3. The access key of every caption (Button, CheckBox, RadioButton, Label, GroupBox and the
+	   menu / tool-strip items above) is now underlined at rest: GTK 4 only draws its own mnemonic
+	   underline while Alt is held, so the key is also marked with explicit underline markup (no
+	   double underline when Alt is held; Alt+key still activates). Fixed ToolStripStatusLabel
+	   constructors ignoring their text/image/onClick/name arguments, and tray-menu labels turning a
+	   trailing '&' into a mnemonic instead of dropping it (patch 0162).
 	3. Anchoring follow-up: invisible children are anchored too (their bounds are current while hidden, including after a
 	   maximize), a control added after layout started follows the next resize, the first-allocation delta of a form is
 	   measured from its designed client size against the size the window really opened at (a Width shrink GTK does not

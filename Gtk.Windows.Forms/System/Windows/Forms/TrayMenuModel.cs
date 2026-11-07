@@ -138,7 +138,7 @@ internal sealed class TrayMenuModel
     /// <remarks>
     /// dbusmenu marks mnemonics with <c>_</c>, so a literal underscore in the text has to be escaped as
     /// <c>__</c> first, or it would silently become a mnemonic. <c>&amp;&amp;</c> is a literal ampersand in
-    /// WinForms and collapses to one.
+    /// WinForms and collapses to one; a trailing <c>&amp;</c> marks nothing and is dropped.
     /// </remarks>
     public static string ToDBusMenuLabel(string? text)
     {
@@ -164,10 +164,11 @@ internal sealed class TrayMenuModel
                     builder.Append('&');
                     i++;
                 }
-                else
+                else if (i + 1 < text.Length)
                 {
                     builder.Append('_');
                 }
+                // a trailing '&' marks nothing, and WinForms drops it
             }
             else
             {

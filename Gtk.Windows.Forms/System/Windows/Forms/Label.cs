@@ -97,8 +97,7 @@ public partial class Label : Control
         set
         {
             _text = value ?? string.Empty;
-            self.Text = Mnemonics.ToGtk(_text, UseMnemonic);
-            self.UseUnderline = UseMnemonic; // set_text clears the flag, so it goes on afterwards
+            Mnemonics.Apply(self, _text, UseMnemonic);
         }
     }
 

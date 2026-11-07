@@ -109,7 +109,7 @@ public partial class GroupBox : ContainerControl
             // Setting Label makes the frame build its caption widget; tell that widget the '_' is a marker.
             if (self.LabelWidget is Gtk.Label caption)
             {
-                caption.UseUnderline = true;
+                Mnemonics.Apply(caption, _text);
             }
         }
     }

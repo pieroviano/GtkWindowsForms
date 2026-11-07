@@ -78,8 +78,8 @@ namespace System.Windows.Forms
         private Gtk.Label CreateCaption()
         {
             // The caption's '&' marks a mnemonic (see Mnemonics); Alt+<key> activates the button.
-            var caption = new Gtk.Label(Mnemonics.ToGtk(_text)) { Visible = true };
-            caption.UseUnderline = true; // the text setter clears the flag, so it goes on afterwards
+            var caption = new Gtk.Label { Visible = true };
+            Mnemonics.Apply(caption, _text);
             caption.MnemonicWidget = this;
             return caption;
         }

@@ -98,6 +98,12 @@ public partial class RadioButton : ButtonBase
             _text = value ?? string.Empty;
             self.Label = Mnemonics.ToGtk(_text, UseMnemonic);
             self.UseUnderline = UseMnemonic;
+            // The button's own caption label gets the underlined spelling; Alt+key still selects the button.
+            if (self.GetLabelWidget() is { } caption)
+            {
+                Mnemonics.Apply(caption, _text, UseMnemonic);
+                caption.MnemonicWidget = self;
+            }
         }
     }
 

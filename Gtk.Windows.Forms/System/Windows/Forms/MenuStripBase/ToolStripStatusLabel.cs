@@ -13,9 +13,8 @@ public class ToolStripStatusLabel : ToolStripLabel
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.ToolStripStatusLabel" /> class.
     /// </summary>
-    public ToolStripStatusLabel()
+    public ToolStripStatusLabel() : base()
     {
-
     }
 
     /// <summary>
@@ -25,9 +24,8 @@ public class ToolStripStatusLabel : ToolStripLabel
     /// <param name="text">
     /// The text.
     /// </param>
-    public ToolStripStatusLabel(string text)
+    public ToolStripStatusLabel(string text) : base(text)
     {
-
     }
 
     /// <summary>
@@ -37,9 +35,8 @@ public class ToolStripStatusLabel : ToolStripLabel
     /// <param name="image">
     /// The image.
     /// </param>
-    public ToolStripStatusLabel(Image image)
+    public ToolStripStatusLabel(Image image) : base(string.Empty, image, null, string.Empty)
     {
-
     }
 
     /// <summary>
@@ -52,9 +49,8 @@ public class ToolStripStatusLabel : ToolStripLabel
     /// <param name="image">
     /// The image.
     /// </param>
-    public ToolStripStatusLabel(string text, Image image)
+    public ToolStripStatusLabel(string text, Image image) : base(text, image)
     {
-
     }
 
     /// <summary>
@@ -70,9 +66,8 @@ public class ToolStripStatusLabel : ToolStripLabel
     /// <param name="onClick">
     /// The on click.
     /// </param>
-    public ToolStripStatusLabel(string text, Image image, EventHandler onClick)
+    public ToolStripStatusLabel(string text, Image image, EventHandler onClick) : base(text, image, onClick)
     {
-
     }
 
     /// <summary>

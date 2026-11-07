@@ -83,8 +83,7 @@ public partial class Button : ButtonBase
         {
             _text = value ?? string.Empty;
             var label = (Gtk.Label)self.Child;
-            label.Text = Mnemonics.ToGtk(_text, UseMnemonic);
-            label.UseUnderline = UseMnemonic; // set_text clears the flag, so it goes on afterwards
+            Mnemonics.Apply(label, _text, UseMnemonic);
         }
     }
 
