@@ -193,13 +193,22 @@ namespace System.Windows.Forms
 
         public Gtk.Widget MenuItem { get => this; }
 
+        private string _text = string.Empty;
+
+        /// <summary>
+        /// The caption as WinForms wrote it, <c>&amp;</c> mnemonic markers included. The label holds GTK's
+        /// spelling of it (see <see cref="Mnemonics" />), which reads back without the markers.
+        /// </summary>
         public string Text
         {
-            get => textLabel.Text;
+            get => _text;
             set
             {
-                textLabel.Text = value ?? string.Empty;
-                textLabel.Visible = !string.IsNullOrEmpty(value);
+                _text = value ?? string.Empty;
+                textLabel.Text = Mnemonics.ToGtk(_text);
+                textLabel.UseUnderline = true; // set_text clears the flag, so it goes on afterwards
+                textLabel.MnemonicWidget = checkButton; // Alt+<key> activates the item, as in WinForms
+                textLabel.Visible = _text.Length > 0;
             }
         }
 

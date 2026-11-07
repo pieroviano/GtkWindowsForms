@@ -7,6 +7,12 @@
 	   its anchored children, and a child that was invisible during a resize catches up when it is
 	   shown. The titlebar / content-fit compensation still keeps anchored children at their designed
 	   positions (patch 0159).
+	2. Menu and tool-strip captions treat '&' as a mnemonic, as WinForms does: "&File" shows File with
+	   the F underlined, "&&" shows one '&', a trailing '&' is dropped, and '_' stays a literal
+	   underscore. Applies to ToolStripMenuItem (menu bar, submenus, context menus), ToolStripButton,
+	   ToolStripLabel, ToolStripStatusLabel, ToolStripDropDownButton and ToolStripSplitButton; Text still
+	   reads back as written. The underline is always drawn (as for Button/Label), and Alt+key activates
+	   the item through GTK's mnemonic mechanism (patch 0160).
 
  #### 2026/9/26
    	1. Fixed the Windows Forms designer for projects that reference Gtk.Windows.Forms.Base: the

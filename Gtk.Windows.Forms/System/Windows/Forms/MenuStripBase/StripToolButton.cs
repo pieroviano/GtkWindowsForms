@@ -73,6 +73,15 @@ namespace System.Windows.Forms
         /// from the current image/text honouring <see cref="DisplayStyle"/>; falls back to whatever content
         /// is available when the style is unset (None).
         /// </summary>
+        private Gtk.Label CreateCaption()
+        {
+            // The caption's '&' marks a mnemonic (see Mnemonics); Alt+<key> activates the button.
+            var caption = new Gtk.Label(Mnemonics.ToGtk(_text)) { Visible = true };
+            caption.UseUnderline = true; // the text setter clears the flag, so it goes on afterwards
+            caption.MnemonicWidget = this;
+            return caption;
+        }
+
         internal void RebuildContent()
         {
             bool wantImage = _displayStyle != ToolStripItemDisplayStyle.Text && _image != null;
@@ -82,7 +91,7 @@ namespace System.Windows.Forms
             {
                 var box = new Gtk.Box(Gtk.Orientation.Horizontal, 4) { Visible = true };
                 box.Append(new Gtk.Image(_image) { Visible = true });
-                box.Append(new Gtk.Label(_text) { Visible = true });
+                box.Append(CreateCaption());
                 this.Child = box;
             }
             else if (wantImage)
@@ -91,7 +100,7 @@ namespace System.Windows.Forms
             }
             else if (wantText)
             {
-                this.Child = new Gtk.Label(_text) { Visible = true };
+                this.Child = CreateCaption();
             }
         }
     }
