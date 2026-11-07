@@ -32,6 +32,11 @@
 	   children; scaling a form (Scale, auto-scale) is no longer counted as a resize; a control added to a runtime
 	   container is positioned for it unless its layout is suspended; a child pushed past an edge is restored when the
 	   container grows back (patch 0163).
+	5. SplitContainer: SplitterDistance now persists while the control is hidden or has no size (GTK clamps its own
+	   position then and never restores it) and is applied once the control is allocated and again after it is shown;
+	   added the SplitterMoving (cancellable) and SplitterMoved events, raised for user drags and for a changed
+	   SplitterDistance but not for GTK's clamping or a resize; FixedPanel.None now lets both panels resize
+	   (patch 0164).
 
  #### 2026/9/26
    	1. Fixed the Windows Forms designer for projects that reference Gtk.Windows.Forms.Base: the
