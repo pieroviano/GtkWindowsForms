@@ -222,32 +222,295 @@ public class AnchorBaselineFunctionalTests
         }
     }
 
-    // Height has window chrome (titlebar) in it, so the bottom anchor follows the real client height change,
-    // not the change of the requested window height.
+    // Height has window chrome (titlebar) in it. WinForms: a bottom anchor follows the change of the form's
+    // Height, which equals the change of its client height - so the expected move is measured against an
+    // identical form that was opened without the Height assignment, not against GTK's own ClientSize.
     [Theory]
     [InlineData(700)]
     [InlineData(800)]
-    public void FormEnlargedInHeightInLoad_MovesBottomAnchoredChildByTheClientChange(int newHeight)
+    public void FormEnlargedInHeightInLoad_MovesBottomAnchoredChildByTheHeightChange(int newHeight)
     {
-        var form = new Form { ClientSize = new Size(937, 590) };
-        var bottom = new Panel { Location = new Point(12, 500), Size = new Size(200, 40), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
-        var tall = new Panel { Location = new Point(300, 40), Size = new Size(200, 300), Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left };
-        form.Controls.Add(bottom);
-        form.Controls.Add(tall);
-        form.ResumeLayout(false);
-        form.Load += (_, _) => form.Height = newHeight;
+        Form Build(out Panel bottom, out Panel tall)
+        {
+            var f = new Form { ClientSize = new Size(937, 590) };
+            bottom = new Panel { Location = new Point(12, 500), Size = new Size(200, 40), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
+            tall = new Panel { Location = new Point(300, 40), Size = new Size(200, 300), Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left };
+            f.Controls.Add(bottom);
+            f.Controls.Add(tall);
+            f.ResumeLayout(false);
 
+            return f;
+        }
+
+        var reference = Build(out var refBottom, out _);
+        int openedHeight;
+        try
+        {
+            reference.Show();
+            Assert.True(PumpUntil(() => refBottom.Widget!.AllocatedHeight > 1));
+            Settle(3500);
+            Assert.Equal(500, refBottom.Top);
+            openedHeight = reference.Height;
+        }
+        finally
+        {
+            reference.Close();
+        }
+
+        var form = Build(out var bottom, out var tall);
+        form.Load += (_, _) => form.Height = newHeight;
         try
         {
             form.Show();
             Assert.True(PumpUntil(() => bottom.Top > 500, 6000), "the enlarged height never reached the bottom-anchored child");
             Settle(3000);
 
-            var clientGrow = form.ClientSize.Height - 590;
-            Assert.True(clientGrow > 0);
-            Assert.Equal(500 + clientGrow, bottom.Top);
-            Assert.Equal(300 + clientGrow, tall.Height);
+            var grow = form.Height - openedHeight;
+            Assert.True(grow > 0);
+            Assert.Equal(500 + grow, bottom.Top);
+            Assert.Equal(300 + grow, tall.Height);
             Assert.Equal(40, tall.Top);
+        }
+        finally
+        {
+            form.Close();
+        }
+    }
+
+    // A control hidden since construction is anchored all the same (WinForms keeps invisible controls
+    // current), so a resize by the window manager reaches it: the distance to the right edge is what the
+    // designer gave it, equal to its visible sibling's.
+    [Fact]
+    public void ChildHiddenSinceConstruction_FollowsAMaximize()
+    {
+        var form = new Form { ClientSize = new Size(600, 400) };
+        var visible = new Button { Location = new Point(450, 350), Size = new Size(100, 24), Anchor = AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom };
+        var hidden = new Button { Location = new Point(450, 350), Size = new Size(100, 24), Anchor = AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom, Visible = false };
+        form.Controls.Add(visible);
+        form.Controls.Add(hidden);
+        form.ResumeLayout(false);
+
+        try
+        {
+            form.Show();
+            Assert.True(PumpUntil(() => visible.Widget!.AllocatedWidth > 1));
+            Settle(3000);
+            var width0 = form.DisplayRectangle.Width;
+            form.WindowState = FormWindowState.Maximized;
+            Assert.True(PumpUntil(() => form.DisplayRectangle.Width > width0 + 100), "the form never maximized");
+            Settle(1500);
+
+            hidden.Visible = true;
+            Settle(300);
+
+            // Designed: 50 px to the right edge.
+            var right = form.DisplayRectangle.Width;
+            Assert.Equal(50, right - (visible.Left + visible.Width));
+            Assert.Equal(50, right - (hidden.Left + hidden.Width));
+            Assert.Equal(visible.Bounds, hidden.Bounds);
+        }
+        finally
+        {
+            form.Close();
+        }
+    }
+
+    [Fact]
+    public void HiddenChildBounds_AreCurrentWhileItIsStillHidden()
+    {
+        var form = new Form { ClientSize = new Size(600, 400) };
+        var visible = new Button { Location = new Point(450, 10), Size = new Size(100, 24), Anchor = AnchorStyles.Top | AnchorStyles.Right };
+        var hidden = new Button { Location = new Point(450, 50), Size = new Size(100, 24), Anchor = AnchorStyles.Top | AnchorStyles.Right, Visible = false };
+        form.Controls.Add(visible);
+        form.Controls.Add(hidden);
+        form.ResumeLayout(false);
+
+        try
+        {
+            form.Show();
+            Assert.True(PumpUntil(() => visible.Widget!.AllocatedWidth > 1));
+            Settle(3000);
+            var width0 = form.DisplayRectangle.Width;
+            form.WindowState = FormWindowState.Maximized;
+            Assert.True(PumpUntil(() => form.DisplayRectangle.Width > width0 + 100));
+            Settle(1500);
+
+            Assert.False(hidden.Visible);
+            Assert.Equal(visible.Left, hidden.Left);
+        }
+        finally
+        {
+            form.Close();
+        }
+    }
+
+    // WinForms computes a control's anchors against its parent's size when it is added, so a control added
+    // after the form was shown follows the next resize just as the designed ones do.
+    [Fact]
+    public void ControlAddedAfterTheFirstLayout_FollowsTheNextResize()
+    {
+        var form = new Form { ClientSize = new Size(600, 400) };
+        var designed = new Button { Location = new Point(450, 10), Size = new Size(100, 24), Anchor = AnchorStyles.Top | AnchorStyles.Right };
+        form.Controls.Add(designed);
+        form.ResumeLayout(false);
+
+        try
+        {
+            form.Show();
+            Assert.True(PumpUntil(() => designed.Widget!.AllocatedWidth > 1));
+            Settle(3000);
+            var added = new Button { Location = new Point(450, 50), Size = new Size(100, 24), Anchor = AnchorStyles.Top | AnchorStyles.Right };
+            form.Controls.Add(added);
+            Settle(500);
+            var width0 = form.DisplayRectangle.Width;
+            form.WindowState = FormWindowState.Maximized;
+            Assert.True(PumpUntil(() => form.DisplayRectangle.Width > width0 + 100));
+            Settle(1500);
+
+            Assert.Equal(designed.Left, added.Left);
+        }
+        finally
+        {
+            form.Close();
+        }
+    }
+
+    // Width is only a minimum request on GTK, so a shrink may not be honoured: the children must follow the
+    // size the window actually has, keeping their designed distance (19 px) to the right edge.
+    [Theory]
+    [InlineData(800)]
+    [InlineData(900)]
+    [InlineData(1100)]
+    public void FormWidthChangedInLoad_KeepsTheDesignedDistanceToTheRightEdge(int newWidth)
+    {
+        var form = new Form { ClientSize = new Size(937, 590) };
+        var right = new Button { Location = new Point(798, 8), Size = new Size(120, 24), Anchor = AnchorStyles.Top | AnchorStyles.Right };
+        form.Controls.Add(right);
+        form.ResumeLayout(false);
+        form.Load += (_, _) => form.Width = newWidth;
+
+        try
+        {
+            form.Show();
+            Assert.True(PumpUntil(() => right.Widget!.AllocatedWidth > 1));
+            Settle(3000);
+
+            Assert.Equal(19, form.DisplayRectangle.Width - right.Left - right.Width);
+        }
+        finally
+        {
+            form.Close();
+        }
+    }
+
+    // A docked status strip is part of the client area but not of the anchor area: a height change must move a
+    // bottom-anchored child by exactly that change, keeping its gap to the strip (WinForms keeps it), in Load
+    // and in Shown. The designed gap is measured on an identical form that is not resized.
+    [Theory]
+    [InlineData(600, "load")]
+    [InlineData(700, "load")]
+    [InlineData(700, "shown")]
+    public void FormWithAStatusStrip_KeepsTheGapOfABottomAnchoredChild(int newHeight, string when)
+    {
+        Form Build(out Button button)
+        {
+            var f = new Form { ClientSize = new Size(600, 400) };
+            button = new Button { Location = new Point(10, 340), Size = new Size(100, 24), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
+            f.Controls.Add(button);
+            f.Controls.Add(new StatusStrip());
+            f.ResumeLayout(false);
+
+            return f;
+        }
+
+        var reference = Build(out var refButton);
+        int designedGap;
+        try
+        {
+            reference.Show();
+            Assert.True(PumpUntil(() => refButton.Widget!.AllocatedWidth > 1));
+            Settle(3500);
+            designedGap = reference.DisplayRectangle.Height - (refButton.Top + refButton.Height);
+        }
+        finally
+        {
+            reference.Close();
+        }
+
+        var form = Build(out var button);
+        if (when == "load")
+        {
+            form.Load += (_, _) => form.Height = newHeight;
+        }
+        else
+        {
+            form.Shown += (_, _) => form.Height = newHeight;
+        }
+
+        try
+        {
+            form.Show();
+            Assert.True(PumpUntil(() => form.DisplayRectangle.Height > 400, 6000));
+            Settle(3000);
+
+            Assert.Equal(designedGap, form.DisplayRectangle.Height - (button.Top + button.Height));
+        }
+        finally
+        {
+            form.Close();
+        }
+    }
+
+    // A form designed maximized opens already at its final size: that is a resize from the designed client
+    // size, so right-anchored children keep their designed distance to the edge.
+    [Fact]
+    public void FormOpenedMaximized_KeepsTheDesignedDistanceToTheRightEdge()
+    {
+        var form = new Form { ClientSize = new Size(600, 400), WindowState = FormWindowState.Maximized };
+        var right = new Button { Location = new Point(450, 10), Size = new Size(100, 24), Anchor = AnchorStyles.Top | AnchorStyles.Right };
+        form.Controls.Add(right);
+        form.ResumeLayout(false);
+
+        try
+        {
+            form.Show();
+            Assert.True(PumpUntil(() => form.DisplayRectangle.Width > 700 && right.Widget!.AllocatedWidth > 1));
+            Settle(3000);
+
+            Assert.Equal(50, form.DisplayRectangle.Width - (right.Left + right.Width));
+        }
+        finally
+        {
+            form.Close();
+        }
+    }
+
+    // ClientSize assigned to a child positions it for the container as it is now, like Size does.
+    [Fact]
+    public void ChildClientSizeAssignedWhileHidden_IsNotResizedByAnEarlierContainerResize()
+    {
+        var form = new Form { ClientSize = new Size(900, 700) };
+        var container = new Panel { Location = new Point(10, 10), Size = new Size(500, 300) };
+        var child = new Panel { Location = new Point(20, 20), Size = new Size(150, 100), Anchor = LR };
+        container.Controls.Add(child);
+        form.Controls.Add(container);
+        form.ResumeLayout(false);
+
+        try
+        {
+            form.Show();
+            Assert.True(PumpUntil(() => Allocated(container, 500, 300)));
+            Settle(300);
+            child.Visible = false;
+            container.Size = new Size(600, 300);
+            Assert.True(PumpUntil(() => Allocated(container, 600, 300)));
+            Settle(300);
+
+            child.ClientSize = new Size(100, 100);
+            child.Visible = true;
+            Settle(300);
+
+            Assert.Equal(100, child.Width);
         }
         finally
         {

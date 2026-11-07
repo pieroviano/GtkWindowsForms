@@ -166,6 +166,9 @@ public partial class Control
             NativeAdd(value);
             InnerList.Add(value);
 
+            // Positioned for the container as it is now (a no-op until the container's layout has started).
+            _owner.SeedAnchorBaselineFor(value);
+
             // WinForms radio buttons in the same container are mutually exclusive. Gtk4 removed
             // Gtk.RadioButton auto-grouping; join the sibling group now that the widget is parented (a
             // stable point, unlike doing it lazily during a modal Load — see RadioButtonBase.EnsureGrouped).

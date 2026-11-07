@@ -117,7 +117,7 @@ public partial class UserControl : ContainerControl
     /// </param>
     public override void ResumeLayout(bool performLayout)
     {
-
+        SeedAnchorBaselines();
     }
 
     /// <summary>

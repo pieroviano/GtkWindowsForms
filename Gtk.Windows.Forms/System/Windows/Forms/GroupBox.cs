@@ -134,6 +134,7 @@ public partial class GroupBox : ContainerControl
     public override void ResumeLayout(bool resume)
     {
         _Created = resume == false;
+        SeedAnchorBaselines();
     }
 
     /// <summary>

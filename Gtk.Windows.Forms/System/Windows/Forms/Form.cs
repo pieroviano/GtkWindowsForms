@@ -1019,6 +1019,7 @@ public partial class Form : ContainerControl, IWin32Window
     public override void SuspendLayout()
     {
         _Created = false;
+        EnterLayoutSuspension();
     }
 
     /// <summary>
@@ -1137,7 +1138,36 @@ public partial class Form : ContainerControl, IWin32Window
         _contentFitMax = 0;
         _contentFitStableTicks = 0;
         _contentFitTotalTicks = 0;
+        // Only the first show compensates for the opening growth; a size restored in Shown on a later show is
+        // a real resize.
+        _absorbThisShow = !_hasBeenShown;
+        _hasBeenShown = true;
         GLib.Timeout.Add(16, EnsureContentFits);
+    }
+
+    /// <summary>Whether the form has been shown before.</summary>
+    private bool _hasBeenShown;
+
+    /// <summary>Whether this show's content-fit watch absorbs the opening growth (first show only).</summary>
+    private bool _absorbThisShow;
+
+    /// <inheritdoc />
+    internal override bool TryGetWindowClientSize(out Size client, out bool heightAssigned)
+    {
+        client = Size.Empty;
+        heightAssigned = false;
+        var content = self.ContentArea;
+        if (content == null || content.AllocatedWidth <= 1 || content.AllocatedHeight <= 1)
+        {
+            return false;
+        }
+
+        client = new Size(content.AllocatedWidth, content.AllocatedHeight);
+        // Without a designed client size the units of the baseline are unknown, so the height is left alone.
+        heightAssigned = _designedClientSize.Height > 0
+            && (self.HeightRequest != -1 || WindowState == FormWindowState.Maximized);
+
+        return true;
     }
 
     /// <summary>The largest content extent seen so far; the fit request only ever grows to this.</summary>
@@ -1203,9 +1233,19 @@ public partial class Form : ContainerControl, IWin32Window
         // their designed positions instead of sliding bottom/right-anchored ones by the delta (which otherwise
         // pushed e.g. a bottom-anchored label down onto the control below). Growth beyond that, or in width, is
         // a real resize (e.g. a saved window size restored in Shown) and moves anchored children.
-        if (_contentFitMax > 0 || _designedClientSize.Height > 0)
+        if (_absorbThisShow && (_contentFitMax > 0 || _designedClientSize.Height > 0))
         {
-            AbsorbLayoutGrowth(Math.Max(_contentFitMax, _designedClientSize.Height));
+            // The designed client height includes a docked status strip; the layout overlay (which the cap
+            // is compared against) does not.
+            var designedOverlay = _designedClientSize.Height;
+            var content = self.ContentArea;
+            if (designedOverlay > 0 && content != null
+                && overlay.AllocatedHeight > 1 && content.AllocatedHeight > overlay.AllocatedHeight)
+            {
+                designedOverlay -= content.AllocatedHeight - overlay.AllocatedHeight;
+            }
+
+            AbsorbLayoutGrowth(Math.Max(_contentFitMax, designedOverlay));
         }
 
         // Keep watching until the extent has been stable for a short spell, then stop (hard-capped at ~2s).

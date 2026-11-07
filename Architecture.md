@@ -121,7 +121,7 @@ base (`Control : Component, IControl, ISynchronizeInvoke, …`). It centralizes:
   WinForms `EventArgs` types along the way.
 - **Geometry & layout state** — `Bounds`, `Size`, `Location`, `ClientRectangle` read/write the GTK
   allocation (`Widget.Allocation`, `SetSizeRequest`); `Dock` and `Anchor` are re-implemented on top
-  of GTK's measure/allocate cycle (anchors are applied per child against the container size that child was positioned for, so hidden children and pre-map resizes are not lost; `DockStyle.Fill`
+  of GTK's measure/allocate cycle (anchors are applied per child against the container size that child was positioned for - invisible children included, so their bounds stay current - and a resize made before the first real allocation is applied from the form's designed client size; `DockStyle.Fill`
   etc. adjust alignment/expansion). WinForms coordinate-based layout inside containers is emulated
   with GTK fixed/layout containers (`LayoutBase`, `ScrollableBoxBase`, `ViewportBase`).
 - **Threading** — `ISynchronizeInvoke` (`Invoke`/`BeginInvoke`) marshals onto the GTK main loop.

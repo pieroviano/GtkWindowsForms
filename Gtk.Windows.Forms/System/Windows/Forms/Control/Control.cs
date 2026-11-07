@@ -1173,7 +1173,11 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
 
             return new Size(Width, Height);
         }
-        set { this.Widget?.SetSizeRequest(value.Width, value.Height); }
+        set
+        {
+            this.Widget?.SetSizeRequest(value.Width, value.Height);
+            RebaseAnchorBaseline();
+        }
     }
 
     /// <summary>
@@ -1944,16 +1948,21 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         {
             if (this.Widget != null)
             {
+                var wasVisible = this.Widget.Visible;
                 if (value == true)
                 {
                     this.Widget.Show();
-                    // A child hidden during a container resize was skipped by the pass; run one now so it
-                    // catches up (an allocation change may never come).
-                    Parent?.PerformDockAnchorLayout();
                 }
                 else
                 {
                     this.Widget.Visible = value;
+                }
+
+                // Dock layout skips invisible children, so the container has to re-run when one appears or
+                // disappears (an allocation change may never come).
+                if (wasVisible != value)
+                {
+                    Parent?.ChildVisibilityChanged();
                 }
             }
         }
@@ -3199,6 +3208,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         // Construction is over (the designer's last call): the children are now positioned for the size
         // this container has, so a size change after this point is a resize they must follow.
         SeedAnchorBaselines();
+        LeaveLayoutSuspension();
     }
 
     /// <summary>
@@ -3411,8 +3421,12 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     /// </summary>
     public virtual void Show()
     {
+        var wasVisible = this.Widget?.Visible ?? true;
         this.Widget?.Show();
-        Parent?.PerformDockAnchorLayout();
+        if (!wasVisible)
+        {
+            Parent?.ChildVisibilityChanged();
+        }
     }
 
     /// <summary>
@@ -3421,6 +3435,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
     public virtual void SuspendLayout()
     {
         _Created = false;
+        EnterLayoutSuspension();
     }
 
     /// <summary>

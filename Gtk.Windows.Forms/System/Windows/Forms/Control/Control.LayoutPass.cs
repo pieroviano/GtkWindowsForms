@@ -30,10 +30,11 @@ namespace System.Windows.Forms;
 /// The anchor delta is tracked <em>per child</em>, as WinForms does (it stores each control's distances to
 /// the parent's edges): every anchored child remembers the container client size its current bounds
 /// correspond to. A pass moves a child by (container size now - that baseline), then advances the
-/// baseline. Consequences: a child that was invisible during a resize catches up on the pass that runs
-/// when it becomes visible; a child whose bounds are assigned by code is re-based to the container's
-/// current size; and a size change made before the window's first real allocation (the baseline is then
-/// the container's <em>requested</em> size, see <c>AnchorBaselineKind</c>) is still applied as a resize.
+/// baseline. Invisible children are anchored too (WinForms keeps their bounds current), so nothing has to
+/// catch up when they are shown; a child whose bounds are assigned by code, or that is added once layout
+/// has started, is baselined at the container's current size; and a size change made before the window's
+/// first real allocation (the baseline is then the container's <em>requested</em> size, see
+/// <c>AnchorBaselineKind</c>) is still applied as a resize.
 /// </para>
 /// <para>
 /// The expected values are not invented: they were taken from real <c>System.Windows.Forms</c> for the
@@ -119,11 +120,8 @@ public partial class Control
         /// <summary>No baseline yet; the next pass seeds one at the container's current size.</summary>
         None,
 
-        /// <summary>The container's requested size; for a window the height is in client units.</summary>
+        /// <summary>The container's requested size; for a form, its designed client size.</summary>
         Requested,
-
-        /// <summary>The container's requested size, whose height was set explicitly (window units).</summary>
-        RequestedWindowHeight,
 
         /// <summary>A real allocation of the container's overlay.</summary>
         Real,
@@ -146,28 +144,37 @@ public partial class Control
     /// content-fit and designed-client-size passes) and must keep every anchored child at its designed
     /// position.
     /// </summary>
-    /// <param name="clientHeight">The client height the container is being grown to.</param>
+    /// <param name="clientHeight">The overlay client height the container is being grown to.</param>
     /// <remarks>
     /// The next real passes rebase every child's baseline (visible or not) by the absorbed growth rather
     /// than forgetting it. Growth beyond <paramref name="clientHeight" />, and any width change, is a
     /// genuine resize (e.g. the application restoring a saved window size in <c>Shown</c>) and is applied.
     /// </remarks>
-    internal void AbsorbLayoutGrowth(int clientHeight) =>
-        _absorbHeightTarget = Math.Max(_absorbHeightTarget, clientHeight);
+    internal void AbsorbLayoutGrowth(int clientHeight) => _absorbHeightTarget = clientHeight;
+
+    /// <summary>
+    /// For a window: the size of its real client area as the user sees it, and whether the window's height
+    /// was set explicitly (so its client height differing from the designed one is a resize, not titlebar
+    /// compensation). False for every other container.
+    /// </summary>
+    internal virtual bool TryGetWindowClientSize(out Size client, out bool heightAssigned)
+    {
+        client = Size.Empty;
+        heightAssigned = false;
+
+        return false;
+    }
 
     /// <summary>Ends <see cref="AbsorbLayoutGrowth" />; later growth is treated as a resize.</summary>
     internal void StopAbsorbingLayoutGrowth() => _absorbHeightTarget = 0;
 
     /// <summary>
-    /// The size this container asks GTK for, which is the only size that exists before it is mapped.
+    /// The size this container asks GTK for, which is the only size that exists before it is mapped. For a
+    /// form that is the client size it was designed at (GTK rewrites a window's default size once it has
+    /// sized the window, titlebar included, so that is not reliable).
     /// </summary>
-    /// <param name="windowHeight">
-    /// Whether the height is an explicit request on a window (window units, titlebar included) rather than
-    /// the client-height default set by <c>ClientSize</c>.
-    /// </param>
-    private Size RequestedLayoutSize(out bool windowHeight)
+    private Size RequestedLayoutSize()
     {
-        windowHeight = false;
         var widget = Widget;
         if (widget == null)
         {
@@ -176,17 +183,15 @@ public partial class Control
 
         if (widget is Gtk.Window window)
         {
-            windowHeight = window.HeightRequest != -1;
-
-            // GTK rewrites a window's default size once it has sized the window (the titlebar ends up in the
-            // default height), so the size the form was designed at is the reliable client-unit default.
             var designed = (this as Form)?.DesignedClientSize ?? Size.Empty;
-            var defaultWidth = designed.Width > 0 ? designed.Width : window.DefaultWidth;
-            var defaultHeight = designed.Height > 0 ? designed.Height : window.DefaultHeight;
+            if (designed.Width > 0 && designed.Height > 0)
+            {
+                return designed;
+            }
 
             return new Size(
-                window.WidthRequest != -1 ? window.WidthRequest : defaultWidth,
-                windowHeight ? window.HeightRequest : defaultHeight);
+                window.WidthRequest != -1 ? window.WidthRequest : window.DefaultWidth,
+                window.HeightRequest != -1 ? window.HeightRequest : window.DefaultHeight);
         }
 
         return new Size(widget.WidthRequest, widget.HeightRequest);
@@ -204,42 +209,64 @@ public partial class Control
             return true;
         }
 
-        size = RequestedLayoutSize(out var windowHeight);
-        kind = windowHeight ? AnchorBaselineKind.RequestedWindowHeight : AnchorBaselineKind.Requested;
+        size = RequestedLayoutSize();
+        kind = AnchorBaselineKind.Requested;
 
         return size.Width > 1 && size.Height > 1;
     }
 
+    /// <summary>Whether layout has started: layout was resumed or a pass ran, so children have baselines.</summary>
+    private bool _anchorLayoutStarted;
+
     /// <summary>
     /// Gives every child that has no anchor baseline one at the container's current size - "the size the
     /// children were positioned for". Called when layout is resumed (the designer's end-of-InitializeComponent
-    /// hook), so a size change made after construction but before the first pass still counts as a resize,
-    /// and from each pass, so hidden children are covered too.
+    /// hook), so a size change made after construction but before the first pass still counts as a resize.
+    /// Children added later are seeded by <see cref="SeedAnchorBaselineFor" />.
     /// </summary>
-    private void SeedAnchorBaselines()
+    internal void SeedAnchorBaselines()
     {
-        if (Controls is not { } controls || !TryGetLayoutBaseline(out var size, out var kind))
+        _anchorLayoutStarted = true;
+        if (Controls is not { } controls)
         {
             return;
         }
 
         foreach (var entry in controls)
         {
-            if (entry is Control { Widget: not null } child
-                && child._anchorBaselineKind == AnchorBaselineKind.None
-                && child.Dock == DockStyle.None
-                && entry is not StatusStrip)
+            if (entry is Control child)
             {
-                child._anchorBaseline = size;
-                child._anchorBaselineKind = kind;
+                SeedAnchorBaselineFor(child);
             }
         }
     }
 
     /// <summary>
+    /// Baselines a child that has none at this container's current size. Used when a control is added after
+    /// layout started (WinForms computes its anchors against the parent's display rectangle as it is when the
+    /// control is added). Before layout starts nothing is seeded: the designer assigns a container's children
+    /// before the container's own size.
+    /// </summary>
+    internal void SeedAnchorBaselineFor(Control child)
+    {
+        if (!_anchorLayoutStarted
+            || child._anchorBaselineKind != AnchorBaselineKind.None
+            || child.Widget == null
+            || child.Dock != DockStyle.None
+            || child is StatusStrip
+            || !TryGetLayoutBaseline(out var size, out var kind))
+        {
+            return;
+        }
+
+        child._anchorBaseline = size;
+        child._anchorBaselineKind = kind;
+    }
+
+    /// <summary>
     /// Re-bases this child's anchor baseline to its container's current size. Code assigning a child's
-    /// bounds positions it for the container as it is now, so a later (or catch-up) pass must measure the
-    /// container's change from here. A child that has no baseline yet is left alone: before layout is first
+    /// bounds positions it for the container as it is now, so a later pass must measure the container's
+    /// change from here. A child that has no baseline yet is left alone: before layout is first
     /// resumed the designer assigns a container's children before the container's own size.
     /// </summary>
     private void RebaseAnchorBaseline()
@@ -258,8 +285,7 @@ public partial class Control
     /// <summary>
     /// How far the container has moved since this child's bounds were set; advances the baseline.
     /// </summary>
-    private Size TakeAnchorDelta(
-        Size client, bool isRealAllocation, Size requestedNow, bool requestedWindowHeight)
+    private Size TakeAnchorDelta(Size client, bool isRealAllocation, Size requestedNow)
     {
         if (!isRealAllocation)
         {
@@ -267,9 +293,7 @@ public partial class Control
             if (_anchorBaselineKind == AnchorBaselineKind.None && requestedNow.Width > 1 && requestedNow.Height > 1)
             {
                 _anchorBaseline = requestedNow;
-                _anchorBaselineKind = requestedWindowHeight
-                    ? AnchorBaselineKind.RequestedWindowHeight
-                    : AnchorBaselineKind.Requested;
+                _anchorBaselineKind = AnchorBaselineKind.Requested;
             }
 
             return Size.Empty;
@@ -284,29 +308,7 @@ public partial class Control
                 break;
 
             case AnchorBaselineKind.Requested:
-            case AnchorBaselineKind.RequestedWindowHeight:
-                // The first real allocation. The real client size differs from the requested one by the
-                // window chrome (titlebar), so the chrome is not a resize: only what the requested size
-                // changed by since the children were positioned is.
-                var width = requestedNow.Width > 1 ? requestedNow.Width - _anchorBaseline.Width : 0;
-                var height = 0;
-                if (requestedNow.Height > 1)
-                {
-                    if (_anchorBaselineKind == AnchorBaselineKind.Requested)
-                    {
-                        // Baseline in client units. A height set explicitly since is in window units, so
-                        // compare the real client height instead (it already excludes the chrome).
-                        height = requestedWindowHeight
-                            ? client.Height - _anchorBaseline.Height
-                            : requestedNow.Height - _anchorBaseline.Height;
-                    }
-                    else if (requestedWindowHeight)
-                    {
-                        height = requestedNow.Height - _anchorBaseline.Height;
-                    }
-                }
-
-                delta = new Size(width, height);
+                delta = RequestedDelta(requestedNow);
 
                 break;
         }
@@ -315,6 +317,72 @@ public partial class Control
         _anchorBaselineKind = AnchorBaselineKind.Real;
 
         return delta;
+    }
+
+    /// <summary>
+    /// The first real allocation: how far the container moved from the size the children were positioned for.
+    /// The real client size differs from the requested one by window chrome (titlebar, status strip), so the
+    /// chrome is not a resize.
+    /// </summary>
+    private Size RequestedDelta(Size requestedNow)
+    {
+        if (Parent is not { } container)
+        {
+            return Size.Empty;
+        }
+
+        if (container.TryGetWindowClientSize(out var windowClient, out var heightAssigned))
+        {
+            // A window: measure what the window actually opened at (a requested size is only a minimum
+            // and may not be honoured), in the units the baseline is in - the form's client area.
+            return new Size(
+                windowClient.Width - _anchorBaseline.Width,
+                heightAssigned ? windowClient.Height - _anchorBaseline.Height : 0);
+        }
+
+        return new Size(
+            requestedNow.Width > 1 ? requestedNow.Width - _anchorBaseline.Width : 0,
+            requestedNow.Height > 1 ? requestedNow.Height - _anchorBaseline.Height : 0);
+    }
+
+    /// <summary>The nesting depth of <see cref="SuspendLayout" /> calls not yet matched by a resume.</summary>
+    private int _layoutSuspendDepth;
+
+    /// <summary>A visibility-triggered pass was deferred by a suspension.</summary>
+    private bool _layoutPassPending;
+
+    /// <summary>
+    /// A child's visibility changed: dock layout (which skips invisible children) has to re-run, now or on
+    /// <see cref="ResumeLayout(bool)" /> if layout is suspended.
+    /// </summary>
+    internal void ChildVisibilityChanged()
+    {
+        if (_layoutSuspendDepth > 0)
+        {
+            _layoutPassPending = true;
+
+            return;
+        }
+
+        PerformDockAnchorLayout();
+    }
+
+    /// <summary>Counts a suspension.</summary>
+    internal void EnterLayoutSuspension() => _layoutSuspendDepth++;
+
+    /// <summary>Counts a resume, and runs the pass a suspension deferred once the last one is matched.</summary>
+    private void LeaveLayoutSuspension()
+    {
+        if (_layoutSuspendDepth > 0)
+        {
+            _layoutSuspendDepth--;
+        }
+
+        if (_layoutSuspendDepth == 0 && _layoutPassPending)
+        {
+            _layoutPassPending = false;
+            PerformDockAnchorLayout();
+        }
     }
 
     /// <summary>Guards against a pass re-entering through the size changes it makes.</summary>
@@ -342,7 +410,7 @@ public partial class Control
         // given it a real allocation - which is the thing layout actually needs. The overlay is found through
         // any child, hidden ones included: a container whose children are all hidden must still seed their
         // anchor baselines, or a resize before they are shown would be lost.
-        var children = LayoutChildren();
+        var children = LayoutChildren(out var hiddenChildren);
         var anchorChild = children.Count > 0 ? children[0] : AnyChildWithWidget();
         if (anchorChild?.Widget?.Parent is not Gtk.Overlay overlay)
         {
@@ -350,6 +418,7 @@ public partial class Control
         }
 
         HookLayoutParent(overlay);
+        _anchorLayoutStarted = true;
 
         var client = new Size(overlay.AllocatedWidth, overlay.AllocatedHeight);
         var isRealAllocation = client.Width > 1 && client.Height > 1;
@@ -370,7 +439,7 @@ public partial class Control
         _inLayoutPass = true;
         try
         {
-            Arrange(children, client, isRealAllocation);
+            Arrange(children, hiddenChildren, client, isRealAllocation);
         }
         catch (Exception ex)
         {
@@ -428,11 +497,13 @@ public partial class Control
     /// <summary>
     /// The child controls that take part in layout, in collection order. Non-control entries (raw widgets
     /// added straight to the GTK container) and invisible controls do not: WinForms skips invisible
-    /// children, so a hidden docked panel consumes no space.
+    /// children, so a hidden docked panel consumes no space. The invisible ones are returned separately: they
+    /// take no part in docking, but are anchored like the others so their bounds stay current.
     /// </summary>
-    private List<Control> LayoutChildren()
+    private List<Control> LayoutChildren(out List<Control> hidden)
     {
         var result = new List<Control>();
+        hidden = new List<Control>();
         var controls = Controls;
         if (controls == null)
         {
@@ -452,9 +523,9 @@ public partial class Control
                 continue;
             }
 
-            if (entry is Control child && child.Visible && child.Widget != null)
+            if (entry is Control { Widget: not null } child)
             {
-                result.Add(child);
+                (child.Visible ? result : hidden).Add(child);
             }
         }
 
@@ -465,6 +536,7 @@ public partial class Control
     /// The arithmetic itself.
     /// </summary>
     /// <param name="children">The participating (visible) children, in collection order.</param>
+    /// <param name="hiddenChildren">The invisible children: not docked, but anchored.</param>
     /// <param name="client">The container's current client size.</param>
     /// <param name="isRealAllocation">
     /// Whether <paramref name="client" /> is the container overlay's real GTK allocation rather than the
@@ -474,7 +546,7 @@ public partial class Control
     /// difference to the real one, which would shove bottom/right-anchored controls off their designed
     /// positions (e.g. over a fixed neighbour).
     /// </param>
-    private void Arrange(List<Control> children, Size client, bool isRealAllocation)
+    private void Arrange(List<Control> children, List<Control> hiddenChildren, Size client, bool isRealAllocation)
     {
         var padding = Padding;
         var remaining = new Rectangle(
@@ -487,7 +559,7 @@ public partial class Control
         // gives children a requested-size baseline and moves nothing, so anchored children keep their
         // designed positions; the first real pass applies whatever the *requested* size changed by since the
         // children were positioned (not the window chrome); later passes apply the real size delta.
-        var requestedNow = RequestedLayoutSize(out var requestedWindowHeight);
+        var requestedNow = RequestedLayoutSize();
         if (isRealAllocation)
         {
             // Growth the content-fit / designed-size passes asked for keeps every child's position, hidden
@@ -511,20 +583,16 @@ public partial class Control
             _lastLayoutSize = client;
         }
 
-        // Hidden children are not in the list, but must still have a baseline so that a resize while they
-        // are hidden reaches them once they are shown.
-        if (Controls is { } controls)
+        // Invisible children are anchored too, so their bounds are current when they are shown.
+        foreach (var hidden in hiddenChildren)
         {
-            foreach (var entry in controls)
+            if (hidden.Dock == DockStyle.None)
             {
-                if (entry is Control { Widget: not null } hidden
-                    && hidden._anchorBaselineKind == AnchorBaselineKind.None
-                    && !children.Contains(hidden)
-                    && hidden.Dock == DockStyle.None
-                    && entry is not StatusStrip)
-                {
-                    hidden.TakeAnchorDelta(client, isRealAllocation, requestedNow, requestedWindowHeight);
-                }
+                ApplyAnchor(hidden, hidden.TakeAnchorDelta(client, isRealAllocation, requestedNow));
+            }
+            else
+            {
+                hidden._anchorBaselineKind = AnchorBaselineKind.None;
             }
         }
 
@@ -534,7 +602,7 @@ public partial class Control
         for (var i = children.Count - 1; i >= 0; i--)
         {
             var child = children[i];
-            if (child.Dock != DockStyle.None)
+            if (child.Dock != DockStyle.None && child._anchorBaselineKind != AnchorBaselineKind.None)
             {
                 // A docked child has no anchor distances; it is seeded afresh if it is ever undocked.
                 child._anchorBaselineKind = AnchorBaselineKind.None;
@@ -576,8 +644,7 @@ public partial class Control
                     break;
 
                 default:
-                    ApplyAnchor(
-                        child, child.TakeAnchorDelta(client, isRealAllocation, requestedNow, requestedWindowHeight));
+                    ApplyAnchor(child, child.TakeAnchorDelta(client, isRealAllocation, requestedNow));
 
                     break;
             }
