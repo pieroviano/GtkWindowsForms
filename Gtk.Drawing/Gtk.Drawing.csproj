@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.props" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.props')" />
+    
     <PropertyGroup>
         <DocumentationFile>$(MSBuildProjectDirectory)\$(MSBuildProjectName).xml</DocumentationFile>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -68,7 +68,8 @@
         <PackageReference Include="System.Memory" Version="4.6.0" />
         <PackageReference Include="GtkSharp4" Version="$(GtkSharpPackageVersion)" />
         <PackageReference Include="System.Resources.Extensions" Version="$(SystemResourcesExtensionsPackageVersion)" />
-        <PackageReference Include="Net4x.NuGetUtility" Version="$(NuGetUtilityVersion)" PrivateAssets="All" />
+        <PackageReference Include="Net4x.CleanCache" Version="1.0.0" PrivateAssets="All" />
+        <PackageReference Include="System.Drawing.Common" Version="10.0.15" Aliases="sdc" PrivateAssets="All" />
     </ItemGroup>
     <ItemGroup>
         <None Include="..\Resources\README.md">
@@ -81,5 +82,5 @@
         </None>
         <None Include="..\THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="\" />
     </ItemGroup>
-    <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets')" />
+    
 </Project>

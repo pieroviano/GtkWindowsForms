@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.props" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.props')" />
+    
     <PropertyGroup>
         <DocumentationFile>$(MSBuildProjectDirectory)\$(MSBuildProjectName).xml</DocumentationFile>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -43,7 +43,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.Web.WebView2" Version="$(WebView2Version)" />
-        <PackageReference Include="Net4x.NuGetUtility" Version="$(NuGetUtilityVersion)" PrivateAssets="All" />
+        <PackageReference Include="Net4x.CleanCache" Version="1.0.0" PrivateAssets="All" />
     </ItemGroup>
     <ItemGroup>
         <!-- HttpClient for the opt-in runtime bootstrapper; part of the framework from net5 onwards. -->
@@ -57,5 +57,5 @@
         <None Include="..\gtksystem-windows-forms\Source\licenses\LICENSE.txt" Pack="true" PackagePath="\" />
         <None Include="..\THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="\" />
     </ItemGroup>
-    <Import Project="$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets" Condition="Exists('$(NuGetPackageRoot)net4x.nugetutility/$(NuGetUtilityVersion)/build/NuGet.Utility.targets')" />
+    
 </Project>
