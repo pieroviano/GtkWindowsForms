@@ -520,14 +520,6 @@ public static class Gtk4Compat
     }
 
     /// <summary>
-    /// Synchronous replacement for Gtk 3's <c>Gtk.Dialog.Run()</c>, which Gtk 4 removed in favour
-    /// of the async present/response model. WinForms <c>ShowDialog()</c> must block and return a
-    /// result, so this spins a nested <see cref="GLib.MainLoop"/> that quits on the dialog's
-    /// <c>response</c> (or <c>close</c>) signal — the documented Gtk 4 port of <c>Run()</c>.
-    /// </summary>
-    /// <param name="dialog">The dialog to present modally and wait on.</param>
-    /// <returns>The <see cref="Gtk.ResponseType"/> id (as int) the dialog closed with.</returns>
-    /// <summary>
     /// Whether a GtkSharp object still wraps a live native instance (its handle is non-null and reading
     /// it does not throw for a disposed object).
     /// </summary>
@@ -545,6 +537,14 @@ public static class Gtk4Compat
         }
     }
 
+    /// <summary>
+    /// Synchronous replacement for Gtk 3's <c>Gtk.Dialog.Run()</c>, which Gtk 4 removed in favour
+    /// of the async present/response model. WinForms <c>ShowDialog()</c> must block and return a
+    /// result, so this spins a nested <see cref="GLib.MainLoop"/> that quits on the dialog's
+    /// <c>response</c> (or <c>close</c>) signal — the documented Gtk 4 port of <c>Run()</c>.
+    /// </summary>
+    /// <param name="dialog">The dialog to present modally and wait on.</param>
+    /// <returns>The <see cref="Gtk.ResponseType"/> id (as int) the dialog closed with.</returns>
     public static int RunDialog(this Gtk.Dialog dialog)
     {
         if (!IsAlive(dialog))

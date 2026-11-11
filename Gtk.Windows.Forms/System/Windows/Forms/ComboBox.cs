@@ -305,13 +305,6 @@ public partial class ComboBox : ListControl
     }
 
     /// <summary>
-    /// Raises the
-    /// <see cref="SelectedIndexChanged" /> event.
-    /// </summary>
-    /// <param name="e">The
-    /// <see cref="T:System.EventArgs" /> instance containing the event data.
-    /// </param>
-    /// <summary>
     /// Suspends the layout work of adding items, so a batch of them costs one pass instead of one each.
     /// </summary>
     public void BeginUpdate()
@@ -326,6 +319,13 @@ public partial class ComboBox : ListControl
         self.QueueResize();
     }
 
+    /// <summary>
+    /// Raises the
+    /// <see cref="SelectedIndexChanged" /> event.
+    /// </summary>
+    /// <param name="e">The
+    /// <see cref="T:System.EventArgs" /> instance containing the event data.
+    /// </param>
     protected virtual void OnSelectedIndexChanged(EventArgs e) => _selectedIndexChanged?.Invoke(this, e);
 
     /// <summary>

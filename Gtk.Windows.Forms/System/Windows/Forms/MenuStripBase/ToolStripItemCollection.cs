@@ -256,15 +256,6 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
         AddMemu(item);
     }
 
-    /// <summary>
-    /// Adds the memu.
-    /// </summary>
-    /// <param name="item">
-    /// The item.
-    /// </param>
-    /// <returns>
-    /// System.Int32.
-    /// </returns>
     // Returns the vertical box that holds a standalone popover's items, creating the popover (for the legacy
     // owner path) and the box on first use. Null only when there is no popover and no owner to build one for.
     private Gtk.Box? GetOrCreatePopoverContent()
@@ -290,6 +281,15 @@ public class ToolStripItemCollection : List<ToolStripItem>, ICollection, IEnumer
         return menuContent;
     }
 
+    /// <summary>
+    /// Adds the memu.
+    /// </summary>
+    /// <param name="item">
+    /// The item.
+    /// </param>
+    /// <returns>
+    /// System.Int32.
+    /// </returns>
     public int AddMemu(ToolStripItem item)
     {
         item.Parent = owner;

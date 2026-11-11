@@ -6,8 +6,6 @@ namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 /// <summary>
 /// ScrollbarBase class is a base class for GTK scrollbar controls, providing common functionality and properties for derived classes. It inherits from Gtk.Scrollbar and implements the IControlGtk interface. The class includes an internal constructor that initializes the scrollbar with a specified orientation and a default adjustment. It also provides a static GType property that returns the appropriate GType based on the generic type parameter T, which can be either Gtk.HScrollbar or Gtk.VScrollbar. By using ScrollbarBase, developers can easily create custom scrollbar controls that are compatible with the GTK system and provide consistent behavior across different platforms.
 /// </summary>
-/// <typeparam name="T">
-/// </typeparam>
 /// <seealso cref="Gtk.Scrollbar" />
 /// <seealso cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IControlGtk" />
 public sealed class ScrollbarBase : Gtk.Scrollbar, IControlGtk

@@ -241,13 +241,20 @@ public sealed class PictureBoxBase : Gtk.Viewport, IControlGtk
     }
 
     /// <summary>
-    /// Handles the Drawn signal of the internal drawing area and paints the background image, the override content and the image.
+    /// Paints the background image, the override content and the image into the drawing area. Invoked by GTK as the
+    /// drawing area's draw function.
     /// </summary>
-    /// <param name="o">
-    /// The source of the event.
+    /// <param name="area">
+    /// The drawing area being rendered.
     /// </param>
-    /// <param name="args">
-    /// The <see cref="Gtk.DrawnArgs" /> instance containing the Cairo context.
+    /// <param name="cr">
+    /// The Cairo context to paint on.
+    /// </param>
+    /// <param name="width">
+    /// The width of the drawing area, in pixels.
+    /// </param>
+    /// <param name="height">
+    /// The height of the drawing area, in pixels.
     /// </param>
     private void DrawingArea_DrawFunc(Gtk.DrawingArea area, Cairo.Context cr, int width, int height)
     {

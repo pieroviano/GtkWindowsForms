@@ -32,14 +32,6 @@ public sealed class TabPageBase : ScrollableBoxBase
         base.Add(Content);
     }
 
-    /// <summary>
-    /// Called when the control is drawn.
-    /// </summary>
-    /// <param name="cr">
-    /// The Cairo context.
-    /// </param>
-    /// <returns>
-    /// </returns>
     // Gtk 4 removed the OnDrawn draw vfunc and exposes no overridable OnSnapshot; the WinForms
     // BackColor/background is rendered via CSS in the styling migration instead of a draw override.
 

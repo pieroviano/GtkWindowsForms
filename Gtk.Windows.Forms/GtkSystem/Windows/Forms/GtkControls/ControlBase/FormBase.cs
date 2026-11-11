@@ -315,22 +315,6 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     }
 
     /// <summary>
-    /// Closes the window.
-    /// </summary>
-    /// <param name="isResponse">
-    /// <c>
-    /// true
-    /// </c> when invoked while handling a dialog response.
-    /// </param>
-    /// <returns>
-    /// <c>
-    /// true
-    /// </c> if the window was closed; otherwise,
-    /// <c>
-    /// false
-    /// </c>.
-    /// </returns>
-    /// <summary>
     /// The nested <see cref="GLib.MainLoop"/> currently driving this window as a modal dialog (set by
     /// <c>Gtk4Compat.RunDialog</c>), or <see langword="null"/> when the window is not modal.
     /// </summary>
@@ -368,6 +352,22 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     /// </summary>
     internal bool IsNativeDestroyed => _destroyed;
 
+    /// <summary>
+    /// Closes the window.
+    /// </summary>
+    /// <param name="isResponse">
+    /// <c>
+    /// true
+    /// </c> when invoked while handling a dialog response.
+    /// </param>
+    /// <returns>
+    /// <c>
+    /// true
+    /// </c> if the window was closed; otherwise,
+    /// <c>
+    /// false
+    /// </c>.
+    /// </returns>
     public bool CloseWindow(bool isResponse = false)
     {
         isCloseWindow = false;
