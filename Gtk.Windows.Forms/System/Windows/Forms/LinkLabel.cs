@@ -187,9 +187,14 @@ public partial class LinkLabel : Control
         LinkClicked?.Invoke(this, e);
     }
 
-    private void LinkLabel_ActivateLink(object o, Gtk.ActivateLinkArgs args)
+    /// <summary>
+    /// Handles GTK's activate-link signal. It funnels through <see cref="OnLinkClicked" /> so an override
+    /// there runs — and can suppress the event by not calling base — exactly as in classic WinForms.
+    /// Raising <see cref="LinkClicked" /> directly here bypassed that override, so it never ran.
+    /// </summary>
+    internal void LinkLabel_ActivateLink(object o, Gtk.ActivateLinkArgs args)
     {
-        LinkClicked?.Invoke(this, new LinkLabelLinkClickedEventArgs(new Link() { Description = self.Label, LinkData = self.Uri }));
+        OnLinkClicked(new LinkLabelLinkClickedEventArgs(new Link() { Description = self.Label, LinkData = self.Uri }));
     }
 
     private void LinkLabel_Click(object sender, EventArgs e)
