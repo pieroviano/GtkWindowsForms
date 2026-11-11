@@ -205,6 +205,36 @@ internal static class NativeWindowPlacement
         return true;
     }
 
+    /// <summary>
+    /// Test/diagnostic probe (Windows): the current outer height of a form's native window, used to detect when
+    /// the window has finished resizing to fit its content (the native resize lags the content measurement).
+    /// Returns false off Windows or when the window cannot be located.
+    /// </summary>
+    internal static bool TryGetOuterHeight(FormBase? form, out int height)
+    {
+        height = 0;
+        if (!FuncLoader.IsWindows)
+        {
+            return false;
+        }
+
+        try
+        {
+            var hwnd = WindowsHandleOf(form);
+            if (hwnd == IntPtr.Zero || !GetWindowRect(hwnd, out var rect))
+            {
+                return false;
+            }
+
+            height = rect.Bottom - rect.Top;
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     private static IntPtr FindProcessWindowByTitle(string? title)
     {
         if (string.IsNullOrEmpty(title))

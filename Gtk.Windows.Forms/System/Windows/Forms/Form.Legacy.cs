@@ -97,6 +97,7 @@ public partial class Form
 
         _centerRequest = CenterRequest.Screen;
         _centerOwner = null;
+        RememberSettleCentering(CenterRequest.Screen, null);
         ApplyNativeCentering();
     }
 
@@ -120,6 +121,7 @@ public partial class Form
 
         _centerRequest = CenterRequest.Parent;
         _centerOwner = owner;
+        RememberSettleCentering(CenterRequest.Parent, owner);
         ApplyNativeCentering();
     }
 
@@ -132,6 +134,37 @@ public partial class Form
 
     private CenterRequest _centerRequest;
     private Form? _centerOwner;
+
+    // The last center the form was asked for, kept sticky so the content-fit growth watch (EnsureContentFits)
+    // can re-apply it while the window is still growing and once more when it settles. A single 150ms re-center
+    // fired while the window was mid-growth, leaving the final (larger) window anchored at the opening size's
+    // top-left - visibly off-center up and to the left.
+    private CenterRequest _settleCenterMode;
+    private Form? _settleCenterOwner;
+
+    /// <summary>Records the center to re-apply as the window's content-driven size settles.</summary>
+    private void RememberSettleCentering(CenterRequest mode, Form? owner)
+    {
+        _settleCenterMode = mode;
+        _settleCenterOwner = owner;
+    }
+
+    /// <summary>
+    /// Re-applies the remembered center. Called as the window grows to fit its content and once when that
+    /// growth settles, so the final on-screen size is the one that ends up centered. No-op if no center was
+    /// requested or the form is gone.
+    /// </summary>
+    internal void ReapplySettleCentering()
+    {
+        if (_settleCenterMode == CenterRequest.None || IsDisposed)
+        {
+            return;
+        }
+
+        _centerRequest = _settleCenterMode;
+        _centerOwner = _settleCenterOwner;
+        ApplyNativeCentering();
+    }
 
     /// <summary>
     /// Applies a pending center natively. Gtk4 cannot position a top-level window through the managed API, so

@@ -1288,41 +1288,92 @@ public partial class Form : ContainerControl, IWin32Window
     /// </summary>
     private void ApplyCenteringOnShow()
     {
-        if (_centerRequest == CenterRequest.None)
+        // _settleCenterMode is the single source of truth: it already holds a center requested explicitly from
+        // OnLoad (CenterToScreen/CenterToParent run before the window was shown). If none was requested, a
+        // designer StartPosition of CenterScreen/CenterParent selects one for this show.
+        if (_settleCenterMode == CenterRequest.None)
         {
             if (StartPosition == FormStartPosition.CenterScreen)
             {
-                _centerRequest = CenterRequest.Screen;
+                RememberSettleCentering(CenterRequest.Screen, null);
             }
             else if (StartPosition == FormStartPosition.CenterParent)
             {
-                _centerRequest = CenterRequest.Parent;
-                _centerOwner = Owner ?? ParentForm;
+                RememberSettleCentering(CenterRequest.Parent, Owner ?? ParentForm);
             }
         }
 
-        if (_centerRequest == CenterRequest.None)
+        if (_settleCenterMode == CenterRequest.None)
+        {
+            return; // nothing to center on this show
+        }
+
+        // Apply at the current size now, then keep it centered through the window's open-time growth: it grows to
+        // fit its content for up to ~2s after showing (EnsureContentFits), so a one-shot center lands the opening
+        // size, not the final one.
+        ReapplySettleCentering();
+        StartCenteringSettleWatch();
+    }
+
+    private int _centerWatchTicks;
+    private int _centerWatchStableTicks;
+    private int _centerWatchLastHeight;
+
+    /// <summary>
+    /// Keeps the requested center applied through the window's open-time growth. A shown form grows to fit its
+    /// content over up to ~2s (<see cref="EnsureContentFits" />), in several stages, and the native window lags
+    /// each resize by a few frames - so no single delayed re-center can land the final size centered. This
+    /// re-centers every frame and only stops once the window's outer size has held steady for a good spell (after
+    /// a minimum time so the early rapid growth is covered), hard-capped as a backstop. The last re-center
+    /// therefore always lands on the final size. Off Windows the size is not read, so it re-centers until the cap.
+    /// </summary>
+    private void StartCenteringSettleWatch()
+    {
+        if (_settleCenterMode == CenterRequest.None)
         {
             return;
         }
 
-        var mode = _centerRequest;
-        var owner = _centerOwner;
-        ApplyNativeCentering();
+        _centerWatchTicks = 0;
+        _centerWatchStableTicks = 0;
+        _centerWatchLastHeight = -1;
+        GLib.Timeout.Add(30, CenteringSettleWatchTick);
+    }
 
-        // The window grows to fit its content immediately after showing (EnsureContentFits); re-center once
-        // that has settled so the final size is centered, not the opening size.
-        GLib.Timeout.Add(150, () =>
+    private bool CenteringSettleWatchTick()
+    {
+        if (IsDisposed || self == null || self.Handle == IntPtr.Zero || _settleCenterMode == CenterRequest.None)
         {
-            if (!IsDisposed)
-            {
-                _centerRequest = mode;
-                _centerOwner = owner;
-                ApplyNativeCentering();
-            }
-
             return false;
-        });
+        }
+
+        ReapplySettleCentering();
+        _centerWatchTicks++;
+
+        if (GtkSystem.Windows.Forms.GtkControls.ControlBase.NativeWindowPlacement.TryGetOuterHeight(self, out var height))
+        {
+            if (height == _centerWatchLastHeight)
+            {
+                _centerWatchStableTicks++;
+            }
+            else
+            {
+                _centerWatchStableTicks = 0;
+                _centerWatchLastHeight = height;
+            }
+        }
+
+        // ~600ms minimum covers the rapid early growth; stop after the size has then held ~450ms; ~2.5s cap.
+        var settled = _centerWatchTicks >= 20 && _centerWatchStableTicks >= 15;
+        if (settled || _centerWatchTicks >= 85)
+        {
+            // Release the sticky center once the window has settled, so a later re-show of a form the user has
+            // since moved is not yanked back to center (a designer StartPosition re-selects it on that show).
+            RememberSettleCentering(CenterRequest.None, null);
+            return false;
+        }
+
+        return true;
     }
 
     /// <summary>Whether the form has been shown before.</summary>
