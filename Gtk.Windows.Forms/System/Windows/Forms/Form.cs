@@ -1161,10 +1161,45 @@ public partial class Form : ContainerControl, IWin32Window
         _ObjectCollection = new ControlCollection(this, self.contaner);
         self.Shown += Control_Shown;
         self.CloseWindowEvent += Self_CloseWindowEvent;
-        // Gtk 4: this per-control raw-event handler used a removed *EventArgs type; control-specific
-        // input is re-wired via event controllers / native signals and verified at runtime (migration #11).
-        // Gtk4: Widget.FocusInEvent/FocusOutEvent removed. Form Activated/Deactivate should be wired via
-        // a Gtk.EventControllerFocus (Enter/Leave) - deferred to the input-controller pass (migration #11).
+        // Gtk4 removed Widget.FocusInEvent/FocusOutEvent, so Form.Activated/Deactivate are driven off the
+        // window's "is-active" property (whether this is the active toplevel). Without this wiring those
+        // events never fired, so an OnActivated override never ran - e.g. a modal "please wait" form that
+        // does its work from OnActivated and then closes would never start, silently changing behaviour
+        // versus System.Windows.Forms. Mirrors WinForms: becoming the active window raises Activated,
+        // losing activation raises Deactivate.
+        self.AddNotification("is-active", Self_IsActiveNotify);
+    }
+
+    /// <summary>Last-seen native active state, so Activated/Deactivate fire only on a real transition.</summary>
+    private bool _formIsActive;
+
+    /// <summary>
+    /// Bridges the window's <c>is-active</c> notifications to the WinForms
+    /// <see cref="E:System.Windows.Forms.Form.Activated" /> and
+    /// <see cref="E:System.Windows.Forms.Form.Deactivate" /> events.
+    /// </summary>
+    private void Self_IsActiveNotify(object o, GLib.NotifyArgs args)
+    {
+        if (IsDisposed)
+        {
+            return;
+        }
+
+        var active = self.IsActive;
+        if (active == _formIsActive)
+        {
+            return;
+        }
+
+        _formIsActive = active;
+        if (active)
+        {
+            OnActivated(EventArgs.Empty);
+        }
+        else
+        {
+            OnDeactivate(EventArgs.Empty);
+        }
     }
 
     /// <summary>
