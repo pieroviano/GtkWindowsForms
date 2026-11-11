@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 
 namespace System.Windows.Forms;
 
@@ -76,13 +77,43 @@ public partial class Form
     public bool ValidateChildren(ValidationConstraints validationConstraints) => true;
 
     /// <summary>Centers the position of the form within the bounds of the screen.</summary>
+    /// <remarks>
+    /// Sets <see cref="P:System.Windows.Forms.Control.Location" /> to the centered top-left, clamped to the
+    /// working area's origin, exactly as <c>System.Windows.Forms.Form.CenterToScreen</c> does. (Gtk4 leaves
+    /// the final on-screen placement to the window manager, the same repo-wide limitation that affects every
+    /// Location assignment; this method still performs the WinForms computation and updates Location.)
+    /// </remarks>
     protected void CenterToScreen()
     {
+        var screen = Widget != null ? Screen.FromControl(this) : Screen.PrimaryScreen;
+        if (screen == null)
+        {
+            return;
+        }
+
+        var area = screen.WorkingArea;
+        Location = new Point(
+            Math.Max(area.X, area.X + (area.Width - Width) / 2),
+            Math.Max(area.Y, area.Y + (area.Height - Height) / 2));
     }
 
     /// <summary>Centers the position of the form within the bounds of its parent form.</summary>
+    /// <remarks>
+    /// Centers on the owning form (<see cref="Owner" />, falling back to <see cref="ParentForm" />); with no
+    /// owner it centers on the screen, matching <c>System.Windows.Forms.Form.CenterToParent</c>.
+    /// </remarks>
     protected void CenterToParent()
     {
+        var owner = Owner ?? ParentForm;
+        if (owner == null)
+        {
+            CenterToScreen();
+            return;
+        }
+
+        Location = new Point(
+            owner.Left + (owner.Width - Width) / 2,
+            owner.Top + (owner.Height - Height) / 2);
     }
 
     /// <summary>Raises the <see cref="E:System.Windows.Forms.Form.Closing" /> event.</summary>
