@@ -639,16 +639,27 @@ public static class Gtk4Compat
 
             loop.Run();
 
-            // A Close() during the loop deferred the actual dispose to here — the loop has now unwound, so
-            // it is safe (not re-entrant, not on a teardown idle). Disposing the owning Form releases its
-            // window; we deliberately do NOT also call formBase.Destroy() — Form.Dispose already unrefs the
-            // native window, and a second destroy on the freed window crashes ("gtk_window_destroy:
-            // GTK_IS_WINDOW failed").
+            // A Close() during the loop deferred the actual dispose AND destroy to here — the loop has now
+            // unwound, so both are safe (not re-entrant, not on a teardown idle). Dispose the owning Form
+            // (releases managed resources and clears its controls), then destroy the native toplevel.
+            //
+            // Form.Dispose does NOT itself destroy the window: Control derives from System.ComponentModel
+            // .Component, so its Dispose only clears the Controls collection and never touches the GTK
+            // toplevel. Without the DestroyOnce() below, a modal close emptied the form of its controls but
+            // left the (now blank) window on screen. The non-modal branch of FormBase.CloseWindow already
+            // pairs Dispose() with DestroyOnce(); this is the deferred equivalent for the modal path.
+            //
+            // DestroyOnce() is idempotent (guards on _destroyed) and IsAlive() skips a window some other
+            // path already freed, so this cannot double-destroy.
             if (formBase != null && formBase.PendingModalClose != null)
             {
                 var pending = formBase.PendingModalClose;
                 formBase.PendingModalClose = null;
                 pending.Dispose();
+                if (IsAlive(formBase))
+                {
+                    formBase.DestroyOnce();
+                }
             }
         }
         finally

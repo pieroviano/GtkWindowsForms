@@ -332,7 +332,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     private bool _destroyed;
 
     /// <summary>Destroys the native window at most once.</summary>
-    private void DestroyOnce()
+    internal void DestroyOnce()
     {
         if (_destroyed)
         {
@@ -342,6 +342,12 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         _destroyed = true;
         this.Destroy();
     }
+
+    /// <summary>
+    /// True once the native window has been destroyed by <see cref="DestroyOnce"/>. Lets the modal close
+    /// path (and tests) confirm the toplevel was actually torn down, not merely disposed.
+    /// </summary>
+    internal bool IsNativeDestroyed => _destroyed;
 
     public bool CloseWindow(bool isResponse = false)
     {
