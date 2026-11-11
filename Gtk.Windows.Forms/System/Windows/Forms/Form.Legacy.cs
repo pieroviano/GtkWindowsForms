@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
 namespace System.Windows.Forms;
 
@@ -86,15 +87,17 @@ public partial class Form
     protected void CenterToScreen()
     {
         var screen = Widget != null ? Screen.FromControl(this) : Screen.PrimaryScreen;
-        if (screen == null)
+        if (screen != null)
         {
-            return;
+            var area = screen.WorkingArea;
+            Location = new Point(
+                Math.Max(area.X, area.X + (area.Width - Width) / 2),
+                Math.Max(area.Y, area.Y + (area.Height - Height) / 2));
         }
 
-        var area = screen.WorkingArea;
-        Location = new Point(
-            Math.Max(area.X, area.X + (area.Width - Width) / 2),
-            Math.Max(area.Y, area.Y + (area.Height - Height) / 2));
+        _centerRequest = CenterRequest.Screen;
+        _centerOwner = null;
+        ApplyNativeCentering();
     }
 
     /// <summary>Centers the position of the form within the bounds of its parent form.</summary>
@@ -114,6 +117,44 @@ public partial class Form
         Location = new Point(
             owner.Left + (owner.Width - Width) / 2,
             owner.Top + (owner.Height - Height) / 2);
+
+        _centerRequest = CenterRequest.Parent;
+        _centerOwner = owner;
+        ApplyNativeCentering();
+    }
+
+    private enum CenterRequest
+    {
+        None,
+        Screen,
+        Parent
+    }
+
+    private CenterRequest _centerRequest;
+    private Form? _centerOwner;
+
+    /// <summary>
+    /// Applies a pending center natively. Gtk4 cannot position a top-level window through the managed API, so
+    /// the actual move is done against the backend window (Win32 / X11 / macOS - see
+    /// <see cref="NativeWindowPlacement" />). This is called both immediately from CenterToScreen/CenterToParent
+    /// (effective when the native window already exists) and from the shown handler, so a center requested
+    /// before the window was realized (e.g. from an <c>OnLoad</c> override, exactly as in classic WinForms)
+    /// still takes effect once the window is up.
+    /// </summary>
+    internal void ApplyNativeCentering()
+    {
+        var applied = _centerRequest switch
+        {
+            CenterRequest.Screen => NativeWindowPlacement.CenterOnScreen(self),
+            CenterRequest.Parent => NativeWindowPlacement.CenterOverOwner(self, _centerOwner?.self),
+            _ => true
+        };
+
+        if (applied)
+        {
+            _centerRequest = CenterRequest.None;
+            _centerOwner = null;
+        }
     }
 
     /// <summary>Raises the <see cref="E:System.Windows.Forms.Form.Closing" /> event.</summary>

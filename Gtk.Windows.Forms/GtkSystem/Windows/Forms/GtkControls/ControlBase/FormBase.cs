@@ -197,18 +197,37 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     // Gtk4 removed Gtk.Window.Icon (window icons come from the theme by icon-name). Keep the pixbuf in a
     // field so the WinForms API round-trips; still mirror it into the header bar as a small image.
     private Gdk.Pixbuf? _icon;
+    private Gtk.Image? _iconImage;
 
-    public new Gdk.Pixbuf Icon
+    public new Gdk.Pixbuf? Icon
     {
-        get => _icon!;
+        get => _icon;
         set
         {
             _icon = value;
-            if (value != null && base.Titlebar != null && base.Titlebar is Gtk.HeaderBar titlebar)
+            if (base.Titlebar is not Gtk.HeaderBar titlebar)
             {
-                var flag = new Gtk.Image(value.ScaleSimple(24, 24, Gdk.InterpType.Bilinear));
-                flag.Visible = true;
-                titlebar.PackStart(flag);
+                return;
+            }
+
+            // Replace any previously shown icon so repeated sets - and clearing to null - do not stack images.
+            if (_iconImage != null)
+            {
+                titlebar.Remove(_iconImage);
+                _iconImage = null;
+            }
+
+            if (value != null)
+            {
+                // The explicit size requests are what make the header-bar image take space and actually
+                // render (every other Gtk.Image-from-pixbuf in the codebase sets them too).
+                _iconImage = new Gtk.Image(value.ScaleSimple(24, 24, Gdk.InterpType.Bilinear))
+                {
+                    WidthRequest = 24,
+                    HeightRequest = 24,
+                    Visible = true
+                };
+                titlebar.PackStart(_iconImage);
             }
         }
     }

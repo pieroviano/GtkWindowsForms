@@ -350,8 +350,34 @@ public partial class Form : ContainerControl, IWin32Window
     /// </summary>
     public Icon? Icon
     {
-        get;
-        set;
+        get => _formIcon;
+        set
+        {
+            _formIcon = value;
+            try
+            {
+                // Apply right away so an icon set after the window exists updates the title bar, and so
+                // clearing it to null (the default) removes any shown icon.
+                self.Icon = ShowIcon ? IconToPixbuf(value) : null;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.GtkLogger.Debug("Unexpected exception applying Form.Icon", ex);
+            }
+        }
+    }
+
+    private Icon? _formIcon;
+
+    /// <summary>Converts a WinForms <see cref="Icon" /> to a GDK pixbuf, or null when there is no icon.</summary>
+    private static Gdk.Pixbuf? IconToPixbuf(Icon? icon)
+    {
+        if (icon == null)
+        {
+            return null;
+        }
+
+        return icon.Pixbuf ?? (icon.PixbufData != null ? new Gdk.Pixbuf(icon.PixbufData) : null);
     }
 
     /// <summary>
@@ -977,28 +1003,14 @@ public partial class Form : ContainerControl, IWin32Window
             self.SetDefaultSize(self.DefaultWidth, self.DefaultHeight); // Gtk4: Window.Resize removed
             try
             {
-                if (this.ShowIcon)
-                {
-                    if (this.Icon != null)
-                    {
-                        if (this.Icon.Pixbuf != null)
-                            self.Icon = this.Icon.Pixbuf;
-                        else if (this.Icon.PixbufData != null)
-                            self.Icon = new Gdk.Pixbuf(this.Icon.PixbufData);
-                    }
-                    else
-                    {
-                        if (System.IO.File.Exists("Resources/icon.png"))
-                            self.Icon = new Gdk.Pixbuf("Resources/icon.png");
-                        else if (System.IO.File.Exists("Resources/icon.ico"))
-                            self.Icon = new Gdk.Pixbuf("Resources/icon.ico");
-                    }
-                }
+                // Show the form's own icon only when the programmer actually set one. A form left at the
+                // default (Icon == null) deliberately shows NO title-bar icon - no stock/default fallback -
+                // which is this port's intentional divergence from classic WinForms.
+                self.Icon = this.ShowIcon ? IconToPixbuf(this.Icon) : null;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.GtkLogger.Debug($"Unexpected exception in Show", ex);
-                self.Icon = new Gdk.Pixbuf(AssemblyResources.CurrentAssembly, AssemblyResources.ToSystemUri("image-missing16.png"));
             }
         }
 
@@ -1233,6 +1245,52 @@ public partial class Form : ContainerControl, IWin32Window
         _absorbThisShow = !_hasBeenShown;
         _hasBeenShown = true;
         GLib.Timeout.Add(16, EnsureContentFits);
+        ApplyCenteringOnShow();
+    }
+
+    /// <summary>
+    /// Applies centering now that the native window exists: a center the form requested before it was
+    /// realized (e.g. from an <c>OnLoad</c> override), or a designer <see cref="StartPosition" /> of
+    /// <see cref="FormStartPosition.CenterScreen" /> / <see cref="FormStartPosition.CenterParent" />. Gtk4
+    /// cannot position a toplevel through the managed API, so this is where the backend-level move lands.
+    /// </summary>
+    private void ApplyCenteringOnShow()
+    {
+        if (_centerRequest == CenterRequest.None)
+        {
+            if (StartPosition == FormStartPosition.CenterScreen)
+            {
+                _centerRequest = CenterRequest.Screen;
+            }
+            else if (StartPosition == FormStartPosition.CenterParent)
+            {
+                _centerRequest = CenterRequest.Parent;
+                _centerOwner = Owner ?? ParentForm;
+            }
+        }
+
+        if (_centerRequest == CenterRequest.None)
+        {
+            return;
+        }
+
+        var mode = _centerRequest;
+        var owner = _centerOwner;
+        ApplyNativeCentering();
+
+        // The window grows to fit its content immediately after showing (EnsureContentFits); re-center once
+        // that has settled so the final size is centered, not the opening size.
+        GLib.Timeout.Add(150, () =>
+        {
+            if (!IsDisposed)
+            {
+                _centerRequest = mode;
+                _centerOwner = owner;
+                ApplyNativeCentering();
+            }
+
+            return false;
+        });
     }
 
     /// <summary>Whether the form has been shown before.</summary>
