@@ -82,6 +82,12 @@
     (NuGet lower-cases it; required on case-sensitive file systems such as Linux). The delete is idempotent
     and non-fatal (ContinueOnError), so it never conflicts with CleanCache and never fails a build if the
     folder is momentarily locked.
+
+    When the folder IS locked, the holder is the persistent .NET build server (VBCSCompiler / reused MSBuild
+    nodes): it keeps the cached gtk DLLs loaded between builds, so neither this eviction nor a later
+    `dotnet restore` can overwrite them, and the consumer keeps the stale copy. The eviction cannot force
+    that release from inside a build (shutting the server down mid-solution-build would cripple it). Run
+    refresh-gtk-package.ps1, which does `dotnet build-server shutdown` first, to break that deadlock.
   -->
   <Target Name="EvictOwnStalePackageFromCache" AfterTargets="Build"
           Condition="'$(GeneratePackageOnBuild)' == 'true' and '$(IsPackable)' != 'false' and '$(PackageId)' != '' and '$(NuGetPackageRoot)' != ''">
