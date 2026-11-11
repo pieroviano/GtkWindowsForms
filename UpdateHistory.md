@@ -1,5 +1,20 @@
 ﻿## Update History
 
+  #### 2026/11/11
+	1. Implemented Form.CenterToScreen and Form.CenterToParent, including screen-working-area
+	   clamping, owner/parent fallback, and native placement on supported GTK backends. Centering
+	   requested before the native window exists is reapplied when the form is shown and after
+	   its content-fit resize.
+	2. Forms now show an icon in the header bar only when Icon is explicitly set; changing Icon
+	   after the window is created updates the title bar immediately, and setting it to null clears
+	   the image.
+	3. Wired Form.Activated and Form.Deactivate to the native window active state, with duplicate
+	   notifications suppressed. Deferred modal closes now destroy the native window after the
+	   modal loop completes, so dialogs no longer remain visible after Close.
+	4. Replaced Net4x.NuGetUtility with Net4x.CleanCache and added reliable build-time eviction of
+	   the package's own NuGet cache entry, together with a refresh script for build-server cache
+	   locks.
+
  #### 2026/11/7
    	1. Fixed anchoring: each child now remembers the container size its bounds correspond to (WinForms
 	   keeps per-control distances), instead of one baseline per container. A window enlarged after
