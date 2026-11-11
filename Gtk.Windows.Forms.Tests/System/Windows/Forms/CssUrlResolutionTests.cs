@@ -1,3 +1,5 @@
+﻿#pragma warning disable CS0612
+
 namespace System.Windows.Forms;
 
 extern alias gtk;
@@ -179,3 +181,5 @@ public class CssUrlResolutionTests : IDisposable
     /// </summary>
     private static string Uri(string path) => new System.Uri(Path.GetFullPath(path)).AbsoluteUri;
 }
+
+#pragma warning restore CS0612

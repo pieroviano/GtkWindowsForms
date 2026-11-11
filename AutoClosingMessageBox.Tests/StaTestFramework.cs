@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
@@ -81,7 +81,9 @@ public sealed class StaExecutor : XunitTestFrameworkExecutor
         });
 
         thread.Name = "GTK-STA-Test-Thread";
+#pragma warning disable CA1416 // Validate platform compatibility
         thread.SetApartmentState(ApartmentState.STA);
+#pragma warning restore CA1416 // Validate platform compatibility
         thread.IsBackground = false;
         thread.Start();
         thread.Join();

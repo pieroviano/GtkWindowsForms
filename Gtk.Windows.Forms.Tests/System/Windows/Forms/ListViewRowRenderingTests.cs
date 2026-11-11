@@ -1,3 +1,7 @@
+﻿#pragma warning disable CS0612
+
+#pragma warning disable CS0612
+
 extern alias gtk;
 using System.Collections.Generic;
 using System.Linq;
@@ -232,3 +236,5 @@ public class ListViewRowRenderingTests
         }, foreColor: Color.Blue);
     }
 }
+
+#pragma warning restore CS0612

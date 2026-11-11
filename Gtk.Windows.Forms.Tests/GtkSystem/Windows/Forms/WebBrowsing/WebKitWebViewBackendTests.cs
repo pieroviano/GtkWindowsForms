@@ -1,3 +1,7 @@
+﻿#pragma warning disable CS0612
+
+#pragma warning disable CS0612
+
 using System.Diagnostics;
 using System.Windows.Forms;
 using GtkSystem.Windows.Forms.WebBrowsing;
@@ -184,3 +188,4 @@ public class WebKitWebViewBackendTests
         }
     }
 }
+#pragma warning restore CS0612

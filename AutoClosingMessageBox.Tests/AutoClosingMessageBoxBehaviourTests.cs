@@ -1,3 +1,5 @@
+﻿#pragma warning disable CS0612
+
 using System.Windows.Forms;
 
 namespace AutoClosingMessageBox.Tests;
@@ -28,6 +30,7 @@ public class AutoClosingMessageBoxBehaviourTests : IDisposable
 
         Assert.Same(first, second);
     }
+
 
     [Fact]
     public void Init_SetsTheTimeoutUsedForAutoClosing()
@@ -146,3 +149,5 @@ public class AutoClosingMessageBoxBehaviourTests : IDisposable
 public class NonParallelAutoClosingCollection
 {
 }
+
+#pragma warning restore CS0612

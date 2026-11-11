@@ -1,3 +1,5 @@
+﻿#pragma warning disable CS0612
+
 using Gtk;
 
 namespace System.Windows.Forms;
@@ -37,6 +39,7 @@ public class AutoClosingMessageBox : IMessageBox
         Instance.Initialize();
         InnerMessageBox.DialogAvailable += FormsMessageBox_DialogAvailable;
     }
+
 
     /// <summary>
     /// Static constructor to perform one-time Windows Forms / GTK initialization required for message boxes.
@@ -360,3 +363,5 @@ public class AutoClosingMessageBox : IMessageBox
         return invoke();
     }
 }
+
+#pragma warning restore CS0612

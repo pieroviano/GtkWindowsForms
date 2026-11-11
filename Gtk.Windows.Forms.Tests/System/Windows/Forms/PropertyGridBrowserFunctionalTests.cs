@@ -1,3 +1,7 @@
+﻿#pragma warning disable CS0612
+
+#pragma warning disable CS0612
+
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Reflection;
@@ -381,3 +385,5 @@ public class PropertyGridBrowserFunctionalTests
         return store.IterNChildren();
     }
 }
+
+#pragma warning restore CS0612

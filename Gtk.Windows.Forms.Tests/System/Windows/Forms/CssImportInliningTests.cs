@@ -1,3 +1,5 @@
+﻿#pragma warning disable CS0612
+
 namespace System.Windows.Forms;
 
 using System.IO;

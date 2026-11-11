@@ -1,4 +1,6 @@
-﻿using GtkWinFormsApp.UITests.Infrastructure;
+﻿#pragma warning disable CS0612
+
+using GtkWinFormsApp.UITests.Infrastructure;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -38,6 +40,7 @@ public class MenuAndStripRenderingTests
                     $"the caption band is {caption.Allocation.Height}px, so a child at y=16 lands inside it");
             });
     }
+
 
     [Fact]
     public void ADropDownListComboKeepsTheWidthTheFormGaveIt()
@@ -251,3 +254,5 @@ public class MenuAndStripRenderingTests
         return null;
     }
 }
+
+#pragma warning restore CS0612

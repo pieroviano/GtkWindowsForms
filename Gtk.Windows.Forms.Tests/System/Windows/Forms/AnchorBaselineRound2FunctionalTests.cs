@@ -1,3 +1,7 @@
+﻿#pragma warning disable CS0612
+
+#pragma warning disable CS0612
+
 using System.Diagnostics;
 using System.Drawing;
 
@@ -384,3 +388,4 @@ public class AnchorBaselineRound2FunctionalTests
         }
     }
 }
+#pragma warning restore CS0612

@@ -1,4 +1,4 @@
-using System.Drawing.Drawing2D;
+﻿using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
 namespace System.Drawing;
@@ -227,7 +227,9 @@ public sealed class TextureBrush : Brush
         var surface = new Cairo.ImageSurface(Cairo.Format.Argb32, pixbuf.Width, pixbuf.Height);
         using (var context = new Cairo.Context(surface))
         {
+#pragma warning disable CS0612 // Type or member is obsolete
             Gdk.CairoHelper.SetSourcePixbuf(context, pixbuf, 0, 0);
+#pragma warning restore CS0612 // Type or member is obsolete
             context.Paint();
         }
 

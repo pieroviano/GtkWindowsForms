@@ -1,3 +1,5 @@
+﻿#pragma warning disable CS0612
+
 using System;
 using System.Drawing;
 using Gtk.Windows.Forms.InternetExplorer.Interop;
@@ -55,6 +57,7 @@ internal sealed class AxWebBrowserHost : IDisposable
         _anchor = anchor;
         _com = com;
     }
+
 
     /// <summary>Gets the control's automation object (<c>IWebBrowser2</c>), driven through late binding.</summary>
     /// <value>The browser, or <c>null</c> before <see cref="Ready" /> is raised.</value>
@@ -261,3 +264,5 @@ internal sealed class AxWebBrowserHost : IDisposable
         });
     }
 }
+
+#pragma warning restore CS0612

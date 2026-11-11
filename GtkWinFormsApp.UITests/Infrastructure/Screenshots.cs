@@ -1,3 +1,5 @@
+﻿#pragma warning disable CS0612
+
 using System.Windows.Forms;
 using Xunit.Sdk;
 
@@ -26,6 +28,7 @@ internal static class Screenshots
             WriteAllBytes(baselinePath, actualPng);
             return;
         }
+
 
         if (!File.Exists(baselinePath))
         {

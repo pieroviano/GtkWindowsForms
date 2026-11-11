@@ -1,4 +1,8 @@
-﻿using System.Windows.Forms;
+﻿#pragma warning disable CS0612
+
+#pragma warning disable CS0612
+
+using System.Windows.Forms;
 
 namespace System.Windows.Forms;
 
@@ -188,3 +192,4 @@ public class NumericUpDownTests
         Assert.Equal(control.self, gtkControl);
     }
 }
+#pragma warning restore CS0612

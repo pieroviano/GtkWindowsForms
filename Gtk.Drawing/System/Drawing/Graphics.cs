@@ -1843,7 +1843,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
         if (existing != null)
         {
             imageContext.Save();
+#pragma warning disable CS0612 // Type or member is obsolete
             Gdk.CairoHelper.SetSourcePixbuf(imageContext, existing, 0, 0);
+#pragma warning restore CS0612 // Type or member is obsolete
             imageContext.Operator = Cairo.Operator.Source;
             imageContext.Paint();
             imageContext.Restore();
@@ -2883,7 +2885,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             img.Scale(scaleimg, 0, 0, destRect.Width, destRect.Height, -srcX * scaleX, -srcY * scaleY, scaleX, scaleY, ImageInterpolation);
             this.context.Save();
             this.SetTranslateWithDifference(destRect.X, destRect.Y);
+#pragma warning disable CS0612 // Type or member is obsolete
             Gdk.CairoHelper.SetSourcePixbuf(this.context, scaleimg, 0, 0);
+#pragma warning restore CS0612 // Type or member is obsolete
             using (var p = this.context.GetSource())
             {
                 if (p is Cairo.SurfacePattern pattern)
@@ -2945,7 +2949,9 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
             }
 
             this.SetTranslateWithDifference(x, y);
+#pragma warning disable CS0612 // Type or member is obsolete
             Gdk.CairoHelper.SetSourcePixbuf(this.context, newimg, 0, 0);
+#pragma warning restore CS0612 // Type or member is obsolete
             this.context.Paint();
             this.context.Restore();
         }
@@ -3181,7 +3187,8 @@ public sealed class Graphics : MarshalByRefObject, IDeviceContext, IDisposable
                 }
                 else
                 {
-                    DrawPath(pen, addpath.path);
+                    if (pen != null)
+                        DrawPath(pen, addpath.path);
                 }
             }
 

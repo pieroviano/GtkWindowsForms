@@ -1,4 +1,6 @@
-﻿namespace System.Windows.Forms;
+﻿#pragma warning disable CS0612
+
+namespace System.Windows.Forms;
 
 extern alias gtk;
 
@@ -112,3 +114,4 @@ public class MenuStripTests
         Assert.True(isToolStrip);
     }
 }
+#pragma warning restore CS0612

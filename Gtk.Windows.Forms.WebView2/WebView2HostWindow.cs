@@ -1,3 +1,5 @@
+﻿#pragma warning disable CS0612
+
 using System;
 using System.Drawing;
 using System.Threading.Tasks;
@@ -48,6 +50,7 @@ internal sealed class WebView2HostWindow : IDisposable
     {
         _anchor = anchor;
     }
+
 
     /// <summary>
     /// Gets the underlying browser, once it has finished initialising.
@@ -255,3 +258,5 @@ internal sealed class WebView2HostWindow : IDisposable
         });
     }
 }
+
+#pragma warning restore CS0612

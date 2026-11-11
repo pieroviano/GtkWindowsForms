@@ -1,3 +1,7 @@
+﻿#pragma warning disable CS0612
+
+#pragma warning disable CS0612
+
 using System.Drawing;
 
 namespace System.Windows.Forms;
@@ -126,3 +130,5 @@ public class GroupBoxCaptionBandTests
         }
     }
 }
+
+#pragma warning restore CS0612

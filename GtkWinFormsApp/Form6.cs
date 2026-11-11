@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 namespace GtkWinFormsApp
@@ -59,7 +59,7 @@ namespace GtkWinFormsApp
             forwardButton.Enabled = webBrowser1.CanGoForward;
         }
 
-        private void webBrowser1_CanGoChanged(object sender, EventArgs e)
+        private void webBrowser1_CanGoChanged(object? sender, EventArgs e)
         {
             UpdateHistoryButtons();
         }
@@ -77,7 +77,7 @@ namespace GtkWinFormsApp
             UpdateHistoryButtons();
         }
 
-        private void webBrowser1_DocumentTitleChanged(object sender, EventArgs e)
+        private void webBrowser1_DocumentTitleChanged(object? sender, EventArgs e)
         {
             Text = string.IsNullOrEmpty(webBrowser1.DocumentTitle)
                 ? "WebBrowser"
@@ -94,7 +94,7 @@ namespace GtkWinFormsApp
             statusLabel.Text = "Navigating to " + e.Url + "…";
         }
 
-        private void webBrowser1_StatusTextChanged(object sender, EventArgs e)
+        private void webBrowser1_StatusTextChanged(object? sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(webBrowser1.StatusText))
             {

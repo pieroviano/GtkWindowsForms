@@ -1,3 +1,5 @@
+﻿#pragma warning disable CS0612
+
 namespace System.Windows.Forms;
 
 using GtkSystem.Windows.Forms.GtkControls.ControlBase;
@@ -124,3 +126,4 @@ public class GroupBoxNotchTests
         return surface;
     }
 }
+#pragma warning restore CS0612

@@ -1,3 +1,5 @@
+﻿#pragma warning disable CS0612
+
 namespace System.Windows.Forms;
 
 extern alias gtk;
@@ -722,3 +724,4 @@ public class StripMenuItemRenderingTests
         Assert.Equal(0, clicks);
     }
 }
+#pragma warning restore CS0612

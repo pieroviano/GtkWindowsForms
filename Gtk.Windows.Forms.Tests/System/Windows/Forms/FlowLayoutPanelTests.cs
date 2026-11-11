@@ -21,7 +21,6 @@ public class FlowLayoutPanelTests
         uint actualMinChildren = 0;
         uint actualMaxChildren = 0;
         uint actualColumnSpacing = 0;
-        uint actualBorderWidth = 0;
         object? controlsObj = null;
 
         form.Load += (s, e) =>
