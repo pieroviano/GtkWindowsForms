@@ -1,0 +1,37 @@
+From 00c41ecb17657853d9b1266c0cfab182e548eb75 Mon Sep 17 00:00:00 2001
+From: pviano-ria <pviano@riasolutionsgroup.ai>
+Date: Wed, 11 Nov 2026 08:29:46 +0200
+Subject: [PATCH] LinkLabel: raise LinkClicked through OnLinkClicked
+
+The GTK activate-link handler invoked the LinkClicked event directly, so an
+OnLinkClicked override never ran and could not suppress the event, unlike
+classic WinForms where OnLinkClicked is the single funnel. Route the handler
+through OnLinkClicked; widen it to internal so a test can drive the real path.
+---
+ Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs b/Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
+index e2e0c661..8568e514 100644
+--- a/Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
++++ b/Gtk.Windows.Forms/System/Windows/Forms/LinkLabel.cs
+@@ -187,9 +187,14 @@ public partial class LinkLabel : Control
+         LinkClicked?.Invoke(this, e);
+     }
+ 
+-    private void LinkLabel_ActivateLink(object o, Gtk.ActivateLinkArgs args)
++    /// <summary>
++    /// Handles GTK's activate-link signal. It funnels through <see cref="OnLinkClicked" /> so an override
++    /// there runs — and can suppress the event by not calling base — exactly as in classic WinForms.
++    /// Raising <see cref="LinkClicked" /> directly here bypassed that override, so it never ran.
++    /// </summary>
++    internal void LinkLabel_ActivateLink(object o, Gtk.ActivateLinkArgs args)
+     {
+-        LinkClicked?.Invoke(this, new LinkLabelLinkClickedEventArgs(new Link() { Description = self.Label, LinkData = self.Uri }));
++        OnLinkClicked(new LinkLabelLinkClickedEventArgs(new Link() { Description = self.Label, LinkData = self.Uri }));
+     }
+ 
+     private void LinkLabel_Click(object sender, EventArgs e)
+-- 
+2.55.0.windows.5
+
