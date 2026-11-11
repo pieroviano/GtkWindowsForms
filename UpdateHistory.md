@@ -14,6 +14,11 @@
 	4. Replaced Net4x.NuGetUtility with Net4x.CleanCache and added reliable build-time eviction of
 	   the package's own NuGet cache entry, together with a refresh script for build-server cache
 	   locks.
+	5. Added the opt-in Gtk.Windows.Forms.InternetExplorer companion package, hosting the legacy
+	   Windows Trident WebBrowser control through OLE/ActiveX. It supports navigation, state and
+	   browser events, DOM access and script invocation, print/document dialogs, IE11 emulation,
+	   dedicated STA hosting for MTA applications, and configurable priority over WebView2. Added
+	   registration, probe, command-queue, bounds, emulation, and STA-apartment tests.
 
  #### 2026/11/7
    	1. Fixed anchoring: each child now remembers the container size its bounds correspond to (WinForms

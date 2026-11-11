@@ -1,0 +1,689 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Gtk.Windows.Forms.InternetExplorer</name>
+    </assembly>
+    <members>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.AxActivation">
+            <summary>
+            The OLE in-place activation handshake that brings the WebBrowser control up inside the host's child
+            window, and the matching teardown. Separated from <see cref="T:Gtk.Windows.Forms.InternetExplorer.AxWebBrowserHost" /> so the host keeps to
+            its lifecycle and geometry role.
+            </summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.AxActivation.TryActivate(Gtk.Windows.Forms.InternetExplorer.AxWebBrowserHost,System.IntPtr,System.IntPtr,System.Func{Gtk.Windows.Forms.InternetExplorer.Interop.RECT},System.Object@,Gtk.Windows.Forms.InternetExplorer.Interop.IOleObject@,Gtk.Windows.Forms.InternetExplorer.Interop.IOleInPlaceObject@,Gtk.Windows.Forms.InternetExplorer.OleHostSite@,Gtk.Windows.Forms.InternetExplorer.WebBrowserEventsSink@,Gtk.Windows.Forms.InternetExplorer.Interop.IConnectionPoint@,System.Int32@)">
+            <summary>
+            Instantiates the WebBrowser control, sites it in <paramref name="childHwnd" />, in-place activates
+            it and advises the event sink.
+            </summary>
+            <returns><c>true</c> when the control is up and advised; <c>false</c> on any COM failure (the caller
+            then leaves the backend unready and the factory's guard reports the engine as unavailable).</returns>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.AxActivation.Teardown(Gtk.Windows.Forms.InternetExplorer.Interop.IOleObject,Gtk.Windows.Forms.InternetExplorer.Interop.IOleInPlaceObject,Gtk.Windows.Forms.InternetExplorer.Interop.IConnectionPoint,System.Int32)">
+            <summary>Unadvises the sink, deactivates and closes the control, and releases the COM references.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.AxWebBrowserHost">
+             <summary>
+             Owns the WebBrowser ActiveX control and keeps it over the area a GTK widget occupies.
+             </summary>
+             <remarks>
+             The control is in-place activated into a bare child window of the GTK toplevel's HWND, because GTK 4
+             gives only toplevels a window handle. As with the WebView2 backend, the browser therefore paints above
+             every GTK widget in the same window; overlapping widgets, popovers and menus do not clip it. Recorded as
+             a Windows-only deviation in EMULATION-GAPS.md.
+            
+             Everything here runs on the GTK main-loop thread, which the application enters through <c>[STAThread]</c>
+             <c>Main</c> - the single-threaded apartment OLE in-place activation requires.
+             </remarks>
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.AxWebBrowserHost.Browser">
+            <summary>Gets the control's automation object (<c>IWebBrowser2</c>), driven through late binding.</summary>
+            <value>The browser, or <c>null</c> before <see cref="E:Gtk.Windows.Forms.InternetExplorer.AxWebBrowserHost.Ready" /> is raised.</value>
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.AxWebBrowserHost.Events">
+            <summary>Gets the event sink, once the control has been advised.</summary>
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.AxWebBrowserHost.IsReady">
+            <summary>Gets a value indicating whether the control is ready to be driven.</summary>
+        </member>
+        <member name="E:Gtk.Windows.Forms.InternetExplorer.AxWebBrowserHost.Ready">
+            <summary>Occurs once the control is ready. Commands issued earlier are queued by the backend and replayed.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.AxWebBrowserHost.Initialize">
+            <summary>
+            Instantiates and activates the control once the widget is in a realised toplevel. A no-op if that has
+            not happened yet (the realize handler calls again) or if it has already run.
+            </summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.AxWebBrowserHost.UpdateGeometry">
+            <summary>Re-reads the widget's geometry and applies it to the child window and the control.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.AxWebBrowserHost.CurrentPositionRect">
+            <summary>The control's position rectangle in its container window - it fills the child window.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.AxWebBrowserHost.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.BrowserEmulation">
+            <summary>
+            Opts the hosted WebBrowser ActiveX control into a modern rendering mode.
+            </summary>
+            <remarks>
+            Left alone, an embedded WebBrowser control renders as Internet Explorer 7 in quirks mode, which breaks
+            most pages written this decade. Writing the host executable's name under
+            <c>FEATURE_BROWSER_EMULATION</c> switches it to IE11 edge mode. The value is written under
+            <c>HKEY_CURRENT_USER</c>, so no administrator rights are needed, and it affects only this user's run of
+            this executable.
+            </remarks>
+        </member>
+        <member name="F:Gtk.Windows.Forms.InternetExplorer.BrowserEmulation.Ie11EdgeMode">
+            <summary>IE11 forced standards (edge) mode - the value an embedded control reads for "render like IE11".</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.BrowserEmulation.EnsureApplied">
+            <summary>
+            Writes the emulation value for the current host executable, once per process.
+            </summary>
+            <remarks>
+            Best effort: a locked-down profile may deny the write, in which case the control simply renders in
+            its default mode rather than faulting. The write is skipped when the value is already correct, so a
+            repeated run does not churn the registry.
+            </remarks>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.BrowserEmulation.Write(System.String,System.Int32)">
+            <summary>
+            Writes the emulation value for a named executable under <c>HKEY_CURRENT_USER</c>. Separated from
+            <see cref="M:Gtk.Windows.Forms.InternetExplorer.BrowserEmulation.EnsureApplied" /> and named rather than tied to the host process so tests can write and read
+            back a throwaway executable name. <c>RegistryKey</c> is deliberately not named in the signature: the
+            base library ships its own <c>Microsoft.Win32.RegistryKey</c> shim, which would make the type
+            ambiguous here.
+            </summary>
+            <param name="executableName">The host executable's file name, e.g. <c>app.exe</c>.</param>
+            <param name="value">The emulation value to write.</param>
+            <returns><c>true</c> when the value was written or already present.</returns>
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.BrowserEmulation.FeatureSubKeyPath">
+            <summary>The registry sub-path under which emulation values live, for tests that read values back.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.ComDispatcher">
+            <summary>
+            Routes every COM touch onto the thread the control lives on.
+            </summary>
+            <remarks>
+            With no apartment - the normal case, where the GTK main loop already runs on an STA thread - this is a
+            straight pass-through, so the control lives directly on the GTK thread and there is no marshalling at
+            all. With an apartment, it is the MTA fallback: the work crosses to the dedicated STA thread. Code that
+            touches the control calls <see cref="M:Gtk.Windows.Forms.InternetExplorer.ComDispatcher.Send(System.Action)" /> rather than caring which case it is in.
+            </remarks>
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.ComDispatcher.Marshals">
+            <summary>Gets a value indicating whether calls are marshalled to a separate apartment thread.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.ComDispatcher.Send(System.Action)">
+            <summary>Runs an action on the control's thread and waits for it.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.ComDispatcher.Send``1(System.Func{``0})">
+            <summary>Runs a function on the control's thread and returns its result.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.ComDispatcher.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.GdkWin32Interop">
+             <summary>
+             Reaches the window handle behind a GTK 4 toplevel on Windows.
+             </summary>
+             <remarks>
+             GTK 4 has no child windows: only a toplevel owns an HWND, and every widget inside it is drawn rather
+             than hosted. The Internet Explorer WebBrowser ActiveX control needs a parent HWND, so a child window is
+             parented to the toplevel's and positioned by hand over the area the control occupies. That is the
+             airspace deviation recorded in EMULATION-GAPS.md.
+            
+             The entry point is resolved through the already-loaded GTK module rather than by
+             <see cref="T:System.Runtime.InteropServices.DllImportAttribute" />: the GTK 4 runtime ships under
+             different file names depending on how it was built - <c>gtk-4-1.dll</c> for the gvsbuild layout this
+             repository deploys, <c>libgtk-4-1.dll</c> for MSYS2 - and a wrong guess is a hard
+             <see cref="T:System.DllNotFoundException" /> rather than a fallback.
+             </remarks>
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.GdkWin32Interop.IsSupported">
+            <summary>
+            Gets a value indicating whether the GTK 4 runtime on this machine exports the entry point the
+            Internet Explorer backend needs.
+            </summary>
+            <value>
+            <c>true</c> when the handle can be read.
+            </value>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.GdkWin32Interop.GetToplevelHandle(Gtk.Widget)">
+            <summary>
+            Reads the window handle of the toplevel that contains a widget.
+            </summary>
+            <param name="widget">The widget.</param>
+            <returns>
+            The window handle, or <see cref="F:System.IntPtr.Zero" /> when the widget is not yet in a realised
+            toplevel - which is the normal state before the form is shown, not an error.
+            </returns>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.IeBounds">
+            <summary>
+            The geometry that places the Internet Explorer child window over the area a GTK widget occupies.
+            </summary>
+            <remarks>
+            Pure arithmetic, deliberately separated from the window it drives, so that it can be tested on a machine
+            with no Trident installed. The unit mismatch it exists to resolve is the classic cause of "the browser
+            fills a quarter of the control on a 4K screen": GTK allocations are in logical pixels and Win32 window
+            rectangles are in physical ones.
+            </remarks>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.IeBounds.Compute(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Converts a widget's position and size into the child window's bounds.
+            </summary>
+            <param name="x">The widget's left edge, in logical pixels, relative to the toplevel.</param>
+            <param name="y">The widget's top edge, in logical pixels, relative to the toplevel.</param>
+            <param name="width">The widget's width, in logical pixels.</param>
+            <param name="height">The widget's height, in logical pixels.</param>
+            <param name="scaleFactor">
+            The surface's scale factor. Values below one are treated as one: a zero would collapse the view to
+            nothing, and GTK reports zero for a surface that is not yet realised.
+            </param>
+            <returns>The bounds, in physical pixels, never negative in size.</returns>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.IeBounds.IsVisible(System.Boolean,System.Int32,System.Int32)">
+            <summary>
+            Decides whether the child window should be visible.
+            </summary>
+            <param name="mapped">Whether the widget is mapped.</param>
+            <param name="width">The widget's width, in logical pixels.</param>
+            <param name="height">The widget's height, in logical pixels.</param>
+            <returns>
+            <c>true</c> when the browser should be shown. An unmapped widget or an empty allocation hides it:
+            nothing else clips a child HWND, so a window left visible over a zero-sized widget would keep
+            painting its last frame on top of whatever GTK draws there.
+            </returns>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.IeHtmlDomBridge">
+            <summary>
+            The DOM bridge over a Trident document: the same injected script the other backends use, driven through
+            <see cref="T:Gtk.Windows.Forms.InternetExplorer.TridentDomChannel" /> rather than an out-of-process script channel.
+            </summary>
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.IeHtmlDomBridge.Channel">
+            <summary>Gets the channel the backend also uses for <c>InvokeScript</c> and snapshot refreshes.</summary>
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.IeHtmlDomBridge.Snapshot">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.IeHtmlDomBridge.InvokeMemberAsync(System.Int32,System.String,System.Object[],System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.IeHtmlDomBridge.Post(GtkSystem.Windows.Forms.WebBrowsing.DomMutation)">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.IeHtmlDomBridge.RefreshAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.InternetExplorer.IeHtmlDomBridge.DomEvent">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.InternetExplorer.IeHtmlDomBridge.SnapshotUpdated">
+            <inheritdoc />
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend">
+            <summary>The navigation commands, routed to <c>IWebBrowser2</c> through late binding.</summary>
+             <summary>
+             The Internet Explorer (Trident) backend behind <see cref="T:System.Windows.Forms.WebBrowser" /> on
+             Windows, hosting the <c>SHDocVw.WebBrowser</c> ActiveX control.
+             </summary>
+             <remarks>
+             Registers below the WebView2 backend, so WebView2 wins on Windows where both can load and this is the
+             fallback before WebKitGTK. Its probe declines off Windows, when the GTK runtime exposes no win32 surface
+             handle, or when the hosting thread is not a single-threaded apartment - all cases where the ActiveX
+             control cannot be hosted. Initialisation is synchronous once the widget is realised; commands issued
+             before then are queued and replayed, so navigating from a form's constructor is not lost.
+            
+             Internet Explorer is end of life. This exists for legacy intranet content that still requires Trident;
+             new work should use the WebView2 backend.
+             </remarks>
+            <summary>
+            The print and document dialogs, which Trident really has, routed through <c>IWebBrowser2.ExecWB</c>.
+            These back <see cref="T:System.Windows.Forms.WebBrowser" />'s print and dialog methods, which otherwise
+            report as unsupported.
+            </summary>
+            <summary>Turns the control's <c>DWebBrowserEvents2</c> notifications into the backend's seam events.</summary>
+            <summary>State the control reports through events, and the <see cref="T:GtkSystem.Windows.Forms.WebBrowsing.IWebViewBackend" /> properties
+            that read it.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.GoBack">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.GoForward">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Reload(System.Boolean)">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Stop">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.LoadHtml(System.String,System.Uri)">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Navigate(System.Uri,System.String,System.Byte[],System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.FlushPendingHtml">
+            <summary>Writes the HTML queued by <see cref="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.LoadHtml(System.String,System.Uri)" /> into the just-loaded blank document.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Drive(System.Action{System.Object})">
+            <summary>Queues work until the control is ready, then runs it against the automation object, guarded.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend" /> class, hosting the
+            control directly on the calling (STA) thread.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.#ctor(Gtk.Windows.Forms.InternetExplorer.StaApartment)">
+            <summary>Initializes a new instance of the <see cref="T:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend" /> class.</summary>
+            <param name="apartment">
+            The dedicated STA apartment to host the control on when the GTK thread is not itself an STA, or
+            <c>null</c> to host directly on the GTK thread (the normal case).
+            </param>
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Dom">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.IsFunctional">
+            <summary>Gets a value indicating whether a real engine is behind this backend.</summary>
+            <value>Always <c>true</c>.</value>
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Widget">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.PendingCommandCount">
+            <summary>Gets how many commands are waiting for the control to finish initialising.</summary>
+            <value>The queue depth. Exposed for tests: a navigation issued before the control is ready is held
+            rather than dropped, which has no other observable effect.</value>
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Browser">
+            <summary>The control's automation object, driven through late binding, or <c>null</c> before ready.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.TryCreate">
+            <summary>
+            Probes for a usable Trident host.
+            </summary>
+            <returns>A backend, or <c>null</c> when Windows, GTK or the apartment cannot provide one.</returns>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.InvokeScriptAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Post(System.Action)">
+            <summary>
+            Queues work until the control is ready, then runs it. A navigation issued from a form's constructor
+            arrives long before initialisation completes, and dropping it is the failure this prevents.
+            </summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.GtkSystem#Windows#Forms#WebBrowsing#IWebBrowserDialogs#Print">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.GtkSystem#Windows#Forms#WebBrowsing#IWebBrowserDialogs#ShowPrintDialog">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.GtkSystem#Windows#Forms#WebBrowsing#IWebBrowserDialogs#ShowPrintPreviewDialog">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.GtkSystem#Windows#Forms#WebBrowsing#IWebBrowserDialogs#ShowPageSetupDialog">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.GtkSystem#Windows#Forms#WebBrowsing#IWebBrowserDialogs#ShowPropertiesDialog">
+            <inheritdoc />
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.GtkSystem#Windows#Forms#WebBrowsing#IWebBrowserDialogs#ShowSaveAsDialog">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.LoadFinished">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Navigated">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Navigating">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.NewWindow">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.ProgressChanged">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.StatusChanged">
+            <inheritdoc />
+        </member>
+        <member name="E:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.TitleChanged">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.AllowDrop">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.CanGoBack">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.CanGoForward">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.ContextMenuEnabled">
+            <inheritdoc />
+            <remarks>Stored but not enforced: Trident has no single switch for its context menu.</remarks>
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.DocumentTitle">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.EncryptionLevel">
+            <inheritdoc />
+            <remarks>
+            Trident reports a security zone, not a cipher strength, so the Internet-Explorer-era tiers this
+            enumeration names cannot be reproduced exactly. An <c>https</c> document is reported as
+            <see cref="F:System.Windows.Forms.WebBrowserEncryptionLevel.Bit128" /> and anything else as
+            <see cref="F:System.Windows.Forms.WebBrowserEncryptionLevel.Insecure" />.
+            </remarks>
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.IsBusy">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Progress">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.ReadyState">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.ScriptErrorsSuppressed">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.ScrollBarsEnabled">
+            <inheritdoc />
+            <remarks>Trident has no setting for this; applied as injected CSS, as the WebView2 backend does.</remarks>
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.ShortcutsEnabled">
+            <inheritdoc />
+            <remarks>Stored but not enforced: Trident routes its own accelerators.</remarks>
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.StatusText">
+            <inheritdoc />
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Url">
+            <inheritdoc />
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackendRegistration">
+            <summary>
+            Puts the Internet Explorer backend into <see cref="T:GtkSystem.Windows.Forms.WebBrowsing.WebViewBackendFactory" />.
+            </summary>
+            <remarks>
+            Referencing this package is the whole opt-in: a module initializer registers the backend the first time
+            any code in the assembly runs. Priority 75 sits below the WebView2 backend's 100 and above the
+            WebKitGTK backend's 50, so WebView2 is preferred when installed and Internet Explorer is the fallback
+            before WebKitGTK. An application that wants Trident even when WebView2 is present calls
+            <see cref="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackendRegistration.PreferOverWebView2" />.
+            </remarks>
+        </member>
+        <member name="F:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackendRegistration.Name">
+            <summary>The name the backend registers under.</summary>
+        </member>
+        <member name="F:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackendRegistration.FallbackPriority">
+            <summary>Default priority: below WebView2 (100), above WebKitGTK (50).</summary>
+        </member>
+        <member name="F:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackendRegistration.PreferredPriority">
+            <summary>Priority above the WebView2 backend, used by <see cref="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackendRegistration.PreferOverWebView2" />.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackendRegistration.Register">
+            <summary>
+            Registers the backend. Called automatically when this assembly loads; safe to call again.
+            </summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackendRegistration.PreferOverWebView2">
+            <summary>
+            Re-registers the backend above WebView2, so Trident wins on Windows even when the WebView2 runtime
+            is installed. Call it once at startup, before the first <see cref="T:System.Windows.Forms.WebBrowser" />
+            is constructed.
+            </summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackendRegistration.Unregister">
+            <summary>
+            Removes the backend, so a process can fall back to whatever else is registered.
+            </summary>
+            <returns><c>true</c> when it was registered.</returns>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.DWebBrowserEvents2">
+            <summary>
+            The outgoing event dispinterface of the WebBrowser ActiveX control. Implemented by the host's event
+            sink and advised through the control's connection point.
+            </summary>
+            <remarks>
+            A dispinterface, not a vtable interface: the control raises events by calling
+            <c>IDispatch::Invoke</c> with a DISPID, so the sink is dispatched by <see cref="T:System.Runtime.InteropServices.DispIdAttribute" />.
+            Only the events the host acts on are declared; the control tolerates <c>DISP_E_MEMBERNOTFOUND</c> for
+            the rest. The parameter shapes match the type library's, so a VARIANT by reference is <c>ref object</c>
+            and a VARIANT_BOOL by reference is <c>ref bool</c>.
+            </remarks>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.Interop.DWebBrowserEvents2.StatusTextChange(System.String)">
+            <summary>The status bar text changed.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.Interop.DWebBrowserEvents2.ProgressChange(System.Int32,System.Int32)">
+            <summary>The load progress advanced.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.Interop.DWebBrowserEvents2.CommandStateChange(System.Int32,System.Boolean)">
+            <summary>A command's enabled state changed (used for CanGoBack / CanGoForward).</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.Interop.DWebBrowserEvents2.TitleChange(System.String)">
+            <summary>The document title changed.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.Interop.DWebBrowserEvents2.BeforeNavigate2(System.Object,System.Object@,System.Object@,System.Object@,System.Object@,System.Object@,System.Boolean@)">
+            <summary>A navigation is about to start; set <paramref name="cancel" /> to stop it.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.Interop.DWebBrowserEvents2.NewWindow2(System.Object@,System.Boolean@)">
+            <summary>The page asked to open a new window.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.Interop.DWebBrowserEvents2.NavigateComplete2(System.Object,System.Object@)">
+            <summary>A navigation committed.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.Interop.DWebBrowserEvents2.DocumentComplete(System.Object,System.Object@)">
+            <summary>The document finished loading (fires per frame; the top frame is the one that matters).</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.CommandStateChangeCommand">
+            <summary>Command codes carried by <see cref="M:Gtk.Windows.Forms.InternetExplorer.Interop.DWebBrowserEvents2.CommandStateChange(System.Int32,System.Boolean)" />.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.IOleObject">
+            <summary>The embeddable-object interface of the WebBrowser control.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.IOleInPlaceObject">
+            <summary>The in-place object interface, used to resize and deactivate the view.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.IConnectionPointContainer">
+            <summary>Enumerates the control's outgoing event interfaces.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.IConnectionPoint">
+            <summary>A single outgoing event interface, used to advise the <c>DWebBrowserEvents2</c> sink.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.OleNativeMethods">
+            <summary>
+            The Win32 and OLE entry points the host calls directly: OLE apartment init, COM instantiation, and the
+            child-window management that keeps the control over the GTK widget's area.
+            </summary>
+        </member>
+        <member name="F:Gtk.Windows.Forms.InternetExplorer.Interop.OleNativeMethods.IID_IUnknown">
+            <summary>IID_IUnknown, for <c>CoCreateInstance</c>.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.HResult">
+            <summary>Standard OLE HRESULTs the site returns.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.IOleWindow">
+            <summary>OLE's base window interface (implemented side).</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.IOleInPlaceUIWindow">
+            <summary>OLE's in-place UI window interface (implemented side).</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.IOleInPlaceFrame">
+            <summary>The in-place frame the site hands the control through <c>GetWindowContext</c>.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.IOleClientSite">
+            <summary>The client site the control uses to reach its container.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.IOleInPlaceSite">
+            <summary>The in-place site the control activates into.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.RECT">
+            <summary>A Win32 rectangle (LTRB), as the OLE in-place interfaces pass it.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.POINT">
+            <summary>A Win32 point.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.SIZE">
+            <summary>A Win32 size.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.MSG">
+            <summary>A thread message, as <c>IOleInPlaceActiveObject.TranslateAccelerator</c> receives it.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.OLEINPLACEFRAMEINFO">
+            <summary>The in-place frame info the site hands back from <c>GetWindowContext</c>.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.OleVerb">
+            <summary>Verbs for <c>IOleObject.DoVerb</c>; only the ones this host issues are named.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.OleClose">
+            <summary>Flags for <c>IOleObject.Close</c>.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.DvAspect">
+            <summary>Draw aspect for <c>SetExtent</c> / <c>GetExtent</c>.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.OleCmdId">
+            <summary>
+            The browser commands routed through <c>IWebBrowser2.ExecWB</c>. These back the control's print and
+            dialog methods, which the base library otherwise reports as unsupported.
+            </summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.OleCmdExecOpt">
+            <summary>Execution options for <c>IWebBrowser2.ExecWB</c>.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.Interop.OleGuids">
+            <summary>GUIDs the host needs by value.</summary>
+        </member>
+        <member name="F:Gtk.Windows.Forms.InternetExplorer.Interop.OleGuids.WebBrowser">
+            <summary>CLSID of the Internet Explorer WebBrowser ActiveX control (<c>Shell.Explorer.2</c>).</summary>
+        </member>
+        <member name="F:Gtk.Windows.Forms.InternetExplorer.Interop.OleGuids.DWebBrowserEvents2">
+            <summary>DIID_DWebBrowserEvents2 - the outgoing event dispinterface.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.OleHostSite">
+            <summary>
+            The minimal OLE container the WebBrowser ActiveX control activates into: a client site, an in-place
+            site, and an in-place frame rolled into one object.
+            </summary>
+            <remarks>
+            It owns no UI of its own - menus, borders and status are declined - because the control lives in a bare
+            child window the host positions over a GTK widget. The only live information it hands the control is the
+            in-place window handle and the current position rectangle, supplied by the host through the delegates
+            passed to the constructor.
+            </remarks>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.StaApartment">
+             <summary>
+             A dedicated single-threaded apartment with its own message pump, used to host the WebBrowser ActiveX
+             control when the application's GTK thread is not itself an STA.
+             </summary>
+             <remarks>
+             OLE in-place activation requires an STA, and the control's window has to be pumped on the thread that
+             created it. When the GTK main loop runs on an MTA thread, this gives the control a correct home: every
+             COM touch - instantiation, navigation, geometry, teardown - is marshalled here through
+             <see cref="M:Gtk.Windows.Forms.InternetExplorer.StaApartment.Invoke(System.Action)" />, while the GTK widget is still read on the main thread and only the
+             resulting bounds crossed over. The common case (a normal <c>[STAThread]</c> WinForms host) does not use
+             this at all; the control then lives directly on the GTK thread.
+            
+             The pump is a plain work queue drained on a wait handle rather than a Win32 message loop: the control's
+             own window messages are dispatched by the thread between work items because this is a real STA, which is
+             what OLE needs. This keeps the apartment free of a dependency on user32 message APIs.
+             </remarks>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.StaApartment.Invoke(System.Action)">
+            <summary>Runs an action on the apartment thread and waits for it to finish, rethrowing its exception.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.StaApartment.Invoke``1(System.Func{``0})">
+            <summary>Runs a function on the apartment thread and returns its result.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.StaApartment.Post(System.Action)">
+            <summary>Queues an action on the apartment thread without waiting.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.StaApartment.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.TridentDomChannel">
+             <summary>
+             Drives the shared DOM bridge script inside MSHTML and reads values back out of it.
+             </summary>
+             <remarks>
+             The bridge script is the same one the WebKitGTK and WebView2 backends inject. Trident has no host
+             message channel like <c>chrome.webview.postMessage</c>, so values are pulled rather than pushed: the
+             script is injected with <c>IHTMLWindow2.execScript</c>, and a global function is then called through the
+             window's script dispatch (<c>IHTMLDocument2.Script</c>), whose return value crosses back as a VARIANT.
+             Everything runs synchronously on the STA thread the control lives on; the asynchronous signatures are
+             kept so the backend presents the same seam as the out-of-process engines.
+            
+             One consequence: the bridge's delegated DOM events are not delivered on this backend - there is no
+             callback channel into the host without an <c>IDocHostUIHandler.GetExternal</c> sink. Document reads,
+             mutations and script invocation all work; raised <c>HtmlElement</c> events do not. Recorded in
+             EMULATION-GAPS.md.
+             </remarks>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.TridentDomChannel.Inject">
+            <summary>Injects the bridge script into the current document. Called after each document completes.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.TridentDomChannel.EvaluateAsync(System.String,System.Threading.CancellationToken)">
+            <summary>Evaluates a script expression and returns its value in the shapes the other backends produce.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.TridentDomChannel.SnapshotJsonAsync(System.Threading.CancellationToken)">
+            <summary>Pulls a fresh DOM snapshot as the JSON the base reader expects.</summary>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.TridentDomChannel.Execute(System.String)">
+            <summary>Runs a statement for its effect, discarding any result (used for DOM mutations).</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.TridentProbe">
+            <summary>
+            Answers whether this machine and thread can host the Internet Explorer WebBrowser ActiveX control.
+            </summary>
+            <remarks>
+            Two things have to hold: Trident must be installed (the control's CLSID is registered), and the thread
+            that will drive it must be a single-threaded apartment, which OLE in-place activation requires. The
+            application enters its GTK main loop through <c>[STAThread]</c> <c>Main</c>, so the probe runs on the
+            STA thread the control will live on.
+            </remarks>
+        </member>
+        <member name="P:Gtk.Windows.Forms.InternetExplorer.TridentProbe.IsControlAvailable">
+            <summary>
+            Gets a value indicating whether Trident is installed, independent of the current thread's apartment.
+            </summary>
+            <value><c>true</c> when the WebBrowser control's CLSID is registered.</value>
+        </member>
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.TridentProbe.IsStaThread">
+            <summary>
+            Gets a value indicating whether the calling thread is a single-threaded apartment.
+            </summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.IeNavigatingHandler">
+            <summary>A navigation is starting; a handler may cancel it.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.IeNewWindowHandler">
+            <summary>The page asked to open a new window; a handler may refuse it.</summary>
+        </member>
+        <member name="T:Gtk.Windows.Forms.InternetExplorer.WebBrowserEventsSink">
+            <summary>
+            Receives the WebBrowser control's <c>DWebBrowserEvents2</c> notifications and re-raises them as plain
+            CLR events the backend subscribes to.
+            </summary>
+            <remarks>
+            <c>DocumentComplete</c> fires once per frame; only the top frame - the one whose <c>pDisp</c> is the
+            control itself - is forwarded, so a page with iframes raises one completion, as WinForms does. Frame
+            identity is compared by IUnknown pointer, the one reliable COM identity.
+            </remarks>
+        </member>
+    </members>
+</doc>

@@ -708,6 +708,12 @@ public class WebBrowser : WebBrowserBase
     /// </summary>
     public void Print()
     {
+        if (Backend is IWebBrowserDialogs dialogs)
+        {
+            dialogs.Print();
+            return;
+        }
+
         _ = Backend.InvokeScriptAsync("window.print()", CancellationToken.None);
     }
 
@@ -741,6 +747,12 @@ public class WebBrowser : WebBrowserBase
     /// </exception>
     public void ShowPageSetupDialog()
     {
+        if (Backend is IWebBrowserDialogs dialogs)
+        {
+            dialogs.ShowPageSetupDialog();
+            return;
+        }
+
         throw new NotSupportedException(
             "Neither WebKitGTK nor WebView2 exposes a page setup dialog separately from its print dialog. " +
             "Call Print instead.");
@@ -751,6 +763,12 @@ public class WebBrowser : WebBrowserBase
     /// </summary>
     public void ShowPrintDialog()
     {
+        if (Backend is IWebBrowserDialogs dialogs)
+        {
+            dialogs.ShowPrintDialog();
+            return;
+        }
+
         Print();
     }
 
@@ -762,6 +780,12 @@ public class WebBrowser : WebBrowserBase
     /// </exception>
     public void ShowPrintPreviewDialog()
     {
+        if (Backend is IWebBrowserDialogs dialogs)
+        {
+            dialogs.ShowPrintPreviewDialog();
+            return;
+        }
+
         throw new NotSupportedException(
             "Neither WebKitGTK nor WebView2 exposes a print preview separately from its print dialog. " +
             "Call Print instead.");
@@ -775,6 +799,12 @@ public class WebBrowser : WebBrowserBase
     /// </exception>
     public void ShowPropertiesDialog()
     {
+        if (Backend is IWebBrowserDialogs dialogs)
+        {
+            dialogs.ShowPropertiesDialog();
+            return;
+        }
+
         throw new NotSupportedException(
             "The document properties dialog was an Internet Explorer feature; neither WebKitGTK nor " +
             "WebView2 provides one.");
@@ -788,6 +818,12 @@ public class WebBrowser : WebBrowserBase
     /// </exception>
     public void ShowSaveAsDialog()
     {
+        if (Backend is IWebBrowserDialogs dialogs)
+        {
+            dialogs.ShowSaveAsDialog();
+            return;
+        }
+
         throw new NotSupportedException(
             "Neither WebKitGTK nor WebView2 exposes a save-as dialog to the host. Read DocumentText and " +
             "write it yourself.");

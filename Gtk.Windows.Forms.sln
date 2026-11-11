@@ -76,6 +76,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gtk.Windows.Forms.WebView2"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gtk.Windows.Forms.WebView2.Tests", "Gtk.Windows.Forms.WebView2.Tests\Gtk.Windows.Forms.WebView2.Tests.csproj", "{C12049F3-1540-46BF-85DE-035F41FC3F65}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gtk.Windows.Forms.InternetExplorer", "Gtk.Windows.Forms.InternetExplorer\Gtk.Windows.Forms.InternetExplorer.csproj", "{6051C258-C4CD-4DC5-9057-3E3770C3CD67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gtk.Windows.Forms.InternetExplorer.Tests", "Gtk.Windows.Forms.InternetExplorer.Tests\Gtk.Windows.Forms.InternetExplorer.Tests.csproj", "{42B9DDBF-85E1-4424-BA7A-02AC36B1E601}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -362,6 +366,30 @@ Global
 		{C12049F3-1540-46BF-85DE-035F41FC3F65}.Release|x64.Build.0 = Release|Any CPU
 		{C12049F3-1540-46BF-85DE-035F41FC3F65}.Release|x86.ActiveCfg = Release|Any CPU
 		{C12049F3-1540-46BF-85DE-035F41FC3F65}.Release|x86.Build.0 = Release|Any CPU
+		{6051C258-C4CD-4DC5-9057-3E3770C3CD67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6051C258-C4CD-4DC5-9057-3E3770C3CD67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6051C258-C4CD-4DC5-9057-3E3770C3CD67}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6051C258-C4CD-4DC5-9057-3E3770C3CD67}.Debug|x64.Build.0 = Debug|Any CPU
+		{6051C258-C4CD-4DC5-9057-3E3770C3CD67}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6051C258-C4CD-4DC5-9057-3E3770C3CD67}.Debug|x86.Build.0 = Debug|Any CPU
+		{6051C258-C4CD-4DC5-9057-3E3770C3CD67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6051C258-C4CD-4DC5-9057-3E3770C3CD67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6051C258-C4CD-4DC5-9057-3E3770C3CD67}.Release|x64.ActiveCfg = Release|Any CPU
+		{6051C258-C4CD-4DC5-9057-3E3770C3CD67}.Release|x64.Build.0 = Release|Any CPU
+		{6051C258-C4CD-4DC5-9057-3E3770C3CD67}.Release|x86.ActiveCfg = Release|Any CPU
+		{6051C258-C4CD-4DC5-9057-3E3770C3CD67}.Release|x86.Build.0 = Release|Any CPU
+		{42B9DDBF-85E1-4424-BA7A-02AC36B1E601}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42B9DDBF-85E1-4424-BA7A-02AC36B1E601}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42B9DDBF-85E1-4424-BA7A-02AC36B1E601}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{42B9DDBF-85E1-4424-BA7A-02AC36B1E601}.Debug|x64.Build.0 = Debug|Any CPU
+		{42B9DDBF-85E1-4424-BA7A-02AC36B1E601}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{42B9DDBF-85E1-4424-BA7A-02AC36B1E601}.Debug|x86.Build.0 = Debug|Any CPU
+		{42B9DDBF-85E1-4424-BA7A-02AC36B1E601}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42B9DDBF-85E1-4424-BA7A-02AC36B1E601}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42B9DDBF-85E1-4424-BA7A-02AC36B1E601}.Release|x64.ActiveCfg = Release|Any CPU
+		{42B9DDBF-85E1-4424-BA7A-02AC36B1E601}.Release|x64.Build.0 = Release|Any CPU
+		{42B9DDBF-85E1-4424-BA7A-02AC36B1E601}.Release|x86.ActiveCfg = Release|Any CPU
+		{42B9DDBF-85E1-4424-BA7A-02AC36B1E601}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

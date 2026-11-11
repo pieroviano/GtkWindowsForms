@@ -87,8 +87,18 @@ Real WinForms hosted Internet Explorer **in process**, so an `HtmlElement` gette
 - **`Refresh(WebBrowserRefreshOption)` has two modes, not four.** `Completely` bypasses every cache; the other three revalidate.
 - **Windows only — airspace.** GTK 4 gives a window handle only to toplevels, so the WebView2 browser is a child window of the *form*, positioned over the control's area. It paints above all GTK content in that window: overlapping widgets, popovers, menus and window opacity do **not** clip it. There is no fix short of compositing the page into a GTK texture on every frame.
 - **Windows only — no incremental progress.** WebView2 reports no load percentage, so `ProgressChanged` fires 0 at the start and 100 at the end rather than counting up.
-- **`ShowPageSetupDialog`, `ShowPrintPreviewDialog`, `ShowPropertiesDialog`, `ShowSaveAsDialog` throw.** Neither engine exposes those dialogs separately; `Print`/`ShowPrintDialog` reach the page's own print path.
-- **The ActiveX-shaped surface is inert.** `ActiveXInstance`, `AttachInterfaces`, `CreateSink`, `DetachInterfaces`, `DetachSink`, `CreateWebBrowserSiteBase` and `WebBrowserSiteBase` exist for source compatibility and throw `NotSupportedException`; there is no ActiveX control here.
+- **`ShowPageSetupDialog`, `ShowPrintPreviewDialog`, `ShowPropertiesDialog`, `ShowSaveAsDialog` throw — except on the Internet Explorer backend.** WebKitGTK and WebView2 expose no separate dialogs; `Print`/`ShowPrintDialog` reach the page's own print path. The `Gtk.Windows.Forms.InternetExplorer` backend does implement all of them through `IWebBrowser2.ExecWB`, so they work when that backend is in use.
+- **The ActiveX-shaped surface is inert.** `ActiveXInstance`, `AttachInterfaces`, `CreateSink`, `DetachInterfaces`, `DetachSink`, `CreateWebBrowserSiteBase` and `WebBrowserSiteBase` exist for source compatibility and throw `NotSupportedException`; there is no ActiveX control here. (This is the control's own COM surface; it is unrelated to the Internet Explorer *backend*, which hosts a real ActiveX control internally.)
+
+### Internet Explorer (Trident) backend — `Gtk.Windows.Forms.InternetExplorer`
+
+An opt-in Windows-only backend that hosts the legacy `SHDocVw.WebBrowser` ActiveX control. It registers below WebView2 (priority 75), so WebView2 is still preferred when installed. Internet Explorer is end of life; use it only for legacy intranet content that requires Trident. Its specific deviations:
+
+- **Windows only — airspace.** Same as WebView2: the control is in-place activated into a child window of the *form* positioned over the control's area, so it paints above all GTK content in that window and is not clipped by overlapping widgets, popovers, menus or opacity.
+- **Delegated DOM events are not delivered.** `HtmlDocument`/`HtmlElement` reads, mutations and `InvokeScript` work (the DOM bridge is pulled through MSHTML), but the bridge's delegated element events are dropped: Trident offers no host callback channel without an `IDocHostUIHandler.GetExternal` sink, which this backend does not install.
+- **IE7 quirks by default, raised to IE11.** An embedded WebBrowser control renders as IE7 unless told otherwise; the backend writes `FEATURE_BROWSER_EMULATION = 11001` for the host executable under `HKEY_CURRENT_USER` on first use (no admin rights) so pages render as IE11.
+- **MTA host — events on the apartment thread.** When the application's GTK loop runs on an MTA thread, the control is hosted on a dedicated STA thread and its `WebBrowser` events are raised on that thread rather than the GTK thread; an application that handles them must marshal to the UI thread itself. The usual `[STAThread]` WinForms host is unaffected — the control then lives directly on the GTK thread.
+- **`EncryptionLevel` is coarser still.** Trident reports a security zone, not a cipher strength: `https` is reported as `Bit128` and everything else as `Insecure`.
 
 ---
 

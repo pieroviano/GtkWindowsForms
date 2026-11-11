@@ -124,8 +124,21 @@ remove its runtime — document this in the package README so the fallback seman
 | COM lifetime/leaks (connection points, sites) | Deterministic `Dispose`: unadvise sink, `DoVerb(HIDE)`, `Close(OLECLOSE_NOSAVE)`, release, `DestroyWindow`. |
 | Security: Trident is EOL | It is the user's explicit, opt-in choice; the package README states the security posture plainly. |
 
-## Out of scope
+## Formerly out of scope — now implemented (requested afterwards)
 
-- Printing/dialog parity beyond what `IWebBrowser2.ExecWB` trivially offers (keep current `NotSupportedException`s).
-- Hosting on a dedicated STA thread if the app is MTA (would be a separate, larger effort).
-- Changing the default engine selection for existing WebView2 users.
+- **Print/dialog parity via `ExecWB`.** `IWebBrowserDialogs` (base) is implemented by the backend
+  (`InternetExplorerBackend.Dialogs.cs`) and routed from `WebBrowser.cs`: `Print`, `ShowPrintDialog`,
+  `ShowPrintPreviewDialog`, `ShowPageSetupDialog`, `ShowPropertiesDialog`, `ShowSaveAsDialog` all work on the
+  IE backend; other backends keep their prior behaviour.
+- **Dedicated STA-thread host for an MTA app.** `StaApartment` + `ComDispatcher` host the control on a
+  dedicated STA thread when the GTK loop is MTA; GTK geometry is still read on the GTK thread and only bounds
+  crossed over. Caveat, documented in EMULATION-GAPS.md: in the MTA case `WebBrowser` events are raised on the
+  apartment thread, so the app must marshal. Unverified at runtime (the target app is STA); covered by unit
+  tests for the apartment primitive.
+- **Opt-in to prefer IE over WebView2.** `InternetExplorerBackendRegistration.PreferOverWebView2()` re-registers
+  at priority 150.
+
+## Still out of scope
+
+- A host callback channel (`IDocHostUIHandler.GetExternal`) so the bridge's delegated DOM *events* reach the
+  host on Trident — document reads/mutations/`InvokeScript` work; delegated element events do not.
