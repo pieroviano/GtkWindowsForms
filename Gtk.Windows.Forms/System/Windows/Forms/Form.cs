@@ -357,13 +357,33 @@ public partial class Form : ContainerControl, IWin32Window
             try
             {
                 // Apply right away so an icon set after the window exists updates the title bar, and so
-                // clearing it to null (the default) removes any shown icon.
+                // clearing it to null (the default) removes any shown icon. The header-bar image covers the
+                // GTK/CSD title bar; ApplyWindowsIcon covers the native Windows title bar + taskbar.
                 self.Icon = ShowIcon ? IconToPixbuf(value) : null;
+                ApplyWindowsIcon();
             }
             catch (Exception ex)
             {
                 System.Diagnostics.GtkLogger.Debug("Unexpected exception applying Form.Icon", ex);
             }
+        }
+    }
+
+    /// <summary>
+    /// Applies the form icon to the native Windows window (title bar + taskbar) via WM_SETICON, since Gtk4
+    /// on Windows does not surface a form icon there. Passes the raw .ico bytes (Windows decodes them
+    /// natively); a form left at the default (null Icon) clears the native icon so none is shown.
+    /// </summary>
+    private void ApplyWindowsIcon()
+    {
+        try
+        {
+            var bytes = ShowIcon && _formIcon != null ? _formIcon.PixbufData : null;
+            GtkSystem.Windows.Forms.GtkControls.ControlBase.NativeWindowPlacement.SetWindowsIcon(self, bytes);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.GtkLogger.Debug("Unexpected exception applying the native Windows form icon", ex);
         }
     }
 
@@ -1246,6 +1266,18 @@ public partial class Form : ContainerControl, IWin32Window
         _hasBeenShown = true;
         GLib.Timeout.Add(16, EnsureContentFits);
         ApplyCenteringOnShow();
+        // Apply the native Windows icon now that the window exists (and once more after it has settled, since
+        // the HWND is matched by title which must already be set on it).
+        ApplyWindowsIcon();
+        GLib.Timeout.Add(150, () =>
+        {
+            if (!IsDisposed)
+            {
+                ApplyWindowsIcon();
+            }
+
+            return false;
+        });
     }
 
     /// <summary>

@@ -45,26 +45,20 @@ internal static class NativeWindowPlacement
     {
         try
         {
-            var surface = SurfaceOf(form);
-            if (surface == IntPtr.Zero)
+            if (FuncLoader.IsWindows)
             {
-                return false; // the native window is not realized yet
-            }
-
-            if (Win32GetHandle != null)
-            {
-                var hwnd = Win32GetHandle(surface);
+                var hwnd = WindowsHandleOf(form);
                 if (hwnd == IntPtr.Zero)
                 {
-                    return false;
+                    return false; // the native window does not exist yet
                 }
 
-                var ownerSurface = SurfaceOf(owner);
-                var ownerHwnd = ownerSurface != IntPtr.Zero ? Win32GetHandle(ownerSurface) : IntPtr.Zero;
+                var ownerHwnd = WindowsHandleOf(owner);
                 return ownerHwnd != IntPtr.Zero ? WinCenterOverOwner(hwnd, ownerHwnd) : WinCenterOnWorkArea(hwnd);
             }
 
-            if (X11GetXid != null && X11GetXdisplay != null)
+            var surface = SurfaceOf(form);
+            if (X11GetXid != null && X11GetXdisplay != null && surface != IntPtr.Zero)
             {
                 var dpy = X11GetXdisplay(DisplayOf(form));
                 if (dpy == IntPtr.Zero)
@@ -95,6 +89,152 @@ internal static class NativeWindowPlacement
             System.Diagnostics.GtkLogger.Debug("Native window centering failed", ex);
             return false;
         }
+    }
+
+    /// <summary>
+    /// The Windows HWND of a form's toplevel. Prefers the exact handle from the GTK surface when the gtk-4
+    /// library is reachable by name; otherwise falls back to the current process's top-level window whose
+    /// caption matches the form title - which does not depend on the native library name/location at all.
+    /// </summary>
+    private static IntPtr WindowsHandleOf(FormBase? form)
+    {
+        if (form == null)
+        {
+            return IntPtr.Zero;
+        }
+
+        var surface = SurfaceOf(form);
+        if (Win32GetHandle != null && surface != IntPtr.Zero)
+        {
+            var hwnd = Win32GetHandle(surface);
+            if (hwnd != IntPtr.Zero)
+            {
+                return hwnd;
+            }
+        }
+
+        return FindProcessWindowByTitle(TitleOf(form));
+    }
+
+    /// <summary>
+    /// Sets (or clears) the Windows title-bar / taskbar icon of a form from raw .ico bytes. Gtk4 on Windows
+    /// does not surface a WinForms form icon on the native window, so this applies it directly to the HWND via
+    /// WM_SETICON (Windows decodes the .ico natively, unlike GdkPixbuf). Passing null bytes removes the icon,
+    /// which is how a form left at the default shows none. No-op off Windows and never throws.
+    /// </summary>
+    public static bool SetWindowsIcon(FormBase? form, byte[]? icoBytes)
+    {
+        if (!FuncLoader.IsWindows)
+        {
+            return false;
+        }
+
+        try
+        {
+            var hwnd = WindowsHandleOf(form);
+            if (hwnd == IntPtr.Zero)
+            {
+                return false;
+            }
+
+            IntPtr big = IntPtr.Zero;
+            IntPtr small = IntPtr.Zero;
+            if (icoBytes != null && icoBytes.Length > 0)
+            {
+                var tempPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(),
+                    "gwf_" + System.Guid.NewGuid().ToString("N") + ".ico");
+                System.IO.File.WriteAllBytes(tempPath, icoBytes);
+                try
+                {
+                    big = LoadImage(IntPtr.Zero, tempPath, IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE);
+                    small = LoadImage(IntPtr.Zero, tempPath, IMAGE_ICON, GetSystemMetrics(SM_CXSMICON),
+                        GetSystemMetrics(SM_CYSMICON), LR_LOADFROMFILE);
+                }
+                finally
+                {
+                    try
+                    {
+                        System.IO.File.Delete(tempPath);
+                    }
+                    catch
+                    {
+                        // best effort
+                    }
+                }
+            }
+
+            SendMessage(hwnd, WM_SETICON, (IntPtr)ICON_BIG, big);
+            SendMessage(hwnd, WM_SETICON, (IntPtr)ICON_SMALL, small != IntPtr.Zero ? small : big);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.GtkLogger.Debug("Native window icon apply failed", ex);
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Test/diagnostic probe (Windows): the current rectangle of this process's window with the given title,
+    /// and the work area of the monitor it is on. Returns false if no such window exists.
+    /// </summary>
+    internal static bool TryGetWindowAndWorkArea(string? title, out int windowX, out int windowY,
+        out int windowWidth, out int windowHeight, out int areaX, out int areaY, out int areaWidth, out int areaHeight)
+    {
+        windowX = windowY = windowWidth = windowHeight = areaX = areaY = areaWidth = areaHeight = 0;
+        if (!FuncLoader.IsWindows)
+        {
+            return false;
+        }
+
+        var hwnd = FindProcessWindowByTitle(title);
+        if (hwnd == IntPtr.Zero || !GetWindowRect(hwnd, out var rect))
+        {
+            return false;
+        }
+
+        windowX = rect.Left;
+        windowY = rect.Top;
+        windowWidth = rect.Right - rect.Left;
+        windowHeight = rect.Bottom - rect.Top;
+        var work = WorkArea(hwnd);
+        areaX = work.Left;
+        areaY = work.Top;
+        areaWidth = work.Right - work.Left;
+        areaHeight = work.Bottom - work.Top;
+        return true;
+    }
+
+    private static IntPtr FindProcessWindowByTitle(string? title)
+    {
+        if (string.IsNullOrEmpty(title))
+        {
+            return IntPtr.Zero;
+        }
+
+        var processId = (uint)System.Diagnostics.Process.GetCurrentProcess().Id;
+        var match = IntPtr.Zero;
+        EnumWindows((hWnd, _) =>
+        {
+            GetWindowThreadProcessId(hWnd, out var windowProcessId);
+            if (windowProcessId == processId && GetParent(hWnd) == IntPtr.Zero)
+            {
+                var length = GetWindowTextLength(hWnd);
+                if (length > 0)
+                {
+                    var caption = new System.Text.StringBuilder(length + 1);
+                    GetWindowText(hWnd, caption, caption.Capacity);
+                    if (caption.ToString() == title)
+                    {
+                        match = hWnd;
+                        return false; // stop enumerating
+                    }
+                }
+            }
+
+            return true;
+        }, IntPtr.Zero);
+        return match;
     }
 
     private static IntPtr SurfaceOf(FormBase? form)
@@ -298,6 +438,41 @@ internal static class NativeWindowPlacement
 
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
     private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO info);
+
+    private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+    [DllImport("user32.dll")]
+    private static extern bool EnumWindows(EnumWindowsProc callback, IntPtr lParam);
+
+    [DllImport("user32.dll")]
+    private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+
+    [DllImport("user32.dll")]
+    private static extern IntPtr GetParent(IntPtr hWnd);
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    private static extern int GetWindowTextLength(IntPtr hWnd);
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    private static extern int GetWindowText(IntPtr hWnd, System.Text.StringBuilder text, int maxCount);
+
+    private const uint WM_SETICON = 0x0080;
+    private const int ICON_SMALL = 0;
+    private const int ICON_BIG = 1;
+    private const uint IMAGE_ICON = 1;
+    private const uint LR_LOADFROMFILE = 0x0010;
+    private const uint LR_DEFAULTSIZE = 0x0040;
+    private const int SM_CXSMICON = 49;
+    private const int SM_CYSMICON = 50;
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    private static extern IntPtr LoadImage(IntPtr hinst, string name, uint type, int cx, int cy, uint load);
+
+    [DllImport("user32.dll")]
+    private static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+
+    [DllImport("user32.dll")]
+    private static extern int GetSystemMetrics(int index);
 
     [DllImport("libX11.so.6")]
     private static extern int XMoveWindow(IntPtr display, ulong window, int x, int y);
