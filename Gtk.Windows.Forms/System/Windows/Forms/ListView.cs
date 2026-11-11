@@ -1668,10 +1668,12 @@ public class ListView : ContainerControl
         if (thisitem != null)
         {
             thisitem.Checked = box?.self.Active ?? false;
-            ItemCheck?.Invoke(sender!, new ItemCheckEventArgs(checkitem?.Index ?? -1, (box?.self.Active ?? false) ? CheckState.Checked : CheckState.Unchecked, (box?.self.Active ?? false) ? CheckState.Unchecked : CheckState.Checked));
+            // Funnel through OnItemCheck/OnItemChecked so overrides run and the event sender is the
+            // ListView, as in classic WinForms; raising the events directly bypassed those overrides.
+            OnItemCheck(new ItemCheckEventArgs(checkitem?.Index ?? -1, (box?.self.Active ?? false) ? CheckState.Checked : CheckState.Unchecked, (box?.self.Active ?? false) ? CheckState.Unchecked : CheckState.Checked));
             if ((box?.self.Active ?? false) == true)
             {
-                ItemChecked?.Invoke(sender!, new ItemCheckedEventArgs(thisitem));
+                OnItemChecked(new ItemCheckedEventArgs(thisitem));
             }
         }
     }

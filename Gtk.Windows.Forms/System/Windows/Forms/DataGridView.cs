@@ -2495,7 +2495,7 @@ public partial class DataGridView : ScrollableControl
             {
                 LoadListSource();
             }
-            DataBindingComplete?.Invoke(this, new DataGridViewBindingCompleteEventArgs(ListChangedType.Reset));
+            OnDataBindingComplete(new DataGridViewBindingCompleteEventArgs(ListChangedType.Reset));
         }
         _Created = true;
     }
@@ -2519,8 +2519,8 @@ public partial class DataGridView : ScrollableControl
             Is_GridView_Realized = true;
             OnSetDataSource();
             _columns.Invalidate();
-            AllowUserToOrderColumnsChanged?.Invoke(this, EventArgs.Empty);
-            AllowUserToResizeColumnsChanged?.Invoke(this, EventArgs.Empty);
+            OnAllowUserToOrderColumnsChanged(EventArgs.Empty);
+            OnAllowUserToResizeColumnsChanged(EventArgs.Empty);
             foreach (Binding binding in DataBindings)
                 GridView.AddNotification(binding.PropertyName, propertyNotity);
 

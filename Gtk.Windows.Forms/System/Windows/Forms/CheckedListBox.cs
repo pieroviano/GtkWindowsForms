@@ -403,11 +403,16 @@ public partial class CheckedListBox : ContainerControl
             item.WidthRequest = this.Width;
     }
 
-    private void Control_ChildActivated(object o, Gtk.ChildActivatedArgs args)
+    /// <summary>
+    /// Handles GTK's child-activated signal. It funnels each selection event through its
+    /// <c>OnXxx</c> method so overrides run, exactly as in classic WinForms; raising the events
+    /// directly here bypassed those overrides, so they never ran.
+    /// </summary>
+    internal void Control_ChildActivated(object o, Gtk.ChildActivatedArgs args)
     {
-        SelectedIndexChanged?.Invoke(this, args);
-        SelectedValueChanged?.Invoke(this, args);
-        SelectedItemChanged?.Invoke(this, args);
+        OnSelectedIndexChanged(EventArgs.Empty);
+        OnSelectedValueChanged(EventArgs.Empty);
+        OnSelectedItemChanged(EventArgs.Empty);
     }
 
     /// <summary>

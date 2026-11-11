@@ -405,7 +405,9 @@ internal sealed partial class PropertyGridView
         if (tree.IsSensitive && tree.Selection.GetSelected(out var model, out var oiter))
         {
             var propertyItem = store.GetValue(oiter, 0) as GridEntry;
-            SelectedGridItemChanged?.Invoke(sender, new SelectedGridItemChangedEventArgs(oldSelectedPropertyItem, propertyItem));
+            // Funnel through OnSelectedGridItemChanged instead of raising the event directly, so the
+            // single raise-point is honoured and the event sender is this grid view.
+            OnSelectedGridItemChanged(new SelectedGridItemChangedEventArgs(oldSelectedPropertyItem, propertyItem));
             oldSelectedPropertyItem = propertyItem;
         }
     }
