@@ -68,4 +68,28 @@
     -->
     <SystemResourcesExtensionsPackageVersion Condition="'$(SystemResourcesExtensionsPackageVersion)' == ''">4.6.0</SystemResourcesExtensionsPackageVersion>
   </PropertyGroup>
+  <!--
+    Automatic NuGet cache eviction for the packages this solution produces.
+
+    The package version carries a date-based revision (VersionSuffix above), so it stays identical across
+    every build within a day. NuGet never re-extracts a version it has already cached, so a sibling project
+    consuming one of these packages by a floating version ("1.4.2464.*") keeps running the stale cached copy
+    even after the package has been rebuilt with new code. Net4x.CleanCache is meant to evict it, but its
+    cache delete is hooked AfterTargets="Pack", which does not fire for a GeneratePackageOnBuild *top-level*
+    project - so rebuilds of the package itself silently left the cache stale.
+
+    Hooking Build - which always runs - makes the eviction reliable. The cache folder name must be lower-cased
+    (NuGet lower-cases it; required on case-sensitive file systems such as Linux). The delete is idempotent
+    and non-fatal (ContinueOnError), so it never conflicts with CleanCache and never fails a build if the
+    folder is momentarily locked.
+  -->
+  <Target Name="EvictOwnStalePackageFromCache" AfterTargets="Build"
+          Condition="'$(GeneratePackageOnBuild)' == 'true' and '$(IsPackable)' != 'false' and '$(PackageId)' != '' and '$(NuGetPackageRoot)' != ''">
+    <PropertyGroup>
+      <_OwnCachedPackageDir>$([System.IO.Path]::Combine('$(NuGetPackageRoot)', '$(PackageId.ToLowerInvariant())'))</_OwnCachedPackageDir>
+    </PropertyGroup>
+    <RemoveDir Directories="$(_OwnCachedPackageDir)" Condition="Exists('$(_OwnCachedPackageDir)')" ContinueOnError="true" />
+    <Message Importance="high" Condition="!Exists('$(_OwnCachedPackageDir)')"
+             Text="[cache] Evicted $(PackageId) from the NuGet cache so consumers re-extract the rebuilt package." />
+  </Target>
 </Project>
