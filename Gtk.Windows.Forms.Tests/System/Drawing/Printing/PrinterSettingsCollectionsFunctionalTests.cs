@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Drawing.Printing;
 
 namespace GtkWinForms.Tests.System.Drawing.Printing;
@@ -20,9 +20,9 @@ public class PrinterSettingsCollectionsFunctionalTests
         Assert.NotNull(settings.PaperSizes);
         Assert.NotNull(settings.PaperSources);
         Assert.NotNull(settings.PrinterResolutions);
-        Assert.Equal(0, settings.PaperSizes.Count);
-        Assert.Equal(0, settings.PaperSources.Count);
-        Assert.Equal(0, settings.PrinterResolutions.Count);
+        Assert.Empty(settings.PaperSizes);
+        Assert.Empty(settings.PaperSources);
+        Assert.Empty(settings.PrinterResolutions);
     }
 
     [Fact]
@@ -75,7 +75,7 @@ public class PrinterSettingsCollectionsFunctionalTests
         ICollection sizes = new PrinterSettings.PaperSizeCollection(new[] { new PaperSize("A", 10, 20) });
         ICollection strings = new PrinterSettings.StringCollection(new[] { "p1", "p2" });
 
-        Assert.Equal(1, sizes.Count);
+        Assert.Single(sizes);
         Assert.Equal(2, strings.Count);
 
         var arr = new object[2];

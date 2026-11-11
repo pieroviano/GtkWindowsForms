@@ -1,4 +1,4 @@
-using GtkSystem.Windows.Forms.WebBrowsing;
+﻿using GtkSystem.Windows.Forms.WebBrowsing;
 
 // This package's namespace is nested under Gtk, so the unqualified names EventHandler and global::System.EventArgs
 // bind to GtkSharp's own delegates rather than the BCL ones. Both appear here - the backend seam
@@ -28,7 +28,9 @@ public static class WebView2BackendRegistration
     /// <summary>
     /// Registers the backend. Called automatically when this assembly loads; safe to call again.
     /// </summary>
+#pragma warning disable CA2255
     [global::System.Runtime.CompilerServices.ModuleInitializer]
+#pragma warning restore CA2255
     public static void Register()
     {
         if (_registered)

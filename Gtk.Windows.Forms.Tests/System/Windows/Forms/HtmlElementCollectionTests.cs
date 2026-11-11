@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Windows.Forms;
 using GtkSystem.Windows.Forms.WebBrowsing;
 using GtkWinForms.Tests.Mocks;
@@ -72,11 +72,11 @@ public class HtmlElementCollectionTests : IDisposable
     {
         var byName = BodyChildren.GetElementsByName("away");
 
-        Assert.Equal(1, byName.Count);
+        Assert.Single(byName);
         Assert.Equal("A", byName[0]!.TagName);
 
-        Assert.Equal(0, BodyChildren.GetElementsByName("heading").Count);
-        Assert.Equal(0, BodyChildren.GetElementsByName("nothing").Count);
+        Assert.Empty(BodyChildren.GetElementsByName("heading"));
+        Assert.Empty(BodyChildren.GetElementsByName("nothing"));
     }
 
     [Fact]
@@ -117,7 +117,7 @@ public class HtmlElementCollectionTests : IDisposable
     {
         var empty = _browser.Document!.GetElementsByTagName("table");
 
-        Assert.Equal(0, empty.Count);
+        Assert.Empty(empty);
         Assert.Null(empty[0]);
         Assert.Null(empty["anything"]);
         Assert.False(empty.GetEnumerator().MoveNext());

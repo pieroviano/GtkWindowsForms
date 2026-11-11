@@ -19,7 +19,7 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// <summary>
     /// Occurs when font changed.
     /// </summary>
-    public virtual event EventHandler<EventArgs>? FontChanged;
+    public new virtual event EventHandler<EventArgs>? FontChanged;
 
     /// <summary>
     /// Occurs when layout.
@@ -46,7 +46,7 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// <value>
     /// The layout style.
     /// </value>
-    public ToolStripLayoutStyle LayoutStyle
+    public new ToolStripLayoutStyle LayoutStyle
     {
         get;
         set;
@@ -102,7 +102,7 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// <value>
     /// The default padding.
     /// </value>
-    protected Padding DefaultPadding { get; }
+    protected new Padding DefaultPadding { get; }
 
     /// <summary>
     /// Creates the default item.
@@ -129,7 +129,7 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// The
     /// <see cref="T:System.EventArgs" /> instance containing the event data.
     /// </param>
-    protected void OnFontChanged(EventArgs e)
+    protected new void OnFontChanged(EventArgs e)
     {
         FontChanged?.Invoke(this, e);
     }
@@ -155,7 +155,7 @@ public class ToolStripDropDownMenu : ToolStripDropDown
     /// The
     /// <see cref="T:System.Windows.Forms.PaintEventArgs" /> instance containing the event data.
     /// </param>
-    protected void OnPaintBackground(PaintEventArgs e)
+    protected override void OnPaintBackground(PaintEventArgs e)
     {
         PaintBackground?.Invoke(this, e);
     }

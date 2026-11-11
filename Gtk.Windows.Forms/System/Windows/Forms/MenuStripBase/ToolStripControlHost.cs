@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -71,10 +71,7 @@ public class ToolStripControlHost : ToolStripItem
         get => base.Size;
         set
         {
-            if (_control != null)
-            {
-                _control.Size = value;
-            }
+            _control?.Size = value;
 
             base.Size = value;
         }
@@ -87,10 +84,7 @@ public class ToolStripControlHost : ToolStripItem
         set
         {
             base.Enabled = value;
-            if (_control != null)
-            {
-                _control.Enabled = value;
-            }
+            _control?.Enabled = value;
         }
     }
 

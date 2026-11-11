@@ -1,4 +1,4 @@
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 using GtkSystem.Windows.Forms.WebBrowsing;
 using GtkWinForms.Tests.Mocks;
@@ -218,7 +218,7 @@ public class HtmlElementTests : IDisposable
 
         Assert.Same(created, returned);
         Assert.Equal("H1", created.Parent!.TagName);
-        Assert.Equal(1, Heading.Children.Count);
+        Assert.Single(Heading.Children);
 
         var mutation = Assert.Single(_backend.FakeDom.Mutations);
         Assert.Equal(DomMutationKind.AppendChild, mutation.Kind);
@@ -323,6 +323,6 @@ public class HtmlElementTests : IDisposable
         Assert.Equal(string.Empty, heading.TagName);
         Assert.Equal(string.Empty, heading.InnerText);
         Assert.Null(heading.Parent);
-        Assert.Equal(0, heading.Children.Count);
+        Assert.Empty(heading.Children);
     }
 }

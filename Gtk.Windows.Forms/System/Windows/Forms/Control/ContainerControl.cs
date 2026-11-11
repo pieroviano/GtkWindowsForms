@@ -273,12 +273,9 @@ public class ContainerControl : ScrollableControl, IContainerControl
     public bool ActivateControl(Control? active)
     {
         _ActiveControl = active;
-        if (active != null)
+        if (active?.GtkControl is Gtk.Widget widget)
         {
-            if (active.GtkControl is Gtk.Widget widget)
-            {
-                return widget.Activate();
-            }
+            return widget.Activate();
         }
 
         return false;

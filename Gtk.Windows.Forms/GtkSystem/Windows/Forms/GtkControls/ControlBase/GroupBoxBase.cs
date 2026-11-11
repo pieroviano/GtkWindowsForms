@@ -1,4 +1,4 @@
-using Gdk;
+﻿using Gdk;
 using Gtk;
 using ScrollEventHandler = System.Windows.Forms.ScrollEventHandler;
 
@@ -45,10 +45,12 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
         base.Halign = Gtk.Align.Start;
         contaner.Halign = Align.Fill;
         contaner.Valign = Align.Fill;
-        var background = new Gtk.DrawingArea();
-        // Gtk4-removed: background.Events |= Gdk.EventMask.ButtonPressMask;
-        // Gtk4-removed: background.Events |= Gdk.EventMask.ButtonReleaseMask;
-        background.DrawFunc = Background_DrawFunc;
+        var background = new Gtk.DrawingArea
+        {
+            // Gtk4-removed: background.Events |= Gdk.EventMask.ButtonPressMask;
+            // Gtk4-removed: background.Events |= Gdk.EventMask.ButtonReleaseMask;
+            DrawFunc = Background_DrawFunc
+        };
         // Paint is raised from this child, not from the frame, so an invalidation has to land here.
         this.Override.PaintSurface = background;
         contaner.AddChild(background);
@@ -356,7 +358,7 @@ public sealed class GroupBoxBase : Gtk.Frame, IControlGtk, IScrollableBoxBase
     }
 
     // Gtk 4: IScrollableBoxBase.Add is explicit now that Gtk.Container.Add is not inherited.
-    public void Add(Gtk.Widget child) => base.Child = child; // Gtk4: Frame.Add -> Child
+    public new void Add(Gtk.Widget child) => base.Child = child; // Gtk4: Frame.Add -> Child
 
 
 

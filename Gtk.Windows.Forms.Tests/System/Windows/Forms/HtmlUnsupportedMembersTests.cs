@@ -1,4 +1,4 @@
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using GtkSystem.Windows.Forms.WebBrowsing;
 using GtkWinForms.Tests.Mocks;
 
@@ -110,7 +110,7 @@ public class HtmlUnsupportedMembersTests : IDisposable
     [Fact]
     public void The_Window_That_Cannot_Have_Frames_Reports_An_Empty_Collection_Not_Null()
     {
-        Assert.Equal(0, Document.Window.Frames.Count);
+        Assert.Empty(Document.Window.Frames);
         Assert.Null(Document.Window.Opener);
         Assert.False(Document.Window.IsClosed);
         Assert.Same(Document.Window.Parent, Document.Window.Parent.Parent);

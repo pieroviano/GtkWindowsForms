@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
@@ -357,15 +357,15 @@ public partial class TabControl : ContainerControl
                         WidthRequest = _owner.ItemSize.Width,
                         HeightRequest = _owner.ItemSize.Height,
                         Name = item.TabLabel.Name,
-                    };
-                    drawArea.DrawFunc = (area, cr, w, h) =>
-                    {
-                        var graphics = new Drawing.Graphics(area, cr, new Gdk.Rectangle(0, 0, w, h))
+                        DrawFunc = (area, cr, w, h) =>
                         {
-                            diff_left = -12,
-                            diff_top = -2,
-                        };
-                        _owner.OnDrawItem(new DrawItemEventArgs(graphics, _owner.Font, new Drawing.Rectangle(0, 0, w, h), index, DrawItemState.Default));
+                            var graphics = new Drawing.Graphics(area, cr, new Gdk.Rectangle(0, 0, w, h))
+                            {
+                                diff_left = -12,
+                                diff_top = -2,
+                            };
+                            _owner.OnDrawItem(new DrawItemEventArgs(graphics, _owner.Font, new Drawing.Rectangle(0, 0, w, h), index, DrawItemState.Default));
+                        }
                     };
                     item._tabDrawArea = drawArea;
                     tabWidget = drawArea;
@@ -394,7 +394,8 @@ public partial class TabControl : ContainerControl
         public new void Remove(TabPage value)
         {
             base.Remove(value);
-            _owner.self.RemoveChild(((TabPage)value).Widget);
+            var widget = ((TabPage)value).Widget;
+            if (widget != null) _owner.self.RemoveChild(widget);
         }
 
         /// <summary>

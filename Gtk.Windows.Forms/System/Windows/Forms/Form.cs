@@ -867,10 +867,7 @@ public partial class Form : ContainerControl, IWin32Window
     /// </summary>
     public override void Hide()
     {
-        if (self != null)
-        {
-            self.Hide();
-        }
+        self?.Hide();
     }
 
     /// <summary>

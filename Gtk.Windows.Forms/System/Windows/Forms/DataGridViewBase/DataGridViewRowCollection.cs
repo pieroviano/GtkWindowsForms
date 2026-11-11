@@ -163,21 +163,15 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
         {
             if (i >= valueslength)
             {
-                if (dataGridView != null)
-                {
-                    var dataGridViewCell = dataGridView.Columns[i].NewCell();
-                    if (dataGridViewCell != null) newRow.Cells.Add(dataGridViewCell);
-                }
+                var dataGridViewCell = dataGridView?.Columns[i].NewCell();
+                if (dataGridViewCell != null) newRow.Cells.Add(dataGridViewCell);
             }
             else if (values[i] is DataGridViewCell cellval)
                 newRow.Cells.Add(cellval);
             else
             {
-                if (dataGridView != null)
-                {
-                    var dataGridViewCell = dataGridView.Columns[i].NewCell(values[i]);
-                    if (dataGridViewCell != null) newRow.Cells.Add(dataGridViewCell);
-                }
+                var dataGridViewCell = dataGridView?.Columns[i].NewCell(values[i]);
+                if (dataGridViewCell != null) newRow.Cells.Add(dataGridViewCell);
             }
         }
 
@@ -272,10 +266,7 @@ public class DataGridViewRowCollection : ICollection, IEnumerable, IList
             if (cell == null)
             {
                 cell = Activator.CreateInstance(sourceCell.GetType()) as DataGridViewCell;
-                if (cell != null)
-                {
-                    cell.Value = sourceCell.Value;
-                }
+                cell?.Value = sourceCell.Value;
             }
 
             if (cell != null)

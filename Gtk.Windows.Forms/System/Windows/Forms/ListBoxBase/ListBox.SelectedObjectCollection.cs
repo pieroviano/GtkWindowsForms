@@ -158,16 +158,13 @@ public partial class ListBox
         /// </param>
         public void Add(object value)
         {
-            if (_owner != null)
+            var items = _owner?.Items;
+            if (items != null && value != null)
             {
-                var items = _owner.Items;
-                if (items != null && value != null)
+                var index = items.IndexOf(value);
+                if (index != -1 && !GetSelected(index))
                 {
-                    var index = items.IndexOf(value);
-                    if (index != -1 && !GetSelected(index))
-                    {
-                        _owner.SelectedIndex = index;
-                    }
+                    _owner?.SelectedIndex = index;
                 }
             }
         }
@@ -258,16 +255,13 @@ public partial class ListBox
         /// </param>
         public void Remove(object value)
         {
-            if (_owner != null)
+            var items = _owner?.Items;
+            if (items != null && value != null)
             {
-                var items = _owner.Items;
-                if (items != null && value != null)
+                var index = items.IndexOf(value);
+                if (index != -1 && GetSelected(index))
                 {
-                    var index = items.IndexOf(value);
-                    if (index != -1 && GetSelected(index))
-                    {
-                        _owner.SetSelected(index, false);
-                    }
+                    _owner?.SetSelected(index, false);
                 }
             }
         }
@@ -344,4 +338,4 @@ public partial class ListBox
             throw new NotSupportedException("SR.ListBoxSelectedObjectCollectionIsReadOnly");
         }
     }
-}
+}

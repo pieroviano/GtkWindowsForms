@@ -34,13 +34,14 @@ public class MenuAndStripRenderingTests
             {
                 UiDriver.Pump(60);
 
-                var caption = ((global::Gtk.Frame)ctx.Form.Controls[0].Widget).LabelWidget;
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+                var caption = ((global::Gtk.Frame)ctx.Form.Controls[0].Widget)?.LabelWidget;
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
                 Assert.NotNull(caption);
                 Assert.True(caption!.Allocation.Height <= 16,
                     $"the caption band is {caption.Allocation.Height}px, so a child at y=16 lands inside it");
             });
     }
-
 
     [Fact]
     public void ADropDownListComboKeepsTheWidthTheFormGaveIt()
@@ -72,7 +73,7 @@ public class MenuAndStripRenderingTests
 
                 var combo = ctx.Form.Controls[0];
 
-                Assert.Equal(155, combo.Widget.Allocation.Width);
+                Assert.Equal(155, combo.Widget?.Allocation.Width);
             });
     }
 

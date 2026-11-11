@@ -612,10 +612,7 @@ public static class Gtk4Compat
             // Let FormBase.CloseWindow() see the active modal loop so a Close() during the loop quits it and
             // DEFERS the window destroy (Gtk4 crashes on a re-entrant Window.Destroy from inside the loop).
         var formBase = dialog as GtkSystem.Windows.Forms.GtkControls.ControlBase.FormBase;
-        if (formBase != null)
-        {
-            formBase.ModalLoop = loop;
-        }
+        formBase?.ModalLoop = loop;
 
         try
         {

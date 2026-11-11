@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -235,35 +235,17 @@ public class BindingNavigator : ToolStrip, ISupportInitialize
             var allowNew = _bindingSource?.AllowNew ?? false;
             var allowRemove = _bindingSource?.AllowRemove ?? false;
 
-            if (_moveFirstItem != null)
-            {
-                _moveFirstItem.Enabled = position > 0;
-            }
+            _moveFirstItem?.Enabled = position > 0;
 
-            if (_movePreviousItem != null)
-            {
-                _movePreviousItem.Enabled = position > 0;
-            }
+            _movePreviousItem?.Enabled = position > 0;
 
-            if (_moveNextItem != null)
-            {
-                _moveNextItem.Enabled = count > 0 && position < count - 1;
-            }
+            _moveNextItem?.Enabled = count > 0 && position < count - 1;
 
-            if (_moveLastItem != null)
-            {
-                _moveLastItem.Enabled = count > 0 && position < count - 1;
-            }
+            _moveLastItem?.Enabled = count > 0 && position < count - 1;
 
-            if (_addNewItem != null)
-            {
-                _addNewItem.Enabled = allowNew;
-            }
+            _addNewItem?.Enabled = allowNew;
 
-            if (_deleteItem != null)
-            {
-                _deleteItem.Enabled = count > 0 && allowRemove;
-            }
+            _deleteItem?.Enabled = count > 0 && allowRemove;
 
             if (_positionItem != null)
             {
@@ -271,10 +253,7 @@ public class BindingNavigator : ToolStrip, ISupportInitialize
                 _positionItem.Enabled = count > 0;
             }
 
-            if (_countItem != null)
-            {
-                _countItem.Text = string.Format(_countItemFormat, count);
-            }
+            _countItem?.Text = string.Format(_countItemFormat, count);
         }
         catch
         {
@@ -283,13 +262,13 @@ public class BindingNavigator : ToolStrip, ISupportInitialize
     }
 
     /// <summary>Signals the object that initialization is starting.</summary>
-    public void BeginInit()
+    public override void BeginInit()
     {
         _initializing = true;
     }
 
     /// <summary>Signals the object that initialization is complete.</summary>
-    public void EndInit()
+    public override void EndInit()
     {
         _initializing = false;
         RefreshItemsInternal();
@@ -324,17 +303,11 @@ public class BindingNavigator : ToolStrip, ISupportInitialize
             return;
         }
 
-        if (field != null)
-        {
-            field.Click -= clickHandler;
-        }
+        field?.Click -= clickHandler;
 
         field = newItem;
 
-        if (newItem != null)
-        {
-            newItem.Click += clickHandler;
-        }
+        newItem?.Click += clickHandler;
 
         RefreshItemsInternal();
     }

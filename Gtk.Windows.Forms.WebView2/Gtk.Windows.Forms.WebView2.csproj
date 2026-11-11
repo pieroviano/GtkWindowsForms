@@ -33,7 +33,7 @@
         <PackageOutputPath>$(SolutionDir)Packages/</PackageOutputPath>
         <AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <NoWarn>$(NoWarn);NU5118;CS8002</NoWarn>
+        <NoWarn>$(NoWarn);NU5118;CS8002;MSB3277</NoWarn>
         <PackageId>Gtk.Windows.Forms.WebView2</PackageId>
     </PropertyGroup>
     <ItemGroup>

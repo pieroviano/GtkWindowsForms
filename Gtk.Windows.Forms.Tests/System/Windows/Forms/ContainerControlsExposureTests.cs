@@ -1,4 +1,4 @@
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 extern alias gtk;
 
@@ -31,7 +31,7 @@ public class ContainerControlsExposureTests
         Control asControl = table;
 
         Assert.NotNull(asControl.Controls);
-        Assert.Equal(1, asControl.Controls!.Count);
+        Assert.Single(asControl.Controls!);
         Assert.Same(child, asControl.Controls[0]);
     }
 

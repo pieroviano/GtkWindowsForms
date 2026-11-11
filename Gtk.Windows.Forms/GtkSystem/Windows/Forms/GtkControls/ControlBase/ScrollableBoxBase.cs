@@ -1,4 +1,4 @@
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace GtkSystem.Windows.Forms.GtkControls.ControlBase;
 
@@ -162,7 +162,7 @@ public abstract class ScrollableBoxBase : Gtk.ScrolledWindow, IControlGtk, IScro
     /// <param name="child">
     /// The child widget.
     /// </param>
-    public void Add(Gtk.Widget child) => Child = child;
+    public new void Add(Gtk.Widget child) => Child = child;
 
     /// <summary>
     /// Adds the class.

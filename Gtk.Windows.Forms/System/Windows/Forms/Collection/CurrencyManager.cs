@@ -282,10 +282,7 @@ public class CurrencyManager : BindingManagerBase
                 throw new IndexOutOfRangeException("ListManagerNoValue");
             }
 
-            if (_list != null)
-            {
-                _list[index] = value;
-            }
+            _list?[index] = value;
         }
     }
 
@@ -505,10 +502,7 @@ public class CurrencyManager : BindingManagerBase
             return "";
         }
         var propertyDescriptorArray = new PropertyDescriptor[listAccessors?.Count ?? 0];
-        if (listAccessors != null)
-        {
-            listAccessors.CopyTo(propertyDescriptorArray, 0);
-        }
+        listAccessors?.CopyTo(propertyDescriptorArray, 0);
 
         return list.GetListName(propertyDescriptorArray);
     }

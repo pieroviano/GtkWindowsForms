@@ -1,26 +1,25 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using Gtk;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+/// <summary>
+/// Represents a node of a
+/// <see cref="T:System.Windows.Forms.TreeView" />
+/// </summary>
+public partial class TreeNode
 {
-    /// <summary>
-    /// Represents a node of a
-    /// <see cref="T:System.Windows.Forms.TreeView" />
-    /// </summary>
-    public partial class TreeNode
+    public void EnsureVisible()
     {
-        public void EnsureVisible()
+        if (TreeView != null && !TreeIter.Zero.Equals(this.TreeIter))
         {
-            if (TreeView != null && !TreeIter.Zero.Equals(this.TreeIter))
-            {
-                TreePath thispath = TreeView.Store.GetPath(this.TreeIter);
-                TreeView.self.TreeView.ExpandToPath(thispath);
-                if (thispath != null)
-                    TreeView.self.TreeView.ScrollToCell(thispath, TreeView.self.TreeView.Columns[0], false, 0, 0);
-            }
+            TreePath thispath = TreeView.Store.GetPath(this.TreeIter);
+            TreeView.self.TreeView.ExpandToPath(thispath);
+            if (thispath != null)
+                TreeView.self.TreeView.ScrollToCell(thispath, TreeView.self.TreeView.Columns[0], false, 0, 0);
         }
     }
 }

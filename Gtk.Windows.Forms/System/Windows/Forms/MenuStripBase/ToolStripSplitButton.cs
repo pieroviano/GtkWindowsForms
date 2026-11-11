@@ -219,7 +219,7 @@ public class ToolStripSplitButton : ToolStripDropDownItem
     /// false
     /// </c>.
     /// </value>
-    protected internal bool DismissWhenClicked { get; }
+    protected internal override bool DismissWhenClicked { get; }
 
     /// <summary>
     /// Gets a value indicating whether default automatic tool tip.

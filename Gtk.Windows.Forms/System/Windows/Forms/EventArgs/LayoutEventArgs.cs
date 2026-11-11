@@ -23,7 +23,7 @@ public sealed class LayoutEventArgs : EventArgs
     /// <param name="affectedProperty">
     /// The affected property.
     /// </param>
-    public LayoutEventArgs(IComponent affectedComponent, string? affectedProperty)
+    public LayoutEventArgs(IComponent? affectedComponent, string? affectedProperty)
     {
         AffectedComponent = affectedComponent;
         AffectedProperty = affectedProperty;
@@ -39,7 +39,7 @@ public sealed class LayoutEventArgs : EventArgs
     /// <param name="affectedProperty">
     /// The affected property.
     /// </param>
-    public LayoutEventArgs(Control affectedControl, string affectedProperty) : this((IComponent)affectedControl, affectedProperty)
+    public LayoutEventArgs(Control? affectedControl, string affectedProperty) : this((IComponent?)affectedControl, affectedProperty)
     {
     }
 
@@ -49,7 +49,7 @@ public sealed class LayoutEventArgs : EventArgs
     /// <value>
     /// The affected component.
     /// </value>
-    public IComponent AffectedComponent { get; }
+    public IComponent? AffectedComponent { get; }
 
     /// <summary>
     /// Gets the affected control.

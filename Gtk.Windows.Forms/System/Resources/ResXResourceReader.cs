@@ -437,11 +437,9 @@ public partial class ResXResourceReader : IResourceReader
 
     private static string? GetTypeFromTypeName(string? typeName)
     {
-        if (typeName == null)
-            return null;
-        var indexStart = typeName.IndexOf(',');
+        var indexStart = typeName?.IndexOf(',') ?? -1;
 
-        return typeName.Substring(0, indexStart);
+        return typeName?.Substring(0, indexStart);
     }
 
     private void ParseAssemblyNode(XmlReader reader)
@@ -449,14 +447,17 @@ public partial class ResXResourceReader : IResourceReader
         var alias = reader[ResXResourceWriter.AliasStr];
         var typeName = reader[ResXResourceWriter.NameStr];
 
-        var assemblyName = new AssemblyName(typeName);
-
-        if (string.IsNullOrEmpty(alias))
+        if (typeName != null)
         {
-            alias = assemblyName.Name;
-        }
+            var assemblyName = new AssemblyName(typeName);
 
-        _aliasResolver.PushAlias(alias, assemblyName);
+            if (string.IsNullOrEmpty(alias))
+            {
+                alias = assemblyName.Name;
+            }
+
+            _aliasResolver.PushAlias(alias, assemblyName);
+        }
     }
 
     private void ParseDataNode(XmlTextReader reader, bool isMetaData)

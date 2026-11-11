@@ -1,6 +1,7 @@
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using Gdk;
 using Gtk;
+using Button = Gtk.Button;
 using ScrollEventHandler = System.Windows.Forms.ScrollEventHandler;
 // Gdk and Gtk both define an EventArgs; the WinForms handler pattern here always means System.EventArgs.
 using EventArgs = System.EventArgs;
@@ -134,9 +135,11 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         this.ContentArea.StyleContext.AddClass("Form");
         contaner.Valign = Gtk.Align.Fill;
         contaner.Halign = Gtk.Align.Fill;
-        var background = new Gtk.DrawingArea();
-        // Gtk 4: DrawingArea renders through a DrawFunc rather than the removed Drawn signal.
-        background.DrawFunc = Background_DrawFunc;
+        var background = new Gtk.DrawingArea
+        {
+            // Gtk 4: DrawingArea renders through a DrawFunc rather than the removed Drawn signal.
+            DrawFunc = Background_DrawFunc
+        };
         // Paint is raised from this child, not from the dialog, so an invalidation has to land here.
         this.Override.PaintSurface = background;
         contaner.AddChild(background);
@@ -199,7 +202,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
     private Gdk.Pixbuf? _icon;
     private Gtk.Image? _iconImage;
 
-    public new Gdk.Pixbuf? Icon
+    public Gdk.Pixbuf? Icon
     {
         get => _icon;
         set
@@ -240,10 +243,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         get => maximize?.Visible??false;
         set
         {
-            if (maximize != null)
-            {
-                maximize.Visible = value;
-            }
+            maximize?.Visible = value;
         }
     }
 
@@ -255,10 +255,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
         get => minimize?.Visible??false;
         set
         {
-            if (minimize != null)
-            {
-                minimize.Visible = value;
-            }
+            minimize?.Visible = value;
         }
     }
 
@@ -484,8 +481,7 @@ public sealed class FormBase : Gtk.Dialog, IControlGtk, IScrollableBoxBase, IWin
 
     private void maximize_Clicked(object? sender, EventArgs e)
     {
-        var maximize = sender as Gtk.Button;
-        if (maximize == null)
+        if (sender is not Button maximize)
             return;
         if (maximize.Name == "restore")
         {

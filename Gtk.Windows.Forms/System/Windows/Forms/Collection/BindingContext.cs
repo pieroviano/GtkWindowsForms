@@ -93,10 +93,7 @@ public class BindingContext : ContextBoundObject
             {
                 var bindingManagerBase1 = newBindingContext.EnsureListManager(bindToObject.DataSource,
                     bindToObject.BindingMemberInfo.BindingPath);
-                if (bindingManagerBase1 != null)
-                {
-                    bindingManagerBase1.Bindings.Add(binding);
-                }
+                bindingManagerBase1?.Bindings.Add(binding);
             }
         }
     }

@@ -268,10 +268,7 @@ public partial class CheckedListBox : ContainerControl
             if (_flow.GetChildrenArray()[index] is Gtk.FlowBoxChild child)
             {
                 var checkBox = child.Child.Data["Control"] as CheckBox;
-                if (checkBox != null)
-                {
-                    checkBox.Checked = value;
-                }
+                checkBox?.Checked = value;
             }
         }
     }

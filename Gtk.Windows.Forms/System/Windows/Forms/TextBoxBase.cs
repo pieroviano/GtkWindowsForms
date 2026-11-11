@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
  * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  */
@@ -319,7 +319,9 @@ public abstract class TextBoxBase : Control
         if (!string.IsNullOrEmpty(text))
         {
             PushUndo();
+#pragma warning disable CS8604 // Possible null reference argument.
             ReplaceSelectedTextCore(text);
+#pragma warning restore CS8604 // Possible null reference argument.
             MarkModified();
         }
     }

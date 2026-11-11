@@ -1,4 +1,4 @@
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 using System.ComponentModel;
 
@@ -46,7 +46,7 @@ public class AutoCompleteStringCollectionFunctionalTests
         Assert.False(c.Contains("y"));
 
         c.Clear();
-        Assert.Equal(0, c.Count);
+        Assert.Empty(c);
     }
 
     [Fact]

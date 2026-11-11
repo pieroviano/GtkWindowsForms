@@ -1,79 +1,77 @@
 ﻿using Gtk;
 
-namespace System.Windows.Forms
+namespace System.Windows.Forms;
+
+public class StripSeparator : Gtk.Separator, IToolMenuItem
 {
 
-    public class StripSeparator : Gtk.Separator, IToolMenuItem
+    public Gtk.Separator? menuItem = null;
+
+    public Gtk.Separator? toolItem = null;
+
+    public StripSeparator() : base(Gtk.Orientation.Horizontal) { } // Gtk4: Separator needs orientation
+
+    public bool Checked
     {
+        get;
+        set;
+    }
 
-        public Gtk.Separator? menuItem = null;
+    public CheckState CheckState
+    {
+        get;
+        set;
+    }
 
-        public Gtk.Separator? toolItem = null;
+    public ToolStripItemDisplayStyle DisplayStyle
+    {
+        get;
+        set;
+    }
 
-        public StripSeparator() : base(Gtk.Orientation.Horizontal) { } // Gtk4: Separator needs orientation
+    public Gdk.Pixbuf Image
+    {
+        get;
+        set;
+    } = null!;
 
-        public bool Checked
+    public Gtk.Widget MenuItem
+    {
+        get
         {
-            get;
-            set;
+            if (menuItem == null)
+                menuItem = new Gtk.Separator(Gtk.Orientation.Horizontal) { Visible = true };
+
+            return menuItem;
         }
+    }
 
-        public CheckState CheckState
+    public new string Name
+    {
+        get;
+        set;
+    } = null!;
+
+    public string Text
+    {
+        get;
+        set;
+    } = null!;
+
+    public Gtk.Widget ToolItem
+    {
+        get
         {
-            get;
-            set;
+            if (toolItem == null)
+                toolItem = new Gtk.Separator(Gtk.Orientation.Horizontal) { Visible = true };
+
+            return toolItem;
         }
+    }
 
-        public ToolStripItemDisplayStyle DisplayStyle
-        {
-            get;
-            set;
-        }
-
-        public Gdk.Pixbuf Image
-        {
-            get;
-            set;
-        } = null!;
-
-        public Gtk.Widget MenuItem
-        {
-            get
-            {
-                if (menuItem == null)
-                    menuItem = new Gtk.Separator(Gtk.Orientation.Horizontal) { Visible = true };
-
-                return menuItem;
-            }
-        }
-
-        public string Name
-        {
-            get;
-            set;
-        } = null!;
-
-        public string Text
-        {
-            get;
-            set;
-        } = null!;
-
-        public Gtk.Widget ToolItem
-        {
-            get
-            {
-                if (toolItem == null)
-                    toolItem = new Gtk.Separator(Gtk.Orientation.Horizontal) { Visible = true };
-
-                return toolItem;
-            }
-        }
-
-        public void ShowAll()
-        {
-            toolItem?.Show();
-            menuItem?.Show();
-        }
+    public new void ShowAll()
+    {
+        toolItem?.Show();
+        menuItem?.Show();
     }
 }

@@ -1,4 +1,4 @@
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 /// <summary>
 /// Verifies the controls-support types added for source compatibility: <see cref="LinkArea" />, the scroll
@@ -72,7 +72,7 @@ public class ControlSupportTypesFunctionalTests
         Assert.Equal(3, c.Count);
         Assert.Equal(2, c[1].Seconds);
 
-        Assert.True(c.Contains(a1));
+        Assert.Contains(a1, c);
         Assert.True(c.Remove(a1));
         Assert.Equal(2, c.Count);
 
@@ -81,7 +81,7 @@ public class ControlSupportTypesFunctionalTests
         Assert.Equal(2, seen);
 
         c.Clear();
-        Assert.Equal(0, c.Count);
+        Assert.Empty(c);
     }
 
     [Fact]

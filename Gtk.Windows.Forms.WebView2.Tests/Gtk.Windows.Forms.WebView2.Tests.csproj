@@ -8,7 +8,9 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
     <RootNamespace />
-    <NoWarn>$(NoWarn);CS8002;CS0436;</NoWarn>
+    <NoWarn>$(NoWarn);CS8002;CS0436;MSB3277</NoWarn>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
 
   <ItemGroup>

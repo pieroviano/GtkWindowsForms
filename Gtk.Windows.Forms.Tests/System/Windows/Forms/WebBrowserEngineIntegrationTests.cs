@@ -139,8 +139,8 @@ public class WebBrowserEngineIntegrationTests : IDisposable
         Assert.Equal("DIV", element!.TagName);
         Assert.Equal("original", element.InnerHtml);
 
-        Assert.Equal(1, document.Links.Count);
-        Assert.Equal(1, document.Images.Count);
+        Assert.Single(document.Links);
+        Assert.Single(document.Images);
         Assert.Null(document.GetElementById("no-such-id"));
     }
 

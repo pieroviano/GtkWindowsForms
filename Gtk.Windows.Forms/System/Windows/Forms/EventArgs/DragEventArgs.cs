@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -22,7 +22,7 @@ public class DragEventArgs : EventArgs
     /// Initializes a new instance of the
     /// <see cref="T:System.Windows.Forms.DragEventArgs" /> class.
     /// </summary>
-    public DragEventArgs(IDataObject data, int keyState, int x, int y, DragDropEffects allowedEffect, DragDropEffects effect)
+    public DragEventArgs(IDataObject? data, int keyState, int x, int y, DragDropEffects allowedEffect, DragDropEffects effect)
     {
         Data = data;
         KeyState = keyState;
@@ -43,7 +43,7 @@ public class DragEventArgs : EventArgs
     /// <see cref="T:System.Windows.Forms.IDataObject" /> that contains the data associated
     /// with this event.
     /// </summary>
-    public IDataObject Data { get; }
+    public IDataObject? Data { get; }
 
     /// <summary>
     /// Gets or sets which drag-and-drop operations are allowed by the target of the drag event.

@@ -982,10 +982,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             _backgroundImage = value;
-            if (ISelf != null)
-            {
-                ISelf.Override.BackgroundImage = value;
-            }
+            ISelf?.Override.BackgroundImage = value;
             UpdateStyle();
         }
     }
@@ -1001,10 +998,7 @@ public partial class Control : Component, IControl, ISynchronizeInvoke, ICompone
         set
         {
             _backgroundImageLayout = value;
-            if (ISelf != null)
-            {
-                ISelf.Override.BackgroundImageLayout = value;
-            }
+            ISelf?.Override.BackgroundImageLayout = value;
         }
     }
 

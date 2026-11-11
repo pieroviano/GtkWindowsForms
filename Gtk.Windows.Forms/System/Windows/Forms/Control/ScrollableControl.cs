@@ -115,11 +115,11 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
             base.AutoSize = value;
             if (value == true)
             {
-                if (scrollbase != null) { scrollbase.AutoScroll = false; }
+                scrollbase?.AutoScroll = false;
             }
             else
             {
-                if (scrollbase != null) { scrollbase.AutoScroll = _AutoScroll; }
+                scrollbase?.AutoScroll = _AutoScroll;
             }
         }
     }
@@ -135,7 +135,10 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     protected bool HScroll
     {
         get => scrollbase?.HScroll ?? false;
-        set { if (scrollbase != null) { scrollbase.HScroll = value; } }
+        set
+        {
+            scrollbase?.HScroll = value;
+        }
     }
 
     /// <summary>
@@ -166,7 +169,10 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     protected bool VScroll
     {
         get => scrollbase?.VScroll ?? false;
-        set { if (scrollbase != null) { scrollbase.VScroll = value; } }
+        set
+        {
+            scrollbase?.VScroll = value;
+        }
     }
 
     /// <summary>

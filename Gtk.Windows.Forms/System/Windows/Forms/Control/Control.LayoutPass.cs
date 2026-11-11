@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -647,8 +647,10 @@ public partial class Control
                     {
                         if (entry is Control { _anchorBaselineKind: AnchorBaselineKind.Real } known)
                         {
+#pragma warning disable CS1690
                             known._anchorBaseline = new Size(
                                 known._anchorBaseline.Width, known._anchorBaseline.Height + growth);
+#pragma warning restore CS1690
                         }
                     }
                 }

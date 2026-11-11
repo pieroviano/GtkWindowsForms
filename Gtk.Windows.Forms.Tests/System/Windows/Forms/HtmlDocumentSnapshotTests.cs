@@ -1,4 +1,4 @@
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 using GtkSystem.Windows.Forms.WebBrowsing;
 using GtkWinForms.Tests.Mocks;
@@ -109,21 +109,21 @@ public class HtmlDocumentSnapshotTests : IDisposable
     [Fact]
     public void GetElementsByTagName_Walks_The_Whole_Document()
     {
-        Assert.Equal(1, Document.GetElementsByTagName("h1").Count);
-        Assert.Equal(1, Document.GetElementsByTagName("H1").Count);
-        Assert.Equal(0, Document.GetElementsByTagName("table").Count);
+        Assert.Single(Document.GetElementsByTagName("h1"));
+        Assert.Single(Document.GetElementsByTagName("H1"));
+        Assert.Empty(Document.GetElementsByTagName("table"));
     }
 
     [Fact]
     public void Forms_Images_And_Links_Select_The_Right_Elements()
     {
         Assert.Equal("FORM", Assert.IsType<HtmlElement>(Document.Forms[0]).TagName);
-        Assert.Equal(1, Document.Forms.Count);
+        Assert.Single(Document.Forms);
 
         Assert.Equal("IMG", Assert.IsType<HtmlElement>(Document.Images[0]).TagName);
-        Assert.Equal(1, Document.Images.Count);
+        Assert.Single(Document.Images);
 
-        Assert.Equal(1, Document.Links.Count);
+        Assert.Single(Document.Links);
         Assert.Equal("https://example.org/", Document.Links[0]!.GetAttribute("href"));
     }
 

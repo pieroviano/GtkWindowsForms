@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms.Layout;
 using Gtk;
@@ -406,7 +406,8 @@ public partial class Control
             InnerList.Remove(value);
             value.ResetAnchorBaseline();
             if (_ownerControl?.GetChildrenArray().Any(o => o.Equals(value.Widget)) == true)
-                _ownerControl.RemoveChild(value.Widget);
+                if (value.Widget != null)
+                    _ownerControl.RemoveChild(value.Widget);
         }
 
         /// <summary>
@@ -424,7 +425,8 @@ public partial class Control
             {
                 InnerList.RemoveAt(index);
                 if (_ownerControl?.GetChildrenArray().Any(o => o.Equals(widget.GetWidget)) == true)
-                    _ownerControl.RemoveChild(widget.GetWidget);
+                    if (widget.GetWidget != null)
+                        _ownerControl.RemoveChild(widget.GetWidget);
             }
         }
 
