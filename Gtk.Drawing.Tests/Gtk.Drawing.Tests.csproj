@@ -29,6 +29,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Gtk.Drawing\Gtk.Drawing.csproj" Aliases="gtk" />
     <ProjectReference Include="..\Gtk.Windows.Forms\Gtk.Windows.Forms.csproj" />
+    <!-- Deploys the displacing System.Resources.Extensions (AssemblyVersion 99.0.0.0) so the GTK ResX
+         reader is used instead of Microsoft's BinaryFormatter-based one, matching the sample apps. Without
+         it, image/Bitmap resources throw "Cannot read resources that depend on serialization." -->
+    <ProjectReference Include="..\Gtk.Resources.Extensions\Gtk.Resources.Extensions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
