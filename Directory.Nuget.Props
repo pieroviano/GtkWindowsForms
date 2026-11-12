@@ -1,17 +1,22 @@
 <Project>
     <PropertyGroup>
-        <NuGetPackageRoot Condition="'$(NuGetPackageRoot)'=='' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">$(USERPROFILE)\.nuget\packages\</NuGetPackageRoot>
-        <NuGetPackageRoot Condition="'$(NuGetPackageRoot)'=='' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' != 'true'">~/.nuget/packages/</NuGetPackageRoot>
+        <NuGetPackageRoot Condition="'$(NuGetPackageRoot)'=='' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'=='true'">$(USERPROFILE)\.nuget\packages\</NuGetPackageRoot>
+        <NuGetPackageRoot Condition="'$(NuGetPackageRoot)'=='' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'!='true'">~/.nuget/packages/</NuGetPackageRoot>
         <VersionBuildSuffix Condition="'$(Configuration)'!='Release'">*</VersionBuildSuffix>
         <VersionBuildSuffix Condition="'$(Configuration)'=='Release'">*</VersionBuildSuffix>
         <DirectoryNuGet Condition="'$(DirectoryNuGet)'==''">true</DirectoryNuGet>
+        <NuGetUtilityVersion Condition="'$(NuGetUtilityVersion)'==''">1.0.17</NuGetUtilityVersion>
         <NuGetPackageRoot Condition="'$(NuGetPackageRoot)'==''">$(USERPROFILE)\.nuget\packages\</NuGetPackageRoot>
-        <VersionBuildSuffix>*</VersionBuildSuffix>
+        <VersionBuildSuffix Condition="'$(VersionBuildSuffix)'==''">*</VersionBuildSuffix>
         <GtkSharp4LatestVersion>4.22.4</GtkSharp4LatestVersion>
         <GtkWindowsFormsVersion>1.4.2464</GtkWindowsFormsVersion>
         <Net4xBaseTypesVersion>1.3.1</Net4xBaseTypesVersion>
         <NewtonsoftJsonVersion>13.0.4</NewtonsoftJsonVersion>
         <ObfuscarVersion>2.2.37</ObfuscarVersion>
+        <PrepareProjectsVersion>1.4.2489</PrepareProjectsVersion>
         <SystemTextJson10Version>10.0.3</SystemTextJson10Version>
+    </PropertyGroup>
+    <PropertyGroup>
+        <MinimalDirectoryNuGetProps Condition="'$(MinimalDirectoryNuGetProps)'==''">true</MinimalDirectoryNuGetProps>
     </PropertyGroup>
 </Project>

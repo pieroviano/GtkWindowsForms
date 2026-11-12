@@ -1,26 +1,25 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <Import Project="Directory.Nuget.Props" Condition="'$(DirectoryNuGet)'==''" />
-  <PropertyGroup>
-    <!--
+    <Import Project="Directory.Nuget.Props" Condition="'$(DirectoryNuGet)'==''" />
+    <PropertyGroup>
+        <!--
       Pinned here, after the import above, and not in Directory.Nuget.Props: that file is regenerated on every
       build by NuGetUtility itself, which merges it with the profile copy and the copy inside the package. The
       merge keeps the "greater" value by ordinal string comparison, so "1.0.9" beats "1.0.10" there and the pin
       silently walks backwards. 1.0.9 cannot parse a multi-line XML comment in Directory.Nuget.Props - it
       crashes with "length ('-2') must be a non-negative value" - which 1.0.10 fixes; do not lower this.
     -->
-    <NuGetUtilityVersion>1.0.13</NuGetUtilityVersion>
-    <VersionPrefix>$(GtkWindowsFormsVersion)</VersionPrefix>
-    <VersionSuffix>$([System.DateTime]::Now.ToString("yy"))$([System.DateTime]::Now.DayOfYear.ToString("000"))</VersionSuffix>
-    <MinimalDirectoryNuGetProps>true</MinimalDirectoryNuGetProps>
-    <SolutionDir Condition="'$(SolutionDir)'==''">$(MSBuildThisFileDirectory)</SolutionDir>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <RepositoryUrl>https://pieroviano@bitbucket.org/piero-viano/net4x.gtk.windows.forms.git</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <NoWarn>$(NoWarn);CS0067;CS0169;CS0419;CS0536;MSB3243</NoWarn>
-  </PropertyGroup>
-  <!--
+        <NuGetUtilityVersion Condition="'$(NuGetUtilityVersion)'==''">1.0.17</NuGetUtilityVersion>
+        <VersionPrefix>$(GtkWindowsFormsVersion)</VersionPrefix>
+        <VersionSuffix>$([System.DateTime]::Now.ToString("yy"))$([System.DateTime]::Now.DayOfYear.ToString("000"))</VersionSuffix>
+        <SolutionDir Condition="'$(SolutionDir)'==''">$(MSBuildThisFileDirectory)</SolutionDir>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <RepositoryUrl>https://pieroviano@bitbucket.org/piero-viano/net4x.gtk.windows.forms.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <NoWarn>$(NoWarn);CS0067;CS0169;CS0419;CS0536;MSB3243</NoWarn>
+    </PropertyGroup>
+    <!--
     Package versions the shipped libraries reference.
 
     The binding is now Net4x.GtkSharp (Gtk 4), consumed as "$(GtkSharp4LatestVersion).*" = 4.22.4.*.
@@ -31,14 +30,14 @@
 
     Override on the command line (-p:GtkSharpPackageVersion=...) to move a pin deliberately.
   -->
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <GtkSharpPackageVersion Condition="'$(GtkSharpPackageVersion)' == ''">$(GtkSharp4LatestVersion).*</GtkSharpPackageVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' != 'Release'">
-    <GtkSharpPackageVersion Condition="'$(GtkSharpPackageVersion)' == ''">$(GtkSharp4LatestVersion).*</GtkSharpPackageVersion>
-  </PropertyGroup>
-  <PropertyGroup>
-    <!--
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <GtkSharpPackageVersion Condition="'$(GtkSharpPackageVersion)' == ''">$(GtkSharp4LatestVersion).*</GtkSharpPackageVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' != 'Release'">
+        <GtkSharpPackageVersion Condition="'$(GtkSharpPackageVersion)' == ''">$(GtkSharp4LatestVersion).*</GtkSharpPackageVersion>
+    </PropertyGroup>
+    <PropertyGroup>
+        <!--
       The WebKitGTK 6.0 binding behind System.Windows.Forms.WebBrowser, and its transitive
       Net4x.JavaScriptCoreSharp. Note the package id spells it "Webkit", not "WebKit".
 
@@ -46,8 +45,8 @@
       GtkSharp.sln run and a WebkitGtkSharp built against a different GtkSharp revision binds a GtkSharp
       assembly version this library was not compiled against. Move both pins together, never one.
     -->
-    <WebKitGtkSharpPackageVersion Condition="'$(WebKitGtkSharpPackageVersion)' == ''">$(GtkSharpPackageVersion)</WebKitGtkSharpPackageVersion>
-    <!--
+        <WebKitGtkSharpPackageVersion Condition="'$(WebKitGtkSharpPackageVersion)' == ''">$(GtkSharpPackageVersion)</WebKitGtkSharpPackageVersion>
+        <!--
       Microsoft's WebView2 SDK, used only by the Gtk.Windows.Forms.WebView2 companion package. Pinned
       exactly rather than floated: it is a third-party package on nuget.org whose new revisions arrive
       without warning, and unlike the GtkSharp family nothing here is generated alongside it.
@@ -56,19 +55,19 @@
       regenerated on every build and its merge keeps the ordinally greater string, which walks a pin
       backwards.
     -->
-    <WebView2Version Condition="'$(WebView2Version)' == ''">1.0.3179.45</WebView2Version>
-  </PropertyGroup>
-  <PropertyGroup>
-    <!--
+        <WebView2Version Condition="'$(WebView2Version)' == ''">1.0.3179.45</WebView2Version>
+    </PropertyGroup>
+    <PropertyGroup>
+        <!--
       This is Microsoft's System.Resources.Extensions, not the Gtk.Resources.Extensions project in
       this solution: that project publishes as "Gtk.Resources.Extensions", so a reference to
       "System.Resources.Extensions" never resolved to it. It was requested as "1.3.24.*", which has no match
       on any configured feed, so NuGet floated it up to Microsoft's 4.6.0 - the version named here. Naming it
       makes the shipped dependency honest and reproducible instead of "whatever NuGet lands on".
     -->
-    <SystemResourcesExtensionsPackageVersion Condition="'$(SystemResourcesExtensionsPackageVersion)' == ''">4.6.0</SystemResourcesExtensionsPackageVersion>
-  </PropertyGroup>
-  <!--
+        <SystemResourcesExtensionsPackageVersion Condition="'$(SystemResourcesExtensionsPackageVersion)' == ''">4.6.0</SystemResourcesExtensionsPackageVersion>
+    </PropertyGroup>
+    <!--
     Automatic NuGet cache eviction for the packages this solution produces.
 
     The package version carries a date-based revision (VersionSuffix above), so it stays identical across
@@ -89,13 +88,11 @@
     that release from inside a build (shutting the server down mid-solution-build would cripple it). Run
     refresh-gtk-package.ps1, which does `dotnet build-server shutdown` first, to break that deadlock.
   -->
-  <Target Name="EvictOwnStalePackageFromCache" AfterTargets="Build"
-          Condition="'$(GeneratePackageOnBuild)' == 'true' and '$(IsPackable)' != 'false' and '$(PackageId)' != '' and '$(NuGetPackageRoot)' != ''">
-    <PropertyGroup>
-      <_OwnCachedPackageDir>$([System.IO.Path]::Combine('$(NuGetPackageRoot)', '$(PackageId.ToLowerInvariant())'))</_OwnCachedPackageDir>
-    </PropertyGroup>
-    <RemoveDir Directories="$(_OwnCachedPackageDir)" Condition="Exists('$(_OwnCachedPackageDir)')" ContinueOnError="true" />
-    <Message Importance="high" Condition="!Exists('$(_OwnCachedPackageDir)')"
-             Text="[cache] Evicted $(PackageId) from the NuGet cache so consumers re-extract the rebuilt package." />
-  </Target>
+    <Target Name="EvictOwnStalePackageFromCache" AfterTargets="Build" Condition="'$(GeneratePackageOnBuild)' == 'true' and '$(IsPackable)' != 'false' and '$(PackageId)' != '' and '$(NuGetPackageRoot)' != ''">
+        <PropertyGroup>
+            <_OwnCachedPackageDir>$([System.IO.Path]::Combine('$(NuGetPackageRoot)', '$(PackageId.ToLowerInvariant())'))</_OwnCachedPackageDir>
+        </PropertyGroup>
+        <RemoveDir Directories="$(_OwnCachedPackageDir)" Condition="Exists('$(_OwnCachedPackageDir)')" ContinueOnError="true" />
+        <Message Importance="high" Condition="!Exists('$(_OwnCachedPackageDir)')" Text="[cache] Evicted $(PackageId) from the NuGet cache so consumers re-extract the rebuilt package." />
+    </Target>
 </Project>

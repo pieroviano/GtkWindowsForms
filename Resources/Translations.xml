@@ -3050,4 +3050,299 @@
 		<Chinese>忽略</Chinese>
 		<English>Ignore</English>
 	</Entry>
+
+    <Entry>
+        <Chinese>下划线</Chinese>
+        <English>Underline</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>删除线通过属性列表设置</Chinese>
+        <English>Strikethrough is set through the attribute list</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>不支持这两个属性</Chinese>
+        <English>These two properties are not supported</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>移除</Chinese>
+        <English>Remove</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>前缀</Chinese>
+        <English>Prefix</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>除非要求保留</Chinese>
+        <English>Unless preservation is required</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>对齐方式</Chinese>
+        <English>Alignment</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>换行与省略</Chinese>
+        <English>Wrapping and truncation</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>宽度受限但不换行</Chinese>
+        <English>Constrained width without wrapping</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>配合</Chinese>
+        <English>In conjunction with</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>截断</Chinese>
+        <English>Truncation</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>向当前拥有键盘焦点的应用程序发送按键</Chinese>
+        <English>Send keystrokes to the application that currently has keyboard focus</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>语法兼容</Chinese>
+        <English>Syntax compatibility</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>的常用功能</Chinese>
+        <English>Common features of</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>组合键以及</Chinese>
+        <English>Key combinations and</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>按键</Chinese>
+        <English>Key</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>重复次数</Chinese>
+        <English>Repeat count</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>向当前活动的应用程序发送指定按键</Chinese>
+        <English>Send the specified keystroke to the currently active application</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>发送指定按键</Chinese>
+        <English>Send the specified keystroke</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>并等待所有按键完成注入</Chinese>
+        <English>And wait for all keystrokes to be injected</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>中表示右花括号字符的转义序列</Chinese>
+        <English>The escape sequence representing the closing brace character in</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>转义特殊字符</Chinese>
+        <English>Escape special characters</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>应用程序仍然可以接收</Chinese>
+        <English>The application can still receive</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>事件</Chinese>
+        <English>Events</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>包括麒麟</Chinese>
+        <English>Including Kylin</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>需要授予当前用户</Chinese>
+        <English>The current user must be granted</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>写权限</Chinese>
+        <English>Write permission</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>才能向系统输入法发送虚拟按键</Chinese>
+        <English>To send virtual keystrokes to the system input method</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>需要</Chinese>
+        <English>Required</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>或授予当前用户</Chinese>
+        <English>Or grant the current user</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>用于麒麟</Chinese>
+        <English>For Kylin</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>及其他</Chinese>
+        <English>And other</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>桌面环境的内核级虚拟键盘</Chinese>
+        <English>Desktop environments' kernel-level virtual keyboard</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>使用物理</Chinese>
+        <English>Use physical</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>确保</Chinese>
+        <English>Ensure</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>等输入法能够接收按键</Chinese>
+        <English>That input methods such as these can receive keystrokes</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>无法打开</Chinese>
+        <English>Unable to open</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>虚拟键盘设备</Chinese>
+        <English>Virtual keyboard device</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>无法配置</Chinese>
+        <English>Unable to configure</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>虚拟键盘</Chinese>
+        <English>Virtual keyboard</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>无法完整写入</Chinese>
+        <English>Unable to write the complete</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>设备配置</Chinese>
+        <English>Device configuration</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>预期</Chinese>
+        <English>Expected</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>字节</Chinese>
+        <English>Bytes</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>实际写入</Chinese>
+        <English>Actually written</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>为桌面输入系统预留少量时间</Chinese>
+        <English>Allow the desktop input system a short time</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>以便发现新注册的虚拟键盘</Chinese>
+        <English>To detect the newly registered virtual keyboard</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>只能发送物理键</Chinese>
+        <English>Can only send physical keys</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>请向输入法发送拼音</Chinese>
+        <English>Send Pinyin to the input method</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>五笔等键序列</Chinese>
+        <English>Wubi and other keystroke sequences</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>而不是直接发送无法映射的</Chinese>
+        <English>Instead of directly sending unmappable</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>字符</Chinese>
+        <English>Characters</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>所有软键盘点击共用该设备</Chinese>
+        <English>All on-screen keyboard clicks share this device</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>并保持有效直至进程退出</Chinese>
+        <English>And keep it active until the process exits</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>按键发送失败</Chinese>
+        <English>Failed to send keystroke</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>按键事件写入不完整</Chinese>
+        <English>Incomplete keystroke event write</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>该按键没有可用的</Chinese>
+        <English>No available</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>映射</Chinese>
+        <English>Mapping</English>
+    </Entry>
+
+    <Entry>
+        <Chinese>配置失败</Chinese>
+        <English>Configuration failed</English>
+    </Entry>
 </Translations>
