@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.ComponentModel;
-using System.Windows.Forms;
 using Gtk;
 
 namespace System.Drawing.Printing;
@@ -196,23 +195,6 @@ public partial class PrintDocument : Component
                 _defaultPageSettings = _printerSettings.DefaultPageSettings;
             }
         }
-    }
-
-    /// <summary>
-    /// Prints this instance.
-    /// </summary>
-    public void Print()
-    {
-        var printDialog = new System.Windows.Forms.PrintDialog // Gtk4: disambiguate from Gtk.PrintDialog
-        {
-            Document = this,
-            AllowPrintToFile = false,
-            PrintToFile = false
-        };
-        printDialog.Document.DocumentName = DocumentName;
-        // Print() used to show the print dialog. In WinForms it prints straight to the configured
-        // printer; showing a dialog is the caller's choice via PrintDialog.
-        printDialog.RunPrint(null, false);
     }
 
     /// <summary>

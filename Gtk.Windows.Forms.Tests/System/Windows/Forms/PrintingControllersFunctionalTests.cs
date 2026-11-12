@@ -1,17 +1,24 @@
-extern alias gtk;
+﻿extern alias gtk;
 
 using System.Drawing.Printing;
 using Bitmap = gtk::System.Drawing.Bitmap;
+using InvalidPrinterException = gtk::System.Drawing.Printing.InvalidPrinterException;
+using PreviewPageInfo = gtk::System.Drawing.Printing.PreviewPageInfo;
+using PreviewPrintController = gtk::System.Drawing.Printing.PreviewPrintController;
+using PrintController = gtk::System.Drawing.Printing.PrintController;
+using PrintDocument = gtk::System.Drawing.Printing.PrintDocument;
+using PrinterSettings = gtk::System.Drawing.Printing.PrinterSettings;
 using Size = global::System.Drawing.Size;
+using StandardPrintController = gtk::System.Drawing.Printing.StandardPrintController;
 
 namespace System.Windows.Forms;
 
 /// <summary>
 /// Verifies the print-controller family restored to <c>System.Drawing.Printing</c>: the abstract
-/// <see cref="PrintController" /> base, <see cref="StandardPrintController" />,
-/// <see cref="PreviewPrintController" /> (which actually captures pages), <see cref="PreviewPageInfo" />,
-/// <see cref="InvalidPrinterException" />, the <see cref="PrintControllerWithStatusDialog" /> wrapper, and
-/// the <see cref="PrintDocument.PrintController" /> hook.
+/// <see cref="Drawing.Printing.PrintController" /> base, <see cref="Drawing.Printing.StandardPrintController" />,
+/// <see cref="Drawing.Printing.PreviewPrintController" /> (which actually captures pages), <see cref="Drawing.Printing.PreviewPageInfo" />,
+/// <see cref="Drawing.Printing.InvalidPrinterException" />, the <see cref="PrintControllerWithStatusDialog" /> wrapper, and
+/// the <see cref="Drawing.Printing.PrintController" /> hook.
 /// </summary>
 [Collection("NonParallelCollection")]
 public class PrintingControllersFunctionalTests

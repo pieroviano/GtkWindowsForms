@@ -55,6 +55,8 @@
         <Compile Include="..\Gtk.Windows.Forms\System\Diagnostics\CodeAnalysis\DynamicallyAccessedMembersAttribute.cs" Link="System\Diagnostics\CodeAnalysis\DynamicallyAccessedMembersAttribute.cs" />
         <Compile Include="..\Gtk.Windows.Forms\System\Diagnostics\CodeAnalysis\DynamicallyAccessedMemberTypes.cs" Link="System\Diagnostics\CodeAnalysis\DynamicallyAccessedMemberTypes.cs" />
         <Compile Include="..\Gtk.Windows.Forms\System\Diagnostics\CodeAnalysis\NotNullWhenAttribute.cs" Link="System\Diagnostics\CodeAnalysis\NotNullWhenAttribute.cs" />
+        <Compile Include="..\Gtk.Windows.Forms\System\HashCode.cs" Link="System\HashCode.cs" />
+        <Compile Include="..\Gtk.Windows.Forms\System\Runtime\CompilerServices\BitOperations.cs" Link="System\Runtime\CompilerServices\BitOperations.cs" />
     </ItemGroup>
     <ItemGroup>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">

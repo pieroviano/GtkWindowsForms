@@ -1,9 +1,9 @@
-extern alias gtk;
+﻿extern alias gtk;
 using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.Design.Serialization;
-using System.Drawing.Printing;
+using gtk::System.Drawing.Printing;
 using System.Globalization;
 using Bitmap = gtk::System.Drawing.Bitmap;
 using ImageFormat = gtk::System.Drawing.Imaging.ImageFormat;
@@ -219,8 +219,10 @@ public class PrintingFunctionalTests
     public void TheKindReflectsTheRawKind()
     {
         // The getter used to return Custom unconditionally, hiding the stored kind.
-        var size = new PaperSize();
-        size.RawKind = (int)PaperKind.A4;
+        var size = new PaperSize
+        {
+            RawKind = (int)PaperKind.A4
+        };
 
         Assert.Equal(PaperKind.A4, size.Kind);
         Assert.Equal((int)PaperKind.A4, size.RawKind);
@@ -229,8 +231,10 @@ public class PrintingFunctionalTests
     [Fact]
     public void AnUnknownRawKindReportsCustom()
     {
-        var size = new PaperSize();
-        size.RawKind = 9999;
+        var size = new PaperSize
+        {
+            RawKind = 9999
+        };
 
         Assert.Equal(PaperKind.Custom, size.Kind);
         Assert.Equal(9999, size.RawKind);
@@ -402,9 +406,11 @@ public class PrintingFunctionalTests
     [Fact]
     public void CopiesRoundTripAndRejectNegatives()
     {
-        var settings = new PrinterSettings();
+        var settings = new PrinterSettings
+        {
+            Copies = 3
+        };
 
-        settings.Copies = 3;
         Assert.Equal(3, settings.Copies);
         Assert.Throws<ArgumentException>(() => settings.Copies = -1);
         Assert.Equal(3, settings.Copies);
@@ -432,9 +438,11 @@ public class PrintingFunctionalTests
     [Fact]
     public void ThePrintRangeOnlyAcceptsDefinedValues()
     {
-        var settings = new PrinterSettings();
+        var settings = new PrinterSettings
+        {
+            PrintRange = PrintRange.SomePages
+        };
 
-        settings.PrintRange = PrintRange.SomePages;
         Assert.Equal(PrintRange.SomePages, settings.PrintRange);
         Assert.Throws<InvalidEnumArgumentException>(() => settings.PrintRange = (PrintRange)999);
     }

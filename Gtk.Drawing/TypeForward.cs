@@ -1,4 +1,4 @@
-extern alias sdc;
+﻿extern alias sdc;
 using System.Runtime.CompilerServices;
 
 // Gtk.Drawing is a drop-in replacement for System.Drawing. Types it reimplements
@@ -30,31 +30,4 @@ using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Drawing2D.GraphicsPathIterator))]
 [assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Drawing2D.PathPointType))]
 [assembly: TypeForwardedTo(typeof(sdc::System.Drawing.IconConverter))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.Duplex))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.InvalidPrinterException))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.Margins))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.MarginsConverter))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PageSettings))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PaperKind))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PaperSize))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PaperSource))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PaperSourceKind))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PreviewPageInfo))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PreviewPrintController))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PrintAction))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PrintController))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PrintDocument))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PrintEventArgs))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PrintEventHandler))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PrintPageEventArgs))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PrintPageEventHandler))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PrintRange))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PrinterResolution))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PrinterResolutionKind))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PrinterSettings))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PrinterUnit))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.PrinterUnitConvert))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.QueryPageSettingsEventArgs))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.QueryPageSettingsEventHandler))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.StandardPrintController))]
 [assembly: TypeForwardedTo(typeof(sdc::System.Drawing.StringUnit))]

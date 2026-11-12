@@ -1,5 +1,7 @@
-﻿using System.Collections;
-using System.Drawing.Printing;
+﻿extern alias gtk;
+
+using System.Collections;
+using gtk::System.Drawing.Printing;
 
 namespace GtkWinForms.Tests.System.Drawing.Printing;
 
