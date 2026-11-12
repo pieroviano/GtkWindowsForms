@@ -25,8 +25,8 @@ public class ResourceManager : GtkSystem.Resources.ResourceManager
     /// Initializes a new instance of the
     /// <see cref="GtkSystem.Resources.ResourceManager" /> class.
     /// </summary>
-    /// <param name="usingResourceSet">
-    /// The using resource set.
+    /// <param name="resourceSource">
+    /// The type that serves as the source for the resources.
     /// </param>
     public ResourceManager(System.Type resourceSource) : base(null, null, resourceSource)
     {
@@ -65,7 +65,7 @@ public class ResourceManager : GtkSystem.Resources.ResourceManager
     /// </param>
     /// <param name="resourceSource">The type that serves as the source for the resources. Used to help locate and load resource files.
     /// </param>
-    public ResourceManager(string baseName, Assembly assembly, System.Type resourceSource) : base(baseName, assembly, resourceSource)
+    public ResourceManager(string baseName, Assembly assembly, Type resourceSource) : base(baseName, assembly, resourceSource)
     {
 
     }

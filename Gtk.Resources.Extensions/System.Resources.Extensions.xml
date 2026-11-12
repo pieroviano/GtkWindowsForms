@@ -29,8 +29,8 @@
             Initializes a new instance of the
             <see cref="T:GtkSystem.Resources.ResourceManager" /> class.
             </summary>
-            <param name="usingResourceSet">
-            The using resource set.
+            <param name="resourceSource">
+            The type that serves as the source for the resources.
             </param>
         </member>
         <member name="M:System.Resources.Extensions.ResourceManager.#ctor(System.String,System.Reflection.Assembly)">
