@@ -1,5 +1,20 @@
 ﻿## Update History
 
+  #### 2026/11/12
+	1. Gtk.Drawing now type-forwards the full System.Drawing surface: every System.Drawing.Common type it
+	   does not reimplement, plus the primitive facade (Color, Point, Size, Rectangle, PointF, SizeF,
+	   RectangleF), is forwarded, so code that references only Gtk.Drawing resolves the complete API.
+	2. Added FontConverter and marked Font with [TypeConverter(typeof(FontConverter))], so a Font stored as
+	   a string in a .resx / designer resource ("Name, 9pt, style=Bold") deserializes instead of throwing
+	   "TypeConverter cannot convert from System.String"; it round-trips through string and InstanceDescriptor.
+	3. PrivateFontCollection.AddMemoryFont now registers the font instead of being a no-op: it reads the
+	   family name from the font's OpenType 'name' table and adds it to Families (AddFontFile likewise uses
+	   the real family name when the file is readable), so Families[0] no longer throws "Index was outside
+	   the bounds of the array". A private font still renders with a fallback face unless fontconfig can see it.
+	4. The System.Resources.Extensions displacer now carries the GTK ResX reader (RuntimeResourceSet /
+	   DeserializingResourceReader); where it is deployed, Bitmap/Icon and converter-typed resources load
+	   without BinaryFormatter. The test projects reference the displacer so those resources read in tests.
+
   #### 2026/11/11
 	1. Implemented Form.CenterToScreen and Form.CenterToParent, including screen-working-area
 	   clamping, owner/parent fallback, and native placement on supported GTK backends. Centering
