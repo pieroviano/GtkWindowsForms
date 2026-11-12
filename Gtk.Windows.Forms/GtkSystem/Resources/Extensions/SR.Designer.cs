@@ -39,7 +39,7 @@ namespace GtkSystem.Resources.Extensions {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GTK_System.Resources.Extensions.SR", typeof(SR).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("GtkSystem.Resources.Extensions.SR", typeof(SR).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

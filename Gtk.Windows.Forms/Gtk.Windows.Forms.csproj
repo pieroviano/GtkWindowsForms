@@ -69,16 +69,16 @@
         </AssemblyAttribute>
     </ItemGroup>
     <ItemGroup>
-        <Compile Remove="GTK_Controls\Interface\**" />
-        <Compile Remove="GTK_Controls\Struct\**" />
+        <Compile Remove="GtkControls\Interface\**" />
+        <Compile Remove="GtkControls\Struct\**" />
         <Compile Remove="Resources\Forms_ico\**" />
         <Compile Remove="Resources\icons\**" />
-        <EmbeddedResource Remove="GTK_Controls\Interface\**" />
-        <EmbeddedResource Remove="GTK_Controls\Struct\**" />
+        <EmbeddedResource Remove="GtkControls\Interface\**" />
+        <EmbeddedResource Remove="GtkControls\Struct\**" />
         <EmbeddedResource Remove="Resources\Forms_ico\**" />
         <EmbeddedResource Remove="Resources\icons\**" />
-        <None Remove="GTK_Controls\Interface\**" />
-        <None Remove="GTK_Controls\Struct\**" />
+        <None Remove="GtkControls\Interface\**" />
+        <None Remove="GtkControls\Struct\**" />
         <None Remove="Resources\Forms_ico\**" />
         <None Remove="Resources\icons\**" />
         <Compile Remove="Content/System.ComponentModel.cs" Pack="true" PackagePath="content\" />
@@ -98,20 +98,20 @@
         <None Include="Gtk.Windows.Forms.Base.targets" Pack="true" PackagePath="\build\;\buildTransitive\" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Remove="GTK_Controls\ControlExtensions\ComboBox.Methods.cs" />
-        <Compile Remove="GTK_Controls\Control\ArrangedElementCollection.cs" />
-        <Compile Remove="GTK_Controls\Control\GridItem.cs" />
-        <Compile Remove="GTK_Controls\Control\GridItemCollection.cs" />
-        <Compile Remove="GTK_Controls\Control\IArrangedElement.cs" />
-        <Compile Remove="GTK_Controls\Enum\Enums\ColorDepth.cs" />
-        <Compile Remove="GTK_Controls\Enum\Enums\GridItemType.cs" />
-        <Compile Remove="GTK_Controls\EventArgs\PropertyValueChangedEventArgs.cs" />
-        <Compile Remove="GTK_Controls\EventArgs\SelectedGridItemChangedEventArgs.cs" />
-        <Compile Remove="GTK_Controls\EventHandlers\SelectedGridItemChangedEventHandler.cs" />
-        <Compile Remove="GTK_Controls\ListViewBase\ImageList.cs" />
-        <Compile Remove="GTK_Controls\ListViewBase\ImageListStreamer.cs" />
-        <Compile Remove="GTK_Controls\ListViewBase\SerializationInfo.cs" />
-        <Compile Remove="GTK_Controls\MenuStripBase\WidgetToolStrip.cs" />
+        <Compile Remove="GtkControls\ControlExtensions\ComboBox.Methods.cs" />
+        <Compile Remove="GtkControls\Control\ArrangedElementCollection.cs" />
+        <Compile Remove="GtkControls\Control\GridItem.cs" />
+        <Compile Remove="GtkControls\Control\GridItemCollection.cs" />
+        <Compile Remove="GtkControls\Control\IArrangedElement.cs" />
+        <Compile Remove="GtkControls\Enum\Enums\ColorDepth.cs" />
+        <Compile Remove="GtkControls\Enum\Enums\GridItemType.cs" />
+        <Compile Remove="GtkControls\EventArgs\PropertyValueChangedEventArgs.cs" />
+        <Compile Remove="GtkControls\EventArgs\SelectedGridItemChangedEventArgs.cs" />
+        <Compile Remove="GtkControls\EventHandlers\SelectedGridItemChangedEventHandler.cs" />
+        <Compile Remove="GtkControls\ListViewBase\ImageList.cs" />
+        <Compile Remove="GtkControls\ListViewBase\ImageListStreamer.cs" />
+        <Compile Remove="GtkControls\ListViewBase\SerializationInfo.cs" />
+        <Compile Remove="GtkControls\MenuStripBase\WidgetToolStrip.cs" />
     </ItemGroup>
     <ItemGroup>
         <None Remove="Resources\Cursors\all-scroll.cur" />
@@ -317,12 +317,12 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>Resources.resx</DependentUpon>
         </Compile>
-        <EmbeddedResource Update="GTK_System\Resources\Extensions\SR.resx">
+        <EmbeddedResource Update="GtkSystem\Resources\Extensions\SR.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>SR.Designer.cs</LastGenOutput>
             <CustomToolNamespace>GtkSystem.Resources.Extensions</CustomToolNamespace>
         </EmbeddedResource>
-        <Compile Update="GTK_System\Resources\Extensions\SR.Designer.cs">
+        <Compile Update="GtkSystem\Resources\Extensions\SR.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
             <DependentUpon>SR.resx</DependentUpon>
