@@ -3,7 +3,7 @@ using System.Resources;
 
 namespace GtkSystem.Resources.Extensions;
 
-internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
+public class RuntimeResourceSet : ResourceSet, IEnumerable
 {
     internal const int Version = 2;
 
@@ -15,7 +15,7 @@ internal sealed class RuntimeResourceSet : ResourceSet, IEnumerable
 
     private Dictionary<string, ResourceLocator>? _resCache;
 
-    internal RuntimeResourceSet(IResourceReader reader)
+    public RuntimeResourceSet(IResourceReader reader)
     {
         if (reader == null)
         {

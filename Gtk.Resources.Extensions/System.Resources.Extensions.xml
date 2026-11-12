@@ -4,5 +4,93 @@
         <name>System.Resources.Extensions</name>
     </assembly>
     <members>
+        <member name="T:System.Resources.Extensions.DeserializingResourceReader">
+            <summary>
+            DeserializingResourceReader is a class that provides an implementation of deserializing a resource file. It reads resources from a stream and allows access to them through the IResourceReader interface. The class supports both binary formatted resources and resources that use type converters for serialization. It also includes error handling to ensure that the resource file is properly formatted and that the resources can be deserialized correctly.
+            </summary>
+            <seealso cref="T:System.Resources.IResourceReader" />
+            <seealso cref="T:System.Collections.IEnumerable" />
+            <seealso cref="T:System.IDisposable" />
+        </member>
+        <member name="T:System.Resources.Extensions.ResourceManager">
+            <summary>
+            Provides access to resources for a specified assembly, base name, or resource source type. Used to retrieve
+            localized resources such as strings, images, and other data embedded in assemblies.
+            </summary>
+            <remarks>This class is intended for internal use and is not visible in standard IntelliSense due to
+            the
+            <see cref="T:EditorBrowsableAttribute" />. It inherits functionality from
+            <see cref="T:GtkSystem.Resources.ResourceManager" /> to manage resource retrieval. Use the appropriate constructor to
+            specify the resource source, base name, or assembly when initializing the resource manager.
+            </remarks>
+        </member>
+        <member name="M:System.Resources.Extensions.ResourceManager.#ctor(System.Type)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:GtkSystem.Resources.ResourceManager" /> class.
+            </summary>
+            <param name="usingResourceSet">
+            The using resource set.
+            </param>
+        </member>
+        <member name="M:System.Resources.Extensions.ResourceManager.#ctor(System.String,System.Reflection.Assembly)">
+            <summary>
+            Initializes a new instance of the ResourceManager class for a specific resource set using the provided base
+            name and assembly.
+            </summary>
+            <remarks>Use this constructor to access resources embedded in a particular assembly. The base
+            name should match the resource file name and is used to locate the resource set for different
+            cultures.
+            </remarks>
+            <param name="baseName">The root name of the resource files without culture or file extension. Cannot be null or empty.
+            </param>
+            <param name="assembly">The assembly that contains the resources. Cannot be null.
+            </param>
+        </member>
+        <member name="M:System.Resources.Extensions.ResourceManager.#ctor(System.String,System.Reflection.Assembly,System.Type)">
+            <summary>
+            Initializes a new instance of the ResourceManager class for a specific resource set, using the provided base
+            name, assembly, and resource source type.
+            </summary>
+            <remarks>Use this constructor when you need to specify a resource source type in addition to
+            the base name and assembly. This can be useful for advanced resource lookup scenarios, such as when
+            resources are associated with a specific type rather than just an assembly.
+            </remarks>
+            <param name="baseName">The root name of the resource files to search for. Typically corresponds to the fully qualified name of the
+            resource set without the culture or file extension.
+            </param>
+            <param name="assembly">The assembly that contains the resources. Must not be null.
+            </param>
+            <param name="resourceSource">The type that serves as the source for the resources. Used to help locate and load resource files.
+            </param>
+        </member>
+        <member name="M:System.Resources.Extensions.ResourceManager.#ctor">
+            <summary>
+            Initializes a new instance of the ResourceManager class for use by derived types.
+            </summary>
+            <remarks>This protected constructor is intended to be called by subclasses when implementing
+            custom resource management functionality. It does not perform any initialization itself; derived classes
+            should provide any required setup.
+            </remarks>
+        </member>
+        <member name="T:System.ComponentModel.ComponentResourceManager">
+            <summary>
+            Provides resource management for components, enabling retrieval of localized resources such as strings, images,
+            and objects for a specified form type.
+            </summary>
+            <remarks>Use this class to access resources associated with a component or form, typically for
+            localization purposes. Resources can be retrieved by name and, optionally, by culture. This class is commonly
+            used in applications that require support for multiple languages or regional settings.
+            </remarks>
+        </member>
+        <member name="M:System.ComponentModel.ComponentResourceManager.#ctor(System.Type)">
+            <summary>
+            Initializes a new instance of the
+            <see cref="T:GtkSystem.ComponentModel.ComponentResourceManager" /> class.
+            </summary>
+            <param name="form">
+            The form.
+            </param>
+        </member>
     </members>
 </doc>

@@ -358,18 +358,6 @@
             <DependentUpon>Resources.resx</DependentUpon>
         </EmbeddedResource>
     </ItemGroup>
-    <ItemGroup>
-        <!-- Design-time only, and it has to reach a consumer as a package dependency whose Build assets
-             flow: its targets are what fix up the designer runtimeconfig of whoever references this
-             package. PrivateAssets therefore leaves "build" out of the default list, while the MSBuild
-             task and its Microsoft.Build.* dependencies stay out of the consumer's output. -->
-        <ProjectReference Include="..\Gtk.Windows.FormsDesigner\Gtk.Windows.FormsDesigner.csproj" PrivateAssets="contentfiles;analyzers" ExcludeAssets="runtime;native" />
-        <!-- Companion package, not a code dependency: it ships an intentionally empty assembly named
-             System.Resources.Extensions that has to displace Microsoft's in a consuming app's output
-             folder. That only happens if it is a real package dependency - a PackageReference declared
-             in this package's build props is invisible to a consumer's restore. -->
-        <ProjectReference Include="..\Gtk.Resources.Extensions\Gtk.Resources.Extensions.csproj" />
-    </ItemGroup>
     <PropertyGroup>
         <NoWarn>$(NoWarn);MSB3243;</NoWarn>
         <PackageId>Gtk.Windows.Forms.Base</PackageId>

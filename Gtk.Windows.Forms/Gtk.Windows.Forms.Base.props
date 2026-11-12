@@ -15,6 +15,7 @@
          collides with the nuspec dependency (NU1504). It reaches a consumer as a dependency of
          this package, with its Build assets flowing, so its design-time targets are imported. -->
     <PackageReference Include="Gtk.Resources.Extensions" Version="1.4.2464.*" PrivateAssets="all" />
+    <PackageReference Include="Gtk.Windows.FormsDesigner" Version="1.4.2464.*" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,8 +23,8 @@
              Include="$(MSBuildThisFileDirectory)../content/System.ComponentModel.cs"
              Link="System.ComponentModel.cs" />
     <Compile Condition="'$(ExcludeResources)'==''"
-		         Include="$(MSBuildThisFileDirectory)../content/System.Resources.ResourceManager.cs"
-		         Link="System.Resources.ResourceManager.cs" />
+             Include="$(MSBuildThisFileDirectory)../content/System.Resources.ResourceManager.cs"
+             Link="System.Resources.ResourceManager.cs" />
   </ItemGroup>
 
   <ItemGroup>

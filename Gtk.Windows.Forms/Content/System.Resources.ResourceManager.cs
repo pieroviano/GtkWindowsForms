@@ -6,7 +6,7 @@
 using System.ComponentModel;
 using System.Reflection;
 
-namespace System.Resources;
+namespace System.Resources.Extensions;
 
 /// <summary>
 /// Provides access to resources for a specified assembly, base name, or resource source type. Used to retrieve

@@ -40,9 +40,17 @@
     <PackAsTool>False</PackAsTool>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageOutputPath>$(SolutionDir)Packages/</PackageOutputPath>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\Gtk.Windows.Forms\Content\System.ComponentModel.cs" Link="System.ComponentModel.cs" />
+    <Compile Include="..\Gtk.Windows.Forms\Content\System.Resources.ResourceManager.cs" Link="System.Resources.ResourceManager.cs" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="\" />
     <None Include="..\gtksystem-windows-forms\Source\licenses\LICENSE.txt" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gtk.Windows.Forms\Gtk.Windows.Forms.csproj" />
   </ItemGroup>
 </Project>
