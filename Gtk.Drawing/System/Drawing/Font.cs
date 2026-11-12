@@ -9,6 +9,7 @@ namespace System.Drawing;
 /// <filterpriority>
 /// 1
 /// </filterpriority>
+[TypeConverter(typeof(FontConverter))]
 public sealed class Font : MarshalByRefObject, ICloneable, IDisposable, ISerializable
 {
 

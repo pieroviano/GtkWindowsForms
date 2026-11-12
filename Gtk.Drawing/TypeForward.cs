@@ -29,7 +29,6 @@ using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Drawing2D.AdjustableArrowCap))]
 [assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Drawing2D.GraphicsPathIterator))]
 [assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Drawing2D.PathPointType))]
-[assembly: TypeForwardedTo(typeof(sdc::System.Drawing.FontConverter))]
 [assembly: TypeForwardedTo(typeof(sdc::System.Drawing.IconConverter))]
 [assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.Duplex))]
 [assembly: TypeForwardedTo(typeof(sdc::System.Drawing.Printing.InvalidPrinterException))]
