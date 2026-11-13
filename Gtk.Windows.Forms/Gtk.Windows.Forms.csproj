@@ -19,7 +19,7 @@
       It is a cross-platform interface component developed based on GTK components and compatible with the native C# control winform interface.
       Use this component GtkSystem.Drawing to compile once and run across platforms windows/linux/macos.
       Update platform:
-      https://pieroviano@bitbucket.org/piero-viano/net4x.gtk.windows.forms.git
+      https://github.com/pieroviano/GtkWindowsForms.git
 
       Based on GTKSystem.Windows.Forms:
       https://www.gtkapp.com；

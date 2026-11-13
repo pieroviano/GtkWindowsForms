@@ -80,6 +80,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gtk.Windows.Forms.InternetE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gtk.Windows.Forms.InternetExplorer.Tests", "Gtk.Windows.Forms.InternetExplorer.Tests\Gtk.Windows.Forms.InternetExplorer.Tests.csproj", "{42B9DDBF-85E1-4424-BA7A-02AC36B1E601}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{C287EDDC-E432-4F9D-9043-3EDE598557AC}"
+	ProjectSection(SolutionItems) = preProject
+		docs\API-COMPLETENESS.md = docs\API-COMPLETENESS.md
+		docs\Architecture.md = docs\Architecture.md
+		docs\EMULATION-GAPS.md = docs\EMULATION-GAPS.md
+		docs\Gtk.Resources.Extensions.md = docs\Gtk.Resources.Extensions.md
+		docs\Gtk.Windows.Forms.Article.md = docs\Gtk.Windows.Forms.Article.md
+		docs\GtkWindowsForms.md = docs\GtkWindowsForms.md
+		docs\ReadMe.md = docs\ReadMe.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

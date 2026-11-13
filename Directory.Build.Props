@@ -15,7 +15,7 @@
         <SolutionDir Condition="'$(SolutionDir)'==''">$(MSBuildThisFileDirectory)</SolutionDir>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <RepositoryUrl>https://pieroviano@bitbucket.org/piero-viano/net4x.gtk.windows.forms.git</RepositoryUrl>
+        <RepositoryUrl>https://github.com/pieroviano/GtkWindowsForms.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <NoWarn>$(NoWarn);CS0067;CS0169;CS0419;CS0536;MSB3243</NoWarn>
     </PropertyGroup>

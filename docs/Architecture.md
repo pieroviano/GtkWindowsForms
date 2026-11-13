@@ -25,7 +25,7 @@ re-implemented on top of GTK3 (via GtkSharp) and Cairo.
 └──────────────┬──────────────────────────────┬─────────────────┘
                │ System.Windows.Forms.*       │ System.Drawing.*
 ┌──────────────▼───────────────┐  ┌───────────▼─────────────────┐
-│  Gtk.Windows.Forms     │  │  Gtk.Drawing          │
+│  Gtk.Windows.Forms           │  │  Gtk.Drawing                │
 │  (package: Gtk.Windows.Forms)│─►│  (package: Gtk.Drawing)     │
 │  Control/Form/Button/...     │  │  Graphics, Pen, Brush,      │
 │  Application, MessageBox,    │  │  Bitmap, Font, Matrix, ...  │
@@ -242,11 +242,11 @@ via `BinaryFormatter`-based serialization. The chain here:
                                   └───────┬────────────────────────┘
                                           │ (as NuGet package)
         ┌──────────────────┐              ▼
-        │ Gtk.Drawing│──────► Gtk.Windows.Forms ──────► Gtk.Windows.Extensions
+        │ Gtk.Drawing      │──────► Gtk.Windows.Forms ──────► Gtk.Windows.Extensions
         └──────────────────┘              ▲            │
                                           │            │ bundles under tools/
         ┌─────────────────────────────┐   │            ▼
-        │ Gtk.Windows.Forms-    │───┘      ResxProcessor
+        │ Gtk.Windows.Forms-          │───┘      ResxProcessor
         │ Designer (MSBuild/design-   │
         │ time)                       │
         └─────────────────────────────┘
