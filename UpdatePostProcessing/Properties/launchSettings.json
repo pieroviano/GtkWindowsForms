@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "UpdatePostProcessing": {
-      "commandName": "Project",
-      "commandLineArgs": "..\\..\\..\\..\\Gtk.Windows.Forms\\Gtk.Windows.Forms.csproj ..\\..\\..\\..\\Gtk.Drawing\\Gtk.Drawing.csproj"
-    }
-  }
-}

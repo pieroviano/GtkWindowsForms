@@ -1,1 +1,0 @@
-git format-patch -o patches/ -1 HEAD -- :(exclude)*.csproj

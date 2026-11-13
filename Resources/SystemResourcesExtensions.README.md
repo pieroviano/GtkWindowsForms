@@ -1,1 +1,0 @@
-../docs/Gtk.Resources.Extensions.md
