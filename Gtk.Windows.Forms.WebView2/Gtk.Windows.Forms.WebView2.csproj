@@ -25,7 +25,7 @@
         <Copyright>Copyright (c) Piero Viano. All right reserved.</Copyright>
         <Title>Microsoft Edge WebView2 backend for the Gtk.Windows.Forms WebBrowser control</Title>
         <Description>Companion package of Gtk.Windows.Forms. Gives System.Windows.Forms.WebBrowser a Microsoft Edge WebView2 engine on Windows; without it the control uses WebKitGTK where that is installed and a placeholder otherwise. Referencing the package is the whole opt-in - a module initializer registers the backend. Note the airspace limitation: GTK 4 gives only toplevel windows an HWND, so the browser is a child window painted above all GTK content in that window and is not clipped by overlapping widgets, popovers or menus.</Description>
-        <PackageProjectUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</PackageProjectUrl>
+        <PackageProjectUrl>https://pieroviano.github.io/GtkWindowsForms/</PackageProjectUrl>
         <!-- Same licence file the other packages ship: the one the vendored upstream submodule carries. -->
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>

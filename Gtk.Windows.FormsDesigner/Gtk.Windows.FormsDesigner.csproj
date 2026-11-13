@@ -46,7 +46,7 @@
     <PropertyGroup>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageId>Gtk.Windows.FormsDesigner</PackageId>
-        <PackageProjectUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</PackageProjectUrl>
+        <PackageProjectUrl>https://pieroviano.github.io/GtkWindowsForms/</PackageProjectUrl>
         <!-- Same licence file the other packages ship: the one the vendored upstream submodule
              carries. Declaring none let Net4x.NuGetUtility's Apache-2.0 default decide by accident. -->
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>

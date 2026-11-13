@@ -33,7 +33,7 @@
     <Version>$(VersionPrefix).$(VersionSuffix)</Version>
     <Title>Empty System.Resources.Extensions that displaces Microsoft's for Gtk.Windows.Forms</Title>
     <Description>Companion package of Gtk.Windows.Forms. Ships an intentionally empty assembly named System.Resources.Extensions so that it displaces Microsoft's BinaryFormatter-based assembly of that name in an application's output folder; the ResX reader Gtk.Windows.Forms actually uses lives in that library, under Gtk.Resources.Extensions. See README.md.</Description>
-    <PackageProjectUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</PackageProjectUrl>
+    <PackageProjectUrl>https://pieroviano.github.io/GtkWindowsForms/</PackageProjectUrl>
     <RepositoryUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</RepositoryUrl>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>

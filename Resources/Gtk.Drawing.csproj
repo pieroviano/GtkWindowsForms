@@ -10,7 +10,7 @@
 		<Company>Piero Viano</Company>
 		<Copyright>Copyright (c) Piero Viano. All right reserved.</Copyright>
 		<Version>$(VersionPrefix).$(VersionSuffix)</Version>
-		<PackageProjectUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</PackageProjectUrl>
+		<PackageProjectUrl>https://pieroviano.github.io/GtkWindowsForms/</PackageProjectUrl>
 		<PackageReleaseNotes>C# interface cross-platform development component gtk-windows-forms</PackageReleaseNotes>
 		<Title>GTK cross-platform drawing interface component, compiled once, can run on windows, linux, macos platforms</Title>
 		<Description>

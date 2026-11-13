@@ -22,7 +22,7 @@
         <Copyright>Copyright (c) Piero Viano. All right reserved.</Copyright>
         <Title>Extensions to the Gtk.Windows.Forms API that real WinForms does not have</Title>
         <Description>Companion package of Gtk.Windows.Forms. Additions to the System.Windows.Forms surface that are deliberately not part of the real WinForms API, kept out of the core library so it stays a faithful compatibility layer. Ships AutoClosingMessageBox, a message box that dismisses itself after a timeout - install it with AutoClosingMessageBox.Install(timeout). Also the place to add your own extension classes over the Forms library.</Description>
-        <PackageProjectUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</PackageProjectUrl>
+        <PackageProjectUrl>https://pieroviano.github.io/GtkWindowsForms/</PackageProjectUrl>
         <!-- Same licence file the other packages ship: the one the vendored upstream submodule
              carries. Declaring none let Net4x.NuGetUtility's Apache-2.0 default decide by accident. -->
         <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
