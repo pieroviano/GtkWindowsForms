@@ -190,8 +190,14 @@
   <ItemGroup>
     <ProjectReference Include="..\Gtk.Windows.Forms\Gtk.Windows.Forms.csproj" />
     <ProjectReference Include="..\Gtk.Resources.Extensions\Gtk.Resources.Extensions.csproj" />
+    <!-- Build-order only: the PrepareBuild target below execs ResxProcessor.exe, so ResxProcessor
+         must build first. Not referenced at runtime (ReferenceOutputAssembly/Private false). -->
+    <ProjectReference Include="..\ResxProcessor\ResxProcessor.csproj" ReferenceOutputAssembly="false" Private="false" SkipGetTargetFrameworkProperties="true" />
   </ItemGroup>
   <Target Name="PrepareBuild" BeforeTargets="BeforeBuild">
+    <!-- BeforeBuild runs before project references are built, so ensure the ResxProcessor tool
+         exists (no-op when the solution already built it first via the ProjectReference above). -->
+    <MSBuild Projects="$(MSBuildThisFileDirectory)..\ResxProcessor\ResxProcessor.csproj" Targets="Build" Properties="Configuration=$(Configuration)" Condition="!Exists('$(MSBuildThisFileDirectory)..\ResxProcessor\bin\$(Configuration)\net8.0\ResxProcessor.exe')" />
     <Message Importance="High" Text="&quot;$(MSBuildThisFileDirectory)..\ResxProcessor\bin\$(Configuration)\net8.0\Net4x.XUnit.Copy.exe&quot; $(TargetFramework) &quot;$(TargetDir)&quot; &quot;$(MSBuildProjectFullPath)&quot;" />
     <Exec Command="&quot;$(MSBuildThisFileDirectory)..\ResxProcessor\bin\$(Configuration)\net8.0\ResxProcessor.exe&quot; &quot;$(MSBuildProjectDirectory)&quot;" />
   </Target>
