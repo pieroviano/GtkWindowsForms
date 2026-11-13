@@ -166,6 +166,9 @@ PublishScripts/
 **/packages/*
 # except build/, which is used as an MSBuild target.
 !**/packages/build/
+# but keep the PlaceHolder.txt that marks any Packages folder (both cases, for case-sensitive filesystems)
+!**/packages/PlaceHolder.txt
+!**/Packages/PlaceHolder.txt
 # Uncomment if necessary however generally it will be regenerated when needed
 #!**/packages/repositories.config
 # NuGet v3's project.json files produces more ignorable files
