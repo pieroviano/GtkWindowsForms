@@ -1,10 +1,10 @@
-using System.Windows.Forms;
-using GtkSystem.Windows.Forms.GtkControls.ControlBase;
-using GtkSystem.Windows.Forms.WebBrowsing;
+﻿using System.Windows.Forms;
+using Gtk.Windows.Forms.Controls.ControlBase;
+using Gtk.Windows.Forms.WebBrowsing;
 
 using Application = System.Windows.Forms.Application;
 
-namespace GtkWinForms.Tests.GtkSystem.Windows.Forms.WebBrowsing;
+namespace GtkWinForms.Tests.Gtk.Windows.Forms.WebBrowsing;
 
 /// <summary>
 /// Behavioural tests for <see cref="NullWebViewBackend"/>, the placeholder chosen when no web engine can
@@ -43,7 +43,7 @@ public class NullWebViewBackendTests
     {
         using var backend = new NullWebViewBackend();
 
-        var label = Assert.IsType<Gtk.Label>(backend.Widget);
+        var label = Assert.IsType<global::Gtk.Label>(backend.Widget);
         Assert.False(string.IsNullOrWhiteSpace(label.Text));
     }
 

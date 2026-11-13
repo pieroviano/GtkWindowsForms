@@ -1,8 +1,8 @@
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 extern alias gtk;
 
-using GtkSystem.Windows.Forms;
+using Gtk.Windows.Forms;
 
 // System.Drawing.ContentAlignment lives in the Gtk.Drawing shim here, not in the real System.Drawing.
 using ContentAlignment = gtk::System.Drawing.ContentAlignment;

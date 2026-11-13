@@ -1,6 +1,6 @@
 ﻿// This file is mainly to overwrite the native System.Resources.ResourceManager class.
 // The native class does not support reading project resource image files.
-// GtkSystem.Resources.ResourceManager implements reading of project resource files and image files.
+// Gtk.Resources.ResourceManager implements reading of project resource files and image files.
 // If the resource image file is not used in the project, there is no need to create this file.
 
 using System.ComponentModel;
@@ -15,15 +15,15 @@ namespace System.Resources.Extensions;
 /// <remarks>This class is intended for internal use and is not visible in standard IntelliSense due to
 /// the
 /// <see cref="T:EditorBrowsableAttribute" />. It inherits functionality from
-/// <see cref="T:GtkSystem.Resources.ResourceManager" /> to manage resource retrieval. Use the appropriate constructor to
+/// <see cref="T:Gtk.Resources.ResourceManager" /> to manage resource retrieval. Use the appropriate constructor to
 /// specify the resource source, base name, or assembly when initializing the resource manager.
 /// </remarks>
 [EditorBrowsable(EditorBrowsableState.Never)]
-public class ResourceManager : GtkSystem.Resources.ResourceManager
+public class ResourceManager : Gtk.Resources.ResourceManager
 {
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="GtkSystem.Resources.ResourceManager" /> class.
+    /// <see cref="Gtk.Resources.ResourceManager" /> class.
     /// </summary>
     /// <param name="resourceSource">
     /// The type that serves as the source for the resources.

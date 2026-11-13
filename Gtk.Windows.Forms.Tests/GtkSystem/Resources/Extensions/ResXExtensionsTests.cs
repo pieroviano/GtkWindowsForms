@@ -1,6 +1,6 @@
 ﻿using System.Resources;
 
-namespace GtkSystem.Resources.Extensions;
+namespace Gtk.Resources.Extensions;
 
 public class ResXExtensionsTests
 {

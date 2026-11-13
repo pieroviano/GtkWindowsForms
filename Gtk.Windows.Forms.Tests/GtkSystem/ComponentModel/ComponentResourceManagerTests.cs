@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace GtkSystem.ComponentModel;
+namespace Gtk.ComponentModel;
 
 public class ComponentResourceManagerTests
 {

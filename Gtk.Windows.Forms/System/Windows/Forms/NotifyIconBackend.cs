@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -448,17 +448,17 @@ internal static class NotifyIconBackendFactory
     {
         try
         {
-            if (GtkSystem.Windows.Forms.GtkControls.ControlBase.FuncLoader.IsWindows)
+            if (Gtk.Windows.Forms.Controls.ControlBase.FuncLoader.IsWindows)
             {
                 return new Win32NotifyIconBackend();
             }
 
-            if (GtkSystem.Windows.Forms.GtkControls.ControlBase.FuncLoader.IsOSX)
+            if (Gtk.Windows.Forms.Controls.ControlBase.FuncLoader.IsOSX)
             {
                 return new QuartzNotifyIconBackend();
             }
 
-            if (GtkSystem.Windows.Forms.GtkControls.ControlBase.FuncLoader.IsLinux)
+            if (Gtk.Windows.Forms.Controls.ControlBase.FuncLoader.IsLinux)
             {
                 return new StatusNotifierItemBackend();
             }

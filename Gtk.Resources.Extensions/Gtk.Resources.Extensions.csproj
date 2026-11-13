@@ -20,7 +20,7 @@
          *is* `System.Resources.Extensions`, so that it displaces Microsoft's assembly of that name in an
          application's output folder. It carries no code and is not meant to: the working implementation lives
          in the Forms library under `GTKSystem/Resources/Extensions/`, in namespace
-         `GtkSystem.Resources.Extensions`, so nothing needs the displaced types. The sample apps reference the
+         `Gtk.Resources.Extensions`, so nothing needs the displaced types. The sample apps reference the
          project for that reason. (See README.md, which ships in the package, for the consumer-facing version.
          Note that displacement only takes effect if this assembly wins MSBuild's conflict resolution against
          the `System.Resources.Extensions` NuGet package) -->
@@ -32,7 +32,7 @@
     <!-- Without this the SDK reads $(VersionSuffix) as a prerelease label and packs 1.3.24-26204. -->
     <Version>$(VersionPrefix).$(VersionSuffix)</Version>
     <Title>Empty System.Resources.Extensions that displaces Microsoft's for Gtk.Windows.Forms</Title>
-    <Description>Companion package of Gtk.Windows.Forms. Ships an intentionally empty assembly named System.Resources.Extensions so that it displaces Microsoft's BinaryFormatter-based assembly of that name in an application's output folder; the ResX reader Gtk.Windows.Forms actually uses lives in that library, under GtkSystem.Resources.Extensions. See README.md.</Description>
+    <Description>Companion package of Gtk.Windows.Forms. Ships an intentionally empty assembly named System.Resources.Extensions so that it displaces Microsoft's BinaryFormatter-based assembly of that name in an application's output folder; the ResX reader Gtk.Windows.Forms actually uses lives in that library, under Gtk.Resources.Extensions. See README.md.</Description>
     <PackageProjectUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</PackageProjectUrl>
     <RepositoryUrl>https://bitbucket.org/piero-viano/net4x.gtk.windows.forms</RepositoryUrl>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>

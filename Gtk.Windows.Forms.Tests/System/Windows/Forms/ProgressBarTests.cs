@@ -179,7 +179,7 @@ public class ProgressBarTests
             // The gitee alignment moved value application into the property setters (which now write
             // straight to the GTK widget), so the former private Control_Realized handler was removed.
             // Verify the observable outcome on the backing widget rather than reflecting on that method.
-            var self = (GtkSystem.Windows.Forms.GtkControls.ControlBase.ProgressBarBase)progressBar.GtkControl;
+            var self = (Gtk.Windows.Forms.Controls.ControlBase.ProgressBarBase)progressBar.GtkControl;
 
             min = (int)self.MinValue;
             max = (int)self.MaxValue;

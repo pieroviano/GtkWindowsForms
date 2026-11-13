@@ -216,7 +216,7 @@
         <member name="M:Gtk.Windows.Forms.InternetExplorer.IeHtmlDomBridge.InvokeMemberAsync(System.Int32,System.String,System.Object[],System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Gtk.Windows.Forms.InternetExplorer.IeHtmlDomBridge.Post(GtkSystem.Windows.Forms.WebBrowsing.DomMutation)">
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.IeHtmlDomBridge.Post(Gtk.Windows.Forms.WebBrowsing.DomMutation)">
             <inheritdoc />
         </member>
         <member name="M:Gtk.Windows.Forms.InternetExplorer.IeHtmlDomBridge.RefreshAsync(System.Threading.CancellationToken)">
@@ -250,7 +250,7 @@
             report as unsupported.
             </summary>
             <summary>Turns the control's <c>DWebBrowserEvents2</c> notifications into the backend's seam events.</summary>
-            <summary>State the control reports through events, and the <see cref="T:GtkSystem.Windows.Forms.WebBrowsing.IWebViewBackend" /> properties
+            <summary>State the control reports through events, and the <see cref="T:Gtk.Windows.Forms.WebBrowsing.IWebViewBackend" /> properties
             that read it.</summary>
         </member>
         <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.GoBack">
@@ -324,22 +324,22 @@
             arrives long before initialisation completes, and dropping it is the failure this prevents.
             </summary>
         </member>
-        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.GtkSystem#Windows#Forms#WebBrowsing#IWebBrowserDialogs#Print">
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Gtk#Windows#Forms#WebBrowsing#IWebBrowserDialogs#Print">
             <inheritdoc />
         </member>
-        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.GtkSystem#Windows#Forms#WebBrowsing#IWebBrowserDialogs#ShowPrintDialog">
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Gtk#Windows#Forms#WebBrowsing#IWebBrowserDialogs#ShowPrintDialog">
             <inheritdoc />
         </member>
-        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.GtkSystem#Windows#Forms#WebBrowsing#IWebBrowserDialogs#ShowPrintPreviewDialog">
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Gtk#Windows#Forms#WebBrowsing#IWebBrowserDialogs#ShowPrintPreviewDialog">
             <inheritdoc />
         </member>
-        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.GtkSystem#Windows#Forms#WebBrowsing#IWebBrowserDialogs#ShowPageSetupDialog">
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Gtk#Windows#Forms#WebBrowsing#IWebBrowserDialogs#ShowPageSetupDialog">
             <inheritdoc />
         </member>
-        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.GtkSystem#Windows#Forms#WebBrowsing#IWebBrowserDialogs#ShowPropertiesDialog">
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Gtk#Windows#Forms#WebBrowsing#IWebBrowserDialogs#ShowPropertiesDialog">
             <inheritdoc />
         </member>
-        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.GtkSystem#Windows#Forms#WebBrowsing#IWebBrowserDialogs#ShowSaveAsDialog">
+        <member name="M:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.Gtk#Windows#Forms#WebBrowsing#IWebBrowserDialogs#ShowSaveAsDialog">
             <inheritdoc />
         </member>
         <member name="E:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackend.LoadFinished">
@@ -416,7 +416,7 @@
         </member>
         <member name="T:Gtk.Windows.Forms.InternetExplorer.InternetExplorerBackendRegistration">
             <summary>
-            Puts the Internet Explorer backend into <see cref="T:GtkSystem.Windows.Forms.WebBrowsing.WebViewBackendFactory" />.
+            Puts the Internet Explorer backend into <see cref="T:Gtk.Windows.Forms.WebBrowsing.WebViewBackendFactory" />.
             </summary>
             <remarks>
             Referencing this package is the whole opt-in: a module initializer registers the backend the first time

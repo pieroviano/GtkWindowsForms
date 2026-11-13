@@ -1,4 +1,4 @@
-namespace GtkSystem.Resources.Extensions;
+﻿namespace Gtk.Resources.Extensions;
 
 /// <summary>Round-trips every primitive type code plus byte arrays and streams through
 /// <see cref="PreserializedResourceWriter"/> and <see cref="DeserializingResourceReader"/>. The

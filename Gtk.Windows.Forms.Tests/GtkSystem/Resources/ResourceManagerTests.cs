@@ -6,7 +6,7 @@ using System.Windows.Forms;
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 
-namespace GtkSystem.Resources;
+namespace Gtk.Resources;
 
 public class ResourceManagerTests
 {

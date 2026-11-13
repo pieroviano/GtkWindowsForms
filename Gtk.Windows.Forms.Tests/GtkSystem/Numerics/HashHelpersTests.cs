@@ -1,6 +1,6 @@
-﻿using GtkSystem.Numerics.Hashing;
+﻿using Gtk.Numerics.Hashing;
 
-namespace GtkSystem.Numerics;
+namespace Gtk.Numerics;
 
 public class HashHelpersTests
 {

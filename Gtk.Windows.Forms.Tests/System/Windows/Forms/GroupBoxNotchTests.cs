@@ -2,7 +2,7 @@
 
 namespace System.Windows.Forms;
 
-using GtkSystem.Windows.Forms.GtkControls.ControlBase;
+using Gtk.Windows.Forms.Controls.ControlBase;
 
 /// <summary>
 /// A <see cref="GroupBox" /> notches its caption out of its top border, as WinForms does.

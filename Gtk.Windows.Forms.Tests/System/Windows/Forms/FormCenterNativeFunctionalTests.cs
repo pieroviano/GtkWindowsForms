@@ -1,4 +1,4 @@
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 extern alias gtk;
 
@@ -38,7 +38,7 @@ public class FormCenterNativeFunctionalTests
             try
             {
                 form.DoCenterToScreen();
-                if (GtkSystem.Windows.Forms.GtkControls.ControlBase.NativeWindowPlacement.TryGetWindowAndWorkArea(
+                if (Gtk.Windows.Forms.Controls.ControlBase.NativeWindowPlacement.TryGetWindowAndWorkArea(
                         title, out var wx, out var wy, out var ww, out var wh,
                         out var ax, out var ay, out var aw, out var ah))
                 {
@@ -152,7 +152,7 @@ public class FormCenterNativeFunctionalTests
     private static bool Measure(string title, out int dx, out int dy)
     {
         dx = dy = int.MaxValue;
-        if (!GtkSystem.Windows.Forms.GtkControls.ControlBase.NativeWindowPlacement.TryGetWindowAndWorkArea(
+        if (!Gtk.Windows.Forms.Controls.ControlBase.NativeWindowPlacement.TryGetWindowAndWorkArea(
                 title, out var wx, out var wy, out var ww, out var wh,
                 out var ax, out var ay, out var aw, out var ah))
         {
@@ -168,7 +168,7 @@ public class FormCenterNativeFunctionalTests
     private static bool NativeHeight(string title, out int height)
     {
         height = 0;
-        if (!GtkSystem.Windows.Forms.GtkControls.ControlBase.NativeWindowPlacement.TryGetWindowAndWorkArea(
+        if (!Gtk.Windows.Forms.Controls.ControlBase.NativeWindowPlacement.TryGetWindowAndWorkArea(
                 title, out _, out _, out _, out var wh, out _, out _, out _, out _))
         {
             return false;

@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using GtkSystem.Windows.Forms.WebBrowsing;
+using Gtk.Windows.Forms.WebBrowsing;
 
 // This package's namespace is nested under Gtk, so the unqualified names EventHandler and global::System.EventArgs
 // bind to GtkSharp's own delegates rather than the BCL ones. Both appear here - the backend seam

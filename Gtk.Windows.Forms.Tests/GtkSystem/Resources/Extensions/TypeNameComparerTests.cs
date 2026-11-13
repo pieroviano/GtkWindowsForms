@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace GtkSystem.Resources.Extensions;
+namespace Gtk.Resources.Extensions;
 
 public class TypeNameComparerTests
 {
@@ -79,7 +79,7 @@ public class TypeNameComparerTests
     public void Equals_SameTypeAndAssembly_ReturnsTrue()
     {
         var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
-        var typeName = $"GtkSystem.Resources.Extensions.TypeNameComparer, {assemblyName}";
+        var typeName = $"Gtk.Resources.Extensions.TypeNameComparer, {assemblyName}";
 
         Assert.True(_comparer.Equals(typeName, typeName));
     }

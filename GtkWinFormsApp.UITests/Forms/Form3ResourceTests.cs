@@ -1,4 +1,4 @@
-using ComponentResourceManager = GtkSystem.ComponentModel.ComponentResourceManager;
+﻿using ComponentResourceManager = Gtk.ComponentModel.ComponentResourceManager;
 using Icon = System.Drawing.Icon;
 using Image = System.Drawing.Image;
 

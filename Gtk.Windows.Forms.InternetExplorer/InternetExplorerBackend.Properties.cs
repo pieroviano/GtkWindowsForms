@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using GtkSystem.Windows.Forms.WebBrowsing;
+using Gtk.Windows.Forms.WebBrowsing;
 using Microsoft.CSharp.RuntimeBinder;
 
 // This package's namespace is nested under Gtk, so the unqualified names EventHandler and global::System.EventArgs

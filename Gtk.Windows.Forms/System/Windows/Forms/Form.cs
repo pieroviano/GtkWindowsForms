@@ -1,14 +1,14 @@
 ﻿/*
  * Based on GTK components, it is a cross-platform interface component that is compatible with the native C# control winform interface.
- * Use this component GtkSystem.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
+ * Use this component Gtk.Windows.Forms instead of Microsoft.WindowsDesktop.App.WindowsForms, compile once, and run across Windows, Linux, and macOS
  * Technical support 438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory438865652@qq.com，https://www.gtkapp.com, https://gitee.com/easywebfactory, https://github.com/easywebfactory
  */
 
 using System.ComponentModel;
 using System.Drawing;
 using Gtk;
-using GtkSystem.Windows.Forms.GtkControls.ControlBase;
-using GtkSystem.Windows.Forms.Resources;
+using Gtk.Windows.Forms.Controls.ControlBase;
+using Gtk.Windows.Forms.Resources;
 using Icon = System.Drawing.Icon;
 
 namespace System.Windows.Forms;
@@ -379,7 +379,7 @@ public partial class Form : ContainerControl, IWin32Window
         try
         {
             var bytes = ShowIcon && _formIcon != null ? _formIcon.PixbufData : null;
-            GtkSystem.Windows.Forms.GtkControls.ControlBase.NativeWindowPlacement.SetWindowsIcon(self, bytes);
+            Gtk.Windows.Forms.Controls.ControlBase.NativeWindowPlacement.SetWindowsIcon(self, bytes);
         }
         catch (Exception ex)
         {
@@ -1347,7 +1347,7 @@ public partial class Form : ContainerControl, IWin32Window
         ReapplySettleCentering();
         _centerWatchTicks++;
 
-        if (GtkSystem.Windows.Forms.GtkControls.ControlBase.NativeWindowPlacement.TryGetOuterHeight(self, out var height))
+        if (Gtk.Windows.Forms.Controls.ControlBase.NativeWindowPlacement.TryGetOuterHeight(self, out var height))
         {
             if (height == _centerWatchLastHeight)
             {

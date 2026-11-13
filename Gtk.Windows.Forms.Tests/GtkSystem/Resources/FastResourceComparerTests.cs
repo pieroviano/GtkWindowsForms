@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace GtkSystem.Resources;
+namespace Gtk.Resources;
 
 public class FastResourceComparerTests
 {

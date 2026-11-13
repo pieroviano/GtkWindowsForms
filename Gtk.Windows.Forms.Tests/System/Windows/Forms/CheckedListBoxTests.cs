@@ -1,5 +1,5 @@
 ﻿extern alias gtk;
-using GtkSystem.ComponentModel;
+using Gtk.ComponentModel;
 #pragma warning disable xUnit2013
 #pragma warning disable CS8604 // Possible null reference argument.
 #pragma warning disable CS8602 // Dereference of a possibly null reference.

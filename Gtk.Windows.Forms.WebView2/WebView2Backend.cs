@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GtkSystem.Windows.Forms.WebBrowsing;
+using Gtk.Windows.Forms.WebBrowsing;
 using Microsoft.Web.WebView2.Core;
 
 // This package's namespace is nested under Gtk, so the unqualified names EventHandler and global::System.EventArgs

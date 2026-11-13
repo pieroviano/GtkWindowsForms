@@ -1,4 +1,4 @@
-//
+﻿//
 // WebBrowserBase.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
@@ -32,8 +32,8 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using GtkSystem.Windows.Forms.GtkControls.ControlBase;
-using GtkSystem.Windows.Forms.WebBrowsing;
+using Gtk.Windows.Forms.Controls.ControlBase;
+using Gtk.Windows.Forms.WebBrowsing;
 
 namespace System.Windows.Forms;
 
@@ -43,7 +43,7 @@ namespace System.Windows.Forms;
 /// </summary>
 /// <remarks>
 /// In real WinForms this is the ActiveX host that sites the Internet Explorer control. Here it hosts a
-/// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.WebViewBase" /> and translates the
+/// <see cref="Gtk.Windows.Forms.Controls.ControlBase.WebViewBase" /> and translates the
 /// engine's events into the WinForms ones. The ActiveX-shaped members are kept for surface parity and
 /// throw, exactly as they did in mono.
 /// </remarks>
@@ -230,7 +230,7 @@ public class WebBrowserBase : Control
     /// </summary>
     /// <value>
     /// The
-    /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.WebViewBase" /> hosting the engine.
+    /// <see cref="Gtk.Windows.Forms.Controls.ControlBase.WebViewBase" /> hosting the engine.
     /// </value>
     public override object GtkControl => self;
 

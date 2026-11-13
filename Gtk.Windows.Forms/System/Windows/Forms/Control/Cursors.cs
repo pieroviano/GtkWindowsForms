@@ -1,4 +1,4 @@
-using GtkSystem.Windows.Forms.Resources;
+﻿using Gtk.Windows.Forms.Resources;
 
 namespace System.Windows.Forms;
 

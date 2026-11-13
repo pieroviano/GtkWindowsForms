@@ -1,7 +1,7 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-//using GtkSystem.Resources;
+//using Gtk.Resources;
 using System.Resources;
 
 namespace System;

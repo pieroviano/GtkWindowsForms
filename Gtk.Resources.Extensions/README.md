@@ -20,7 +20,7 @@ So the assembly in this package carries **no code**, and its `AssemblyName` is l
 assembly of that name, so nothing can bind to the `BinaryFormatter`-based implementation.
 
 The working reader is not missing — it lives in the `Gtk.Windows.Forms` library itself, under
-`GtkSystem/Resources/Extensions/`, in namespace `GtkSystem.Resources.Extensions`
+`GtkSystem/Resources/Extensions/`, in namespace `Gtk.Resources.Extensions`
 (`DeserializingResourceReader` and friends). Resource type resolution in consuming projects is pointed
 at those types by the MSBuild props/targets and `content/` source files that `Gtk.Windows.Forms`
 injects. Nothing needs the displaced types, which is exactly why displacing them is safe.

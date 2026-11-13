@@ -15,11 +15,11 @@ namespace System.ComponentModel;
 /// localization purposes. Resources can be retrieved by name and, optionally, by culture. This class is commonly
 /// used in applications that require support for multiple languages or regional settings.
 /// </remarks>
-public class ComponentResourceManager : GtkSystem.ComponentModel.ComponentResourceManager
+public class ComponentResourceManager : Gtk.ComponentModel.ComponentResourceManager
 {
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="GtkSystem.ComponentModel.ComponentResourceManager" /> class.
+    /// <see cref="Gtk.ComponentModel.ComponentResourceManager" /> class.
     /// </summary>
     /// <param name="form">
     /// The form.

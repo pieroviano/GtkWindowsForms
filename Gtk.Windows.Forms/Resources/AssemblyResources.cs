@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace GtkSystem.Windows.Forms.Resources;
+namespace Gtk.Windows.Forms.Resources;
 
 public class AssemblyResources
 {

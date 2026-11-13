@@ -20,14 +20,14 @@
             <remarks>This class is intended for internal use and is not visible in standard IntelliSense due to
             the
             <see cref="T:EditorBrowsableAttribute" />. It inherits functionality from
-            <see cref="T:GtkSystem.Resources.ResourceManager" /> to manage resource retrieval. Use the appropriate constructor to
+            <see cref="T:Gtk.Resources.ResourceManager" /> to manage resource retrieval. Use the appropriate constructor to
             specify the resource source, base name, or assembly when initializing the resource manager.
             </remarks>
         </member>
         <member name="M:System.Resources.Extensions.ResourceManager.#ctor(System.Type)">
             <summary>
             Initializes a new instance of the
-            <see cref="T:GtkSystem.Resources.ResourceManager" /> class.
+            <see cref="T:Gtk.Resources.ResourceManager" /> class.
             </summary>
             <param name="resourceSource">
             The type that serves as the source for the resources.
@@ -86,7 +86,7 @@
         <member name="M:System.ComponentModel.ComponentResourceManager.#ctor(System.Type)">
             <summary>
             Initializes a new instance of the
-            <see cref="T:GtkSystem.ComponentModel.ComponentResourceManager" /> class.
+            <see cref="T:Gtk.ComponentModel.ComponentResourceManager" /> class.
             </summary>
             <param name="form">
             The form.

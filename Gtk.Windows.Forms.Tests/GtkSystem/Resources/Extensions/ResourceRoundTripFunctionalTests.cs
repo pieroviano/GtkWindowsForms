@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using GtkSystem.Resources.Extensions;
+using Gtk.Resources.Extensions;
 
-namespace GtkWinForms.Tests.GtkSystem.Resources.Extensions;
+namespace GtkWinForms.Tests.Gtk.Resources.Extensions;
 
 /// <summary>Behavioural tests for the binary resource pipeline. What
 /// <see cref="PreserializedResourceWriter"/> writes must come back out of

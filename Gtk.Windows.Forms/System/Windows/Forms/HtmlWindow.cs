@@ -1,4 +1,4 @@
-//
+﻿//
 // HtmlWindow.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
@@ -29,7 +29,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-using GtkSystem.Windows.Forms.WebBrowsing;
+using Gtk.Windows.Forms.WebBrowsing;
 
 namespace System.Windows.Forms;
 

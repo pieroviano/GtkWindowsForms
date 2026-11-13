@@ -1,7 +1,7 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Reflection;
 
-namespace GtkSystem.Resources;
+namespace Gtk.Resources;
 
 /// <summary>
 /// Behavioural tests for culture resolution in <see cref="ResourceManager" />.

@@ -1,6 +1,6 @@
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using Gtk.Windows.Forms.InternetExplorer;
-using GtkSystem.Windows.Forms.WebBrowsing;
+using Gtk.Windows.Forms.WebBrowsing;
 
 using Application = System.Windows.Forms.Application;
 

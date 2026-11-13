@@ -1,4 +1,4 @@
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 extern alias gtk;
 
@@ -27,13 +27,13 @@ public class CustomPaintPathTests
         {
             // Fully qualified: inside namespace System.Windows.Forms the short names would bind to the
             // WinForms classes of the same name, not the GTK widgets that do the drawing.
-            typeof(GtkSystem.Windows.Forms.GtkControls.ControlBase.ButtonBase),
-            typeof(GtkSystem.Windows.Forms.GtkControls.ControlBase.BoxBase),
-            typeof(GtkSystem.Windows.Forms.GtkControls.ControlBase.LabelBase),
-            typeof(GtkSystem.Windows.Forms.GtkControls.ControlBase.LayoutBase),
-            typeof(GtkSystem.Windows.Forms.GtkControls.ControlBase.LinkLabelBase),
-            typeof(GtkSystem.Windows.Forms.GtkControls.ControlBase.TabControlBase),
-            typeof(GtkSystem.Windows.Forms.GtkControls.ControlBase.ScrollableBoxBase),
+            typeof(Gtk.Windows.Forms.Controls.ControlBase.ButtonBase),
+            typeof(Gtk.Windows.Forms.Controls.ControlBase.BoxBase),
+            typeof(Gtk.Windows.Forms.Controls.ControlBase.LabelBase),
+            typeof(Gtk.Windows.Forms.Controls.ControlBase.LayoutBase),
+            typeof(Gtk.Windows.Forms.Controls.ControlBase.LinkLabelBase),
+            typeof(Gtk.Windows.Forms.Controls.ControlBase.TabControlBase),
+            typeof(Gtk.Windows.Forms.Controls.ControlBase.ScrollableBoxBase),
         };
 
         var missing = widgets.Where(t => !DeclaresSnapshotOverride(t)).Select(t => t.Name).ToList();
@@ -88,7 +88,7 @@ public class CustomPaintPathTests
     {
         // A picture box, a panel, a group box and a form all raise Paint from a child Gtk.DrawingArea
         // inside an overlay. Unless the override knows which widget that is, nothing can invalidate it.
-        var overrides = new (string Name, GtkSystem.Windows.Forms.GtkControls.ControlBase.GtkControlOverride Override)[]
+        var overrides = new (string Name, Gtk.Windows.Forms.Controls.ControlBase.GtkControlOverride Override)[]
         {
             (nameof(PictureBox), new PictureBox().self.Override),
             (nameof(Panel), new Panel().self.Override),

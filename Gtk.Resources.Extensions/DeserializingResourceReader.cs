@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Windows.Forms;
-using GtkSystem.IO;
+using Gtk.IO;
 
 namespace System.Resources.Extensions;
 
@@ -21,7 +21,7 @@ namespace System.Resources.Extensions;
 /// <seealso cref="T:System.Resources.IResourceReader" />
 /// <seealso cref="T:System.Collections.IEnumerable" />
 /// <seealso cref="T:System.IDisposable" />
-public class DeserializingResourceReader : GtkSystem.Resources.Extensions.DeserializingResourceReader
+public class DeserializingResourceReader : Gtk.Resources.Extensions.DeserializingResourceReader
 {
     public DeserializingResourceReader(string fileName) : base(fileName)
     {

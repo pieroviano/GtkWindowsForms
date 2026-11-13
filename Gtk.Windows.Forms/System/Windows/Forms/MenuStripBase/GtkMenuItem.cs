@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using Gtk;
-using GtkSystem.Windows.Forms.GtkControls.ControlBase;
+using Gtk.Windows.Forms.Controls.ControlBase;
 
 namespace System.Windows.Forms;
 

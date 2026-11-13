@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Windows.Forms;
-using GtkSystem.Windows.Forms.WebBrowsing;
+using Gtk.Windows.Forms.WebBrowsing;
 using GtkWinForms.Tests.Mocks;
 
 using Application = System.Windows.Forms.Application;

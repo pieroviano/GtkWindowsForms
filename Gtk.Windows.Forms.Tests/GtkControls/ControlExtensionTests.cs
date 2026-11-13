@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
 using Gtk;
-using GtkSystem.Windows.Forms.GtkControls.ControlBase;
+using Gtk.Controls;
+using Gtk.Windows.Forms.Controls.ControlBase;
 using NSubstitute;
 
 using Application = System.Windows.Forms.Application;

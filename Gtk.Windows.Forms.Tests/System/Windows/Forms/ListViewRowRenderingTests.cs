@@ -114,7 +114,7 @@ public class ListViewRowRenderingTests
         }
     }
 
-    private static IEnumerable<Gtk.Widget> Descendants(Gtk.Widget parent)
+    private static IEnumerable<global::Gtk.Widget> Descendants(global::Gtk.Widget parent)
     {
         for (var child = parent.FirstChild; child != null; child = child.NextSibling)
         {
@@ -127,10 +127,10 @@ public class ListViewRowRenderingTests
     }
 
     /// <summary>The check button that carries a row's caption - the first cell of the row.</summary>
-    private static Gtk.CheckButton CheckButtonOf(ListViewItem item)
+    private static global::Gtk.CheckButton CheckButtonOf(ListViewItem item)
     {
         Assert.NotNull(item._flowBoxChild);
-        var button = Descendants(item._flowBoxChild!).OfType<Gtk.CheckButton>().FirstOrDefault();
+        var button = Descendants(item._flowBoxChild!).OfType<global::Gtk.CheckButton>().FirstOrDefault();
         Assert.True(button != null, $"row '{item.Text}' has no check button - its first cell was not built");
         return button!;
     }
@@ -148,7 +148,7 @@ public class ListViewRowRenderingTests
         }
 
         return Descendants(button)
-                   .OfType<Gtk.Label>()
+                   .OfType<global::Gtk.Label>()
                    .Select(l => l.Text)
                    .FirstOrDefault(t => !string.IsNullOrEmpty(t))
                ?? string.Empty;
@@ -212,8 +212,8 @@ public class ListViewRowRenderingTests
             {
                 var content = Descendants(CheckButtonOf(item)).ToList();
 
-                Assert.True(content.OfType<Gtk.Image>().Any(), $"row '{item.Text}' lost its icon");
-                Assert.True(content.OfType<Gtk.Label>().Any(l => l.Text == item.Text),
+                Assert.True(content.OfType<global::Gtk.Image>().Any(), $"row '{item.Text}' lost its icon");
+                Assert.True(content.OfType<global::Gtk.Label>().Any(l => l.Text == item.Text),
                     $"row '{item.Text}' has no label carrying its caption");
             }
         });
@@ -228,7 +228,7 @@ public class ListViewRowRenderingTests
         {
             foreach (ListViewItem item in listView.Items)
             {
-                var caption = Descendants(CheckButtonOf(item)).OfType<Gtk.Label>().First(l => l.Text == item.Text);
+                var caption = Descendants(CheckButtonOf(item)).OfType<global::Gtk.Label>().First(l => l.Text == item.Text);
 
                 Assert.True(caption.Attributes != null,
                     $"row '{item.Text}' renders through a label that never received its ForeColor");

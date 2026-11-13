@@ -14,7 +14,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using GtkSystem.Resources.Extensions;
+using Gtk.Resources.Extensions;
 
 namespace System.Resources;
 

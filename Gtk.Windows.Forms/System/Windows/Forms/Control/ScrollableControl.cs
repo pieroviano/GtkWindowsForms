@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms.Layout;
-using GtkSystem.Windows.Forms.GtkControls.ControlBase;
+using Gtk.Windows.Forms.Controls.ControlBase;
 
 namespace System.Windows.Forms;
 
@@ -237,7 +237,7 @@ public class ScrollableControl : Control, IArrangedElement, IComponent, IDisposa
     /// </summary>
     /// <param name="scrolledwindow">
     /// An implementation of
-    /// <see cref="GtkSystem.Windows.Forms.GtkControls.ControlBase.IScrollableBoxBase" /> used to drive scrolling behavior.
+    /// <see cref="Gtk.Windows.Forms.Controls.ControlBase.IScrollableBoxBase" /> used to drive scrolling behavior.
     /// </param>
     public void SetScrolledWindow(IScrollableBoxBase scrolledwindow)
     {

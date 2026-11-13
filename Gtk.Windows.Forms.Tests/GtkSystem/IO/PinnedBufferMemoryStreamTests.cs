@@ -1,4 +1,4 @@
-﻿namespace GtkSystem.IO;
+﻿namespace Gtk.IO;
 
 public class PinnedBufferMemoryStreamTests
 {
@@ -109,7 +109,9 @@ public class PinnedBufferMemoryStreamTests
 
         stream.Position = 0;
         var buffer = new byte[3];
+#pragma warning disable CA2022
         stream.Read(buffer, 0, 3);
+#pragma warning restore CA2022
 
         Assert.Equal(new byte[] { 1, 99, 3 }, buffer);
     }

@@ -52,7 +52,7 @@
         <member name="M:Gtk.Windows.Forms.WebView2.WebView2HtmlDomBridge.InvokeMemberAsync(System.Int32,System.String,System.Object[],System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Gtk.Windows.Forms.WebView2.WebView2HtmlDomBridge.Post(GtkSystem.Windows.Forms.WebBrowsing.DomMutation)">
+        <member name="M:Gtk.Windows.Forms.WebView2.WebView2HtmlDomBridge.Post(Gtk.Windows.Forms.WebBrowsing.DomMutation)">
             <inheritdoc />
         </member>
         <member name="M:Gtk.Windows.Forms.WebView2.WebView2HtmlDomBridge.RefreshAsync(System.Threading.CancellationToken)">
@@ -233,7 +233,7 @@
         </member>
         <member name="T:Gtk.Windows.Forms.WebView2.WebView2BackendRegistration">
             <summary>
-            Puts the WebView2 backend into <see cref="T:GtkSystem.Windows.Forms.WebBrowsing.WebViewBackendFactory" />.
+            Puts the WebView2 backend into <see cref="T:Gtk.Windows.Forms.WebBrowsing.WebViewBackendFactory" />.
             </summary>
             <remarks>
             Referencing this package is the whole opt-in: a module initializer registers the backend the first

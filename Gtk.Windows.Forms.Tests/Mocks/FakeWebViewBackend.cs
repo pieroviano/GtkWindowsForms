@@ -1,5 +1,5 @@
-using System.Windows.Forms;
-using GtkSystem.Windows.Forms.WebBrowsing;
+﻿using System.Windows.Forms;
+using Gtk.Windows.Forms.WebBrowsing;
 
 namespace GtkWinForms.Tests.Mocks;
 
@@ -60,13 +60,13 @@ public sealed class FakeHtmlDomBridge : IHtmlDomBridge
 /// </summary>
 public sealed class FakeWebViewBackend : IWebViewBackend
 {
-    private readonly Gtk.Label _widget;
+    private readonly global::Gtk.Label _widget;
 
     /// <summary>Creates the fake. GTK must already be initialised: the fake owns a real widget, because
     /// the host WebViewBase parents whatever the backend hands it.</summary>
     public FakeWebViewBackend()
     {
-        _widget = new Gtk.Label("fake");
+        _widget = new global::Gtk.Label("fake");
         Dom = FakeDom;
     }
 
@@ -143,7 +143,7 @@ public sealed class FakeWebViewBackend : IWebViewBackend
     public Uri? Url { get; set; }
 
     /// <inheritdoc />
-    public Gtk.Widget Widget => _widget;
+    public global::Gtk.Widget Widget => _widget;
 
     /// <inheritdoc />
     public void Dispose()

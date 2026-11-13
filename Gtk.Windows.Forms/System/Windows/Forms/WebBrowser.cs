@@ -1,4 +1,4 @@
-//
+﻿//
 // WebBrowser.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
@@ -35,7 +35,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-using GtkSystem.Windows.Forms.WebBrowsing;
+using Gtk.Windows.Forms.WebBrowsing;
 
 namespace System.Windows.Forms;
 
@@ -46,7 +46,7 @@ namespace System.Windows.Forms;
 /// Backed by WebKitGTK on Linux and macOS and by the Microsoft Edge WebView2 runtime on Windows. When
 /// neither is present the control still constructs and still raises its navigation events, showing a
 /// message naming what to install; see
-/// <see cref="GtkSystem.Windows.Forms.WebBrowsing.NullWebViewBackend" />.
+/// <see cref="Gtk.Windows.Forms.WebBrowsing.NullWebViewBackend" />.
 /// </remarks>
 [DefaultProperty("Url")]
 [DefaultEvent("DocumentCompleted")]

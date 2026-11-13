@@ -4,11 +4,11 @@
 
 using System.Diagnostics;
 using System.Windows.Forms;
-using GtkSystem.Windows.Forms.WebBrowsing;
+using Gtk.Windows.Forms.WebBrowsing;
 
 using Application = System.Windows.Forms.Application;
 
-namespace GtkWinForms.Tests.GtkSystem.Windows.Forms.WebBrowsing;
+namespace GtkWinForms.Tests.Gtk.Windows.Forms.WebBrowsing;
 
 /// <summary>
 /// Integration tests for <see cref="WebKitWebViewBackend"/> against a real engine. Skipped, not silently
@@ -133,9 +133,9 @@ public class WebKitWebViewBackendTests
     }
 
     /// <summary>Puts the engine's widget in a mapped window: WebKit does not load in an unrealised view.</summary>
-    private static Gtk.Window Show(IWebViewBackend backend)
+    private static global::Gtk.Window Show(IWebViewBackend backend)
     {
-        var window = new Gtk.Window();
+        var window = new global::Gtk.Window();
         window.SetDefaultSize(400, 300);
         window.Child = backend.Widget;
         window.Show();

@@ -1,4 +1,4 @@
-//
+﻿//
 // HtmlDocument.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
@@ -34,7 +34,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
-using GtkSystem.Windows.Forms.WebBrowsing;
+using Gtk.Windows.Forms.WebBrowsing;
 
 namespace System.Windows.Forms;
 
@@ -44,7 +44,7 @@ namespace System.Windows.Forms;
 /// </summary>
 /// <remarks>
 /// Backed by the cached
-/// <see cref="GtkSystem.Windows.Forms.WebBrowsing.DomSnapshot" /> rather than by a live DOM: see
+/// <see cref="Gtk.Windows.Forms.WebBrowsing.DomSnapshot" /> rather than by a live DOM: see
 /// <see cref="T:System.Windows.Forms.HtmlElement" /> for what that costs and EMULATION-GAPS.md for the
 /// recorded deviation.
 /// </remarks>

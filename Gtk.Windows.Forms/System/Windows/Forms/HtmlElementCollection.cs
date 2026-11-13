@@ -1,4 +1,4 @@
-//
+﻿//
 // HtmlElementCollection.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
@@ -28,7 +28,7 @@
 
 using System.Collections;
 using System.Linq;
-using GtkSystem.Windows.Forms.WebBrowsing;
+using Gtk.Windows.Forms.WebBrowsing;
 
 namespace System.Windows.Forms;
 
@@ -38,7 +38,7 @@ namespace System.Windows.Forms;
 /// </summary>
 /// <remarks>
 /// The collection is a snapshot in both senses: it is built from the cached
-/// <see cref="GtkSystem.Windows.Forms.WebBrowsing.DomSnapshot" /> at the moment it is asked for, and it
+/// <see cref="Gtk.Windows.Forms.WebBrowsing.DomSnapshot" /> at the moment it is asked for, and it
 /// does not change afterwards. Ask the owning document again to see the page's current shape.
 /// </remarks>
 public sealed class HtmlElementCollection : ICollection, IEnumerable

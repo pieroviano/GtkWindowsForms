@@ -1,7 +1,7 @@
-using GtkSystem.Windows.Forms.WebBrowsing;
+﻿using Gtk.Windows.Forms.WebBrowsing;
 using NSubstitute;
 
-namespace GtkWinForms.Tests.GtkSystem.Windows.Forms.WebBrowsing;
+namespace GtkWinForms.Tests.Gtk.Windows.Forms.WebBrowsing;
 
 /// <summary>
 /// Behavioural tests for <see cref="WebViewBackendFactory"/>, the probe-and-fall-back chain that decides

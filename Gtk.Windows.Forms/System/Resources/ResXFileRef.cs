@@ -5,7 +5,7 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Text;
-using GtkSystem.Resources.Extensions;
+using Gtk.Resources.Extensions;
 
 namespace System.Resources;
 

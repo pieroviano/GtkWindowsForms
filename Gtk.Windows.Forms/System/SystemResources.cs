@@ -1,5 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
-using GtkSystem.Resources;
+using Gtk.Resources;
 
 namespace System;
 
@@ -7,7 +7,7 @@ internal static class SystemResources
 {
     private static ResourceManager? s_resourceManager;
 
-    internal static ResourceManager ResourceManager => s_resourceManager ?? (s_resourceManager = new GtkSystem.Resources.ResourceManager(typeof(System.Properties.Resources)));
+    internal static ResourceManager ResourceManager => s_resourceManager ?? (s_resourceManager = new Gtk.Resources.ResourceManager(typeof(System.Properties.Resources)));
 
     internal static string Format(string resourceFormat, object p1)
     {

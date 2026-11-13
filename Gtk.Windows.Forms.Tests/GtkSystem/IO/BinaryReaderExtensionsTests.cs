@@ -1,4 +1,4 @@
-﻿namespace GtkSystem.IO;
+﻿namespace Gtk.IO;
 
 public class BinaryReaderExtensionsTests
 {

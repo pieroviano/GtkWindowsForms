@@ -1,4 +1,4 @@
-//
+﻿//
 // HtmlElement.cs
 //
 // Permission is hereby granted, free of charge, to any person obtaining
@@ -33,7 +33,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
-using GtkSystem.Windows.Forms.WebBrowsing;
+using Gtk.Windows.Forms.WebBrowsing;
 
 namespace System.Windows.Forms;
 
@@ -42,7 +42,7 @@ namespace System.Windows.Forms;
 /// </summary>
 /// <remarks>
 /// Every getter reads the last
-/// <see cref="GtkSystem.Windows.Forms.WebBrowsing.DomSnapshot" /> rather than the live page, and every
+/// <see cref="Gtk.Windows.Forms.WebBrowsing.DomSnapshot" /> rather than the live page, and every
 /// setter updates that snapshot and posts the real change. The consequence is that a value the page
 /// changes on its own - from its own script, say - is invisible here until the next snapshot. See
 /// <see cref="M:System.Windows.Forms.HtmlElement.InvokeMember(System.String)" /> for the sharpest edge of

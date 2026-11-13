@@ -1,4 +1,4 @@
-namespace System.Windows.Forms;
+﻿namespace System.Windows.Forms;
 
 /// <summary>
 /// A WinForms <see cref="Label" /> never takes focus and its text is never selectable.
@@ -43,7 +43,7 @@ public class LabelSelectionTests
     public void ALabelConstructedWithItsText_IsAlsoNotSelectable()
     {
         // The two LabelBase constructors configure the widget independently, so both have to be covered.
-        var label = new GtkSystem.Windows.Forms.GtkControls.ControlBase.LabelBase("abc");
+        var label = new Gtk.Windows.Forms.Controls.ControlBase.LabelBase("abc");
 
         Assert.False(label.Selectable);
         Assert.False(label.Focusable);

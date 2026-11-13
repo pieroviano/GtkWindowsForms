@@ -2,7 +2,7 @@
 
 #pragma warning disable CS8604 // Possible null reference argument.
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-using GtkSystem.Windows.Forms.GtkControls.ControlBase;
+using Gtk.Windows.Forms.Controls.ControlBase;
 using System;
 using System.Reflection;
 using Xunit;
@@ -19,7 +19,7 @@ public class ButtonTests
         var button = new Button();
         form.Controls.Add(button);
         object? buttonGtkControl = null;
-        GtkSystem.Windows.Forms.GtkControls.ControlBase.ButtonBase? buttonSelf = null;
+        Gtk.Windows.Forms.Controls.ControlBase.ButtonBase? buttonSelf = null;
         form.Load += (s, e) =>
         {
             buttonGtkControl = button.GtkControl;

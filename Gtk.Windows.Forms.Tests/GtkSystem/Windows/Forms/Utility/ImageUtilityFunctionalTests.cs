@@ -1,7 +1,7 @@
-using System.Windows.Forms;
-using GtkSystem.Windows.Forms.Utility;
+﻿using System.Windows.Forms;
+using Gtk.Windows.Forms.Utility;
 
-namespace GtkWinForms.Tests.GtkSystem.Windows.Forms.Utility;
+namespace GtkWinForms.Tests.Gtk.Windows.Forms.Utility;
 
 /// <summary>Behavioural tests for <see cref="ImageUtility"/>, the scaler behind PictureBox and background
 /// images. Each layout/size mode has a defined result size, and stretching must actually resample rather

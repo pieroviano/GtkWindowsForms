@@ -92,7 +92,7 @@ Gtk.Windows.Forms is a compatibility layer that reproduces the Windows Forms API
 ### Core idea
 
 - GtkSharp provides .NET bindings for GTK native widgets.
-- Gtk.Windows.Forms implements WinForms-style types and members (namespaces like `GtkSystem.Windows.Forms` / `GtkSystem.Windows.Forms.GtkControls`) and internally uses GtkSharp widgets to implement them.
+- Gtk.Windows.Forms implements WinForms-style types and members (namespaces like `Gtk.Windows.Forms` / `Gtk.Windows.Forms.GtkControls`) and internally uses GtkSharp widgets to implement them.
 - The library exposes familiar WinForms classes, properties, events and layout semantics so existing forms and controls require little or no rewrite.
 
 ### Typical mapping
