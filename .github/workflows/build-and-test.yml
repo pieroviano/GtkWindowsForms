@@ -35,7 +35,15 @@ jobs:
       # Let every OS finish so one platform's failure does not mask another's.
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        # WebView2 and InternetExplorer (and their test projects) are Windows-only (net462;net*-windows),
+        # so Linux/macOS build a solution filter that drops them; Windows builds the whole solution.
+        include:
+          - os: windows-latest
+            solution: Gtk.Windows.Forms.sln
+          - os: ubuntu-latest
+            solution: Gtk.Windows.Forms.NonWindows.slnf
+          - os: macos-latest
+            solution: Gtk.Windows.Forms.NonWindows.slnf
     defaults:
       run:
         # bash is available on all three runners, so the test loop below stays single-sourced.
@@ -66,10 +74,10 @@ jobs:
         run: brew install gtk4
 
       - name: Restore
-        run: dotnet restore Gtk.Windows.Forms.sln
+        run: dotnet restore ${{ matrix.solution }}
 
       - name: Build
-        run: dotnet build Gtk.Windows.Forms.sln --configuration Debug --no-restore
+        run: dotnet build ${{ matrix.solution }} --configuration Debug --no-restore
 
       - name: Test
         run: |

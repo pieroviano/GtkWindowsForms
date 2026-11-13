@@ -18,10 +18,11 @@
 	</ItemGroup>
 	<Target Name="PrepareBuild" BeforeTargets="BeforeBuild">
 		<!-- BeforeBuild runs before project references are built, so ensure the ResxProcessor tool
-		     exists (no-op when the solution already built it first via the ProjectReference above). -->
-		<MSBuild Projects="$(MSBuildThisFileDirectory)..\ResxProcessor\ResxProcessor.csproj" Targets="Build" Properties="Configuration=$(Configuration)" Condition="!Exists('$(MSBuildThisFileDirectory)..\ResxProcessor\bin\$(Configuration)\net8.0\ResxProcessor.exe')" />
-		<Message Importance="High" Text="&quot;$(MSBuildThisFileDirectory)..\ResxProcessor\bin\$(Configuration)\net8.0\Net4x.XUnit.Copy.exe&quot; $(TargetFramework) &quot;$(TargetDir)&quot; &quot;$(MSBuildProjectFullPath)&quot;" />
-		<Exec Command="&quot;$(MSBuildThisFileDirectory)..\ResxProcessor\bin\$(Configuration)\net8.0\ResxProcessor.exe&quot; &quot;$(MSBuildProjectDirectory)&quot;" />
+		     exists (no-op when the solution already built it first via the ProjectReference above).
+		     Invoked as 'dotnet <dll>' with forward slashes so it runs on Windows, Linux and macOS
+		     (the net8.0 apphost is ResxProcessor.exe on Windows but has no extension elsewhere). -->
+		<MSBuild Projects="$(MSBuildThisFileDirectory)../ResxProcessor/ResxProcessor.csproj" Targets="Build" Properties="Configuration=$(Configuration)" Condition="!Exists('$(MSBuildThisFileDirectory)../ResxProcessor/bin/$(Configuration)/net8.0/ResxProcessor.dll')" />
+		<Exec Command="dotnet &quot;$(MSBuildThisFileDirectory)../ResxProcessor/bin/$(Configuration)/net8.0/ResxProcessor.dll&quot; &quot;$(MSBuildProjectDirectory)&quot;" />
 	</Target>
 
 </Project>
