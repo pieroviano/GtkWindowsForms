@@ -14,9 +14,9 @@ The solution organizes projects into these solution folders:
 | `Tools` | `ResxProcessor` |
 | `Tests` | `Gtk.Windows.Forms.Tests`, `Gtk.Drawing.Tests`, `Gtk.Windows.FormsDesigner.Tests`, `ResxProcessor.Tests`, `AutoClosingMessageBox.Tests` |
 | `PoC` | Sample apps — **not documented here** |
-| `Solution Items` | `.editorconfig`, `Directory.Build.Props`, `Directory.Nuget.Props`, `Nuget.Config`, `ReadMe.md` |
+| `Solution Items` | `.editorconfig`, `Directory.Build.props`, `Directory.Nuget.props`, `Nuget.Config`, `ReadMe.md` |
 
-Common conventions across the shippable libraries: `TargetFramework` = `netstandard2.0` (intentionally decoupled from any specific .NET version), strong-named with `GtkForms.snk`, `GeneratePackageOnBuild=true` with packages emitted to `Packages/`, versioned from `$(VersionPrefix).$(VersionSuffix)` (set centrally in `Directory.Build.Props` / `Directory.Nuget.Props`), and each imports the `Net4x.NuGetUtility` props/targets. Note the **NuGet package IDs differ from the project names** (project `Gtk.*` → package `Gtk.*`).
+Common conventions across the shippable libraries: `TargetFramework` = `netstandard2.0` (intentionally decoupled from any specific .NET version), strong-named with `GtkForms.snk`, `GeneratePackageOnBuild=true` with packages emitted to `Packages/`, versioned from `$(VersionPrefix).$(VersionSuffix)` (set centrally in `Directory.Build.props` / `Directory.Nuget.props`), and each imports the `Net4x.NuGetUtility` props/targets. Note the **NuGet package IDs differ from the project names** (project `Gtk.*` → package `Gtk.*`).
 
 ## Shippable libraries
 

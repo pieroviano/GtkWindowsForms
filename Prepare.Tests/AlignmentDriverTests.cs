@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Align.Common;
 using Prepare.Common.Alignment;
 
@@ -342,7 +342,7 @@ namespace Prepare.Tests
             {
                 Directory.CreateDirectory(Path.Combine(repoRoot, d));
             }
-            File.WriteAllText(Path.Combine(repoRoot, "Directory.Build.Props"), "<Project />");
+            File.WriteAllText(Path.Combine(repoRoot, "Directory.Build.props"), "<Project />");
 
             try
             {
@@ -364,7 +364,7 @@ namespace Prepare.Tests
                 Assert.DoesNotContain("Resources", junctions.Keys);                 // copied, never junctioned
                 Assert.Contains("Resources", copiedDirs.Keys);
                 Assert.Contains("PrepareProjects", junctions.Keys);
-                Assert.Contains("Directory.Build.Props", files.Keys);
+                Assert.Contains("Directory.Build.props", files.Keys);
             }
             finally
             {

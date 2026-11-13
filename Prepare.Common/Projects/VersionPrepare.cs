@@ -1,4 +1,4 @@
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using Prepare.Common.IO;
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
@@ -13,10 +13,10 @@ public static class VersionPrepare
             RepoPaths.At(@"gtksystem-windows-forms\Source\GTKSystem.Windows.Forms\GTKSystem.Windows.Forms.csproj"));
 
         var directoryBuildPropsPath = Path.GetFullPath(
-            RepoPaths.At("Directory.Build.Props"));
+            RepoPaths.At("Directory.Build.props"));
 
         var directoryNugetPropsPath = Path.GetFullPath(
-            RepoPaths.At("Directory.Nuget.Props"));
+            RepoPaths.At("Directory.Nuget.props"));
 
         // --- Read Version from csproj ---
         var csprojDoc = XDocument.Load(csprojPath);
@@ -56,14 +56,14 @@ public static class VersionPrepare
     private static void UpdatePropsFiles(string lastPart, string directoryBuildPropsPath, string directoryNugetPropsPath,
         string firstThree)
     {
-        // --- Update Directory.Build.Props ---
+        // --- Update Directory.Build.props ---
         var destinationValue = GetDestinationValue(lastPart);
         UpdatePropsValue(
             directoryBuildPropsPath,
             "VersionSuffix",
             destinationValue);
 
-        // --- Update Directory.Nuget.Props ---
+        // --- Update Directory.Nuget.props ---
         UpdatePropsValue(
             directoryNugetPropsPath,
             "Net4xGtkWindowsFormsVersion",

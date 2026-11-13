@@ -421,7 +421,7 @@ Verified by reading the main package's `.nuspec`:
 ```
 
 Every entry is a package the library genuinely needs, at an exact version. The pinning is configured in
-[Directory.Build.Props](Directory.Build.Props) and applies to `Release` only — Debug keeps floating so
+[Directory.Build.props](Directory.Build.props) and applies to `Release` only — Debug keeps floating so
 local work picks up new revisions — and both pins are overridable from the command line. This matters more
 here than in most projects: for a GTK interop layer, the GtkSharp *revision* is exactly where marshalling
 behaviour changes, so two builds of one commit resolving different revisions would be a real hazard.
@@ -429,14 +429,14 @@ behaviour changes, so two builds of one commit resolving different revisions wou
 `Gtk.Windows.Extensions` correctly declares its single dependency on `Gtk.Windows.Forms` at the exact
 matching version.
 
-### 5.5 🟢 `Directory.Nuget.Props` carries this solution's versions and nothing else
+### 5.5 🟢 `Directory.Nuget.props` carries this solution's versions and nothing else
 
-[Directory.Nuget.Props](Directory.Nuget.Props) declares eight properties, each read by a `.csproj`,
+[Directory.Nuget.props](Directory.Nuget.props) declares eight properties, each read by a `.csproj`,
 `.props` or `.targets` in this repository, each with a comment naming its reader:
 
 | Property | Read by |
 |---|---|
-| `DirectoryNuGet` | import guard for `Directory.Build.Props` |
+| `DirectoryNuGet` | import guard for `Directory.Build.props` |
 | `NuGetPackageRoot` | resolves the `NuGet.Utility` props/targets imports in the shippable csprojs |
 | `VersionBuildSuffix` | revision wildcard for the in-house references in `Prepare.Common` |
 | `GtkWindowsFormsVersion` | this solution's own version |
@@ -459,7 +459,7 @@ back over it". The placement contract is asserted too — `VersionPrepare` rewri
 `GtkWindowsFormsVersion` in place during the pipeline and looks for it in the *first*
 `PropertyGroup` only.
 
-[Directory.Build.Props](Directory.Build.Props) imports the file and may override anything in it
+[Directory.Build.props](Directory.Build.props) imports the file and may override anything in it
 afterwards, which is where the configuration-dependent pins of §5.4 live.
 
 ### 5.6 🟢 The rest of the packaging is careful

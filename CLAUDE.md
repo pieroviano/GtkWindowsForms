@@ -59,7 +59,7 @@ Test projects (all xUnit + `Microsoft.NET.Test.Sdk`): `Gtk.Windows.Forms.Tests`,
 
 ## Build configuration
 
-- **Central versioning & package pinning** live in [Directory.Nuget.Props](Directory.Nuget.Props) (a large generated-ish property/version manifest) and [Directory.Build.Props](Directory.Build.Props). Package version is `GtkWindowsFormsVersion` (currently `1.3.24`) + `VersionSuffix`; `GtkSharpLatestVersion` (currently `3.24.24`) pins GtkSharp. Prefer editing these variables over hardcoding versions in individual csproj files.
+- **Central versioning & package pinning** live in [Directory.Nuget.props](Directory.Nuget.props) (a large generated-ish property/version manifest) and [Directory.Build.props](Directory.Build.props). Package version is `GtkWindowsFormsVersion` (currently `1.3.24`) + `VersionSuffix`; `GtkSharpLatestVersion` (currently `3.24.24`) pins GtkSharp. Prefer editing these variables over hardcoding versions in individual csproj files.
 - **Target frameworks**: the shippable library is `netstandard2.0` (deliberately not tied to a specific .NET version). Tests target `net10.0`. Tooling targets modern .NET.
 - **Signing**: assemblies are strong-name signed with `GtkForms.snk`; `InternalsVisibleTo` for test projects is declared with the matching public key.
 - **NuGet feeds** ([Nuget.Config](Nuget.Config)): a local `Packages` folder (symlink) plus nuget.org. Built packages are emitted to `$(SolutionDir)Packages/`.

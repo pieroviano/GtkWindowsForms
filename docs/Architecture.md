@@ -226,7 +226,7 @@ via `BinaryFormatter`-based serialization. The chain here:
 - All shippable libraries target **`netstandard2.0`** (deliberately not tied to a .NET version) and
   are strong-named with `GtkForms.snk`; `InternalsVisibleTo` grants use the matching public key.
 - Versioning and package pinning are centralized in
-  [Directory.Build.Props](Directory.Build.Props) / [Directory.Nuget.Props](Directory.Nuget.Props)
+  [Directory.Build.props](Directory.Build.props) / [Directory.Nuget.props](Directory.Nuget.props)
   (`GtkWindowsFormsVersion`, `GtkSharpLatestVersion`, `VersionSuffix`).
 - **Package IDs differ from project names**: `Gtk.Windows.Forms` → `Gtk.Windows.Forms`,
   `Gtk.Drawing` → `Gtk.Drawing`, `Gtk.Resources.Extensions` →

@@ -1,6 +1,6 @@
 <Project>
 	<!-- Upstream added this file; without chaining to the repo root, MSBuild stops walking up here and
-	     Directory.Nuget.Props (which defines GtkSharp4LatestVersion and the package pins) is never
+	     Directory.Nuget.props (which defines GtkSharp4LatestVersion and the package pins) is never
 	     imported - the GtkSharp PackageReference then resolves to the invalid version '.*'. -->
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 	<PropertyGroup>

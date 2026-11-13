@@ -74,7 +74,7 @@ Each stage prints a colored banner via `ConsoleColor.*.Write`. Stages 2–26 are
 4. **Prepare `Gtk.Windows.Forms`** — `GtkWindowsFormsProjectHandler.PrepareAsync("GTKSystem.Windows.Forms", "Gtk.Windows.Forms")`:
    - Copies the submodule project into the target dir, patches namespaces, normalizes the netstandard symbol, renames `GTKSystem.Windows.Forms.csproj` → `Gtk.Windows.Forms.csproj`, ensures the latest GtkSharp, copies localization resources (`Resources.*`, `MessageBoxResources.*`), translates Chinese → English, and ensures `NoWarn`.
 5. **Prepare `System.Resources.Extensions`** — `SystemResourcesExtensionsProjectHandler.Prepare(...)`.
-6. **Compute & stage version** — `VersionPrepare.PrepareSolutionVersion()` reads the upstream `Version`, returns the text plus a deferred `updatePropsFiles` action that later writes `VersionSuffix` into `Directory.Build.Props` and `GtkWindowsFormsVersion` into `Directory.Nuget.Props`.
+6. **Compute & stage version** — `VersionPrepare.PrepareSolutionVersion()` reads the upstream `Version`, returns the text plus a deferred `updatePropsFiles` action that later writes `VersionSuffix` into `Directory.Build.props` and `GtkWindowsFormsVersion` into `Directory.Nuget.props`.
 7. **Prepare PoC sample apps** — `GtkSampleAppProjectsHandler.PrepareAsync` for `GtkWinFormsApp` and `GtkSystemWinFormsApp11`.
 8. **Regenerate `*.Designer.cs`** — `ResGenService.RegenerateDesignersFromResources(...)` for the sample apps.
 9. **Overlay source from `Resources/`** — `ResourcesCopyService.CopyCodeFromResources(...)` copies maintained `.cs` files (e.g. `ControlExtension.cs`, `NonStaticMessageBox.cs`) into the generated tree.
@@ -115,7 +115,7 @@ Each stage prints a colored banner via `ConsoleColor.*.Write`. Stages 2–26 are
 | Injected/overlaid source or translations | `Resources/*.cs`, `Resources/Translations.xml`, `Resources/*Resources.*.xml` |
 | Text/structure transforms applied during prep | `Resources/PostProcessing.xml`, `IntermediatePostProcessing.xml`, `LatestPostProcessing.xml` (edit via the `UpdatePostProcessing` tool) |
 | Upstream logic | The `gtksystem-windows-forms` submodule |
-| Version scheme / package versions | `Directory.Build.Props`, `Directory.Nuget.Props` (written automatically in step 29) |
+| Version scheme / package versions | `Directory.Build.props`, `Directory.Nuget.props` (written automatically in step 29) |
 
 ## External dependencies at runtime
 

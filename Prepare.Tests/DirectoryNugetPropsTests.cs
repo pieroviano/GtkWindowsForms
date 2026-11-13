@@ -1,10 +1,10 @@
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace Prepare.Tests
 {
     /// <summary>
-    /// Keeps <c>Directory.Nuget.Props</c> to the versions this repository actually consumes.
+    /// Keeps <c>Directory.Nuget.props</c> to the versions this repository actually consumes.
     /// <para>
     /// It was once a copy of the version manifest shared across the wider CommonLibrary tree - ~290
     /// properties, of which eight were read here. Carrying the rest meant this repository could not be
@@ -42,7 +42,7 @@ namespace Prepare.Tests
             var dead = defined.Keys.Where(name => !referenced.ContainsKey(name)).OrderBy(n => n).ToList();
 
             Assert.True(dead.Count == 0,
-                "Directory.Nuget.Props defines properties nothing in this repository references: " +
+                "Directory.Nuget.props defines properties nothing in this repository references: " +
                 string.Join(", ", dead) +
                 ". Versions for packages this solution does not consume belong in the consuming repository, " +
                 "not here - that coupling is what this file was minimised to remove.");
@@ -52,7 +52,7 @@ namespace Prepare.Tests
         public void EveryVersionReferenced_HasADefinition()
         {
             var defined = DefinedProperties();
-            var buildProps = PropertiesOf(Path.Combine(RepositoryRoot, "Directory.Build.Props"));
+            var buildProps = PropertiesOf(Path.Combine(RepositoryRoot, "Directory.Build.props"));
 
             var missing = ReferencedProperties()
                 .Where(pair => pair.Key.EndsWith("Version", StringComparison.Ordinal))
@@ -79,7 +79,7 @@ namespace Prepare.Tests
             // If this trips because the solution genuinely took on new dependencies, raise it. If it trips
             // because the shared CommonLibrary manifest was copied back over the file, do not.
             Assert.True(defined.Count <= 20,
-                $"Directory.Nuget.Props defines {defined.Count} properties. It is meant to carry only what " +
+                $"Directory.Nuget.props defines {defined.Count} properties. It is meant to carry only what " +
                 "this solution consumes - check whether the shared CommonLibrary manifest has been copied " +
                 "back over it.");
         }
@@ -100,16 +100,16 @@ namespace Prepare.Tests
         [Fact]
         public void TheImportGuard_IsPresent()
         {
-            // Directory.Build.Props imports this file only while DirectoryNuGet is empty; without the flag
+            // Directory.Build.props imports this file only while DirectoryNuGet is empty; without the flag
             // being set here the import is not idempotent.
             Assert.True(DefinedProperties().ContainsKey("DirectoryNuGet"));
 
-            var buildProps = File.ReadAllText(Path.Combine(RepositoryRoot, "Directory.Build.Props"));
-            Assert.Contains("Directory.Nuget.Props", buildProps);
+            var buildProps = File.ReadAllText(Path.Combine(RepositoryRoot, "Directory.Build.props"));
+            Assert.Contains("Directory.Nuget.props", buildProps);
             Assert.Contains("$(DirectoryNuGet)", buildProps);
         }
 
-        private static string NugetPropsPath => Path.Combine(RepositoryRoot, "Directory.Nuget.Props");
+        private static string NugetPropsPath => Path.Combine(RepositoryRoot, "Directory.Nuget.props");
 
         private static string RepositoryRoot
         {
@@ -118,7 +118,7 @@ namespace Prepare.Tests
                 var directory = new DirectoryInfo(AppContext.BaseDirectory);
                 while (directory != null)
                 {
-                    if (File.Exists(Path.Combine(directory.FullName, "Directory.Nuget.Props")))
+                    if (File.Exists(Path.Combine(directory.FullName, "Directory.Nuget.props")))
                     {
                         return directory.FullName;
                     }
@@ -130,7 +130,7 @@ namespace Prepare.Tests
             }
         }
 
-        /// <summary>Property names defined in <c>Directory.Nuget.Props</c>, and their values.</summary>
+        /// <summary>Property names defined in <c>Directory.Nuget.props</c>, and their values.</summary>
         private static Dictionary<string, string> DefinedProperties() => PropertiesOf(NugetPropsPath);
 
         private static Dictionary<string, string> PropertiesOf(string propsPath)
@@ -178,7 +178,7 @@ namespace Prepare.Tests
 
             foreach (var file in MsBuildFiles(RepositoryRoot))
             {
-                if (string.Equals(Path.GetFileName(file), "Directory.Nuget.Props", StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(Path.GetFileName(file), "Directory.Nuget.props", StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
                 }

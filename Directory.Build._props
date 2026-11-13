@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
-    <Import Project="Directory.Nuget.Props" Condition="'$(DirectoryNuGet)'==''" />
+    <Import Project="Directory.Nuget.props" Condition="'$(DirectoryNuGet)'==''" />
     <PropertyGroup>
         <!--
-      Pinned here, after the import above, and not in Directory.Nuget.Props: that file is regenerated on every
+      Pinned here, after the import above, and not in Directory.Nuget.props: that file is regenerated on every
       build by NuGetUtility itself, which merges it with the profile copy and the copy inside the package. The
       merge keeps the "greater" value by ordinal string comparison, so "1.0.9" beats "1.0.10" there and the pin
-      silently walks backwards. 1.0.9 cannot parse a multi-line XML comment in Directory.Nuget.Props - it
+      silently walks backwards. 1.0.9 cannot parse a multi-line XML comment in Directory.Nuget.props - it
       crashes with "length ('-2') must be a non-negative value" - which 1.0.10 fixes; do not lower this.
     -->
         <NuGetUtilityVersion Condition="'$(NuGetUtilityVersion)'==''">1.0.17</NuGetUtilityVersion>
@@ -51,7 +51,7 @@
       exactly rather than floated: it is a third-party package on nuget.org whose new revisions arrive
       without warning, and unlike the GtkSharp family nothing here is generated alongside it.
 
-      Pinned here rather than in Directory.Nuget.Props for the reason given above: that file is
+      Pinned here rather than in Directory.Nuget.props for the reason given above: that file is
       regenerated on every build and its merge keeps the ordinally greater string, which walks a pin
       backwards.
     -->

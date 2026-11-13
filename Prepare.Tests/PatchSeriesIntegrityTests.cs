@@ -1,4 +1,4 @@
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Prepare.Tests
 {
@@ -137,7 +137,7 @@ namespace Prepare.Tests
                 var directory = new DirectoryInfo(AppContext.BaseDirectory);
                 while (directory != null)
                 {
-                    if (File.Exists(Path.Combine(directory.FullName, "Directory.Nuget.Props")))
+                    if (File.Exists(Path.Combine(directory.FullName, "Directory.Nuget.props")))
                     {
                         return directory.FullName;
                     }
