@@ -2,13 +2,13 @@
 <Project>
     <Import Project="Directory.Nuget.props" Condition="'$(DirectoryNuGet)'==''" />
     <PropertyGroup>
-        <!--
+      <!--
       Pinned here, after the import above, and not in Directory.Nuget.props: that file is regenerated on every
       build by NuGetUtility itself, which merges it with the profile copy and the copy inside the package. The
       merge keeps the "greater" value by ordinal string comparison, so "1.0.9" beats "1.0.10" there and the pin
       silently walks backwards. 1.0.9 cannot parse a multi-line XML comment in Directory.Nuget.props - it
       crashes with "length ('-2') must be a non-negative value" - which 1.0.10 fixes; do not lower this.
-    -->
+      -->
         <NuGetUtilityVersion Condition="'$(NuGetUtilityVersion)'==''">1.0.17</NuGetUtilityVersion>
         <VersionPrefix>$(GtkWindowsFormsVersion)</VersionPrefix>
         <VersionSuffix>$([System.DateTime]::Now.ToString("yy"))$([System.DateTime]::Now.DayOfYear.ToString("000"))</VersionSuffix>
