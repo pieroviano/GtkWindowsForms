@@ -3,6 +3,13 @@ name: Build and test
 # The product solution plus the test projects that do not need a display. GtkWinFormsApp.UITests is
 # deliberately excluded: it drives the real sample forms and needs a desktop session, so it stays a
 # local/self-hosted gate until headless capture is in scope (see GtkWinFormsApp.UITests/README.md).
+#
+# Runs on Windows, Linux and macOS. The Net4x.GtkSharp binding is managed-only and ships no native GTK:
+#   - Windows: its build/GtkSharp.targets auto-downloads a GTK 4 bundle (the "Ignore Gtk extract errors"
+#     lines in the build log), so nothing extra is needed here.
+#   - Linux/macOS: that target is gated to Windows, so native GTK 4 is installed below (apt / Homebrew).
+# The tests call Application.Init() and create real widgets, so they need native GTK at runtime and a
+# display. Linux runners are headless, so the Linux test run is wrapped in xvfb-run with the X11 backend.
 
 on:
   push:
@@ -22,8 +29,17 @@ env:
 
 jobs:
   product:
-    name: Product solution
-    runs-on: windows-latest
+    name: Product solution (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # Let every OS finish so one platform's failure does not mask another's.
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    defaults:
+      run:
+        # bash is available on all three runners, so the test loop below stays single-sourced.
+        shell: bash
     steps:
       - uses: actions/checkout@v4
         with:
@@ -37,6 +53,18 @@ jobs:
             8.0.x
             10.0.x
 
+      - name: Install GTK 4 (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          # libgtk-4-1 pulls in cairo, pango, gdk-pixbuf, glib and gio; xvfb gives the headless runner
+          # an X server for Application.Init().
+          sudo apt-get install -y --no-install-recommends libgtk-4-1 xvfb
+
+      - name: Install GTK 4 (macOS)
+        if: runner.os == 'macOS'
+        run: brew install gtk4
+
       - name: Restore
         run: dotnet restore Gtk.Windows.Forms.sln
 
@@ -45,16 +73,34 @@ jobs:
 
       - name: Test
         run: |
-          dotnet test Gtk.Drawing.Tests/Gtk.Drawing.Tests.csproj --configuration Debug --no-build --logger "trx;LogFileName=drawing.trx"
-          dotnet test Gtk.Windows.Forms.Tests/Gtk.Windows.Forms.Tests.csproj --configuration Debug --no-build --logger "trx;LogFileName=forms.trx"
-          dotnet test Gtk.Windows.FormsDesigner.Tests/Gtk.Windows.FormsDesigner.Tests.csproj --configuration Debug --no-build --logger "trx;LogFileName=designer.trx"
-          dotnet test ResxProcessor.Tests/ResxProcessor.Tests.csproj --configuration Debug --no-build --logger "trx;LogFileName=resx.trx"
-          dotnet test AutoClosingMessageBox.Tests/AutoClosingMessageBox.Tests.csproj --configuration Debug --no-build --logger "trx;LogFileName=messagebox.trx"
+          # No 'set -u': macOS runners use bash 3.2, where expanding the empty prefix[] array under -u aborts.
+          set -eo pipefail
+          projects=(
+            Gtk.Drawing.Tests/Gtk.Drawing.Tests.csproj
+            Gtk.Windows.Forms.Tests/Gtk.Windows.Forms.Tests.csproj
+            Gtk.Windows.FormsDesigner.Tests/Gtk.Windows.FormsDesigner.Tests.csproj
+            ResxProcessor.Tests/ResxProcessor.Tests.csproj
+            AutoClosingMessageBox.Tests/AutoClosingMessageBox.Tests.csproj
+          )
+          # Per-OS native-GTK wiring for the test run (not the build):
+          #   Linux  - run under a virtual X server; GTK 4 on the runner has no Wayland, so force X11.
+          #   macOS  - Homebrew puts the GTK dylibs outside the default loader path.
+          prefix=()
+          if [ "$RUNNER_OS" = "Linux" ]; then
+            export GDK_BACKEND=x11
+            prefix=(xvfb-run -a)
+          elif [ "$RUNNER_OS" = "macOS" ]; then
+            export DYLD_FALLBACK_LIBRARY_PATH="$(brew --prefix)/lib:${DYLD_FALLBACK_LIBRARY_PATH:-}"
+          fi
+          for p in "${projects[@]}"; do
+            name="$(basename "$p" .csproj)"
+            "${prefix[@]}" dotnet test "$p" --configuration Debug --no-build --logger "trx;LogFileName=$name.trx"
+          done
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-product
+          name: test-results-${{ matrix.os }}
           path: '**/TestResults/*.trx'
           if-no-files-found: ignore
