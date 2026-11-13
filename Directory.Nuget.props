@@ -16,7 +16,4 @@
         <PrepareProjectsVersion>1.4.2489</PrepareProjectsVersion>
         <SystemTextJson10Version>10.0.3</SystemTextJson10Version>
     </PropertyGroup>
-    <PropertyGroup>
-        <MinimalDirectoryNuGetProps Condition="'$(MinimalDirectoryNuGetProps)'==''">true</MinimalDirectoryNuGetProps>
-    </PropertyGroup>
 </Project>
