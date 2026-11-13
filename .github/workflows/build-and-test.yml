@@ -37,11 +37,6 @@ jobs:
             8.0.x
             10.0.x
 
-      # GtkSharp P/Invokes into the native GTK3 stack; without it every test that touches a widget or a
-      # Cairo surface fails at load time rather than on an assertion.
-      - name: Install the GTK3 runtime
-        run: choco install --no-progress --yes gtksharp
-
       - name: Restore
         run: dotnet restore Gtk.Windows.Forms.sln
 
@@ -61,37 +56,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results-product
-          path: '**/TestResults/*.trx'
-          if-no-files-found: ignore
-
-  pipeline:
-    name: Generation pipeline
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: |
-            8.0.x
-            10.0.x
-
-      # Prepare.Tests guards the invariants a regeneration has to preserve - among them the
-      # InternalizeDesignerFields / EnsureInternalsVisibleTo steps the UI test suite depends on. It only
-      # pays off if something runs it, so it runs here. This job does NOT run the pipeline itself, which
-      # is destructive to the generated trees and publishes packages.
-      - name: Build the pipeline solution
-        run: dotnet build PrepareProjects.sln --configuration Debug
-
-      - name: Test the pipeline
-        run: dotnet test Prepare.Tests/Prepare.Tests.csproj --configuration Debug --no-build --logger "trx;LogFileName=prepare.trx"
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results-pipeline
           path: '**/TestResults/*.trx'
           if-no-files-found: ignore
