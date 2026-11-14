@@ -190,15 +190,17 @@
   <ItemGroup>
     <ProjectReference Include="..\Gtk.Windows.Forms\Gtk.Windows.Forms.csproj" />
     <ProjectReference Include="..\Gtk.Resources.Extensions\Gtk.Resources.Extensions.csproj" />
-    <!-- Build-order only: the PrepareBuild target below execs ResxProcessor.exe, so ResxProcessor
+    <!-- Build-order only: the PrepareBuild target below execs the ResxProcessor tool, so ResxProcessor
          must build first. Not referenced at runtime (ReferenceOutputAssembly/Private false). -->
     <ProjectReference Include="..\ResxProcessor\ResxProcessor.csproj" ReferenceOutputAssembly="false" Private="false" SkipGetTargetFrameworkProperties="true" />
   </ItemGroup>
-  <Target Name="PrepareBuild" BeforeTargets="BeforeBuild">
-    <!-- BeforeBuild runs before project references are built, so ensure the ResxProcessor tool
-         exists (no-op when the solution already built it first via the ProjectReference above).
-         Invoked as 'dotnet <dll>' with forward slashes so it runs on Windows, Linux and macOS
-         (the net8.0 apphost is ResxProcessor.exe on Windows but has no extension elsewhere). -->
+  <!-- Run after ResolveProjectReferences, which builds the ResxProcessor ProjectReference above.
+       The original BeforeBuild hook fired before that reference was built, so a parallel solution
+       build had not produced ResxProcessor yet and the no-build 'dotnet run' found no apphost (the
+       CI-only MSB3073). Keep 'dotnet run', which launches the ResxProcessor apphost: invoking the DLL
+       as 'dotnet <dll>' names the process 'dotnet', and ResxProcessor's own instance guard then waits
+       on every older dotnet process (including this build's MSBuild nodes) and deadlocks. -->
+  <Target Name="PrepareBuild" AfterTargets="ResolveProjectReferences" BeforeTargets="CoreCompile" Condition="'$(DesignTimeBuild)' != 'true'">
     <Exec Command="dotnet run --no-build --project &quot;$(MSBuildThisFileDirectory)../ResxProcessor/ResxProcessor.csproj&quot; &quot;$(MSBuildProjectDirectory)&quot;" />
   </Target>
   <ItemGroup>
