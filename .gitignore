@@ -310,3 +310,8 @@ obfuscar.xml
 /AlignSamples/build-selfcheck/
 /api-diff
 /Net4x.GtkWindowsForms.code-workspace
+.vscode/settings.json
+Packages/Gtk.Drawing.1.4.2464.26318.snupkg
+Packages/Gtk.Resources.Extensions.1.4.2464.26318.snupkg
+Packages/Gtk.Windows.Extensions.1.4.2464.26318.snupkg
+Packages/Gtk.Windows.FormsDesigner.1.4.2464.26318.snupkg

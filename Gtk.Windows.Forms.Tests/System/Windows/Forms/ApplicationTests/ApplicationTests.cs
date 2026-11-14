@@ -49,7 +49,11 @@ public class ApplicationTests
         var path = Application.CommonAppDataPath;
 
         Assert.False(string.IsNullOrEmpty(path));
-        Assert.True(path.Contains(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)));
+        // On Linux/macOS the shared folder (/usr/share) is not writable for a normal user, so the property falls
+        // back to the per-user data folder; either way it must hand back a directory that exists.
+        Assert.True(path.Contains(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)) ||
+                    path.Contains(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)));
+        Assert.True(Directory.Exists(path));
     }
 
     [Fact]

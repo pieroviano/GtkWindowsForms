@@ -5,6 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <!-- MainThreadTestHost.cs supplies Main so the assembly can run its tests on the process main thread
+         ('dotnet <this>.dll'), which macOS/AppKit requires for GTK. 'dotnet test' is unaffected. -->
+    <GenerateProgramFile>false</GenerateProgramFile>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\GtkForms.snk</AssemblyOriginatorKeyFile>
     <RootNamespace />
@@ -24,6 +27,7 @@
     <PackageReference Include="NSubstitute" Version="5.3.0" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+    <PackageReference Include="xunit.runner.utility" Version="2.9.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -66,4 +70,8 @@
       <CustomToolNamespace>Tests</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Gtk.Windows.Forms.Tests\MainThreadTestHost.cs" Link="MainThreadTestHost.cs" />
+  </ItemGroup>
+
 </Project>
