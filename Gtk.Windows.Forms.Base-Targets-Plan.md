@@ -75,14 +75,19 @@ git-tracked, not gitignored, and not re-emitted by the pipeline — safe to edit
 - Idempotent: no-op when already converted. Preserve formatting/BOM as much as `XDocument` allows.
 - Guard: only rewrite a project that references this package (it is, by construction of the target).
 
-**Wiring (`Base.targets`):** add a second target on the earliest hook, passing the project path:
+**Wiring (`Base.targets`):** add a second target on the earliest hook, passing the project path.
+Invoke the ResxProcessor **apphost** (`tools/ResxProcessor[.exe]`), not `dotnet <dll>`: the latter
+names the process `dotnet` and ResxProcessor's instance guard (`Processes.cs`) then deadlocks waiting
+on the build's own dotnet nodes (same trap fixed in the sample `PrepareBuild` targets). Keep the
+invocation a single-hyphen-free XML comment (`--` is illegal in XML comments, MSB4025).
 ```xml
 <Target Name="GtkConvertProject" BeforeTargets="Restore;CollectPackageReferences"
         Condition="'$(DesignTimeBuild)' != 'true' and '$(SkipGtkConvert)' != 'true'">
-  <Exec Command="dotnet &quot;$(MSBuildThisFileDirectory)../tools/ResxProcessor.dll&quot; --convert-project &quot;$(MSBuildProjectFullPath)&quot;" />
+  <Exec Command="&quot;$(MSBuildThisFileDirectory)../tools/ResxProcessor$(_GtkAppHostExt)&quot; --convert-project &quot;$(MSBuildProjectFullPath)&quot;" />
 </Target>
 ```
-Consequence of B1: the first build after adding the package rewrites the file; re-run to build clean.
+(`_GtkAppHostExt` = `.exe` on Windows, empty elsewhere.) Consequence of B1: the first build after
+adding the package rewrites the file; re-run to build clean.
 
 ## Part 2 — bundle + deploy native GTK
 
