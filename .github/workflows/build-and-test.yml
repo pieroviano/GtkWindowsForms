@@ -39,7 +39,7 @@ jobs:
         # so Linux/macOS build a solution filter that drops them; Windows builds the whole solution.
         include:
           - os: windows-latest
-            solution: Gtk.Windows.Forms.sln
+            solution: Gtk.Windows.Forms.GitHub.sln
           - os: ubuntu-latest
             solution: Gtk.Windows.Forms.NonWindows.slnf
           - os: macos-latest
