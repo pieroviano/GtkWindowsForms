@@ -685,5 +685,15 @@
             identity is compared by IUnknown pointer, the one reliable COM identity.
             </remarks>
         </member>
+        <member name="T:System.Runtime.CompilerServices.ModuleInitializerAttribute">
+            <summary>
+            The compiler recognises this attribute by name, not by identity, so declaring it here gives
+            <c>net462</c> the same module initializer the modern target frameworks have in the framework itself.
+            </summary>
+            <remarks>
+            Internal on purpose: a public copy would collide with the real type for any consumer that already has
+            one.
+            </remarks>
+        </member>
     </members>
 </doc>
