@@ -195,12 +195,13 @@
     <ProjectReference Include="..\ResxProcessor\ResxProcessor.csproj" ReferenceOutputAssembly="false" Private="false" SkipGetTargetFrameworkProperties="true" />
   </ItemGroup>
   <!-- Run after ResolveProjectReferences, which builds the ResxProcessor ProjectReference above.
-       BeforeBuild fired too early, before that reference was built, so a parallel solution build had
-       not produced ResxProcessor yet and 'dotnet run' crashed on the missing apphost. Invoke the
-       framework-dependent DLL through the shared 'dotnet' host - not 'dotnet run', which needs the
-       per-RID apphost (ResxProcessor.exe on Windows, no extension elsewhere). Skip design-time builds. -->
+       The original BeforeBuild hook fired before that reference was built, so a parallel solution
+       build had not produced ResxProcessor yet and the no-build 'dotnet run' found no apphost (the
+       CI-only MSB3073). Keep 'dotnet run', which launches the ResxProcessor apphost: invoking the DLL
+       as 'dotnet <dll>' names the process 'dotnet', and ResxProcessor's own instance guard then waits
+       on every older dotnet process (including this build's MSBuild nodes) and deadlocks. -->
   <Target Name="PrepareBuild" AfterTargets="ResolveProjectReferences" BeforeTargets="CoreCompile" Condition="'$(DesignTimeBuild)' != 'true'">
-    <Exec Command="dotnet &quot;$(MSBuildThisFileDirectory)../ResxProcessor/bin/$(Configuration)/net8.0/ResxProcessor.dll&quot; &quot;$(MSBuildProjectDirectory)&quot;" />
+    <Exec Command="dotnet run --no-build --project &quot;$(MSBuildThisFileDirectory)../ResxProcessor/ResxProcessor.csproj&quot; &quot;$(MSBuildProjectDirectory)&quot;" />
   </Target>
   <ItemGroup>
     <Compile Update="Properties\GtkWinFormsAppResources.Designer.cs">
