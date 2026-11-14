@@ -4,6 +4,35 @@
         <name>ResxProcessor</name>
     </assembly>
     <members>
+        <member name="T:ResxProcessor.CsprojConverter">
+            <summary>
+            Converts a consumer WinForms project to build on the GTK-backed compatibility layer: strips the
+            Windows platform moniker from the target framework(s) (<c>net10.0-windows</c> becomes
+            <c>net10.0</c>) and removes the real Windows Desktop WinForms opt-in
+            (<c>&lt;UseWindowsForms&gt;true&lt;/UseWindowsForms&gt;</c>).
+            </summary>
+            <remarks>
+            The edits are textual and minimal so the rest of the project file is left byte-for-byte unchanged,
+            and they are idempotent: a project that is already cross-platform is not modified. A build target
+            cannot change the framework of the build already in progress, so the rewrite takes effect from the
+            consumer's next evaluation.
+            </remarks>
+        </member>
+        <member name="M:ResxProcessor.CsprojConverter.Transform(System.String,System.Boolean@)">
+            <summary>
+            Applies the conversion to project-file text and reports whether anything changed.
+            </summary>
+            <param name="content">The raw <c>.csproj</c> text.</param>
+            <param name="changed">Set to <see langword="true"/> when the result differs from the input.</param>
+            <returns>The converted text (equal to <paramref name="content"/> when nothing matched).</returns>
+        </member>
+        <member name="M:ResxProcessor.CsprojConverter.TryConvertFile(System.String)">
+            <summary>
+            Converts the project file in place, preserving its original UTF-8 byte-order-mark state.
+            </summary>
+            <param name="csprojPath">The absolute path to the <c>.csproj</c>.</param>
+            <returns><see langword="true"/> when the file was rewritten; otherwise <see langword="false"/>.</returns>
+        </member>
         <member name="T:ResxProcessor.Processes">
             <summary>
             Provides utility methods for detecting and synchronizing with other running instances of the current process.

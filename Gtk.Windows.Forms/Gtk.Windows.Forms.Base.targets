@@ -1,6 +1,16 @@
 ﻿<Project>
 	<Target Name="PrepareBuild" BeforeTargets="BeforeBuild">
 		<Message Importance="High" Text='&quot;$(MSBuildThisFileDirectory)..\tools\ResxProcessor.exe&quot; $(TargetFramework) &quot;$(TargetDir)&quot; &quot;$(MSBuildProjectFullPath)&quot;' />
-		<Exec Command='&quot;$(MSBuildThisFileDirectory)..\tools\ResxProcessor.exe&quot; &quot;$(MSBuildProjectDirectory)&quot;' />	
+		<Exec Command='&quot;$(MSBuildThisFileDirectory)..\tools\ResxProcessor.exe&quot; &quot;$(MSBuildProjectDirectory)&quot;' />
+	</Target>
+	<!-- Convert a WinForms consumer to the GTK compatibility layer: strip the net*-windows platform
+	     moniker from the target framework and remove UseWindowsForms. A build target cannot change the
+	     framework of the build already in progress, so this rewrites the project file and takes effect
+	     from the next evaluation (idempotent; set SkipGtkConvert to opt out). Invoke the tool DLL
+	     through the shared dotnet host: it is cross-platform and, because convert mode runs no instance
+	     guard, it does not deadlock on the build's own dotnet nodes. -->
+	<Target Name="GtkConvertProject" BeforeTargets="BeforeBuild"
+	        Condition="'$(DesignTimeBuild)' != 'true' and '$(SkipGtkConvert)' != 'true'">
+		<Exec Command='dotnet &quot;$(MSBuildThisFileDirectory)../tools/ResxProcessor.dll&quot; --convert-project &quot;$(MSBuildProjectFullPath)&quot;' />
 	</Target>
 </Project>

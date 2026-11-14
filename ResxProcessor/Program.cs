@@ -30,6 +30,31 @@ public class Program
 
     internal static int DoWork(string[] args, Processes processes)
     {
+        // Project-conversion mode: rewrite a consumer .csproj to build cross-platform. It runs no
+        // instance guard, so Base.targets can invoke it as 'dotnet ResxProcessor.dll' without the
+        // guard deadlocking on the build's own dotnet nodes (see Processes.WaitSameProcessesStartedEarlier).
+        if (args.Length > 0 && string.Equals(args[0], "--convert-project", StringComparison.Ordinal))
+        {
+            if (args.Length < 2)
+            {
+                Console.Error.WriteLine("--convert-project requires a project file path.");
+                return 1;
+            }
+
+            var projectPath = Path.GetFullPath(args[1].Trim('"'));
+            if (!File.Exists(projectPath))
+            {
+                Console.Error.WriteLine("Project file does not exist.");
+                return 1;
+            }
+
+            var converted = CsprojConverter.TryConvertFile(projectPath);
+            Console.WriteLine(converted
+                ? $"Converted: {projectPath}"
+                : $"Already cross-platform: {projectPath}");
+            return 0;
+        }
+
         string rootFolder;
 
         if (args.Length > 0)
