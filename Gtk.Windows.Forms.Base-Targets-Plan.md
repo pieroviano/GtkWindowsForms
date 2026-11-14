@@ -1,5 +1,8 @@
 # Plan — `Gtk.Windows.Forms.Base` consumer-build target (csproj rewrite)
 
+**Status: implemented.** `ResxProcessor --convert-project <csproj>` +
+`Gtk.Windows.Forms.Base.targets` `GtkConvertProject` target, covered by `CsprojConverterTests`.
+
 Make a plain WinForms project that adds the `Gtk.Windows.Forms.Base` package build cross-platform by
 **rewriting the consumer `.csproj`**: `net*-windows` → `net*`, and remove
 `<UseWindowsForms>true</UseWindowsForms>`.
@@ -54,37 +57,46 @@ git-tracked, not gitignored, and not re-emitted by the pipeline — safe to edit
 
 ## Change
 
-**New tool mode (in `ResxProcessor`, e.g. `--convert-project <csproj>`):**
-- Load the `.csproj` (XML).
-- For every `TargetFramework`/`TargetFrameworks` value matching `net<ver>-windows[10.0.x]`, drop the
-  `-windows` moniker → `net<ver>`.
-- Remove `<UseWindowsForms>true</UseWindowsForms>` (and `<UseWPF>` — **confirm**, open Q2).
-- Idempotent: no-op when already converted. Preserve formatting/BOM as far as `XDocument` allows.
-- Keep it ≤200 lines / its own class; today ResxProcessor is `Program.cs` + `Processes.cs`.
+**Tool mode (`ResxProcessor --convert-project <csproj>`)** — `ResxProcessor/CsprojConverter.cs`:
+- Textual, minimal-diff transform (`Transform`, pure + unit-tested) over the raw `.csproj`:
+  - strip `-windows[10.0.x]` from each `TargetFramework`/`TargetFrameworks` moniker → `net<ver>`;
+  - remove the whole `<UseWindowsForms>true</UseWindowsForms>` line.
+- Idempotent (no-op when already converted); preserves surrounding text and the UTF-8 BOM state.
+- `Program.DoWork` dispatches `--convert-project` **before** the resx path and **runs no instance
+  guard** — so invoking as `dotnet <dll>` is safe (see wiring).
+- `<UseWPF>` is **not** stripped (open Q2) — one extra regex when confirmed.
 
-**Wiring (`Base.targets`):** add a second target on the earliest hook, passing the project path.
-Invoke the ResxProcessor **apphost** (`tools/ResxProcessor[.exe]`), not `dotnet <dll>`: the latter
-names the process `dotnet`, and ResxProcessor's instance guard (`Processes.cs`) then deadlocks
-waiting on the build's own dotnet nodes (the trap just fixed in the sample `PrepareBuild` targets).
-Do not write `--` inside the XML comment (illegal, MSB4025).
+**Wiring (`Base.targets`)** — new `GtkConvertProject` target:
 ```xml
-<Target Name="GtkConvertProject" BeforeTargets="Restore;CollectPackageReferences"
+<Target Name="GtkConvertProject" BeforeTargets="BeforeBuild"
         Condition="'$(DesignTimeBuild)' != 'true' and '$(SkipGtkConvert)' != 'true'">
-  <Exec Command="&quot;$(MSBuildThisFileDirectory)../tools/ResxProcessor$(_GtkAppHostExt)&quot; --convert-project &quot;$(MSBuildProjectFullPath)&quot;" />
+  <Exec Command='dotnet "$(MSBuildThisFileDirectory)../tools/ResxProcessor.dll" --convert-project "$(MSBuildProjectFullPath)"' />
 </Target>
 ```
-(`_GtkAppHostExt` = `.exe` on Windows, empty elsewhere.) Consequence of the blocking decision: the
-first build after adding the package rewrites the file; re-run to build clean.
+Two reasoned deviations from the draft:
+- **`dotnet <dll>`, not the apphost.** The draft feared the `Processes.cs` deadlock, but convert mode
+  runs no guard, so `dotnet <dll>` cannot deadlock — and it is cross-platform (the packed `tools/`
+  apphost is whatever RID packed the library, typically Windows-only). Still: no `--` in the XML
+  comment (MSB4025).
+- **`BeforeBuild`, not `Restore`.** A package's `build/*.targets` is only imported *after* the first
+  restore (it comes from the generated `nuget.g.targets`), so a `BeforeTargets="Restore"` hook never
+  fires on first add. `BeforeBuild` is the earliest reliably-imported consumer hook.
+
+Consequence of the blocking decision: the first build after adding the package rewrites the file;
+re-run to build clean. A consumer whose first evaluation *fails* (hardcoded `net*-windows` on Linux,
+no WindowsDesktop pack) never reaches `BeforeBuild` — it must run `ResxProcessor --convert-project`
+once by hand, or convert on Windows/CI first. Documented limitation, not fixable from a build target.
 
 ---
 
 ## Verification
 
-| Step | Check |
-|---|---|
-| Unit test | `ResxProcessor.Tests`: feed a csproj with `net10.0-windows` + `UseWindowsForms` → assert `net10.0`, no `UseWindowsForms`; idempotent on re-run. **Fails before the tool change.** |
-| e2e | A throwaway `net10.0-windows` WinForms project refs the package → builds on Linux after one conversion pass. |
-| Regression | Existing samples + `dotnet build Gtk.Windows.Forms.sln` stay green on all 3 OSes. |
+| Step | Check | Result |
+|---|---|---|
+| Unit tests | `CsprojConverterTests`: strip moniker (plain + versioned), multi-TFM, idempotent, no-op on cross-platform project, minimal diff | ✅ 6/6 |
+| Regression | Full `ResxProcessor.Tests` | ✅ 26/26 |
+| CLI e2e | `dotnet run ... -- --convert-project <tmp>` rewrites `net10.0-windows`+`UseWindowsForms` → `net10.0` | ✅ |
+| Consumer e2e (not runnable here) | A `net*-windows` WinForms project refs the package → builds on Linux after one conversion pass | pending external consumer |
 
 ## Risks
 
@@ -92,10 +104,10 @@ first build after adding the package rewrites the file; re-run to build clean.
 |---|---|
 | First-build-too-late (blocking decision) | One-time conversion documented; idempotent; `SkipGtkConvert` escape hatch. |
 | Rewriting a consumer's csproj is destructive/surprising | Idempotent, minimal diff, opt-out property, clear log line. |
-| Apphost not present when target runs | Same ordering lesson as the samples: ensure the tool apphost ships under `tools/` and is invoked by path, not rebuilt. |
-| XML comment `--` / per-RID apphost name | No `--` in comments; `_GtkAppHostExt` handles the Windows `.exe`. |
+| Tool not present / not cross-platform | Invoke the packed `tools/ResxProcessor.dll` via `dotnet` (RID-agnostic), not a per-RID apphost. |
+| Convert-mode deadlock | Convert mode runs no `Processes` instance guard, so `dotnet <dll>` is safe. |
 
 ## Open questions for you
-1. Blocking: accept one-time conversion (recommended) or require a separate pre-restore convert command?
-2. Also strip `<UseWPF>` / Windows-only `<FrameworkReference>`s, or only `UseWindowsForms`?
-3. Should I implement this Part now, or hold until GtkSharp4's native-install change lands?
+1. ~~Blocking: one-time conversion?~~ **Done** — one-time, idempotent, `SkipGtkConvert` opt-out.
+2. Also strip `<UseWPF>` / Windows-only `<FrameworkReference>`s, or only `UseWindowsForms`? **Not done** — currently only `UseWindowsForms`.
+3. ~~Implement now?~~ **Done.**
