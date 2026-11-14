@@ -1,9 +1,7 @@
 {
   "solution": {
-    "path": "Gtk.Windows.Forms.sln",
+    "path": "Gtk.Windows.Forms.GitHub.sln",
     "projects": [
-      "AutoClosingMessageBox.Tests\\AutoClosingMessageBox.Tests.csproj",
-      "AutoClosingMessageBoxApp\\AutoClosingMessageBoxApp.csproj",
       "Gtk.Drawing.Tests\\Gtk.Drawing.Tests.csproj",
       "Gtk.Drawing\\Gtk.Drawing.csproj",
       "Gtk.Resources.Extensions\\Gtk.Resources.Extensions.csproj",
@@ -12,16 +10,8 @@
       "Gtk.Windows.FormsDesigner.Tests\\Gtk.Windows.FormsDesigner.Tests.csproj",
       "Gtk.Windows.FormsDesigner\\Gtk.Windows.FormsDesigner.csproj",
       "Gtk.Windows.Forms\\Gtk.Windows.Forms.csproj",
-      "GtkSystemWinFormsApp11\\GtkSystemWinFormsApp11.csproj",
-      "GtkWinFormsApp\\GtkWinFormsApp.csproj",
       "ResxProcessor.Tests\\ResxProcessor.Tests.csproj",
       "ResxProcessor\\ResxProcessor.csproj",
-      "SampleParity\\Gtk3Harness\\Gtk3Harness.csproj",
-      "SampleParity\\Gtk4Harness\\Gtk4Harness.csproj",
-      "SampleParity\\SampleParity.Tests\\SampleParity.Tests.csproj",
-      "gtksystem-windows-forms\\Samples\\GTKWinFormsApp\\GTKWinFormsApp.csproj",
-      "gtksystem-windows-forms\\Source\\GTKSystem.Windows.Forms\\GTKSystem.Windows.Forms.csproj",
-      "gtksystem-windows-forms\\Source\\System.Resources.Extensions\\System.Resources.Extensions.csproj"
     ]
   }
 }
