@@ -61,7 +61,7 @@ public sealed class StaExecutor : XunitTestFrameworkExecutor
         ITestFrameworkExecutionOptions executionOptions)
     {
         Exception? failure = null;
-        var thread = new Thread(() =>
+        ThreadStart testPass = () =>
         {
             var previous = SynchronizationContext.Current;
             var context = new PumpingSyncContext();
@@ -104,8 +104,23 @@ public sealed class StaExecutor : XunitTestFrameworkExecutor
             {
                 SynchronizationContext.SetSynchronizationContext(previous);
             }
-        });
+        };
 
+        // Started through MainThreadTestHost.Main (the macOS path): run the pass on the process main thread,
+        // which AppKit requires for every GTK call. Under 'dotnet test' that thread belongs to vstest's
+        // testhost, so the pass gets a dedicated thread instead.
+        if (MainThreadTestHost.IsActive)
+        {
+            MainThreadTestHost.Run(() => testPass());
+            if (failure != null)
+            {
+                throw failure;
+            }
+
+            return;
+        }
+
+        var thread = new Thread(testPass);
         thread.Name = "GTK-STA-Test-Thread";
         // GDK4 on Windows calls OleInitialize, which requires an STA thread. STA is a Windows-only COM
         // concept: SetApartmentState(STA) throws PlatformNotSupportedException on Linux/macOS, where the

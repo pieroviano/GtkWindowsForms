@@ -694,10 +694,68 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
         {
             System.IO.File.WriteAllBytes(filename, BmpImageCodec.Encode(Pixbuf));
         }
+        else if (type == "jpeg")
+        {
+            var opaque = WithoutAlpha(Pixbuf);
+            try
+            {
+                opaque.Save(filename, type);
+            }
+            finally
+            {
+                if (!ReferenceEquals(opaque, Pixbuf))
+                {
+                    opaque.Dispose();
+                }
+            }
+        }
         else
         {
             Pixbuf.Save(filename, type);
         }
+    }
+
+    /// <summary>
+    /// Returns <paramref name="pixbuf"/> unchanged when it has no alpha channel, otherwise a new RGB copy with
+    /// the alpha channel dropped.
+    /// </summary>
+    /// <remarks>
+    /// JPEG has no alpha. The classic gdk-pixbuf JPEG saver silently ignored it, but the glycin-based saver
+    /// (gdk-pixbuf on Ubuntu 26.04+) rejects RGBA input with "The encoder or decoder for Jpeg does not support
+    /// the color type Rgba8". Dropping alpha - rather than compositing onto a background - matches GDI+, which
+    /// also just writes the RGB channels of a 32bpp ARGB bitmap when encoding JPEG.
+    /// </remarks>
+    private static Gdk.Pixbuf WithoutAlpha(Gdk.Pixbuf pixbuf)
+    {
+        if (!pixbuf.HasAlpha)
+        {
+            return pixbuf;
+        }
+
+        var width = pixbuf.Width;
+        var height = pixbuf.Height;
+        var channels = pixbuf.NChannels;
+        var srcStride = pixbuf.Rowstride;
+        var rgb = new Gdk.Pixbuf(Gdk.Colorspace.Rgb, false, 8, width, height);
+        var dstStride = rgb.Rowstride;
+
+        // gdk-pixbuf does not pad the last row to the full rowstride, so copy row by row.
+        var srcRow = new byte[width * channels];
+        var dstRow = new byte[width * 3];
+        for (var y = 0; y < height; y++)
+        {
+            System.Runtime.InteropServices.Marshal.Copy(pixbuf.Pixels + y * srcStride, srcRow, 0, srcRow.Length);
+            for (int x = 0, s = 0, d = 0; x < width; x++, s += channels, d += 3)
+            {
+                dstRow[d] = srcRow[s];
+                dstRow[d + 1] = srcRow[s + 1];
+                dstRow[d + 2] = srcRow[s + 2];
+            }
+
+            System.Runtime.InteropServices.Marshal.Copy(dstRow, 0, rgb.Pixels + y * dstStride, dstRow.Length);
+        }
+
+        return rgb;
     }
 
     /// <summary>
@@ -738,15 +796,24 @@ public abstract class Image : MarshalByRefObject, IDisposable, ICloneable, ISeri
             type = "png";
         }
 
+        // JPEG cannot carry alpha (and glycin's saver rejects RGBA outright), so encode an RGB copy.
+        var toEncode = type == "jpeg" ? WithoutAlpha(pixbuf) : pixbuf;
         try
         {
-            var bytes = pixbuf.SaveToBuffer(type);
+            var bytes = toEncode.SaveToBuffer(type);
             stream.Write(bytes, 0, bytes.Length);
         }
         catch (GLib.GException ex)
         {
             System.Diagnostics.GtkLogger.Debug($"Pixbuf.SaveToBuffer('{type}') failed in Image.Save", ex);
             Save(stream, null, null);
+        }
+        finally
+        {
+            if (!ReferenceEquals(toEncode, pixbuf))
+            {
+                toEncode.Dispose();
+            }
         }
     }
 

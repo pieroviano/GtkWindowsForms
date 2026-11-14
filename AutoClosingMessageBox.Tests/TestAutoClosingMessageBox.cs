@@ -11,11 +11,12 @@ public class TestAutoClosingMessageBox
     {
         try
         {
-#if DEBUG
-            var p = System.Diagnostics.Process.Start(@"..\..\..\..\AutoClosingMessageBoxApp\bin\Debug\net10.0\AutoClosingMessageBoxApp.exe");
-#else
-                var p = System.Diagnostics.Process.Start(@"..\..\..\..\AutoClosingMessageBoxApp\bin\Release\net10.0\AutoClosingMessageBoxApp.exe");
-#endif
+            // The ProjectReference copies the app's apphost next to this assembly. Resolve it from there rather
+            // than via a hard-coded "..\..\..\..\...\AutoClosingMessageBoxApp.exe": backslashes and the .exe
+            // suffix are Windows-only, so Process.Start threw on Linux/macOS and the test always failed there.
+            var appHost = Path.Combine(AppContext.BaseDirectory,
+                OperatingSystem.IsWindows() ? "AutoClosingMessageBoxApp.exe" : "AutoClosingMessageBoxApp");
+            using var p = System.Diagnostics.Process.Start(appHost)!;
             p.WaitForExit();
             Assert.Equal(0, p.ExitCode);
         }

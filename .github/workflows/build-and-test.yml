@@ -10,6 +10,9 @@ name: Build and test
 #   - Linux/macOS: that target is gated to Windows, so native GTK 4 is installed below (apt / Homebrew).
 # The tests call Application.Init() and create real widgets, so they need native GTK at runtime and a
 # display. Linux runners are headless, so the Linux test run is wrapped in xvfb-run with the X11 backend.
+# On macOS, GTK (via AppKit) must run on the process main thread, which under 'dotnet test' belongs to
+# vstest's testhost; so there the GTK test assemblies are run directly ('dotnet <tests>.dll'), whose own
+# Main (Gtk.Windows.Forms.Tests/MainThreadTestHost.cs) keeps the main thread for GTK.
 
 on:
   push:
@@ -100,9 +103,17 @@ jobs:
           elif [ "$RUNNER_OS" = "macOS" ]; then
             export DYLD_FALLBACK_LIBRARY_PATH="$(brew --prefix)/lib:${DYLD_FALLBACK_LIBRARY_PATH:-}"
           fi
+          # Projects that drive GTK. On macOS these run through MainThreadTestHost instead of vstest (see the
+          # header): no .trx is produced for them there, the console output carries the results.
+          main_thread_projects=" Gtk.Drawing.Tests Gtk.Windows.Forms.Tests AutoClosingMessageBox.Tests "
           for p in "${projects[@]}"; do
             name="$(basename "$p" .csproj)"
-            "${prefix[@]}" dotnet test "$p" --configuration Debug --no-build --logger "trx;LogFileName=$name.trx"
+            if [ "$RUNNER_OS" = "macOS" ] && [[ "$main_thread_projects" == *" $name "* ]]; then
+              # Run from the output folder, as vstest would, so relative test paths resolve the same way.
+              (cd "$(dirname "$p")/bin/Debug/net10.0" && dotnet "$name.dll")
+            else
+              "${prefix[@]}" dotnet test "$p" --configuration Debug --no-build --logger "trx;LogFileName=$name.trx"
+            fi
           done
 
       - name: Upload test results

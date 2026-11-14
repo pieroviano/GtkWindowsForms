@@ -252,15 +252,32 @@ public sealed partial class Application
     /// <value>
     /// The common application data path.
     /// </value>
+    /// <remarks>
+    /// On Linux and macOS <see cref="Environment.SpecialFolder.CommonApplicationData"/> is <c>/usr/share</c>, which
+    /// an unprivileged process cannot write to. When the shared folder cannot be created there, this falls back
+    /// to the per-user <see cref="Environment.SpecialFolder.LocalApplicationData"/> folder (XDG data home on
+    /// Linux), so callers always get an existing, writable directory instead of an
+    /// <see cref="UnauthorizedAccessException"/>.
+    /// </remarks>
     public static string CommonAppDataPath
     {
         get
         {
             var dir = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), appDataDirectory);
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
+            try
+            {
+                if (!Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
 
-            return dir;
+                return dir;
+            }
+            catch (Exception ex) when (ex is UnauthorizedAccessException or IOException)
+            {
+                System.Diagnostics.GtkLogger.Debug($"CommonAppDataPath '{dir}' is not writable; using the per-user data folder", ex);
+                var fallback = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appDataDirectory);
+                Directory.CreateDirectory(fallback);
+                return fallback;
+            }
         }
     }
 
