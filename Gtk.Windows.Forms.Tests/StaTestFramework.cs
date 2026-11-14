@@ -106,6 +106,7 @@ public sealed class StaExecutor : XunitTestFrameworkExecutor
             }
         };
 
+#if !WINDOWS
         // Started through MainThreadTestHost.Main (the macOS path): run the pass on the process main thread,
         // which AppKit requires for every GTK call. Under 'dotnet test' that thread belongs to vstest's
         // testhost, so the pass gets a dedicated thread instead.
@@ -119,6 +120,7 @@ public sealed class StaExecutor : XunitTestFrameworkExecutor
 
             return;
         }
+#endif
 
         var thread = new Thread(testPass);
         thread.Name = "GTK-STA-Test-Thread";

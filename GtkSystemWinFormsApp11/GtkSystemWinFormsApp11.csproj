@@ -44,7 +44,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Gtk.Windows.Forms\Gtk.Windows.Forms.csproj" />
     <ProjectReference Include="..\Gtk.Resources.Extensions\Gtk.Resources.Extensions.csproj" />
-    <!-- Build-order only: the PrepareBuild target below execs ResxProcessor.exe, so ResxProcessor
+    <!-- Build-order only: the PrepareBuild target below execs the ResxProcessor tool, so ResxProcessor
          must build first. Not referenced at runtime (ReferenceOutputAssembly/Private false). -->
     <ProjectReference Include="..\ResxProcessor\ResxProcessor.csproj" ReferenceOutputAssembly="false" Private="false" SkipGetTargetFrameworkProperties="true" />
   </ItemGroup>

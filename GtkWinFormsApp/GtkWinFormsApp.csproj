@@ -190,16 +190,17 @@
   <ItemGroup>
     <ProjectReference Include="..\Gtk.Windows.Forms\Gtk.Windows.Forms.csproj" />
     <ProjectReference Include="..\Gtk.Resources.Extensions\Gtk.Resources.Extensions.csproj" />
-    <!-- Build-order only: the PrepareBuild target below execs ResxProcessor.exe, so ResxProcessor
+    <!-- Build-order only: the PrepareBuild target below execs the ResxProcessor tool, so ResxProcessor
          must build first. Not referenced at runtime (ReferenceOutputAssembly/Private false). -->
     <ProjectReference Include="..\ResxProcessor\ResxProcessor.csproj" ReferenceOutputAssembly="false" Private="false" SkipGetTargetFrameworkProperties="true" />
   </ItemGroup>
-  <Target Name="PrepareBuild" BeforeTargets="BeforeBuild">
-    <!-- BeforeBuild runs before project references are built, so ensure the ResxProcessor tool
-         exists (no-op when the solution already built it first via the ProjectReference above).
-         Invoked as 'dotnet <dll>' with forward slashes so it runs on Windows, Linux and macOS
-         (the net8.0 apphost is ResxProcessor.exe on Windows but has no extension elsewhere). -->
-    <Exec Command="dotnet run --no-build --project &quot;$(MSBuildThisFileDirectory)../ResxProcessor/ResxProcessor.csproj&quot; &quot;$(MSBuildProjectDirectory)&quot;" />
+  <!-- Run after ResolveProjectReferences, which builds the ResxProcessor ProjectReference above.
+       BeforeBuild fired too early, before that reference was built, so a parallel solution build had
+       not produced ResxProcessor yet and 'dotnet run' crashed on the missing apphost. Invoke the
+       framework-dependent DLL through the shared 'dotnet' host - not 'dotnet run', which needs the
+       per-RID apphost (ResxProcessor.exe on Windows, no extension elsewhere). Skip design-time builds. -->
+  <Target Name="PrepareBuild" AfterTargets="ResolveProjectReferences" BeforeTargets="CoreCompile" Condition="'$(DesignTimeBuild)' != 'true'">
+    <Exec Command="dotnet &quot;$(MSBuildThisFileDirectory)../ResxProcessor/bin/$(Configuration)/net8.0/ResxProcessor.dll&quot; &quot;$(MSBuildProjectDirectory)&quot;" />
   </Target>
   <ItemGroup>
     <Compile Update="Properties\GtkWinFormsAppResources.Designer.cs">
